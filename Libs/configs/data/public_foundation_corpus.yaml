@@ -1,0 +1,906 @@
+public_foundation_corpus:
+  contract_version: '1.0.0'
+  corpus_version: public_foundation_corpus_v1
+  schema_path: Libs/configs/schema/public_foundation_corpus.schema.json
+  audit_output_path: Output/audits/public_foundation_corpus_contract_audit.json
+  evidence_bundle_schema_path: Libs/configs/schema/public_foundation_corpus_evidence.schema.json
+  evidence_bundle_output_path: Output/audits/public_foundation_corpus_evidence_bundle.json
+  scope: reduced_transcriptomics_core
+  source_discovery_freeze_date: '2026-07-31'
+
+  semantic_alignment:
+    alignment_kind: semantic_canonical_alignment
+    same_subject_cross_modal_pairing_required: false
+    required_axes:
+    - study
+    - biological_unit
+    - species
+    - disease_state
+    - tissue
+    - brain_region
+    - cell_type
+    - assay
+    - modality
+    - feature
+    - time
+    - dose
+    - unit
+    - provenance
+    missing_required_axis_policy: quarantine
+    longitudinal_evidence_requires_real_subject_and_time: true
+
+  disease_programs:
+  - program_id: ad_control
+    disease_family: AD
+  - program_id: pd_control
+    disease_family: PD
+  - program_id: ftd_control
+    disease_family: FTD
+  - program_id: als_control
+    disease_family: ALS
+  - program_id: neuroinflammation_control
+    disease_family: neuroinflammation
+
+  core_observation_families:
+  - family_id: cns_disease_aging_state_transcriptomics
+    modality: transcriptomics
+    minimum_independent_source_ids: 2
+    independent_group_key: publication_accession_group
+    nonoverlapping_publication_accession_groups_required: true
+    minimum_cns_sources: 1
+    mirrored_accessions_count_as_independent: false
+  - family_id: cns_cell_type_region_atlas_transcriptomics
+    modality: transcriptomics
+    minimum_independent_source_ids: 2
+    independent_group_key: publication_accession_group
+    nonoverlapping_publication_accession_groups_required: true
+    minimum_cns_sources: 1
+    mirrored_accessions_count_as_independent: false
+  - family_id: compound_dose_time_perturbation_transcriptomics
+    modality: transcriptomics
+    minimum_independent_source_ids: 2
+    independent_group_key: publication_accession_group
+    nonoverlapping_publication_accession_groups_required: true
+    minimum_cns_sources: 1
+    mirrored_accessions_count_as_independent: false
+
+  deferred_modalities:
+  - modality: epigenomics
+    allowed_roles: &deferred_roles
+    - context_prior
+    - weak_calibration
+    - holdout_extension
+    counts_toward_core_ess: false
+    counts_toward_core_g2: false
+    primary_supervision_allowed: false
+  - modality: genomics
+    allowed_roles: *deferred_roles
+    counts_toward_core_ess: false
+    counts_toward_core_g2: false
+    primary_supervision_allowed: false
+  - modality: gwas
+    allowed_roles: *deferred_roles
+    counts_toward_core_ess: false
+    counts_toward_core_g2: false
+    primary_supervision_allowed: false
+  - modality: proteomics
+    allowed_roles: *deferred_roles
+    counts_toward_core_ess: false
+    counts_toward_core_g2: false
+    primary_supervision_allowed: false
+  - modality: metabolomics
+    allowed_roles: *deferred_roles
+    counts_toward_core_ess: false
+    counts_toward_core_g2: false
+    primary_supervision_allowed: false
+  - modality: lipidomics
+    allowed_roles: *deferred_roles
+    counts_toward_core_ess: false
+    counts_toward_core_g2: false
+    primary_supervision_allowed: false
+  - modality: electrophysiology
+    allowed_roles: *deferred_roles
+    counts_toward_core_ess: false
+    counts_toward_core_g2: false
+    primary_supervision_allowed: false
+  - modality: morphology
+    allowed_roles: *deferred_roles
+    counts_toward_core_ess: false
+    counts_toward_core_g2: false
+    primary_supervision_allowed: false
+  - modality: imaging
+    allowed_roles: *deferred_roles
+    counts_toward_core_ess: false
+    counts_toward_core_g2: false
+    primary_supervision_allowed: false
+
+  source_governance:
+    access_policy: strict_public_only
+    silent_source_substitution_allowed: false
+    required_release_fields:
+    - source_id
+    - official_url
+    - release_version
+    - retrieval_date
+    - source_card_path
+    - terms_snapshot_path
+    - terms_snapshot_sha256
+    - license_snapshot_path
+    - license_snapshot_sha256
+    - raw_sha256
+    - processed_sha256
+    - parser_id
+    - parser_version
+    - mapping_version
+    - provenance_record_id
+    - training_evaluation_role
+    - holdout_group
+    - publication_accession_group
+    - access_class
+    allowed_access_classes:
+    - public_unrestricted
+    - public_with_attribution
+    qualification_failure_policy: quarantine
+
+  controlled_exclusions:
+    public_mainline_dependency_allowed: false
+    required_public_mainline_reachability_count: 0
+    preserve_isolation_audit: true
+    sources:
+    - source_id: adni
+      access_class: controlled_or_restricted
+      public_mainline_role: excluded_audit_only
+    - source_id: dbgap
+      access_class: controlled_or_restricted
+      public_mainline_role: excluded_audit_only
+    - source_id: uk_biobank
+      access_class: controlled_or_restricted
+      public_mainline_role: excluded_audit_only
+    - source_id: rosmap
+      access_class: controlled_or_restricted
+      public_mainline_role: excluded_audit_only
+    - source_id: amp_ad
+      access_class: controlled_or_restricted
+      public_mainline_role: excluded_audit_only
+    - source_id: restricted_synapse
+      access_class: controlled_or_restricted
+      public_mainline_role: excluded_audit_only
+
+  crosswalk_contract:
+    entity_types:
+    - gene
+    - protein
+    - compound
+    - cell_type
+    - brain_region
+    - assay
+    - disease
+    - publication
+    - species
+    - unit
+    unit_ontologies:
+    - UCUM
+    - UO
+    critical_mapping_conflict_limit: 0
+    unresolved_required_mapping_policy: quarantine
+
+  canonical_observation_contract:
+    raw_matrix_migration_input_only: true
+    accepted_value_block_formats:
+    - zarr
+    - parquet
+    - h5ad
+    required_manifest_fields:
+    - block_sha256
+    - ontology_versions
+    - unit_mapping_version
+    - qc_grade
+    - mapping_confidence
+    - split_role
+    synthetic_values_allowed: false
+
+  structured_action_contract:
+    required_fields:
+    - action_uid
+    - intervention_type
+    - target_set
+    - agent_set
+    - dose_value
+    - dose_unit
+    - schedule
+    - route
+    - assay_context
+    - state_scope
+    - source_publication
+    - source_accession
+    - exposure_program_ref
+    - occupancy_program_ref
+    incomplete_record_policy: quarantine
+
+  tool_model_registry_contract:
+    required_fields:
+    - tool_family
+    - tool_name
+    - tool_version
+    - official_reference
+    - parser_or_adapter_version
+    - smoke_status
+    generated_trajectories_count_as_observations: false
+
+  quality_and_training_roles:
+    grade_roles:
+      A: main_training
+      B: main_training
+      C: weak_calibration
+      D: reject
+      S: stress_test_only
+    main_training_grades:
+    - A
+    - B
+    core_ess_grades:
+    - A
+    - B
+    synthetic_teacher_policy:
+      observation_coverage_eligible: false
+      core_g2_eligible: false
+      main_training_eligible: false
+
+  split_policy:
+    query_domain_status: frozen
+    split_manifest_status: frozen
+    deterministic_assignment: hash_grouped_after_freeze
+    split_seed_required_at_freeze: true
+    deterministic_seed: neuronsifter-public-foundation-corpus-v1-split-20260718
+    query_domain_freeze_date: '2026-07-18'
+    split_manifest_freeze_date: '2026-07-18'
+    validation_group_fraction: 0.2
+    split_root: Input/canonical/public_foundation_corpus_v1/splits/reduced_transcriptomics_core_v1
+    split_manifest_path: Output/audits/public_foundation_corpus_split_manifest.json
+    nested_split_order:
+    - source_holdout
+    - publication_accession_holdout
+    - family_holdout
+    - regimen_holdout
+    - target_program_holdout
+    required_zero_overlap_keys:
+    - canonical_uid
+    - content_hash
+    - family_uid
+    - regimen_uid
+    - target_program_proxy
+    - source_holdout_role
+    adversarial_leakage_injection_required: true
+
+  cross_modal_claim_policy:
+    semantic_alignment_sufficient_for_prediction_claim: false
+    cross_modal_prediction_claim_allowed: false
+    required_paired_benchmark_kind: real_paired_subset
+    synthetic_or_inferred_pairs_eligible: false
+    absent_benchmark_report_policy: remove_claim
+    paired_benchmark:
+      status: not_available
+      provenance_kind: real_only
+      real_pair_count: 0
+
+  storage_policy:
+    counted_persistent_classes:
+    - raw
+    - processed
+    - canonical
+    - cache
+    - output
+    decimal_byte_cap: 1000000000000
+    cap_exceeded_gate_policy: fail
+    large_raw_assets_git_tracked_allowed: false
+    content_addressed_storage_required: true
+    scan_root_paths:
+      raw: Input/raw
+      processed: Input/processed
+      canonical: Input/canonical
+      cache: Input/cache
+      output: Output
+    scan_excluded_paths:
+    - Output/audits/public_foundation_corpus_storage_ledger.json
+    previous_confirmed_usage_bytes: 422655337981
+    largest_directory_limit: 20
+    storage_ledger_schema_path: Libs/configs/schema/public_foundation_corpus_storage_ledger.schema.json
+    storage_ledger_path: Output/audits/public_foundation_corpus_storage_ledger.json
+    storage_validation_path: Output/audits/public_foundation_corpus_storage_validation.json
+
+  g2_m1_admission_audit:
+    output_path: Output/audits/public_foundation_corpus_g2_m1_admission_audit.json
+    request_output_path: Output/audits/source_requalification_request.json
+    schema_path: Libs/configs/schema/public_foundation_corpus_g2_m1_admission_audit.schema.json
+    source_ledger_path: Output/audits/source_qualification_ledger.tsv
+    admission_statuses:
+    - candidate_audited
+    - not_viable
+    - not_materialized
+    no_source_role_transition_allowed: true
+    required_requalification_artifacts:
+    - source_requalification_request.json
+    - source_qualification_delta.tsv
+    - license_release_checksum_evidence
+    - parser_mapping_provenance_evidence
+    - independence_graph_delta
+    - role_transition_justification
+    candidates:
+    - candidate_id: disease_arrayexpress_e_geod_26972
+      family_id: cns_disease_aging_state_transcriptomics
+      source_id: arrayexpress
+      source_accession: E-GEOD-26972
+      publication_accession_group: arrayexpress::E-GEOD-26972
+      mirror_group: geo::GSE26972
+      candidate_kind: raw_processed_matrix_with_sample_metadata
+      value_evidence_paths:
+      - downloads/studies/E-GEOD-26972/E-GEOD-26972.processed.1.zip
+      metadata_evidence_paths:
+      - downloads/studies/E-GEOD-26972/E-GEOD-26972.idf.txt
+      - downloads/studies/E-GEOD-26972/E-GEOD-26972.sdrf.txt
+      local_value_format: zip_tsv
+      local_sample_count: 6
+      biological_unit_axis_status: sample_identifier_only
+      disease_region_axis_status: recoverable_from_sdrf
+      required_next_evidence:
+      - source_requalification
+      - canonical_zarr_parquet_or_h5ad_materialization
+      - frozen_biological_unit_policy
+      - grade_ab_qc
+    - candidate_id: disease_arrayexpress_e_geod_28146
+      family_id: cns_disease_aging_state_transcriptomics
+      source_id: arrayexpress
+      source_accession: E-GEOD-28146
+      publication_accession_group: arrayexpress::E-GEOD-28146
+      mirror_group: geo::GSE28146
+      candidate_kind: raw_processed_matrix_with_sample_metadata
+      value_evidence_paths:
+      - downloads/studies/E-GEOD-28146/E-GEOD-28146.processed.1.zip
+      metadata_evidence_paths:
+      - downloads/studies/E-GEOD-28146/E-GEOD-28146.idf.txt
+      - downloads/studies/E-GEOD-28146/E-GEOD-28146.sdrf.txt
+      local_value_format: zip_tsv
+      local_sample_count: 30
+      biological_unit_axis_status: sample_identifier_only
+      disease_region_axis_status: recoverable_from_sdrf
+      required_next_evidence:
+      - source_requalification
+      - canonical_zarr_parquet_or_h5ad_materialization
+      - frozen_biological_unit_policy
+      - grade_ab_qc
+    - candidate_id: atlas_allen_whb_10xv3_metadata
+      family_id: cns_cell_type_region_atlas_transcriptomics
+      source_id: allen_brain_cell_atlas
+      source_accession: WHB-10Xv3-20241115
+      publication_accession_group: allen::WHB-10Xv3-20241115
+      mirror_group: allen::WHB-10Xv3-20241115
+      candidate_kind: metadata_without_native_expression_matrix
+      value_evidence_paths: []
+      metadata_evidence_paths:
+      - downloads/releases/20250531/WHB-10Xv3/cell_metadata.csv
+      - downloads/releases/20250531/WHB-10Xv3/donor.csv
+      - downloads/releases/20250531/WHB-10Xv3/gene.csv
+      local_value_format: none
+      local_sample_count: 0
+      biological_unit_axis_status: donor_and_cell_metadata_available
+      disease_region_axis_status: region_metadata_available
+      required_next_evidence:
+      - native_expression_value_matrix
+      - source_requalification
+      - canonical_zarr_parquet_or_h5ad_materialization
+    - candidate_id: atlas_allen_seaad_aggregate
+      family_id: cns_cell_type_region_atlas_transcriptomics
+      source_id: allen_brain_cell_atlas
+      source_accession: SEAAD-20240831
+      publication_accession_group: allen::SEAAD-20240831
+      mirror_group: allen::SEAAD-20240831
+      candidate_kind: aggregate_prior_without_cell_axis
+      value_evidence_paths:
+      - downloads/releases/20250531/SEAAD/precomputed_stats.20231120.sea_ad.MTG.h5
+      metadata_evidence_paths: []
+      local_value_format: hdf5_aggregate_prior
+      local_sample_count: 0
+      biological_unit_axis_status: aggregate_cluster_only
+      disease_region_axis_status: MTG_aggregate_only
+      required_next_evidence:
+      - native_cell_or_sample_expression_matrix
+      - independent_atlas_source
+      - source_requalification
+    - candidate_id: atlas_cellxgene_census_unmaterialized
+      family_id: cns_cell_type_region_atlas_transcriptomics
+      source_id: cellxgene_census
+      source_accession: unmaterialized
+      publication_accession_group: cellxgene::unmaterialized
+      mirror_group: cellxgene::unmaterialized
+      candidate_kind: external_candidate_not_materialized
+      value_evidence_paths: []
+      metadata_evidence_paths: []
+      local_value_format: none
+      local_sample_count: 0
+      biological_unit_axis_status: unavailable
+      disease_region_axis_status: unavailable
+      required_next_evidence:
+      - official_release_and_terms_snapshot
+      - bounded_native_value_materialization
+      - source_requalification
+      - independence_graph_delta
+    - candidate_id: perturbation_clue_touchstone_v1_1
+      family_id: compound_dose_time_perturbation_transcriptomics
+      source_id: clue_lincs
+      source_accession: GSE92742-TouchstoneV1.1
+      publication_accession_group: clue::GSE92742-TouchstoneV1.1
+      mirror_group: clue::GSE92742-TouchstoneV1.1
+      candidate_kind: dose_time_signature_matrix_with_neural_cell_line_subset
+      value_evidence_paths:
+      - downloads/builds/TouchstoneV1.1/files/GSE92742_Broad_LINCS_Level5_COMPZ.MODZ_n473647x12328.gctx
+      metadata_evidence_paths:
+      - downloads/builds/TouchstoneV1.1/files/GSE92742_Broad_LINCS_sig_info.txt.gz
+      - downloads/builds/TouchstoneV1.1/files/GSE92742_Broad_LINCS_cell_info.txt.gz
+      local_value_format: gctx_signature_matrix
+      local_sample_count: 473647
+      biological_unit_axis_status: cell_line_signature_only
+      disease_region_axis_status: neural_cell_line_subset_requires_qualification
+      required_next_evidence:
+      - source_role_and_license_requalification
+      - physical_dose_unit_normalization
+      - cns_context_qualification
+      - independent_perturbation_source
+      - occupancy_provenance_for_action_catalog
+
+  phase1e_materialization:
+    output_root: Input/canonical/public_foundation_corpus_v1
+    source_ledger_path: Output/audits/source_qualification_ledger.tsv
+    qualification_delta_path: Output/audits/source_qualification_delta.tsv
+    admission_audit_path: Output/audits/phase1e_gse28146_mainline_admission.json
+    validation_path: Output/audits/phase1e_gse28146_mainline_block_validation.json
+    candidate:
+      source_id: geo
+      source_accession: GSE28146
+      family_id: cns_disease_aging_state_transcriptomics
+      publication_accession_group: geo::GSE28146
+      mirror_group: geo::GSE28146
+      mirror_source_id: arrayexpress
+      mirror_source_accession: E-GEOD-28146
+      raw_value_path: Input/raw/geo/phase1e/GSE28146/official_snapshots/gse28146_family.soft.gz
+      platform_annotation_path: Input/raw/arrayexpress/phase1e/E-GEOD-28146/official_snapshots/A-AFFY-44.adf.txt
+      release_evidence_paths:
+      - Input/raw/geo/phase1e/GSE28146/official_snapshots/gse28146_family.soft.gz
+      - Input/raw/geo/phase1e/GSE28146/official_snapshots/geo_faq.html
+      - Input/raw/arrayexpress/phase1e/E-GEOD-28146/official_snapshots/biostudies_study.json
+      - Input/raw/arrayexpress/phase1e/E-GEOD-28146/official_snapshots/A-AFFY-44.adf.txt
+      raw_mirror_paths:
+      - Input/raw/arrayexpress/downloads/studies/E-GEOD-28146/E-GEOD-28146.raw.1.zip
+      - Input/raw/arrayexpress/downloads/studies/E-GEOD-28146/E-GEOD-28146.processed.1.zip
+      study_release_date: '2011-08-01'
+      publication_pubmed_id: '21756998'
+      publication_doi: 10.1016/j.jchemneu.2011.06.007
+      platform_accession: GPL570
+      platform_equivalence: A-AFFY-44_is_HG-U133_Plus_2_and_GPL570
+    qc:
+      expected_sample_count: 30
+      minimum_mapped_gene_count: 10000
+      minimum_finite_fraction: 0.99
+      grade: B
+      grade_rationale: >-
+        Official source describes 30 acceptable arrays, one array per specimen;
+        donor identity is not provided and the FFPE MAS5 measurement is retained
+        as a Grade B, not Grade A, mainline observation.
+    biological_unit_policy:
+      unit_type: specimen
+      identity_source: source_sample_accession
+      technical_replicate_policy: one_array_per_specimen_declared_by_source
+      donor_status: not_provided
+      effective_sample_size_formula: unique biological_unit_id after mirror and technical-replicate deduplication
+    parser:
+      parser_id: materialize_geo_gse28146_soft_v1
+      parser_version: '1.0.0'
+      mapping_version: a_affy_44_entrez_median_v1
+      unit_mapping_version: mas5_signal_intensity_not_ucum_v1
+
+  phase1f_disease_pair_materialization:
+    output_root: Input/canonical/public_foundation_corpus_v1
+    source_ledger_path: Output/audits/source_qualification_ledger.tsv
+    qualification_delta_path: Output/audits/source_qualification_delta.tsv
+    admission_audit_path: Output/audits/phase1f_gse37263_mainline_admission.json
+    validation_path: Output/audits/phase1f_gse37263_mainline_block_validation.json
+    phase1f_pair_reference:
+      admission_audit_path: Output/audits/phase1e_gse28146_mainline_admission.json
+      expected_canonical_uid: pfc_geo_gse28146_phase1e_v1
+      expected_source_id: geo
+      expected_source_accession: GSE28146
+      expected_publication_accession_group: geo::GSE28146
+      expected_mirror_group: geo::GSE28146
+    candidate:
+      source_id: arrayexpress
+      source_accession: E-GEOD-37263
+      secondary_accession: GSE37263
+      family_id: cns_disease_aging_state_transcriptomics
+      publication_accession_group: arrayexpress::E-GEOD-37263::10.1002/jnr.22290
+      mirror_group: geo::GSE37263
+      raw_value_path: Input/raw/arrayexpress/downloads/studies/E-GEOD-37263/E-GEOD-37263.processed.1.zip
+      sample_metadata_path: Input/raw/arrayexpress/downloads/studies/E-GEOD-37263/E-GEOD-37263.sdrf.txt
+      study_metadata_path: Input/raw/arrayexpress/downloads/studies/E-GEOD-37263/E-GEOD-37263.idf.txt
+      platform_annotation_path: Input/raw/geo/platform_annotations/GPL5175/GPL5175_full.txt
+      terms_snapshot_path: Input/raw/arrayexpress/terms/biostudies_arrayexpress_snapshot.html
+      official_study_url: https://www.ebi.ac.uk/biostudies/arrayexpress/studies/E-GEOD-37263
+      official_platform_url: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL5175
+      study_release_date: '2012-04-12'
+      publication_pubmed_id: '19937809'
+      publication_doi: 10.1002/jnr.22290
+      platform_accession: GPL5175
+    qc:
+      expected_sample_count: 16
+      expected_source_feature_count: 22011
+      expected_unique_gene_assignment_count: 14839
+      expected_backbone_missing_quarantine_count: 144
+      expected_accepted_source_mapping_count: 14695
+      expected_canonical_gene_count: 14510
+      expected_multi_gene_quarantine_count: 2795
+      expected_unassigned_quarantine_count: 4377
+      minimum_mapped_gene_count: 14000
+      minimum_finite_fraction: 0.99
+      grade: B
+      grade_rationale: >-
+        Sixteen source-declared neocortex specimens have one array each and
+        complete AD/control metadata. Official GPL5175 annotation maps every
+        source feature identifier, while multi-gene and unassigned features
+        are quarantined. Donor identifiers are source-native specimen labels,
+        so the independent block remains Grade B.
+    biological_unit_policy:
+      unit_type: subject_specimen
+      identity_source: source_native_subject_token_and_sample_accession
+      technical_replicate_policy: one_array_per_subject_specimen_declared_by_source
+      donor_status: observed_source_native_subject_token
+      effective_sample_size_formula: unique source-native subject token after mirror and technical-replicate deduplication
+    parser:
+      parser_id: materialize_arrayexpress_gse37263_gene_level_v1
+      parser_version: '1.0.0'
+      mapping_version: gpl5175_unique_entrez_assignment_and_hgnc_backbone_v1
+      unit_mapping_version: quantile_normalized_log2_signal_not_ucum_v1
+
+  phase1e_atlas_materialization:
+    output_root: Input/canonical/public_foundation_corpus_v1
+    source_ledger_path: Output/audits/source_qualification_ledger.tsv
+    qualification_delta_path: Output/audits/source_qualification_delta.tsv
+    admission_audit_path: Output/audits/phase1e_allen_whb_nonneurons_mainline_admission.json
+    validation_path: Output/audits/phase1e_allen_whb_nonneurons_mainline_block_validation.json
+    source_card_path: Output/audits/phase1e_allen_whb_nonneurons_source_card.json
+    retrieval_record_path: Output/audits/phase1e_allen_whb_nonneurons_retrieval_record.json
+    phase1f_pair_reference:
+      admission_audit_path: Output/audits/phase1e_cellxgene_amygdala_mainline_admission.json
+      expected_canonical_uid: cellxgene_amygdala_2021_phase1e_v1
+      expected_source_id: cellxgene_census
+      expected_source_accession: 874e8a85-7fe2-487d-9fef-8fe7f0a17872
+      expected_publication_accession_group: cellxgene::10.1016/j.neuron.2021.09.001::f3c49918-4707-4d92-bb6d-2b5b4eb9d1b4
+      expected_mirror_group: cellxgene::22ccff12-9a18-4b01-ba10-302df57a01f8::874e8a85-7fe2-487d-9fef-8fe7f0a17872
+    candidate:
+      source_id: allen_brain_cell_atlas
+      source_accession: WHB-10Xv3-Nonneurons-20240330
+      family_id: cns_cell_type_region_atlas_transcriptomics
+      publication_accession_group: allen::WHB-10Xv3-20240330
+      mirror_group: allen::WHB-10Xv3-Nonneurons-20240330
+      raw_value_path: Input/raw/allen_brain_cell_atlas/downloads/releases/20250531/WHB-10Xv3/WHB-10Xv3-Nonneurons-raw.h5ad
+      official_value_url: https://allen-brain-cell-atlas.s3.us-west-2.amazonaws.com/expression_matrices/WHB-10Xv3/20240330/WHB-10Xv3-Nonneurons-raw.h5ad
+      expected_raw_bytes: 4750864855
+      expression_release_version: '20240330'
+      metadata_release_version: '20241115'
+      release_evidence_paths:
+      - Input/raw/allen_brain_cell_atlas/downloads/releases/20250531/manifest.json
+      - Input/raw/allen_brain_cell_atlas/downloads/releases/20250531/WHB-10Xv3/listing.xml
+      - Input/raw/allen_brain_cell_atlas/terms/allen_terms_snapshot.html
+      - Input/raw/allen_brain_cell_atlas/downloads/releases/20250531/WHB-10Xv3/cell_metadata.csv
+      - Input/raw/allen_brain_cell_atlas/downloads/releases/20250531/WHB-10Xv3/donor.csv
+      - Input/raw/allen_brain_cell_atlas/downloads/releases/20250531/WHB-10Xv3/gene.csv
+      - Input/raw/allen_brain_cell_atlas/downloads/releases/20250531/WHB-10Xv3/region_of_interest_structure_map.csv
+      - Input/raw/allen_brain_cell_atlas/downloads/releases/20250531/WHB-taxonomy/cluster.csv
+      - Input/raw/allen_brain_cell_atlas/downloads/releases/20250531/WHB-taxonomy/cluster_annotation_term.csv
+    qc:
+      minimum_donor_count: 4
+      expected_donor_count: 4
+      minimum_cell_count: 10000
+      expected_cell_count: 888263
+      minimum_mapped_gene_count: 10000
+      expected_mapped_gene_count: 59357
+      grade: B
+      grade_rationale: >-
+        Official Allen raw UMI counts are joined one-to-one to official cell,
+        donor, region, and feature metadata. Cell observations are real but
+        not independent subjects, so ESS is donor-level and the first atlas
+        block remains Grade B pending an independent atlas source.
+    biological_unit_policy:
+      unit_type: cell
+      identity_source: h5ad_obs_name_joined_to_official_cell_label
+      technical_replicate_policy: cell_label_unique; cells_are_not_counted_as_independent_donors
+      donor_status: observed
+      effective_sample_size_formula: unique donor_label after exact h5ad obs-name to official cell-label join; cells are not counted as independent donors
+    parser:
+      parser_id: materialize_allen_whb_nonneurons_sparse_h5ad_v1
+      parser_version: '1.0.0'
+      mapping_version: whb_ensembl_gene_identifier_exact_v1
+      unit_mapping_version: raw_umi_count_not_ucum_v1
+      sparse_chunk_size: 2000000
+
+  phase1e_cellxgene_atlas_materialization:
+    output_root: Input/canonical/public_foundation_corpus_v1
+    source_ledger_path: Output/audits/source_qualification_ledger.tsv
+    qualification_delta_path: Output/audits/source_qualification_delta.tsv
+    admission_audit_path: Output/audits/phase1e_cellxgene_amygdala_mainline_admission.json
+    validation_path: Output/audits/phase1e_cellxgene_amygdala_mainline_block_validation.json
+    source_card_path: Output/audits/phase1e_cellxgene_amygdala_source_card.json
+    retrieval_record_path: Output/audits/phase1e_cellxgene_amygdala_retrieval_record.json
+    candidate:
+      source_id: cellxgene_census
+      source_accession: 874e8a85-7fe2-487d-9fef-8fe7f0a17872
+      collection_id: 22ccff12-9a18-4b01-ba10-302df57a01f8
+      dataset_id: f3c49918-4707-4d92-bb6d-2b5b4eb9d1b4
+      family_id: cns_cell_type_region_atlas_transcriptomics
+      publication_accession_group: cellxgene::10.1016/j.neuron.2021.09.001::f3c49918-4707-4d92-bb6d-2b5b4eb9d1b4
+      mirror_group: cellxgene::22ccff12-9a18-4b01-ba10-302df57a01f8::874e8a85-7fe2-487d-9fef-8fe7f0a17872
+      raw_value_path: Input/raw/cellxgene_census/phase1e/reward_circuitry_2021/amygdala/874e8a85-7fe2-487d-9fef-8fe7f0a17872.h5ad
+      official_value_url: https://datasets.cellxgene.cziscience.com/874e8a85-7fe2-487d-9fef-8fe7f0a17872.h5ad
+      expected_raw_bytes: 138178869
+      expected_raw_sha256: d67e415ca5d4ab03751724cba4f0b77f69307a482ade58f9cfd380202f74d93c
+      publication_doi: 10.1016/j.neuron.2021.09.001
+      source_release_version: 874e8a85-7fe2-487d-9fef-8fe7f0a17872
+      retrieval_job_id: '486183'
+      retrieval_log_path: Output/logs/NrnSift_cellxgene_remote_sha_486183.out
+      release_evidence_paths:
+      - Input/raw/cellxgene_census/phase1e/reward_circuitry_2021/amygdala/official_snapshots/collection_22ccff12-9a18-4b01-ba10-302df57a01f8.json
+      - Input/raw/cellxgene_census/phase1e/reward_circuitry_2021/amygdala/official_snapshots/cellxgene_data_submission_policy.html
+      - Input/raw/cellxgene_census/phase1e/reward_circuitry_2021/amygdala/official_snapshots/lieber_reward_circuitry_readme.md
+    qc:
+      minimum_donor_count: 5
+      minimum_cell_count: 10000
+      minimum_mapped_gene_count: 10000
+      grade: B
+      grade_rationale: >-
+        The official CELLxGENE H5AD contains primary human amygdala nuclei with
+        donor, cell, region, cell-type, assay, and Ensembl feature axes. Unknown
+        cell types are explicitly quarantined; qualified cells retain donor-level
+        ESS and therefore form a Grade B first atlas block pending an independent
+        source.
+    biological_unit_policy:
+      unit_type: cell
+      identity_source: cellxgene_h5ad_obs_index
+      technical_replicate_policy: obs_index_unique; cells_are_not_counted_as_independent_donors
+      donor_status: observed
+      effective_sample_size_formula: unique donor_id after explicit unknown_or_missing_cell_type quarantine; cells are not counted as independent donors
+    parser:
+      parser_id: materialize_cellxgene_amygdala_sparse_h5ad_v1
+      parser_version: '1.0.0'
+      mapping_version: cellxgene_ensembl_feature_and_cl_uberon_exact_v1
+      unit_mapping_version: raw_count_matrix_not_ucum_v1
+      sparse_chunk_size: 2000000
+      cell_type_quarantine_values:
+      - unknown
+      - ''
+
+  phase1e_perturbation_materialization:
+    output_root: Input/canonical/public_foundation_corpus_v1
+    source_ledger_path: Output/audits/source_qualification_ledger.tsv
+    qualification_delta_path: Output/audits/source_qualification_delta.tsv
+    candidate_audit_path: Output/audits/g2_m1_perturbation_candidate_audit.json
+    block_manifest_audit_path: Output/audits/g2_m1_perturbation_block_manifest.json
+    qc_audit_path: Output/audits/g2_m1_perturbation_qc.json
+    ess_audit_path: Output/audits/g2_m1_perturbation_ess.json
+    action_linkage_path: Output/audits/g2_m1_perturbation_action_linkage.json
+    admission_audit_path: Output/audits/g2_m1_perturbation_admission_decision.json
+    validation_path: Output/audits/g2_m1_perturbation_block_validation.json
+    candidate:
+      source_id: clue_lincs
+      source_accession: GSE92742-TouchstoneV1.1::NPC_NEU_TRT_CP
+      parent_accession: GSE92742-TouchstoneV1.1
+      source_subset_id: NPC_NEU_TRT_CP
+      family_id: compound_dose_time_perturbation_transcriptomics
+      publication_accession_group: clue::GSE92742-TouchstoneV1.1::NPC_NEU_TRT_CP
+      mirror_group: clue::GSE92742-TouchstoneV1.1::NPC_NEU_TRT_CP
+      raw_value_path: Input/raw/clue_lincs/downloads/builds/TouchstoneV1.1/files/GSE92742_Broad_LINCS_Level5_COMPZ.MODZ_n473647x12328.gctx
+      raw_archive_path: Input/raw/clue_lincs/downloads/builds/TouchstoneV1.1/files/GSE92742_Broad_LINCS_Level5_COMPZ.MODZ_n473647x12328.gctx.gz
+      official_value_url: https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE92742&format=file&file=GSE92742%5FBroad%5FLINCS%5FLevel5%5FCOMPZ%2EMODZ%5Fn473647x12328%2Egctx%2Egz
+      expected_raw_bytes: 23380287022
+      expected_raw_sha256: b293f3fb7c2298a60526de727e5400d8400af4b77a23c4ed2116f86199fb45e8
+      expected_archive_bytes: 21328033748
+      expected_archive_sha256: 790f6c94b90c8b79ca5c1d338501a6bfdf0639dba591ee094b2cc23912670ce5
+      publication_uid: doi:10.1016/j.cell.2017.10.049
+      publication_doi: 10.1016/j.cell.2017.10.049
+      source_release_version: TouchstoneV1.1
+      retrieval_date: '2026-04-14'
+      verification_job_id: '486241'
+      eligible_cell_ids:
+      - NPC
+      - NEU
+      cns_context_class: CNS_derived_model
+      explicitly_excluded_cell_ids:
+      - SHSY5Y
+      metadata_paths:
+      - Input/raw/clue_lincs/downloads/builds/TouchstoneV1.1/files/GSE92742_Broad_LINCS_sig_info.txt.gz
+      - Input/raw/clue_lincs/downloads/builds/TouchstoneV1.1/files/GSE92742_Broad_LINCS_inst_info.txt.gz
+      - Input/raw/clue_lincs/downloads/builds/TouchstoneV1.1/files/GSE92742_Broad_LINCS_pert_info.txt.gz
+      - Input/raw/clue_lincs/downloads/builds/TouchstoneV1.1/files/GSE92742_Broad_LINCS_cell_info.txt.gz
+      - Input/raw/clue_lincs/downloads/builds/TouchstoneV1.1/files/GSE92742_Broad_LINCS_gene_info.txt.gz
+      release_evidence_paths:
+      - Input/raw/clue_lincs/manifests/source_manifest.json
+      - Input/raw/clue_lincs/terms/clue_terms_snapshot.html
+      - Input/raw/clue_lincs/checksums/sha256.tsv
+      - Input/raw/clue_lincs/downloads/download_receipts.tsv
+      - Input/raw/clue_lincs/downloads/builds/TouchstoneV1.1/build_detail.json
+    qc:
+      minimum_selected_condition_count: 7000
+      minimum_source_instance_count: 2
+      expected_feature_count: 12328
+      expected_source_subset_signature_count: 7813
+      expected_replicate_control_valid_signature_count: 7602
+      expected_duplicate_condition_signature_count: 480
+      expected_selected_condition_count: 7122
+      expected_selected_context_counts:
+        NPC: 4054
+        NEU: 3068
+      expected_quarantine_count: 691
+      expected_quarantine_reason_counts:
+        duplicate_condition_signature_not_counted: 480
+        source_instance_count_below_minimum: 195
+        source_instance_semantics_mismatch: 16
+      expected_shsy5y_signature_count: 465
+      expected_shsy5y_compound_signature_count: 0
+      allowed_perturbation_type: trt_cp
+      allowed_raw_dose_units:
+      - µM
+
+      canonical_dose_unit: uM
+      allowed_raw_time_units:
+      - h
+      canonical_time_unit: h
+      grade: B
+      grade_rationale: >-
+        The official Level-5 matrix contains full 12,328-feature MODZ expression
+        signatures for compound-treated iPSC-derived NPC and differentiated NEU
+        contexts. Every admitted condition has physical dose and duration,
+        at least two traceable source instances, and time-matched vehicle controls on every
+        contributing RNA plate. Donor independence and biological-versus-technical
+        replicate identity are not available, so the first block is Grade B.
+    biological_unit_policy:
+      unit_type: perturbation_condition
+      identity_source: cell_context_compound_dose_time_after_source_instance_and_time_matched_control_validation
+      technical_replicate_policy: Level5_MODZ_source_instances_are_one_condition_and_duplicate_condition_signatures_are_collapsed
+      control_reuse_policy: time_matched_controls_are_linked_once_by_control_group_and_never_counted_in_ess
+      donor_status: explicit_unavailable
+      effective_sample_size_formula: unique cell_context_compound_dose_time condition after replicate aggregation, duplicate-condition collapse, and time-matched control validation
+    license_role:
+      internal_model_training: allowed_for_registered_nonprofit_research_group
+      derived_embedding_checkpoint_distribution: requires_prior_contact_not_allowed_by_default
+      benchmark_result_publication: allowed_with_publication_policy_and_attribution
+      raw_data_redistribution: prohibited
+      processed_data_redistribution: prohibited
+      anonymous_release_package: retrieval_script_checksum_and_transformation_contract_only
+    parser:
+      parser_id: materialize_clue_touchstone_npc_neu_level5_v1
+      parser_version: '1.1.0'
+      mapping_version: clue_pert_id_entrez_gene_and_cns_model_context_v1
+      unit_mapping_version: clue_sig_microM_inst_um_hour_to_UCUM_v2
+      value_semantics: Level5_COMPZ_MODZ_consensus_z_score
+      row_chunk_size: 64
+
+  phase1f_perturbation_pair_materialization:
+    output_root: Input/canonical/public_foundation_corpus_v1
+    source_ledger_path: Output/audits/source_qualification_ledger.tsv
+    qualification_delta_path: Output/audits/source_qualification_delta.tsv
+    candidate_audit_path: Output/audits/phase1f_perturbation_candidate_source_decision.json
+    block_manifest_audit_path: Output/audits/phase1f_perturbation_block_manifest.json
+    qc_audit_path: Output/audits/phase1f_perturbation_qc.json
+    ess_audit_path: Output/audits/phase1f_perturbation_ess.json
+    action_linkage_path: Output/audits/phase1f_perturbation_action_linkage.json
+    pair_independence_path: Output/audits/phase1f_perturbation_pair_independence.json
+    admission_audit_path: Output/audits/phase1f_perturbation_accession_admission_decision.json
+    validation_path: Output/audits/phase1f_perturbation_block_validation.json
+    manifest_schema_path: Libs/configs/schema/phase1f_perturbation_pair_block.schema.json
+    phase1f_pair_reference:
+      admission_audit_path: Output/audits/g2_m1_perturbation_admission_decision.json
+      expected_canonical_uid: clue_touchstone_v1_1_npc_neu_perturbation_phase1e_v1
+      expected_source_id: clue_lincs
+      expected_source_accession: GSE92742-TouchstoneV1.1::NPC_NEU_TRT_CP
+      expected_publication_accession_group: clue::GSE92742-TouchstoneV1.1::NPC_NEU_TRT_CP
+      expected_mirror_group: clue::GSE92742-TouchstoneV1.1::NPC_NEU_TRT_CP
+    candidate:
+      source_id: arrayexpress
+      source_accession: E-MTAB-6772
+      family_id: compound_dose_time_perturbation_transcriptomics
+      publication_accession_group: doi:10.1007/s13311-019-00754-z::E-MTAB-6772
+      mirror_group: arrayexpress::E-MTAB-6772
+      publication_uid: PMID:31267473
+      publication_pubmed_id: '31267473'
+      publication_doi: 10.1007/s13311-019-00754-z
+      official_study_url: https://www.ebi.ac.uk/biostudies/arrayexpress/studies/E-MTAB-6772
+      source_release_version: E-MTAB-6772
+      retrieval_date: '2026-07-18'
+      official_snapshot_root: Input/raw/arrayexpress/phase1f/E-MTAB-6772/official_snapshots
+      sample_metadata_path: Input/raw/arrayexpress/phase1f/E-MTAB-6772/official_snapshots/E-MTAB-6772.sdrf.txt
+      study_metadata_path: Input/raw/arrayexpress/phase1f/E-MTAB-6772/official_snapshots/E-MTAB-6772.idf.txt
+      platform_annotation_path: Input/raw/arrayexpress/phase1f/E-MTAB-6772/official_snapshots/A-MEXP-932.adf.txt
+      expected_platform_annotation_bytes: 5878528
+      expected_platform_annotation_sha256: d222491ea22b3375629f02337db58447e98f5461224fa8c731bbb5aa8a4d5013
+      terms_snapshot_path: Input/raw/arrayexpress/phase1f/E-MTAB-6772/official_snapshots/embl_ebi_terms_of_use.html
+      pubmed_snapshot_path: Input/raw/arrayexpress/phase1f/E-MTAB-6772/official_snapshots/pubmed_31267473.json
+      europepmc_snapshot_path: Input/raw/arrayexpress/phase1f/E-MTAB-6772/official_snapshots/europepmc_31267473.json
+      publication_method_evidence_path: Input/raw/arrayexpress/phase1f/E-MTAB-6772/official_snapshots/publication_method_schedule_evidence.json
+      compound_uid: pubchem:452306
+      compound_name: pantethine
+      pubchem_cid: '452306'
+      inchikey: DJWYOLJPSHDSAL-ROUUACIJSA-N
+      drugcentral_id: '3417'
+      compound_identity_path: Input/raw/drugcentral/downloads/releases/2021_09_01/structures.smiles.tsv
+      cns_context_class: primary_CNS
+      assay_uid: arrayexpress_assay:A-MEXP-932
+    qc:
+      expected_assay_count: 12
+      expected_treated_count: 6
+      expected_control_count: 6
+      expected_source_probe_count: 45281
+      expected_exact_entrez_probe_count: 17456
+      expected_canonical_gene_count: 14042
+      expected_unmatched_probe_count: 26163
+      expected_non_numeric_entrez_count: 1662
+      expected_scalar_value_count: 84252
+      minimum_finite_fraction: 1.0
+      grade: B
+      grade_rationale: >-
+        Six pantethine-treated mouse hippocampus biological samples have real
+        source expression values, complete physical dose, duration, route and
+        publication/accession provenance. Vehicle samples remain lineage-only
+        controls. Conflicting source pooling and schedule descriptions are
+        retained explicitly, so this independent block is Grade B.
+    biological_unit_policy:
+      unit_type: pooled_hippocampus_biological_sample
+      identity_source: source_name_and_assay_name_from_sdrf
+      technical_replicate_policy: each_sdrf_row_is_one_declared_biological_sample; vehicle_controls_and_features_do_not_increase_ess
+      donor_status: individual_mouse_identity_unavailable_within_declared_sample
+      effective_sample_size_formula: unique treated biological_unit_uid after technical-replicate, mirror, sample and control deduplication
+    action:
+      physical_dose: 15.0
+      dose_unit: mg
+      duration: 5.5
+      duration_unit: month
+      schedule: three_times_per_week
+      route: intraperitoneal
+      target_set: explicit_unknown
+      exposure_program_ref: explicit_unavailable
+      occupancy_program_ref: explicit_unavailable
+    license_role:
+      internal_model_training: allowed_with_attribution_under_public_data_resource_terms
+      derived_embedding_checkpoint_distribution: allowed_if_no_source_rows_are_redistributed
+      benchmark_result_publication: allowed_with_attribution
+      raw_data_redistribution: original_owner_rights_must_be_respected
+      processed_data_redistribution: not_enabled_for_this_internal_block
+      anonymous_release_package: retrieval_checksum_and_transformation_contract_only
+    parser:
+      parser_id: materialize_arrayexpress_e_mtab_6772_perturbation_pair_v1
+      parser_version: '1.0.0'
+      mapping_version: a_mexp_932_exact_reporter_numeric_entrez_median_v1
+      unit_mapping_version: physical_mg_month_schedule_v1
+      row_chunk_size: 6
+
+  gates:
+    public_corpus_g1:
+      gate_id: iclr_v2.public_corpus.G1
+      current_status: passed
+      fail_closed: true
+      required_conditions:
+      - license_and_terms_verified
+      - version_and_checksums_verified
+      - provenance_verified
+      - entity_and_unit_audit_passed
+      - controlled_reachability_zero
+      - critical_mapping_conflicts_zero
+      - storage_cap_confirmed
+    public_corpus_g2:
+      gate_id: iclr_v2.public_corpus.G2
+      scope: reduced_transcriptomics_core
+      current_status: PASS_WITH_SCOPE_LIMITATION
+      passing_status: PASS_WITH_SCOPE_LIMITATION
+      fail_closed: true
+      full_multimodal_claim_allowed: false
+    full_multimodal_extension:
+      gate_id: iclr_v2.public_corpus.G2_full_multimodal
+      current_status: not_passed
+      fail_closed: true
+    legacy_simulation_readiness:
+      gate_id: legacy.simulation_readiness.G2
+      public_observation_gate_evidence_allowed: false

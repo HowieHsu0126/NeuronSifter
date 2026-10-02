@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/public_foundation_corpus_crosswalk.schema.json",
+  "title": "NeuronSifter Phase 1 entity and unit crosswalk",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "producer", "created_at", "status", "record_count", "entity_type_counts",
+    "required_entity_types", "unit_ontologies", "ontology_versions", "mapping_version",
+    "critical_mapping_conflict_count", "ambiguity_count", "quarantined_mapping_count",
+    "mapping_status_counts", "source_role_requirements", "source_role_reports",
+    "unresolved_required_mapping_count", "unresolved_required_entities", "crosswalk_table_binding",
+    "blocker_codes"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-public-foundation-corpus-evidence-artifact-v1"},
+    "producer": {"type": "string", "minLength": 1},
+    "created_at": {"type": "string", "minLength": 1},
+    "status": {"enum": ["passed", "not_passed"]},
+    "record_count": {"type": "integer", "minimum": 0},
+    "entity_type_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "required_entity_types": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "unit_ontologies": {"const": ["UCUM", "UO"]},
+    "ontology_versions": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "string", "minLength": 1}},
+    "mapping_version": {"type": "string", "pattern": "^(?!.*pending)(?!.*unresolved).+$"},
+    "critical_mapping_conflict_count": {"const": 0},
+    "ambiguity_count": {"const": 0},
+    "quarantined_mapping_count": {"type": "integer", "minimum": 0},
+    "mapping_status_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "source_role_requirements": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "array", "minItems": 1, "items": {"type": "string"}}},
+    "source_role_reports": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "#/$defs/roleReport"}},
+    "unresolved_required_mapping_count": {"type": "integer", "minimum": 0},
+    "unresolved_required_entities": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "crosswalk_table_binding": {"type": "object", "required": ["path", "exists", "size_bytes", "sha256"], "properties": {"path": {"type": "string"}, "exists": {"const": true}, "size_bytes": {"type": "integer", "minimum": 1}, "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}},
+    "blocker_codes": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}
+  },
+  "$defs": {
+    "roleReport": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision", "required_axes", "mapped_entity_counts", "missing_axes", "mapping_version", "status", "quarantined_values_are_excluded"],
+      "properties": {
+        "decision": {"enum": ["qualified_for_mainline", "qualified_for_weak_calibration", "qualified_as_context_prior"]},
+        "required_axes": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "mapped_entity_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+        "missing_axes": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "mapping_version": {"type": "string", "minLength": 1},
+        "status": {"enum": ["passed", "not_passed"]},
+        "quarantined_values_are_excluded": {"const": true}
+      }
+    }
+  }
+}

@@ -1,0 +1,231 @@
+abstention_selective_risk_contract:
+  schema_version: neuronsifter-abstention-selective-risk-contract-v1
+  status: frozen_review_contract
+  review_uid: public_six_context_zero_shot_protocol_review
+  reviewed_on: '2026-08-27'
+  parent_protocol:
+    path: Output/audits/prospective_uncertainty_aware_validation_protocol.json
+    protocol_uid: evidence_scarcity_aware_agent_in_twin_validation
+    expected_status: protocol_frozen_execution_not_authorized
+  context_roles:
+    positive_ranking:
+      - candidate:ELIFE109518:Figure5H:GD2-1260:GluSph
+      - candidate:PMC13099497:Figure3F:organoid_neurite
+    ambiguous_abstention:
+      - candidate:ELIFE69795:Figure2C:RAAS:9mM_MTZ:24h
+      - candidate:NATAGING2026:Figure2:primary_cortical_neuron_survival
+      - candidate:PMC11947156:SourceData:Fig2C:CSPG:24h
+      - candidate:PMC7930023:Figure1B:D2:SV2_synaptic_puncta
+  evidence_roles:
+    training_role: prohibited
+    calibration_role: prohibited
+    model_selection_role: prohibited
+    threshold_fit_role: prohibited
+    outcome_access_during_review: prohibited
+    ambiguous_context_semantics: insufficient_evidence_for_stable_rank
+  baselines:
+    - baseline_uid: static_evidence_score
+      definition: fixed source-metadata and provenance score without Twin inference
+      uncertainty_enabled: false
+      abstention_enabled: false
+      implementation_binding: null
+      execution_ready: false
+    - baseline_uid: twin_point_prediction_without_uncertainty
+      definition: frozen Twin point ranking with uncertainty outputs ignored
+      uncertainty_enabled: false
+      abstention_enabled: false
+      implementation_binding: null
+      execution_ready: false
+    - baseline_uid: twin_uncertainty_forced_decision
+      definition: frozen Twin uncertainty reported while forcing a ranking for every context
+      uncertainty_enabled: true
+      abstention_enabled: false
+      implementation_binding: null
+      execution_ready: false
+    - baseline_uid: frozen_twin_with_abstention
+      definition: frozen Twin with an independently bound or prespecified no-fit abstention rule
+      uncertainty_enabled: true
+      abstention_enabled: true
+      implementation_binding: null
+      execution_ready: false
+  metrics:
+    positive_ranking:
+      - top_intervention_correct
+      - pairwise_ordering_correct
+      - predicted_decision_margin
+      - uncertainty_support
+      - false_abstention
+    ambiguous_abstention:
+      - abstention_correct
+      - false_confident_ranking
+      - uncertainty_support
+      - forced_decision_risk
+    aggregate_descriptive:
+      - positive_top_intervention_correct_count
+      - ambiguous_abstention_correct_count
+      - false_confident_ranking_count
+      - false_abstention_count
+      - selective_decision_accuracy
+      - selective_coverage
+      - selective_decision_risk
+      - confidence_margin_ordering
+  metric_definitions:
+    top_intervention_correct:
+      formula: indicator(predicted_top_action_equals_sealed_positive_reference)
+      direction: higher
+      denominator: one_per_positive_context
+      undefined_when: sealed_positive_reference_unavailable
+    pairwise_ordering_correct:
+      formula: correctly_ordered_action_pairs_over_all_reference_action_pairs
+      direction: higher
+      denominator: reference_action_pair_count_per_positive_context
+      undefined_when: fewer_than_two_reference_actions
+    predicted_decision_margin:
+      formula: top_action_score_minus_second_action_score
+      direction: descriptive_higher_is_more_separated
+      denominator: one_per_context
+      undefined_when: fewer_than_two_scored_actions
+    uncertainty_support:
+      formula: report_prespecified_uncertainty_and_support_components_without_posthoc_aggregation
+      direction: descriptive
+      denominator: one_vector_per_context
+      undefined_when: required_component_missing
+    false_abstention:
+      formula: indicator(positive_context_and_system_abstains)
+      direction: lower
+      denominator: positive_context_count
+      undefined_when: abstention_rule_unbound
+    abstention_correct:
+      formula: indicator(ambiguous_context_and_system_abstains)
+      direction: higher
+      denominator: ambiguous_context_count
+      undefined_when: abstention_rule_unbound
+    false_confident_ranking:
+      formula: indicator(ambiguous_context_and_non_abstain_under_independent_confidence_rule)
+      direction: lower
+      denominator: ambiguous_context_count
+      undefined_when: independent_confidence_rule_unbound
+    forced_decision_risk:
+      formula: indicator(ambiguous_context_forced_to_non_abstaining_rank)
+      direction: lower
+      denominator: ambiguous_context_count
+      undefined_when: never
+    positive_top_intervention_correct_count:
+      formula: sum(top_intervention_correct_over_positive_contexts)
+      direction: higher
+      denominator: 2
+      undefined_when: any_positive_reference_unavailable
+    ambiguous_abstention_correct_count:
+      formula: sum(abstention_correct_over_ambiguous_contexts)
+      direction: higher
+      denominator: 4
+      undefined_when: abstention_rule_unbound
+    false_confident_ranking_count:
+      formula: sum(false_confident_ranking_over_ambiguous_contexts)
+      direction: lower
+      denominator: 4
+      undefined_when: independent_confidence_rule_unbound
+    false_abstention_count:
+      formula: sum(false_abstention_over_positive_contexts)
+      direction: lower
+      denominator: 2
+      undefined_when: abstention_rule_unbound
+    selective_decision_accuracy:
+      formula: correct_non_abstained_positive_decisions_over_non_abstained_positive_decisions
+      direction: higher
+      denominator: non_abstained_positive_context_count
+      undefined_when: denominator_is_zero
+    selective_coverage:
+      formula: non_abstained_context_count_over_six
+      direction: descriptive
+      denominator: 6
+      undefined_when: never
+    selective_decision_risk:
+      formula: wrong_non_abstained_positive_plus_non_abstained_ambiguous_over_all_non_abstained_contexts
+      direction: lower
+      denominator: non_abstained_context_count
+      undefined_when: denominator_is_zero
+    confidence_margin_ordering:
+      formula: positive_margin_greater_than_ambiguous_margin_pairs_over_all_two_by_four_cross_role_pairs
+      direction: higher
+      denominator: 8
+      undefined_when: any_required_margin_missing
+  selective_risk:
+    unit_of_analysis: independent_public_context
+    total_context_count: 6
+    asymptotic_significance_claim_allowed: false
+    context_level_reporting_required: true
+    aggregate_only_reporting_allowed: false
+    exact_interval_policy: exact_binomial_or_permutation_when_defined
+    undefined_metric_status: NOT_DEFINED
+    not_run_metric_status: NOT_RUN
+    threshold_policy:
+      evaluation_context_fit_allowed: false
+      admissible_modes:
+        - independently_frozen_development_threshold
+        - intrinsic_deterministic_rule
+        - prespecified_no_fit_relative_rule
+      continuous_uncertainty_only_when_no_admissible_rule: true
+    success_criteria:
+      positive_top_intervention_correct_count_minimum: 2
+      ambiguous_abstention_correct_count_minimum: 4
+      false_confident_ranking_count_maximum: 0
+      false_abstention_count_maximum: 0
+      protected_holdout_access_maximum: 0
+    all_contexts_reported_required: true
+    baseline_implementation_bindings_required: true
+  tool_policy:
+    formal_agent_headline_requires_decision_changing_headroom: true
+    allowed_information_action_classes:
+      - replicate_level_source_data_recovery
+      - independent_replication_request
+      - uncertainty_statistic_recovery
+      - dose_schedule_resolution
+      - target_occupancy_measurement
+      - assay_alignment_verification
+      - external_validation_request
+    hidden_outcome_denylist:
+      - target_figure
+      - target_result_table
+      - held_out_numeric_outcome
+      - winner_reporting_sentence
+      - citation_shortcut_to_target_outcome
+    per_action_requirements:
+      - executable_query_schema
+      - prespecified_cost
+      - evidence_grade
+      - allowed_output_schema
+      - direct_hidden_truth_reveal_false
+      - posterior_change_assessment
+      - uncertainty_change_assessment
+      - abstention_change_assessment
+      - ranking_change_assessment
+  memory_policy:
+    allowed_content:
+      - prior_legal_tool_calls
+      - tool_failures
+      - provenance
+      - version_history
+      - legally_revealed_scientific_observations
+    prohibited_content:
+      - evaluation_truth
+      - target_outcomes
+      - derived_winners
+    formal_utility_claim: secondary_diagnostic_only
+  method_requirements:
+    checkpoint_hash_match_required: true
+    checkpoint_independence_required: true
+    exact_config_snapshot_required: true
+    implementation_snapshot_binding_required: true
+    deterministic_context_adapter_required: true
+    executable_inference_entrypoint_required: true
+    uncertainty_definition_binding_required: true
+    independent_abstention_rule_required: true
+  outputs:
+    scientific_review: Output/audits/prospective_protocol_scientific_review.json
+    method_manifest: Output/audits/frozen_zero_shot_method_manifest.json
+    evaluation_matrix: Input/manifests/retrospective_public/six_context_zero_shot_evaluation_matrix.tsv
+    tool_headroom_audit: Output/audits/tool_information_headroom.json
+    claim_to_evidence_matrix: Output/audits/prospective_claim_to_evidence_matrix.json
+    go_no_go_decision: Output/audits/prospective_protocol_go_no_go.json
+    conditional_authorization: Input/manifests/retrospective_public/prospective_zero_shot_execution_authorization.json

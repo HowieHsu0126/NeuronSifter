@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/retrospective-public-design-enriched-ranking-intake-preregistration-v1.json",
+  "title": "NeuronSifter design-enriched public CNS ranking intake preregistration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "intake_uid", "preregistration_digest",
+    "preregistered_at", "authorization", "parent_state", "parent_state_digest",
+    "parent_bindings", "search_plan", "selection_policy", "exclusions",
+    "boundaries", "outputs"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-retrospective-public-design-enriched-ranking-intake-preregistration-v1"},
+    "status": {"const": "preregistered_before_metadata_retrieval"},
+    "intake_uid": {"const": "design_enriched_public_cns_ranking_context_completion"},
+    "preregistration_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "preregistered_at": {"type": "string", "minLength": 1},
+    "authorization": {
+      "type": "object",
+      "required": ["mode", "outcome_blind", "bounded", "source_count_cap", "metadata_record_cap", "per_query_cap", "independent_queue_required", "parent_gate", "target", "stop_at_independent_decision_sensitive_groups", "stop_when_queue_exhausted"],
+      "properties": {
+        "mode": {"const": "metadata_only"},
+        "outcome_blind": {"const": true},
+        "bounded": {"const": true},
+        "source_count_cap": {"const": 5},
+        "metadata_record_cap": {"const": 150},
+        "per_query_cap": {"const": 25},
+        "independent_queue_required": {"const": true},
+        "parent_gate": {"const": "2_of_3"},
+        "target": {"const": "one_new_independent_decision_sensitive_group"},
+        "stop_at_independent_decision_sensitive_groups": {"const": 3},
+        "stop_when_queue_exhausted": {"const": true}
+      },
+      "additionalProperties": false
+    },
+    "parent_state": {"type": "object"},
+    "parent_state_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "parent_bindings": {"type": "object"},
+    "search_plan": {"type": "object"},
+    "selection_policy": {"type": "object"},
+    "exclusions": {"type": "object"},
+    "boundaries": {"type": "object"},
+    "outputs": {"type": "object"}
+  }
+}

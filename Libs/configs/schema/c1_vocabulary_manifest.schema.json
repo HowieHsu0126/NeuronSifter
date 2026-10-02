@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/c1_vocabulary_manifest.schema.json",
+  "title": "NeuronSifter C1 vocabulary manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "corpus_uid", "corpus_hash", "scope", "derivation_policy",
+    "feature_normalization_version", "feature_value_normalization_version",
+    "feature_tokenization_policy", "crosswalk_usage",
+    "feature_namespace_aliases", "feature_count", "feature_vocabulary_size",
+    "feature_mapping_sha256", "feature_namespace_counts", "crosswalk", "cell_ontology_count",
+    "cell_ontology_size", "cell_context_policy", "cell_mapping_sha256", "region_ontology_count",
+    "region_ontology_size", "region_context_policy", "region_mapping_sha256",
+    "source_class_count", "source_mapping_sha256", "family_class_count",
+    "family_mapping_sha256", "action_feature_schema_version", "action_descriptor_version",
+    "action_feature_dim", "action_feature_names", "action_category_values",
+    "action_descriptor_sha256", "action_descriptor_record_count", "action_identity_scope",
+    "action_target_set_available_count", "program_vocab_status", "observation_binding_hash",
+    "block_feature_hashes"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-c1-vocabulary-manifest-v1"},
+    "corpus_uid": {"const": "public_foundation_corpus_v1"},
+    "corpus_hash": {"const": "06ae88daf3c44be2c2bb96e51c939554e160b205138ec96f471adb5d82eee791"},
+    "scope": {"const": "reduced_transcriptomics_core"},
+    "derivation_policy": {"const": "read_only_derived_artifact_outside_frozen_v1"},
+    "feature_normalization_version": {"const": "neuronsifter-c1-feature-token-v1"},
+    "feature_value_normalization_version": {"const": "neuronsifter-c1-observation-zscore-leave-one-masked-out-v2"},
+    "feature_tokenization_policy": {"const": "namespace_preserving_gene_token_union_no_cross_namespace_merge"},
+    "crosswalk_usage": {"const": "provenance_binding_and_identity_audit_only"},
+    "feature_namespace_aliases": {"type": "object", "additionalProperties": {"type": "string"}},
+    "feature_count": {"type": "integer", "minimum": 1},
+    "feature_vocabulary_size": {"type": "integer", "minimum": 2},
+    "feature_mapping_sha256": {"$ref": "#/$defs/sha256"},
+    "feature_namespace_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 1}},
+    "crosswalk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mapping_version", "path", "sha256", "record_count"],
+      "properties": {
+        "mapping_version": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "record_count": {"const": 558789}
+      }
+    },
+    "cell_ontology_count": {"type": "integer", "minimum": 0},
+    "cell_ontology_size": {"type": "integer", "minimum": 1},
+    "cell_context_policy": {"const": "source_vocabulary_context_ids_not_graph_ontology_embeddings"},
+    "cell_mapping_sha256": {"$ref": "#/$defs/sha256"},
+    "region_ontology_count": {"type": "integer", "minimum": 0},
+    "region_ontology_size": {"type": "integer", "minimum": 1},
+    "region_context_policy": {"const": "source_vocabulary_context_ids_not_graph_ontology_embeddings"},
+    "region_mapping_sha256": {"$ref": "#/$defs/sha256"},
+    "source_class_count": {"type": "integer", "minimum": 2},
+    "source_mapping_sha256": {"$ref": "#/$defs/sha256"},
+    "family_class_count": {"const": 3},
+    "family_mapping_sha256": {"$ref": "#/$defs/sha256"},
+    "action_feature_schema_version": {"const": "neuronsifter-c1-action-vector-v1"},
+    "action_descriptor_version": {"const": "neuronsifter-c1-physical-exposure-descriptor-v1"},
+    "action_feature_dim": {"const": 8},
+    "action_feature_names": {
+      "const": [
+        "log1p_dose_value", "log1p_duration_hours",
+        "dose_unit=mg", "dose_unit=um",
+        "schedule=explicit_unavailable", "schedule=three_times_per_week",
+        "route=intraperitoneal", "route=not_applicable_in_vitro"
+      ]
+    },
+    "action_category_values": {
+      "const": {
+        "dose_unit": ["mg", "um"],
+        "schedule": ["explicit_unavailable", "three_times_per_week"],
+        "route": ["intraperitoneal", "not_applicable_in_vitro"]
+      }
+    },
+    "action_descriptor_sha256": {"$ref": "#/$defs/sha256"},
+    "action_descriptor_record_count": {"const": 7123},
+    "action_identity_scope": {"const": "physical_exposure_only_without_agent_target_or_occupancy_identity"},
+    "action_target_set_available_count": {"const": 0},
+    "program_vocab_status": {"const": "not_available"},
+    "observation_binding_hash": {"$ref": "#/$defs/sha256"},
+    "block_feature_hashes": {
+      "type": "object",
+      "minProperties": 6,
+      "additionalProperties": {"$ref": "#/$defs/sha256"}
+    }
+  },
+  "$defs": {"sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}

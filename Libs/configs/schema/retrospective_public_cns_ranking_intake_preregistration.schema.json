@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/retrospective-public-cns-ranking-intake-preregistration-v1.json",
+  "title": "NeuronSifter bounded metadata-only CNS ranking intake preregistration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "intake_uid", "preregistration_digest",
+    "preregistered_at", "authorization", "parent_state", "parent_bindings",
+    "search_plan", "selection_policy", "exclusions", "boundaries", "outputs"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-retrospective-public-cns-ranking-intake-preregistration-v1"},
+    "status": {"const": "preregistered_before_metadata_retrieval"},
+    "intake_uid": {"type": "string", "minLength": 1},
+    "preregistration_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "preregistered_at": {"type": "string", "minLength": 1},
+    "authorization": {
+      "type": "object",
+      "required": ["mode", "outcome_blind", "bounded", "source_count_cap", "parent_gate", "target", "stop_at_independent_decision_sensitive_groups", "stop_when_queue_exhausted"],
+      "properties": {
+        "mode": {"const": "metadata_only"},
+        "outcome_blind": {"const": true},
+        "bounded": {"const": true},
+        "source_count_cap": {"const": 5},
+        "parent_gate": {"const": "2_of_3"},
+        "target": {"const": "one_new_independent_decision_sensitive_group"},
+        "stop_at_independent_decision_sensitive_groups": {"const": 3},
+        "stop_when_queue_exhausted": {"const": true}
+      },
+      "additionalProperties": false
+    },
+    "parent_state": {"type": "object"},
+    "parent_bindings": {"type": "object"},
+    "search_plan": {"type": "object"},
+    "selection_policy": {"type": "object"},
+    "exclusions": {"type": "object"},
+    "boundaries": {
+      "type": "object",
+      "required": ["abstracts_retrieved_before_queue_freeze", "full_text_retrieved_before_queue_freeze", "figures_retrieved_before_queue_freeze", "outcome_values_retrieved_before_queue_freeze", "observed_effect_used_for_priority", "p_values_used_for_priority", "protected_holdout_access"],
+      "properties": {
+        "abstracts_retrieved_before_queue_freeze": {"const": false},
+        "full_text_retrieved_before_queue_freeze": {"const": false},
+        "figures_retrieved_before_queue_freeze": {"const": false},
+        "outcome_values_retrieved_before_queue_freeze": {"const": false},
+        "observed_effect_used_for_priority": {"const": false},
+        "p_values_used_for_priority": {"const": false},
+        "protected_holdout_access": {"const": 0},
+        "existing_frozen_queue_mutation_allowed": {"const": false},
+        "existing_refresh_queue_mutation_allowed": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "outputs": {"type": "object"}
+  }
+}

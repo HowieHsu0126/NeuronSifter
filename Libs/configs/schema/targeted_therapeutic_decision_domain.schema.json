@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/targeted-therapeutic-decision-domain-v1.json",
+  "title": "NeuronSifter targeted matched-control therapeutic decision domain",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "status",
+    "gate_uid",
+    "gate_resolved",
+    "therapeutic_objective_prespecified",
+    "matched_control_outcomes_materialized",
+    "classification_is_based_on_real_outcomes",
+    "decision_sensitive_domain_available",
+    "model_training_domain_qualified",
+    "source_count",
+    "observation_count",
+    "objective_gene_outcome_count",
+    "candidate_set_count",
+    "multi_action_candidate_set_count",
+    "qualified_decision_candidate_set_count",
+    "candidate_classifications",
+    "development_splits_frozen",
+    "world_action_training_authorized",
+    "agent_in_twin_authorized",
+    "coevolution_authorized",
+    "model_predictions_inspected",
+    "historical_decision_domain_artifacts_mutated",
+    "publication_comparison_open",
+    "input_bindings",
+    "implementation_bindings",
+    "output_bindings",
+    "evidence_role",
+    "publication_claim_eligible",
+    "protected_holdout_access"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-targeted-therapeutic-decision-domain-v1"},
+    "status": {
+      "enum": [
+        "therapeutic_decision_domain_qualified",
+        "blocked_insufficient_decision_sensitive_therapeutic_outcomes"
+      ]
+    },
+    "gate_uid": {"const": "real_intervention_decision_domain_qualified"},
+    "gate_resolved": {"const": true},
+    "therapeutic_objective_prespecified": {"const": true},
+    "matched_control_outcomes_materialized": {"const": true},
+    "classification_is_based_on_real_outcomes": {"const": true},
+    "decision_sensitive_domain_available": {"type": "boolean"},
+    "model_training_domain_qualified": {"type": "boolean"},
+    "source_count": {"type": "integer", "minimum": 1},
+    "observation_count": {"type": "integer", "minimum": 1},
+    "objective_gene_outcome_count": {"type": "integer", "minimum": 1},
+    "candidate_set_count": {"type": "integer", "minimum": 1},
+    "multi_action_candidate_set_count": {"type": "integer", "minimum": 0},
+    "qualified_decision_candidate_set_count": {"type": "integer", "minimum": 0},
+    "candidate_classifications": {"type": "object", "minProperties": 1},
+    "development_splits_frozen": {"type": "boolean"},
+    "world_action_training_authorized": {"type": "boolean"},
+    "agent_in_twin_authorized": {"const": false},
+    "coevolution_authorized": {"const": false},
+    "model_predictions_inspected": {"const": false},
+    "historical_decision_domain_artifacts_mutated": {"const": false},
+    "publication_comparison_open": {"const": false},
+    "evidence_role": {"const": "development_only"},
+    "publication_claim_eligible": {"const": false},
+    "protected_holdout_access": {"const": 0},
+    "input_bindings": {"$ref": "#/$defs/artifactBindings"},
+    "implementation_bindings": {"$ref": "#/$defs/artifactBindings"},
+    "output_bindings": {"$ref": "#/$defs/artifactBindings"}
+  },
+  "$defs": {
+    "artifactIdentity": {
+      "type": "object",
+      "required": ["path", "bytes", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "bytes": {"type": "integer", "minimum": 0},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      },
+      "additionalProperties": false
+    },
+    "artifactBindings": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"$ref": "#/$defs/artifactIdentity"}
+    }
+  },
+  "additionalProperties": true
+}

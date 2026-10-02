@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/c1_result_row.schema.json",
+  "title": "NeuronSifter C1 result catalog row",
+  "type": "object",
+  "required": ["claim_id", "experiment_id", "task_id", "holdout_id", "model_id", "corpus_hash", "split_hash", "seed", "status", "provenance"],
+  "properties": {
+    "claim_id": {"const": "C1"},
+    "experiment_id": {"type": "string", "minLength": 1},
+    "task_id": {"type": "string", "minLength": 1},
+    "holdout_id": {"type": "string", "minLength": 1},
+    "model_id": {"type": "string", "minLength": 1},
+    "checkpoint_hash": {"type": "string"},
+    "corpus_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "split_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "seed": {"type": "integer", "minimum": 0},
+    "metric": {"type": "string"},
+    "value": {},
+    "unit": {"type": "string"},
+    "baseline": {"type": "string"},
+    "paired_delta": {},
+    "ci_low": {},
+    "ci_high": {},
+    "p_adjustment": {},
+    "bootstrap_unit": {"type": "string"},
+    "status": {"enum": ["requires_experiment_result", "trained", "evaluated", "not_available", "failed"]},
+    "provenance": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": false
+}

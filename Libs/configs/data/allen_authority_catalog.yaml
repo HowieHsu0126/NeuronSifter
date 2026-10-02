@@ -1,0 +1,76 @@
+allen_authority_catalog:
+  family_count: 12
+  permission_request_contact: https://alleninstitute.org/contact-us/
+  families:
+    allen_reference_atlas_ccf:
+      display_name: Allen Mouse Common Coordinate Framework
+      product_record: https://atlas.brain-map.org/
+      dataset_record: https://portal.brain-map.org/atlases-and-data/rnaseq/mouse-brain-atlas
+      release_locator: https://portal.brain-map.org/atlases-and-data/rnaseq/mouse-brain-atlas
+      citation_record: https://alleninstitute.org/citation-policy/
+    allen_abc_mouse:
+      display_name: Allen Brain Cell Atlas mouse
+      product_record: https://alleninstitute.github.io/abc_atlas_access/intro.html
+      dataset_record: https://allen-brain-cell-atlas.s3.amazonaws.com/releases/20250531/manifest.json
+      release_locator: https://allen-brain-cell-atlas.s3.amazonaws.com/releases/20250531/manifest.json
+      citation_record: https://alleninstitute.org/citation-policy/
+    allen_abc_human:
+      display_name: Allen Brain Cell Atlas human
+      product_record: https://alleninstitute.github.io/abc_atlas_access/intro.html
+      dataset_record: https://allen-brain-cell-atlas.s3.amazonaws.com/releases/20250531/manifest.json
+      release_locator: https://allen-brain-cell-atlas.s3.amazonaws.com/releases/20250531/manifest.json
+      citation_record: https://alleninstitute.org/citation-policy/
+    allen_abc_human_ad:
+      display_name: Seattle Alzheimer Disease Brain Cell Atlas
+      product_record: https://alleninstitute.github.io/abc_atlas_access/intro.html
+      dataset_record: https://allen-brain-cell-atlas.s3.amazonaws.com/releases/20250531/manifest.json
+      release_locator: https://allen-brain-cell-atlas.s3.amazonaws.com/releases/20250531/manifest.json
+      citation_record: https://alleninstitute.org/citation-policy/
+    allen_cell_types_transcriptomics:
+      display_name: Allen Cell Types Database transcriptomics
+      product_record: https://celltypes.brain-map.org/
+      dataset_record: https://celltypes.brain-map.org/rnaseq/mouse
+      release_locator: https://celltypes.brain-map.org/rnaseq/mouse
+      citation_record: https://alleninstitute.org/citation-policy/
+    allen_cell_types_morphology:
+      display_name: Allen Cell Types Database morphology
+      product_record: https://celltypes.brain-map.org/
+      dataset_record: https://celltypes.brain-map.org/mouse/brain
+      release_locator: https://celltypes.brain-map.org/mouse/brain
+      citation_record: https://alleninstitute.org/citation-policy/
+    allen_cell_types_ephys:
+      display_name: Allen Cell Types Database electrophysiology
+      product_record: https://celltypes.brain-map.org/
+      dataset_record: https://celltypes.brain-map.org/mouse/brain
+      release_locator: https://celltypes.brain-map.org/mouse/brain
+      citation_record: https://alleninstitute.org/citation-policy/
+    allen_human_brain_microarray:
+      display_name: Allen Human Brain Atlas microarray
+      product_record: https://human.brain-map.org/
+      dataset_record: https://human.brain-map.org/static/download
+      release_locator: https://human.brain-map.org/static/download
+      citation_record: https://alleninstitute.org/citation-policy/
+    allen_human_brain_mri:
+      display_name: Allen Human Brain Atlas MRI
+      product_record: https://human.brain-map.org/
+      dataset_record: https://human.brain-map.org/static/download
+      release_locator: https://human.brain-map.org/static/download
+      citation_record: https://alleninstitute.org/citation-policy/
+    allen_mouse_connectivity:
+      display_name: Allen Mouse Brain Connectivity Atlas
+      product_record: https://connectivity.brain-map.org/
+      dataset_record: https://connectivity.brain-map.org/projection
+      release_locator: https://connectivity.brain-map.org/projection
+      citation_record: https://alleninstitute.org/citation-policy/
+    allen_developing_mouse:
+      display_name: Allen Developing Mouse Brain Atlas
+      product_record: https://developingmouse.brain-map.org/
+      dataset_record: https://developingmouse.brain-map.org/
+      release_locator: https://developingmouse.brain-map.org/
+      citation_record: https://alleninstitute.org/citation-policy/
+    allen_brain_observatory:
+      display_name: Allen Brain Observatory visual coding
+      product_record: https://observatory.brain-map.org/visualcoding
+      dataset_record: https://observatory.brain-map.org/visualcoding
+      release_locator: https://observatory.brain-map.org/visualcoding
+      citation_record: https://alleninstitute.org/citation-policy/

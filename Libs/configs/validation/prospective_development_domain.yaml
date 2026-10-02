@@ -1,0 +1,56 @@
+prospective_development_domain:
+  schema_version: neuronsifter-prospective-development-domain-config-v1
+  audit_uid: prospective_zero_shot_development_domain_authority
+  reviewed_on: '2026-08-28'
+  required_roles:
+    - TRAIN
+    - MODEL_SELECTION_VALIDATION
+    - UNCERTAINTY_CALIBRATION
+    - NON_EVAL_QUALIFICATION
+  independence_dimensions:
+    - publication
+    - biological_context
+    - action_family
+    - endpoint_objective
+    - source_lineage
+  target_action_modalities:
+    - small_molecule_compound
+    - protein_biologic_delivery
+  allowed_development_inputs:
+    - public_metadata
+    - public_development_observations
+    - public_simulator_trajectories
+    - prespecified_mechanistic_metadata
+  prohibited_inputs:
+    - six_context_numeric_outcomes
+    - six_context_ranking_winners
+    - six_context_bootstrap_results
+    - protected_holdout
+  inputs:
+    public_corpus_evidence: Output/audits/public_foundation_corpus_rescue_evidence_bundle.json
+    public_corpus_splits: Output/audits/public_foundation_corpus_rescue_frozen_splits.json
+    public_observation_blocks: Output/audits/public_foundation_corpus_rescue_canonical_observation_blocks.json
+    public_action_catalog: Output/audits/public_foundation_corpus_rescue_structured_action_catalog.json
+    c1_capability: Output/audits/c1_rescue_current_capability_matrix.json
+    c1_feasibility: Output/audits/c1_rescue_feasibility_decision.json
+    c2_trajectory_authority: Output/audits/c2_trajectory_authority.json
+    c2_action_audit: Output/audits/c2_structured_action_audit.json
+    c2_holdout_reachability: Output/audits/c2_holdout_reachability.json
+    c2_independent_domain: Output/audits/c2r_independent_domain_decision.json
+    c2_entry_gate: Output/audits/c2r_entry_gate_decision.json
+    c2_restricted_domain: Output/audits/c2_domain_readiness.json
+    checkpoint_authority: Output/audits/frozen_zero_shot_method_authority.json
+    six_context_matrix: Input/manifests/retrospective_public/six_context_zero_shot_evaluation_matrix.tsv
+  stop_policy:
+    insufficient_domain_status: NO_INDEPENDENT_PROSPECTIVE_TRAINING_DOMAIN
+    downstream_status: NOT_RUN_HARD_STOP
+    new_public_data_intake_authorized: false
+    training_authorized: false
+    gpu_authorized: false
+  outputs:
+    development_data_authority: Output/audits/prospective_development_data_authority.json
+    semantic_exclusion_audit: Output/audits/six_context_semantic_exclusion_audit.json
+    method_preregistration: Output/audits/prospective_method_preregistration.json
+    reconstruction_decision: Output/audits/prospective_twin_reconstruction_decision.json
+    conditional_authorization: Input/manifests/retrospective_public/prospective_twin_training_authorization.json
+    validation_audit: Output/audits/prospective_development_domain_validation.json

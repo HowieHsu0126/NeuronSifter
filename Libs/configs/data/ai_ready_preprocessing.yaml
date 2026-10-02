@@ -1,0 +1,218 @@
+ai_ready_preprocessing:
+  local_root: Input/processed/ai_ready
+  relative_paths:
+    simulation_manifest: ai_ready_simulation_manifest.tsv
+    audit_report: ai_ready_audit.json
+  simulation_audit:
+    local_root: Input/processed/simulation_audit
+    relative_paths:
+      qc_catalog: simulation_qc_catalog.tsv
+      inventory_audit: simulation_inventory_audit.json
+      coverage_audit: simulation_coverage_audit.json
+      split_leakage_audit: simulation_split_leakage_audit.json
+      pair_alignment_audit: simulation_pair_alignment_audit.tsv
+      teacher_uncertainty_audit: simulation_teacher_uncertainty_audit.tsv
+      numeric_audit: simulation_numeric_audit.tsv
+      qc_summary: simulation_qc_summary.json
+    active_learning_ingest:
+      enabled: true
+      local_root: Input/processed/active_learning
+      result_manifest_template: simulation_result_manifest_{round_uid}.tsv
+      teacher_update_template: teacher_manifest_update_{round_uid}.tsv
+      require_axis_hashes: true
+      require_teacher_uncertainty_path: true
+      require_source_holdout_role: true
+      allowed_main_qc_uses:
+      - main_pretraining
+      allowed_calibration_qc_uses:
+      - weak_teacher_calibration
+      reject_qc_use: reject
+      stress_qc_use: stress_test_only
+    teacher_levels:
+      mesoscopic_solver_teacher:
+        expected_species_count: 15
+        expected_horizon: 28
+        expected_region_count: 6
+        expected_compartment_count: 6
+        default_uncertainty_value: 0.1
+      full_microenvironment_teacher:
+        expected_species_count: 15
+        expected_horizon: 28
+        expected_region_count: 6
+        expected_compartment_count: 6
+        contract_version: ad_full_microenvironment_v2
+        default_uncertainty_value: 0.05
+    uid_policy:
+      canonical_uid_fields:
+      - disease_program
+      - contract_version
+      - teacher_level
+      - source_uid
+      - source_simulation_uid
+      - source_parameter_uid
+      - regimen_uid
+      - trajectory_index
+      family_uid_fields:
+      - disease_program
+      - source_simulation_uid
+      - source_parameter_uid
+      - regimen_uid
+      paired_uid_field: source_simulation_uid
+    split_audit:
+      required_splits:
+      - trajectory_random
+      - family_holdout
+      - regimen_holdout
+      - target_program_holdout
+      - source_holdout
+      forbid_uid_overlap: true
+      forbid_family_overlap: true
+      forbid_regimen_overlap: true
+      forbid_target_program_overlap: true
+      forbid_content_hash_overlap: true
+      source_holdout_roles:
+        training_evidence:
+        - open_targets
+        - chembl
+        - bindingdb
+        - drugcentral
+        - dgidb
+        - drugcomb
+        retrospective_case_anchor:
+        - ad_literature_anchor
+        downstream_validation:
+        - autodock_vina_gnina
+        teacher_generator:
+        - osp_pksim_mobi
+    numeric_qc:
+      scan_enabled: true
+      batch_size: 16
+      reject_on_nan: true
+      reject_on_inf: true
+      reject_negative_concentration: true
+      reject_negative_pathology: true
+      reject_negative_spike_rate: true
+      occupancy_min: 0.0
+      occupancy_max: 1.05
+      max_terminal_explosion_ratio: 100.0
+      min_dynamic_standard_deviation: 1.0e-9
+      concentration_like_species:
+      - free_drug
+      - target_bound_drug
+      - amyloid_beta_soluble
+      - calcium_concentration
+      pathology_like_species:
+      - misfolded_protein_load
+      - aggregate_burden
+      - neuroinflammation
+      - amyloid_plaque
+      - phosphorylated_tau
+      - inflammatory_mediator
+      - clearance_flux
+      - circuit_instability
+      - vascular_perivascular_transport
+      spike_rate_species:
+      - spike_rate
+      occupancy_species:
+      - target_bound_drug
+    mechanism_qc:
+      require_route_schedule_dose: true
+      require_complete_species_set: true
+      check_exposure_occupancy_bounds: true
+      check_pathology_nonnegative: true
+      check_ephys_range: true
+      ephys_ranges:
+        membrane_voltage:
+          min: -120.0
+          max: 80.0
+        calcium_concentration:
+          min: 0.0
+          max: 10.0
+        spike_rate:
+          min: 0.0
+          max: 500.0
+    uncertainty_qc:
+      require_uncertainty_tensor: true
+      min_positive_rate: 1.0
+      high_confidence_uncertainty_max: 0.075
+      medium_confidence_uncertainty_max: 0.15
+      unreliable_uncertainty_max: 1.0
+    grading:
+      grade_a_min_score: 0.95
+      grade_b_min_score: 0.80
+      grade_c_min_score: 0.60
+      sample_weight_by_grade:
+        A: 1.0
+        B: 0.5
+        C: 0.1
+        D: 0.0
+        S: 0.0
+      qc_use_by_grade:
+        A: main_pretraining
+        B: main_pretraining
+        C: weak_teacher_calibration
+        D: reject
+        S: stress_test_only
+    readiness_gates:
+      g2_100k:
+        full_min_count: 100000
+        schema_pass_rate: 0.999
+        max_hard_reject_rate: 0.02
+        min_train_eligible_rate: 0.80
+        min_high_or_medium_confidence_rate: 0.80
+        species_coverage_complete_rate: 0.95
+        require_zero_split_leakage: true
+      g3_300k:
+        full_min_count: 300000
+        counterfactual_pair_min_count: 30000
+      g4_500k:
+        full_min_count: 500000
+        counterfactual_pair_min_count: 50000
+        stress_set_min_count: 25000
+      g5_1m:
+        full_min_count: 1000000
+        counterfactual_pair_min_count: 100000
+  volume_targets:
+    target_simulation_count: 1000000
+    pilot_full_microenvironment_trajectory_count: 111168
+    final_full_microenvironment_trajectory_count: 1000512
+    minimum_full_microenvironment_trajectory_count: 1000000
+    minimum_mesoscopic_teacher_trajectory_count: 0
+    mesoscopic_blocks_mainline_readiness: false
+  disease_gate:
+    enabled: true
+    primary_disease_program: ad_control
+    training_manifest_requires_primary_disease_only: true
+    non_primary_processed_rows_policy: retain_compatibility_exclude_from_ai_ready_training
+  readiness_status_names:
+    shortfall: schema_ready_volume_shortfall
+    pilot_ready: pilot_volume_ready_provisional_parameters
+    million_ready: million_volume_ready_provisional_parameters
+  parameter_evidence_status:
+    active_policy: temporary_acceptance_with_provisional_evidence
+    required_manifest_note: provisional_parameter_evidence
+  split_policy:
+    hash_algorithm: sha256
+    modulus: 10
+    validation_remainders:
+    - 8
+    test_remainders:
+    - 9
+  source_collections:
+    mesoscopic_solver_teacher:
+      catalog_path: Input/processed/simulation_teacher_ready/simulation_teacher_catalog.tsv
+      uid_field: simulation_teacher_uid
+      trajectory_index_policy: row_order
+      trajectory_store_field: trajectory_store_path
+      required_trajectory_store: Input/processed/dynamics_ready/public_ad_meso/trajectory_store.zarr
+    full_microenvironment_teacher:
+      catalog_path: Input/processed/full_microenvironment_teacher_ready/full_microenvironment_teacher_catalog.tsv
+      uid_field: teacher_uid
+      trajectory_index_field: trajectory_index
+      trajectory_store_field: trajectory_store_path
+      required_trajectory_store: Input/processed/full_microenvironment_teacher_ready/trajectory_store.zarr
+      required_teacher_family: ad_full_microenvironment_main_dynamics
+    world_state_observation:
+      catalog_path: Input/processed/world_state_ready/world_state_catalog.tsv
+      uid_field: world_state_uid
+      rollout_ready_field: rollout_ready_flag

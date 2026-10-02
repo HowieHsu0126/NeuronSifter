@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/therapeutic-objective-namespace-binding-v2.json",
+  "title": "NeuronSifter frozen therapeutic objective namespace binding audit",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "created_at",
+    "objective_uid",
+    "objective_namespace",
+    "objective_freeze_status",
+    "objective_member_count",
+    "components",
+    "source_bindings",
+    "objective_namespace_bound",
+    "outcome_driven_mapping_choices",
+    "ambiguous_mapping_policy_frozen",
+    "aggregation_rule",
+    "protected_holdout_access"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-therapeutic-objective-namespace-binding-v2"},
+    "created_at": {"type": "string", "minLength": 1},
+    "objective_uid": {"const": "ad_transcriptomic_therapeutic_benefit_source_context_v1"},
+    "objective_namespace": {"const": "species_scoped_ncbi_gene_or_symbol"},
+    "objective_freeze_status": {"const": "frozen_before_outcome_materialization"},
+    "objective_member_count": {"type": "integer", "minimum": 1},
+    "components": {"type": "array", "minItems": 1},
+    "source_bindings": {"type": "object"},
+    "objective_namespace_bound": {"type": "boolean"},
+    "outcome_driven_mapping_choices": {"const": false},
+    "ambiguous_mapping_policy_frozen": {"const": true},
+    "aggregation_rule": {"const": "median_over_unique_objective_member_features_prespecified_before_outcomes"},
+    "protected_holdout_access": {"const": 0}
+  },
+  "additionalProperties": true
+}

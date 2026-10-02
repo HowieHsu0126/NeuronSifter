@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/retrospective-public-therapeutic-evidence-v1.json",
+  "title": "NeuronSifter retrospective public therapeutic evidence contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "contract_version", "status", "route", "public_boundary", "evidence_grades", "admission", "context_matching", "summary_statistics", "qualification", "provenance", "outputs"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-retrospective-public-therapeutic-evidence-v1"},
+    "contract_version": {"const": "v1"},
+    "status": {"const": "frozen_before_evidence_materialization"},
+    "route": {"const": "PUBLIC_RETROSPECTIVE_THERAPEUTIC_EVIDENCE_QUALIFICATION"},
+    "public_boundary": {"$ref": "#/$defs/publicBoundary"},
+    "evidence_grades": {"$ref": "#/$defs/evidenceGrades"},
+    "admission": {"$ref": "#/$defs/admission"},
+    "context_matching": {"$ref": "#/$defs/contextMatching"},
+    "summary_statistics": {"$ref": "#/$defs/summaryStatistics"},
+    "qualification": {"$ref": "#/$defs/qualification"},
+    "provenance": {"$ref": "#/$defs/provenance"},
+    "outputs": {"$ref": "#/$defs/outputs"}
+  },
+  "$defs": {
+    "publicBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["strict_public_only", "controlled_access_records_allowed", "unpublished_partner_records_allowed", "evidence_role", "publication_claim_eligible", "model_predictions_inspected", "author_prose_as_ground_truth", "simulator_or_docking_as_empirical_truth", "protected_holdout_access"],
+      "properties": {
+        "strict_public_only": {"const": true},
+        "controlled_access_records_allowed": {"const": false},
+        "unpublished_partner_records_allowed": {"const": false},
+        "evidence_role": {"const": "retrospective_qualification"},
+        "publication_claim_eligible": {"const": false},
+        "model_predictions_inspected": {"const": false},
+        "author_prose_as_ground_truth": {"const": false},
+        "simulator_or_docking_as_empirical_truth": {"const": false},
+        "protected_holdout_access": {"const": 0}
+      }
+    },
+    "grade": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["name", "formal_role", "formal_truth_eligible"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "formal_role": {"type": "string", "minLength": 1},
+        "formal_truth_eligible": {"type": "boolean"}
+      }
+    },
+    "evidenceGrades": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["A", "B", "C", "D", "M"],
+      "properties": {
+        "A": {"$ref": "#/$defs/grade"},
+        "B": {"$ref": "#/$defs/grade"},
+        "C": {"$ref": "#/$defs/grade"},
+        "D": {"$ref": "#/$defs/grade"},
+        "M": {"$ref": "#/$defs/grade"}
+      }
+    },
+    "admission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required_source_fields", "required_outcome_fields", "formal_grades", "non_formal_grades", "allowed_public_access_status", "missing_value_policy", "inferred_context_or_action_policy", "common_control_required", "minimum_candidate_actions", "minimum_biological_replicates_per_arm", "objective_selection_outcome_blind", "empirical_outcome_must_be_distinct_from_tool_output"],
+      "properties": {
+        "required_source_fields": {"type": "array", "minItems": 13, "uniqueItems": true},
+        "required_outcome_fields": {"type": "array", "minItems": 8, "uniqueItems": true},
+        "formal_grades": {"const": ["A", "B", "C"]},
+        "non_formal_grades": {"const": ["D", "M"]},
+        "allowed_public_access_status": {"const": "public"},
+        "missing_value_policy": {"const": "explicit_unknown_or_explicit_unavailable"},
+        "inferred_context_or_action_policy": {"const": "reject"},
+        "common_control_required": {"const": true},
+        "minimum_candidate_actions": {"const": 2},
+        "minimum_biological_replicates_per_arm": {"const": 2},
+        "objective_selection_outcome_blind": {"const": true},
+        "empirical_outcome_must_be_distinct_from_tool_output": {"const": true}
+      }
+    },
+    "contextMatching": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["exact_match_fields", "cross_context_comparison_allowed", "cross_assay_comparison_allowed", "cross_time_window_comparison_allowed", "cross_publication_summary_pooling_allowed"],
+      "properties": {
+        "exact_match_fields": {"type": "array", "minItems": 7, "uniqueItems": true},
+        "cross_context_comparison_allowed": {"const": false},
+        "cross_assay_comparison_allowed": {"const": false},
+        "cross_time_window_comparison_allowed": {"const": false},
+        "cross_publication_summary_pooling_allowed": {"const": false}
+      }
+    },
+    "summaryStatistics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["effect_estimator", "direction_normalization", "variance_model", "sd_sem_conversion", "ci_conversion", "ci_default_confidence_level", "missing_variance_policy", "pooled_variance_across_publications", "summary_statistic_is_not_individual_replicate_claim"],
+      "properties": {
+        "effect_estimator": {"const": "control_referenced_difference_after_direction_normalization"},
+        "direction_normalization": {"const": "prespecified_objective_direction_only"},
+        "variance_model": {"const": "independent_arm_mean_sampling_variance"},
+        "sd_sem_conversion": {"const": "sem_times_sqrt_n"},
+        "ci_conversion": {"const": "two_sided_t_interval_with_reported_confidence_level"},
+        "ci_default_confidence_level": {"const": 0.95},
+        "missing_variance_policy": {"const": "reject_formal_evidence"},
+        "pooled_variance_across_publications": {"const": "prohibited"},
+        "summary_statistic_is_not_individual_replicate_claim": {"const": true}
+      }
+    },
+    "qualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["statistic_family", "bootstrap_resamples", "bootstrap_seed", "confidence_interval", "pairwise_comparison", "multiple_arm_policy", "rank_probability_required", "uncertainty_calibration_required", "decision_sensitive_min_top_probability", "decision_sensitive_min_benefit_probability", "weakly_decision_sensitive_min_top_probability", "weakly_decision_sensitive_min_benefit_probability", "rank_margin_threshold", "near_null_absolute_score_maximum", "point_estimate_only_is_insufficient"],
+      "properties": {
+        "statistic_family": {"type": "object", "required": ["replicate_grade", "summary_grade"], "properties": {"replicate_grade": {"const": "nonparametric_bootstrap"}, "summary_grade": {"const": "parametric_normal_summary_bootstrap"}}, "additionalProperties": false},
+        "bootstrap_resamples": {"const": 2000},
+        "bootstrap_seed": {"const": 3407},
+        "confidence_interval": {"const": "percentile_95"},
+        "pairwise_comparison": {"const": "common_control_within_context"},
+        "multiple_arm_policy": {"const": "shared_control_pairwise_contrasts_with_control_correlation_recorded"},
+        "rank_probability_required": {"const": true},
+        "uncertainty_calibration_required": {"const": true},
+        "decision_sensitive_min_top_probability": {"const": 0.95},
+        "decision_sensitive_min_benefit_probability": {"const": 0.95},
+        "weakly_decision_sensitive_min_top_probability": {"const": 0.8},
+        "weakly_decision_sensitive_min_benefit_probability": {"const": 0.8},
+        "rank_margin_threshold": {"const": 0.1},
+        "near_null_absolute_score_maximum": {"const": 0.1},
+        "point_estimate_only_is_insufficient": {"const": true}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["registry_path", "required_source_locator", "required_content_hash", "required_snapshot_identity", "required_publication_date", "current_live_web_search_allowed", "current_database_state_as_snapshot_allowed"],
+      "properties": {
+        "registry_path": {"type": "string", "minLength": 1},
+        "required_source_locator": {"const": true},
+        "required_content_hash": {"const": true},
+        "required_snapshot_identity": {"const": true},
+        "required_publication_date": {"const": true},
+        "current_live_web_search_allowed": {"const": false},
+        "current_database_state_as_snapshot_allowed": {"const": false}
+      }
+    },
+    "outputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract_audit", "statistical_policy", "evidence_registry"],
+      "properties": {
+        "contract_audit": {"type": "string", "minLength": 1},
+        "statistical_policy": {"type": "string", "minLength": 1},
+        "evidence_registry": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

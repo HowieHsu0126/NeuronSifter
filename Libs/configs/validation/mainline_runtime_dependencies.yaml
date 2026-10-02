@@ -1,0 +1,314 @@
+# Read-only inputs required by the BASELINE_FIRST C2 gate tests.  This manifest is staged
+# with exact hashes into node-local scratch; it is not a declaration that any
+# of the blocked data can be used for headline training.
+runtime_dependencies:
+  - Input/processed/simulation_audit/simulation_qc_catalog.tsv
+  - Input/processed/simulation_audit/simulation_split_leakage_audit.json
+  - Input/processed/dynamics_ready/public_ad_meso/simulation_catalog.tsv
+  - Input/processed/action_ready/regimen_catalog.tsv
+  - Input/processed/action_ready/drug_program_catalog.tsv
+  - Input/processed/dynamics_ready/public_ad_meso/sample_alignment_catalog.tsv
+  - Input/processed/intervention_program/intervention_program_catalog.tsv
+  - Input/processed/model_input/study_bundle_catalog.tsv
+  - Input/processed/simulation_audit/simulation_pair_alignment_audit.tsv
+  - Input/processed/simulation_audit/simulation_qc_summary.json
+  - Input/processed/structural_prior/public_ad_meso/region_prior_catalog.tsv
+  - Input/canonical/public_foundation_corpus_v1/blocks/cellxgene_census/874e8a85-7fe2-487d-9fef-8fe7f0a17872/b8bc4cab7c8a3e57/block_manifest.json
+  - Input/canonical/public_foundation_corpus_v1/blocks/cellxgene_census/874e8a85-7fe2-487d-9fef-8fe7f0a17872/b8bc4cab7c8a3e57/feature_metadata.parquet
+  - Input/canonical/public_foundation_corpus_v1/blocks/geo/GSE28146/35dbdac27abdb900/block_manifest.json
+  - Input/canonical/public_foundation_corpus_v1/blocks/geo/GSE28146/35dbdac27abdb900/sample_metadata.parquet
+  - Input/canonical/public_foundation_corpus_v1/blocks/clue_lincs/NPC_NEU_TRT_CP/5e51623d38597355/observations.parquet
+  - Input/canonical/public_foundation_corpus_rescue/blocks/geo/GSE262992/b3da1aaeebb91094/block_manifest.json
+  - Input/canonical/public_foundation_corpus_rescue/splits/reduced_transcriptomics_core_v2/regimen_holdout.validation.tsv
+  - Input/canonical/public_foundation_corpus_rescue/splits/reduced_transcriptomics_core_v2/source_publication_holdout.test.tsv
+  - Input/processed/model_input/studies/arrayexpress/E-GEOD-28146/sample_index.parquet
+  - Input/processed/model_input/studies/arrayexpress/E-GEOD-6613/sample_index.parquet
+  - Input/processed/model_input/studies/geo/GSE13214/sample_index.parquet
+  - Input/processed/model_input/studies/metabolomics_workbench/ST000046/sample_index.parquet
+  - Input/processed/model_input/studies/metabolomics_workbench/ST000047/sample_index.parquet
+  - Input/raw/clue_lincs/downloads/builds/TouchstoneV1.1/files/GSE92742_Broad_LINCS_pert_info.txt.gz
+  - Output/audits/public_foundation_corpus_evidence_bundle.json
+  - Output/audits/public_foundation_corpus_evidence_validation.json
+  - Output/audits/public_foundation_corpus_rescue_evidence_bundle.json
+  - Output/audits/public_foundation_corpus_rescue_evidence_validation.json
+  - Output/audits/public_foundation_corpus_rescue_canonical_observation_blocks.json
+  - Output/audits/baseline_registry_57_entry_snapshot.json
+  - Output/audits/baseline_registry_57_to_27_migration.tsv
+  - Output/audits/baseline_registry_reduction_contract.json
+  - Output/audits/baseline_registry_reduction_gate.json
+  - Output/audits/baseline_registry_reduction_validation.json
+  - Output/audits/baseline_claim_scoped_authorization.json
+  - Output/audits/baseline_registry_semantic_validation.json
+  - Libs/configs/schema/public_foundation_corpus_crosswalk.schema.json
+  - Libs/configs/schema/ablation_registry.schema.json
+  - Libs/configs/schema/c2r_entry_gate.schema.json
+  - Libs/configs/schema/coevolution_comparison_registry.schema.json
+  - Libs/configs/schema/deployment_comparison_registry.schema.json
+  - Libs/configs/schema/foundation_state_c1_rescue.schema.json
+  - Libs/configs/schema/phase1a_source_governance.schema.json
+  - Libs/configs/schema/related_work_registry.schema.json
+  # These ignored schemas are consumed directly by BASELINE_FIRST regression builders
+  # and must be staged beside the clean Git candidate.
+  - Libs/configs/schema/agent_twin_wp2_development.schema.json
+  - Libs/configs/schema/baseline_first_contract.schema.json
+  - Libs/configs/schema/baseline_registry_reduction.schema.json
+  - Libs/configs/schema/evidence_union.schema.json
+  - Libs/configs/schema/gate_writer_authority.schema.json
+  - Libs/configs/schema/phase1f_perturbation_pair_block.schema.json
+  - Libs/configs/schema/public_foundation_corpus.schema.json
+  - Libs/configs/schema/public_foundation_corpus_evidence.schema.json
+  - Libs/configs/schema/public_foundation_corpus_g2_m1_admission_audit.schema.json
+  - Libs/configs/schema/public_foundation_corpus_storage_ledger.schema.json
+  - Libs/configs/schema/round11g_execution_input_bundle.schema.json
+  - Libs/configs/schema/active_contract_migration.schema.json
+  - Libs/configs/schema/current_c1_contract_artifact_projection.schema.json
+  - Output/audits/c1_preflight.json
+  - Output/audits/c2_preflight.json
+  - Output/audits/c2r_entry_gate_decision.json
+  - Output/audits/neuronsifter_headline_training_authorization.json
+  - Output/audits/baseline_registry_qualification_gate.json
+  - Output/audits/baseline_r1_gate.json # historical immutable evidence
+  - Input/processed/active_learning/active_learning_preflight_audit.json
+  - Output/audits/c1_foundation_corpus_preflight.json
+  - Output/audits/c1_objective_capability_manifest.json
+  - Output/audits/c1_rescue_candidate_independence_graph.json
+  - Output/audits/c1_rescue_current_capability_matrix.json
+  - Output/audits/c1_rescue_observation_row_binding_manifest.json
+  - Output/audits/c1_rescue_qualified_action_subset_manifest.json
+  - Output/audits/public_foundation_corpus_canonical_observation_blocks.json
+  - Output/audits/public_foundation_corpus_g2_m1_admission_audit.json
+  - Output/audits/public_foundation_corpus_rescue_frozen_splits.json
+  - Output/audits/source_qualification_ledger.tsv
+  - Input/canonical/public_foundation_corpus_v1/blocks/arrayexpress/E-GEOD-37263/eb4f5d16ab060ca8/sample_metadata.parquet
+  - Input/canonical/public_foundation_corpus_v1/blocks/arrayexpress/E-MTAB-6772/f0ac1bb93ac4168d/block_manifest.json
+  - Input/canonical/public_foundation_corpus_v1/blocks/geo/GSE28146/35dbdac27abdb900/values.parquet
+  - Input/canonical/public_foundation_corpus_v1/splits/reduced_transcriptomics_core_v1/query_domain.tsv
+  - Input/canonical/public_foundation_corpus_rescue/blocks/arrayexpress/E-MTAB-6772/controls_v2/6800618665ec353a/block_manifest.json
+  - Input/canonical/public_foundation_corpus_rescue/splits/reduced_transcriptomics_core_v2/regimen_holdout.test.tsv
+  - Input/processed/candidate_validation/candidate_validation_catalog.tsv
+  - Input/processed/foundation_state_c1/public_foundation_corpus_v1_observation_row_bindings.tsv
+  - Input/processed/foundation_state_c1/public_foundation_corpus_rescue_observation_row_bindings.tsv
+  - Input/processed/model_input/studies/arrayexpress/E-GEOD-12685/sample_index.parquet
+  - Input/processed/pkpd_ready/compound_pk_prior_catalog.tsv
+  - Input/processed/simulation_audit/simulation_teacher_uncertainty_audit.tsv
+  - Output/paper_reports/c1_gate_summary.json
+  - Output/paper_reports/g5_effective_sample_audit.json
+  - Libs/external/BASELINES.lock.yaml
+  - Input/processed/model_input/studies/arrayexpress/E-GEOD-16759/sample_index.parquet
+  - Input/processed/model_input/studies/arrayexpress/E-GEOD-37263/sample_index.parquet
+  - Input/canonical/public_foundation_corpus_v1/blocks/clue_lincs/NPC_NEU_TRT_CP/5e51623d38597355/actions.parquet
+  - Input/canonical/public_foundation_corpus_rescue/blocks/geo/GSE262992/b3da1aaeebb91094/actions.parquet
+  - Input/canonical/public_foundation_corpus_v1/blocks/allen_brain_cell_atlas/WHB-10Xv3-Nonneurons-20240330/0d406b9eb593e33c/cell_metadata.parquet
+  - Input/canonical/public_foundation_corpus_v1/blocks/geo/GSE28146/35dbdac27abdb900/feature_metadata.parquet
+  - Input/canonical/public_foundation_corpus_rescue/splits/reduced_transcriptomics_core_v2/source_publication_holdout.train.tsv
+  - Input/canonical/public_foundation_corpus_rescue/splits/reduced_transcriptomics_core_v2/regimen_holdout.train.tsv
+  - Input/canonical/public_foundation_corpus_v1/blocks/cellxgene_census/874e8a85-7fe2-487d-9fef-8fe7f0a17872/b8bc4cab7c8a3e57/matrix_manifest.json
+  - Input/processed/simulation_teacher_ready/simulation_teacher_catalog.tsv
+  - Input/processed/simulation_audit/simulation_numeric_audit.tsv
+  - Input/processed/full_microenvironment_teacher_ready/trajectory_store.zarr/trajectories/.zarray
+  - Input/processed/full_microenvironment_teacher_ready/pbpk_rollout_catalog.tsv
+  - Input/processed/full_microenvironment_teacher_ready/neuron_rxd_protocol_catalog.tsv
+  - Input/processed/model_input/studies/arrayexpress/E-GEOD-26972/sample_index.parquet
+  - Input/canonical/public_foundation_corpus_v1/blocks/arrayexpress/E-MTAB-6772/f0ac1bb93ac4168d/actions.parquet
+  - Input/canonical/public_foundation_corpus_v1/blocks/cellxgene_census/874e8a85-7fe2-487d-9fef-8fe7f0a17872/b8bc4cab7c8a3e57/cell_metadata.parquet
+  - Input/canonical/public_foundation_corpus_rescue/splits/reduced_transcriptomics_core_v2/source_publication_holdout.validation.tsv
+  - Input/canonical/public_foundation_corpus_v1/blocks/geo/GSE28146/35dbdac27abdb900/source_probe_mapping.parquet
+  - Input/processed/full_microenvironment_teacher_ready/full_microenvironment_teacher_catalog.tsv
+  - Input/raw/cellxgene_census/phase1e/reward_circuitry_2021/amygdala/874e8a85-7fe2-487d-9fef-8fe7f0a17872.h5ad
+  - Input/raw/arrayexpress/downloads/studies/E-GEOD-37263/E-GEOD-37263.processed.1.zip
+  - Input/raw/arrayexpress/downloads/studies/E-GEOD-37263/E-GEOD-37263.sdrf.txt
+  - Input/raw/arrayexpress/downloads/studies/E-GEOD-37263/E-GEOD-37263.idf.txt
+  - Input/raw/geo/platform_annotations/GPL5175/GPL5175_full.txt
+  # C1 legacy bundle and G2-M1 candidate evidence are read by reconstruction
+  # tests through catalog-declared paths; retain their exact bounded inputs.
+  - Input/processed/sample_observation/sample_observation_catalog.tsv
+  - Input/processed/cohort_ready/sample_catalog.tsv
+  - Input/processed/atlas_prior/allen_biccn/source_catalog.tsv
+  - Input/processed/atlas_prior/allen_biccn/program_catalog.tsv
+  - Input/processed/external_adapters/drugcomb_dose_response_manifest.json
+  - Input/processed/external_adapters/drugcomb_combination_prior_catalog.tsv
+  - Input/processed/drug_target_ready/drug_target_edge_catalog.tsv
+  - Input/raw/arrayexpress/downloads/studies/E-GEOD-26972/E-GEOD-26972.processed.1.zip
+  - Input/raw/arrayexpress/downloads/studies/E-GEOD-26972/E-GEOD-26972.idf.txt
+  - Input/raw/arrayexpress/downloads/studies/E-GEOD-26972/E-GEOD-26972.sdrf.txt
+  - Input/raw/allen_brain_cell_atlas/downloads/releases/20250531/SEAAD/precomputed_stats.20231120.sea_ad.MTG.h5
+  - Input/raw/drugcomb/downloads/releases/zenodo/18449193/drugcomb_data_v1.4.csv
+  - Input/raw/bindingdb/downloads/releases/BindingDB_All_202604_tsv.zip
+  - Input/raw/biccn_public/downloads/releases/public/biccn_data_page.html
+  # Phase 1E Allen validation binds the release manifest, source manifest,
+  # and accepted-terms snapshot alongside the WHB payload files below.
+  - Input/raw/allen_brain_cell_atlas/downloads/releases/20250531/manifest.json
+  - Input/raw/allen_brain_cell_atlas/manifests/source_manifest.json
+  - Input/raw/allen_brain_cell_atlas/terms/allen_terms_snapshot.html
+  - Input/raw/arrayexpress/terms/biostudies_arrayexpress_snapshot.html
+  - Input/raw/drugcentral/downloads/releases/2021_09_01/structures.smiles.tsv
+  # Round-11F tests consume this immutable XML as read-only historical input.
+  - Output/audits/dt_round11d_full_suite_execution.json
+  - Output/audits/dt_round11d_full_suite_failure_triage.json
+  - Output/audits/dt_round11d_closure_decision_snapshot.json
+  - Output/audits/dt_round11d_full_suite.stdout
+  - Output/audits/dt_round11d_full_suite.stderr
+  - Output/audits/dt_round11d_full_suite_results.xml
+  - Output/audits/dt_round11e_final_wave_ab_results.xml
+  - Output/audits/dt_round11d_full_suite_scontrol_terminal_current.txt
+  # Phase 1F action validation binds these source-provenance records directly.
+  - Input/raw/clue_lincs/manifests/source_manifest.json
+  - Input/raw/clue_lincs/terms/clue_terms_snapshot.html
+  - Input/raw/clue_lincs/checksums/sha256.tsv
+  - Input/raw/clue_lincs/downloads/download_receipts.tsv
+  - Input/raw/clue_lincs/downloads/builds/TouchstoneV1.1/build_detail.json
+runtime_dependency_globs:
+  # The metabolomics workbench exposes one sample index per study; all are
+  # required by the public sample-observation contract tests.
+  - Input/processed/model_input/studies/metabolomics_workbench/**/sample_index.parquet
+  - Input/processed/model_input/studies/**/*
+  - Input/processed/alignment_ready/**/*
+  - Input/raw/*/manifests/source_manifest.json
+  - Input/raw/*/checksums/sha256.tsv
+  - Input/raw/*/terms/*
+  # These trees are referenced by content-addressed Phase 1E/F block manifests.
+  # Their complete payloads are required for checksum and lineage validation.
+  - Input/canonical/public_foundation_corpus_v1/blocks/allen_brain_cell_atlas/WHB-10Xv3-Nonneurons-20240330/0d406b9eb593e33c/**/*
+  - Input/canonical/public_foundation_corpus_v1/blocks/cellxgene_census/874e8a85-7fe2-487d-9fef-8fe7f0a17872/b8bc4cab7c8a3e57/**/*
+  - Input/canonical/public_foundation_corpus_v1/blocks/clue_lincs/NPC_NEU_TRT_CP/5e51623d38597355/**/*
+  - Input/canonical/public_foundation_corpus_v1/blocks/arrayexpress/E-GEOD-37263/eb4f5d16ab060ca8/**/*
+  - Input/canonical/public_foundation_corpus_v1/blocks/arrayexpress/E-MTAB-6772/f0ac1bb93ac4168d/**/*
+  - Input/canonical/public_foundation_corpus_v1/splits/reduced_transcriptomics_core_v1/**/*
+  - Input/canonical/public_foundation_corpus_rescue/blocks/geo/GSE262992/b3da1aaeebb91094/**/*
+  - Input/canonical/public_foundation_corpus_rescue/blocks/arrayexpress/E-MTAB-6772/controls_v2/6800618665ec353a/**/*
+  - Input/canonical/public_foundation_corpus_rescue/splits/reduced_transcriptomics_core_v2/**/*
+  # Historical rescue evidence remains byte-preserved and is staged only for
+  # compatibility reconstruction tests.  Current C1 execution uses the
+  # semantic public_foundation_corpus_rescue contract above.
+  - Input/raw/allen_brain_cell_atlas/downloads/releases/20250531/WHB-10Xv3/*
+  - Input/raw/allen_brain_cell_atlas/downloads/releases/20250531/WHB-taxonomy/*.csv
+  - Input/raw/cellxgene_census/phase1e/reward_circuitry_2021/amygdala/official_snapshots/*
+  - Input/raw/geo/phase1e/GSE28146/official_snapshots/*
+  - Input/raw/arrayexpress/phase1e/E-GEOD-28146/official_snapshots/*
+  - Input/raw/arrayexpress/downloads/studies/E-GEOD-28146/*
+  - Input/raw/clue_lincs/downloads/builds/TouchstoneV1.1/files/*
+  - Input/raw/arrayexpress/phase1f/E-MTAB-6772/official_snapshots/*
+  - Input/raw/public_foundation_corpus_rescue/geo/GSE262992/official_snapshots/*
+  - Output/audits/*.json
+  - Output/audits/*.tsv
+  # The Round-11E observation builder binds these companion terminal streams
+  # independently of the JUnit XML and therefore stages every frozen stream.
+  - Output/audits/dt_round11e_*.stdout
+  - Output/audits/dt_round11e_*.stderr
+  # Round-11E observation consumes immutable JUnit result streams too.
+  - Output/audits/dt_round11e_*.xml
+  - Output/audits/baselines/**/*.json
+  # C1 failure reconstruction binds every preserved attempt record.
+  - Output/audits/c1_run_attempts/*.json
+  - Output/paper_reports/*.json
+  - Output/paper_reports/*.tsv
+  # C1 result rows are read-only evidence for inventory reconstruction; they
+  # are not model outputs for a formal BASELINE_FIRST challenge.
+  - Output/results/c1/runs/**/run_result.json
+  - Output/results/c1_rescue/runs/**/run_result.json
+  - Docs/design/iclr/**
+candidate_authoritative_paths:
+  # These artifacts are reconstructed from source by the C1 inventory tests.
+  # They must be carried by the clean candidate identity and must not be
+  # overwritten by a dirty live dependency root during BASELINE_FIRST node-local staging.
+  - Output/audits/c1_repository_inventory.json
+  - Output/audits/c1_reuse_and_gap_map.json
+  - Output/audits/c1_config_path_map.json
+historical_git_revisions:
+  # Read-only content identities required by the G0 historical-audit tests.
+  - 3d95758e068de584e66fb06ea9d6fa609d5263d9
+  - c0ef09ad242978ef4e9a56d7009b98bf4472c9da
+runtime_checkout_paths:
+  - Libs/external/diffusionpde
+  - Libs/external/mddm/mdlm
+  - Libs/external/mddm/mdm-prime/world_model/Active-JEPA
+  - Libs/external/mddm/mdm-prime/world_model/Brain-JEPA
+  - Libs/external/mddm/mdm-prime/world_model/EchoJEPA
+  - Libs/external/mddm/mdm-prime/world_model/H-JEPA
+  - Libs/external/mddm/mdm-prime/world_model/I-JEPA
+  - Libs/external/mddm/mdm-prime/world_model/LeWorldModel
+  - Libs/external/mddm/mdm-prime/world_model/Point-JEPA
+  - Libs/external/neural_operator/Transolver
+  - Libs/external/neural_operator/Transolver_plus
+  - Libs/external/neural_operator/pdediff
+  - Libs/external/neural_operator/wdno
+  - Libs/external/tabular_baselines/T-JEPA
+  - Libs/external/transcriptome_world_model/GeneJEPA
+  - Libs/external/world_model/Active-JEPA
+  - Libs/external/world_model/H-JEPA
+  - Libs/external/world_model/I-JEPA
+  - Libs/external/world_model/LeWorldModel
+  - Libs/external/world_model/Point-JEPA
+
+# These ignored schemas are runtime contracts. Candidate construction stages
+# exactly this list before it creates its Git identity.
+candidate_ignored_schema_paths:
+  - Libs/configs/schema/ablation_registry.schema.json
+  - Libs/configs/schema/active_contract_migration.schema.json
+  - Libs/configs/schema/agent_twin_coevolution.schema.json
+  - Libs/configs/schema/agent_twin_wp2_development.schema.json
+  - Libs/configs/schema/baseline_first_contract.schema.json
+  - Libs/configs/schema/baseline_registry.schema.json
+  - Libs/configs/schema/baseline_registry_reduction.schema.json
+  - Libs/configs/schema/c1_execution_artifacts.schema.json
+  - Libs/configs/schema/c1_foundation_corpus_preflight.schema.json
+  - Libs/configs/schema/c1_foundation_run_preflight.schema.json
+  - Libs/configs/schema/c1_g3_gate.schema.json
+  - Libs/configs/schema/c1_objective_capability_manifest.schema.json
+  - Libs/configs/schema/c1_observation_row_binding_manifest.schema.json
+  - Libs/configs/schema/c1_qualified_action_subset_manifest.schema.json
+  - Libs/configs/schema/c1_rescue_objective_capability_manifest.schema.json
+  - Libs/configs/schema/c1_rescue_observation_row_binding_manifest.schema.json
+  - Libs/configs/schema/c1_rescue_qualified_action_subset_manifest.schema.json
+  - Libs/configs/schema/c1_rescue_unified_preflight.schema.json
+  - Libs/configs/schema/c1_rescue_vocabulary_manifest.schema.json
+  - Libs/configs/schema/c1_result_row.schema.json
+  - Libs/configs/schema/c1_unified_preflight.schema.json
+  - Libs/configs/schema/c1_vocabulary_manifest.schema.json
+  - Libs/configs/schema/c2r_entry_gate.schema.json
+  - Libs/configs/schema/coevolution_comparison_registry.schema.json
+  - Libs/configs/schema/current_c1_contract_artifact_projection.schema.json
+  - Libs/configs/schema/deployment_comparison_registry.schema.json
+  - Libs/configs/schema/evidence_union.schema.json
+  - Libs/configs/schema/foundation_state_c1.schema.json
+  - Libs/configs/schema/foundation_state_c1_rescue.schema.json
+  - Libs/configs/schema/foundation_state_c1_v2.schema.json
+  - Libs/configs/schema/gate_writer_authority.schema.json
+  - Libs/configs/schema/phase1a_source_governance.schema.json
+  - Libs/configs/schema/phase1f_perturbation_pair_block.schema.json
+  - Libs/configs/schema/public_foundation_corpus.schema.json
+  - Libs/configs/schema/public_foundation_corpus_crosswalk.schema.json
+  - Libs/configs/schema/public_foundation_corpus_evidence.schema.json
+  - Libs/configs/schema/public_foundation_corpus_g2_m1_admission_audit.schema.json
+  - Libs/configs/schema/public_foundation_corpus_storage_ledger.schema.json
+  - Libs/configs/schema/related_work_registry.schema.json
+  - Libs/configs/schema/restricted_c2_baseline_qualification.schema.json
+  - Libs/configs/schema/round11g_execution_input_bundle.schema.json
+
+# Only reviewed scheduler sources may be copied into an isolated candidate.
+candidate_approved_sbatch_sources:
+  - Libs/exp/evaluation/run_current_mainline_full_suite.sbatch
+  - Libs/exp/evaluation/run_current_rescue_validation.sbatch
+  - Libs/exp/evaluation/run_restricted_c2_baseline_qualification.sbatch
+  - Output/audits/bf4_bf3_replay_v2.sbatch  # historical replay artifact
+
+# Historical C1 V2 evidence remains read-only. These exact roots and artifacts
+# are sufficient for validate_c1_rescue_evidence.py and its regression tests.
+candidate_historical_c1_rescue_v2_inputs:
+  - Input/canonical/public_foundation_corpus_v2/blocks/arrayexpress/E-MTAB-6772/controls_v2/6800618665ec353a
+  - Input/canonical/public_foundation_corpus_v2/blocks/geo/GSE262992/b3da1aaeebb91094
+  - Input/canonical/public_foundation_corpus_v2/splits/reduced_transcriptomics_core_v2
+  - Input/processed/foundation_state_c1/public_foundation_corpus_v2_observation_row_bindings.tsv
+  - Output/audits/c1_v2_observation_row_binding_manifest.json
+  - Output/audits/c1_v2_qualified_action_subset_manifest.json
+  - Output/audits/public_foundation_corpus_v2_canonical_observation_blocks.json
+  - Output/audits/public_foundation_corpus_v2_crosswalk_delta.json
+  - Output/audits/public_foundation_corpus_v2_crosswalk_delta.tsv
+  - Output/audits/public_foundation_corpus_v2_evidence_bundle.json
+  - Output/audits/public_foundation_corpus_v2_frozen_splits.json
+  - Output/audits/public_foundation_corpus_v2_leakage_audit.json
+  - Output/audits/public_foundation_corpus_v2_qc_ess_statistics.json
+  - Output/audits/public_foundation_corpus_v2_source_qualification.json
+  - Output/audits/public_foundation_corpus_v2_storage_ledger.json
+  - Output/audits/public_foundation_corpus_v2_structured_action_catalog.json
+  - Output/results/c1/runs/student_b8_atlas_20260722_v1/run_result.json

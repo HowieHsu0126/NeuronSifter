@@ -1,0 +1,260 @@
+real_intervention_evidence:
+  schema_version: neuronsifter-real-intervention-evidence-contract-v1
+  project_gate: Round-27
+  evidence_boundary:
+    evidence_role: development_only
+    publication_claim_eligible: false
+    protected_holdout_access: 0
+    publication_comparison_open: false
+    external_baseline_qualification_open: false
+    twin_online_adaptation: false
+    agent_adaptation: false
+    coevolution: false
+  canonical_architecture:
+    twin_uid: U0_frozen
+    enabled_components:
+      - scientific_belief
+      - structured_world_action
+      - observation_assimilation
+      - reliability_support_routing
+      - insufficient_evidence_routing
+    inactive_headlines:
+      decision_aware_information_acquisition: blocked_insufficient_decision_sensitive_information
+      online_twin_adaptation: failed_prospective_twin_adaptation
+      agent_adaptation: unauthorized
+      coevolution: unsupported
+  evidence_classes:
+    quantitative:
+      - E2_REAL_ENDPOINT
+      - E4_REAL_TRAJECTORY
+    non_quantitative:
+      - E2_DIRECTIONAL_ONLY
+      - SIMULATOR_ONLY
+      - AUTHOR_CLAIM_ONLY
+      - REJECTED
+  sources:
+    clue_npc_neu:
+      source_id: clue_lincs
+      source_accession: GSE92742-TouchstoneV1.1::NPC_NEU_TRT_CP
+      block_manifest_path: Input/canonical/public_foundation_corpus_v1/blocks/clue_lincs/NPC_NEU_TRT_CP/5e51623d38597355/block_manifest.json
+      evidence_class: E2_REAL_ENDPOINT
+      split_role: train
+      action_completeness: partial_structured_action
+      decision_sensitivity_policy: insufficient_matched_control_values
+    pantethine_hippocampus:
+      source_id: arrayexpress
+      source_accession: E-MTAB-6772
+      block_manifest_path: Input/canonical/public_foundation_corpus_v1/blocks/arrayexpress/E-MTAB-6772/f0ac1bb93ac4168d/block_manifest.json
+      control_block_manifest_path: Input/canonical/public_foundation_corpus_rescue/blocks/arrayexpress/E-MTAB-6772/controls_v2/6800618665ec353a/block_manifest.json
+      evidence_class: E2_REAL_ENDPOINT
+      split_role: validation
+      action_completeness: partial_structured_action
+      decision_sensitivity_policy: single_action_no_rank_competition
+    dexamethasone_neurons:
+      source_id: geo
+      source_accession: GSE262992
+      block_manifest_path: Input/canonical/public_foundation_corpus_rescue/blocks/geo/GSE262992/b3da1aaeebb91094/block_manifest.json
+      evidence_class: E2_REAL_ENDPOINT
+      split_role: development_eval
+      action_completeness: partial_structured_action
+      decision_sensitivity_policy: single_action_no_rank_competition
+    amyloid_peptide_timecourse:
+      source_id: arrayexpress
+      source_accession: E-MTAB-1841
+      official_snapshot_root: Input/raw/arrayexpress/E-MTAB-1841/official_snapshots
+      canonical_output_root: Input/canonical/real_intervention_evidence
+      block_manifest_audit_path: Output/audits/round27_e_mtab_1841_block_manifest.json
+      evidence_class: E4_REAL_TRAJECTORY
+      endpoint_evidence_class: E2_REAL_ENDPOINT
+      split_role: development_eval
+      action_completeness: partial_structured_action
+      source_release_version: E-MTAB-1841
+      official_study_url: https://www.ebi.ac.uk/biostudies/arrayexpress/studies/E-MTAB-1841
+      assets:
+        study_metadata:
+          filename: E-MTAB-1841.idf.txt
+          url: https://www.ebi.ac.uk/biostudies/files/E-MTAB-1841/E-MTAB-1841.idf.txt
+        sample_metadata:
+          filename: E-MTAB-1841.sdrf.txt
+          url: https://www.ebi.ac.uk/biostudies/files/E-MTAB-1841/E-MTAB-1841.sdrf.txt
+        expression_matrix:
+          filename: 20140120_ArrayExpress_Submission_AbetaPeptidesBarucker_data_file.txt
+          url: https://www.ebi.ac.uk/biostudies/files/E-MTAB-1841/20140120_ArrayExpress_Submission_AbetaPeptidesBarucker_data_file.txt
+        platform_annotation:
+          filename: A-MEXP-1171.adf.txt
+          url: https://www.ebi.ac.uk/biostudies/files/A-MEXP-1171/A-MEXP-1171.adf.txt
+      expected_design:
+        organism: Homo sapiens
+        cell_line: SH-SY5Y
+        platform_accession: A-MEXP-1171
+        sample_count: 80
+        biological_replicates_per_condition_time: 5
+        dose_value: 1.0
+        dose_unit: micromolar
+        time_values_hours:
+          - 2.0
+          - 6.0
+          - 8.0
+          - 12.0
+        conditions:
+          Abeta peptide 42: amyloid_beta_42
+          Abeta peptide 42_G33A: amyloid_beta_42_g33a
+          Abeta peptide 40: amyloid_beta_40
+          vehicle control: vehicle_control
+      parser:
+        source_decimal_separator: comma
+        signal_suffix: .AVG_Signal
+        probe_id_column: PROBE_ID
+        row_chunk_size: 8
+        feature_mapping: exact_A-MEXP-1171_reporter_to_numeric_Entrez_then_median
+        source_value_semantics: unnormalized_Illumina_AVG_Signal
+        analysis_transform: log2_value_plus_one
+      evidence_grade: B
+      evidence_grade_rationale: official_accession_with_quantitative_matrix_explicit_controls_dose_time_and_replicates_but_no_peer_reviewed_accession_publication
+  qualification:
+    bootstrap_resamples: 2000
+    bootstrap_seed: 3407
+    effect_to_control_noise_floor: 1.0
+    action_contrast_to_control_noise_floor: 1.0
+    rank_difference_ci_requires_zero_exclusion: true
+  split_policy:
+    unit: source_accession
+    prohibit_overlap:
+      - publication_uid
+      - accession_uid
+      - biological_unit_uid
+      - action_family_uid
+      - regimen_family_uid
+      - trajectory_uid
+      - source_collection_uid
+  u0_support_contract:
+    state_grid:
+      region_count: 6
+      compartment_count: 6
+      species_count: 15
+    required_action_semantics:
+      - target_set
+      - exposure_program_ref
+      - occupancy_program_ref
+    supported_measurement_namespace: neuronsifter_microenvironment_state_grid
+    unsupported_policy: explicit_insufficient_evidence_without_numeric_prediction
+  support_audit:
+    expected_source_count: 4
+    expected_episode_count: 7189
+    expected_u0_executable_support_count: 0
+    inputs:
+      source_manifest: Input/manifests/round27/real_intervention_source_manifest.tsv
+      observation_manifest: Input/manifests/round27/real_intervention_observations.tsv
+      episode_catalog: Input/manifests/round27/real_intervention_episode_catalog.tsv
+      action_completeness: Output/audits/round27_action_completeness.tsv
+    outputs:
+      support_matrix: Output/audits/round28_real_episode_support_matrix.tsv
+      root_cause: Output/audits/round28_zero_support_root_cause.json
+    primary_failure_classes:
+      - no_failure
+      - state_representation_gap
+      - ontology_mapping_gap
+      - unsupported_modality
+      - world_action_mapping_gap
+      - action_program_compilation_gap
+      - temporal_grid_gap
+      - missing_quantitative_endpoint
+      - missing_control
+      - missing_action_context
+      - true_model_support_gap
+      - evidence_quality_failure
+    dispositions:
+      - bridgeable_without_scientific_redefinition
+      - bridgeable_with_new_model_training
+      - scientifically_incomplete
+      - irrecoverably_unsupported
+  state_action_bridge:
+    schema_version: neuronsifter-real-intervention-state-action-bridge-v1
+    project_gate: Round-28
+    input_support_matrix: Output/audits/round28_real_episode_support_matrix.tsv
+    input_episode_catalog: Input/manifests/round27/real_intervention_episode_catalog.tsv
+    input_observation_manifest: Input/manifests/round27/real_intervention_observations.tsv
+    input_source_manifest: Input/manifests/round27/real_intervention_source_manifest.tsv
+    input_decision_sensitivity: Output/audits/round27_decision_sensitive_domain_summary.json
+    outputs:
+      processed_root: Input/processed/real_intervention_v2
+      episode_manifest: Input/manifests/real_intervention_v2_manifest.tsv
+      action_catalog: Input/processed/real_intervention_v2/action_catalog.tsv
+      episode_catalog: Input/processed/real_intervention_v2/episode_catalog.tsv
+      quality_audit: Output/audits/real_intervention_v2_quality.json
+      episode_integrity: Output/audits/real_intervention_v2_episode_integrity.json
+    expected_episode_count: 7189
+    expected_source_count: 4
+    expected_u0_supported_count: 0
+    state_namespace: real_intervention_transcriptomic_state
+    u0_projection_status: not_projected_by_frozen_contract
+    training_authorization: deferred_until_decision_sensitive_split
+    allowed_state_projection_status:
+      - bridgeable_with_new_model_training
+      - scientifically_incomplete
+      - irrecoverably_unsupported
+    allowed_action_semantics_status:
+      - full_structured_action
+      - partial_structured_action
+      - directional_intervention_only
+    required_explicit_missing_tokens:
+      - explicit_unknown
+      - explicit_unavailable
+  decision_domain_qualification:
+    schema_version: neuronsifter-real-intervention-decision-domain-v1
+    summary_schema_path: Libs/configs/schema/real_intervention_decision_domain.schema.json
+    input_episode_catalog: Input/processed/real_intervention_v2/episode_catalog.tsv
+    input_action_catalog: Input/processed/real_intervention_v2/action_catalog.tsv
+    input_bridge_quality: Output/audits/real_intervention_v2_quality.json
+    input_bridge_integrity: Output/audits/real_intervention_v2_episode_integrity.json
+    input_outcome_sensitivity: Output/audits/round27_real_intervention_sensitivity.tsv
+    input_outcome_sensitivity_summary: Output/audits/round27_decision_sensitive_domain_summary.json
+    outputs:
+      context_group_qualification: Output/audits/real_intervention_context_group_qualification.tsv
+      domain_summary: Output/audits/real_intervention_decision_domain.json
+      split_audit: Output/audits/real_intervention_decision_benchmark_split_audit.json
+    planned_split_paths:
+      train: Input/manifests/real_intervention_decision_benchmark/train.tsv
+      validation: Input/manifests/real_intervention_decision_benchmark/validation.tsv
+      development_eval: Input/manifests/real_intervention_decision_benchmark/development_eval.tsv
+    candidate_context_fields:
+      - source_key
+      - baseline_state_uid
+      - cell_or_tissue_context
+      - time_grid
+      - observation_measurement_namespace
+    classification_values:
+      - decision_sensitive
+      - weakly_decision_sensitive
+      - scientifically_informative_but_not_rankable
+      - "null"
+      - ambiguous
+    blocked_status: blocked_insufficient_decision_sensitive_real_intervention
+    split_policy: do_not_create_without_qualified_candidate_sets
+  outputs:
+    source_manifest: Input/manifests/round27/real_intervention_source_manifest.tsv
+    observation_manifest: Input/manifests/round27/real_intervention_observations.tsv
+    episode_catalog: Input/manifests/round27/real_intervention_episode_catalog.tsv
+    train_split: Input/manifests/round27/c2b_train.tsv
+    validation_split: Input/manifests/round27/c2b_validation.tsv
+    development_eval_split: Input/manifests/round27/c2b_development_eval.tsv
+    scientific_route_freeze: Output/audits/round27_scientific_route_freeze.json
+    claim_reselection: Output/audits/round27_claim_reselection.json
+    real_e2_e4_coverage: Output/audits/round27_real_e2_e4_coverage.json
+    evidence_quality: Output/audits/round27_intervention_evidence_quality.tsv
+    action_completeness: Output/audits/round27_action_completeness.tsv
+    episode_integrity: Output/audits/round27_episode_integrity.json
+    decision_sensitivity: Output/audits/round27_real_intervention_sensitivity.tsv
+    decision_sensitive_summary: Output/audits/round27_decision_sensitive_domain_summary.json
+    leakage_audit: Output/audits/round27_c2b_leakage_audit.json
+    u0_results: Output/paper_reports/round27_u0_real_intervention_results.tsv
+    u0_gate: Output/audits/round27_u0_real_intervention_gate.json
+    world_action_results: Output/paper_reports/round27_real_intervention_world_action.tsv
+    training_gate: Output/audits/round27_real_intervention_training_gate.json
+    reliability_report: Output/paper_reports/round27_real_intervention_reliability.tsv
+    failure_report: Output/paper_reports/round27_real_intervention_failures.tsv
+    scope_audit: Output/audits/round27_real_intervention_scope.json
+    c2b_gate: Output/audits/round27_c2b_development_gate.json
+    canonical_architecture: Output/audits/round27_canonical_architecture.json
+    next_scientific_route: Output/audits/round27_next_scientific_route.json
+    reproducibility_manifest: Output/audits/round27_reproducibility_manifest.json

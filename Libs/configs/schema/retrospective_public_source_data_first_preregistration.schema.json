@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/retrospective-public-source-data-first-preregistration-v1.json",
+  "title": "NeuronSifter source-data-first public evidence preregistration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "intake_uid", "preregistration_digest",
+    "preregistered_at", "authorization", "parent_state", "parent_state_digest",
+    "parent_bindings", "repository_families", "metadata_policy",
+    "selection_policy", "exclusions", "boundaries", "outputs"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-retrospective-public-source-data-first-preregistration-v1"},
+    "status": {"const": "preregistered_before_repository_metadata_access"},
+    "intake_uid": {"const": "public_source_data_first_cns_ranking_recovery"},
+    "preregistration_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "preregistered_at": {"type": "string", "minLength": 1},
+    "authorization": {"type": "object"},
+    "parent_state": {"type": "object"},
+    "parent_state_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "parent_bindings": {"type": "object"},
+    "repository_families": {"type": "array", "minItems": 1, "maxItems": 4},
+    "metadata_policy": {"type": "object"},
+    "selection_policy": {"type": "object"},
+    "exclusions": {"type": "object"},
+    "boundaries": {"type": "object"},
+    "outputs": {"type": "object"}
+  }
+}

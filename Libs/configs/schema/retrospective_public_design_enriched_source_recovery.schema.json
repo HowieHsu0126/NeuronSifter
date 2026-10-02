@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/retrospective-public-design-enriched-source-recovery-v1.json",
+  "title": "NeuronSifter design-enriched intake source-recovery terminal audit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "intake_uid", "preregistration_digest",
+    "queue_digest", "metadata_record_count", "metadata_eligible_count",
+    "queue_record_count", "source_recovered_count", "formal_abc_admitted_count",
+    "new_legal_candidate_count", "new_decision_sensitive_group_count",
+    "evidence_registry_updated", "candidate_registry_updated", "replay_audit_updated",
+    "leakage_audit_updated", "unchanged_artifact_bindings", "final_state",
+    "split_authorized", "world_action_authorized", "gpu_authorized",
+    "tri_authorized", "agent_in_twin_authorized", "coevolution_authorized",
+    "protected_holdout_access", "next_action", "created_at"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-retrospective-public-design-enriched-source-recovery-v1"},
+    "status": {"const": "not_run_queue_empty"},
+    "intake_uid": {"const": "design_enriched_public_cns_ranking_context_completion"},
+    "preregistration_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "queue_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "metadata_record_count": {"type": "integer", "minimum": 0, "maximum": 150},
+    "metadata_eligible_count": {"const": 0},
+    "queue_record_count": {"const": 0},
+    "source_recovered_count": {"const": 0},
+    "formal_abc_admitted_count": {"const": 0},
+    "new_legal_candidate_count": {"const": 0},
+    "new_decision_sensitive_group_count": {"const": 0},
+    "evidence_registry_updated": {"const": false},
+    "candidate_registry_updated": {"const": false},
+    "replay_audit_updated": {"const": false},
+    "leakage_audit_updated": {"const": false},
+    "unchanged_artifact_bindings": {"type": "object"},
+    "final_state": {
+      "type": "object",
+      "required": ["status", "accepted_records", "rejected_records", "independent_decision_sensitive_groups", "required_groups", "split_files_created", "leakage_status"]
+    },
+    "split_authorized": {"const": false},
+    "world_action_authorized": {"const": false},
+    "gpu_authorized": {"const": false},
+    "tri_authorized": {"const": false},
+    "agent_in_twin_authorized": {"const": false},
+    "coevolution_authorized": {"const": false},
+    "protected_holdout_access": {"const": 0},
+    "next_action": {"const": "stop_design_enriched_intake_exhausted_preserve_two_of_three_groups"},
+    "created_at": {"type": "string", "minLength": 1}
+  }
+}

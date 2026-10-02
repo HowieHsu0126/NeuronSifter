@@ -1,0 +1,15 @@
+experiment_family:
+  family_id: screening_without_tri_gate
+  description: AD-only paper-grade experiment family declaration for screening_without_tri_gate.
+  disease_program: ad_control
+  kind: project_decision_ablation
+  profile_name: ad_screening_without_tri_gate
+  adapter_name: ''
+  runnable: true
+  reference_only: false
+  reason_if_not_runnable: ''
+  matched_seed_policy: fixed_suite_seeds
+  claim_guardrails:
+  - ad_only
+  - no_g5_upgrade
+  - no_clinical_endpoint_prediction

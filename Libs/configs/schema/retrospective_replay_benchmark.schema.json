@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/retrospective-replay-benchmark-v1.json",
+  "title": "NeuronSifter sealed retrospective replay benchmark contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "contract_version", "status", "evidence_contract", "public_boundary", "source_snapshot_policy", "temporal_protocol", "tool_access", "memory_isolation", "split_policy", "qualification_gate", "inputs", "outputs"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-retrospective-replay-benchmark-v1"},
+    "contract_version": {"const": "v1"},
+    "status": {"const": "frozen_before_candidate_materialization"},
+    "evidence_contract": {"type": "string", "minLength": 1},
+    "public_boundary": {"$ref": "#/$defs/publicBoundary"},
+    "source_snapshot_policy": {"$ref": "#/$defs/sourceSnapshotPolicy"},
+    "temporal_protocol": {"$ref": "#/$defs/temporalProtocol"},
+    "tool_access": {"$ref": "#/$defs/toolAccess"},
+    "memory_isolation": {"$ref": "#/$defs/memoryIsolation"},
+    "split_policy": {"$ref": "#/$defs/splitPolicy"},
+    "qualification_gate": {"$ref": "#/$defs/qualificationGate"},
+    "inputs": {"$ref": "#/$defs/paths"},
+    "outputs": {"$ref": "#/$defs/paths"}
+  },
+  "$defs": {
+    "publicBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["strict_public_only", "controlled_access_records_allowed", "unpublished_partner_records_allowed", "protected_holdout_access", "publication_claim_eligible"],
+      "properties": {
+        "strict_public_only": {"const": true},
+        "controlled_access_records_allowed": {"const": false},
+        "unpublished_partner_records_allowed": {"const": false},
+        "protected_holdout_access": {"const": 0},
+        "publication_claim_eligible": {"const": false}
+      }
+    },
+    "sourceSnapshotPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["snapshot_identity_required", "snapshot_manifest_required", "queryable_source_snapshot_required", "live_web_search_allowed", "live_database_queries_allowed", "source_snapshot_must_be_cutoff_bound", "publication_date_field"],
+      "properties": {
+        "snapshot_identity_required": {"const": true},
+        "snapshot_manifest_required": {"const": true},
+        "queryable_source_snapshot_required": {"const": true},
+        "live_web_search_allowed": {"const": false},
+        "live_database_queries_allowed": {"const": false},
+        "source_snapshot_must_be_cutoff_bound": {"const": true},
+        "publication_date_field": {"const": "publication_date"}
+      }
+    },
+    "temporalProtocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cutoff_field", "available_evidence_rule", "hidden_future_rule", "target_publication_hidden_until_reveal", "target_outcome_hidden_until_reveal", "direct_target_retrieval_must_be_impossible", "citation_chain_audit_required", "database_version_drift_audit_required"],
+      "properties": {
+        "cutoff_field": {"const": "knowledge_cutoff"},
+        "available_evidence_rule": {"const": "publication_date <= knowledge_cutoff"},
+        "hidden_future_rule": {"type": "string", "minLength": 1},
+        "target_publication_hidden_until_reveal": {"const": true},
+        "target_outcome_hidden_until_reveal": {"const": true},
+        "direct_target_retrieval_must_be_impossible": {"const": true},
+        "citation_chain_audit_required": {"const": true},
+        "database_version_drift_audit_required": {"const": true}
+      }
+    },
+    "toolAccess": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["registered_tools_only", "allowed_tool_result_origins", "arbitrary_shell_allowed", "tool_result_requires_provenance", "tool_result_requires_content_hash", "tool_result_requires_schema_validation", "hidden_outcome_fields_in_tool_result", "protected_target_reveal_before_terminal_decision"],
+      "properties": {
+        "registered_tools_only": {"const": true},
+        "allowed_tool_result_origins": {"type": "array", "minItems": 1, "uniqueItems": true},
+        "arbitrary_shell_allowed": {"const": false},
+        "tool_result_requires_provenance": {"const": true},
+        "tool_result_requires_content_hash": {"const": true},
+        "tool_result_requires_schema_validation": {"const": true},
+        "hidden_outcome_fields_in_tool_result": {"const": false},
+        "protected_target_reveal_before_terminal_decision": {"const": false}
+      }
+    },
+    "memoryIsolation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reset_between_episodes", "hidden_outcome_persistence_forbidden", "cross_split_memory_reuse_forbidden", "memory_snapshot_hash_required"],
+      "properties": {
+        "reset_between_episodes": {"const": true},
+        "hidden_outcome_persistence_forbidden": {"const": true},
+        "cross_split_memory_reuse_forbidden": {"const": true},
+        "memory_snapshot_hash_required": {"const": true}
+      }
+    },
+    "splitPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["roles", "create_only_after_qualified_candidate_sets", "grouping_fields", "publication_overlap_forbidden", "source_snapshot_overlap_forbidden", "hidden_target_in_queryable_corpus_forbidden"],
+      "properties": {
+        "roles": {"const": ["retrospective_train", "retrospective_validation", "retrospective_development_eval"]},
+        "create_only_after_qualified_candidate_sets": {"const": true},
+        "grouping_fields": {"type": "array", "minItems": 7, "uniqueItems": true},
+        "publication_overlap_forbidden": {"const": true},
+        "source_snapshot_overlap_forbidden": {"const": true},
+        "hidden_target_in_queryable_corpus_forbidden": {"const": true}
+      }
+    },
+    "qualificationGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["minimum_legal_candidate_sets", "minimum_decision_sensitive_candidate_sets", "minimum_independent_publications", "allowed_formal_evidence_grades", "prohibited_truth_grades", "objective_selection_outcome_blind"],
+      "properties": {
+        "minimum_legal_candidate_sets": {"const": 1},
+        "minimum_decision_sensitive_candidate_sets": {"const": 1},
+        "minimum_independent_publications": {"const": 1},
+        "allowed_formal_evidence_grades": {"const": ["A", "B", "C"]},
+        "prohibited_truth_grades": {"const": ["D", "M"]},
+        "objective_selection_outcome_blind": {"const": true}
+      }
+    },
+    "paths": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "patternProperties": {"^[A-Za-z0-9_]+$": {"type": "string", "minLength": 1}}
+    }
+  }
+}

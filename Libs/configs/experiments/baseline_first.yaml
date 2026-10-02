@@ -1,0 +1,43 @@
+schema_version: neuronsifter-baseline-first-contract-v1
+
+baseline_first:
+  gate_name: baseline_first_c1_c2_challenge_resolved
+  status_when_blocked: blocked_baseline_first_c1_c2_challenge
+  candidate:
+    require_git_backed_clean_checkout: true
+    require_node_local_staging: true
+    pytest_runtime:
+      environment:
+        PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+        PYTHONWARNINGS: ignore
+        JOBLIB_MULTIPROCESSING: '0'
+        PYTEST_ADDOPTS: '-W ignore::UserWarning:joblib._multiprocessing_helpers'
+      collection_command: python -m pytest Libs/tests --collect-only -q
+      execution_command: python -m pytest Libs/tests -q
+      junit_xml: Output/audits/baseline_first_full_suite.junit.xml
+      stdout: Output/audits/baseline_first_full_suite.stdout.log
+      stderr: Output/audits/baseline_first_full_suite.stderr.log
+      reason: disable unrelated pytest11 plugin imports and restrict discovery to the frozen project test root
+    forbidden_runtime_actions:
+      - neuronsifter_headline_training
+      - agent_twin_coevolution
+      - evidence_fabric_sealing
+      - dt_core_evaluation
+  historical_freeze_inputs:
+    registry: Libs/configs/experiments/baseline_registry.yaml
+    historical_snapshot: Output/audits/baseline_registry_57_entry_snapshot.json
+    migration_ledger: Output/audits/baseline_registry_57_to_27_migration.tsv
+    reduction_gate: Output/audits/baseline_registry_reduction_gate.json
+  inherited_audits:
+    reduction_validation: Output/audits/baseline_registry_reduction_validation.json
+    baseline_authorization: Output/audits/neuronsifter_headline_training_authorization.json
+    c1_preflight: Output/audits/c1_preflight.json
+    c2_preflight: Output/audits/c2_preflight.json
+    c2r_entry_gate: Output/audits/c2r_entry_gate_decision.json
+    claim_scoped_authorization: Output/audits/baseline_claim_scoped_authorization.json
+    claim_scoped_semantic_validation: Output/audits/baseline_registry_semantic_validation.json
+  expected_counts:
+    historical_entries: 57
+    mandatory: 20
+    conditional: 5
+    upper_bounds: 2

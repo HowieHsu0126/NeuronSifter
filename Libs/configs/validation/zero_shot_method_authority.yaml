@@ -1,0 +1,44 @@
+zero_shot_method_authority:
+  schema_version: neuronsifter-zero-shot-method-authority-config-v1
+  review_uid: zero_shot_method_identity_and_executability_recovery
+  reviewed_on: '2026-08-28'
+  parent_review:
+    scientific_review: Output/audits/prospective_protocol_scientific_review.json
+    go_no_go_decision: Output/audits/prospective_protocol_go_no_go.json
+    method_manifest: Output/audits/frozen_zero_shot_method_manifest.json
+    evaluation_matrix: Input/manifests/retrospective_public/six_context_zero_shot_evaluation_matrix.tsv
+  candidate_components:
+    scientific_belief_encoder:
+      canonical_record: scientific_belief_encoder
+      run_result: Output/runs/round23/c1/large_seed3407/run_result.json
+      required_for_composite: true
+    world_action_capability:
+      canonical_record: world_action_capability
+      run_result: Output/runs/round23/c2s/large_seed3407/run_result.json
+      required_for_composite: true
+  lineage_requirements:
+    - checkpoint_identity_complete
+    - config_identity_complete
+    - code_identity_complete
+    - training_lineage_complete
+    - model_selection_lineage_complete
+    - exact_evaluation_overlap_resolved
+    - semantic_evaluation_overlap_resolved
+    - formal_eligibility_positive
+  historical_config:
+    path: Libs/configs/neuronsifter/static_decision_loop.yaml
+    expected_sha256: e4b6c54e96efbe7df4524340cf87eb68c37d307afadfc258c5b584005d789139
+  stop_policy:
+    no_formal_checkpoint_status: NO_FORMAL_ZERO_SHOT_CHECKPOINT
+    terminal_protocol_status: ZERO_SHOT_PROTOCOL_REMAINS_NON_EXECUTABLE
+    downstream_status: NOT_RUN_HARD_STOP
+    adapter_allowed_after_failure: false
+    inference_allowed_after_failure: false
+    baseline_execution_allowed_after_failure: false
+    six_context_outcome_access_allowed: false
+  outputs:
+    method_authority: Output/audits/frozen_zero_shot_method_authority.json
+    independence_audit: Output/audits/checkpoint_training_selection_independence.json
+    executability_decision: Output/audits/zero_shot_protocol_executability_decision.json
+    conditional_authorization: Input/manifests/retrospective_public/zero_shot_method_execution_authorization.json
+    validation_audit: Output/audits/zero_shot_method_authority_validation.json

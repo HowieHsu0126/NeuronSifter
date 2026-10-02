@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/c1_foundation_corpus_preflight.schema.json",
+  "title": "NeuronSifter C1 frozen-corpus preflight report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "blocker_count",
+    "blockers",
+    "scope",
+    "expected",
+    "actual",
+    "corpus_uid",
+    "corpus_hash",
+    "qualified_block_count",
+    "grade_ab_observation_count",
+    "grade_ab_ess",
+    "qualified_action_count",
+    "observation_binding_hash",
+    "training_allowed",
+    "headline_training_allowed",
+    "headline_training_blocker",
+    "g3_status",
+    "g3_claim_promotion_allowed",
+    "full_multimodal_claim_allowed",
+    "cross_modal_prediction_claim_allowed"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "neuronsifter-c1-foundation-corpus-preflight-v1"
+    },
+    "status": {
+      "enum": ["passed", "blocked"]
+    },
+    "blocker_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "path", "message"],
+        "properties": {
+          "code": {"type": "string", "minLength": 1},
+          "path": {"type": "string"},
+          "message": {"type": "string"}
+        }
+      }
+    },
+    "scope": {
+      "type": ["string", "null"]
+    },
+    "expected": {
+      "type": "object"
+    },
+    "actual": {
+      "type": "object"
+    },
+    "corpus_uid": {
+      "type": ["string", "null"]
+    },
+    "corpus_hash": {
+      "type": ["string", "null"]
+    },
+    "qualified_block_count": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "grade_ab_observation_count": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "grade_ab_ess": {
+      "type": ["number", "null"],
+      "minimum": 0
+    },
+    "qualified_action_count": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "observation_binding_hash": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "training_allowed": {
+      "type": "boolean"
+    },
+    "headline_training_allowed": {
+      "type": "boolean"
+    },
+    "headline_training_blocker": {
+      "type": ["string", "null"]
+    },
+    "g3_status": {
+      "const": "not_evaluated"
+    },
+    "g3_claim_promotion_allowed": {
+      "const": false
+    },
+    "full_multimodal_claim_allowed": {
+      "const": false
+    },
+    "cross_modal_prediction_claim_allowed": {
+      "const": false
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"status": {"const": "passed"}}
+      },
+      "then": {
+        "properties": {
+          "blocker_count": {"const": 0},
+          "blockers": {"maxItems": 0},
+          "training_allowed": {"const": true}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {"status": {"const": "blocked"}}
+      },
+      "then": {
+        "properties": {
+          "blocker_count": {"minimum": 1},
+          "blockers": {"minItems": 1},
+          "training_allowed": {"const": false},
+          "headline_training_allowed": {"const": false},
+          "headline_training_blocker": {"type": "null"}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {"headline_training_allowed": {"const": true}}
+      },
+      "then": {
+        "properties": {"headline_training_blocker": {"type": "null"}}
+      },
+      "else": {
+        "if": {
+          "properties": {"status": {"const": "passed"}}
+        },
+        "then": {
+          "properties": {
+            "headline_training_blocker": {
+              "const": "source_shortcut_tolerance_not_preregistered"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

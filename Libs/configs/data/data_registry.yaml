@@ -1,0 +1,2287 @@
+processed_registry:
+  local_root: Input/processed
+  study_sources:
+  - geo
+  - arrayexpress
+  - metabolomics_workbench
+  asset_group_map:
+    cohort_search:
+    - geo
+    - arrayexpress
+    - metabolomics_workbench
+    atlas_reference:
+    - allen_brain_cell_atlas
+    - biccn_public
+    structural_reference:
+    - allen_brain_cell_atlas
+    - biccn_public
+    - literature_parameter_bank
+    perturbation_reference:
+    - clue_lincs
+    - drugcomb
+    pharmacology_reference:
+    - open_targets
+    - chembl
+    - drugcentral
+    - bindingdb
+    - dgidb
+    literature_reference:
+    - literature_parameter_bank
+    historical_optional_reference:
+    - oasis
+    - nemo_archive
+  ready_statuses:
+  - downloaded
+  - reused_cached
+  blocked_statuses:
+  - blocked_clickthrough_required
+  - deferred_clickthrough_required
+  - blocked_account_required
+  - blocked_collection_discovery_required
+  - blocked_discovery_required
+  - blocked_primary_asset_not_materialized
+  - blocked_source_unreachable
+  - blocked_network_environment
+  prepared_statuses:
+  - prepared
+  resolved_statuses:
+  - resolved_manual_drop
+  - resolved_public_accessible
+  not_available_statuses:
+  - not_available
+  relative_paths:
+    asset_catalog: registry/source_asset_catalog.tsv
+    study_catalog: registry/study_catalog.tsv
+    manual_access_catalog: registry/manual_access_catalog.tsv
+    registry_summary: registry/processed_registry_summary.tsv
+cohort_ready_registry:
+  local_root: Input/processed
+  enabled_sources:
+  - geo
+  - arrayexpress
+  - metabolomics_workbench
+  primary_asset_priority:
+    geo:
+    - family_soft
+    - series_matrix
+    arrayexpress:
+    - derived_matrix_archive
+    - raw_archive
+    - SDRF File
+    - IDF File
+    metabolomics_workbench:
+    - data_json
+    - mwtab_txt
+  arrayexpress_remote_columns:
+    raw_archive:
+    - Comment [ArrayExpress FTP file]
+    derived_matrix_archive:
+    - Comment [Derived ArrayExpress Data Matrix FTP file]
+    - Comment [Derived ArrayExpress FTP file]
+  case_control_keywords:
+    control:
+    - control
+    - normal
+    - cognitively normal
+    - ndc
+    case:
+    - alzheimer
+    - alzheimers disease
+    - incipient ad
+    - definitive alzheimer
+    - pathologic ad
+    - mild cognitive impairment
+    - mci
+    - parkinson
+    - parkinsons disease
+    - parkinson disease
+    comparator:
+    - other dementia
+    - other dementias
+  diagnosis_aliases:
+    Alzheimer disease:
+    - alzheimer disease
+    - alzheimer's disease
+    - alzheimers disease
+    - incipient ad
+    - definitive alzheimer
+    - pathologic ad
+    - alzheimer dementia
+    mild cognitive impairment:
+    - mild cognitive impairment
+    - mci
+    subjective cognitive decline:
+    - subjective cognitive decline
+    - scd
+    normal aging:
+    - normal aging
+    - cognitively normal
+    - control
+    - normal
+    cognitive aging:
+    - cognitive aging
+    Parkinson disease:
+    - parkinson disease
+    - parkinson's disease
+    - idiopathic parkinson disease
+    - idiopathic parkinson's disease
+    - parkinson
+    - pd
+  remote_url_rewrites:
+    ftp://ftp.ebi.ac.uk/: https://ftp.ebi.ac.uk/
+  geo_characteristic_keys:
+    age:
+    - age
+    sex:
+    - sex
+    - gender
+    disease_stage:
+    - braak stage
+    - braak
+    - cerad
+    - stage
+    clinical_score:
+    - cdr
+    - mmse
+    - cerad
+    - braak
+  relative_paths:
+    sample_catalog: cohort_ready/sample_catalog.tsv
+    quantitative_asset_catalog: cohort_ready/quantitative_asset_catalog.tsv
+    study_summary: cohort_ready/study_ready_summary.tsv
+feature_ready_registry:
+  local_root: Input/processed
+  enabled_sources:
+  - geo
+  - arrayexpress
+  - metabolomics_workbench
+  analyzable_assets:
+    geo:
+    - series_matrix
+    arrayexpress:
+    - derived_matrix_archive
+    metabolomics_workbench:
+    - data_json
+    - mwtab_txt
+  primary_measurement_priority:
+    geo:
+    - VALUE
+    arrayexpress:
+    - GEO:AFFYMETRIX_VALUE
+    - VALUE
+    - GEO:AFFYMETRIX_DETECTION P-VALUE
+    - ABS_CALL
+    metabolomics_workbench:
+    - DATA
+    - MS_METABOLITE_DATA
+    - NMR_METABOLITE_DATA
+  excluded_asset_reasons:
+    family_soft: metadata_only_family_soft
+    raw_archive: raw_measurement_archive
+    empty_series_matrix: empty_series_matrix_table
+    unsupported_arrayexpress_archive: unsupported_arrayexpress_archive
+    empty_metabolomics_data_json: empty_metabolomics_data_json
+    missing_metabolomics_mwtab_section: missing_metabolomics_mwtab_section
+  relative_paths:
+    matrix_catalog: feature_ready/matrix_catalog.tsv
+    member_catalog: feature_ready/archive_member_catalog.tsv
+    sample_axis_catalog: feature_ready/sample_axis_catalog.tsv
+    feature_axis_catalog: feature_ready/feature_axis_catalog.tsv
+    non_matrix_asset_catalog: feature_ready/non_matrix_asset_catalog.tsv
+    study_summary: feature_ready/study_matrix_summary.tsv
+analysis_ready_registry:
+  local_root: Input/processed
+  enabled_sources:
+  - geo
+  - arrayexpress
+  - metabolomics_workbench
+  allowed_matrix_semantics:
+  - expression_signal
+  - metabolite_intensity
+  - methylation_signal
+  - quantitative_signal
+  minimum_mapped_fraction: 1.0
+  minimum_mapped_sample_count: 1
+  selection_priority:
+    geo:
+    - VALUE
+    arrayexpress:
+    - GEO:AFFYMETRIX_VALUE
+    - VALUE
+    metabolomics_workbench:
+    - DATA
+    - MS_METABOLITE_DATA
+    - NMR_METABOLITE_DATA
+  loader_kind_by_origin:
+    geo_series_matrix: geo_series_matrix_gz
+    arrayexpress_combined_member: arrayexpress_combined_zip_tsv
+    arrayexpress_sample_table_members: arrayexpress_sample_table_zip
+    arrayexpress_text_matrix: arrayexpress_text_matrix_tsv
+    metabolomics_data_json: metabolomics_data_json
+    metabolomics_mwtab_section: metabolomics_mwtab_section
+  relative_paths:
+    study_summary: analysis_ready/study_bundle_summary.tsv
+    loader_catalog: analysis_ready/selected_matrix_loader_catalog.tsv
+    sample_catalog: analysis_ready/analysis_sample_catalog.tsv
+    feature_catalog: analysis_ready/analysis_feature_catalog.tsv
+    exclusion_catalog: analysis_ready/excluded_study_catalog.tsv
+model_input_registry:
+  local_root: Input/processed
+  enabled_sources:
+  - geo
+  - arrayexpress
+  - metabolomics_workbench
+  bundle_root_template: Input/processed/model_input/studies/{source_key}/{source_accession}
+  feature_key_prefix: f
+  feature_key_width: 6
+  bundle_filenames:
+    manifest: bundle_manifest.json
+    sample_index: sample_index.parquet
+    feature_index: feature_index.parquet
+    matrix_raw: matrix_raw.npy
+    matrix_norm: matrix_norm.npy
+    feature_scaler: feature_scaler_artifact.tsv
+  normalization_by_semantics:
+    expression_signal:
+      transform: zscore
+      normalization_method: zscore
+    metabolite_intensity:
+      transform: auto_log1p_then_zscore
+      nonnegative_method: log1p_then_zscore
+      signed_method: zscore
+    methylation_signal:
+      transform: zscore
+      normalization_method: zscore
+    quantitative_signal:
+      transform: zscore
+      normalization_method: zscore
+  relative_paths:
+    study_bundle_catalog: model_input/study_bundle_catalog.tsv
+    excluded_study_catalog: model_input/excluded_study_catalog.tsv
+measurement_semantics_registry:
+  local_root: Input/processed
+  relative_paths:
+    measurement_semantics_catalog: measurement_semantics/measurement_semantics_catalog.tsv
+  modality_default_matrix_semantics:
+    transcriptomics: expression_signal
+    metabolomics: metabolite_intensity
+  label_policy:
+    separator: '::'
+    fallback_label: prohibited_unknown_measurement
+  scaler_artifact_policy:
+    fold_fit_policy: train_split_only_fit_validation_test_apply
+    production_fit_policy: approved_public_training_context
+    zero_variance_policy: standardized_zero_with_flag
+    missing_value_policy: preserve_nan
+    leakage_guard: heldout_rows_never_used_for_fit
+    inverse_transform_required: true
+  matrix_semantics_definitions:
+    expression_signal:
+      biological_quantity: transcript_abundance_proxy
+      measurement_entity_namespace: gene_or_probe_feature
+      raw_unit: arbitrary_expression_signal
+      canonical_unit: arbitrary_expression_signal
+      unit_conversion_chain: identity_raw_to_canonical_proxy_signal
+      proxy_unit_flag: yes
+      valid_min: ''
+      valid_max: ''
+      uncertainty_policy: feature_scaler_sampling_uncertainty
+      uncertainty_semantics: featurewise_sampling_uncertainty_in_standardized_proxy_space
+      default_training_transform: zscore
+      inverse_transform: zscore_inverse_from_feature_scaler
+      physical_interpretation_policy: proxy_unit_not_physical_unit
+    metabolite_intensity:
+      biological_quantity: metabolite_abundance_proxy
+      measurement_entity_namespace: metabolite_feature
+      raw_unit: arbitrary_metabolite_intensity
+      canonical_unit: arbitrary_metabolite_intensity
+      unit_conversion_chain: identity_raw_to_canonical_proxy_intensity
+      proxy_unit_flag: yes
+      valid_min: '0.0'
+      valid_max: ''
+      uncertainty_policy: log_space_feature_scaler_uncertainty
+      uncertainty_semantics: featurewise_log_space_sampling_uncertainty_in_standardized_proxy_space
+      default_training_transform: auto_log1p_then_zscore
+      inverse_transform: log1p_zscore_inverse_from_feature_scaler_when_nonnegative
+      physical_interpretation_policy: proxy_unit_not_physical_unit
+    methylation_signal:
+      biological_quantity: dna_methylation_fraction_proxy
+      measurement_entity_namespace: genomic_feature
+      raw_unit: beta_value_or_array_signal
+      canonical_unit: beta_value_or_array_signal
+      unit_conversion_chain: identity_raw_to_canonical_beta_or_array_proxy
+      proxy_unit_flag: yes
+      valid_min: '0.0'
+      valid_max: '1.0'
+      uncertainty_policy: feature_scaler_sampling_uncertainty
+      uncertainty_semantics: featurewise_sampling_uncertainty_in_standardized_proxy_space
+      default_training_transform: zscore
+      inverse_transform: zscore_inverse_from_feature_scaler
+      physical_interpretation_policy: proxy_unit_not_physical_unit
+    quantitative_signal:
+      biological_quantity: quantitative_assay_signal_proxy
+      measurement_entity_namespace: assay_feature
+      raw_unit: arbitrary_quantitative_signal
+      canonical_unit: arbitrary_quantitative_signal
+      unit_conversion_chain: identity_raw_to_canonical_quantitative_proxy
+      proxy_unit_flag: yes
+      valid_min: ''
+      valid_max: ''
+      uncertainty_policy: feature_scaler_sampling_uncertainty
+      uncertainty_semantics: featurewise_sampling_uncertainty_in_standardized_proxy_space
+      default_training_transform: zscore
+      inverse_transform: zscore_inverse_from_feature_scaler
+      physical_interpretation_policy: proxy_unit_not_physical_unit
+atlas_prior_registry:
+  local_root: Input/processed
+  enabled_sources:
+  - allen_brain_cell_atlas
+  - biccn_public
+  output_root: Input/processed/atlas_prior/allen_biccn
+  allen_abc:
+    atlas_name: ALLEN_ABC
+    release_label: 20250531
+    species: Homo sapiens
+    seaad_region_id: MTG
+    seaad_region_label: middle temporal gyrus
+    top_feature_count: 32
+    minimum_cell_count: 10
+  relative_paths:
+    program_catalog: atlas_prior/allen_biccn/program_catalog.tsv
+    source_catalog: atlas_prior/allen_biccn/source_catalog.tsv
+spatial_atlas_registry:
+  local_root: Input/processed
+  output_root: Input/processed/spatial_atlas/public_ad_meso
+  regions:
+  - region_id: systemic_circulation
+    region_label: Systemic Circulation
+    region_role: systemic
+    atlas_source: screening_config
+    source_region_id: SYSTEMIC
+    note: systemic proxy region for plasma and peripheral exposure
+  - region_id: middle_temporal_gyrus
+    region_label: Middle Temporal Gyrus
+    region_role: cortical_observation
+    atlas_source: ALLEN_ABC
+    source_region_id: MTG
+    note: temporal cortical observation region
+  - region_id: entorhinal_cortex
+    region_label: Entorhinal Cortex
+    region_role: cortical_gateway
+    atlas_source: screening_config
+    source_region_id: EC
+    note: cortico-limbic gateway region
+  - region_id: hippocampus_ca1
+    region_label: Hippocampus CA1
+    region_role: hippocampal_response
+    atlas_source: screening_config
+    source_region_id: CA1
+    note: hippocampal response region
+  - region_id: hippocampus_ca3
+    region_label: Hippocampus CA3
+    region_role: hippocampal_transfer
+    atlas_source: screening_config
+    source_region_id: CA3
+    note: hippocampal transfer region
+  - region_id: prefrontal_cortex
+    region_label: Prefrontal Cortex
+    region_role: executive_cortex
+    atlas_source: screening_config
+    source_region_id: PFC
+    note: frontal executive vulnerability region
+  region_edges:
+  - source_region_id: systemic_circulation
+    target_region_id: middle_temporal_gyrus
+    edge_type: vascular_exchange
+    transport_scale: 0.95
+    note: systemic to temporal cortex transport corridor
+  - source_region_id: systemic_circulation
+    target_region_id: entorhinal_cortex
+    edge_type: vascular_exchange
+    transport_scale: 0.9
+    note: systemic to entorhinal transport corridor
+  - source_region_id: systemic_circulation
+    target_region_id: hippocampus_ca1
+    edge_type: vascular_exchange
+    transport_scale: 0.88
+    note: systemic to CA1 transport corridor
+  - source_region_id: systemic_circulation
+    target_region_id: hippocampus_ca3
+    edge_type: vascular_exchange
+    transport_scale: 0.82
+    note: systemic to CA3 transport corridor
+  - source_region_id: systemic_circulation
+    target_region_id: prefrontal_cortex
+    edge_type: vascular_exchange
+    transport_scale: 0.9
+    note: systemic to prefrontal transport corridor
+  - source_region_id: entorhinal_cortex
+    target_region_id: hippocampus_ca1
+    edge_type: cortico_limbic_relay
+    transport_scale: 0.76
+    note: entorhinal to CA1 relay
+  - source_region_id: hippocampus_ca3
+    target_region_id: hippocampus_ca1
+    edge_type: hippocampal_relay
+    transport_scale: 0.84
+    note: CA3 to CA1 synaptic relay proxy
+  - source_region_id: middle_temporal_gyrus
+    target_region_id: entorhinal_cortex
+    edge_type: cortical_association
+    transport_scale: 0.58
+    note: cortical association corridor
+  - source_region_id: middle_temporal_gyrus
+    target_region_id: prefrontal_cortex
+    edge_type: cortical_association
+    transport_scale: 0.52
+    note: temporal to prefrontal association corridor
+  observation_mappings:
+  - modality: transcriptomics
+    tissue_keyword: temporal
+    observed_region_id: middle_temporal_gyrus
+    observed_compartment_id: isf
+    aggregation_rule: region_mean
+    note: transcriptomic cortex samples map to MTG ISF
+  - modality: transcriptomics
+    tissue_keyword: entorhinal
+    observed_region_id: entorhinal_cortex
+    observed_compartment_id: isf
+    aggregation_rule: region_mean
+    note: entorhinal transcriptomics map to entorhinal ISF
+  - modality: transcriptomics
+    tissue_keyword: hippocampus
+    observed_region_id: hippocampus_ca1
+    observed_compartment_id: isf
+    aggregation_rule: region_mean
+    note: transcriptomic hippocampal samples map to CA1 ISF
+  - modality: transcriptomics
+    tissue_keyword: prefrontal
+    observed_region_id: prefrontal_cortex
+    observed_compartment_id: isf
+    aggregation_rule: region_mean
+    note: prefrontal transcriptomics map to prefrontal ISF
+  - modality: transcriptomics
+    tissue_keyword: frontal
+    observed_region_id: prefrontal_cortex
+    observed_compartment_id: isf
+    aggregation_rule: region_mean
+    note: frontal transcriptomics map to prefrontal ISF
+  - modality: metabolomics
+    tissue_keyword: blood
+    observed_region_id: systemic_circulation
+    observed_compartment_id: plasma
+    aggregation_rule: region_mean
+    note: blood metabolomics map to systemic plasma
+  - modality: metabolomics
+    tissue_keyword: serum
+    observed_region_id: systemic_circulation
+    observed_compartment_id: plasma
+    aggregation_rule: region_mean
+    note: serum metabolomics map to systemic plasma
+  - modality: metabolomics
+    tissue_keyword: plasma
+    observed_region_id: systemic_circulation
+    observed_compartment_id: plasma
+    aggregation_rule: region_mean
+    note: plasma metabolomics map to systemic plasma
+  - modality: metabolomics
+    tissue_keyword: whole blood
+    observed_region_id: systemic_circulation
+    observed_compartment_id: plasma
+    aggregation_rule: region_mean
+    note: whole blood metabolomics map to systemic plasma
+  - modality: metabolomics
+    tissue_keyword: csf
+    observed_region_id: entorhinal_cortex
+    observed_compartment_id: csf
+    aggregation_rule: region_mean
+    note: CSF metabolomics map to entorhinal CSF proxy
+  relative_paths:
+    region_catalog: spatial_atlas/public_ad_meso/region_catalog.tsv
+    region_edge_catalog: spatial_atlas/public_ad_meso/region_edge_catalog.tsv
+    region_compartment_catalog: spatial_atlas/public_ad_meso/region_compartment_catalog.tsv
+    observation_mapping_catalog: spatial_atlas/public_ad_meso/observation_mapping_catalog.tsv
+world_model_ready_registry:
+  local_root: Input/processed
+  target_label_space: ad_aging
+  output_root: Input/processed/world_model_ready/public_ad_aging
+  relative_paths:
+    study_catalog: world_model_ready/public_ad_aging/study_catalog.tsv
+structural_prior_registry:
+  local_root: Input/processed
+  output_root: Input/processed/structural_prior/public_ad_meso
+  disease_programs:
+  - ad_control
+  region_feature_names:
+  - program_support_score
+  - disease_vulnerability_score
+  - transport_centrality_score
+  - clearance_constraint_score
+  - inflammation_propensity_score
+  - neurotransmitter_relevance_score
+  disease_region_priors:
+  - disease_program: ad_control
+    region_id: systemic_circulation
+    program_support_score: 0.42
+    disease_vulnerability_score: 0.18
+    transport_centrality_score: 1.0
+    clearance_constraint_score: 0.48
+    inflammation_propensity_score: 0.41
+    neurotransmitter_relevance_score: 0.22
+    source_evidence: atlas_plus_literature
+    note: systemic exposure anchor
+  - disease_program: ad_control
+    region_id: middle_temporal_gyrus
+    program_support_score: 1.0
+    disease_vulnerability_score: 0.86
+    transport_centrality_score: 0.74
+    clearance_constraint_score: 0.63
+    inflammation_propensity_score: 0.72
+    neurotransmitter_relevance_score: 0.39
+    source_evidence: atlas_plus_literature
+    note: cortical AD observation anchor
+  - disease_program: ad_control
+    region_id: entorhinal_cortex
+    program_support_score: 0.72
+    disease_vulnerability_score: 0.98
+    transport_centrality_score: 0.82
+    clearance_constraint_score: 0.71
+    inflammation_propensity_score: 0.76
+    neurotransmitter_relevance_score: 0.43
+    source_evidence: atlas_plus_literature
+    note: early AD gateway region
+  - disease_program: ad_control
+    region_id: hippocampus_ca1
+    program_support_score: 0.74
+    disease_vulnerability_score: 0.95
+    transport_centrality_score: 0.84
+    clearance_constraint_score: 0.74
+    inflammation_propensity_score: 0.78
+    neurotransmitter_relevance_score: 0.45
+    source_evidence: atlas_plus_literature
+    note: AD hippocampal response region
+  - disease_program: ad_control
+    region_id: hippocampus_ca3
+    program_support_score: 0.68
+    disease_vulnerability_score: 0.78
+    transport_centrality_score: 0.8
+    clearance_constraint_score: 0.69
+    inflammation_propensity_score: 0.71
+    neurotransmitter_relevance_score: 0.42
+    source_evidence: atlas_plus_literature
+    note: AD hippocampal transfer region
+  - disease_program: ad_control
+    region_id: prefrontal_cortex
+    program_support_score: 0.61
+    disease_vulnerability_score: 0.57
+    transport_centrality_score: 0.76
+    clearance_constraint_score: 0.56
+    inflammation_propensity_score: 0.64
+    neurotransmitter_relevance_score: 0.38
+    source_evidence: atlas_plus_literature
+    note: frontal executive AD support region
+  local_response_heads:
+  - local_response_head_uid: entorhinal_hippocampal_proteostasis
+    disease_program: ad_control
+    region_id: entorhinal_cortex
+    response_head_label: Entorhinal-Hippocampal Proteostasis
+    response_role: proteostasis
+    source_reference_url: https://pubmed.ncbi.nlm.nih.gov/36449413/
+    note: AD proteostasis response head
+  - local_response_head_uid: ca3_ca1_circuit_instability
+    disease_program: ad_control
+    region_id: hippocampus_ca3
+    response_head_label: CA3-CA1 Circuit Instability
+    response_role: circuit_instability
+    source_reference_url: https://modeldb.science/showmodel?file=RomaniEtAl2013%2Fmorphology%2Fn123%2Fsoma-list.hoc&model=147757&tab=2
+    note: AD circuit response head
+  relative_paths:
+    region_prior_catalog: structural_prior/public_ad_meso/region_prior_catalog.tsv
+    local_response_head_catalog: structural_prior/public_ad_meso/local_response_head_catalog.tsv
+data:
+  sample_observation_registry:
+    local_root: Input/processed
+    relative_paths:
+      sample_observation_catalog: sample_observation/sample_observation_catalog.tsv
+  world_state_ready_registry:
+    local_root: Input/processed
+    state_store_template: Output/results/foundation_world_state/{disease_program}/{world_state_uid}.json
+    relative_paths:
+      world_state_catalog: world_state_ready/world_state_catalog.tsv
+  crossmodal_anchor_ready_registry:
+    local_root: Input/processed
+    relative_paths:
+      crossmodal_anchor_catalog: crossmodal_anchor_ready/crossmodal_anchor_catalog.tsv
+  simulation_teacher_ready_registry:
+    local_root: Input/processed
+    relative_paths:
+      simulation_teacher_catalog: simulation_teacher_ready/simulation_teacher_catalog.tsv
+  full_microenvironment_teacher_ready_registry:
+    local_root: Input/processed
+    contract_version: ad_full_microenvironment_v2
+    relative_paths:
+      full_microenvironment_teacher_catalog: full_microenvironment_teacher_ready/full_microenvironment_teacher_catalog.tsv
+      pbpk_rollout_catalog: full_microenvironment_teacher_ready/pbpk_rollout_catalog.tsv
+      chembl_pbpk_parameter_catalog: full_microenvironment_teacher_ready/chembl_pbpk_parameter_catalog.tsv
+      neuron_rxd_protocol_catalog: full_microenvironment_teacher_ready/neuron_rxd_protocol_catalog.tsv
+      source_model_catalog: full_microenvironment_teacher_ready/source_model_catalog.tsv
+      pbpk_trajectory_store: full_microenvironment_teacher_ready/osp_pbpk_trajectory_store.zarr
+      neuron_rxd_trajectory_store: full_microenvironment_teacher_ready/neuron_rxd_trajectory_store.zarr
+      trajectory_store: full_microenvironment_teacher_ready/trajectory_store.zarr
+  counterfactual_benchmark_ready_registry:
+    local_root: Input/processed
+    relative_paths:
+      counterfactual_benchmark_catalog: counterfactual_benchmark_ready/counterfactual_benchmark_catalog.tsv
+  feedback_ready_registry:
+    local_root: Input/processed
+    relative_paths:
+      feedback_event_catalog: feedback_ready/feedback_event_catalog.tsv
+twin:
+  intervention_program_registry:
+    local_root: Input/processed
+    relative_paths:
+      intervention_program_catalog: intervention_program/intervention_program_catalog.tsv
+collection_completion_audit:
+  output_path: Input/processed/registry/collection_completion_audit.json
+  incomplete_status_prefixes:
+  - blocked_
+  - deferred_
+  manual_required_source_keys:
+  - clue_lincs
+  ignored_source_keys:
+  - oasis
+  - nemo_archive
+  reprobe_asset_prefix: reprobe_
+  collection_complete_status: collection_complete
+  automatable_incomplete_status: automatable_incomplete
+  manual_pending_status: partial_collection_complete
+manual_source_workflows:
+  shared:
+    drop_relative_dir: downloads/manual_drop
+    manifest_relative_path: downloads/manual_drop_manifest.tsv
+    checklist_relative_path: downloads/manual_completion_checklist.json
+    resolved_status: resolved_manual_drop
+  sources:
+    oasis:
+      requirements:
+      - source_accession: OASIS-3
+        asset_name: clinical_tables
+        required_artifact_pattern: '*clinical*.csv|*clinical*.tsv'
+        description: OASIS-3 clinical tabular exports accepted under the active data
+          use agreement.
+      - source_accession: OASIS-3
+        asset_name: cognitive_tables
+        required_artifact_pattern: '*cognitive*.csv|*cognitive*.tsv'
+        description: OASIS-3 cognitive tabular exports accepted under the active data
+          use agreement.
+      - source_accession: OASIS-3
+        asset_name: biomarker_tables
+        required_artifact_pattern: '*biomarker*.csv|*biomarker*.tsv'
+        description: OASIS-3 biomarker tabular exports accepted under the active data
+          use agreement.
+      - source_accession: OASIS-4
+        asset_name: tabular_metadata
+        required_artifact_pattern: '*metadata*.csv|*metadata*.tsv'
+        description: OASIS-4 tabular metadata accepted after OASIS-3 approval and
+          release access.
+    clue_lincs:
+      requirements:
+      - source_accession: clue_lincs
+        asset_name: manual_collection_gate
+        required_artifact_pattern: siginfo*.txt|geneinfo*.txt|pertinfo*.txt|cellinfo*.txt
+        description: Minimal CLUE metadata bundle for signature-level perturbation
+          modeling.
+    nemo_archive:
+      requirements:
+      - source_accession: nemo_archive
+        asset_name: manual_collection_gate
+        required_artifact_pattern: '*release*.json|*collection*.json|*manifest*.tsv|*metadata*.csv'
+        description: Public release or collection discovery metadata for NeMO public
+          portal assets.
+    drugcomb:
+      requirements:
+      - source_accession: drugcomb
+        asset_name: manual_collection_gate
+        required_artifact_pattern: '*about*.html|*download*.html|*api*.html|*.csv|*.tsv|*.zip'
+        description: Public DrugComb descriptors or downloadable metadata captured
+          when the official portal becomes reachable.
+reprobe_public_sources:
+  source_order:
+  - drugcomb
+  - nemo_archive
+  - clue_lincs
+  - oasis
+  accessible_status: resolved_public_accessible
+  sources:
+    drugcomb:
+      gate_source_accession: drugcomb
+      gate_asset_name: manual_collection_gate
+      accessible_status: resolved_public_accessible
+      inaccessible_status: blocked_network_environment
+      probe_assets:
+      - asset_name: reprobe_home_html
+        url: https://www.drugcomb.org/
+        relative_path: downloads/reprobe/home.html
+      - asset_name: reprobe_about_html
+        url: https://www.drugcomb.org/about/
+        relative_path: downloads/reprobe/about.html
+      - asset_name: reprobe_download_html
+        url: https://www.drugcomb.org/download/
+        relative_path: downloads/reprobe/download.html
+      - asset_name: reprobe_api_html
+        url: https://www.drugcomb.org/api/
+        relative_path: downloads/reprobe/api.html
+      mirror_landing_assets:
+      - asset_name: reprobe_helsinki_dataset_html
+        url: https://researchportal.helsinki.fi/en/datasets/drugcomb/
+        relative_path: downloads/reprobe/helsinki_dataset.html
+      mirror_api_records:
+      - record_id: 18449193
+        api_url: https://zenodo.org/api/records/18449193
+        relative_json_path: downloads/releases/zenodo/18449193/record.json
+        files:
+        - key: drugcomb_data_v1.4.csv
+          relative_path: downloads/releases/zenodo/18449193/drugcomb_data_v1.4.csv
+        - key: DrugComb_cell_line_identifiers.xlsx
+          relative_path: downloads/releases/zenodo/18449193/DrugComb_cell_line_identifiers.xlsx
+        - key: DrugComb_drug_identifiers.xlsx
+          relative_path: downloads/releases/zenodo/18449193/DrugComb_drug_identifiers.xlsx
+      - record_id: 11102665
+        api_url: https://zenodo.org/api/records/11102665
+        relative_json_path: downloads/releases/zenodo/11102665/record.json
+        files:
+        - key: summary_table_v1.4.csv
+          relative_path: downloads/releases/zenodo/11102665/summary_table_v1.4.csv
+      - record_id: 15235991
+        api_url: https://zenodo.org/api/records/15235991
+        relative_json_path: downloads/releases/zenodo/15235991/record.json
+        files:
+        - key: summary_v_1_5.csv
+          relative_path: downloads/releases/zenodo/15235991/summary_v_1_5.csv
+    nemo_archive:
+      gate_source_accession: nemo_archive
+      gate_asset_name: manual_collection_gate
+      accessible_status: resolved_public_accessible
+      discovery_blocked_status: blocked_discovery_required
+      primary_materialization_blocked_status: blocked_primary_asset_not_materialized
+      inaccessible_status: blocked_network_environment
+      crawl_node_limit: 200
+      discovered_collections_relative_path: downloads/reprobe/discovered_collections.tsv
+      primary_collections_relative_path: downloads/reprobe/ad_aging_primary_collections.tsv
+      reference_collections_relative_path: downloads/reprobe/human_brain_reference_collections.tsv
+      primary_candidate_queue_relative_path: downloads/reprobe/ad_aging_primary_candidate_queue.tsv
+      reference_candidate_queue_relative_path: downloads/reprobe/human_brain_reference_candidate_queue.tsv
+      candidate_sync_audit_relative_path: downloads/reprobe/candidate_sync_audit.tsv
+      public_processed_candidate_queue_relative_path: downloads/reprobe/public_processed_candidate_queue.tsv
+      human_taxa_terms:
+      - human
+      target_access_values:
+      - open
+      - restricted
+      primary_match_scope: ad_aging_primary
+      reference_match_scope: human_brain_reference
+      primary_match_fields:
+      - name
+      - description
+      - keywords
+      - publication_title
+      reference_match_fields:
+      - name
+      - description
+      - keywords
+      - publication_title
+      - anatomical_regions
+      primary_target_keywords:
+      - alzheimer
+      - alzheimer disease
+      - alzheimer's disease
+      - late-onset alzheimer disease
+      - early-onset alzheimer disease
+      - dementia
+      - mild cognitive impairment
+      - subjective cognitive decline
+      - normal aging
+      - cognitive aging
+      - aging
+      - aged
+      - cognitive
+      reference_target_keywords:
+      - brain
+      - cortex
+      - hippocampus
+      - striatum
+      - basal ganglia
+      blocked_download_url_terms:
+      - /raw/
+      - demultiplexed_fastq
+      - .fastq
+      - .bam
+      - .cram
+      listing_metadata_name_patterns:
+      - readme
+      - manifest
+      - metadata
+      - index
+      metadata_like_extensions:
+      - .json
+      - .csv
+      - .tsv
+      - .txt
+      - .md
+      - .pdf
+      package_extensions:
+      - .tgz
+      - .tar.gz
+      - .zip
+      - .gz
+      - .h5ad
+      - .loom
+      - .h5
+      - .mtx
+      - .mtx.gz
+      - .parquet
+      - .rds
+      - .rda
+      remote_url_rewrites:
+        http://data.nemoarchive.org/: https://data.nemoarchive.org/
+      probe_assets:
+      - asset_name: reprobe_portal_home_html
+        url: https://portal.nemoarchive.org/
+        relative_path: downloads/reprobe/portal_home.html
+      - asset_name: reprobe_publication_release_html
+        url: https://data.nemoarchive.org/publication_release/
+        relative_path: downloads/reprobe/publication_release.html
+      - asset_name: reprobe_api_overview_html
+        url: https://nemoarchive.org/resources/nemo-api-overview.php
+        relative_path: downloads/reprobe/api_overview.html
+      public_metadata_assets:
+      - asset_name: reprobe_assets_home_html
+        url: https://assets.nemoarchive.org/
+        relative_path: downloads/reprobe/assets_home.html
+      - asset_name: reprobe_assets_api_doc_md
+        url: https://raw.githubusercontent.com/nemoarchive/documentation/master/nemo_assets_api.md
+        relative_path: downloads/reprobe/nemo_assets_api.md
+      example_collections:
+      - collection_id: nemo:col-pxwhesp
+      - collection_id: nemo:col-2cefjbn
+      - collection_id: nemo:dat-tprd2pd
+    clue_lincs:
+      gate_source_accession: clue_lincs
+      gate_asset_name: manual_collection_gate
+      accessible_status: blocked_account_required
+      inaccessible_status: blocked_network_environment
+      probe_assets:
+      - asset_name: reprobe_data_html
+        url: https://clue.io/data
+        relative_path: downloads/reprobe/data.html
+      - asset_name: reprobe_version_data_html
+        url: https://clue.io/version-data
+        relative_path: downloads/reprobe/version_data.html
+    oasis:
+      probe_assets:
+      - source_accession: OASIS-3
+        asset_name: clinical_tables
+        accessible_status: blocked_clickthrough_required
+        inaccessible_status: blocked_network_environment
+      - source_accession: OASIS-3
+        asset_name: cognitive_tables
+        accessible_status: blocked_clickthrough_required
+        inaccessible_status: blocked_network_environment
+      - source_accession: OASIS-3
+        asset_name: biomarker_tables
+        accessible_status: blocked_clickthrough_required
+        inaccessible_status: blocked_network_environment
+      - source_accession: OASIS-4
+        asset_name: tabular_metadata
+        accessible_status: deferred_clickthrough_required
+        inaccessible_status: blocked_network_environment
+      probe_pages:
+      - asset_name: reprobe_access_html
+        url: https://sites.wustl.edu/oasisbrains/access/
+        relative_path: downloads/reprobe/access.html
+      - asset_name: reprobe_registration_html
+        url: https://www.nitrc.org/account/register.php
+        relative_path: downloads/reprobe/registration.html
+annotation_companion_downloads:
+  geo:
+    platform_relative_dir: platform_annotations
+    receipt_relative_path: downloads/download_receipts.tsv
+    platform_family_url_template: https://ftp.ncbi.nlm.nih.gov/geo/platforms/{platform_prefix}/{platform_accession}/soft/{platform_accession}_family.soft.gz
+    platform_listing_url_template: https://ftp.ncbi.nlm.nih.gov/geo/platforms/{platform_prefix}/{platform_accession}/
+    gene_reference_relative_dir: platform_annotations/gene_reference
+    gene_reference_url: https://ftp.ncbi.nlm.nih.gov/gene/DATA/GENE_INFO/Mammalia/Homo_sapiens.gene_info.gz
+  arrayexpress:
+    platform_relative_dir: platform_annotations
+    receipt_relative_path: downloads/download_receipts.tsv
+    array_design_url_template: https://www.ebi.ac.uk/arrayexpress/files/{array_design_accession}/{array_design_accession}.adf.txt
+    geo_platform_url_template: https://ftp.ncbi.nlm.nih.gov/geo/platforms/{platform_prefix}/{platform_accession}/soft/{platform_accession}_family.soft.gz
+    geo_platform_miniml_url_template: https://ftp.ncbi.nlm.nih.gov/geo/platforms/{platform_prefix}/{platform_accession}/miniml/{platform_accession}_family.xml.tgz
+    geo_platform_preferred_format:
+      default: family_soft
+      GPL5175: miniml_tgz
+    design_replacement_files:
+      A-AFFY-143:
+        replacement_accession: A-MEXP-2246
+        replacement_filename: actual_adf_for_A-MEXP-2246.txt
+        replacement_url: https://www.ebi.ac.uk/arrayexpress/files/A-MEXP-2246/actual_adf_for_A-MEXP-2246.txt
+    design_to_geo_platform_alias:
+      A-AFFY-33: GPL96
+      A-AFFY-143: GPL5175
+clue_public_build_sync:
+  api_base_url: https://api.clue.io/api/data
+  api_key_env: CLUE_API_KEY
+  local_root: Input/raw/clue_lincs
+  receipt_relative_path: downloads/download_receipts.tsv
+  catalog_relative_path: downloads/api/build_catalog.json
+  build_root_template: downloads/builds/{build_name}
+  selected_roles:
+  - PUBLIC
+  - ANONYMOUS
+  selected_statuses:
+  - Completed
+  metadata_name_patterns:
+  - README
+  - Metadata Field Definitions
+  - metadata
+  - geneinfo
+  - gene_info
+  - cellinfo
+  - cell_info
+  - instinfo
+  - inst_info
+  - siginfo
+  - sig_info
+  - pertinfo
+  - pert_info
+  - compoundinfo
+  - batches.txt
+  core_build_files:
+    TouchstoneV1.1:
+    - GSE92742_Broad_LINCS_Level5_COMPZ.MODZ_n473647x12328.gctx.gz
+    SMA:
+    - modzs_n4559x12339.gctx
+    SMA-L1000:
+    - SMA_L1000_Level5_MODZS_n4597x12328.gctx.gz
+    CRISPR_Broad_LINCS:
+    - CRISPR_Broad_LINCS_Level5_MODZS_n18618x12328.gctx.gz
+alignment_ready_registry:
+  local_root: Input/processed
+  enabled_sources:
+  - geo
+  - arrayexpress
+  - metabolomics_workbench
+  bundle_root_template: Input/processed/alignment_ready/studies/{source_key}/{source_accession}
+  bundle_filenames:
+    manifest: alignment_manifest.json
+    sample_index: sample_index.parquet
+    entity_index: entity_index.parquet
+    matrix_raw: matrix_raw.npy
+    matrix_norm: matrix_norm.npy
+  transcriptomics:
+    supported_sources:
+    - geo
+    - arrayexpress
+    allowed_tissues:
+    - brain tissue
+    direct_gene_symbol_columns:
+    - Gene Symbol
+    - gene_symbol
+    - Gene symbol
+    - Symbol
+    - GENE_SYMBOL
+    - Genesymbol
+    - GenName
+    direct_entrez_columns:
+    - ENTREZ_GENE_ID
+    - Entrez Gene
+    - Entrez Gene ID
+    - Gene ID
+    - gene_id
+    - ENTREZID
+    - locus
+    - LocusLink
+    - geneid
+    gene_assignment_columns:
+    - gene_assignment
+    - Gene Assignment
+    - gene assignment
+    - Transcript Cluster Assignment
+    symbol_cleanup_patterns:
+    - ' /// '
+    - ' // '
+    - ;
+    - ','
+  metabolomics:
+    supported_sources:
+    - metabolomics_workbench
+    canonical_namespace: normalized_metabolite_label
+    duplicate_aggregation: median
+  relative_paths:
+    entity_catalog: alignment_ready/entity_catalog.tsv
+    study_feature_mapping: alignment_ready/study_feature_mapping.tsv
+    aligned_matrix_catalog: alignment_ready/aligned_matrix_catalog.tsv
+    alignment_exclusion_catalog: alignment_ready/alignment_exclusion_catalog.tsv
+benchmark_registry:
+  local_root: Input/processed
+  active_disease_program: ad_control
+  benchmark_name: ad_control_shared_latent
+  formal_seed_values:
+  - 3407
+  - 42
+  - 26
+  target_label_space: ad_control
+  positive_labels:
+  - Alzheimer disease
+  negative_labels:
+  - normal aging
+  primary_source_accessions:
+  - E-GEOD-12685
+  - E-GEOD-16759
+  - E-GEOD-26972
+  - E-GEOD-28146
+  - E-GEOD-37263
+  - GSE13214
+  - ST000433
+  - ST004168
+  auxiliary_source_accessions:
+  - ST000046
+  - ST000047
+  - ST003769
+  - ST003972
+  validation_fraction: 0.2
+  minimum_validation_groups_per_label: 1
+  headline_minimum_test_sample_count: 10
+  feature_presence_threshold:
+    transcriptomics: 2
+    metabolomics: 2
+  fold_root_template: Input/processed/benchmark_ready/folds/{benchmark_name}/{fold_name}
+  fold_filenames:
+    sample_split: sample_split.parquet
+    transcriptomics_entity_index: transcriptomics_entity_index.parquet
+    metabolomics_entity_index: metabolomics_entity_index.parquet
+  artifact_root: Output/results/benchmarks
+  logistic_regression:
+    regularization_strength: 1.0
+    max_iter: 5000
+    class_weight: balanced
+    random_seed: 3407
+  shared_latent_model:
+    transcriptomics_hidden_dim: 256
+    metabolomics_hidden_dim: 64
+    latent_dim: 32
+    dropout_rate: 0.1
+    learning_rate: 0.001
+    weight_decay: 0.0001
+    max_epochs: 300
+    patience_epochs: 40
+    classification_loss_weight: 1.0
+    study_alignment_loss_weight: 0.1
+    modality_alignment_loss_weight: 0.1
+    random_seed: 3407
+  tabular_jepa_auxiliary:
+    transcriptomics_hidden_dim: 256
+    metabolomics_hidden_dim: 64
+    predictor_hidden_dim: 128
+    latent_dim: 32
+    dropout_rate: 0.1
+    learning_rate: 0.001
+    weight_decay: 0.0001
+    max_epochs: 300
+    patience_epochs: 40
+    classification_loss_weight: 1.0
+    masked_prediction_loss_weight: 0.5
+    mask_fraction: 0.15
+    random_seed: 3407
+  relative_paths:
+    cohort_catalog: benchmark_ready/cohort_catalog.tsv
+    fold_catalog: benchmark_ready/fold_catalog.tsv
+    training_dataset_catalog: benchmark_ready/training_dataset_catalog.tsv
+    baseline_result_catalog: benchmark_ready/baseline_result_catalog.tsv
+  orphan_fold_archive_root: benchmark_ready/archive_orphan_folds
+  disease_programs:
+    ad_control:
+      benchmark_name: ad_control_shared_latent
+      cross_study_benchmark_name: ad_control_shared_latent
+      target_label_space: ad_control
+      positive_labels:
+      - Alzheimer disease
+      negative_labels:
+      - normal aging
+      primary_source_accessions:
+      - E-GEOD-12685
+      - E-GEOD-16759
+      - E-GEOD-26972
+      - E-GEOD-28146
+      - E-GEOD-37263
+      - GSE13214
+      - ST000433
+      - ST004168
+      auxiliary_source_accessions:
+      - ST000046
+      - ST000047
+      - ST003769
+      - ST003972
+      minimum_included_primary_study_count: 2
+      headline_minimum_test_sample_count: 10
+    pd_control:
+      benchmark_name: pd_control_shared_latent
+      cross_study_benchmark_name: pd_control_shared_latent
+      single_cohort_benchmark_name: pd_control_single_cohort
+      target_label_space: pd_control
+      positive_labels:
+      - Parkinson disease
+      negative_labels:
+      - normal aging
+      primary_source_accessions:
+      - E-GEOD-6613
+      - E-MTAB-11326
+      - GSE193688
+      auxiliary_source_accessions: []
+      required_modalities:
+      - transcriptomics
+      required_sample_context: patient_cohort
+      required_subject_linkable_flag: 'yes'
+      minimum_included_primary_study_count: 1
+      contract_status: partial_public_contract
+      incompletion_reason: public_cross_study_benchmark_not_yet_materialized
+      completeness_gate:
+        require_world_state_rows: true
+        require_simulation_teacher_rows: true
+        require_counterfactual_rows: true
+        require_capability_rows: true
+      headline_minimum_test_sample_count: 10
+    ftd_control:
+      benchmark_name: ftd_control_shared_latent
+      cross_study_benchmark_name: ftd_control_shared_latent
+      target_label_space: ftd_control
+      positive_labels:
+      - Frontotemporal dementia
+      - frontotemporal dementia
+      - Frontotemporal lobar degeneration
+      - frontotemporal lobar degeneration
+      negative_labels:
+      - normal aging
+      primary_source_accessions: []
+      auxiliary_source_accessions: []
+      required_modalities:
+      - transcriptomics
+      minimum_included_primary_study_count: 2
+      contract_status: incomplete_public_contract
+      incompletion_reason: public_ftd_accession_freeze_not_yet_materialized
+      completeness_gate:
+        require_world_state_rows: true
+        require_simulation_teacher_rows: true
+        require_counterfactual_rows: true
+        require_capability_rows: true
+      headline_minimum_test_sample_count: 10
+    als_control:
+      benchmark_name: als_control_shared_latent
+      cross_study_benchmark_name: als_control_shared_latent
+      target_label_space: als_control
+      positive_labels:
+      - Amyotrophic lateral sclerosis
+      - amyotrophic lateral sclerosis
+      - ALS
+      negative_labels:
+      - normal aging
+      primary_source_accessions: []
+      auxiliary_source_accessions: []
+      required_modalities:
+      - transcriptomics
+      minimum_included_primary_study_count: 2
+      contract_status: incomplete_public_contract
+      incompletion_reason: public_als_accession_freeze_not_yet_materialized
+      completeness_gate:
+        require_world_state_rows: true
+        require_simulation_teacher_rows: true
+        require_counterfactual_rows: true
+        require_capability_rows: true
+      headline_minimum_test_sample_count: 10
+serving_registry:
+  artifact_root: Output/results/serving
+  production_root_template: Output/results/serving/{benchmark_name}/{model_version}
+  default_model_version: production_ad_control_shared_latent
+  supported_modalities:
+  - transcriptomics
+  - metabolomics
+  request_feature_namespace:
+    transcriptomics: entrez_gene_id
+    metabolomics: normalized_metabolite_label
+  minimum_recognized_feature_count:
+    transcriptomics: 1
+    metabolomics: 1
+  bundle_filenames:
+    preprocessing_manifest: preprocessing_manifest.json
+    entity_dictionary: entity_dictionary.parquet
+    label_dictionary: label_dictionary.json
+    model_weights: model_weights.pt
+    model_card: model_card.json
+  server:
+    host: 127.0.0.1
+    port: 8787
+classification:
+  mechanistic_keywords:
+  - ipsc
+  - induced pluripotent
+  - induced neuron
+  - organoid
+  - cell line
+  - cell culture
+  - culture
+  - tri-culture
+  - microglia
+  - astrocyte
+  - oligodendrocyte
+  - mouse model
+  - transgenic
+  - app/ps1
+  - 5xfad
+  - tauopathy
+  - induced neurons
+  patient_keywords:
+  - patient
+  - patients
+  - cohort
+  - subject
+  - participants
+  - plasma
+  - serum
+  - cerebrospinal fluid
+  - csf
+  - postmortem
+  - autopsy
+  - brain tissue
+  excluded_disease_keywords:
+  - amyotrophic lateral sclerosis
+  - multiple sclerosis
+  - huntington
+  tissue_keyword_map:
+    brain tissue:
+    - brain
+    - cortex
+    - hippocampus
+    - frontal cortex
+    - temporal cortex
+    - entorhinal
+    - postmortem
+    - autopsy
+    cerebrospinal fluid:
+    - cerebrospinal fluid
+    - csf
+    plasma:
+    - plasma
+    serum:
+    - serum
+    whole blood:
+    - whole blood
+    - blood
+    PBMC:
+    - pbmc
+    - peripheral blood mononuclear
+query_repositories:
+  geo:
+    query_terms:
+    - Alzheimer disease
+    - Alzheimer's disease
+    - late-onset Alzheimer disease
+    - early-onset Alzheimer disease
+    - mild cognitive impairment
+    - subjective cognitive decline
+    - normal aging
+    - cognitive aging
+    max_results_per_query: 120
+    organism_filter: Homo sapiens
+    search_url: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi
+    summary_url: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi
+  arrayexpress:
+    query_terms:
+    - Alzheimer disease
+    - Alzheimer's disease
+    - late-onset Alzheimer disease
+    - early-onset Alzheimer disease
+    - mild cognitive impairment
+    - subjective cognitive decline
+    - normal aging
+    - cognitive aging
+    page_size: 100
+    max_pages: 4
+    search_url: https://www.ebi.ac.uk/biostudies/api/v1/search
+    detail_url_template: https://www.ebi.ac.uk/biostudies/api/v1/studies/{accession}
+  metabolomics_workbench:
+    query_terms:
+    - alzheimer disease
+    - alzheimers disease
+    - mild cognitive impairment
+    - subjective cognitive decline
+    - normal aging
+    - cognitive aging
+    disease_index_url: https://www.metabolomicsworkbench.org/rest/study/study_id/ST/disease
+    species_index_url: https://www.metabolomicsworkbench.org/rest/study/study_id/ST/species
+    summary_url_template: https://www.metabolomicsworkbench.org/rest/study/study_id/{study_id}/summary
+download_batches:
+  arrayexpress:
+    max_accessions: 6
+    sample_context: patient_cohort
+    diagnosis_priority:
+    - Alzheimer's disease
+    - Alzheimer disease
+    - mild cognitive impairment
+    - subjective cognitive decline
+    - normal aging
+    - cognitive aging
+    allowed_tissues:
+    - brain tissue
+    - cerebrospinal fluid
+    - plasma
+    - serum
+    - whole blood
+    - PBMC
+  geo:
+    max_accessions: 6
+    sample_context: patient_cohort
+    diagnosis_priority:
+    - Alzheimer's disease
+    - Alzheimer disease
+    - mild cognitive impairment
+    - subjective cognitive decline
+    - normal aging
+    - cognitive aging
+    allowed_tissues:
+    - brain tissue
+    - cerebrospinal fluid
+    - plasma
+    - serum
+    - whole blood
+    - PBMC
+    ftp_base: https://ftp.ncbi.nlm.nih.gov/geo/series
+    desired_assets:
+    - family_soft
+    - series_matrix
+    - ftp_series_index
+    - ftp_soft_index
+    - ftp_matrix_index
+  metabolomics_workbench:
+    max_accessions: 6
+    sample_context: patient_cohort
+    diagnosis_priority:
+    - Alzheimer's disease
+    - Alzheimer disease
+    - mild cognitive impairment
+    - subjective cognitive decline
+    - normal aging
+    - cognitive aging
+    allowed_tissues:
+    - brain tissue
+    - cerebrospinal fluid
+    - plasma
+    - serum
+    - whole blood
+    - PBMC
+    desired_assets:
+    - available_json
+    - summary_json
+    - mwtab_txt
+    - factors_json
+    - data_json
+    available_url_template: https://www.metabolomicsworkbench.org/rest/study/study_id/{study_id}/available
+    summary_url_template: https://www.metabolomicsworkbench.org/rest/study/study_id/{study_id}/summary
+    mwtab_url_template: https://www.metabolomicsworkbench.org/rest/study/study_id/{study_id}/mwtab/txt
+    factors_url_template: https://www.metabolomicsworkbench.org/rest/study/study_id/{study_id}/factors
+    data_url_template: https://www.metabolomicsworkbench.org/rest/study/study_id/{study_id}/data
+  oasis:
+    blocking_status_primary: blocked_clickthrough_required
+    blocking_status_secondary: deferred_clickthrough_required
+    registration_url: https://www.nitrc.org/account/register.php
+    access_request_url: https://sites.wustl.edu/oasisbrains/access/
+    note_primary: NITRC registration and OASIS data use agreement are required before
+      tabular download.
+    note_secondary: OASIS-4 remains deferred until the non-imaging OASIS-3 tabular
+      queue is unlocked.
+public_downloads:
+  oasis:
+    receipt_relative_path: downloads/download_receipts.tsv
+  geo:
+    selection_mode: include_flag_yes
+    receipt_relative_path: downloads/download_receipts.tsv
+    ftp_base: https://ftp.ncbi.nlm.nih.gov/geo/series
+  arrayexpress:
+    selection_mode: include_flag_yes
+    receipt_relative_path: downloads/download_receipts.tsv
+    detail_relative_dir: downloads/study_details
+    download_relative_dir: downloads/studies
+    file_url_template: https://www.ebi.ac.uk/biostudies/files/{accession}/{file_path}
+    allowed_attribute_types:
+    - IDF File
+    - SDRF File
+    - ADF File
+    detail_matrix_name_keywords:
+    - normalizedcount
+    - processed-data
+    - sample_table
+    - counts
+    - matrix
+    detail_matrix_extensions:
+    - .txt
+    - .tsv
+    - .csv
+    - .xls
+    - .xlsx
+    detail_raw_extensions:
+    - .cel
+    - .cel.gz
+  metabolomics_workbench:
+    selection_mode: include_flag_yes
+    receipt_relative_path: downloads/download_receipts.tsv
+    available_url_template: https://www.metabolomicsworkbench.org/rest/study/study_id/{study_id}/available
+    summary_url_template: https://www.metabolomicsworkbench.org/rest/study/study_id/{study_id}/summary
+    mwtab_url_template: https://www.metabolomicsworkbench.org/rest/study/study_id/{study_id}/mwtab/txt
+    factors_url_template: https://www.metabolomicsworkbench.org/rest/study/study_id/{study_id}/factors
+    data_url_template: https://www.metabolomicsworkbench.org/rest/study/study_id/{study_id}/data
+  chembl:
+    receipt_relative_path: downloads/download_receipts.tsv
+    public_assets:
+    - asset_name: ftp_latest_index
+      asset_url: https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/
+      relative_path: downloads/releases/latest_index.html
+      response_kind: text
+    - asset_name: api_status_xml
+      asset_url: https://www.ebi.ac.uk/chembl/api/data/status
+      relative_path: downloads/releases/chembl_status.xml
+      response_kind: text
+    - asset_name: latest_readme
+      asset_url: https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/README
+      relative_path: downloads/releases/README
+      response_kind: text
+    - asset_name: latest_license
+      asset_url: https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/LICENSE
+      relative_path: downloads/releases/LICENSE
+      response_kind: text
+    - asset_name: latest_required_attribution
+      asset_url: https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/REQUIRED.ATTRIBUTION
+      relative_path: downloads/releases/REQUIRED.ATTRIBUTION
+      response_kind: text
+    - asset_name: latest_checksums
+      asset_url: https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/checksums.txt
+      relative_path: downloads/releases/checksums.txt
+      response_kind: text
+    - asset_name: latest_release_notes
+      asset_url: https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_36_release_notes.txt
+      relative_path: downloads/releases/chembl_36_release_notes.txt
+      response_kind: text
+    - asset_name: chemreps_txt_gz
+      asset_url: https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_36_chemreps.txt.gz
+      relative_path: downloads/releases/chembl_36_chemreps.txt.gz
+      response_kind: binary
+  drugcentral:
+    receipt_relative_path: downloads/download_receipts.tsv
+    public_assets:
+    - asset_name: target_interaction_tsv_gz
+      asset_url: https://unmtid-dbs.net/download/DrugCentral/2021_09_01/drug.target.interaction.tsv.gz
+      relative_path: downloads/releases/2021_09_01/drug.target.interaction.tsv.gz
+      response_kind: binary
+    - asset_name: structures_smiles_tsv
+      asset_url: https://unmtid-dbs.net/download/DrugCentral/2021_09_01/structures.smiles.tsv
+      relative_path: downloads/releases/2021_09_01/structures.smiles.tsv
+      response_kind: text
+    - asset_name: structures_molv2_sdf_gz
+      asset_url: https://unmtid-dbs.net/download/DrugCentral/2023/structures.molV2.sdf.gz
+      relative_path: downloads/releases/2023/structures.molV2.sdf.gz
+      response_kind: binary
+    - asset_name: structures_molv3_sdf_gz
+      asset_url: https://unmtid-dbs.net/download/DrugCentral/2023/structures.molV3.sdf.gz
+      relative_path: downloads/releases/2023/structures.molV3.sdf.gz
+      response_kind: binary
+    - asset_name: fda_approved_csv
+      asset_url: https://drugcentral.org/static/FDA_Approved.csv
+      relative_path: downloads/releases/static/FDA_Approved.csv
+      response_kind: text
+    - asset_name: ema_approved_csv
+      asset_url: https://drugcentral.org/static/EMA_Approved.csv
+      relative_path: downloads/releases/static/EMA_Approved.csv
+      response_kind: text
+    - asset_name: pmda_approved_csv
+      asset_url: https://drugcentral.org/static/PMDA_Approved.csv
+      relative_path: downloads/releases/static/PMDA_Approved.csv
+      response_kind: text
+    - asset_name: fda_ema_pmda_approved_csv
+      asset_url: https://drugcentral.org/static/FDA+EMA+PMDA_Approved.csv
+      relative_path: downloads/releases/static/FDA+EMA+PMDA_Approved.csv
+      response_kind: text
+  bindingdb:
+    receipt_relative_path: downloads/download_receipts.tsv
+    public_assets:
+    - asset_name: all_tsv_zip
+      asset_url: https://www.bindingdb.org/rwd/bind/downloads/BindingDB_All_202604_tsv.zip
+      relative_path: downloads/releases/BindingDB_All_202604_tsv.zip
+      response_kind: binary
+    - asset_name: all_tsv_md5
+      asset_url: https://www.bindingdb.org/rwd/bind/downloads/BindingDB_All_202604_tsv.md5
+      relative_path: downloads/releases/BindingDB_All_202604_tsv.md5
+      response_kind: text
+    - asset_name: target_sequences_fasta
+      asset_url: https://www.bindingdb.org/rwd/bind/BindingDBTargetSequences.fasta
+      relative_path: downloads/releases/BindingDBTargetSequences.fasta
+      response_kind: text
+    - asset_name: tsv_format_pdf
+      asset_url: https://www.bindingdb.org/rwd/bind/chemsearch/marvin/BindingDB-TSV-Format.pdf
+      relative_path: downloads/releases/BindingDB-TSV-Format.pdf
+      response_kind: binary
+    - asset_name: cid_mapping
+      asset_url: https://www.bindingdb.org/rwd/bind/BindingDB_CID.txt
+      relative_path: downloads/releases/BindingDB_CID.txt
+      response_kind: text
+    - asset_name: uniprot_mapping
+      asset_url: https://www.bindingdb.org/rwd/bind/BindingDB_UniProt.txt
+      relative_path: downloads/releases/BindingDB_UniProt.txt
+      response_kind: text
+    - asset_name: drugbank_mapping
+      asset_url: https://www.bindingdb.org/rwd/bind/BindingDB_DrugBankID.txt
+      relative_path: downloads/releases/BindingDB_DrugBankID.txt
+      response_kind: text
+    - asset_name: pubmed_mapping
+      asset_url: https://www.bindingdb.org/rwd/bind/BindingDB_PubMed.txt
+      relative_path: downloads/releases/BindingDB_PubMed.txt
+      response_kind: text
+  dgidb:
+    receipt_relative_path: downloads/download_receipts.tsv
+    release_api_url: https://api.github.com/repos/dgidb/dgidb-v5/releases/latest
+    release_relative_dir: downloads/releases
+  open_targets:
+    receipt_relative_path: downloads/download_receipts.tsv
+    public_assets:
+    - asset_name: ftp_output_index
+      asset_url: https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/25.03/output/
+      relative_path: downloads/releases/25.03/output_index.html
+      response_kind: text
+    directory_assets:
+    - asset_name: disease
+      listing_url: https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/25.03/output/disease/
+      listing_relative_path: downloads/releases/25.03/disease/listing.html
+      relative_dir: downloads/releases/25.03/disease
+      include_patterns:
+      - disease.parquet
+    - asset_name: target
+      listing_url: https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/25.03/output/target/
+      listing_relative_path: downloads/releases/25.03/target/listing.html
+      relative_dir: downloads/releases/25.03/target
+      include_patterns:
+      - _SUCCESS
+      - part-
+    - asset_name: known_drug
+      listing_url: https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/25.03/output/known_drug/
+      listing_relative_path: downloads/releases/25.03/known_drug/listing.html
+      relative_dir: downloads/releases/25.03/known_drug
+      include_patterns:
+      - _SUCCESS
+      - part-
+    - asset_name: drug_molecule
+      listing_url: https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/25.03/output/drug_molecule/
+      listing_relative_path: downloads/releases/25.03/drug_molecule/listing.html
+      relative_dir: downloads/releases/25.03/drug_molecule
+      include_patterns:
+      - _SUCCESS
+      - part-
+    - asset_name: association_overall_direct
+      listing_url: https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/25.03/output/association_overall_direct/
+      listing_relative_path: downloads/releases/25.03/association_overall_direct/listing.html
+      relative_dir: downloads/releases/25.03/association_overall_direct
+      include_patterns:
+      - _SUCCESS
+      - part-
+  allen_brain_cell_atlas:
+    receipt_relative_path: downloads/download_receipts.tsv
+    public_assets:
+    - asset_name: access_intro_html
+      asset_url: https://alleninstitute.github.io/abc_atlas_access/intro.html
+      relative_path: downloads/releases/20250531/abc_atlas_access_intro.html
+      response_kind: text
+    - asset_name: release_manifest_json
+      asset_url: https://allen-brain-cell-atlas.s3.amazonaws.com/releases/20250531/manifest.json
+      relative_path: downloads/releases/20250531/manifest.json
+      response_kind: json
+    s3_prefix_assets:
+    - asset_name: seaad_taxonomy
+      listing_url: https://allen-brain-cell-atlas.s3.us-west-2.amazonaws.com/?list-type=2&prefix=metadata/SEAAD-taxonomy/20240131/
+      listing_relative_path: downloads/releases/20250531/SEAAD-taxonomy/listing.xml
+      relative_dir: downloads/releases/20250531/SEAAD-taxonomy
+      base_download_url: https://allen-brain-cell-atlas.s3.us-west-2.amazonaws.com/
+      include_files:
+      - metadata/SEAAD-taxonomy/20240131/cluster_annotation_term.csv
+      - metadata/SEAAD-taxonomy/20240131/cluster_annotation_term_set.csv
+      - metadata/SEAAD-taxonomy/20240131/cluster_to_cluster_annotation_membership.csv
+    - asset_name: seaad_mapmycells
+      listing_url: https://allen-brain-cell-atlas.s3.us-west-2.amazonaws.com/?list-type=2&prefix=mapmycells/SEAAD/20240831/
+      listing_relative_path: downloads/releases/20250531/SEAAD/listing.xml
+      relative_dir: downloads/releases/20250531/SEAAD
+      base_download_url: https://allen-brain-cell-atlas.s3.us-west-2.amazonaws.com/
+      include_files:
+      - mapmycells/SEAAD/20240831/precomputed_stats.20231120.sea_ad.MTG.h5
+    - asset_name: whb_taxonomy
+      listing_url: https://allen-brain-cell-atlas.s3.us-west-2.amazonaws.com/?list-type=2&prefix=metadata/WHB-taxonomy/20240330/
+      listing_relative_path: downloads/releases/20250531/WHB-taxonomy/listing.xml
+      relative_dir: downloads/releases/20250531/WHB-taxonomy
+      base_download_url: https://allen-brain-cell-atlas.s3.us-west-2.amazonaws.com/
+      include_files:
+      - metadata/WHB-taxonomy/20240330/cluster.csv
+      - metadata/WHB-taxonomy/20240330/cluster_annotation_term.csv
+      - metadata/WHB-taxonomy/20240330/cluster_annotation_term_set.csv
+      - metadata/WHB-taxonomy/20240330/cluster_to_cluster_annotation_membership.csv
+    - asset_name: whb_metadata
+      listing_url: https://allen-brain-cell-atlas.s3.us-west-2.amazonaws.com/?list-type=2&prefix=metadata/WHB-10Xv3/20241115/
+      listing_relative_path: downloads/releases/20250531/WHB-10Xv3/listing.xml
+      relative_dir: downloads/releases/20250531/WHB-10Xv3
+      base_download_url: https://allen-brain-cell-atlas.s3.us-west-2.amazonaws.com/
+      include_files:
+      - metadata/WHB-10Xv3/20241115/anatomical_division_structure_map.csv
+      - metadata/WHB-10Xv3/20241115/cell_metadata.csv
+      - metadata/WHB-10Xv3/20241115/donor.csv
+      - metadata/WHB-10Xv3/20241115/gene.csv
+      - metadata/WHB-10Xv3/20241115/region_of_interest_structure_map.csv
+  biccn_public:
+    receipt_relative_path: downloads/download_receipts.tsv
+    public_assets:
+    - asset_name: biccn_data_page
+      asset_url: https://biccn.org/data
+      relative_path: downloads/releases/public/biccn_data_page.html
+      response_kind: text
+    - asset_name: biccn_home_page
+      asset_url: https://biccn.org/
+      relative_path: downloads/releases/public/biccn_home_page.html
+      response_kind: text
+  clue_lincs:
+    receipt_relative_path: downloads/download_receipts.tsv
+    manual_note_relative_path: downloads/manual_access_requirements.md
+    manual_status: blocked_account_required
+    manual_note: CLUE version pages are public, but signature-level data files require
+      a CLUE account and access key under the published terms.
+  nemo_archive:
+    receipt_relative_path: downloads/download_receipts.tsv
+    manual_note_relative_path: downloads/manual_collection_requirements.md
+    manual_status: blocked_discovery_required
+    manual_note: NeMO public-data guides are public, but metadata APIs require JWT
+      credentials and collection-specific HTTP landing pages must be identified before
+      bulk public asset download.
+    public_assets:
+    - asset_name: data_download_guide
+      asset_url: https://nemoarchive.org/resources/data-download
+      relative_path: downloads/nemo_data_download.html
+      response_kind: text
+    - asset_name: api_overview
+      asset_url: https://nemoarchive.org/resources/nemo-api-overview.php
+      relative_path: downloads/nemo_api_overview.html
+      response_kind: text
+  drugcomb:
+    receipt_relative_path: downloads/download_receipts.tsv
+    manual_note_relative_path: downloads/manual_access_requirements.md
+    manual_status: blocked_network_environment
+    manual_note: DrugComb official web and API endpoints must be reprobed from the
+      current environment before the public download queue can be considered automatable.
+sources:
+  oasis:
+    source_name: OASIS
+    source_url: https://dev.oasis-brains.org/
+    release_label: public_snapshot
+    release_date: null
+    access_mode: click_through_terms
+    license_or_terms: non-commercial academic use with anti-reidentification restrictions
+    disease_scope:
+    - Alzheimer disease
+    - mild cognitive impairment
+    - normal aging
+    modality_scope:
+    - clinical
+    - cognitive
+    - biomarker
+    - imaging_optional
+    query_scope: historical_optional only; historical OASIS-3 and OASIS-4 tabular snapshots
+      remain preserved outside the v2 mainline
+    local_root: Input/raw/oasis
+    checksum_file: checksums/sha256.tsv
+    required_subdirs:
+    - downloads
+    - downloads/manual_drop
+    - manifests
+    - terms
+    - checksums
+    - tabular
+    - imaging_optional
+    snapshot_urls:
+    - filename: oasis_landing_page.html
+      url: https://dev.oasis-brains.org/
+    - filename: oasis_access_page.html
+      url: https://sites.wustl.edu/oasisbrains/access/
+    term_urls:
+    - filename: oasis_terms_snapshot.html
+      url: https://sites.wustl.edu/oasisbrains/access/
+    notes: Legacy optional source retained for traceability only. OASIS no longer
+      participates in the v2 public mainline or benchmark completion gate.
+    include_targets:
+    - OASIS-3 clinical tables
+    - OASIS-3 cognitive tables
+    - OASIS-3 biomarker tables
+    - OASIS-4 public tabular metadata when aligned with AD or aging
+    exclude_targets:
+    - raw image archives during startup
+    - non-AD or non-aging disease programs
+  allen_brain_cell_atlas:
+    source_name: Allen Brain Cell Atlas
+    source_url: https://alleninstitute.org/science-resource/introduction-to-abc-atlas/
+    release_label: public_snapshot
+    release_date: null
+    access_mode: public
+    license_or_terms: source-specific public terms at Allen Institute portals
+    disease_scope:
+    - Alzheimer disease
+    - normal aging
+    modality_scope:
+    - cell_metadata
+    - taxonomy
+    - expression_matrix
+    - spatial_metadata
+    query_scope: Human whole brain and human Alzheimer atlas prior only in the v2
+      mainline.
+    local_root: Input/raw/allen_brain_cell_atlas
+    checksum_file: checksums/sha256.tsv
+    required_subdirs:
+    - downloads
+    - downloads/manual_drop
+    - manifests
+    - terms
+    - checksums
+    snapshot_urls:
+    - filename: abc_atlas_intro.html
+      url: https://alleninstitute.org/science-resource/introduction-to-abc-atlas/
+    - filename: cell_types_portal.html
+      url: https://celltypes.brain-map.org/
+    term_urls:
+    - filename: allen_terms_snapshot.html
+      url: https://alleninstitute.org/terms-of-use/
+    notes: Primary atlas prior source for the v2 public AD or aging world-model route.
+    include_targets:
+    - human whole brain taxonomy
+    - human Alzheimer cell metadata
+    - human spatial metadata
+    exclude_targets:
+    - mouse patient-level surrogates
+    - non-brain tissue releases
+  biccn_public:
+    source_name: BICCN Public
+    source_url: https://biccn.org/data
+    release_label: public_snapshot
+    release_date: null
+    access_mode: public
+    license_or_terms: source-specific public terms at the BICCN data portal and linked
+      archives
+    disease_scope:
+    - normal aging
+    modality_scope:
+    - atlas_metadata
+    - public_catalog
+    - reference_index
+    query_scope: Public BICCN atlas access metadata and archive routing only in the
+      v2 mainline.
+    local_root: Input/raw/biccn_public
+    checksum_file: checksums/sha256.tsv
+    required_subdirs:
+    - downloads
+    - manifests
+    - terms
+    - checksums
+    - accession_freeze
+    snapshot_urls:
+    - filename: biccn_data_page.html
+      url: https://biccn.org/data
+    - filename: biccn_home.html
+      url: https://biccn.org/
+    term_urls:
+    - filename: biccn_data_snapshot.html
+      url: https://biccn.org/data
+    notes: Secondary atlas prior routing source for the v2 public AD or aging world-model
+      route.
+    include_targets:
+    - public atlas access metadata
+    - public human sample routing metadata
+    - public archive index snapshots
+    exclude_targets:
+    - restricted human bundles
+    - raw sequencing archives
+    catalog_rows:
+    - source_accession: BICCN_PUBLIC_DATA
+      title: BICCN public data access and public archive routing
+      species: Homo sapiens
+      tissue_or_biofluid: brain tissue
+      modality: atlas_metadata
+      sample_context: atlas_prior
+      diagnosis_label: normal aging
+      case_count: ''
+      control_count: ''
+      public_url: https://biccn.org/data
+      include_flag: 'yes'
+      exclusion_reason: ''
+      source_repository: BICCN public
+      release_type: metadata_only
+      data_granularity: atlas_level
+      subject_linkable_flag: 'no'
+      provenance_level: publication_curated
+      world_model_role: atlas_prior
+      cohort_or_atlas_family: allen_biccn_atlas
+  nemo_archive:
+    source_name: NeMO Archive
+    source_url: https://nemoarchive.org/data
+    release_label: public_snapshot
+    release_date: null
+    access_mode: public
+    license_or_terms: source-specific public data use terms at NeMO Archive
+    disease_scope:
+    - Alzheimer disease
+    - normal aging
+    modality_scope:
+    - multiomics_matrix
+    - sample_metadata
+    - taxonomy
+    - reference
+    query_scope: historical_optional only; historical NeMO public discovery remains preserved
+      outside the v2 mainline
+    local_root: Input/raw/nemo_archive
+    checksum_file: checksums/sha256.tsv
+    required_subdirs:
+    - downloads
+    - downloads/manual_drop
+    - manifests
+    - terms
+    - checksums
+    snapshot_urls:
+    - filename: nemo_data_portal.html
+      url: https://nemoarchive.org/data
+    - filename: nemo_home.html
+      url: https://nemoarchive.org/
+    term_urls:
+    - filename: nemo_terms_snapshot.html
+      url: https://nemoarchive.org/
+    notes: Legacy optional source retained for historical traceability only. NeMO
+      no longer participates in the v2 public mainline completion gate.
+    include_targets:
+    - public matrix files
+    - sample metadata
+    - taxonomy references
+    exclude_targets:
+    - FASTQ
+    - BAM
+    - controlled-access bundles
+  clue_lincs:
+    source_name: CLUE LINCS
+    source_url: https://clue.io/version-data
+    release_label: public_snapshot
+    release_date: null
+    access_mode: public
+    license_or_terms: source-specific public terms at CLUE
+    disease_scope:
+    - perturbation_reference
+    modality_scope:
+    - signature
+    - perturbagen_metadata
+    - cell_metadata
+    query_scope: Signature-level perturbation assets only; plate-level measurements
+      remain excluded.
+    local_root: Input/raw/clue_lincs
+    checksum_file: checksums/sha256.tsv
+    required_subdirs:
+    - downloads
+    - downloads/manual_drop
+    - manifests
+    - terms
+    - checksums
+    snapshot_urls:
+    - filename: clue_version_data.html
+      url: https://clue.io/version-data
+    - filename: clue_home.html
+      url: https://clue.io/
+    term_urls:
+    - filename: clue_terms_snapshot.html
+      url: https://clue.io/terms
+    notes: Signature-level perturbation data are used for perturbation geometry pretraining
+      only.
+    include_targets:
+    - signatures
+    - perturbagen metadata
+    - cell metadata
+    exclude_targets:
+    - raw plate measurements
+    - assay-level images
+  open_targets:
+    source_name: Open Targets
+    source_url: https://platform-docs.opentargets.org/
+    release_label: public_snapshot
+    release_date: null
+    access_mode: public
+    license_or_terms: source-specific public platform documentation and release notes
+    disease_scope:
+    - Alzheimer disease
+    - normal aging
+    modality_scope:
+    - target_disease_evidence
+    - target_metadata
+    - disease_metadata
+    query_scope: Alzheimer and aging evidence exports only; no full-platform mirror
+      in startup.
+    local_root: Input/raw/open_targets
+    checksum_file: checksums/sha256.tsv
+    required_subdirs:
+    - downloads
+    - manifests
+    - terms
+    - checksums
+    snapshot_urls:
+    - filename: open_targets_docs_home.html
+      url: https://platform-docs.opentargets.org/
+    - filename: open_targets_evidence_docs.html
+      url: https://platform-docs.opentargets.org/evidence
+    term_urls:
+    - filename: open_targets_docs_snapshot.html
+      url: https://platform-docs.opentargets.org/
+    notes: The startup queue only preserves Alzheimer and aging evidence exports with
+      supporting target and disease metadata.
+    include_targets:
+    - Alzheimer evidence
+    - aging evidence
+    - target metadata
+    - disease metadata
+    exclude_targets:
+    - full platform mirror
+  chembl:
+    source_name: ChEMBL
+    source_url: https://www.ebi.ac.uk/chembl/
+    release_label: public_snapshot
+    release_date: null
+    access_mode: public
+    license_or_terms: source-specific public ChEMBL terms
+    disease_scope:
+    - pharmacology_reference
+    modality_scope:
+    - bioactivity
+    - target_annotation
+    - compound_annotation
+    query_scope: Public release and bulk-export metadata only during startup.
+    local_root: Input/raw/chembl
+    checksum_file: checksums/sha256.tsv
+    required_subdirs:
+    - downloads
+    - manifests
+    - terms
+    - checksums
+    snapshot_urls:
+    - filename: chembl_home.html
+      url: https://www.ebi.ac.uk/chembl/
+    - filename: chembl_overview.html
+      url: https://www.ebi.ac.uk/training/online/courses/chembl-quick-tour/what-is-chembl/
+    term_urls:
+    - filename: chembl_home_snapshot.html
+      url: https://www.ebi.ac.uk/chembl/
+    notes: ChEMBL is used as a raw reference source only; cross-source merging remains
+      a processed-layer step.
+    include_targets:
+    - bulk export metadata
+    - release descriptors
+    exclude_targets:
+    - cross-source merges in raw
+  drugcentral:
+    source_name: DrugCentral
+    source_url: https://drugcentral.org/download
+    release_label: public_snapshot
+    release_date: null
+    access_mode: public
+    license_or_terms: source-specific public DrugCentral download terms
+    disease_scope:
+    - pharmacology_reference
+    modality_scope:
+    - compound_annotation
+    - indication
+    - moa
+    query_scope: Public bulk downloads remain isolated in raw; mapping occurs later.
+    local_root: Input/raw/drugcentral
+    checksum_file: checksums/sha256.tsv
+    required_subdirs:
+    - downloads
+    - manifests
+    - terms
+    - checksums
+    snapshot_urls:
+    - filename: drugcentral_download.html
+      url: https://drugcentral.org/download
+    - filename: drugcentral_home.html
+      url: https://drugcentral.org/
+    term_urls:
+    - filename: drugcentral_download_snapshot.html
+      url: https://drugcentral.org/download
+    notes: DrugCentral remains a raw reference source and must not overwrite ChEMBL
+      or BindingDB assets.
+    include_targets:
+    - public download metadata
+    - release descriptors
+    exclude_targets:
+    - cross-source merges in raw
+  bindingdb:
+    source_name: BindingDB
+    source_url: https://www.bindingdb.org/rwd/bind/index.jsp
+    release_label: public_snapshot
+    release_date: null
+    access_mode: public
+    license_or_terms: source-specific public BindingDB terms
+    disease_scope:
+    - pharmacology_reference
+    modality_scope:
+    - affinity
+    - target_annotation
+    - ligand_annotation
+    query_scope: Public bulk export metadata only; no raw-layer harmonization with
+      other drug sources.
+    local_root: Input/raw/bindingdb
+    checksum_file: checksums/sha256.tsv
+    required_subdirs:
+    - downloads
+    - manifests
+    - terms
+    - checksums
+    snapshot_urls:
+    - filename: bindingdb_home.html
+      url: https://www.bindingdb.org/rwd/bind/index.jsp
+    term_urls:
+    - filename: bindingdb_home_snapshot.html
+      url: https://www.bindingdb.org/rwd/bind/index.jsp
+    notes: BindingDB remains isolated in raw for later compound-target affinity mapping.
+    include_targets:
+    - public export metadata
+    - release descriptors
+    exclude_targets:
+    - cross-source merges in raw
+  dgidb:
+    source_name: DGIdb
+    source_url: https://beta.dgidb.org/
+    release_label: public_snapshot
+    release_date: null
+    access_mode: public
+    license_or_terms: source-specific public DGIdb terms and GitHub repository license
+    disease_scope:
+    - pharmacology_reference
+    modality_scope:
+    - drug_gene_interaction
+    - source_metadata
+    query_scope: Public DGIdb site and repository metadata only; interaction merges
+      occur later.
+    local_root: Input/raw/dgidb
+    checksum_file: checksums/sha256.tsv
+    required_subdirs:
+    - downloads
+    - manifests
+    - terms
+    - checksums
+    snapshot_urls:
+    - filename: dgidb_beta_home.html
+      url: https://beta.dgidb.org/
+    - filename: dgidb_github_home.html
+      url: https://github.com/dgidb/dgidb-v5
+    term_urls:
+    - filename: dgidb_github_license.html
+      url: https://github.com/dgidb/dgidb-v5/blob/main/LICENSE
+    notes: DGIdb raw exports remain separate from ChEMBL, DrugCentral, and BindingDB.
+    include_targets:
+    - public API metadata
+    - source metadata
+    exclude_targets:
+    - cross-source merges in raw
+  drugcomb:
+    source_name: DrugComb
+    source_url: https://www.drugcomb.org/about/
+    release_label: public_snapshot
+    release_date: null
+    access_mode: public
+    license_or_terms: source-specific public DrugComb terms
+    disease_scope:
+    - method_pretraining_only
+    modality_scope:
+    - combination_response
+    - synergy_metadata
+    query_scope: Full public combination metadata for method pretraining only.
+    local_root: Input/raw/drugcomb
+    checksum_file: checksums/sha256.tsv
+    required_subdirs:
+    - downloads
+    - manifests
+    - terms
+    - checksums
+    snapshot_urls:
+    - filename: drugcomb_publication_snapshot.html
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC6602441/
+    term_urls:
+    - filename: drugcomb_publication_terms_snapshot.html
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC6602441/
+    notes: DrugComb is admissible only as method_pretraining_only and must not be
+      used as Alzheimer efficacy evidence. The programmatic startup snapshot uses
+      the public PMC descriptor because the official portal returns TLS EOF errors
+      from this environment.
+    include_targets:
+    - public combination metadata
+    - synergy descriptors
+    exclude_targets:
+    - disease-efficacy interpretation for Alzheimer conclusions
+  geo:
+    source_name: GEO
+    source_url: https://www.ncbi.nlm.nih.gov/geo/
+    release_label: public_snapshot
+    release_date: null
+    access_mode: public
+    license_or_terms: source-specific GEO public access and download instructions
+    disease_scope:
+    - Alzheimer disease
+    - mild cognitive impairment
+    - subjective cognitive decline
+    - normal aging
+    - cognitive aging
+    modality_scope:
+    - transcriptomics
+    - proteomics
+    - metadata
+    query_scope: Query-first accession freeze with human AD and aging terms only.
+    local_root: Input/raw/geo
+    checksum_file: checksums/sha256.tsv
+    required_subdirs:
+    - downloads
+    - manifests
+    - terms
+    - checksums
+    - accession_freeze
+    - platform_annotations
+    snapshot_urls:
+    - filename: geo_home.html
+      url: https://www.ncbi.nlm.nih.gov/geo/
+    - filename: geo_download_instructions.html
+      url: https://www.ncbi.nlm.nih.gov/geo/info/download.html
+    term_urls:
+    - filename: geo_download_terms.html
+      url: https://www.ncbi.nlm.nih.gov/geo/info/download.html
+    notes: GEO accessions are frozen before any series-level files are downloaded.
+    include_targets:
+    - public human AD or aging studies with sample metadata
+    exclude_targets:
+    - non-AD disease studies
+    - controlled attachments
+    - series without sample metadata
+  arrayexpress:
+    source_name: ArrayExpress
+    source_url: https://www.ebi.ac.uk/arrayexpress/
+    release_label: public_snapshot
+    release_date: null
+    access_mode: public
+    license_or_terms: source-specific ArrayExpress and BioStudies public access terms
+    disease_scope:
+    - Alzheimer disease
+    - mild cognitive impairment
+    - subjective cognitive decline
+    - normal aging
+    - cognitive aging
+    modality_scope:
+    - transcriptomics
+    - proteomics
+    - metadata
+    query_scope: Query-first accession freeze restricted to the ArrayExpress collection
+      in BioStudies.
+    local_root: Input/raw/arrayexpress
+    checksum_file: checksums/sha256.tsv
+    required_subdirs:
+    - downloads
+    - manifests
+    - terms
+    - checksums
+    - accession_freeze
+    - platform_annotations
+    snapshot_urls:
+    - filename: arrayexpress_redirect.html
+      url: https://www.ebi.ac.uk/arrayexpress/
+    - filename: biostudies_arrayexpress.html
+      url: https://www.ebi.ac.uk/biostudies/arrayexpress
+    term_urls:
+    - filename: biostudies_arrayexpress_snapshot.html
+      url: https://www.ebi.ac.uk/biostudies/arrayexpress
+    notes: ArrayExpress accessions are deduplicated against GEO mirrors before download.
+    include_targets:
+    - public human AD or aging studies with sample metadata
+    exclude_targets:
+    - GEO mirrors already frozen in GEO
+    - controlled attachments
+    - non-AD disease studies
+  metabolomics_workbench:
+    source_name: Metabolomics Workbench
+    source_url: https://www.metabolomicsworkbench.org/tools/mw_rest.php
+    release_label: public_snapshot
+    release_date: null
+    access_mode: public
+    license_or_terms: source-specific Metabolomics Workbench public repository and
+      study licenses
+    disease_scope:
+    - Alzheimer disease
+    - mild cognitive impairment
+    - subjective cognitive decline
+    - normal aging
+    - cognitive aging
+    modality_scope:
+    - metabolomics
+    - metadata
+    query_scope: Query-first study freeze restricted to human AD and aging studies.
+    local_root: Input/raw/metabolomics_workbench
+    checksum_file: checksums/sha256.tsv
+    required_subdirs:
+    - downloads
+    - manifests
+    - terms
+    - checksums
+    - accession_freeze
+    snapshot_urls:
+    - filename: mw_rest_service.html
+      url: https://www.metabolomicsworkbench.org/tools/mw_rest.php
+    - filename: mw_home.html
+      url: https://www.metabolomicsworkbench.org/
+    term_urls:
+    - filename: mw_rest_snapshot.html
+      url: https://www.metabolomicsworkbench.org/tools/mw_rest.php
+    notes: Human AD and aging study freezes are captured before study-level files.
+    include_targets:
+    - public human AD or aging metabolomics studies with study metadata
+    exclude_targets:
+    - non-human studies
+    - controlled attachments
+    - non-AD disease studies
+  literature_parameter_bank:
+    source_name: Literature Parameter Bank
+    source_url: https://www.ncbi.nlm.nih.gov/pmc/
+    release_label: curated_registry
+    release_date: null
+    access_mode: mixed_open_access
+    license_or_terms: open-access documents may be stored; restricted full text is
+      citation-only
+    disease_scope:
+    - Alzheimer disease
+    - normal aging
+    modality_scope:
+    - pk
+    - cns_compartment
+    - clearance
+    - pathology
+    - cell_state
+    - measurement_noise
+    query_scope: Parallel literature extraction with explicit uncertainty ranges only.
+    local_root: Input/raw/literature_parameter_bank
+    checksum_file: checksums/sha256.tsv
+    required_subdirs:
+    - downloads
+    - manifests
+    - terms
+    - checksums
+    notes: Open-access PDF or HTML snapshots may be stored. Restricted texts remain
+      citation-only.
+    required_categories:
+    - drug_specific_physchem_and_pk
+    - cns_compartment_geometry_and_flow
+    - clearance_and_exchange
+    - pathology_turnover
+    - cell_state_transition
+    - measurement_noise_and_assay_variance

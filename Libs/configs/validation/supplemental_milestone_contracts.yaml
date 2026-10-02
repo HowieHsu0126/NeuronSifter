@@ -1,0 +1,403 @@
+supplemental_milestone_contracts:
+  moe:
+    require_multimodal_moe: true
+    require_mechanism_moe: true
+    required_mechanism_experts:
+    - pharmacology_expert
+    - bbb_cns_transport_expert
+    - protein_pathology_expert
+    - inflammation_expert
+    - electrophysiology_rxd_expert
+    - transcriptomics_expert
+    - metabolomics_expert
+    - morphology_expert
+    - solver_observation_expert
+    - solver_residual_expert
+    required_multimodal_experts:
+    - transcriptomics_expert
+    - metabolomics_expert
+    - morphology_expert
+    - electrophysiology_rxd_expert
+    - pharmacology_expert
+    - solver_observation_expert
+  disease_scope:
+    required_primary_disease_program: ad_control
+    required_disease_family: AD
+  model_scale:
+    required_training_scale: single_gpu_trainable
+    active_parameter_lower_bound: 100000000
+    active_parameter_upper_bound: 500000000
+  full_microenvironment:
+    required_contract_version: ad_full_microenvironment_v2
+    required_species:
+    - free_drug
+    - target_bound_drug
+    - misfolded_protein_load
+    - aggregate_burden
+    - neuroinflammation
+    - clearance_flux
+    - circuit_instability
+    - amyloid_beta_soluble
+    - amyloid_plaque
+    - phosphorylated_tau
+    - inflammatory_mediator
+    - calcium_concentration
+    - membrane_voltage
+    - spike_rate
+    - vascular_perivascular_transport
+  runtime:
+    required_runtime_strategy: reproducible_environment_script
+    required_conda_solver: libmamba
+    required_r_packages:
+    - ospsuite
+    - data.table
+    - jsonlite
+  teacher_generation:
+    required_pbpk_teacher: osp_pksim_rollout
+    required_legacy_solver_role: compatibility_baseline
+    required_teacher_roles:
+    - mechanism_teacher
+    - parameter_predicted_teacher
+    required_provenance_levels:
+    - repository_generated_mechanistic_rollout
+    - repository_generated_biophysical_rollout
+    - parameter_predicted_with_uncertainty
+    target_trajectory_count: 1000000
+  neuron_rxd:
+    required_disease_scope: ad_control
+    required_teacher_role: mechanism_teacher
+    required_source_ids:
+    - modeldb_romani_2013_ca3_ca1
+    - allen_cell_types_biophysical
+    required_state_outputs:
+    - membrane_voltage
+    - spike_count
+    - calcium_concentration
+    required_rxd_species:
+    - calcium
+    - amyloid_beta
+    - tau
+    - inflammatory_mediator
+  loss_weighting:
+    require_uncertainty_weighting: true
+    required_objectives:
+    - masked_state_reconstruction_weight
+    - next_state_prediction_weight
+    - long_horizon_rollout_weight
+    - teacher_distillation_weight
+    - counterfactual_consistency_weight
+    - router_regularization_weight
+    - masked_state_ratio
+    required_pretraining_functions:
+    - uncertainty_weighted_mse
+    - objective_loss
+    - teacher_precision_from_uncertainty
+  neural_operator:
+    required_kind: neuronsifter_world_action
+    required_main_rollout_sampler_kind: quantized_mddm_rollout_operator
+    required_mddm_registry_binding: quantized_mddm_main_rollout
+    required_reference_policy: project_native_no_direct_import
+    forbidden_external_import_fragment: Libs.external.neural_operator
+    required_native_modules:
+    - Libs/models/modules/neuronsifter_world_action.py
+    - Libs/models/modules/quantized_mddm_rollout_operator.py
+    - Libs/models/modules/field_rollout.py
+    required_sampler_sample_count: 64
+    required_sampler_denoising_step_count: 100
+    required_mddm_reference_paths:
+    - Libs/external/mddm/mdlm
+    - Libs/external/mddm/mdm-prime
+    require_operator_splitting: true
+    required_operator_splitting_experts:
+    - pharmacology_expert
+    - bbb_cns_transport_expert
+    - protein_pathology_expert
+    - inflammation_expert
+    - electrophysiology_rxd_expert
+    - transcriptomics_expert
+    - metabolomics_expert
+    - morphology_expert
+    - solver_observation_expert
+    - solver_residual_expert
+  transolver_ablation:
+    required_kind: transolver_microenvironment_operator
+    required_refactor_policy: project_native_no_direct_import
+    required_native_modules:
+    - Libs/models/layers/transolver_attention.py
+    - Libs/models/modules/transolver_operator.py
+    - Libs/models/modules/field_rollout.py
+  teacher_family_training:
+    required_families:
+    - mesoscopic_solver_teacher
+    - full_microenvironment_teacher
+    - osp_pbpk_teacher
+    - neuron_rxd_teacher
+    - chembl_parameterized_teacher
+  completion_audit:
+    required_external_adapter_sources:
+    - open_targets
+    - chembl
+    - bindingdb
+    - drugcentral
+    - dgidb
+    - drugcomb
+    - osp_pksim_mobi
+    - rdkit
+    - moleculenet_deepchem
+    - autodock_vina_gnina
+    required_action_summary_fields:
+    - target_set_ranking
+    - drug_set_ranking
+    - dose_ranking
+    - schedule_ranking
+    - route_ranking
+    required_uncertainty_summary_fields:
+    - ranking_stability
+    - rollout_uncertainty
+    - tri_coverage
+    - tri_ood_score
+    - tri_pkpd_physics_consistency
+    required_ad_anchor_interventions:
+    - LECANEMAB
+    - DONANEMAB
+    - VERUBECESTAT
+    - SOLANEZUMAB
+    required_ad_anchor_directions:
+      LECANEMAB: favorable
+      DONANEMAB: favorable
+      VERUBECESTAT: weak_or_negative
+      SOLANEZUMAB: weak_or_negative
+    required_clinical_endpoint_policy: qualitative_direction_only
+  simulation_readiness_audit:
+    required_qc_catalog: Input/processed/simulation_audit/simulation_qc_catalog.tsv
+    required_qc_summary: Input/processed/simulation_audit/simulation_qc_summary.json
+    required_split_leakage_audit: Input/processed/simulation_audit/simulation_split_leakage_audit.json
+    required_pair_alignment_audit: Input/processed/simulation_audit/simulation_pair_alignment_audit.tsv
+    required_readiness_gate: g2_100k
+    required_readiness_statuses:
+    - G2_pass
+    - G2_pass_with_warnings
+    required_qc_grades:
+    - A
+    - B
+    - C
+    - D
+    - S
+    required_qc_uses:
+    - main_pretraining
+    - weak_teacher_calibration
+    - reject
+    - stress_test_only
+    require_zero_uid_leakage: true
+    require_zero_family_leakage: true
+    require_zero_regimen_leakage: true
+    require_zero_target_program_leakage: true
+    require_zero_source_holdout_leakage: true
+  neuronsifter_profiles:
+    required_active_screening_profile: neuronsifter_large
+    required_profiles:
+    - neuronsifter_xl
+    - neuronsifter_large
+    - neuronsifter_student
+    require_distillation: true
+    required_efficiency_report_fields:
+    - candidates_per_second
+    - gpu_hours_per_10k_regimens
+    - accuracy_efficiency_tradeoff
+    - tri_student_error_compensation
+  decision_gate:
+    required_labels:
+    - accept
+    - reject
+    - active_learning
+    - external_validation
+    - insufficient_evidence
+    required_policy_terms:
+    - score_accept_threshold
+    - tri_accept_threshold
+    - pkpd_consistency_threshold
+    - ood_reject_threshold
+  clinical_direction_boundary:
+    required_bridge_role: retrospective_endpoint_direction_module
+    required_endpoint_policy: literature_aggregate_direction_only
+    forbidden_public_claim_fragments:
+    - predicts clinical efficacy
+    - recommends treatment
+    - discovers new drugs end-to-end
+    - replaces PBPK/QSP tools
+    - validated digital twin for patients
+    - million-scale foundation model
+    - pan-neurodegenerative generalization
+    required_public_terms:
+    - sample observation
+    - subtype/state evidence
+    - public cohort evidence
+    - retrospective endpoint bridge
+    - intervention prioritization
+  publication_readiness:
+    required_method_claim: occupancy_conditioned_action_interface_neuronsifter_stochastic_world_model_tri_gated_reliable_screening
+    required_disease_scope: ad_control
+    required_endpoint_policy: retrospective_clinical_direction_consistency
+    required_data_boundary: public_only_known_targets_and_compounds
+    required_submission_failure_policy: delay_submission_until_scientific_readiness
+    required_readiness_freeze_date: '2026-09-06'
+    required_formal_result_materialization_policy:
+      fail_fast_before_main_tables: true
+      ready_result_statuses:
+      - materialized
+      required_surfaces:
+      - formal_dynamics_profiles
+      - claim_metric_catalog
+      - baseline_result_matrix
+      - ablation_result_catalog
+      - selective_risk_catalog
+    required_core_claims:
+    - occupancy_conditioned_action_interface
+    - stochastic_neuronsifter_world_model
+    - mechanism_expert_routing
+    - tri_gated_reliable_screening
+    required_strict_splits:
+    - trajectory_random
+    - family_holdout
+    - regimen_holdout
+    - target_program_holdout
+    - source_holdout
+    required_bootstrap_interval: paired_bootstrap_95
+    required_bootstrap_sample_count: 2000
+    required_g5_gate: g5_effective_sample_gate
+    required_g5_store_trajectory_min_count: 1000000
+    required_g5_headline_profile: neuronsifter_large
+    required_g5_quota:
+      dose_schedule_regimen_grid: 0.40
+      ad_cns_evidence_gated_target_compound_catalog: 0.30
+      subtype_bbb_clearance_inflammation_ephys_profiles: 0.30
+    required_g5_gate_terms:
+    - unique_trajectory_families
+    - unique_regimens
+    - unique_target_programs
+    - counterfactual_pairs
+    - qc_grade_a_b_rate
+    - teacher_uncertainty
+    - zero_split_leakage
+    - scaling_law
+    - cross_holdout_transfer
+    - downstream_gains
+    required_uq_metrics:
+    - coverage
+    - crps
+    - nll
+    required_tri_metrics:
+    - selective_risk
+    - risk_coverage_auc
+    - aurc
+    - ood_auroc
+    - pkpd_consistency
+    required_baselines:
+    - external_evidence_only
+    - drug_id_conditioned_neuronsifter
+    - target_id_conditioned_neuronsifter
+    - scalar_exposure_conditioned_neuronsifter
+    - occupancy_only_shallow_model
+    - transolver_microenvironment_operator
+    - factor_coupled_neural_operator
+    - deterministic_neuronsifter
+    - diffusion_pde_adapter
+    - wdno_adapter
+    - coda_no_adapter
+    - mamba_neural_operator_adapter
+    - full_neuronsifter_large
+    required_report_artifacts:
+    - measurement_semantics_audit.json
+    - scaler_leakage_audit.json
+    - dynamics_calibration_audit.json
+    - crossscale_alignment_audit.json
+    - claim_metric_catalog.tsv
+    - baseline_result_matrix.tsv
+    - ablation_result_catalog.tsv
+    - selective_risk_catalog.tsv
+    - g5_effective_sample_audit.json
+    - scaling_transfer_summary.json
+    - scale_registry_audit.json
+    - scale_consistency_summary.json
+    - distillation_summary.json
+    - teacher_mixture_summary.json
+    - fsdp_smoke_summary.json
+    - gpu_stochastic_smoke_summary.json
+    - foundation_readiness_gate.json
+    - figure_manifest.json
+    - claim_discipline_audit.json
+    - active_learning_loop_summary.json
+    - active_learning_empirical_gap_audit.json
+    controlled_access_optional_report_artifacts:
+    - adni_controlled_bundle_pointer.json
+    - adni_state_inference_summary.json
+    - adni_longitudinal_validation_summary.json
+    - adni_missing_modality_robustness.json
+    - adni_world_state_factor_anchoring.json
+    - adni_posterior_calibration_summary.json
+    required_publication_docs:
+    - Docs/design/OKRs/Phase2/publication_execution_plan.md
+    - Docs/design/OKRs/Phase2/claim_experiment_matrix.md
+    - Docs/design/OKRs/Phase2/metric_acceptance_contract.md
+    - Docs/design/OKRs/Phase2/paper_figure_table_plan.md
+    - Docs/design/OKRs/Phase2/rebuttal_risk_bank.md
+  active_learning_loop:
+    required_contract_name: decision_centric_simulator_portfolio_active_learning
+    required_full_round_count: 3
+    required_tasks_per_round: 128
+    required_batch_quota:
+      exploitation: 0.40
+      exploration: 0.40
+      sentinel: 0.20
+    required_public_sources:
+    - open_targets
+    - chembl
+    - bindingdb
+    - drugcentral
+    - dgidb
+    - drugcomb
+    - lincs_clue_sigcom
+    required_tool_sources:
+    - osp_pksim_mobi
+    - rdkit
+    - moleculenet_deepchem
+    - autodock_vina_gnina
+    required_simulator_families:
+    - public_evidence_refresh
+    - rdkit_descriptor
+    - deepchem_moleculenet
+    - osp_pksim_mobi
+    - neuron_rxd
+    - full_microenvironment
+    - vina_gnina
+    required_model_update_policy:
+    - update_large_every_round
+    - update_student_distillation_every_round
+    - update_world_state_posterior
+    - update_denoiser
+    - update_mechanism_experts
+    - update_ranking_tri_calibration_heads
+    required_schema_keys:
+    - active_learning_candidate_pool_fields
+    - active_learning_acquisition_fields
+    - active_learning_simulation_request_fields
+    - active_learning_simulation_result_fields
+    - active_learning_teacher_update_fields
+    - active_learning_round_report_fields
+    required_simulation_request_defaults:
+    - time_grid
+    - region_grid
+    - compartment_grid
+    - species_list
+    - parameter_prior_uid
+    - uncertainty_policy
+    required_result_linking_sections:
+    - artifact_sources
+    - axis_hashes
+    - result_policy_by_training_label_policy
+    required_serving_endpoints:
+    - /plan_active_learning_batch
+    - /dispatch_validation_tasks
+    - /ingest_simulation_result
+    - /active_learning_round_report
+    fail_fast_policy: mandatory_source_tool_simulator_missing_fails_m2

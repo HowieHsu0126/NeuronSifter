@@ -1,0 +1,99 @@
+retrospective_public_cns_ranking_intake:
+  schema_version: neuronsifter-retrospective-public-cns-ranking-intake-config-v1
+  status: authorized_for_preregistration
+  intake_uid: public_cns_ranking_context_completion
+  authorization:
+    mode: metadata_only
+    outcome_blind: true
+    bounded: true
+    source_count_cap: 5
+    parent_gate: 2_of_3
+    target: one_new_independent_decision_sensitive_group
+    stop_at_independent_decision_sensitive_groups: 3
+    stop_when_queue_exhausted: true
+  parent_state:
+    status: qualified_public_candidates_but_split_insufficient
+    accepted_records: 36
+    rejected_records: 6
+    independent_decision_sensitive_groups: 2
+    required_groups: 3
+    frozen_queue_digest: da26b83d34ee00b417bf7dcb4a75680a05add3a57f75f50b7eef09b9f67c08fd
+    refresh_queue_digest: 34db9a92c841568b7b8e26f922bac1d80cdeb6823fced6384ebf0788ae2034d4
+    protected_holdout_access: 0
+  search_plan:
+    publication_date_from: "2020-01-01"
+    publication_date_to: "2026-08-27"
+    max_queries: 4
+    max_ids_per_query: 25
+    sort: relevance
+    queries:
+      - query_uid: neural_model_compound_screen
+        query: '(("Drug Screening Assays"[MeSH Terms] OR "High-Throughput Screening Assays"[MeSH Terms]) AND ("Neurons"[MeSH Terms] OR "Brain"[MeSH Terms] OR "Central Nervous System"[MeSH Terms] OR "Organoids"[MeSH Terms]) AND "Journal Article"[Publication Type]) NOT (Review[Publication Type] OR Comment[Publication Type] OR Editorial[Publication Type] OR Clinical Trial[Publication Type]) AND ("2020/01/01"[Date - Publication] : "2026/08/27"[Date - Publication])'
+      - query_uid: neural_dose_response
+        query: '(("Dose-Response Relationship, Drug"[MeSH Terms]) AND ("Neurons"[MeSH Terms] OR "Brain"[MeSH Terms] OR "Central Nervous System"[MeSH Terms]) AND "Journal Article"[Publication Type]) NOT (Review[Publication Type] OR Comment[Publication Type] OR Editorial[Publication Type] OR Clinical Trial[Publication Type]) AND ("2020/01/01"[Date - Publication] : "2026/08/27"[Date - Publication])'
+      - query_uid: neural_functional_screen
+        query: '(((electrophysiology[Title] OR excitability[Title] OR "calcium imaging"[Title] OR synaptic[Title] OR neurite[Title]) AND (screening[Title] OR screen[Title] OR "dose-response"[Title] OR comparison[Title] OR combination[Title])) AND "Journal Article"[Publication Type]) NOT (Review[Publication Type] OR Comment[Publication Type] OR Editorial[Publication Type] OR Clinical Trial[Publication Type]) AND ("2020/01/01"[Date - Publication] : "2026/08/27"[Date - Publication])'
+      - query_uid: neurodegeneration_treatment_comparison
+        query: '(((neuron[Title] OR neuronal[Title] OR organoid[Title] OR brain[Title] OR neurodegeneration[Title]) AND ("drug screen"[Title] OR "compound screen"[Title] OR "treatment screen"[Title] OR monotherapy[Title] OR combination[Title] OR comparison[Title])) AND "Journal Article"[Publication Type]) NOT (Review[Publication Type] OR Comment[Publication Type] OR Editorial[Publication Type] OR Clinical Trial[Publication Type]) AND ("2020/01/01"[Date - Publication] : "2026/08/27"[Date - Publication])'
+  selection_policy:
+    public_access_requirement: pmc_link_required
+    required_publication_type: Journal Article
+    excluded_publication_types: [Review, Comment, Editorial, Letter, News]
+    required_design_signals:
+      - direct_head_to_head
+      - combination_vs_monotherapy
+      - dose_response
+      - multi_arm_screen
+    objective_uids:
+      electrophysiology: functional_electrophysiology_rescue_v1
+      calcium_activity: functional_calcium_activity_rescue_v1
+      cell_viability_survival: functional_cell_viability_rescue_v1
+      neurite_morphology: functional_neurite_morphology_rescue_v1
+      synaptic_phenotype: functional_synaptic_phenotype_rescue_v1
+      quantitative_pathology_phenotype: functional_pathology_phenotype_rescue_v1
+    outcome_bearing_title_terms:
+      - effect
+      - significant
+      - winner
+      - strongest
+      - improve
+      - mitigate
+      - rescue
+      - benefit
+      - protect
+      - increase
+      - decrease
+      - enhance
+      - reduce
+      - restore
+      - attenuate
+      - efficacy
+      - promote
+      - inhibit
+      - facilitate
+      - prevent
+      - ameliorate
+      - reverse
+    explicit_preexposed_source_dois:
+      - 10.7554/eLife.88279
+    ranking_order:
+      - design_signal_priority
+      - independent_context_diversity
+      - query_support_count
+      - publication_date_recency
+      - publication_uid
+  boundaries:
+    abstracts_retrieved_before_queue_freeze: false
+    full_text_retrieved_before_queue_freeze: false
+    figures_retrieved_before_queue_freeze: false
+    outcome_values_retrieved_before_queue_freeze: false
+    observed_effect_used_for_priority: false
+    p_values_used_for_priority: false
+    protected_holdout_access: 0
+    existing_frozen_queue_mutation_allowed: false
+    existing_refresh_queue_mutation_allowed: false
+  outputs:
+    preregistration_manifest: Input/manifests/retrospective_public/cns_ranking_intake_preregistration.json
+    metadata_snapshot: Input/raw/public/retrospective/cns_ranking_intake/pubmed_metadata_snapshot.json
+    source_queue: Input/manifests/retrospective_public/cns_ranking_intake_queue.tsv
+    intake_audit: Output/audits/retrospective_public_cns_ranking_intake.json

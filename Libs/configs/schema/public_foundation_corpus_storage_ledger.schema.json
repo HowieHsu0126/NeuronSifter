@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/public_foundation_corpus_storage_ledger.schema.json",
+  "title": "NeuronSifter Public Foundation Corpus Storage Ledger",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "producer", "created_at", "scan_uid", "scan_started_at", "scan_completed_at",
+    "scan_status", "status", "filesystem_root", "scope_included", "scope_excluded", "usage_bytes",
+    "capacity_limit_bytes", "remaining_bytes", "usage_ratio", "largest_directories", "unreadable_paths",
+    "rpc_or_io_errors", "partial_scan", "previous_confirmed_usage_bytes", "delta_from_previous",
+    "validator_status", "roots", "missing_roots", "total_file_count", "decimal_byte_cap", "cap_status",
+    "cap_exceeded", "measurement_exclusions", "failure_class", "scientific_blocker", "blocker_codes",
+    "record_count", "measurement_scope"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-public-foundation-corpus-storage-ledger-v1"},
+    "producer": {"const": "Libs/scripts/builders/build_public_foundation_corpus_storage_ledger.py"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "scan_uid": {"type": "string", "pattern": "^pfcs-[0-9a-f]{32}$"},
+    "scan_started_at": {"type": "string", "format": "date-time"},
+    "scan_completed_at": {"type": "string", "format": "date-time"},
+    "scan_status": {"enum": ["passed", "failed_capacity", "pending_revalidation"]},
+    "status": {"enum": ["passed", "failed_capacity", "pending_revalidation"]},
+    "filesystem_root": {"type": "string", "minLength": 1},
+    "scope_included": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "scope_excluded": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_./-]*$"}},
+    "usage_bytes": {"type": "integer", "minimum": 0},
+    "capacity_limit_bytes": {"type": "integer", "minimum": 1},
+    "remaining_bytes": {"type": ["integer", "null"]},
+    "usage_ratio": {"type": ["number", "null"], "minimum": 0},
+    "largest_directories": {"type": "array", "items": {"$ref": "#/$defs/directoryMeasurement"}},
+    "unreadable_paths": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "rpc_or_io_errors": {"type": "array", "items": {"$ref": "#/$defs/ioError"}},
+    "partial_scan": {"type": "boolean"},
+    "previous_confirmed_usage_bytes": {"type": "integer", "minimum": 0},
+    "delta_from_previous": {"type": ["integer", "null"]},
+    "validator_status": {"enum": ["passed", "blocked"]},
+    "roots": {
+      "type": "object",
+      "additionalProperties": {"$ref": "#/$defs/rootMeasurement"}
+    },
+    "missing_roots": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "total_file_count": {"type": "integer", "minimum": 0},
+    "decimal_byte_cap": {"type": "integer", "minimum": 1},
+    "cap_status": {"enum": ["passed", "not_passed", "pending_revalidation"]},
+    "cap_exceeded": {"type": "boolean"},
+    "measurement_exclusions": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9_./-]*$"}},
+    "failure_class": {"type": "string", "minLength": 1},
+    "scientific_blocker": {"const": false},
+    "blocker_codes": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "record_count": {"type": "integer", "minimum": 0},
+    "measurement_scope": {"$ref": "#/$defs/measurementScope"}
+  },
+  "$defs": {
+    "directoryMeasurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "bytes", "file_count", "scan_complete"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "bytes": {"type": "integer", "minimum": 0},
+        "file_count": {"type": "integer", "minimum": 0},
+        "scan_complete": {"type": "boolean"}
+      }
+    },
+    "ioError": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "error_type", "errno", "message"],
+      "properties": {
+        "path": {"type": "string"},
+        "error_type": {"type": "string", "minLength": 1},
+        "errno": {"type": ["integer", "null"]},
+        "message": {"type": "string", "minLength": 1}
+      }
+    },
+    "rootMeasurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["root", "exists", "scan_complete", "file_count", "bytes", "excluded_file_count", "excluded_bytes", "skipped_symlink_count", "skipped_non_regular_entry_count"],
+      "properties": {
+        "root": {"type": "string", "minLength": 1},
+        "exists": {"type": "boolean"},
+        "scan_complete": {"type": "boolean"},
+        "file_count": {"type": "integer", "minimum": 0},
+        "bytes": {"type": "integer", "minimum": 0},
+        "excluded_file_count": {"type": "integer", "minimum": 0},
+        "excluded_bytes": {"type": "integer", "minimum": 0},
+        "skipped_symlink_count": {"type": "integer", "minimum": 0},
+        "skipped_non_regular_entry_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "measurementScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["roots", "includes_output_root", "self_reference_excluded"],
+      "properties": {
+        "roots": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "includes_output_root": {"type": "boolean"},
+        "self_reference_excluded": {"type": "boolean"}
+      }
+    }
+  }
+}

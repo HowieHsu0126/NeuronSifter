@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/functional-publication-evidence-graph-v1.json",
+  "title": "NeuronSifter publication-centered functional evidence graph",
+  "type": "object",
+  "required": ["schema_version", "status", "terminal_state", "campaign_scope", "source_count", "functional_artifact_present_count", "functional_artifact_recovered_count", "machine_readable_candidate_count", "admission_eligible_source_count", "legal_candidate_set_count", "qualified_candidate_set_count", "records", "protected_holdout_access"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-functional-publication-evidence-graph-v1"},
+    "status": {"enum": ["completed_bounded_recovery", "completed_with_access_blocks", "blocked_network_access"]},
+    "terminal_state": {"enum": ["BLOCKED_REQUIRES_EXTERNAL_MULTI_ARM_FUNCTIONAL_OUTCOMES", "PUBLIC_FUNCTIONAL_RECOVERY_CONTINUES"]},
+    "campaign_scope": {"const": "nine_seed_publication_centered_recovery"},
+    "source_count": {"const": 9},
+    "functional_artifact_present_count": {"type": "integer", "minimum": 0, "maximum": 9},
+    "publication_resolved_count": {"type": "integer", "minimum": 0, "maximum": 9},
+    "functional_artifact_recovered_count": {"type": "integer", "minimum": 0, "maximum": 9},
+    "machine_readable_candidate_count": {"type": "integer", "minimum": 0},
+    "admission_eligible_source_count": {"type": "integer", "minimum": 0},
+    "legal_candidate_set_count": {"type": "integer", "minimum": 0},
+    "qualified_candidate_set_count": {"type": "integer", "minimum": 0},
+    "outcome_values_used_for_priority": {"const": false},
+    "model_predictions_inspected": {"const": false},
+    "figure_digitization_admitted": {"const": false},
+    "protected_holdout_access": {"const": 0},
+    "publication_comparison_open": {"const": false},
+    "records": {
+      "type": "array",
+      "minItems": 9,
+      "items": {
+        "type": "object",
+        "required": ["source_uid", "study_accession", "status", "publication_resolution", "functional_artifact_status", "machine_readable_status", "replicate_identity_status", "uncertainty_status", "shared_control_status", "therapeutic_arm_status", "nodes"],
+        "properties": {
+          "source_uid": {"type": "string", "pattern": "^geo:GSE[0-9]+$"},
+          "study_accession": {"type": "string", "pattern": "^GSE[0-9]+$"},
+          "status": {"enum": ["FUNCTIONAL_DATA_RECOVERED", "FUNCTIONAL_DATA_PRESENT_BUT_NON_MACHINE_READABLE", "FUNCTIONAL_DATA_PRESENT_BUT_INSUFFICIENT_REPLICATES", "FUNCTIONAL_DATA_PRESENT_BUT_UNCERTAINTY_UNAVAILABLE", "NO_MULTI_ARM_FUNCTIONAL_DATA", "NO_PUBLIC_FUNCTIONAL_ARTIFACT", "ACCESS_BLOCKED"]},
+          "publication_resolution": {"enum": ["resolved_from_geo", "resolved_from_seed_metadata", "resolved_by_title_search", "unresolved", "access_blocked"]},
+          "publication_uid": {"type": ["string", "null"]},
+          "doi": {"type": ["string", "null"]},
+          "pmcid": {"type": ["string", "null"]},
+          "data_availability": {"type": ["string", "null"]},
+          "functional_artifact_status": {"type": "string", "minLength": 1},
+          "machine_readable_status": {"enum": ["confirmed", "not_found", "present_but_not_machine_readable", "unresolved", "access_blocked"]},
+          "replicate_identity_status": {"enum": ["confirmed", "missing", "unresolved", "not_applicable", "access_blocked"]},
+          "uncertainty_status": {"enum": ["confirmed", "missing", "unresolved", "not_applicable", "access_blocked"]},
+          "shared_control_status": {"enum": ["confirmed", "stated_not_verified", "absent", "unresolved", "access_blocked"]},
+          "therapeutic_arm_status": {"enum": ["multi_arm_confirmed", "single_action", "genetic_or_non_therapeutic", "unresolved", "access_blocked"]},
+          "nodes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["node_uid", "node_type", "relationship", "url", "access_status"],
+              "properties": {
+                "node_uid": {"type": "string", "minLength": 1},
+                "node_type": {"enum": ["source_accession", "publication", "full_text", "supplementary_artifact", "linked_repository", "data_availability_link"]},
+                "relationship": {"type": "string", "minLength": 1},
+                "identifier": {"type": ["string", "null"]},
+                "title": {"type": ["string", "null"]},
+                "url": {"type": "string", "format": "uri"},
+                "artifact_format": {"type": ["string", "null"]},
+                "artifact_size_bytes": {"type": ["integer", "null"], "minimum": 0},
+                "machine_readable_status": {"type": ["string", "null"]},
+                "access_status": {"enum": ["resolved", "not_found", "http_error", "download_limit", "access_blocked"]},
+                "content_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+                "metadata_source": {"type": "string", "minLength": 1}
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

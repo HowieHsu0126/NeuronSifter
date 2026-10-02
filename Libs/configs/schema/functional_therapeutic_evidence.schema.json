@@ -1,0 +1,206 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/functional-therapeutic-evidence-v1.json",
+  "title": "NeuronSifter functional therapeutic evidence contract",
+  "type": "object",
+  "required": ["schema_version", "status", "evidence_boundary", "objective_freeze", "source_discovery", "downstream_authorization", "partner_intake"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-functional-therapeutic-evidence-v1"},
+    "status": {"const": "frozen_before_outcome_materialization"},
+    "evidence_boundary": {
+      "type": "object",
+      "required": ["strict_public_only", "evidence_role", "publication_claim_eligible", "protected_holdout_access", "publication_comparison_open", "model_predictions_inspected", "outcome_values_used_for_objective_or_priority", "author_claims_as_ground_truth", "simulator_values_as_ground_truth"],
+      "properties": {
+        "strict_public_only": {"const": true},
+        "evidence_role": {"const": "development_only"},
+        "publication_claim_eligible": {"const": false},
+        "protected_holdout_access": {"const": 0},
+        "publication_comparison_open": {"const": false},
+        "model_predictions_inspected": {"const": false},
+        "outcome_values_used_for_objective_or_priority": {"const": false},
+        "author_claims_as_ground_truth": {"const": false},
+        "simulator_values_as_ground_truth": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "objective_freeze": {
+      "type": "object",
+      "required": ["freeze_status", "objective_namespace", "qualification", "objective_families"],
+      "properties": {
+        "freeze_status": {"const": "frozen_before_outcome_materialization"},
+        "objective_namespace": {"const": "canonical_functional_measurement_namespace"},
+        "qualification": {
+          "type": "object",
+          "required": ["bootstrap_resamples", "bootstrap_seed", "minimum_replicates_per_action", "minimum_therapeutic_actions", "minimum_shared_control_replicates", "require_uncertainty", "require_pairwise_rank_ci_zero_exclusion"],
+          "properties": {
+            "bootstrap_resamples": {"type": "integer", "minimum": 1000},
+            "bootstrap_seed": {"type": "integer", "minimum": 0},
+            "minimum_replicates_per_action": {"type": "integer", "minimum": 2},
+            "minimum_therapeutic_actions": {"const": 2},
+            "minimum_shared_control_replicates": {"type": "integer", "minimum": 2},
+            "require_uncertainty": {"const": true},
+            "require_pairwise_rank_ci_zero_exclusion": {"const": true}
+          },
+          "additionalProperties": true
+        },
+        "objective_families": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["objective_uid", "endpoint_family", "biological_interpretation", "improvement_direction", "measurement_namespace", "unit_policy", "normalization_rule", "time_window_semantics", "replicate_aggregation", "uncertainty_statistic", "candidate_ranking_statistic", "compatible_action_modes"],
+            "properties": {
+              "objective_uid": {"type": "string", "pattern": "^[a-z][a-z0-9_]+_v[0-9]+$"},
+              "endpoint_family": {"type": "string", "minLength": 1},
+              "biological_interpretation": {"type": "string", "minLength": 1},
+              "improvement_direction": {"const": "maximize_prespecified_benefit_score"},
+              "measurement_namespace": {"type": "string", "pattern": "^functional\\.[a-z0-9_]+$"},
+              "unit_policy": {"const": "source_declared_unit_required"},
+              "normalization_rule": {"type": "string", "minLength": 1},
+              "time_window_semantics": {"type": "string", "minLength": 1},
+              "replicate_aggregation": {"const": "arithmetic_mean_with_source_reported_uncertainty"},
+              "uncertainty_statistic": {"const": "source_reported_sd_sem_or_ci_required"},
+              "candidate_ranking_statistic": {"const": "paired_control_contrast_on_frozen_benefit_score"},
+              "compatible_action_modes": {"type": "array", "minItems": 1, "items": {"enum": ["multi_arm", "dose_response", "schedule_response"]}}
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "source_discovery": {
+      "type": "object",
+        "required": ["selection_basis", "metadata_registry", "source_queue", "payload_screening", "outputs", "payload_admission", "publication_recovery", "targeted_discovery"],
+      "properties": {
+        "selection_basis": {"const": "metadata_only_expected_decision_set_yield"},
+        "metadata_registry": {"type": "string", "minLength": 1},
+        "source_queue": {"type": "string", "minLength": 1},
+        "payload_screening": {
+          "type": "object",
+          "required": ["status", "outcome_values_used_for_priority", "records"],
+          "properties": {
+            "status": {"const": "public_release_screened_fail_closed"},
+            "outcome_values_used_for_priority": {"const": false},
+            "records": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": ["study_accession", "public_release_payload", "payload_status", "endpoint_evidence", "functional_values_admitted", "rejection_reasons"],
+                "properties": {
+                  "study_accession": {"type": "string", "minLength": 1},
+                  "public_release_payload": {"type": "string", "minLength": 1},
+                  "payload_status": {"type": "string", "minLength": 1},
+                  "endpoint_evidence": {"type": "string", "minLength": 1},
+                  "functional_values_admitted": {"const": false},
+                  "rejection_reasons": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "outputs": {"type": "object", "additionalProperties": {"type": "string", "minLength": 1}},
+        "payload_admission": {"type": "object", "required": ["required_fields", "reject_reasons"], "properties": {"required_fields": {"type": "array", "minItems": 1, "items": {"type": "string"}}, "reject_reasons": {"type": "array", "minItems": 1, "items": {"type": "string"}}}, "additionalProperties": false},
+        "publication_recovery": {
+          "type": "object",
+          "required": ["status", "seed_registry", "evidence_graph", "recovery_audit", "validation_audit", "resolution_order", "max_seed_sources", "max_supplementary_bytes_per_source", "max_total_supplementary_bytes", "max_linked_artifacts_per_source", "outcome_values_used_for_priority", "model_predictions_inspected", "protected_holdout_access", "publication_comparison_open", "figure_digitization_admitted", "statuses"],
+          "properties": {
+            "status": {"const": "bounded_seed_centered_recovery"},
+            "seed_registry": {"type": "string", "minLength": 1},
+            "evidence_graph": {"type": "string", "minLength": 1},
+            "recovery_audit": {"type": "string", "minLength": 1},
+            "validation_audit": {"type": "string", "minLength": 1},
+            "resolution_order": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+            "max_seed_sources": {"const": 9},
+            "max_supplementary_bytes_per_source": {"type": "integer", "minimum": 1},
+            "max_total_supplementary_bytes": {"type": "integer", "minimum": 1},
+            "max_linked_artifacts_per_source": {"type": "integer", "minimum": 1},
+            "outcome_values_used_for_priority": {"const": false},
+            "model_predictions_inspected": {"const": false},
+            "protected_holdout_access": {"const": 0},
+            "publication_comparison_open": {"const": false},
+            "figure_digitization_admitted": {"const": false},
+            "statuses": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["FUNCTIONAL_DATA_RECOVERED", "FUNCTIONAL_DATA_PRESENT_BUT_NON_MACHINE_READABLE", "FUNCTIONAL_DATA_PRESENT_BUT_INSUFFICIENT_REPLICATES", "FUNCTIONAL_DATA_PRESENT_BUT_UNCERTAINTY_UNAVAILABLE", "NO_MULTI_ARM_FUNCTIONAL_DATA", "NO_PUBLIC_FUNCTIONAL_ARTIFACT", "ACCESS_BLOCKED"]}}
+          },
+          "additionalProperties": false
+        },
+        "targeted_discovery": {
+          "type": "object",
+          "required": ["status", "max_queries", "max_results_per_query", "max_novel_leads", "outcome_values_used_for_priority", "abstract_values_inspected", "model_predictions_inspected", "protected_holdout_access", "publication_comparison_open", "query_registry", "outputs"],
+          "properties": {
+            "status": {"const": "bounded_metadata_only"},
+            "max_queries": {"const": 4},
+            "max_results_per_query": {"type": "integer", "minimum": 1},
+            "max_novel_leads": {"type": "integer", "minimum": 1},
+            "outcome_values_used_for_priority": {"const": false},
+            "abstract_values_inspected": {"const": false},
+            "model_predictions_inspected": {"const": false},
+            "protected_holdout_access": {"const": 0},
+            "publication_comparison_open": {"const": false},
+            "query_registry": {
+              "type": "array",
+              "minItems": 4,
+              "maxItems": 4,
+              "items": {
+                "type": "object",
+                "required": ["query_uid", "endpoint_family", "query"],
+                "properties": {
+                  "query_uid": {"type": "string", "pattern": "^[a-z][a-z0-9_]+$"},
+                  "endpoint_family": {"type": "string", "minLength": 1},
+                  "query": {"type": "string", "minLength": 1}
+                },
+                "additionalProperties": false
+              }
+            },
+            "outputs": {
+              "type": "object",
+              "required": ["manifest", "audit", "validation_audit"],
+              "properties": {
+                "manifest": {"type": "string", "minLength": 1},
+                "audit": {"type": "string", "minLength": 1},
+                "validation_audit": {"type": "string", "minLength": 1}
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "partner_intake": {
+      "type": "object",
+      "required": ["status", "template", "schema", "requirements_audit", "objective_namespace", "required_replicate_level", "requires_uncertainty_support", "publication_comparison_open", "protected_holdout_access"],
+      "properties": {
+        "status": {"const": "template_only_not_external"},
+        "template": {"type": "string", "minLength": 1},
+        "schema": {"type": "string", "minLength": 1},
+        "requirements_audit": {"type": "string", "minLength": 1},
+        "objective_namespace": {"const": "canonical_functional_measurement_namespace"},
+        "required_replicate_level": {"const": true},
+        "requires_uncertainty_support": {"const": true},
+        "publication_comparison_open": {"const": false},
+        "protected_holdout_access": {"const": 0}
+      },
+      "additionalProperties": false
+    },
+    "downstream_authorization": {
+      "type": "object",
+      "required": ["benchmark_created", "world_action_authorized", "gpu_campaign_authorized", "tri_authorized", "agent_in_twin_authorized", "coevolution_authorized", "protected_holdout_access"],
+      "properties": {
+        "benchmark_created": {"const": false},
+        "world_action_authorized": {"const": false},
+        "gpu_campaign_authorized": {"const": false},
+        "tri_authorized": {"const": false},
+        "agent_in_twin_authorized": {"const": false},
+        "coevolution_authorized": {"const": false},
+        "protected_holdout_access": {"const": 0}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

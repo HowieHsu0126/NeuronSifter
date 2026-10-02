@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/therapeutic-targeted-acquisition-queue-v3.json",
+  "title": "NeuronSifter metadata-only targeted therapeutic acquisition queue",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "created_at",
+    "status",
+    "selection_basis",
+    "rows",
+    "eligible_remaining_multi_action_source_count",
+    "ordinary_transcriptomic_expansion_authorized",
+    "protected_holdout_access"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-therapeutic-targeted-acquisition-queue-v3"},
+    "created_at": {"type": "string", "minLength": 1},
+    "status": {"const": "metadata_queue_exhausted_for_ordinary_transcriptomic_multi_action_sources"},
+    "selection_basis": {"const": "metadata_only"},
+    "rows": {"type": "array", "minItems": 1},
+    "eligible_remaining_multi_action_source_count": {"const": 0},
+    "non_decision_sensitive_remaining_source_count": {"type": "integer", "minimum": 0},
+    "ordinary_transcriptomic_expansion_authorized": {"const": false},
+    "protected_holdout_access": {"const": 0}
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,78 @@
+agent_in_digital_twin:
+  schema_version: neuronsifter-agent-in-digital-twin-development-v1
+  mode: development_only
+  formal_evidence_gate: BLOCKED_REQUIRES_EXTERNAL_MULTI_ARM_FUNCTIONAL_OUTCOMES
+  publication_claim_eligible: false
+  protected_holdout_access: 0
+  scientific_task: closed_loop_cns_intervention_optimization
+  mainline_operator: neuronsifter_world_action
+  belief_invariant:
+    fields:
+      - posterior_uid_for_planning
+      - posterior_uid_for_rollout
+      - posterior_uid_for_tool_valuation
+      - posterior_uid_for_assimilation_parent
+      - posterior_uid_for_intervention_ranking
+    hidden_scientific_state_from_memory: 0
+  controller:
+    max_rounds: 3
+    tool_budget: 2
+    stop_on_insufficient_evidence: true
+    reflection_format: structured_summary_only
+    raw_hidden_reasoning_persistence: false
+  memory:
+    layers: [working, episodic, semantic, procedural]
+    twin_belief_is_separate: true
+    invalidation_required: true
+  mcp_trust_boundaries:
+    - neuronsifter-twin-mcp
+    - neuronsifter-intervention-mcp
+    - neuronsifter-evidence-mcp
+    - neuronsifter-memory-mcp
+    - neuronsifter-hpc-mcp
+    - neuronsifter-science-tools-mcp
+  tool_selection:
+    action_type: information_action
+    objective: decision_relevance_minus_cost_latency_reliability_risk
+    proxy_allowed: true
+    proxy_label_required: true
+  intervention_objective:
+    uncertainty_weight: 1.0
+    safety_weight: 1.0
+    cost_weight: 0.1
+    violation_weight: 5.0
+    support_weight: 1.0
+  coevolution:
+    sequential_rounds: 3
+    variants:
+      - frozen_twin_frozen_agent
+      - frozen_twin_adaptive_agent
+      - adaptive_twin_frozen_agent
+      - adaptive_twin_adaptive_agent
+    rollback_enabled: true
+    minimum_old_domain_retention: 0.95
+    maximum_calibration_drift: 0.10
+  development_smoke:
+    output_root: Output/results/agent_in_digital_twin_development
+    development_only: true
+    publication_claim_eligible: false
+  engineering_closure:
+    schema_version: neuronsifter-agent-in-twin-engineering-closure-v1
+    required_scenarios:
+      - normal_multi_round_loop
+      - tool_failure_and_partial_result
+      - contradictory_observation_admission
+      - checkpoint_restart_replay
+      - memory_invalidation_and_truth_isolation
+      - unsupported_action_abstention
+      - tool_boundary_and_idempotence
+      - bidirectional_coevolution
+    replay_rounds: 3
+    authoritative_status: ENGINEERING_READY_AWAITING_EXTERNAL_THERAPEUTIC_EVIDENCE
+    formal_real_world_action: not_qualified
+    formal_agent_in_twin: not_qualified
+    formal_coevolution: not_qualified
+    output_root: Output/results/agent_in_twin_engineering_closure
+    audit_path: Output/audits/agent_in_twin_engineering_closure.json
+    development_only: true
+    publication_claim_eligible: false

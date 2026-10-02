@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/therapeutic-decision-evidence-contract-v2.json",
+  "title": "NeuronSifter therapeutic decision evidence admission contract",
+  "type": "object",
+  "required": ["schema_version", "contract_version", "status", "public_boundary", "admission", "context_matching", "action_comparability", "quantitative_outcome", "qualification", "split_policy", "downstream_authorization", "current_gate_bindings", "output"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-therapeutic-decision-evidence-contract-v2"},
+    "contract_version": {"const": "v2"},
+    "status": {"const": "frozen_before_evidence_acquisition"},
+    "public_boundary": {"$ref": "#/$defs/publicBoundary"},
+    "admission": {"$ref": "#/$defs/admission"},
+    "context_matching": {"$ref": "#/$defs/contextMatching"},
+    "action_comparability": {"$ref": "#/$defs/actionComparability"},
+    "quantitative_outcome": {"$ref": "#/$defs/quantitativeOutcome"},
+    "qualification": {"$ref": "#/$defs/qualification"},
+    "split_policy": {"$ref": "#/$defs/splitPolicy"},
+    "downstream_authorization": {"$ref": "#/$defs/downstreamAuthorization"},
+    "current_gate_bindings": {
+      "type": "object",
+      "required": ["real_intervention_domain", "targeted_therapeutic_domain", "targeted_benchmark_split_audit"],
+      "properties": {
+        "real_intervention_domain": {"const": "Output/audits/real_intervention_decision_domain.json"},
+        "targeted_therapeutic_domain": {"const": "Output/audits/therapeutic_decision_domain.json"},
+        "targeted_benchmark_split_audit": {"const": "Output/audits/therapeutic_decision_benchmark_split_audit.json"}
+      },
+      "additionalProperties": false
+    },
+    "output": {"type": "object", "required": ["audit_path"], "properties": {"audit_path": {"type": "string", "minLength": 1}}, "additionalProperties": false}
+  },
+  "$defs": {
+    "mapping": {"type": "object", "minProperties": 1},
+    "admission": {
+      "type": "object",
+      "required": ["required_fields", "required_source_properties", "allowed_evidence_classes", "prohibited_evidence_classes", "missing_value_policy", "reject_inferred_context_or_action_fields"],
+      "properties": {
+        "required_fields": {"type": "array", "minItems": 12, "uniqueItems": true},
+        "required_source_properties": {"type": "array", "minItems": 4, "uniqueItems": true},
+        "allowed_evidence_classes": {"const": ["E2_REAL_ENDPOINT", "E4_REAL_TRAJECTORY"]},
+        "prohibited_evidence_classes": {"type": "array", "minItems": 1, "uniqueItems": true},
+        "missing_value_policy": {"const": "explicit_unknown_or_explicit_unavailable"},
+        "reject_inferred_context_or_action_fields": {"const": true}
+      },
+      "additionalProperties": false
+    },
+    "contextMatching": {
+      "type": "object",
+      "required": ["required_identity_fields", "exact_match_fields", "harmonization_policy", "cross_context_comparison_allowed", "cross_assay_comparison_allowed", "cross_time_window_comparison_allowed"],
+      "properties": {
+        "required_identity_fields": {"type": "array", "minItems": 6, "uniqueItems": true},
+        "exact_match_fields": {"type": "array", "minItems": 7, "uniqueItems": true},
+        "harmonization_policy": {"const": "frozen_before_outcome_materialization"},
+        "cross_context_comparison_allowed": {"const": false},
+        "cross_assay_comparison_allowed": {"const": false},
+        "cross_time_window_comparison_allowed": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "actionComparability": {
+      "type": "object",
+      "required": ["minimum_candidate_actions", "require_common_control", "require_same_biological_context", "comparable_action_fields", "missing_action_semantics_policy", "combinations_must_be_explicit"],
+      "properties": {
+        "minimum_candidate_actions": {"const": 2},
+        "require_common_control": {"const": true},
+        "require_same_biological_context": {"const": true},
+        "comparable_action_fields": {"type": "array", "minItems": 5, "uniqueItems": true},
+        "missing_action_semantics_policy": {"const": "reject_candidate_set"},
+        "combinations_must_be_explicit": {"const": true}
+      },
+      "additionalProperties": false
+    },
+    "quantitativeOutcome": {
+      "type": "object",
+      "required": ["require_numeric_outcome", "require_unit", "require_replicate_identity", "minimum_biological_replicates_per_arm", "require_uncertainty", "allowed_uncertainty_sources", "normalization_must_be_prespecified", "objective_selection_outcome_blind"],
+      "properties": {
+        "require_numeric_outcome": {"const": true},
+        "require_unit": {"const": true},
+        "require_replicate_identity": {"const": true},
+        "minimum_biological_replicates_per_arm": {"const": 2},
+        "require_uncertainty": {"const": true},
+        "allowed_uncertainty_sources": {"type": "array", "minItems": 1, "uniqueItems": true},
+        "normalization_must_be_prespecified": {"const": true},
+        "objective_selection_outcome_blind": {"const": true}
+      },
+      "additionalProperties": false
+    },
+    "qualification": {
+      "type": "object",
+      "required": ["statistic_family", "bootstrap_resamples", "bootstrap_seed", "rank_probability_required", "confidence_interval_required", "replicate_consistency_required", "classifications", "decision_sensitive_thresholds", "weakly_decision_sensitive_thresholds", "rank_margin_threshold", "near_null_absolute_score_maximum", "point_estimate_only_is_insufficient"],
+      "properties": {
+        "statistic_family": {"const": "paired_bootstrap"},
+        "bootstrap_resamples": {"const": 2000},
+        "bootstrap_seed": {"const": 3407},
+        "rank_probability_required": {"const": true},
+        "confidence_interval_required": {"const": true},
+        "replicate_consistency_required": {"const": true},
+        "classifications": {"type": "array", "minItems": 6, "uniqueItems": true},
+        "decision_sensitive_thresholds": {"type": "object", "required": ["minimum_top_probability", "minimum_benefit_probability"], "properties": {"minimum_top_probability": {"const": 0.95}, "minimum_benefit_probability": {"const": 0.95}}, "additionalProperties": false},
+        "weakly_decision_sensitive_thresholds": {"type": "object", "required": ["minimum_top_probability", "minimum_benefit_probability"], "properties": {"minimum_top_probability": {"const": 0.8}, "minimum_benefit_probability": {"const": 0.8}}, "additionalProperties": false},
+        "rank_margin_threshold": {"const": 0.1},
+        "near_null_absolute_score_maximum": {"const": 0.1},
+        "point_estimate_only_is_insufficient": {"const": true}
+      },
+      "additionalProperties": false
+    },
+    "splitPolicy": {
+      "type": "object",
+      "required": ["create_only_after_nonzero_qualified_sets", "roles", "grouping_fields", "protected_holdout_access"],
+      "properties": {
+        "create_only_after_nonzero_qualified_sets": {"const": true},
+        "roles": {"const": ["train", "validation", "development_eval"]},
+        "grouping_fields": {"type": "array", "minItems": 9, "uniqueItems": true},
+        "protected_holdout_access": {"const": 0}
+      },
+      "additionalProperties": false
+    },
+    "downstreamAuthorization": {
+      "type": "object",
+      "required": ["benchmark_split_created", "world_action_training_authorized", "static_reference_authorized", "tri_calibration_authorized", "agent_in_twin_authorized", "coevolution_authorized", "publication_comparison_open"],
+      "properties": {
+        "benchmark_split_created": {"const": false},
+        "world_action_training_authorized": {"const": false},
+        "static_reference_authorized": {"const": false},
+        "tri_calibration_authorized": {"const": false},
+        "agent_in_twin_authorized": {"const": false},
+        "coevolution_authorized": {"const": false},
+        "publication_comparison_open": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "publicBoundary": {
+      "type": "object",
+      "required": ["strict_public_only", "evidence_role", "publication_claim_eligible", "protected_holdout_access", "model_predictions_inspected", "author_claims_as_ground_truth", "simulator_values_as_ground_truth"],
+      "properties": {
+        "strict_public_only": {"const": true},
+        "evidence_role": {"const": "development_only"},
+        "publication_claim_eligible": {"const": false},
+        "protected_holdout_access": {"const": 0},
+        "model_predictions_inspected": {"const": false},
+        "author_claims_as_ground_truth": {"const": false},
+        "simulator_values_as_ground_truth": {"const": false}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

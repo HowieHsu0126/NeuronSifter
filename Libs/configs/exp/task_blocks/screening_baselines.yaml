@@ -1,0 +1,44 @@
+task_block:
+  task_id: screening_baselines
+  task_name: screening_baselines
+  task_family: screening_baseline
+  description: Paper-grade AD-only screening_baselines task block.
+  shell_entrypoint: Libs/scripts/experiments/run_screening_baselines.sh
+  shell_path: Libs/scripts/experiments/run_screening_baselines.sh
+  python_entrypoint: Libs/exp/baselines/run_screening_baselines.py
+  python_path: Libs/exp/baselines/run_screening_baselines.py
+  config_requirements:
+  - Libs/configs/config_stack.yaml
+  - Libs/configs/exp/paper_grade_full_suite.yaml
+  expected_inputs:
+  - screening_baseline_profiles
+  - benchmark_ready_registry
+  expected_outputs:
+  - metrics.json
+  - run_metadata.json
+  - artifact_hashes.json
+  - status.json
+  - artifact_manifest.json
+  metrics:
+  - auroc
+  - auprc
+  - macro_f1
+  - direction_hit_rate
+  seeds:
+  - 40
+  - 41
+  - 42
+  - 43
+  - 44
+  resource_profile: cpu_large
+  postrun_checks:
+  - Libs/scripts/validators/validate_paper_grade_full_suite.py --mode postrun
+  claim_guardrails:
+  - preserve_ad_only_scope
+  - preserve_G2_pass_with_warnings
+  - preserve_G5_not_passed
+  - no_general_drug_screening_claim
+  - no_direct_clinical_endpoint_prediction_claim
+  - no_private_clinical_data_training_claim
+  - no_secondary_disease_readiness_claim
+  status: partial

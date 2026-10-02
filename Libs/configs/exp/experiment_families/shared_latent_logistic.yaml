@@ -1,0 +1,15 @@
+experiment_family:
+  family_id: shared_latent_logistic
+  description: AD-only paper-grade experiment family declaration for shared_latent_logistic.
+  disease_program: ad_control
+  kind: shared_latent_screening
+  profile_name: shared_latent_formal
+  adapter_name: ''
+  runnable: true
+  reference_only: false
+  reason_if_not_runnable: ''
+  matched_seed_policy: fixed_suite_seeds
+  claim_guardrails:
+  - ad_only
+  - no_g5_upgrade
+  - no_clinical_endpoint_prediction

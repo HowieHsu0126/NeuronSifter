@@ -1,0 +1,129 @@
+schema_version: neuronsifter-round24b-posterior-bound-evaluation-v1
+contract_id: neuronsifter_vnext_dev_v1_round24b
+lineage_id: neuronsifter_vnext_dev_v1
+evidence_boundary:
+  evidence_role: development_only
+  publication_claim_eligible: false
+  protected_holdout_access: 0
+  external_comparison_open: false
+  c2b_status: blocked_insufficient_real_e2_e4
+reference:
+  static_reference_path: Output/audits/round24_static_reference_freeze.json
+  c1_checkpoint_path: Output/runs/round23/c1/large_seed3407/last.pt
+  c1_checkpoint_identity_path: Output/runs/round23/c1/large_seed3407
+  c2s_checkpoint_path: Output/runs/round23/c2s/large_seed3407/last.pt
+  c2s_checkpoint_identity_path: Output/runs/round23/c2s/large_seed3407
+  c1_split_uid: family_holdout_cns_cell_type_region_atlas_transcriptomics
+  c1_split_role: validation
+  c1_role_binding_path: Input/canonical/public_foundation_corpus_v1/splits/reduced_transcriptomics_core_v1/family_holdout_cns_cell_type_region_atlas_transcriptomics.validation.tsv
+  c1_batch_size: 6
+  c1_batch_count: 12
+  c1_posterior_sample_count: 8
+  c2s_pool_path: Output/runs/round23/c2s/prospective_mechanism_pool_v1/manifest.json
+  c2s_split_role: validation
+  registered_tool_uid: neuron_rxd_microenvironment_teacher.run_protocol_batch
+  registered_tool_version: 9.0.1
+posterior:
+  schema_version: round24b_gaussian_calibration_posterior-v1
+  source_schema_version: round23_gaussian_calibration_posterior_v1
+  minimum_dimension: 4
+  c1_condition_scale: 0.05
+  c2s_condition_scale: 1.0
+  c1_uncertainty_floor: 0.000001
+  c2s_uncertainty_floor: 0.000001
+  required_effect_probe_abs: 0.000000001
+typed_current_clamp:
+  schema_version: neuronsifter-round24b-current-clamp-action-v1
+  route: intracellular_soma_current_clamp
+  target: soma_membrane
+  intervention_agent: electrical_current
+  control_agent: no_external_agent
+  amplitude_unit: nA
+  duration_unit: ms
+  delay_unit: ms
+  schedule_semantics: single_pulse_after_resting_state
+  response_species_ids:
+    - calcium_concentration
+    - membrane_voltage
+    - spike_rate
+    - circuit_instability
+  posterior_condition_channel_species:
+    posterior_response_mean: membrane_voltage
+    posterior_response_std: circuit_instability
+  signed_species_ids:
+    - membrane_voltage
+prospective:
+  rounds: 3
+  query_without_replacement: true
+  common_frozen_agent: decision_risk_utility_v1
+  candidate_pool_uid: round24b_modeldb_current_clamp_prospective_v1
+  information_budget_per_round: 1
+  pair_dispatch_per_round: 1
+  candidate_pool_visibility: before_outcome_only
+  candidate_protocols:
+    - action_uid: round24b_positive_long
+      pair_uid: round24b_positive_long_pair
+      amplitude_nA: 0.035
+      duration_ms: 180.0
+      delay_ms: 40.0
+    - action_uid: round24b_negative_long
+      pair_uid: round24b_negative_long_pair
+      amplitude_nA: -0.035
+      duration_ms: 180.0
+      delay_ms: 40.0
+    - action_uid: round24b_positive_mid
+      pair_uid: round24b_positive_mid_pair
+      amplitude_nA: 0.07
+      duration_ms: 90.0
+      delay_ms: 40.0
+    - action_uid: round24b_negative_mid
+      pair_uid: round24b_negative_mid_pair
+      amplitude_nA: -0.07
+      duration_ms: 90.0
+      delay_ms: 40.0
+    - action_uid: round24b_positive_short
+      pair_uid: round24b_positive_short_pair
+      amplitude_nA: 0.18
+      duration_ms: 35.0
+      delay_ms: 40.0
+    - action_uid: round24b_negative_short
+      pair_uid: round24b_negative_short_pair
+      amplitude_nA: -0.18
+      duration_ms: 35.0
+      delay_ms: 40.0
+updates:
+  strategies:
+    - uid: U0_frozen
+      mode: none
+    - uid: U1_latest_batch
+      mode: latest_batch
+    - uid: U2_full_replay
+      mode: full_replay
+    - uid: U3_governed
+      mode: governed
+  neural_checkpoint_update_allowed: false
+  agent_parameters_update_allowed: false
+  minimum_old_domain_retention: 0.9
+  maximum_calibration_drift: 0.15
+  coverage_floor: 0.10
+  minimum_new_evidence_fit_gain: 0.0
+  rollback_on_degradation: true
+bad_update:
+  maximum_posterior_mean_l2_shift: 0.2
+  metrics_restore_tolerance: 0.0
+statistics:
+  interval: paired_bootstrap_95
+  bootstrap_replicates: 2000
+  bootstrap_seed: 3407
+  paired_unit: evaluation_uid
+outputs:
+  output_root: Output/runs/round24b
+  c1_binding_audit: Output/audits/round24b_c1_posterior_binding.json
+  c2s_binding_audit: Output/audits/round24b_c2s_posterior_action_binding.json
+  c1_pre_post_metrics: Output/paper_reports/round24b_c1_pre_post_metrics.tsv
+  c2s_pre_post_metrics: Output/paper_reports/round24b_c2s_pre_post_metrics.tsv
+  update_strategy_results: Output/paper_reports/round24b_update_strategy_results.tsv
+  paired_metrics: Output/paper_reports/round24b_paired_pre_post_metrics.tsv
+  bootstrap_summary: Output/audits/round24b_pre_post_statistical_summary.json
+  posterior_lineage_catalog: Output/audits/round24b_posterior_lineage_catalog.json
+  twin_gate: Output/audits/round24b_twin_adaptation_gate.json

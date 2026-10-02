@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/retrospective-public-ranking-source-recovery-v1.json",
+  "title": "NeuronSifter preregistered public ranking source recovery audit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "publication_uid",
+    "source_accession",
+    "parent_frozen_queue_digest",
+    "refresh_queue_digest",
+    "metadata_snapshot_binding",
+    "source_manifest_binding",
+    "source_artifact_binding",
+    "xml_structure",
+    "qualification",
+    "protected_holdout_access",
+    "formal_evidence_admitted",
+    "candidate_set_created",
+    "next_action"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-retrospective-public-ranking-source-recovery-audit-v1"},
+    "status": {"const": "rejected_preregistered_source_commentary"},
+    "publication_uid": {"const": "pubmed:40754800"},
+    "source_accession": {"const": "PMC12449591"},
+    "parent_frozen_queue_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "refresh_queue_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "metadata_snapshot_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "source_manifest_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "bytes", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "bytes": {"type": "integer", "minimum": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "source_artifact_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "bytes", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "bytes": {"type": "integer", "minimum": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "xml_structure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "article_type",
+        "subject_group",
+        "title",
+        "pmid",
+        "pmcid",
+        "doi",
+        "figure_count",
+        "table_count",
+        "supplementary_material_count",
+        "quantitative_arm_table_present",
+        "mean_n_uncertainty_recoverable",
+        "article_reports_original_experiment",
+        "references_knox_original_doi"
+      ],
+      "properties": {
+        "article_type": {"const": "article-commentary"},
+        "subject_group": {"const": "Commentaries"},
+        "title": {"type": "string", "minLength": 1},
+        "pmid": {"const": "40754800"},
+        "pmcid": {"const": "PMC12449591"},
+        "doi": {"const": "10.1177/13872877251364556"},
+        "figure_count": {"const": 0},
+        "table_count": {"const": 0},
+        "supplementary_material_count": {"const": 0},
+        "quantitative_arm_table_present": {"const": false},
+        "mean_n_uncertainty_recoverable": {"const": false},
+        "article_reports_original_experiment": {"const": false},
+        "references_knox_original_doi": {"const": "10.1177/13872877251343321"}
+      }
+    },
+    "qualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "record_status", "evidence_grade", "evidence_role", "reason"],
+      "properties": {
+        "status": {"const": "rejected_non_formal"},
+        "record_status": {"const": "rejected"},
+        "evidence_grade": {"const": "D"},
+        "evidence_role": {"const": "non_formal_rejection"},
+        "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "protected_holdout_access": {"const": 0},
+    "formal_evidence_admitted": {"const": false},
+    "candidate_set_created": {"const": false},
+    "next_action": {"const": "stop_bounded_refresh_preserve_two_of_three_decision_sensitive_groups"}
+  }
+}

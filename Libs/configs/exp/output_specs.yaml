@@ -1,0 +1,46 @@
+paper_grade_output_specs:
+  standard_run_artifacts:
+  - metrics.json
+  - run_metadata.json
+  - artifact_hashes.json
+  - status.json
+  - artifact_manifest.json
+  checkpoint_outputs:
+  - checkpoints
+  per_seed_results:
+  - Output/results/paper_grade_full_suite/manifests/{task_name}/{model_key}/seed_{seed}/metrics.json
+  aggregate_results:
+  - Output/results/paper_grade_full_suite/aggregates/{task_name}/aggregate_metrics.json
+  paper_tables:
+  - Output/paper_tables
+  reference_only_artifacts:
+  - reference_audit_status.json
+  required_run_metadata_fields:
+  - seed
+  - task
+  - model_family
+  - experiment_family
+  - config_path
+  - suite_config_path
+  - git_head
+  - git_full_diff_hash
+  - resolved_config_sha256
+  - freeze_snapshot_signature
+  - data_manifest_hash
+  - split_hash
+  - start_time
+  - end_time
+  - hostname
+  - device
+  - python_version
+  - torch_version
+
+paper_grade_full_suite:
+  output_specs:
+    config_path: Libs/configs/exp/output_specs.yaml
+    standard_run_artifacts:
+    - metrics.json
+    - run_metadata.json
+    - artifact_hashes.json
+    - status.json
+    - artifact_manifest.json

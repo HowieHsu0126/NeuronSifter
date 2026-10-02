@@ -1,0 +1,269 @@
+functional_therapeutic_evidence:
+  schema_version: neuronsifter-functional-therapeutic-evidence-v1
+  status: frozen_before_outcome_materialization
+  evidence_boundary:
+    strict_public_only: true
+    evidence_role: development_only
+    publication_claim_eligible: false
+    protected_holdout_access: 0
+    publication_comparison_open: false
+    model_predictions_inspected: false
+    outcome_values_used_for_objective_or_priority: false
+    author_claims_as_ground_truth: false
+    simulator_values_as_ground_truth: false
+  objective_freeze:
+    freeze_status: frozen_before_outcome_materialization
+    objective_namespace: canonical_functional_measurement_namespace
+    qualification:
+      bootstrap_resamples: 2000
+      bootstrap_seed: 3407
+      minimum_replicates_per_action: 3
+      minimum_therapeutic_actions: 2
+      minimum_shared_control_replicates: 3
+      require_uncertainty: true
+      require_pairwise_rank_ci_zero_exclusion: true
+      decision_sensitive_min_top_probability: 0.95
+      decision_sensitive_min_benefit_probability: 0.95
+      weakly_decision_sensitive_min_top_probability: 0.8
+      weakly_decision_sensitive_min_benefit_probability: 0.8
+    objective_families:
+      - objective_uid: functional_electrophysiology_rescue_v1
+        endpoint_family: electrophysiology
+        biological_interpretation: prespecified functional electrical activity or excitability endpoint in a neural preparation
+        improvement_direction: maximize_prespecified_benefit_score
+        measurement_namespace: functional.electrophysiology
+        unit_policy: source_declared_unit_required
+        normalization_rule: source_declared_control_normalized_or_absolute_with_frozen_direction
+        time_window_semantics: same_window_or_prespecified_time_trajectory
+        replicate_aggregation: arithmetic_mean_with_source_reported_uncertainty
+        uncertainty_statistic: source_reported_sd_sem_or_ci_required
+        candidate_ranking_statistic: paired_control_contrast_on_frozen_benefit_score
+        compatible_action_modes: [multi_arm, dose_response, schedule_response]
+      - objective_uid: functional_calcium_activity_rescue_v1
+        endpoint_family: calcium_activity
+        biological_interpretation: live calcium activity or event-rate phenotype with a prespecified benefit direction
+        improvement_direction: maximize_prespecified_benefit_score
+        measurement_namespace: functional.calcium_activity
+        unit_policy: source_declared_unit_required
+        normalization_rule: source_declared_control_normalized_or_absolute_with_frozen_direction
+        time_window_semantics: same_window_or_prespecified_time_trajectory
+        replicate_aggregation: arithmetic_mean_with_source_reported_uncertainty
+        uncertainty_statistic: source_reported_sd_sem_or_ci_required
+        candidate_ranking_statistic: paired_control_contrast_on_frozen_benefit_score
+        compatible_action_modes: [multi_arm, dose_response, schedule_response]
+      - objective_uid: functional_cell_viability_rescue_v1
+        endpoint_family: cell_viability_survival
+        biological_interpretation: quantitative survival or viability outcome in a disease or injury-relevant neural preparation
+        improvement_direction: maximize_prespecified_benefit_score
+        measurement_namespace: functional.cell_viability
+        unit_policy: source_declared_unit_required
+        normalization_rule: source_declared_control_normalized_or_absolute_with_frozen_direction
+        time_window_semantics: same_window_or_prespecified_time_trajectory
+        replicate_aggregation: arithmetic_mean_with_source_reported_uncertainty
+        uncertainty_statistic: source_reported_sd_sem_or_ci_required
+        candidate_ranking_statistic: paired_control_contrast_on_frozen_benefit_score
+        compatible_action_modes: [multi_arm, dose_response, schedule_response]
+      - objective_uid: functional_neurite_morphology_rescue_v1
+        endpoint_family: neurite_morphology
+        biological_interpretation: neurite length, branching, process count, or related morphology endpoint with a prespecified benefit direction
+        improvement_direction: maximize_prespecified_benefit_score
+        measurement_namespace: functional.neurite_morphology
+        unit_policy: source_declared_unit_required
+        normalization_rule: source_declared_control_normalized_or_absolute_with_frozen_direction
+        time_window_semantics: same_window_or_prespecified_time_trajectory
+        replicate_aggregation: arithmetic_mean_with_source_reported_uncertainty
+        uncertainty_statistic: source_reported_sd_sem_or_ci_required
+        candidate_ranking_statistic: paired_control_contrast_on_frozen_benefit_score
+        compatible_action_modes: [multi_arm, dose_response, schedule_response]
+      - objective_uid: functional_synaptic_phenotype_rescue_v1
+        endpoint_family: synaptic_phenotype
+        biological_interpretation: quantitative synaptic or network phenotype with a prespecified functional benefit direction
+        improvement_direction: maximize_prespecified_benefit_score
+        measurement_namespace: functional.synaptic_phenotype
+        unit_policy: source_declared_unit_required
+        normalization_rule: source_declared_control_normalized_or_absolute_with_frozen_direction
+        time_window_semantics: same_window_or_prespecified_time_trajectory
+        replicate_aggregation: arithmetic_mean_with_source_reported_uncertainty
+        uncertainty_statistic: source_reported_sd_sem_or_ci_required
+        candidate_ranking_statistic: paired_control_contrast_on_frozen_benefit_score
+        compatible_action_modes: [multi_arm, dose_response, schedule_response]
+      - objective_uid: functional_pathology_phenotype_rescue_v1
+        endpoint_family: quantitative_pathology_phenotype
+        biological_interpretation: quantitative disease-associated pathology or glial phenotype with a prespecified benefit direction
+        improvement_direction: maximize_prespecified_benefit_score
+        measurement_namespace: functional.pathology_phenotype
+        unit_policy: source_declared_unit_required
+        normalization_rule: source_declared_control_normalized_or_absolute_with_frozen_direction
+        time_window_semantics: same_window_or_prespecified_time_trajectory
+        replicate_aggregation: arithmetic_mean_with_source_reported_uncertainty
+        uncertainty_statistic: source_reported_sd_sem_or_ci_required
+        candidate_ranking_statistic: paired_control_contrast_on_frozen_benefit_score
+        compatible_action_modes: [multi_arm, dose_response, schedule_response]
+  source_discovery:
+    selection_basis: metadata_only_expected_decision_set_yield
+    metadata_registry: Input/manifests/functional_therapeutic/source_metadata.tsv
+    source_queue: Input/manifests/functional_therapeutic/source_queue.tsv
+    payload_screening:
+      status: public_release_screened_fail_closed
+      outcome_values_used_for_priority: false
+      records:
+        - study_accession: GSE306153
+          public_release_payload: GSE306153_RAW.tar
+          payload_status: rejected_no_machine_readable_functional_endpoint_in_GEO_release
+          endpoint_evidence: RNA_seq_only_in_GEO_release
+          functional_values_admitted: false
+          rejection_reasons: [no_machine_readable_numeric_functional_payload, transcriptomic_proxy_only]
+        - study_accession: GSE308370
+          public_release_payload: GSE308370_TV0260_gene_expression.txt.gz
+          payload_status: rejected_functional_screen_not_machine_readable_in_public_release
+          endpoint_evidence: RNA_seq_follow_up_and_supplementary_document
+          functional_values_admitted: false
+          rejection_reasons: [no_machine_readable_numeric_functional_payload, missing_replicate_identity, missing_uncertainty]
+        - study_accession: GSE236482
+          public_release_payload: GSE236482_RAW.tar
+          payload_status: rejected_no_machine_readable_functional_endpoint_in_GEO_release
+          endpoint_evidence: RNA_seq_only_in_GEO_release
+          functional_values_admitted: false
+          rejection_reasons: [no_machine_readable_numeric_functional_payload, fewer_than_two_therapeutic_actions]
+        - study_accession: GSE275235
+          public_release_payload: GSE275235_Normalised_filtered_gene_counts.txt.gz
+          payload_status: rejected_deposited_groups_not_therapeutic_arms
+          endpoint_evidence: RNA_seq_groups_WT_and_mutant_genotypes
+          functional_values_admitted: false
+          rejection_reasons: [no_shared_valid_control, non_therapeutic_genetic_perturbation, author_claim_only]
+        - study_accession: GSE304025
+          public_release_payload: GSE304025_RAW.tar
+          payload_status: rejected_no_machine_readable_functional_endpoint_in_GEO_release
+          endpoint_evidence: RNA_seq_only_in_GEO_release
+          functional_values_admitted: false
+          rejection_reasons: [no_machine_readable_numeric_functional_payload, fewer_than_two_therapeutic_actions]
+        - study_accession: GSE284180
+          public_release_payload: GSE284180_RAW.tar
+          payload_status: rejected_no_machine_readable_functional_endpoint_in_GEO_release
+          endpoint_evidence: scRNA_seq_with_genetic_construct_groups
+          functional_values_admitted: false
+          rejection_reasons: [no_machine_readable_numeric_functional_payload, non_therapeutic_genetic_perturbation]
+        - study_accession: GSE312881
+          public_release_payload: GSE312881_export_raw_counts.all_Timecourse.csv.gz
+          payload_status: rejected_single_toxicity_action_without_rescue_endpoint
+          endpoint_evidence: RNA_seq_timecourse_with_paclitaxel_and_DMSO
+          functional_values_admitted: false
+          rejection_reasons: [fewer_than_two_therapeutic_actions, transcriptomic_proxy_only, context_not_comparable]
+        - study_accession: GSE267935
+          public_release_payload: GSE267935_rawcounts_exp_all_cells.csv.gz
+          payload_status: rejected_genetic_regeneration_companion_not_therapeutic_endpoint
+          endpoint_evidence: scRNA_seq_with_genetic_injury_groups
+          functional_values_admitted: false
+          rejection_reasons: [no_machine_readable_numeric_functional_payload, non_therapeutic_genetic_perturbation]
+        - study_accession: GSE72664
+          public_release_payload: GEO_expression_release
+          payload_status: rejected_single_action_without_machine_readable_functional_endpoint
+          endpoint_evidence: RNA_seq_only_in_GEO_release
+          functional_values_admitted: false
+          rejection_reasons: [no_machine_readable_numeric_functional_payload, fewer_than_two_therapeutic_actions]
+    outputs:
+      objective_freeze: Output/audits/functional_therapeutic_objective_freeze.json
+      source_priority: Output/audits/functional_therapeutic_source_priority.json
+      materialization: Output/audits/functional_therapeutic_materialization.json
+      decision_domain: Output/audits/functional_therapeutic_decision_domain.json
+      evidence_gap: Output/audits/functional_therapeutic_evidence_gap.json
+    payload_admission:
+      required_fields:
+        - source_uid
+        - study_accession
+        - biological_context_uid
+        - common_control_uid
+        - world_action_uid
+        - objective_uid
+        - endpoint
+        - unit
+        - time_window
+        - replicate_uid
+        - uncertainty
+        - evidence_grade
+      reject_reasons:
+        - no_machine_readable_numeric_functional_payload
+        - no_shared_valid_control
+        - fewer_than_two_therapeutic_actions
+        - incompatible_endpoint_or_time_window
+        - missing_replicate_identity
+        - missing_uncertainty
+        - author_claim_only
+        - transcriptomic_proxy_only
+        - non_therapeutic_genetic_perturbation
+        - context_not_comparable
+    publication_recovery:
+      status: bounded_seed_centered_recovery
+      seed_registry: Input/manifests/functional_therapeutic/source_metadata.tsv
+      evidence_graph: Input/manifests/functional_therapeutic/publication_evidence_graph.tsv
+      recovery_audit: Output/audits/functional_publication_evidence_recovery.json
+      validation_audit: Output/audits/functional_publication_evidence_graph_validation.json
+      resolution_order:
+        - geo_series_metadata
+        - pubmed_or_europe_pmc_metadata
+        - open_full_text_data_availability
+        - supplementary_material_inventory
+        - explicitly_linked_companion_repository
+      max_seed_sources: 9
+      max_supplementary_bytes_per_source: 67108864
+      max_total_supplementary_bytes: 134217728
+      max_linked_artifacts_per_source: 32
+      outcome_values_used_for_priority: false
+      model_predictions_inspected: false
+      protected_holdout_access: 0
+      publication_comparison_open: false
+      figure_digitization_admitted: false
+      statuses:
+        - FUNCTIONAL_DATA_RECOVERED
+        - FUNCTIONAL_DATA_PRESENT_BUT_NON_MACHINE_READABLE
+        - FUNCTIONAL_DATA_PRESENT_BUT_INSUFFICIENT_REPLICATES
+        - FUNCTIONAL_DATA_PRESENT_BUT_UNCERTAINTY_UNAVAILABLE
+        - NO_MULTI_ARM_FUNCTIONAL_DATA
+        - NO_PUBLIC_FUNCTIONAL_ARTIFACT
+        - ACCESS_BLOCKED
+    targeted_discovery:
+      status: bounded_metadata_only
+      max_queries: 4
+      max_results_per_query: 12
+      max_novel_leads: 20
+      outcome_values_used_for_priority: false
+      abstract_values_inspected: false
+      model_predictions_inspected: false
+      protected_holdout_access: 0
+      publication_comparison_open: false
+      query_registry:
+        - query_uid: neurite_multi_arm_metadata
+          endpoint_family: neurite_morphology
+          query: '(neuron OR neuronal) AND neurite AND (drug OR compound OR treatment) AND (dose OR screen OR combination)'
+        - query_uid: electrophysiology_multi_arm_metadata
+          endpoint_family: electrophysiology
+          query: '(neuron OR neuronal) AND electrophysiology AND (drug OR treatment OR compound) AND (dose OR comparison)'
+        - query_uid: calcium_multi_arm_metadata
+          endpoint_family: calcium_activity
+          query: '(neuron OR neuronal) AND ("calcium imaging" OR "calcium activity") AND (drug OR treatment) AND (dose OR screen)'
+        - query_uid: viability_synaptic_multi_arm_metadata
+          endpoint_family: viability_survival
+          query: '(neuron OR neuronal) AND (viability OR survival OR synaptic) AND (drug OR treatment) AND (multi OR dose OR screen)'
+      outputs:
+        manifest: Input/manifests/functional_therapeutic/targeted_publication_discovery.tsv
+        audit: Output/audits/functional_publication_targeted_discovery.json
+        validation_audit: Output/audits/functional_publication_targeted_discovery_validation.json
+  downstream_authorization:
+    benchmark_created: false
+    world_action_authorized: false
+    gpu_campaign_authorized: false
+    tri_authorized: false
+    agent_in_twin_authorized: false
+    coevolution_authorized: false
+    protected_holdout_access: 0
+
+  partner_intake:
+    status: template_only_not_external
+    template: Input/templates/functional_therapeutic_partner_outcomes.tsv
+    schema: Libs/configs/schema/functional_therapeutic_partner_outcomes.schema.json
+    requirements_audit: Output/audits/functional_partner_data_requirements.json
+    objective_namespace: canonical_functional_measurement_namespace
+    required_replicate_level: true
+    requires_uncertainty_support: true
+    publication_comparison_open: false
+    protected_holdout_access: 0

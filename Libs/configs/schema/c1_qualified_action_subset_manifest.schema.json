@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/c1_qualified_action_subset_manifest.schema.json",
+  "title": "NeuronSifter C1 qualified action subset manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "corpus_uid",
+    "corpus_hash",
+    "role",
+    "record_count",
+    "catalog_count",
+    "qualified_catalogs",
+    "qualified_action_subset_hash"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "neuronsifter-c1-qualified-action-subset-v1"
+    },
+    "corpus_uid": {
+      "const": "public_foundation_corpus_v1"
+    },
+    "corpus_hash": {
+      "const": "06ae88daf3c44be2c2bb96e51c939554e160b205138ec96f471adb5d82eee791"
+    },
+    "role": {
+      "const": "qualified_for_mainline"
+    },
+    "record_count": {
+      "const": 7123
+    },
+    "catalog_count": {
+      "const": 2
+    },
+    "qualified_action_subset_hash": {
+      "const": "3d87bb11423424f067351e990f18c7f65e3f10fdf62d90a3dc954abdc33ffd18"
+    },
+    "qualified_catalogs": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "asset_id",
+          "path",
+          "record_count",
+          "bytes",
+          "sha256",
+          "source_id",
+          "source_accession",
+          "canonical_observation_uid",
+          "role",
+          "action_linkage_complete"
+        ],
+        "properties": {
+          "asset_id": {"type": "string", "minLength": 1},
+          "path": {"type": "string", "minLength": 1},
+          "record_count": {"type": "integer", "minimum": 1},
+          "bytes": {"type": "integer", "minimum": 1},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "source_id": {"type": "string", "minLength": 1},
+          "source_accession": {"type": "string", "minLength": 1},
+          "canonical_observation_uid": {"type": "string", "minLength": 1},
+          "role": {"const": "qualified_for_mainline"},
+          "action_linkage_complete": {"const": true}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,407 @@
+baseline_adapter_registry:
+  output_roots:
+    runnable_baseline_root: Output/results/runnable_baselines
+  command_contract:
+  - prepare_inputs
+  - train_baseline
+  - evaluate_baseline
+  required_training_hyperparameters:
+  - batch_size
+  - learning_rate
+  - weight_decay
+  - max_epochs
+  cluster:
+    suite_submission:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: ''
+  default_suite:
+    disease_program: ad_control
+    skip_existing: false
+    baseline_names:
+    - t_jepa_adapter
+    - gene_jepa_adapter
+    - mamba_neural_operator_adapter
+    - coda_no_adapter
+    - diffusion_pde_adapter
+    - wdno_adapter
+    - pdediff_adapter
+    - kg_graph_drug_repurposing_baseline
+paper_experiments:
+  baseline_honesty_policy:
+    allowed_adapter_modes:
+    - direct_external_wrapper
+    - local_matched_split_wrapper
+    - literature_only
+    main_table_adapter_modes:
+    - direct_external_wrapper
+    - local_matched_split_wrapper
+    context_internal_model_names:
+    - shared_latent_dual_encoder_classifier
+    - tabular_jepa_auxiliary_encoder
+  world_model_architecture_references:
+  - repo_name: Active-JEPA
+    source_repo_path: Libs/external/world_model/Active-JEPA
+    integration_status: reference_only
+    task_match_status: not_task_matched_to_omics_screening
+  - repo_name: H-JEPA
+    source_repo_path: Libs/external/world_model/H-JEPA
+    integration_status: reference_only
+    task_match_status: not_task_matched_to_omics_screening
+  - repo_name: I-JEPA
+    source_repo_path: Libs/external/world_model/I-JEPA
+    integration_status: reference_only
+    task_match_status: not_task_matched_to_omics_screening
+  - repo_name: LeWorldModel
+    source_repo_path: Libs/external/world_model/LeWorldModel
+    integration_status: reference_only
+    task_match_status: not_task_matched_to_omics_screening
+  - repo_name: Point-JEPA
+    source_repo_path: Libs/external/world_model/Point-JEPA
+    integration_status: reference_only
+    task_match_status: not_task_matched_to_omics_screening
+  - repo_name: AwesomeEHR
+    source_repo_path: ''
+    integration_status: not_vendored_not_integrated
+    task_match_status: not_in_scope_for_current_omics_screening_twin
+  baseline_sota_comparators:
+    task_matched:
+    - comparator_name: TxGNN
+      publication_year: 2024
+      comparison_role: disease-centric knowledge-graph drug repurposing
+      implementation_status: literature_comparator
+      source_url: https://www.nature.com/articles/s41591-024-03233-x
+    - comparator_name: ExPDrug
+      publication_year: 2025
+      comparison_role: pathway-and-knowledge-guided explainable drug response
+      implementation_status: literature_comparator
+      source_url: https://www.sciencedirect.com/science/article/abs/pii/S0010482525000794
+    - comparator_name: KGiA
+      publication_year: 2025
+      comparison_role: disease-aware knowledge-graph augmentation for drug repurposing
+      implementation_status: literature_comparator
+      source_url: https://www.sciencedirect.com/science/article/pii/S1532046425000863
+    - comparator_name: REx
+      publication_year: 2025
+      comparison_role: explainable knowledge-graph drug repurposing
+      implementation_status: literature_comparator
+      source_url: https://www.ijcai.org/proceedings/2025/515
+    - comparator_name: HiMAL
+      publication_year: 2024
+      comparison_role: multimodal Alzheimer progression baseline
+      implementation_status: literature_comparator
+      source_url: https://arxiv.org/abs/2404.03208
+    - comparator_name: DeepDrug
+      publication_year: 2025
+      comparison_role: Alzheimer disease drug-repurposing literature comparator
+      implementation_status: literature_comparator
+      source_url: https://www.nature.com/articles/s41598-025-85947-7
+    local_auxiliary:
+    - comparator_name: tabular_jepa_auxiliary
+      publication_year: 2026
+      comparison_role: local JEPA-style masked latent prediction baseline
+      implementation_status: local_reimplementation
+      source_url: https://arxiv.org/abs/2603.19312
+  runnable_baselines:
+  - baseline_name: t_jepa_adapter
+    baseline_family: tabular_jepa
+    adapter_name: t_jepa
+    adapter_mode: direct_external_wrapper
+    comparison_tier: task_matched_external_candidate
+    source_repo_path: Libs/external/tabular_baselines/T-JEPA
+    source_url: https://openreview.net/forum?id=Mf4n2uWikZ
+    publication_year: 2025
+    implementation_status: direct_external_wrapper_ready
+    environment_spec:
+      python_executable: /share/home/hwxu/miniconda3/bin/python
+      working_directory: Libs/external/tabular_baselines/T-JEPA
+      requirement_file: requirements.txt
+    external_command_templates:
+      prepare_inputs: '{python_executable} -u Libs/exp/baselines/run_external_baseline_bridge.py
+        --config {config_path} --baseline-name {baseline_name} --command prepare_inputs
+        --disease-program {disease_program} --fold-name {fold_name} --output-dir {output_dir}'
+      train_baseline: '{python_executable} -u Libs/exp/baselines/run_external_baseline_bridge.py
+        --config {config_path} --baseline-name {baseline_name} --command train_baseline
+        --disease-program {disease_program} --fold-name {fold_name} --output-dir {output_dir}'
+      evaluate_baseline: '{python_executable} -u Libs/exp/baselines/run_external_baseline_bridge.py
+        --config {config_path} --baseline-name {baseline_name} --command evaluate_baseline
+        --disease-program {disease_program} --fold-name {fold_name} --output-dir {output_dir}'
+    bridge_hyperparameters:
+      hidden_dim: 128
+      num_layers: 2
+      num_heads: 4
+      dropout: 0.1
+      layer_norm_eps: 1.0e-05
+      gradient_clipping: 1.0
+      feature_index_embedding: false
+      dim_feedforward: 256
+      batch_size: 64
+      learning_rate: 0.001
+      weight_decay: 0.0001
+      max_epochs: 20
+      input_representation: latent_transition_context
+    fold_contract:
+      required_test_modality: transcriptomics
+    task_coverage:
+    - sample_state_inference_and_uq
+  - baseline_name: gene_jepa_adapter
+    baseline_family: transcriptome_world_model
+    adapter_name: gene_jepa
+    adapter_mode: direct_external_wrapper
+    comparison_tier: task_matched_external_candidate
+    source_repo_path: Libs/external/transcriptome_world_model/GeneJEPA
+    source_url: https://doi.org/10.1101/2025.10.14.682378
+    publication_year: 2025
+    implementation_status: direct_external_wrapper_ready
+    environment_spec:
+      python_executable: /share/home/hwxu/miniconda3/bin/python
+      working_directory: Libs/external/transcriptome_world_model/GeneJEPA
+      project_file: pyproject.toml
+    external_command_templates:
+      prepare_inputs: '{python_executable} -u Libs/exp/baselines/run_external_baseline_bridge.py
+        --config {config_path} --baseline-name {baseline_name} --command prepare_inputs
+        --disease-program {disease_program} --fold-name {fold_name} --output-dir {output_dir}'
+      train_baseline: '{python_executable} -u Libs/exp/baselines/run_external_baseline_bridge.py
+        --config {config_path} --baseline-name {baseline_name} --command train_baseline
+        --disease-program {disease_program} --fold-name {fold_name} --output-dir {output_dir}'
+      evaluate_baseline: '{python_executable} -u Libs/exp/baselines/run_external_baseline_bridge.py
+        --config {config_path} --baseline-name {baseline_name} --command evaluate_baseline
+        --disease-program {disease_program} --fold-name {fold_name} --output-dir {output_dir}'
+    bridge_hyperparameters:
+      embedding_dim: 128
+      latents: 64
+      blocks: 2
+      heads: 4
+      predictor_depth: 2
+      mask_ratio: 0.45
+      batch_size: 32
+      learning_rate: 0.0001
+      weight_decay: 0.0002
+      max_epochs: 20
+      jepa_weight: 0.1
+    fold_contract:
+      required_test_modality: transcriptomics
+    task_coverage:
+    - sample_state_inference_and_uq
+  - baseline_name: mamba_neural_operator_adapter
+    baseline_family: sequence_operator
+    adapter_name: mamba_neural_operator
+    adapter_mode: direct_external_wrapper
+    comparison_tier: task_matched_external_candidate
+    source_repo_path: Libs/external/neural_operator/Mamba-Neural-Operator
+    source_url: https://arxiv.org/abs/2410.02113
+    publication_year: 2024
+    implementation_status: direct_external_wrapper_ready
+    environment_spec:
+      python_executable: /share/home/hwxu/miniconda3/bin/python
+      working_directory: Libs/external/neural_operator/Mamba-Neural-Operator
+    external_command_templates:
+      prepare_inputs: '{python_executable} -u Libs/exp/baselines/run_external_baseline_bridge.py
+        --config {config_path} --baseline-name {baseline_name} --command prepare_inputs
+        --disease-program {disease_program} --fold-name {fold_name} --output-dir {output_dir}'
+      train_baseline: '{python_executable} -u Libs/exp/baselines/run_external_baseline_bridge.py
+        --config {config_path} --baseline-name {baseline_name} --command train_baseline
+        --disease-program {disease_program} --fold-name {fold_name} --output-dir {output_dir}'
+      evaluate_baseline: '{python_executable} -u Libs/exp/baselines/run_external_baseline_bridge.py
+        --config {config_path} --baseline-name {baseline_name} --command evaluate_baseline
+        --disease-program {disease_program} --fold-name {fold_name} --output-dir {output_dir}'
+    bridge_hyperparameters:
+      in_size: 8
+      embed_dim: 32
+      depths:
+      - 2
+      - 2
+      - 2
+      - 2
+      neck_depth: 4
+      d_state: 16
+      batch_size: 8
+      learning_rate: 0.001
+      weight_decay: 1.0e-06
+      max_epochs: 20
+      sample_limit_per_split: 1024
+    task_coverage:
+    - sample_state_inference_and_uq
+    - long_horizon_twin_rollout_and_active_learning
+  - baseline_name: coda_no_adapter
+    baseline_family: attention_operator
+    adapter_name: coda_no
+    adapter_mode: direct_external_wrapper
+    comparison_tier: task_matched_external_candidate
+    source_repo_path: Libs/external/neural_operator/CoDA-NO
+    source_url: https://arxiv.org/abs/2405.19101
+    publication_year: 2024
+    implementation_status: direct_external_wrapper_ready
+    environment_spec:
+      python_executable: /share/home/hwxu/miniconda3/bin/python
+      working_directory: Libs/external/neural_operator/CoDA-NO
+    external_command_templates:
+      prepare_inputs: '{python_executable} -u Libs/exp/baselines/run_external_baseline_bridge.py
+        --config {config_path} --baseline-name {baseline_name} --command prepare_inputs
+        --disease-program {disease_program} --fold-name {fold_name} --output-dir {output_dir}'
+      train_baseline: '{python_executable} -u Libs/exp/baselines/run_external_baseline_bridge.py
+        --config {config_path} --baseline-name {baseline_name} --command train_baseline
+        --disease-program {disease_program} --fold-name {fold_name} --output-dir {output_dir}'
+      evaluate_baseline: '{python_executable} -u Libs/exp/baselines/run_external_baseline_bridge.py
+        --config {config_path} --baseline-name {baseline_name} --command evaluate_baseline
+        --disease-program {disease_program} --fold-name {fold_name} --output-dir {output_dir}'
+    bridge_hyperparameters:
+      hidden_token_codim: 32
+      lifting_token_codim: 32
+      output_token_codim: 7
+      n_layers:
+      - 2
+      - 2
+      - 2
+      - 2
+      n_heads:
+      - 2
+      - 2
+      - 2
+      - 2
+      n_modes:
+      - - 4
+        - 4
+      - - 4
+        - 4
+      - - 4
+        - 4
+      - - 4
+        - 4
+      batch_size: 8
+      learning_rate: 0.001
+      weight_decay: 0.0001
+      max_epochs: 20
+      sample_limit_per_split: 1024
+    task_coverage:
+    - sample_state_inference_and_uq
+    - long_horizon_twin_rollout_and_active_learning
+  - baseline_name: diffusion_pde_adapter
+    baseline_family: diffusion_operator
+    adapter_name: diffusion_pde
+    adapter_mode: direct_external_wrapper
+    comparison_tier: task_matched_external_candidate
+    source_repo_path: Libs/external/neural_operator/DiffusionPDE
+    source_url: https://arxiv.org/abs/2406.17763
+    publication_year: 2024
+    implementation_status: direct_external_wrapper_ready
+    environment_spec:
+      python_executable: /share/home/hwxu/miniconda3/bin/python
+      working_directory: Libs/external/neural_operator/DiffusionPDE
+    external_command_templates:
+      prepare_inputs: '{python_executable} -u Libs/exp/baselines/run_external_baseline_bridge.py
+        --config {config_path} --baseline-name {baseline_name} --command prepare_inputs
+        --disease-program {disease_program} --fold-name {fold_name} --output-dir {output_dir}'
+      train_baseline: '{python_executable} -u Libs/exp/baselines/run_external_baseline_bridge.py
+        --config {config_path} --baseline-name {baseline_name} --command train_baseline
+        --disease-program {disease_program} --fold-name {fold_name} --output-dir {output_dir}'
+      evaluate_baseline: '{python_executable} -u Libs/exp/baselines/run_external_baseline_bridge.py
+        --config {config_path} --baseline-name {baseline_name} --command evaluate_baseline
+        --disease-program {disease_program} --fold-name {fold_name} --output-dir {output_dir}'
+    task_coverage:
+    - long_horizon_twin_rollout_and_active_learning
+    bridge_hyperparameters:
+      model_channels: 32
+      batch_size: 32
+      learning_rate: 0.001
+      weight_decay: 0.0001
+      max_epochs: 20
+      sigma: 0.05
+      sample_limit_per_split: 1024
+  - baseline_name: wdno_adapter
+    baseline_family: diffusion_operator
+    adapter_name: wdno
+    adapter_mode: direct_external_wrapper
+    comparison_tier: task_matched_external_candidate
+    source_repo_path: Libs/external/neural_operator/wdno
+    source_url: https://openreview.net/forum?id=FQhDIGuaJ4
+    publication_year: 2025
+    implementation_status: direct_external_wrapper_ready
+    environment_spec:
+      python_executable: /share/home/hwxu/miniconda3/bin/python
+      working_directory: Libs/external/neural_operator/wdno
+    external_command_templates:
+      prepare_inputs: '{python_executable} -u Libs/exp/baselines/run_external_baseline_bridge.py
+        --config {config_path} --baseline-name {baseline_name} --command prepare_inputs
+        --disease-program {disease_program} --fold-name {fold_name} --output-dir {output_dir}'
+      train_baseline: '{python_executable} -u Libs/exp/baselines/run_external_baseline_bridge.py
+        --config {config_path} --baseline-name {baseline_name} --command train_baseline
+        --disease-program {disease_program} --fold-name {fold_name} --output-dir {output_dir}'
+      evaluate_baseline: '{python_executable} -u Libs/exp/baselines/run_external_baseline_bridge.py
+        --config {config_path} --baseline-name {baseline_name} --command evaluate_baseline
+        --disease-program {disease_program} --fold-name {fold_name} --output-dir {output_dir}'
+    bridge_hyperparameters:
+      dim: 32
+      dim_muls:
+      - 1
+      - 2
+      - 4
+      batch_size: 8
+      learning_rate: 0.0001
+      weight_decay: 0.0
+      max_epochs: 20
+      timesteps: 100
+      sample_limit_per_split: 1024
+    task_coverage:
+    - sample_state_inference_and_uq
+    - long_horizon_twin_rollout_and_active_learning
+  - baseline_name: pdediff_adapter
+    baseline_family: diffusion_operator
+    adapter_name: pdediff
+    adapter_mode: direct_external_wrapper
+    comparison_tier: task_matched_external_candidate
+    source_repo_path: Libs/external/neural_operator/pdediff
+    source_url: https://openreview.net/forum?id=UQFYoNk2R7
+    publication_year: 2024
+    implementation_status: direct_external_wrapper_ready
+    environment_spec:
+      python_executable: /share/home/hwxu/miniconda3/bin/python
+      working_directory: Libs/external/neural_operator/pdediff
+      environment_file: environment.yml
+    external_command_templates:
+      prepare_inputs: '{python_executable} -u Libs/exp/baselines/run_external_baseline_bridge.py
+        --config {config_path} --baseline-name {baseline_name} --command prepare_inputs
+        --disease-program {disease_program} --fold-name {fold_name} --output-dir {output_dir}'
+      train_baseline: '{python_executable} -u Libs/exp/baselines/run_external_baseline_bridge.py
+        --config {config_path} --baseline-name {baseline_name} --command train_baseline
+        --disease-program {disease_program} --fold-name {fold_name} --output-dir {output_dir}'
+      evaluate_baseline: '{python_executable} -u Libs/exp/baselines/run_external_baseline_bridge.py
+        --config {config_path} --baseline-name {baseline_name} --command evaluate_baseline
+        --disease-program {disease_program} --fold-name {fold_name} --output-dir {output_dir}'
+    task_coverage:
+    - long_horizon_twin_rollout_and_active_learning
+    bridge_hyperparameters:
+      hidden_channels: 32
+      batch_size: 32
+      learning_rate: 0.001
+      weight_decay: 0.0001
+      max_epochs: 20
+      sample_limit_per_split: 1024
+  - baseline_name: kg_graph_drug_repurposing_baseline
+    baseline_family: knowledge_graph_screening
+    adapter_name: kg_graph_drug_repurposing
+    adapter_mode: local_matched_split_wrapper
+    comparison_tier: task_matched_local_graph_candidate
+    source_repo_path: ''
+    source_url: ''
+    publication_year: 2026
+    implementation_status: local_matched_split_wrapper_ready
+    kg_graph_inputs:
+      target_evidence_catalog: Input/processed/drug_target_ready/target_evidence_catalog.tsv
+      drug_target_edge_catalog: Input/processed/drug_target_ready/drug_target_edge_catalog.tsv
+      regimen_catalog: Input/processed/action_ready/regimen_catalog.tsv
+    kg_graph_scoring:
+      target_evidence_weight: 0.35
+      edge_evidence_weight: 0.30
+      edge_affinity_weight: 0.20
+      regimen_graph_aggregate_weight: 0.15
+      affinity_floor_nm: 1.0
+      top_k_regimens: 10
+      split_name: source_holdout
+      evaluation_scope: graph_evidence_prioritization
+      task_name: screening_baselines
+      task_family: screening_baseline
+    task_coverage:
+    - graph_evidence_intervention_prioritization

@@ -1,0 +1,165 @@
+schema_version: neuronsifter-static-decision-loop-contract-v1
+contract_id: neuronsifter_static_decision_loop_development_v1
+lineage_id: neuronsifter_vnext_dev_v1
+
+evidence_boundary:
+  evidence_role: development_only
+  publication_claim_eligible: false
+  protected_holdout_access: 0
+  external_comparison_open: false
+  external_baseline_qualification_allowed: false
+  agent_parameter_adaptation_allowed: false
+  twin_parameter_adaptation_allowed: false
+  posterior_assimilation_allowed: true
+  c2b_status: blocked_insufficient_real_e2_e4
+
+reference:
+  negative_gate_path: Output/audits/round24b_twin_adaptation_gate.json
+  negative_handoff_path: Output/audits/round24b_development_handoff.json
+  pre_update_reference_path: Output/audits/round24b_pre_update_reference.json
+  pre_update_posterior_path: Output/audits/round24b_pre_update_posterior.json
+  posterior_bound_contract_path: Libs/configs/neuronsifter/round24b_posterior_bound_evaluation.yaml
+  posterior_bound_metric_inputs_path: Output/runs/round24b/scientific_metric_inputs.tsv
+  posterior_bound_paired_metrics_path: Output/paper_reports/round24b_paired_pre_post_metrics.tsv
+  expected_terminal_state: failed_prospective_twin_adaptation
+  expected_reference: U0_frozen
+  expected_paired_row_count: 8928
+
+support_calibration:
+  coverage_floor: 0.1
+  target_interval_coverage: 0.9
+  maximum_calibration_error: 0.15
+  calibration_unit_fraction: 0.3333333333333333
+  partition_seed: 3407
+  quantile_method: higher
+  minimum_scale: 1.0
+  maximum_scale: 1000000.0
+  source_partition_role: validation
+  calibration_role: tri_calibration
+  evaluation_role: static_loop_evaluation
+  allow_test_derived_threshold_change: false
+
+static_policy:
+  canonical_policy_uid: S_shared_belief_decision_risk
+  controls:
+    - R_random_information_action
+    - F_fixed_cascade
+    - U_uncertainty_only
+    - S_shared_belief_decision_risk
+  seed: 3407
+  information_budget_per_round: 1
+  sequential_rounds: 3
+  query_without_replacement: true
+  top_k: 2
+  expected_cost_floor: 0.000001
+  fixed_cascade_order:
+    - static_query_positive_long
+    - static_query_negative_long
+    - static_query_positive_mid
+    - static_query_negative_mid
+    - static_query_positive_short
+    - static_query_negative_short
+    - static_query_positive_brief
+    - static_query_negative_brief
+
+prospective:
+  candidate_pool_uid: static_current_clamp_information_pool_v1
+  source_context: modeldb_romani_current_clamp_restricted
+  fidelity: registered_modeldb_current_clamp
+  requested_outputs:
+    - trajectory
+    - voltage
+    - calcium
+    - amyloid
+    - tau
+    - inflammatory
+    - time_ms
+  candidate_protocols:
+    - action_uid: static_query_positive_long
+      pair_uid: static_query_positive_long_pair
+      amplitude_nA: 0.03
+      duration_ms: 200.0
+      delay_ms: 45.0
+      expected_cost: 1.0
+    - action_uid: static_query_negative_long
+      pair_uid: static_query_negative_long_pair
+      amplitude_nA: -0.03
+      duration_ms: 200.0
+      delay_ms: 45.0
+      expected_cost: 1.0
+    - action_uid: static_query_positive_mid
+      pair_uid: static_query_positive_mid_pair
+      amplitude_nA: 0.06
+      duration_ms: 100.0
+      delay_ms: 45.0
+      expected_cost: 1.0
+    - action_uid: static_query_negative_mid
+      pair_uid: static_query_negative_mid_pair
+      amplitude_nA: -0.06
+      duration_ms: 100.0
+      delay_ms: 45.0
+      expected_cost: 1.0
+    - action_uid: static_query_positive_short
+      pair_uid: static_query_positive_short_pair
+      amplitude_nA: 0.13
+      duration_ms: 46.0
+      delay_ms: 45.0
+      expected_cost: 1.0
+    - action_uid: static_query_negative_short
+      pair_uid: static_query_negative_short_pair
+      amplitude_nA: -0.13
+      duration_ms: 46.0
+      delay_ms: 45.0
+      expected_cost: 1.0
+    - action_uid: static_query_positive_brief
+      pair_uid: static_query_positive_brief_pair
+      amplitude_nA: 0.22
+      duration_ms: 27.0
+      delay_ms: 45.0
+      expected_cost: 1.0
+    - action_uid: static_query_negative_brief
+      pair_uid: static_query_negative_brief_pair
+      amplitude_nA: -0.22
+      duration_ms: 27.0
+      delay_ms: 45.0
+      expected_cost: 1.0
+
+decision_evaluation:
+  objective: maximize_declared_electrophysiology_response
+  matched_decision_risk_target: 0.025
+  false_accept_risk_threshold: 0.05
+  observation_contradiction_z: 1.6448536269514722
+  theoretical_tv_available: false
+  discrepancy_proxy: normalized_gaussian_parameter_discrepancy
+  reliability_proxy:
+    name: calibrated_selective_reliability_proxy_v1
+    components:
+      - coverage
+      - calibration
+      - support_domain_coverage
+      - false_accept_complement
+    model_tri_score_available: false
+
+outputs:
+  run_root: Output/runs/round25/static_loop
+  manifest_root: Input/manifests/round25
+  canonical_twin: Output/audits/round25_u0_canonical_static_twin.json
+  negative_result_freeze: Output/audits/round25_adaptation_negative_result_freeze.json
+  coverage_taxonomy: Output/audits/round25_coverage_failure_taxonomy.tsv
+  support_domain: Output/audits/round25_static_support_domain.json
+  tri_calibration: Output/audits/round25_tri_validation_calibration.json
+  policy_freeze: Output/audits/round25_static_policy_freeze.json
+  control_contract: Output/audits/round25_internal_control_contract.json
+  prospective_manifest: Output/audits/round25_prospective_round_manifest.tsv
+  posterior_lineage: Output/audits/round25_posterior_assimilation_lineage.tsv
+  tool_catalog: Output/audits/round25_tool_result_catalog.tsv
+  decision_loop: Output/paper_reports/round25_static_decision_loop.tsv
+  information_effects: Output/paper_reports/round25_information_action_effects.tsv
+  belief_coherence: Output/paper_reports/round25_belief_coherence.tsv
+  mechanism_gate: Output/audits/round25_static_mechanism_gate.json
+  reliability_gate: Output/audits/round25_static_reliability_gate.json
+  failure_catalog: Output/paper_reports/round25_static_failure_catalog.tsv
+  architecture_gate: Output/audits/round25_static_architecture_gate.json
+  recovery_catalog: Output/audits/round25_static_loop_recovery_catalog.json
+  full_suite: Output/audits/round25_full_suite_execution.json
+  handoff: Output/audits/round25_development_handoff.json

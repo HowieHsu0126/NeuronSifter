@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/zero-shot-method-execution-authorization-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "protocol_executable",
+    "execution_authorized",
+    "review_uid",
+    "reviewed_on",
+    "allowed_future_scope",
+    "blocked_scope",
+    "terminal_blocker",
+    "protected_holdout_access",
+    "decision_binding"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-zero-shot-method-execution-authorization-v1"},
+    "status": {"enum": ["issuable_pending_user_authorization", "not_issuable"]},
+    "protocol_executable": {"type": "boolean"},
+    "execution_authorized": {"const": false},
+    "review_uid": {"type": "string", "minLength": 1},
+    "reviewed_on": {"type": "string", "format": "date"},
+    "allowed_future_scope": {"type": "array", "items": {"type": "string"}},
+    "blocked_scope": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "terminal_blocker": {"type": ["string", "null"]},
+    "protected_holdout_access": {"const": 0},
+    "decision_binding": {"type": "object"}
+  }
+}

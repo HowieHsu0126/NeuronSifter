@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "neuronsifter-evidence-union-v1",
+  "title": "NeuronSifter artifact-level evidence union",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "union_uid",
+    "member_artifact_uids",
+    "member_hashes",
+    "producer_uids",
+    "schema_versions",
+    "lineage_groups",
+    "conflict_policy",
+    "conflicts",
+    "resolution_status",
+    "canonical_output_ref"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-evidence-union-v1"},
+    "union_uid": {"type": "string", "minLength": 1},
+    "member_artifact_uids": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "member_hashes": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "string", "pattern": "^[a-f0-9]{64}$"}},
+    "producer_uids": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "schema_versions": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "lineage_groups": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "conflict_policy": {"const": "fail_closed"},
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["lineage_group", "state", "member_artifact_uids"],
+        "properties": {
+          "lineage_group": {"type": "string", "minLength": 1},
+          "state": {"enum": ["no_conflict", "equivalent_duplicate", "versioned_successor", "superseded", "semantic_conflict", "unknown"]},
+          "member_artifact_uids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+        },
+        "additionalProperties": true
+      }
+    },
+    "resolution_status": {"enum": ["resolved", "blocked"]},
+    "canonical_output_ref": {"type": "string", "minLength": 1},
+    "member_evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["artifact_uid", "artifact_hash", "producer_uid", "schema_version", "lineage_group", "provenance_status", "evidence_type", "qc_grade", "train_eval_role", "claim_eligibility", "independence_group", "status"],
+        "properties": {
+          "artifact_uid": {"type": "string", "minLength": 1},
+          "artifact_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "producer_uid": {"type": "string", "minLength": 1},
+          "schema_version": {"type": "string", "minLength": 1},
+          "lineage_group": {"type": "string", "minLength": 1},
+          "provenance_status": {"enum": ["verified", "unknown"]},
+          "evidence_type": {"type": "string", "minLength": 1},
+          "qc_grade": {"type": "string", "minLength": 1},
+          "train_eval_role": {"type": "string", "minLength": 1},
+          "claim_eligibility": {"type": "string", "minLength": 1},
+          "independence_group": {"type": "string", "minLength": 1},
+          "status": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "conflicts": {
+            "contains": {
+              "properties": {"state": {"enum": ["semantic_conflict", "unknown"]}},
+              "required": ["state"]
+            }
+          }
+        },
+        "required": ["conflicts"]
+      },
+      "then": {"properties": {"resolution_status": {"const": "blocked"}}}
+    }
+  ],
+  "additionalProperties": true
+}

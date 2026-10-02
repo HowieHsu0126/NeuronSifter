@@ -1,0 +1,19 @@
+schema_version: ablation_registry_v1
+registry_id: neuronsifter_same_backbone_ablations
+entries:
+  - {ablation_uid: single_source_encoder, original_baseline_uid: single_source_encoder, component_removed: multi_source_pretraining, historical_evidence_hash: fa3d3380c9d9020a3fbbcbafcc4067dec6327c72cece0a1983869a95d56ed9cb}
+  - {ablation_uid: no_ontology_encoder, original_baseline_uid: no_ontology_encoder, component_removed: ontology, historical_evidence_hash: 340f0d90065fe2ad01706b2bc14c7f5af690e27b38f2eed286af04db42e62617}
+  - {ablation_uid: deterministic_neuronsifter, original_baseline_uid: deterministic_neuronsifter, component_removed: diffusion_sampling, historical_evidence_hash: fb3eb04465f1b14624fb0d4fcb9489a264de981287bbc1aa09e0884d45e75565}
+  - {ablation_uid: no_tri, original_baseline_uid: no_tri, component_removed: tri_reliability_gate, historical_evidence_hash: e398f55a5c5a80574da6753fb46f159bb79f624fcfbcbd837a139ff4aa25615f}
+  - {ablation_uid: neuronsifter_drug_id_conditioning, original_baseline_uid: neuronsifter_drug_id_conditioning, component_removed: structured_action_representation, historical_evidence_hash: 631e55829f33e0ceb7f22965212134d193a48a546c693fa8952c25b13fca6c28}
+  - {ablation_uid: neuronsifter_scalar_exposure, original_baseline_uid: neuronsifter_scalar_exposure, component_removed: occupancy_program, historical_evidence_hash: a7dad0d2e73ac8f69859df32677e4f5fc095873aa1526dd83c87fdf1f2a49a19}
+  - {ablation_uid: neuronsifter_without_constraints_and_reliability, original_baseline_uid: neuronsifter_without_constraints_and_reliability, component_removed: constraints_and_reliability, historical_evidence_hash: acbf54e85b3b3cacda8e229ef8f749debb67b8af21c02086f83bd79c6c89610d}
+  - {ablation_uid: neuronsifter_without_assimilation_and_what_if_pairing, original_baseline_uid: neuronsifter_without_assimilation_and_what_if_pairing, component_removed: assimilation_and_counterfactual_pairing, historical_evidence_hash: cb506b2577c0a2829fed14eec2a445938a1fdee657d071be157ac9958d16bea4}
+  - {ablation_uid: action_representation_removal, original_baseline_uid: action_representation_removal, component_removed: structured_action, historical_evidence_hash: de4f486e2e12f93ef50ccada2c0aa834c5b492954474310fa42a5380c5bf5a31}
+  - {ablation_uid: ontology_removal, original_baseline_uid: ontology_removal, component_removed: ontology, historical_evidence_hash: 88724e68ab133f8212381abad0164595b25cedfeafbf5fa23cc7c225178e8200}
+  - {ablation_uid: uncertainty_removal, original_baseline_uid: uncertainty_removal, component_removed: uncertainty, historical_evidence_hash: 5a7b8c9db00c920e0e8cbfae4fee6b3e077c594c98882a8a199fed45649bb80d}
+  - {ablation_uid: replay_removal, original_baseline_uid: replay_removal, component_removed: replay, historical_evidence_hash: 73d8178b6b149b5691a7a0b81588ce33f1790d944e5d6e27857911a0c4f27b9a}
+  - {ablation_uid: twin_debt_removal, original_baseline_uid: twin_debt_removal, component_removed: twin_debt, historical_evidence_hash: ec6978d8c5c03c51a8011ddbc31c06058fa4519678260a220d2ab7d1fb4ec19d}
+  - {ablation_uid: calibration_removal, original_baseline_uid: calibration_removal, component_removed: calibration, historical_evidence_hash: f1839111c521c697bd3ce6504f34519dfe18c629448c835a39d8e3f0d7673c2f}
+  - {ablation_uid: rollback_removal, original_baseline_uid: rollback_removal, component_removed: rollback, historical_evidence_hash: 37a17f0e5dafc125797f8e6de9d7b700bc1917643b6f611a2e3871e19ee85557}
+  - {ablation_uid: acquisition_component_removal, original_baseline_uid: acquisition_component_removal, component_removed: acquisition_policy, historical_evidence_hash: e81f18dd66cd06bcb744dbd436438682a88a6e35b9b1db5604b870d85abb1dd5}

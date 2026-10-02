@@ -1,0 +1,94 @@
+config_includes:
+- ../runtime/warnings.yaml
+
+dependence_query_evaluation:
+  time_counts: [4, 8, 16]
+  codebook_values: [-1.0, 0.0, 1.0]
+  seeds: [0, 1, 2]
+  replicate_counts: [64, 1024]
+  failure_probability: 0.05
+  physical_reference: 3.0
+  goal_threshold_offsets: [-0.25, 0.0, 0.25]
+  max_transport_variables: 100000
+  source_laws: [common_quantile, shifted_quantile, reflected_quantile]
+  alternative_interval_fraction: 0.5
+  local_reported_scalars: 2
+  access_family:
+    time_counts: [8, 32, 128]
+    decision_margin: 0.0026041666666666665  # 1/384; below the theorem's 1/192 bound.
+    failure_probability: 0.05
+  output_path: Output/paper_reports/manuscript_revision/dependence_query_evaluation.json
+  posterior_bridge:
+    time_counts: [2, 4, 8]
+    context_counts: [1, 2, 4]
+    posterior_tv_radii: [0.0, 0.25, 1.0]
+    seed: 37
+    report_radius: 0.02
+    max_variables: 100000
+    output_path: Output/paper_reports/manuscript_revision/posterior_bridge_evaluation.json
+  multiscale_sampling:
+    time_counts: [8, 32, 128, 512]
+    mixture_weights: [0.0, 0.5, 1.0]
+    mean_error_rms: [0.0, 0.001]
+    error_decay: 1.0
+    replicates: 4096
+    failure_probability: 0.05
+    seed: 41
+    output_path: Output/paper_reports/manuscript_revision/multiscale_sampling_evaluation.json
+  observation_experiments:
+    mixture_weights: [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
+    retention_probabilities: [1.0, 0.7]
+    sample_counts: [64, 256, 1024, 4096]
+    failure_probability: 0.05
+    seed: 53
+    max_variables: 100000
+    output_path: Output/paper_reports/manuscript_revision/observation_information_evaluation.json
+  joint_observation:
+    loss_offsets: [0.0, 0.13]
+    joint_probabilities: [0.0, 0.13, 0.5]
+    joint_intervals: [[0.45, 0.5], [0.0, 0.05]]
+    max_variables: 100000
+    output_path: Output/paper_reports/manuscript_revision/joint_observation_evaluation.json
+  query_compression:
+    oracle_time_counts: [4, 8]
+    oracle_codebook: [-1, 0, 1]
+    oracle_epsilons: [0.05, 0.2, 0.55]
+    reference_pattern: [0.25, -0.4, 0.7, -0.1]
+    lower_bound: 0.0
+    loss_offset: 0.13
+    scaling_time_counts: [16, 32, 64, 128, 256]
+    scaling_codebooks: [[-1, 0, 1], [-2, -1, 0, 1, 2]]
+    scaling_query_counts: [1, 2]
+    scaling_epsilons: [0.05, 0.2, 0.55]
+    max_variables: 250000
+    max_memory_variables: 1000000
+    output_path: Output/paper_reports/manuscript_revision/query_compression_evaluation.json
+  query_resampling:
+    time_counts: [4, 8, 16, 32, 64]
+    codebook_values: [-1.0, 0.0, 1.0]
+    families: [scale_decay, uniform_activity]
+    activity_scale: 0.020833333333333332
+    uniform_activity: 0.6666666666666666
+    comparator_scale: 0.4166666666666667
+    statistics: [centered_energy, centered_innovation]
+    report_radii: [0.0, 0.02]
+    query_cost: 0.0
+    max_variables: 300000
+    max_paired_variables: 600001
+    optimality_tolerance: 0.00000001
+    output_path: Output/paper_reports/manuscript_revision/query_resampling_evaluation.json
+  compressed_resampling:
+    exact_results_path: Output/paper_reports/manuscript_revision/query_resampling_evaluation.json
+    time_counts: [8, 16, 32, 64]
+    statistics: [centered_energy]
+    variants:
+      - {rounding: physical_mean, search: resampling}
+      - {rounding: physical_mean, search: exhaustive}
+      - {rounding: amplitude, search: resampling}
+    epsilon_scale: 0.08
+    optimality_tolerance_scale: 0.04
+    refinement_factor: 0.5
+    max_refinements: 6
+    max_variables: 300000
+    max_paired_variables: 600001
+    output_path: Output/paper_reports/manuscript_revision/compressed_resampling_evaluation.json

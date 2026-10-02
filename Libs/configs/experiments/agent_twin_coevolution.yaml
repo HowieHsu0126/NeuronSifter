@@ -1,0 +1,298 @@
+config_includes:
+  - ../config_stack.yaml
+
+agent_twin_coevolution:
+  schema_version: neuronsifter-agent-twin-coevolution-contract-v1
+  track_id: agent_twin_coevolution
+  final_gate: agent_twin_coevolution_evidence_resolved
+  formal_execution_policy:
+    implementation_allowed_before_prerequisites: true
+    formal_execution_requires_all_prerequisites: true
+    final_holdout_policy:
+      visible_for_updates: false
+      visible_for_checkpoint_selection: false
+      visible_for_threshold_selection: false
+      visible_for_final_evaluation_only: true
+  prerequisites:
+    - prerequisite_id: public_corpus_frozen
+      evidence_path: Output/audits/public_foundation_corpus_frozen_splits.json
+      assertions:
+        - {json_path: status, equals: passed}
+        - {json_path: frozen, equals: true}
+      failure_blocker: blocked_sequential_evidence
+    - prerequisite_id: allen_full_landing
+      evidence_path: Output/audits/phase1e_allen_whb_nonneurons_mainline_admission.json
+      assertions:
+        - {json_path: scope, equals: full_landing}
+        - {json_path: admission_allowed, equals: true}
+      failure_blocker: blocked_sequential_evidence
+    - prerequisite_id: intervention_e4_available
+      evidence_path: Output/audits/dt_round15_e4_leakage_readiness.json
+      assertions:
+        - {json_path: status, equals: passed}
+        - {json_path: training_splits_created, equals: true}
+      failure_blocker: blocked_sequential_evidence
+    - prerequisite_id: strict_sequential_splits_frozen
+      evidence_path: Output/audits/agent_twin_strict_sequential_split_freeze.json
+      assertions:
+        - {json_path: status, equals: passed}
+        - {json_path: frozen, equals: true}
+      failure_blocker: blocked_sequential_evidence
+    - prerequisite_id: static_twin_baselines_resolved
+      evidence_path: Output/audits/baseline_registry_qualification_gate.json
+      assertions:
+        - {json_path: status, equals: resolved}
+        - {json_path: matched_training_count, equals: 10}
+      failure_blocker: blocked_static_baseline
+    - prerequisite_id: static_agent_baselines_resolved
+      evidence_path: Output/audits/agent_static_baseline_qualification.json
+      assertions:
+        - {json_path: status, equals: passed}
+        - {json_path: required_baseline_count, equals: 4}
+      failure_blocker: blocked_static_baseline
+    - prerequisite_id: tool_outcome_environment_available
+      evidence_path: Input/processed/active_learning/active_learning_preflight_audit.json
+      assertions:
+        - {json_path: status, equals: active_learning_preflight_passed}
+        - {json_path: contract.full_round_count, equals: 3}
+      failure_blocker: blocked_sequential_evidence
+    - prerequisite_id: tri_calibration_protocol_frozen
+      evidence_path: Output/audits/tri_calibration_protocol.json
+      assertions:
+        - {json_path: status, equals: passed}
+        - {json_path: frozen, equals: true}
+      failure_blocker: blocked_calibration_drift
+    - prerequisite_id: final_holdout_accessed
+      evidence_path: Output/audits/dt_round18_temporal_split_audit.json
+      assertions:
+        - {json_path: status, equals: passed}
+        - {json_path: final_held_out_touched, equals: false}
+      failure_blocker: blocked_sequential_evidence
+  update_contract:
+    round_count: 3
+    initial_checkpoints:
+      twin_checkpoint_id: frozen_initial_neuronsifter_world_action
+      agent_checkpoint_id: frozen_initial_evidence_governed_agent
+      checkpoint_selection_split: validation_only
+    initial_policy: evidence_governed_failure_aware_acquisition
+    evidence_cutoff:
+      policy: public_availability_timestamp_before_round_cutoff
+      frozen_before_round_zero: true
+      final_sequential_holdout_forbidden_for_selection: true
+    admission_rules:
+      required_gates: [hypothesis_gate, workflow_gate, intervention_gate, observation_assimilation_gate]
+      required_provenance: [source_identity, content_hash, acquisition_timestamp, public_access_status]
+      allowed_qc_uses: [main_pretraining, weak_teacher_calibration, candidate_validation_update]
+      rejected_evidence_retained: true
+      failed_tool_results_retained: true
+    twin_update_trigger:
+      required: [observation_assimilation_gate_passed, material_new_admitted_evidence, validation_budget_remaining]
+    agent_update_trigger:
+      required: [twin_promotion_or_rollback_recorded, admitted_history_hash_frozen, policy_validation_budget_remaining]
+    update_order: [twin_candidate, twin_promotion_or_rollback, agent_candidate, agent_identity_freeze]
+    replay_buffer_policy:
+      controls: [latest_batch, full_replay, reservoir_replay, importance_weighted_replay, regularization_based_retention, evidence_governed_replay]
+      governed_policy: retain_admitted_evidence_with_quality_and_source_weights
+      reservoir_seed: agent_twin_coevolution_reservoir_v1
+    retention_policy:
+      old_domain_holdouts_required_before_promotion: true
+      worst_source_degradation_metric: decision_risk
+      max_old_domain_degradation: 0.03
+    regularization:
+      enabled: true
+      controls: [importance_weighted_replay, functional_retention_penalty, calibration_preservation_penalty]
+      checkpoint_anchor: previous_promoted_identity
+    checkpoint_selection:
+      split: validation_only
+      metric: decision_risk_at_fixed_cumulative_cost
+      paired_bootstrap_seed: 3407
+      final_holdout_forbidden: true
+    promotion_thresholds:
+      minimum_new_region_decision_risk_delta: 0.00
+      maximum_calibration_drift: 0.02
+      maximum_support_domain_drift: 0.02
+      minimum_old_domain_retention: 0.97
+      required_validation_ci_direction: noninferior_or_better
+    rollback_thresholds:
+      trigger_on_calibration_drift_above: 0.02
+      trigger_on_support_domain_drift_above: 0.02
+      trigger_on_old_domain_degradation_above: 0.03
+      trigger_on_constraint_violation: true
+      rollback_to: immediately_previous_promoted_identity
+    compute_budget:
+      total_gpu_hours: 72
+      gpu_hours_per_round: 24
+      maximum_checkpoint_growth_per_round: 2
+    tool_budget:
+      rounds: 3
+      actions_per_round: 128
+      quota: {exploitation: 0.40, exploration: 0.40, sentinel: 0.20}
+      failure_retry_budget_fraction: 0.10
+    stopping_conditions:
+      - all_three_rounds_complete
+      - rollback_demonstrated
+      - acceptance_evidence_complete
+      - compute_budget_exhausted
+      - agent_policy_collapse
+      - twin_update_instability
+  baselines:
+    - baseline_id: static_twin_static_agent
+      what_is_frozen: [twin, agent]
+      what_is_updated: []
+      visible_evidence: [round_admitted_evidence_only]
+      retained_history: none
+      validation_data: frozen_round_validation_episodes
+      rollback_capability: not_applicable
+      compute_tool_budget: matched_round_tool_budget_no_update_compute
+    - baseline_id: static_twin_adaptive_agent
+      what_is_frozen: [twin]
+      what_is_updated: [agent_policy]
+      visible_evidence: [round_admitted_evidence_only]
+      retained_history: evidence_governed_agent_history
+      validation_data: frozen_round_validation_episodes
+      rollback_capability: agent_checkpoint_rollback
+      compute_tool_budget: matched_round_tool_budget_and_agent_update_compute
+    - baseline_id: evolving_twin_static_agent
+      what_is_frozen: [agent]
+      what_is_updated: [twin]
+      visible_evidence: [round_admitted_evidence_only]
+      retained_history: evidence_governed_twin_replay
+      validation_data: frozen_round_validation_episodes
+      rollback_capability: twin_checkpoint_rollback
+      compute_tool_budget: matched_round_tool_budget_and_twin_update_compute
+    - baseline_id: naive_joint_online_update
+      what_is_frozen: []
+      what_is_updated: [twin, agent_policy]
+      visible_evidence: [latest_round_visible_evidence_only]
+      retained_history: latest_batch_only
+      validation_data: frozen_round_validation_episodes
+      rollback_capability: none
+      compute_tool_budget: matched_round_tool_budget_and_joint_update_compute
+    - baseline_id: full_replay_twin_static_agent
+      what_is_frozen: [agent]
+      what_is_updated: [twin]
+      visible_evidence: [round_admitted_evidence_only]
+      retained_history: all_admitted_history
+      validation_data: frozen_round_validation_episodes
+      rollback_capability: twin_checkpoint_rollback
+      compute_tool_budget: matched_round_tool_budget_and_twin_update_compute
+    - baseline_id: continual_twin_static_agent
+      what_is_frozen: [agent]
+      what_is_updated: [twin]
+      visible_evidence: [round_admitted_evidence_only]
+      retained_history: reservoir_or_regularized_replay
+      validation_data: frozen_round_validation_episodes
+      rollback_capability: twin_checkpoint_rollback
+      compute_tool_budget: matched_round_tool_budget_and_twin_update_compute
+    - baseline_id: static_twin_bax_agent
+      what_is_frozen: [twin]
+      what_is_updated: [bax_agent_policy]
+      visible_evidence: [round_admitted_evidence_only]
+      retained_history: bax_policy_history
+      validation_data: frozen_round_validation_episodes
+      rollback_capability: policy_checkpoint_rollback
+      compute_tool_budget: matched_round_tool_budget_and_policy_update_compute
+    - baseline_id: static_twin_cost_aware_bo_agent
+      what_is_frozen: [twin]
+      what_is_updated: [cost_aware_bo_policy]
+      visible_evidence: [round_admitted_evidence_only]
+      retained_history: bo_observation_history
+      validation_data: frozen_round_validation_episodes
+      rollback_capability: policy_checkpoint_rollback
+      compute_tool_budget: matched_round_tool_budget_and_policy_update_compute
+    - baseline_id: governed_agent_twin_coevolution
+      what_is_frozen: []
+      what_is_updated: [twin, agent_policy]
+      visible_evidence: [round_admitted_evidence_only, evidence_quality_weights, support_domain_gate, calibration_gate]
+      retained_history: admitted_evidence_governed_replay
+      validation_data: frozen_round_validation_episodes_and_old_domain_holdouts
+      rollback_capability: twin_and_agent_checkpoint_rollback
+      compute_tool_budget: configured_round_tool_and_joint_update_budget
+    - baseline_id: full_information_oracle
+      what_is_frozen: [evaluation_protocol]
+      what_is_updated: [oracle_policy]
+      visible_evidence: [complete_hidden_tool_outcome_matrix]
+      retained_history: complete_hidden_matrix
+      validation_data: evaluation_only_hidden_episodes
+      rollback_capability: not_applicable
+      compute_tool_budget: evaluation_only_no_deployable_comparison
+  round_protocol:
+    artifact_root: Output/results/agent_twin_coevolution
+    minimum_real_round_count: 3
+    required_order:
+      - load_previous_promoted_identities
+      - infer_current_belief_state
+      - generate_structured_hypotheses_and_information_actions
+      - pass_hypothesis_workflow_intervention_gates
+      - execute_registered_tools_or_reveal_legal_public_evidence
+      - pass_observation_assimilation_gate
+      - create_twin_candidate
+      - evaluate_candidate_calibration_constraints_retention_and_validation
+      - promote_or_rollback_twin
+      - update_agent_from_admitted_history_only
+      - freeze_agent_twin_identities
+      - generate_round_report
+    required_artifacts:
+      input_manifest: agent_twin_round_{round_index}_input_manifest.json
+      action_catalog: agent_twin_round_{round_index}_action_catalog.tsv
+      evidence_admission: agent_twin_round_{round_index}_evidence_admission.tsv
+      twin_update: agent_twin_round_{round_index}_twin_update.json
+      agent_update: agent_twin_round_{round_index}_agent_update.json
+      regression_audit: agent_twin_round_{round_index}_regression_audit.json
+      promotion_or_rollback: agent_twin_round_{round_index}_promotion_or_rollback.json
+      report: agent_twin_round_{round_index}_report.json
+    required_json_fields:
+      input_manifest: [schema_version, track_id, round_index, input_twin_checkpoint_id, input_agent_checkpoint_id, belief_state_hash, evidence_cutoff, final_holdout_accessed, final_holdout_manifest_path, final_holdout_manifest_sha256]
+      twin_update: [schema_version, round_index, candidate_twin_checkpoint_id, candidate_twin_checkpoint_path, candidate_twin_checkpoint_sha256, input_twin_checkpoint_id, admitted_evidence_hashes, validation_split, final_holdout_used, replay_policy, regularization, calibration_drift, support_domain_drift, old_domain_retention, new_region_decision_risk_delta, worst_source_degradation, validation_paired_decision_risk_ci_high]
+      agent_update: [schema_version, round_index, candidate_agent_checkpoint_id, candidate_agent_checkpoint_path, candidate_agent_checkpoint_sha256, input_agent_checkpoint_id, admitted_evidence_hashes, validation_split, final_holdout_used, replay_policy]
+      regression_audit: [schema_version, round_index, evaluation_systems, identical_evidence_budget_tool_availability, comparison_manifest_path, comparison_manifest_sha256, metrics]
+      promotion_or_rollback: [schema_version, round_index, twin_decision, agent_decision, rollback_demonstrated, rollback_reason, restored_twin_checkpoint_id, restored_twin_checkpoint_sha256, restored_agent_checkpoint_id, restored_agent_checkpoint_sha256, final_holdout_used]
+      report: [schema_version, round_index, promoted_twin_checkpoint_id, promoted_agent_checkpoint_id, metrics, blocker_codes]
+    required_tsv_fields:
+      action_catalog: [round_index, action_uid, hypothesis_uid, structured_action_uid, gate_h, gate_w, gate_i, registered_tool_uid, expected_cost, action_status, execution_result_path, execution_result_sha256]
+      evidence_admission: [round_index, evidence_uid, source_identity, public_access_status, evidence_origin_type, acquisition_timestamp, observation_assimilation_gate, content_hash, evidence_quality_weight, admission_decision, final_holdout_visible, rejection_reason]
+  evaluation:
+    frozen_vs_evolving_systems:
+      - initial_frozen_twin_initial_agent
+      - initial_frozen_twin_current_agent
+      - current_twin_initial_agent
+      - current_twin_current_agent
+    comparison_invariants: [identical_hidden_episodes, identical_available_evidence, identical_budget, identical_tool_availability]
+    continual_learning_controls: [latest_batch_fine_tuning, full_replay, reservoir_replay, importance_weighted_replay, regularization_based_retention, evidence_governed_update]
+    primary_metrics: [decision_risk_at_fixed_cumulative_cost, cost_to_target_decision_risk, cumulative_scientific_regret, old_domain_retention, future_domain_transfer, aurc, false_accept, twin_debt_reduction]
+    secondary_metrics: [hypothesis_resolution, falsification_rate, information_gain_per_cost, query_redundancy, tool_failure_recovery, update_latency, checkpoint_growth, rollback_rate]
+    continual_learning_metrics: [new_region_improvement, old_region_retention, backward_transfer, forward_transfer, worst_source_degradation, calibration_drift, update_compute]
+    statistics:
+      paired_sequential_unit: hidden_episode_by_round
+      confidence_interval: paired_bootstrap_95
+      bootstrap_replicates: 2000
+      bootstrap_seed: 3407
+  ablations:
+    - {ablation_id: no_twin_debt, required_for_acceptance: true}
+    - {ablation_id: no_falsifier, required_for_acceptance: true}
+    - {ablation_id: no_evidence_quality_weighting, required_for_acceptance: true}
+    - {ablation_id: no_replay, required_for_acceptance: true}
+    - {ablation_id: no_support_domain_gate, required_for_acceptance: true}
+    - {ablation_id: no_calibration_preservation, required_for_acceptance: true}
+    - {ablation_id: no_rollback, required_for_acceptance: true}
+    - {ablation_id: no_sentinel_allocation, required_for_acceptance: true}
+    - {ablation_id: no_failure_aware_acquisition, required_for_acceptance: true}
+  acceptance:
+    required_conditions:
+      - full_coevolution_beats_strongest_static_baseline
+      - full_coevolution_beats_both_one_sided_adaptive_baselines
+      - fixed_budget_and_fixed_risk_directions_agree
+      - new_region_gains_preserve_old_region_retention
+      - calibration_and_support_domain_within_frozen_tolerances
+      - all_updates_evidence_gated_and_reproducible
+      - rollback_demonstrated_on_injected_or_real_failed_update
+      - final_holdout_unused_for_updates_or_selection
+    allowed_blockers: [blocked_static_baseline, blocked_single_side_adaptation, blocked_sequential_evidence, blocked_update_contract, blocked_catastrophic_forgetting, blocked_calibration_drift, blocked_support_domain_drift, blocked_agent_policy_collapse, blocked_twin_update_instability, blocked_rollback, blocked_compute_budget, failed_empirical_coevolution]
+  claim_handling:
+    prohibited_external_terms_until_final_gate: [co-evolving, self-improving Twin, continually learning scientific agent]
+    if_joint_update_does_not_outperform_one_sided: [retain_agent_in_twin_runtime, retain_evidence_gated_twin_adaptation, remove_coevolving_headline_claim, report_negative_comparison]
+    if_simulator_episodes_only: [allow_simulator_grounded_coevolution_wording, prohibit_broad_biological_coevolution_wording]
+    if_public_sequential_evidence_and_real_tool_rounds_support: allow_evidence_governed_agent_twin_coevolution_within_tested_public_cns_domains
+  final_evidence:
+    artifact_path: Output/audits/agent_twin_coevolution_evidence.json
+    required_fields: [schema_version, final_gate, status, real_round_count, prerequisite_snapshot_hash, baseline_comparisons, baseline_results, continual_learning_controls, fixed_budget_direction, fixed_risk_direction, old_domain_retention, calibration_and_support_domain, evidence_reproducibility, rollback, final_holdout_evaluation, ablations, statistics]

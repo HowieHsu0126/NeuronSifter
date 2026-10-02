@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "neuronsifter-vnext-research-contract-v1",
+  "type": "object",
+  "required": ["neuronsifter_vnext"],
+  "properties": {
+    "neuronsifter_vnext": {
+      "type": "object",
+      "required": ["schema_version", "contract_id", "canonical_framework", "dual_gates", "runtime", "claim_boundary"],
+      "properties": {
+        "schema_version": {"const": "neuronsifter-vnext-research-contract-v1"},
+        "contract_id": {"const": "neuronsifter_vnext_dev_v1"},
+        "canonical_framework": {
+          "type": "object",
+          "required": ["headline_claim_count", "primary_contribution", "mainline_operator", "hierarchy"],
+          "properties": {
+            "headline_claim_count": {"const": 1},
+            "primary_contribution": {"const": "H1_decision_consistent_shared_belief"},
+            "mainline_operator": {"const": "neuronsifter_world_action"},
+            "hierarchy": {"type": "array", "minItems": 7}
+          }
+        },
+        "dual_gates": {
+          "type": "object",
+          "required": ["development", "publication"],
+          "properties": {
+            "development": {
+              "type": "object",
+              "required": ["neuronsifter_core_development_authorized", "development_training_allowed"],
+              "properties": {
+                "neuronsifter_core_development_authorized": {"const": true},
+                "development_training_allowed": {"const": true}
+              }
+            },
+            "publication": {
+              "type": "object",
+              "required": ["external_baseline_comparison_resolved", "headline_comparison_authorized", "protected_final_holdout_access"],
+              "properties": {
+                "external_baseline_comparison_resolved": {"const": false},
+                "headline_comparison_authorized": {"const": false},
+                "protected_final_holdout_access": {"const": false}
+              }
+            }
+          }
+        },
+        "runtime": {
+          "type": "object",
+          "required": ["kernels", "posterior", "decision_consistency"],
+          "properties": {
+            "posterior": {
+              "type": "object",
+              "required": ["immutable_identity_field", "required_components"],
+              "properties": {
+                "immutable_identity_field": {"const": "posterior_uid"},
+                "required_components": {"type": "array", "minItems": 5}
+              }
+            },
+            "decision_consistency": {
+              "type": "object",
+              "required": ["hidden_scientific_decision_states", "invariant_fields"],
+              "properties": {
+                "hidden_scientific_decision_states": {"const": 0},
+                "invariant_fields": {"type": "array", "minItems": 4}
+              }
+            }
+          }
+        },
+        "round24": {
+          "type": "object",
+          "required": ["schema_version", "lineage_id", "static_reference", "prospective_environment", "primary_comparison", "reliability_gate", "evaluation_binding", "conditional_agent_adaptation", "evidence_boundary"],
+          "properties": {
+            "schema_version": {"const": "neuronsifter-round24-prospective-adaptation-v1"},
+            "lineage_id": {"const": "neuronsifter_vnext_dev_v1"},
+            "static_reference": {
+              "type": "object",
+              "required": ["checkpoint_selection", "mechanism_resolution", "neural_world_action_checkpoint_immutable", "twin_update_scope"],
+              "properties": {
+                "checkpoint_selection": {"const": "validation_only"},
+                "mechanism_resolution": {"enum": ["supported", "partial", "failed"]},
+                "neural_world_action_checkpoint_immutable": {"const": true},
+                "twin_update_scope": {"const": "scientific_posterior_assimilation_only_no_model_parameter_update"}
+              }
+            },
+            "prospective_environment": {
+              "type": "object",
+              "required": ["registered_tool", "minimum_sequential_round_count", "protected_test_access_allowed", "query_without_replacement"],
+              "properties": {
+                "registered_tool": {"const": "neuron_rxd_microenvironment_teacher.run_protocol_batch"},
+                "minimum_sequential_round_count": {"minimum": 3},
+                "protected_test_access_allowed": {"const": false},
+                "query_without_replacement": {"const": true}
+              }
+            },
+            "primary_comparison": {
+              "type": "object",
+              "required": ["systems", "agent_parameters_updated", "update_strategies"],
+              "properties": {
+                "systems": {"const": ["frozen_twin_frozen_agent", "adaptive_twin_frozen_agent"]},
+                "agent_parameters_updated": {"const": false},
+                "update_strategies": {"type": "array", "minItems": 4}
+              }
+            },
+            "reliability_gate": {
+              "type": "object",
+              "required": ["minimum_old_domain_retention", "maximum_calibration_drift", "rollback_on_degradation", "model_bound_pre_post_evaluation_required", "placeholder_metrics_are_admissible"],
+              "properties": {
+                "minimum_old_domain_retention": {"const": 0.9},
+                "maximum_calibration_drift": {"const": 0.15},
+                "rollback_on_degradation": {"const": true},
+                "model_bound_pre_post_evaluation_required": {"const": true},
+                "placeholder_metrics_are_admissible": {"const": false}
+              }
+            },
+            "evaluation_binding": {
+              "type": "object",
+              "required": ["c1_posterior_consumed_by_encoder", "c2s_posterior_consumed_by_world_action_predictor", "pre_post_metric_inputs_available", "current_status", "permitted_program_status"],
+              "properties": {
+                "c1_posterior_consumed_by_encoder": {"const": false},
+                "c2s_posterior_consumed_by_world_action_predictor": {"const": false},
+                "pre_post_metric_inputs_available": {"const": false},
+                "current_status": {"const": "blocked_missing_model_bound_pre_post_evaluation"},
+                "permitted_program_status": {"const": "blocked_adaptive_development"}
+              }
+            },
+            "conditional_agent_adaptation": {
+              "type": "object",
+              "required": ["authorized_only_if", "empirical_coevolution_claim_allowed", "currently_authorized"],
+              "properties": {
+                "authorized_only_if": {"const": "neuronsifter_prospective_twin_adaptation_resolved"},
+                "empirical_coevolution_claim_allowed": {"const": false},
+                "currently_authorized": {"const": false}
+              }
+            },
+            "evidence_boundary": {
+              "type": "object",
+              "required": ["evidence_role", "publication_claim_eligible", "protected_final_holdout_access", "external_baseline_comparison_authorized", "c2b"],
+              "properties": {
+                "evidence_role": {"const": "development_only"},
+                "publication_claim_eligible": {"const": false},
+                "protected_final_holdout_access": {"const": false},
+                "external_baseline_comparison_authorized": {"const": false},
+                "c2b": {"const": "blocked_insufficient_real_e2_e4"}
+              }
+            }
+          }
+        },
+        "claim_boundary": {
+          "type": "object",
+          "required": ["c2_b", "public_only"],
+          "properties": {
+            "c2_b": {"const": "blocked_insufficient_real_e2_e4"},
+            "public_only": {"const": true}
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NeuronSifter C2R entry-gate decision",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "registry_uid",
+    "status",
+    "training_allowed",
+    "training_started",
+    "requirements",
+    "blockers",
+    "registry_sealing"
+  ],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "registry_uid": {"const": "trajectory_action_registry_v2"},
+    "status": {
+      "enum": [
+        "c2_headline_ready",
+        "c2_simulator_only_reduced_ready",
+        "pivot_away_from_c2_recommended",
+        "blocked_external_dependency"
+      ]
+    },
+    "training_allowed": {"type": "boolean"},
+    "training_started": {"const": false},
+    "requirements": {"type": "object"},
+    "blockers": {"type": "array", "items": {"type": "object"}},
+    "registry_sealing": {"type": "object"}
+  },
+  "additionalProperties": true
+}

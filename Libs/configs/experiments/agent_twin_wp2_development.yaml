@@ -1,0 +1,86 @@
+config_includes:
+  - agent_twin_coevolution.yaml
+
+agent_twin_wp2_development:
+  schema_version: neuronsifter-agent-twin-wp2-development-v1
+  track_id: agent_twin_coevolution_wp2_precondition_closure
+  mode: development_only
+  execution_evidence_class: fixture_rehearsal_only
+  output_root: Output/outputs/iclr2027/agent_twin_coevolution/wp2
+  wp1_evidence:
+    candidate_commit: 6d2a7b2dda370dbaddfba4abef701978b6c36692
+    candidate_tree: 1644cd6141636dad693f6ac47b3ea51cfeb2e869
+    full_suite_audit: Output/audits/agent_twin_full_suite_execution.json
+    focused_audit: Output/audits/agent_twin_focused_validation.json
+    inventory_audit: Output/audits/agent_twin_test_inventory_diff.json
+  core13_join:
+    frontier_path: Output/outputs/iclr2027/baseline_suite/iclr_core_13_execution/baseline_frontier_decision.json
+    acceptable_frontier_statuses: [qualified, resolved, passed]
+    required_selected_backbone_field: selected_baseline_id
+    required_identity_fields:
+      - selected_baseline_id
+      - selected_twin_checkpoint_id
+      - selected_twin_checkpoint_path
+      - selected_twin_checkpoint_sha256
+      - selected_backbone_config_path
+      - selected_backbone_config_sha256
+      - provider_tool_profile_sha256
+  formal_boundary:
+    formal_update_contract: Output/audits/agent_twin_update_contract.json
+    formal_holdout_access_count: 0
+    formal_execution_allowed: false
+    formal_claim_allowed: false
+    forbidden_outcome_origins:
+      - twin_self_rollout
+      - agent_authored_result
+      - formal_truth
+      - evaluator_only_field
+  protocol:
+    paired_development_world_count: 5
+    rounds_per_run: 3
+    branches: [static, coevolution]
+    action_budget_per_round: 1
+    compute_ceiling_gpu_hours_per_run: 0.0
+    initial_twin_checkpoint_id: wp2_temporary_frozen_development_twin_v1
+    initial_agent_checkpoint_id: wp2_frozen_evidence_agent_v1
+    initial_memory_id: wp2_mioy_emp_initial_v1
+    selection_policy: deterministic_evidence_gated_policy_v1
+    outcome_origin: transparent_development_generator_outcome
+    outcome_generator_registration: config_embedded_fixture_schedule_v1
+    operational_backbone_kind: temporary_frozen_development_backbone
+    negative_rollback_fixture:
+      world_id: dev_world_03
+      round_index: 2
+      calibration_drift: 0.04
+  promotion_thresholds:
+    minimum_new_region_decision_risk_delta: 0.0
+    maximum_calibration_drift: 0.02
+    maximum_support_domain_drift: 0.02
+    minimum_old_domain_retention: 0.97
+    maximum_ood_selective_risk_delta: 0.02
+    maximum_constraint_risk_delta: 0.02
+  development_worlds:
+    - world_id: dev_world_01
+      seed: 1101
+      generator_family: transparent_public_development_generator_a
+      outcome_schedule: [supporting, supporting, resolved]
+    - world_id: dev_world_02
+      seed: 1102
+      generator_family: transparent_public_development_generator_a
+      outcome_schedule: [falsified, supporting, resolved]
+    - world_id: dev_world_03
+      seed: 1103
+      generator_family: transparent_public_development_generator_b
+      outcome_schedule: [supporting, inconclusive, requires_observation]
+    - world_id: dev_world_04
+      seed: 1104
+      generator_family: transparent_public_development_generator_b
+      outcome_schedule: [requires_observation, supporting, resolved]
+    - world_id: dev_world_05
+      seed: 1105
+      generator_family: transparent_public_development_generator_c
+      outcome_schedule: [supporting, twin_mismatch_suspected, resolved]
+  statistics:
+    bootstrap_replicates: 2000
+    bootstrap_seed: 3407
+    independent_unit: development_world

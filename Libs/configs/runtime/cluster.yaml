@@ -1,0 +1,133 @@
+cluster_registry:
+  python_executable: /share/home/hwxu/miniconda3/bin/python
+  foundation_state_c1:
+    inventory:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 2
+      mem: 16G
+      gres: ''
+    regression:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 4
+      mem: 64G
+      gres: ''
+    debug_gpu:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 4
+      mem: 32G
+      gres: gpu:1
+    student_gpu:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 64G
+      gres: gpu:1
+    headline_gpu:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 96G
+      gres: gpu:1
+  candidate_validation:
+    prep:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 4
+      mem: 24G
+      gres: ''
+    docking:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 4
+      mem: 24G
+      gres: gpu:1
+    registry:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 4
+      mem: 24G
+      gres: ''
+  active_learning:
+    preflight:
+      partition: cpu
+      nodelist: cpu04
+      cpus_per_task: 2
+      mem: 8G
+      gres: ''
+    cpu_tests:
+      partition: cpu
+      nodelist: cpu04
+      cpus_per_task: 2
+      mem: 64G
+      gres: ''
+    external_adapter_materialization:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 8
+      mem: 64G
+      gres: ''
+    round_cpu:
+      partition: cpu
+      nodelist: cpu04
+      cpus_per_task: 4
+      mem: 24G
+      gres: ''
+    round_gpu:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: gpu:1
+    round_simulator_cpu:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 8
+      mem: 80G
+      gres: ''
+    publication:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: ''
+    g5_preprocessing:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 8
+      mem: 64G
+      gres: ''
+    g5_gpu:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: gpu:1
+  dynamics:
+    ensemble_refresh:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 4
+      mem: 24G
+      gres: ''
+      seed_values:
+      - 3407
+      - 42
+      - 26
+    profile_defaults:
+      prebuild:
+        partition: gpu
+        nodelist: cpu03
+        cpus_per_task: 4
+        mem: 48G
+        gres: ''
+      training:
+        partition: gpu1
+        nodelist: gpu03
+        cpus_per_task: 8
+        mem: 48G
+        gres: gpu:1
+        pytorch_alloc_conf: "expandable_segments:True"
+        cublas_workspace_config: ":4096:8"

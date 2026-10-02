@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/functional-publication-targeted-discovery-v1.json",
+  "title": "NeuronSifter bounded metadata-only functional publication discovery",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "status",
+    "campaign_scope",
+    "terminal_state",
+    "next_route",
+    "query_count",
+    "result_count",
+    "novel_lead_count",
+    "admitted_source_count",
+    "observation_count",
+    "legal_candidate_set_count",
+    "qualified_candidate_set_count",
+    "outcome_values_used_for_priority",
+    "abstract_values_inspected",
+    "model_predictions_inspected",
+    "protected_holdout_access",
+    "publication_comparison_open",
+    "queries",
+    "records"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-functional-publication-targeted-discovery-v1"},
+    "status": {"enum": ["completed_bounded_metadata_only", "completed_with_access_blocks"]},
+    "campaign_scope": {"const": "one_targeted_metadata_only_discovery_wave"},
+    "terminal_state": {"enum": ["TARGETED_DISCOVERY_COMPLETE_LEADS_REMAIN", "TARGETED_DISCOVERY_ACCESS_BLOCKED", "BLOCKED_REQUIRES_EXTERNAL_MULTI_ARM_FUNCTIONAL_OUTCOMES"]},
+    "next_route": {"enum": ["recover_publication_artifacts_for_metadata_leads", "repeat_bounded_metadata_query_after_access_recovers", "prepare_external_multi_arm_functional_outcome_intake"]},
+    "query_count": {"const": 4},
+    "result_count": {"type": "integer", "minimum": 0},
+    "novel_lead_count": {"type": "integer", "minimum": 0},
+    "admitted_source_count": {"const": 0},
+    "observation_count": {"const": 0},
+    "legal_candidate_set_count": {"const": 0},
+    "qualified_candidate_set_count": {"const": 0},
+    "outcome_values_used_for_priority": {"const": false},
+    "abstract_values_inspected": {"const": false},
+    "model_predictions_inspected": {"const": false},
+    "protected_holdout_access": {"const": 0},
+    "publication_comparison_open": {"const": false},
+    "queries": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": ["query_uid", "query", "endpoint_family", "result_count", "access_status"],
+        "properties": {
+          "query_uid": {"type": "string", "minLength": 1},
+          "query": {"type": "string", "minLength": 1},
+          "endpoint_family": {"type": "string", "minLength": 1},
+          "result_count": {"type": "integer", "minimum": 0},
+          "access_status": {"enum": ["resolved", "access_blocked"]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["lead_uid", "identifier", "identifier_type", "title", "query_uids", "endpoint_family", "metadata_design_status", "expected_action_mode", "artifact_status", "functional_values_admitted"],
+        "properties": {
+          "lead_uid": {"type": "string", "minLength": 1},
+          "identifier": {"type": "string", "minLength": 1},
+          "identifier_type": {"enum": ["pmid", "doi"]},
+          "title": {"type": "string", "minLength": 1},
+          "year": {"type": ["integer", "null"], "minimum": 1900},
+          "journal": {"type": ["string", "null"]},
+          "query_uids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "endpoint_family": {"type": "string", "minLength": 1},
+          "metadata_design_status": {"enum": ["candidate_multi_arm_metadata", "metadata_lead_single_or_unclear", "not_functional_metadata", "duplicate_seed_excluded"]},
+          "expected_action_mode": {"enum": ["multi_arm", "dose_response", "combination", "single_or_unclear"]},
+          "artifact_status": {"const": "not_inspected"},
+          "functional_values_admitted": {"const": false}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

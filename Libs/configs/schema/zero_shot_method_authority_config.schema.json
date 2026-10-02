@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/zero-shot-method-authority-config-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "review_uid",
+    "reviewed_on",
+    "parent_review",
+    "candidate_components",
+    "lineage_requirements",
+    "historical_config",
+    "stop_policy",
+    "outputs"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-zero-shot-method-authority-config-v1"},
+    "review_uid": {"const": "zero_shot_method_identity_and_executability_recovery"},
+    "reviewed_on": {"type": "string", "format": "date"},
+    "parent_review": {"type": "object"},
+    "candidate_components": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scientific_belief_encoder", "world_action_capability"],
+      "properties": {
+        "scientific_belief_encoder": {"type": "object"},
+        "world_action_capability": {"type": "object"}
+      }
+    },
+    "lineage_requirements": {"type": "array", "minItems": 8, "uniqueItems": true, "items": {"type": "string"}},
+    "historical_config": {"type": "object"},
+    "stop_policy": {"type": "object"},
+    "outputs": {"type": "object"}
+  }
+}

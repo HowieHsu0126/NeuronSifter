@@ -1,0 +1,161 @@
+real_intervention_evidence:
+  targeted_therapeutic_expansion:
+    schema_version: neuronsifter-targeted-therapeutic-decision-domain-v1
+    summary_schema_path: Libs/configs/schema/targeted_therapeutic_decision_domain.schema.json
+    project_gate: Round-28-WP3
+    source_policy:
+      strict_public_only: true
+      selected_accessions:
+        - GSE307255
+        - GSE294023
+        - GSE338689
+      source_role: matched_control_therapeutic_outcome
+      sources:
+        GSE307255:
+          split_role: train
+          control_condition: PBS
+          metadata_genotype_value: APOE4/4
+          candidate_treatments:
+            - D4F
+          biological_context:
+            species: Mus musculus
+            genotype: APOE4/4
+            tissue: brain
+            assay: bulk_RNA_seq_gene_counts
+            treatment_duration: 12_weeks
+          expected_biological_replicates:
+            PBS: 8
+            D4F: 8
+        GSE294023:
+          split_role: validation
+          control_condition: DMSO
+          metadata_genotype_value: R406W mutant
+          candidate_treatments:
+            - Anastrozole
+          biological_context:
+            species: Homo sapiens
+            genotype: MAPT_R406W
+            tissue: iPSC_derived_neurons
+            assay: bulk_RNA_seq_gene_counts
+            treatment_duration: 24_hours
+          expected_biological_replicates:
+            DMSO: 6
+            Anastrozole: 6
+        GSE338689:
+          split_role: development_eval
+          control_condition: PBS
+          metadata_genotype_value: 5xFAD
+          candidate_treatments:
+            - PAP-1
+            - ShK-223
+          biological_context:
+            species: Mus musculus
+            genotype: 5xFAD
+            tissue: whole_brain
+            assay: bulk_RNA_seq_gene_counts
+            treatment_duration: 3_months
+          expected_biological_replicates:
+            PBS: 3
+            PAP-1: 3
+            ShK-223: 3
+      outcome_semantics: transcriptomic_molecular_efficacy_proxy
+      author_claims_as_ground_truth: false
+      simulator_values_as_ground_truth: false
+      model_predictions_inspected: false
+    therapeutic_decision_objective:
+      objective_uid: ad_transcriptomic_therapeutic_benefit_source_context_v1
+      freeze_status: frozen_before_outcome_materialization
+      freeze_basis:
+        - CNS_AD_microenvironment_contract
+        - prespecified_state_species_roles
+        - public_gene_symbol_annotation
+      decision_unit: candidate_treatment_within_source_defined_biological_context
+      reference_condition: source_declared_matched_control
+      primary_goal:
+        component_uid: neuroinflammatory_activation_proxy
+        direction: minimize
+        weight: 0.5
+        gene_symbols:
+          - C1qa
+          - C1qb
+          - C1qc
+          - Trem2
+          - Tyrobp
+          - Aif1
+          - Lgals3
+          - Il1b
+          - Tnf
+          - Stat1
+          - Stat3
+      secondary_goals:
+        - component_uid: synaptic_resilience_proxy
+          direction: maximize
+          weight: 0.35
+          gene_symbols:
+            - Snap25
+            - Syt1
+            - Dlg4
+            - Gria1
+            - Camk2a
+            - Slc17a7
+            - Bdnf
+            - Rbfox3
+        - component_uid: cellular_stress_proxy
+          direction: minimize
+          weight: 0.15
+          gene_symbols:
+            - Hspa1a
+            - Hspa1b
+            - Hspb1
+            - Jun
+            - Fos
+      normalization:
+        input: raw_gene_counts
+        transform: log2_cpm_plus_one
+        sample_library_size_normalization: counts_per_million
+        component_aggregation: median_gene_effect_vs_reference
+        candidate_score: weighted_signed_component_effect
+      qualification:
+        bootstrap_resamples: 2000
+        bootstrap_seed: 3407
+        decision_sensitive_min_top_probability: 0.95
+        decision_sensitive_min_benefit_probability: 0.95
+        weakly_decision_sensitive_min_top_probability: 0.8
+        weakly_decision_sensitive_min_benefit_probability: 0.8
+        benefit_threshold_log2_cpm: 0.0
+        rank_margin_threshold_log2_cpm: 0.1
+        near_null_absolute_score_max_log2_cpm: 0.1
+        require_control_values: true
+        require_two_candidate_treatments: true
+      prohibited_substitutes:
+        - author_conclusion
+        - docking_score
+        - simulator_truth
+        - transcriptome_reversal_proxy
+        - post_hoc_gene_panel_selection
+    inputs:
+      ensembl_human_objective_gene_mapping: Input/raw/therapeutic_outcomes/ensembl_human_objective_gene_mapping.json
+      GSE307255:
+        series_matrix: Input/raw/therapeutic_outcomes/GSE307255/GSE307255_series_matrix.txt.gz
+        counts: Input/raw/therapeutic_outcomes/GSE307255/GSE307255_Li_008_read_counts.xlsx
+      GSE294023:
+        series_matrix: Input/raw/therapeutic_outcomes/GSE294023/GSE294023_series_matrix.txt.gz
+        counts: Input/raw/therapeutic_outcomes/GSE294023/GSE294023_rsem_gene.csv.gz
+      GSE338689:
+        series_matrix: Input/raw/therapeutic_outcomes/GSE338689/GSE338689_series_matrix.txt.gz
+        family_soft: Input/raw/therapeutic_outcomes/GSE338689/GSE338689_family.soft.gz
+        counts: Input/raw/therapeutic_outcomes/GSE338689/GSE338689_KV1.3.Brain.counts.raw.xlsx
+        metadata: Input/raw/therapeutic_outcomes/GSE338689/GSE338689_Metadata_KV1.3.xlsx
+    outputs:
+      source_manifest: Input/manifests/therapeutic_outcomes/source_manifest.tsv
+      observation_manifest: Input/manifests/therapeutic_outcomes/observations.tsv
+      gene_outcomes: Input/processed/therapeutic_outcomes/objective_gene_outcomes.tsv
+      candidate_set_manifest: Input/manifests/therapeutic_outcomes/candidate_sets.tsv
+      objective: Output/audits/therapeutic_decision_objective_source_context.json
+      outcome_quality: Output/audits/therapeutic_outcome_quality.tsv
+      domain_summary: Output/audits/therapeutic_decision_domain.json
+      split_audit: Output/audits/therapeutic_decision_benchmark_split_audit.json
+    planned_split_paths:
+      train: Input/manifests/therapeutic_decision_benchmark/train.tsv
+      validation: Input/manifests/therapeutic_decision_benchmark/validation.tsv
+      development_eval: Input/manifests/therapeutic_decision_benchmark/development_eval.tsv

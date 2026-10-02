@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/prospective-protocol-go-no-go-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "decision",
+    "review_uid",
+    "reviewed_on",
+    "go_conditions",
+    "blocking_findings",
+    "minimum_repair_path",
+    "prohibited_repairs",
+    "execution_authorized",
+    "protected_holdout_access",
+    "evidence_bindings"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-prospective-protocol-go-no-go-v1"},
+    "decision": {"enum": ["PROTOCOL_READY_FOR_ZERO_SHOT_EXECUTION", "PROTOCOL_NOT_FORMALLY_EXECUTABLE"]},
+    "review_uid": {"type": "string", "minLength": 1},
+    "reviewed_on": {"type": "string", "format": "date"},
+    "go_conditions": {"type": "object"},
+    "blocking_findings": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "minimum_repair_path": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "prohibited_repairs": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "execution_authorized": {"const": false},
+    "protected_holdout_access": {"const": 0},
+    "evidence_bindings": {"type": "object"}
+  }
+}

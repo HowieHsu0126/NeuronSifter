@@ -1,0 +1,26 @@
+schema_version: related_work_registry_v1
+registry_id: neuronsifter_related_work_and_retired_methods
+entries:
+  - {related_uid: feature_mean, original_baseline_uid: feature_mean, baseline_class: B9_related_work_only, reason: retired_redundant_lower_bound, experimentally_compared: false}
+  - {related_uid: feature_median, original_baseline_uid: feature_median, baseline_class: B9_related_work_only, reason: retired_redundant_lower_bound, experimentally_compared: false}
+  - {related_uid: pca_nearest_neighbor, original_baseline_uid: pca_nearest_neighbor, baseline_class: B9_related_work_only, reason: reduced_to_one_linear_slot, experimentally_compared: false}
+  - {related_uid: identity_no_action, original_baseline_uid: identity_no_action, baseline_class: B9_related_work_only, reason: lower_bound_outside_reduced_set, experimentally_compared: false}
+  - {related_uid: linear_delta, original_baseline_uid: linear_delta, baseline_class: B9_related_work_only, reason: subsumed_by_linear_state_space, experimentally_compared: false}
+  - {related_uid: shallow_mlp, original_baseline_uid: shallow_mlp, baseline_class: B9_related_work_only, reason: reduced_simple_baseline_budget, experimentally_compared: false}
+  - {related_uid: deeponet, original_baseline_uid: deeponet, baseline_class: B9_related_work_only, reason: operator_slot_reduced_to_fno, experimentally_compared: false}
+  - {related_uid: cpa, original_baseline_uid: cpa, baseline_class: B9_related_work_only, reason: domain_slot_resolved_later, experimentally_compared: false}
+  - {related_uid: chemcpa, original_baseline_uid: chemcpa, baseline_class: B9_related_work_only, reason: domain_slot_resolved_later, experimentally_compared: false}
+  - {related_uid: cellot, original_baseline_uid: cellot, baseline_class: B9_related_work_only, reason: domain_slot_resolved_later, experimentally_compared: false}
+  - {related_uid: conditional_monge_gap, original_baseline_uid: conditional_monge_gap, baseline_class: B9_related_work_only, reason: domain_slot_resolved_later, experimentally_compared: false}
+  - {related_uid: gears, original_baseline_uid: gears, baseline_class: B9_related_work_only, reason: domain_slot_resolved_later, experimentally_compared: false}
+  - {related_uid: cellflow, original_baseline_uid: cellflow, baseline_class: B9_related_work_only, reason: domain_slot_resolved_later, experimentally_compared: false}
+  - {related_uid: bliss_loewe_hsa, original_baseline_uid: bliss_loewe_hsa, baseline_class: B9_related_work_only, reason: incompatible_combo_endpoint_semantics, experimentally_compared: false}
+  - {related_uid: round_robin, original_baseline_uid: round_robin, baseline_class: B9_related_work_only, reason: acquisition_control_reduced, experimentally_compared: false}
+  - {related_uid: cheapest_first, original_baseline_uid: cheapest_first, baseline_class: B9_related_work_only, reason: acquisition_control_reduced, experimentally_compared: false}
+  - {related_uid: highest_fidelity_only, original_baseline_uid: highest_fidelity_only, baseline_class: B9_related_work_only, reason: acquisition_control_reduced, experimentally_compared: false}
+  - {related_uid: mechanism_rule, original_baseline_uid: mechanism_rule, baseline_class: B9_related_work_only, reason: acquisition_control_reduced, experimentally_compared: false}
+  - {related_uid: uncertainty_acquisition, original_baseline_uid: uncertainty_acquisition, baseline_class: B9_related_work_only, reason: subsumed_by_uncertainty_bald, experimentally_compared: false}
+  - {related_uid: expected_error_reduction, original_baseline_uid: expected_error_reduction, baseline_class: B9_related_work_only, reason: acquisition_budget_reduced, experimentally_compared: false}
+  - {related_uid: infobax, original_baseline_uid: infobax, baseline_class: B9_related_work_only, reason: acquisition_budget_reduced, experimentally_compared: false}
+  - {related_uid: ood_only, original_baseline_uid: ood_only, baseline_class: B9_related_work_only, reason: reliability_component_not_primary, experimentally_compared: false}
+  - {related_uid: pkpd_only, original_baseline_uid: pkpd_only, baseline_class: B9_related_work_only, reason: reliability_component_not_primary, experimentally_compared: false}

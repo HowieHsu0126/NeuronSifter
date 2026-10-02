@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/prospective-development-data-intake-preregistration-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "intake_uid", "preregistered_at",
+    "preregistration_digest", "authorization", "parent_state",
+    "parent_state_digest", "parent_bindings", "repository_families",
+    "role_requirements", "metadata_policy", "selection_policy", "exclusions",
+    "boundaries", "outputs"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-prospective-development-data-intake-preregistration-v1"},
+    "status": {"const": "preregistered_before_new_development_outcome_access"},
+    "intake_uid": {"const": "prospective_public_cns_action_response_foundation"},
+    "preregistered_at": {"type": "string", "minLength": 1},
+    "preregistration_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "authorization": {"type": "object"},
+    "parent_state": {"type": "object"},
+    "parent_state_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "parent_bindings": {"type": "object"},
+    "repository_families": {"type": "array", "minItems": 5, "maxItems": 5},
+    "role_requirements": {"type": "object"},
+    "metadata_policy": {"type": "object"},
+    "selection_policy": {"type": "object"},
+    "exclusions": {"type": "object"},
+    "boundaries": {"type": "object"},
+    "outputs": {"type": "object"}
+  }
+}

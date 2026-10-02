@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/retrospective-public-cns-ranking-intake-v1.json",
+  "title": "NeuronSifter frozen bounded public CNS ranking intake audit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "intake_uid", "preregistration_digest",
+    "source_count_cap", "record_count", "queue_digest", "queue_path",
+    "metadata_snapshot_binding", "priority_order", "selection_summary",
+    "parent_state", "parent_queue_unchanged", "refresh_queue_unchanged",
+    "metadata_network_access_performed", "retrieval_mode",
+    "abstracts_retrieved_before_priority", "full_text_retrieved_before_priority",
+    "figures_retrieved_before_priority", "outcome_values_used_for_priority",
+    "observed_effect_used_for_priority", "p_values_used_for_priority",
+    "protected_holdout_access", "formal_evidence_admitted", "next_action",
+    "records", "created_at"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-retrospective-public-cns-ranking-intake-v1"},
+    "status": {"enum": ["metadata_only_queue_frozen", "metadata_only_queue_exhausted"]},
+    "intake_uid": {"type": "string", "minLength": 1},
+    "preregistration_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_count_cap": {"const": 5},
+    "record_count": {"type": "integer", "minimum": 0, "maximum": 5},
+    "queue_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "queue_path": {"type": "string", "minLength": 1},
+    "metadata_snapshot_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "bytes", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "bytes": {"type": "integer", "minimum": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "priority_order": {"type": "array", "maxItems": 5, "items": {"type": "string"}},
+    "selection_summary": {"type": "object"},
+    "parent_state": {"type": "object"},
+    "parent_queue_unchanged": {"const": true},
+    "refresh_queue_unchanged": {"const": true},
+    "metadata_network_access_performed": {"const": true},
+    "retrieval_mode": {"const": "metadata_only"},
+    "abstracts_retrieved_before_priority": {"const": false},
+    "full_text_retrieved_before_priority": {"const": false},
+    "figures_retrieved_before_priority": {"const": false},
+    "outcome_values_used_for_priority": {"const": false},
+    "observed_effect_used_for_priority": {"const": false},
+    "p_values_used_for_priority": {"const": false},
+    "protected_holdout_access": {"const": 0},
+    "formal_evidence_admitted": {"const": 0},
+    "next_action": {"enum": ["recover_preregistered_sources_in_priority_order", "stop_queue_exhausted_preserve_two_of_three_groups"]},
+    "records": {"type": "array", "maxItems": 5, "items": {"type": "object"}},
+    "created_at": {"type": "string", "minLength": 1}
+  }
+}

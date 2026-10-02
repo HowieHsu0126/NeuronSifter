@@ -1,0 +1,135 @@
+evidence_scarcity_aware_validation:
+  schema_version: neuronsifter-evidence-scarcity-aware-validation-config-v1
+  status: protocol_defined_execution_not_authorized
+  claim_boundaries:
+    retrospective_ranking_claim:
+      status: unresolved_two_of_three
+      immutable: true
+      independent_decision_sensitive_groups: 2
+      required_groups: 3
+      ambiguous_contexts_are_ranking_truth: false
+    prospective_claim:
+      statement: evaluate whether a frozen Twin and decision policy abstain under unresolved evidence and select provenance-valid information actions that reduce decision uncertainty
+      allowed_scope:
+        - uncertainty_estimation
+        - abstention
+        - selective_prediction
+        - information_action_selection
+        - tool_receipt_integrity
+        - memory_truth_isolation
+      prohibited_scope:
+        - prospective_clinical_validation
+        - direct_clinical_endpoint_prediction
+        - therapeutic_superiority_from_ambiguous_contexts
+        - retraining_on_evaluation_contexts
+        - threshold_tuning_on_evaluation_contexts
+  evaluation_population:
+    source: Output/audits/retrospective_replay_benchmark.json
+    unit_of_analysis: independent_public_context
+    positive_ranking_role: decision_sensitive_evaluation_only
+    ambiguous_role: abstention_and_information_acquisition_evaluation_only
+    training_role: prohibited
+    calibration_role: prohibited
+    pseudo_replication_prohibited: true
+  model_route_comparison:
+    preferred_route: frozen_zero_shot_twin_with_abstention
+    routes:
+      - route_uid: frozen_pretrained_twin
+        training_on_retrospective_contexts: false
+        expected_compute_cost: low
+        eligibility: requires_frozen_checkpoint_and_input_compatibility
+      - route_uid: zero_shot_counterfactual_evaluation
+        training_on_retrospective_contexts: false
+        expected_compute_cost: low
+        eligibility: preferred_for_current_six_context_evidence
+      - route_uid: low_capacity_action_model
+        training_on_retrospective_contexts: false
+        expected_compute_cost: medium
+        eligibility: requires_independent_training_and_calibration_data
+  tasks:
+    - task_uid: positive_ranking_consistency
+      input_role: decision_sensitive_evaluation_only
+      output: frozen_action_ranking_and_uncertainty
+    - task_uid: ambiguity_abstention
+      input_role: abstention_and_information_acquisition_evaluation_only
+      output: abstain_active_learning_or_external_validation_decision
+    - task_uid: information_action_selection
+      input_role: abstention_and_information_acquisition_evaluation_only
+      output: ranked_provenance_valid_information_actions
+    - task_uid: memory_truth_isolation
+      input_role: all_evaluation_contexts
+      output: immutable_empirical_truth_and_invalidated_stale_memory
+  allowed_information_actions:
+    - replicate_level_source_data_recovery
+    - independent_replication_request
+    - uncertainty_statistic_recovery
+    - dose_schedule_resolution
+    - target_occupancy_measurement
+    - assay_alignment_verification
+    - external_validation_request
+  baselines:
+    - score_only_no_abstention
+    - fixed_uncertainty_threshold
+    - random_valid_information_action
+    - rule_based_missingness_action
+    - uncertainty_agnostic_agent
+    - memory_disabled_agent
+  metrics:
+    ranking_cases:
+      - per_context_top_action_correctness
+      - per_context_rank_probability
+      - ranking_stability
+      - predictive_entropy
+      - mutual_information
+    ambiguous_cases:
+      - false_accept_count
+      - abstention_correctness
+      - selective_coverage
+      - selective_risk
+      - decision_label_stability
+    information_actions:
+      - valid_tool_action_rate
+      - expected_information_gain
+      - expected_entropy_reduction
+      - expected_rank_flip_reduction
+      - information_gain_per_cost
+      - receipt_completeness
+    integrity:
+      - protected_holdout_access
+      - truth_mutation_count
+      - invalid_tool_receipt_count
+      - source_lineage_violation_count
+  reporting_policy:
+    context_level_results_required: true
+    aggregate_point_estimate_only_prohibited: true
+    confidence_intervals_required_when_defined: true
+    no_generalization_claim_from_six_contexts: true
+    missing_metric_status: NOT_RUN
+    failed_metric_status: FAILED
+    ambiguous_context_promotion_prohibited: true
+  acceptance_conditions:
+    ambiguous_false_accept_count_maximum: 0
+    unsupported_action_execution_count_maximum: 0
+    invalid_tool_receipt_count_maximum: 0
+    truth_mutation_count_maximum: 0
+    protected_holdout_access_maximum: 0
+    all_contexts_reported_required: true
+    positive_ranking_cases_reported_separately: true
+    ambiguous_cases_reported_separately: true
+    performance_thresholds_must_be_frozen_before_execution: true
+  execution_authority:
+    protocol_frozen: true
+    execution_authorized: false
+    split_authorized: false
+    world_action_authorized: false
+    gpu_authorized: false
+    tri_authorized: false
+    agent_in_twin_authorized: false
+    coevolution_authorized: false
+    protected_holdout_access: 0
+  outputs:
+    source_data_recovery_audit: Output/audits/retrospective_public_source_data_first_recovery.json
+    ranking_yield_audit: Output/audits/public_ranking_evidence_yield.json
+    structural_scarcity_decision: Output/audits/public_retrospective_ranking_evidence_structural_scarcity.json
+    prospective_protocol_audit: Output/audits/prospective_uncertainty_aware_validation_protocol.json
+    failure_analysis_report: Output/paper_reports/evidence_scarcity_failure_analysis.md

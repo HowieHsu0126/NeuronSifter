@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/retrospective-public-source-data-first-recovery-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "intake_uid", "preregistration_digest",
+    "metadata_universe_digest", "queue_digest", "repository_family_status",
+    "metadata_asset_count", "metadata_eligible_count", "queue_record_count",
+    "source_recovered_count", "formal_abc_admitted_count", "new_legal_candidate_count",
+    "new_decision_sensitive_group_count", "unchanged_artifact_bindings", "final_state",
+    "protected_holdout_access", "next_action", "created_at"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-retrospective-public-source-data-first-recovery-v1"},
+    "status": {"const": "not_run_queue_empty"},
+    "intake_uid": {"const": "public_source_data_first_cns_ranking_recovery"},
+    "preregistration_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "metadata_universe_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "queue_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "repository_family_status": {"type": "array", "minItems": 4, "maxItems": 4},
+    "metadata_asset_count": {"const": 79},
+    "metadata_eligible_count": {"const": 0},
+    "queue_record_count": {"const": 0},
+    "source_recovered_count": {"const": 0},
+    "formal_abc_admitted_count": {"const": 0},
+    "new_legal_candidate_count": {"const": 0},
+    "new_decision_sensitive_group_count": {"const": 0},
+    "unchanged_artifact_bindings": {"type": "object"},
+    "final_state": {"type": "object"},
+    "protected_holdout_access": {"const": 0},
+    "next_action": {"const": "adjudicate_structural_public_ranking_evidence_scarcity"},
+    "created_at": {"type": "string", "minLength": 1}
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/therapeutic-semantic-domain-v3.json",
+  "title": "NeuronSifter semantic therapeutic decision-domain audit",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "created_at",
+    "status",
+    "therapeutic_domain",
+    "semantic_binding_status",
+    "source_count",
+    "observation_count",
+    "action_count",
+    "therapeutic_action_count",
+    "candidate_set_count",
+    "qualified_decision_sensitive_sets",
+    "objective_namespace_status",
+    "benchmark_created",
+    "world_action_authorized",
+    "tri_authorized",
+    "agent_in_twin_authorized",
+    "coevolution_authorized",
+    "world_action",
+    "tri",
+    "agent_in_twin",
+    "coevolution",
+    "publication_comparison_open",
+    "protected_holdout_access"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-therapeutic-decision-domain-v3"},
+    "created_at": {"type": "string", "minLength": 1},
+    "status": {"const": "blocked_insufficient_decision_sensitive_therapeutic_outcomes"},
+    "therapeutic_domain": {
+      "type": "object",
+      "required": ["status", "qualified_candidate_set_count"],
+      "properties": {
+        "status": {"const": "blocked_insufficient_decision_sensitive_therapeutic_outcomes"},
+        "qualified_candidate_set_count": {"const": 0}
+      },
+      "additionalProperties": true
+    },
+    "semantic_binding_status": {"enum": ["bound", "partial_binding_with_rejected_sources"]},
+    "source_count": {"type": "integer", "minimum": 1},
+    "observation_count": {"type": "integer", "minimum": 1},
+    "action_count": {"type": "integer", "minimum": 1},
+    "therapeutic_action_count": {"type": "integer", "minimum": 0},
+    "candidate_set_count": {"type": "integer", "minimum": 0},
+    "qualified_decision_sensitive_sets": {"type": "integer", "minimum": 0},
+    "objective_namespace_status": {"enum": ["rejected_incomplete_objective_coverage", "bound_pending_numeric_qualification"]},
+    "benchmark_created": {"const": false},
+    "world_action_authorized": {"const": false},
+    "tri_authorized": {"const": false},
+    "agent_in_twin_authorized": {"const": false},
+    "coevolution_authorized": {"const": false},
+    "world_action": {"$ref": "#/$defs/notAuthorized"},
+    "tri": {"$ref": "#/$defs/notAuthorized"},
+    "agent_in_twin": {"$ref": "#/$defs/notAuthorized"},
+    "coevolution": {"$ref": "#/$defs/notAuthorized"},
+    "publication_comparison_open": {"const": false},
+    "protected_holdout_access": {"const": 0}
+  },
+  "$defs": {
+    "notAuthorized": {
+      "type": "object",
+      "required": ["status", "reason"],
+      "properties": {
+        "status": {"const": "not_authorized"},
+        "reason": {"const": "therapeutic_decision_domain_blocked"}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

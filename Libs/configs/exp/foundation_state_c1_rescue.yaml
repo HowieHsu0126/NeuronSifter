@@ -1,0 +1,95 @@
+foundation_state_c1:
+  contract_version: '2.0.0-rescue.1'
+  schema_path: Libs/configs/schema/foundation_state_c1_rescue.schema.json
+
+  frozen_corpus:
+    corpus_uid: public_foundation_corpus_rescue
+    scope: reduced_transcriptomics_core_v2_rescue
+    identity_hash: 3c9899d1704ce262801229d98fb5402f49159fb8959295d3b86600522b4ab7f1
+    evidence_bundle_path: Output/audits/public_foundation_corpus_rescue_evidence_bundle.json
+    required_gate_status:
+      iclr_v2.public_corpus.G1: passed
+      iclr_v2.public_corpus.G2: PASS_WITH_SCOPE_LIMITATION
+      iclr_v2.public_corpus.G2_full_multimodal: not_passed
+    required_block_count: 8
+    required_family_count: 3
+    required_grade_ab_observation_count: 909484
+    required_grade_ab_ess: 7191
+    required_qualified_action_count: 7124
+    qualified_action_subset_manifest_path: Output/audits/c1_rescue_qualified_action_subset_manifest.json
+    qualified_action_subset_schema_path: Libs/configs/schema/c1_rescue_qualified_action_subset_manifest.schema.json
+    qualified_action_subset_hash: c2165c124e9be2cb472244119e113479c67c5741de94dcaa5631fb04bba85b9f
+    required_crosswalk:
+      mapping_version: public_foundation_corpus_rescue_rescue_crosswalk_2026-07-22
+      table_path: Output/audits/public_foundation_corpus_rescue_crosswalk_delta.tsv
+      table_sha256: 98c8614dc0c9a1e91be5f59325c3d8f3e231c5c119e30314fce181964b0b7248
+      record_count: 8
+    required_query_domain:
+      path: Input/canonical/public_foundation_corpus_rescue/splits/reduced_transcriptomics_core_v2/query_domain.tsv
+      sha256: 638c68c1bdd6a782707aec418a041e7d6a3e8bc3efa30a00afd55a8ea33d011e
+      record_count: 7191
+    required_blocks:
+      cellxgene_amygdala_2021_phase1e_v1: b8bc4cab7c8a3e57d9ca64900a1420b8e078b10c5d2b43c3b821f8e15c88684b
+      clue_touchstone_v1_1_npc_neu_perturbation_phase1e_v1: 5e51623d3859735518f0d08e954a29805b2fe5075b234fd5ce2dc8b195b560ea
+      pfc_arrayexpress_e_geod_37263_phase1f_v1: eb4f5d16ab060ca809a95f31e0b8a0330c51d0ecbc2cebff6e566df2305714d9
+      pfc_arrayexpress_e_mtab_6772_controls_rescue: 6800618665ec353aab228877fbf705d09919175595924e1f367f34f5cdaeefd2
+      pfc_arrayexpress_e_mtab_6772_perturbation_phase1f_v1: f0ac1bb93ac4168d1ef9d9f34a0e8db5bb4684b7d71277748282604a4de803c9
+      pfc_geo_gse262992_dex_control_rescue: b3da1aaeebb91094162847bc5122e4c3aac5751563df46187a983818f2a3798d
+      pfc_geo_gse28146_phase1e_v1: 35dbdac27abdb900130c1ece7c4f47070c5baeacde329f2097aed0190ba0695d
+      whb_allen_nonneurons_20240330_phase1e_v1: 0d406b9eb593e33c3611d63ba862d14075ea6e97f9dc724c8d5417bf6f08d5e3
+    required_split_manifests:
+      source_publication_holdout: db042252cd4d5f87bdaafb9cb1025b0b1c07b0dd36c80721e76e68dc52ed926c
+      family_holdout_cns_disease_aging_state_transcriptomics: 1d93b02735e81bbea25c478b8833ebba1ad841c52e6c6235bcb4f1c8ff8a7c97
+      family_holdout_cns_cell_type_region_atlas_transcriptomics: 43932409115de957c116d1ac083a812a764885c1c226aeb6d4b09054638a7b37
+      family_holdout_compound_dose_time_perturbation_transcriptomics: f8bfe5e8d4aa3261960717b29af8bf15a110b4d3577612ec9e74a2de8cf6705e
+      regimen_holdout: 51476288e8e560ba5d5d3f030b94fa14a7d0ff8efba7d54475600e2f21e2c0b4
+      target_program_holdout: 56396f3dc51a32a7ba55e91be55ee3929607ca42cbb6ab44e280aabf18dc1535
+    required_observation_binding:
+      manifest_path: Output/audits/c1_rescue_observation_row_binding_manifest.json
+      schema_path: Libs/configs/schema/c1_rescue_observation_row_binding_manifest.schema.json
+      row_table_path: Input/processed/foundation_state_c1/public_foundation_corpus_rescue_observation_row_bindings.tsv
+      manifest_sha256: c9dbf762d97bdbaf19f96ad4e19b8977d642cb763de1a24ee6461ffcaed6f1d7
+      row_table_sha256: e0b5f0eebcdd042a1460333bd4a4d990178965620532a022d65f405b08e647bc
+      binding_hash: c334a52189ccf8114d71bcdc88ed3999e68846c374996705cf4e46168d3d4d55
+      block_count: 8
+      biological_unit_count: 7191
+      observation_count: 909484
+
+  encoder:
+    input_contract:
+      vocabulary_manifest_path: Output/audits/c1_rescue_vocabulary_manifest.json
+      vocabulary_manifest_sha256: 3a3422d076c23b46a25cacd3a65e9918bfe54a61c0a16ba22341d55fe4691bde
+      action_feature_dim: 10
+      action_descriptor_version: neuronsifter-c1-physical-exposure-descriptor-v2
+
+  evaluation:
+    shortcut_diagnostics:
+    - source_classifier
+    - publication_accession_classifier
+    - family_classifier
+    - block_identifier_classifier
+    - split_role_classifier
+    - source_label_permutation
+    - family_label_permutation
+    - block_label_permutation
+    - family_balanced_vs_pooled
+
+  execution:
+    job_name_prefix: NrnSift_C1R_
+    scheduler_log_directory: Output/logs/c1r
+    attempt_artifact_directory: Output/audits/c1_rescue_run_attempts
+    evidence_validation_path: Output/audits/public_foundation_corpus_rescue_evidence_validation.json
+    unified_preflight_path: Output/audits/c1_rescue_preflight.json
+
+  artifacts:
+    observation_binding_validation_path: Output/audits/c1_rescue_observation_row_binding_validation.json
+    preflight_output_path: Output/audits/c1_rescue_foundation_corpus_preflight.json
+    pretraining_manifest_path: Output/results/c1_rescue/foundation_pretraining_manifest.tsv
+    transfer_result_catalog_path: Output/results/c1_rescue/foundation_transfer_result_catalog.tsv
+    source_leakage_diagnostic_path: Output/results/c1_rescue/source_leakage_diagnostic.tsv
+    scaling_transfer_summary_path: Output/results/c1_rescue/scaling_transfer_summary.json
+    gate_output_path: Output/audits/c1_rescue_foundation_transfer_gate.json
+    objective_capability_manifest_path: Output/audits/c1_rescue_objective_capability_manifest.json
+    objective_capability_manifest_schema_path: Libs/configs/schema/c1_rescue_objective_capability_manifest.schema.json
+    objective_capability_manifest_sha256: 2383fca81c116ff5d01fe1b13f3314cfebcd1e2519f1b78e264a6b01107c4e4e
+    unified_preflight_schema_path: Libs/configs/schema/c1_rescue_unified_preflight.schema.json

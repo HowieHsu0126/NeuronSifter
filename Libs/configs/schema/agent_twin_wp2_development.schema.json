@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NeuronSifter Agent-Twin WP2 Development-Only Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "track_id",
+    "mode",
+    "execution_evidence_class",
+    "output_root",
+    "wp1_evidence",
+    "core13_join",
+    "formal_boundary",
+    "protocol",
+    "promotion_thresholds",
+    "development_worlds",
+    "statistics"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-agent-twin-wp2-development-v1"},
+    "track_id": {"const": "agent_twin_coevolution_wp2_precondition_closure"},
+    "mode": {"const": "development_only"},
+    "execution_evidence_class": {"const": "fixture_rehearsal_only"},
+    "output_root": {"type": "string", "minLength": 1},
+    "wp1_evidence": {"$ref": "#/$defs/wp1Evidence"},
+    "core13_join": {"$ref": "#/$defs/core13Join"},
+    "formal_boundary": {"$ref": "#/$defs/formalBoundary"},
+    "protocol": {"$ref": "#/$defs/protocol"},
+    "promotion_thresholds": {"$ref": "#/$defs/promotionThresholds"},
+    "development_worlds": {
+      "type": "array",
+      "minItems": 5,
+      "items": {"$ref": "#/$defs/developmentWorld"}
+    },
+    "statistics": {"$ref": "#/$defs/statistics"}
+  },
+  "$defs": {
+    "wp1Evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_commit", "candidate_tree", "full_suite_audit", "focused_audit", "inventory_audit"],
+      "properties": {
+        "candidate_commit": {"type": "string", "minLength": 40, "maxLength": 40},
+        "candidate_tree": {"type": "string", "minLength": 40, "maxLength": 40},
+        "full_suite_audit": {"type": "string"},
+        "focused_audit": {"type": "string"},
+        "inventory_audit": {"type": "string"}
+      }
+    },
+    "core13Join": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["frontier_path", "acceptable_frontier_statuses", "required_selected_backbone_field", "required_identity_fields"],
+      "properties": {
+        "frontier_path": {"type": "string"},
+        "acceptable_frontier_statuses": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "required_selected_backbone_field": {"type": "string", "minLength": 1},
+        "required_identity_fields": {"type": "array", "minItems": 7, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "formalBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["formal_update_contract", "formal_holdout_access_count", "formal_execution_allowed", "formal_claim_allowed", "forbidden_outcome_origins"],
+      "properties": {
+        "formal_update_contract": {"type": "string"},
+        "formal_holdout_access_count": {"const": 0},
+        "formal_execution_allowed": {"const": false},
+        "formal_claim_allowed": {"const": false},
+        "forbidden_outcome_origins": {"type": "array", "minItems": 4, "items": {"type": "string"}}
+      }
+    },
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["paired_development_world_count", "rounds_per_run", "branches", "action_budget_per_round", "compute_ceiling_gpu_hours_per_run", "initial_twin_checkpoint_id", "initial_agent_checkpoint_id", "initial_memory_id", "selection_policy", "outcome_origin", "outcome_generator_registration", "operational_backbone_kind", "negative_rollback_fixture"],
+      "properties": {
+        "paired_development_world_count": {"const": 5},
+        "rounds_per_run": {"minimum": 3, "maximum": 6},
+        "branches": {"const": ["static", "coevolution"]},
+        "action_budget_per_round": {"const": 1},
+        "compute_ceiling_gpu_hours_per_run": {"type": "number", "minimum": 0},
+        "initial_twin_checkpoint_id": {"type": "string"},
+        "initial_agent_checkpoint_id": {"type": "string"},
+        "initial_memory_id": {"type": "string"},
+        "selection_policy": {"type": "string"},
+        "outcome_origin": {"const": "transparent_development_generator_outcome"},
+        "outcome_generator_registration": {"const": "config_embedded_fixture_schedule_v1"},
+        "operational_backbone_kind": {"const": "temporary_frozen_development_backbone"},
+        "negative_rollback_fixture": {"$ref": "#/$defs/negativeFixture"}
+      }
+    },
+    "negativeFixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["world_id", "round_index", "calibration_drift"],
+      "properties": {
+        "world_id": {"type": "string"},
+        "round_index": {"minimum": 1},
+        "calibration_drift": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "promotionThresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["minimum_new_region_decision_risk_delta", "maximum_calibration_drift", "maximum_support_domain_drift", "minimum_old_domain_retention", "maximum_ood_selective_risk_delta", "maximum_constraint_risk_delta"],
+      "properties": {
+        "minimum_new_region_decision_risk_delta": {"type": "number"},
+        "maximum_calibration_drift": {"type": "number", "minimum": 0},
+        "maximum_support_domain_drift": {"type": "number", "minimum": 0},
+        "minimum_old_domain_retention": {"type": "number", "minimum": 0, "maximum": 1},
+        "maximum_ood_selective_risk_delta": {"type": "number", "minimum": 0},
+        "maximum_constraint_risk_delta": {"type": "number", "minimum": 0}
+      }
+    },
+    "developmentWorld": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["world_id", "seed", "generator_family", "outcome_schedule"],
+      "properties": {
+        "world_id": {"type": "string", "minLength": 1},
+        "seed": {"type": "integer"},
+        "generator_family": {"type": "string", "minLength": 1},
+        "outcome_schedule": {"type": "array", "minItems": 3, "maxItems": 6, "items": {"enum": ["supporting", "falsified", "inconclusive", "requires_observation", "twin_mismatch_suspected", "resolved"]}}
+      }
+    },
+    "statistics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bootstrap_replicates", "bootstrap_seed", "independent_unit"],
+      "properties": {
+        "bootstrap_replicates": {"const": 2000},
+        "bootstrap_seed": {"const": 3407},
+        "independent_unit": {"const": "development_world"}
+      }
+    }
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/real-intervention-decision-domain-v1.json",
+  "title": "NeuronSifter real-intervention decision-domain qualification",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "status",
+    "gate_uid",
+    "gate_resolved",
+    "decision_sensitive_domain_available",
+    "model_training_domain_qualified",
+    "decision_sensitivity_known",
+    "episode_count",
+    "action_count",
+    "context_group_count",
+    "structural_multi_action_set_count",
+    "qualified_decision_candidate_set_count",
+    "context_classification_counts",
+    "candidate_classification_counts",
+    "classification_is_based_on_real_outcomes",
+    "historical_outcome_diagnostics_mutated",
+    "model_predictions_inspected",
+    "split_files_created",
+    "development_splits_frozen",
+    "world_action_target_claim_retained",
+    "agent_in_twin_target_claim_retained",
+    "coevolution_target_claim_retained",
+    "agent_in_twin_authorized",
+    "coevolution_authorized",
+    "publication_comparison_open",
+    "evidence_role",
+    "publication_claim_eligible",
+    "protected_holdout_access",
+    "input_bindings",
+    "implementation_bindings",
+    "output_bindings"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "neuronsifter-real-intervention-decision-domain-v1"
+    },
+    "status": {
+      "const": "blocked_insufficient_decision_sensitive_real_intervention"
+    },
+    "gate_uid": {
+      "const": "real_intervention_decision_domain_qualified"
+    },
+    "gate_resolved": {
+      "const": true
+    },
+    "decision_sensitive_domain_available": {
+      "const": false
+    },
+    "model_training_domain_qualified": {
+      "const": false
+    },
+    "decision_sensitivity_known": {
+      "const": true
+    },
+    "episode_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "action_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "context_group_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "structural_multi_action_set_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "qualified_decision_candidate_set_count": {
+      "const": 0
+    },
+    "context_classification_counts": {
+      "$ref": "#/$defs/classificationCounts"
+    },
+    "candidate_classification_counts": {
+      "$ref": "#/$defs/classificationCounts"
+    },
+    "classification_is_based_on_real_outcomes": {
+      "const": true
+    },
+    "historical_outcome_diagnostics_mutated": {
+      "const": false
+    },
+    "model_predictions_inspected": {
+      "const": false
+    },
+    "split_files_created": {
+      "const": false
+    },
+    "development_splits_frozen": {
+      "const": false
+    },
+    "world_action_target_claim_retained": {
+      "const": true
+    },
+    "agent_in_twin_target_claim_retained": {
+      "const": true
+    },
+    "coevolution_target_claim_retained": {
+      "const": true
+    },
+    "agent_in_twin_authorized": {
+      "const": false
+    },
+    "coevolution_authorized": {
+      "const": false
+    },
+    "publication_comparison_open": {
+      "const": false
+    },
+    "evidence_role": {
+      "const": "development_only"
+    },
+    "publication_claim_eligible": {
+      "const": false
+    },
+    "protected_holdout_access": {
+      "const": 0
+    },
+    "input_bindings": {
+      "$ref": "#/$defs/artifactBindings"
+    },
+    "implementation_bindings": {
+      "$ref": "#/$defs/artifactBindings"
+    },
+    "output_bindings": {
+      "$ref": "#/$defs/artifactBindings"
+    }
+  },
+  "$defs": {
+    "classificationCounts": {
+      "type": "object",
+      "propertyNames": {
+        "enum": [
+          "decision_sensitive",
+          "weakly_decision_sensitive",
+          "scientifically_informative_but_not_rankable",
+          "null",
+          "ambiguous"
+        ]
+      },
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "artifactIdentity": {
+      "type": "object",
+      "required": [
+        "path",
+        "bytes",
+        "sha256"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "artifactBindings": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "$ref": "#/$defs/artifactIdentity"
+      }
+    }
+  },
+  "additionalProperties": true
+}

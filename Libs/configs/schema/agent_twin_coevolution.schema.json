@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NeuronSifter Agent-Twin Co-Evolution Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "track_id",
+    "final_gate",
+    "formal_execution_policy",
+    "prerequisites",
+    "update_contract",
+    "baselines",
+    "round_protocol",
+    "evaluation",
+    "ablations",
+    "acceptance",
+    "claim_handling",
+    "final_evidence"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-agent-twin-coevolution-contract-v1"},
+    "track_id": {"const": "agent_twin_coevolution"},
+    "final_gate": {"const": "agent_twin_coevolution_evidence_resolved"},
+    "formal_execution_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["implementation_allowed_before_prerequisites", "formal_execution_requires_all_prerequisites", "final_holdout_policy"],
+      "properties": {
+        "implementation_allowed_before_prerequisites": {"const": true},
+        "formal_execution_requires_all_prerequisites": {"const": true},
+        "final_holdout_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["visible_for_updates", "visible_for_checkpoint_selection", "visible_for_threshold_selection", "visible_for_final_evaluation_only"],
+          "properties": {
+            "visible_for_updates": {"const": false},
+            "visible_for_checkpoint_selection": {"const": false},
+            "visible_for_threshold_selection": {"const": false},
+            "visible_for_final_evaluation_only": {"const": true}
+          }
+        }
+      }
+    },
+    "prerequisites": {
+      "type": "array",
+      "minItems": 9,
+      "items": {"$ref": "#/$defs/prerequisite"}
+    },
+    "update_contract": {"type": "object"},
+    "baselines": {
+      "type": "array",
+      "minItems": 10,
+      "items": {"$ref": "#/$defs/baseline"}
+    },
+    "round_protocol": {"type": "object"},
+    "evaluation": {"type": "object"},
+    "ablations": {"type": "array", "minItems": 9, "items": {"type": "object"}},
+    "acceptance": {"type": "object"},
+    "claim_handling": {"type": "object"},
+    "final_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_path", "required_fields"],
+      "properties": {
+        "artifact_path": {"type": "string", "minLength": 1},
+        "required_fields": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+      }
+    }
+  },
+  "$defs": {
+    "prerequisite": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["prerequisite_id", "evidence_path", "assertions", "failure_blocker"],
+      "properties": {
+        "prerequisite_id": {"type": "string"},
+        "evidence_path": {"type": "string", "minLength": 1},
+        "assertions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["json_path", "equals"],
+            "properties": {
+              "json_path": {"type": "string", "minLength": 1},
+              "equals": {}
+            }
+          }
+        },
+        "failure_blocker": {"type": "string", "minLength": 1}
+      }
+    },
+    "baseline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baseline_id",
+        "what_is_frozen",
+        "what_is_updated",
+        "visible_evidence",
+        "retained_history",
+        "validation_data",
+        "rollback_capability",
+        "compute_tool_budget"
+      ],
+      "properties": {
+        "baseline_id": {"type": "string", "minLength": 1},
+        "what_is_frozen": {"type": "array"},
+        "what_is_updated": {"type": "array"},
+        "visible_evidence": {"type": "array", "minItems": 1},
+        "retained_history": {"type": "string", "minLength": 1},
+        "validation_data": {"type": "string", "minLength": 1},
+        "rollback_capability": {"type": "string", "minLength": 1},
+        "compute_tool_budget": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

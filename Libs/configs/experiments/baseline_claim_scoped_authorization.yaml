@@ -1,0 +1,153 @@
+schema_version: neuronsifter-baseline-claim-scoped-authorization-config-v1
+
+authorization:
+  contract_id: baseline_claim_scoped_authorization_v1
+  artifact_producer: build_baseline_claim_scoped_authorization
+  validator_producer: validate_baseline_claim_scoped_authorization
+  global_fail_closed: true
+  global_activation_requires_all_claims: true
+
+# Evidence locations are deliberate declarations, not evidence by themselves.
+# None of the initial records exist, so this contract must remain blocked.
+claims:
+  C1:
+    depends_on_claims: []
+    requirements:
+      - requirement_id: corpus
+        evidence:
+          path: Output/audits/baseline_claim_evidence/c1_public_corpus_manifest.json
+          expected_sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+          expected_schema_version: neuronsifter-c1-public-corpus-manifest-v1
+          expected_status: passed
+          provenance:
+            required_fields: [producer, created_at, source_artifacts]
+            forbidden_producers: [build_baseline_claim_scoped_authorization, validate_baseline_claim_scoped_authorization]
+      - requirement_id: splits
+        evidence:
+          path: Output/audits/baseline_claim_evidence/c1_frozen_split_manifest.json
+          expected_sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+          expected_schema_version: neuronsifter-c1-frozen-split-manifest-v1
+          expected_status: passed
+          provenance:
+            required_fields: [producer, created_at, source_artifacts]
+            forbidden_producers: [build_baseline_claim_scoped_authorization, validate_baseline_claim_scoped_authorization]
+      - requirement_id: baselines
+        evidence:
+          path: Output/audits/baseline_claim_evidence/c1_baseline_qualification.json
+          expected_sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+          expected_schema_version: neuronsifter-c1-baseline-qualification-v1
+          expected_status: passed
+          provenance:
+            required_fields: [producer, created_at, source_artifacts]
+            forbidden_producers: [build_baseline_claim_scoped_authorization, validate_baseline_claim_scoped_authorization]
+  C2:
+    depends_on_claims: [C1]
+    requirements:
+      - requirement_id: frozen_c1_state_interface
+        evidence:
+          path: Output/audits/baseline_claim_evidence/c2_frozen_c1_state_interface.json
+          expected_sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+          expected_schema_version: neuronsifter-c2-frozen-c1-state-interface-v1
+          expected_status: passed
+          provenance:
+            required_fields: [producer, created_at, source_artifacts]
+            forbidden_producers: [build_baseline_claim_scoped_authorization, validate_baseline_claim_scoped_authorization]
+      - requirement_id: action_complete_c2_domain
+        evidence:
+          path: Output/audits/baseline_claim_evidence/c2_action_complete_domain.json
+          expected_sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+          expected_schema_version: neuronsifter-c2-action-complete-domain-v1
+          expected_status: passed
+          provenance:
+            required_fields: [producer, created_at, source_artifacts]
+            forbidden_producers: [build_baseline_claim_scoped_authorization, validate_baseline_claim_scoped_authorization]
+      - requirement_id: baselines
+        evidence:
+          path: Output/audits/baseline_claim_evidence/c2_baseline_qualification.json
+          expected_sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+          expected_schema_version: neuronsifter-c2-baseline-qualification-v1
+          expected_status: passed
+          provenance:
+            required_fields: [producer, created_at, source_artifacts]
+            forbidden_producers: [build_baseline_claim_scoped_authorization, validate_baseline_claim_scoped_authorization]
+  C3:
+    depends_on_claims: [C2]
+    requirements:
+      - requirement_id: frozen_c2_predictions_and_posterior
+        evidence:
+          path: Output/audits/baseline_claim_evidence/c3_frozen_c2_predictions_and_posterior.json
+          expected_sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+          expected_schema_version: neuronsifter-c3-frozen-c2-predictions-posterior-v1
+          expected_status: passed
+          provenance:
+            required_fields: [producer, created_at, source_artifacts]
+            forbidden_producers: [build_baseline_claim_scoped_authorization, validate_baseline_claim_scoped_authorization]
+      - requirement_id: tool_environment
+        evidence:
+          path: Output/audits/baseline_claim_evidence/c3_tool_environment.json
+          expected_sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+          expected_schema_version: neuronsifter-c3-tool-environment-v1
+          expected_status: passed
+          provenance:
+            required_fields: [producer, created_at, source_artifacts]
+            forbidden_producers: [build_baseline_claim_scoped_authorization, validate_baseline_claim_scoped_authorization]
+      - requirement_id: baselines
+        evidence:
+          path: Output/audits/baseline_claim_evidence/c3_baseline_qualification.json
+          expected_sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+          expected_schema_version: neuronsifter-c3-baseline-qualification-v1
+          expected_status: passed
+          provenance:
+            required_fields: [producer, created_at, source_artifacts]
+            forbidden_producers: [build_baseline_claim_scoped_authorization, validate_baseline_claim_scoped_authorization]
+  C4:
+    depends_on_claims: []
+    requirements:
+      - requirement_id: frozen_validation_predictions
+        evidence:
+          path: Output/audits/baseline_claim_evidence/c4_frozen_validation_predictions.json
+          expected_sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+          expected_schema_version: neuronsifter-c4-frozen-validation-predictions-v1
+          expected_status: passed
+          provenance:
+            required_fields: [producer, created_at, source_artifacts]
+            forbidden_producers: [build_baseline_claim_scoped_authorization, validate_baseline_claim_scoped_authorization]
+      - requirement_id: baseline
+        evidence:
+          path: Output/audits/baseline_claim_evidence/c4_baseline_qualification.json
+          expected_sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+          expected_schema_version: neuronsifter-c4-baseline-qualification-v1
+          expected_status: passed
+          provenance:
+            required_fields: [producer, created_at, source_artifacts]
+            forbidden_producers: [build_baseline_claim_scoped_authorization, validate_baseline_claim_scoped_authorization]
+      - requirement_id: calibration
+        evidence:
+          path: Output/audits/baseline_claim_evidence/c4_calibration.json
+          expected_sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+          expected_schema_version: neuronsifter-c4-calibration-v1
+          expected_status: passed
+          provenance:
+            required_fields: [producer, created_at, source_artifacts]
+            forbidden_producers: [build_baseline_claim_scoped_authorization, validate_baseline_claim_scoped_authorization]
+  C5:
+    depends_on_claims: []
+    requirements:
+      - requirement_id: checkpoints
+        evidence:
+          path: Output/audits/baseline_claim_evidence/c5_frozen_checkpoints.json
+          expected_sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+          expected_schema_version: neuronsifter-c5-frozen-checkpoints-v1
+          expected_status: passed
+          provenance:
+            required_fields: [producer, created_at, source_artifacts]
+            forbidden_producers: [build_baseline_claim_scoped_authorization, validate_baseline_claim_scoped_authorization]
+      - requirement_id: deployment_profiles
+        evidence:
+          path: Output/audits/baseline_claim_evidence/c5_deployment_profiles.json
+          expected_sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+          expected_schema_version: neuronsifter-c5-deployment-profiles-v1
+          expected_status: passed
+          provenance:
+            required_fields: [producer, created_at, source_artifacts]
+            forbidden_producers: [build_baseline_claim_scoped_authorization, validate_baseline_claim_scoped_authorization]

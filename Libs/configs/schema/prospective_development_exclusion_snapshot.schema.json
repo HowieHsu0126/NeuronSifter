@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/prospective-development-exclusion-snapshot-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "intake_uid", "created_at",
+    "six_context_binding", "evaluation_context_uids", "publication_uids",
+    "action_uids", "control_uids", "development_source_exclusions",
+    "six_context_outcome_access", "protected_holdout_access"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-prospective-development-exclusion-snapshot-v1"},
+    "status": {"const": "frozen_before_development_metadata_access"},
+    "intake_uid": {"type": "string"},
+    "created_at": {"type": "string"},
+    "six_context_binding": {"type": "object"},
+    "evaluation_context_uids": {"type": "array", "minItems": 6, "maxItems": 6, "uniqueItems": true},
+    "publication_uids": {"type": "array", "uniqueItems": true},
+    "action_uids": {"type": "array", "uniqueItems": true},
+    "control_uids": {"type": "array", "uniqueItems": true},
+    "development_source_exclusions": {"type": "object"},
+    "six_context_outcome_access": {"const": 0},
+    "protected_holdout_access": {"const": 0}
+  }
+}

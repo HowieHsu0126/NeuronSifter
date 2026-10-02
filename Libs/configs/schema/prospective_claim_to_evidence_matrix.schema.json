@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/prospective-claim-to-evidence-matrix-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "review_uid",
+    "reviewed_on",
+    "claims",
+    "global_limitations",
+    "protected_holdout_access"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-prospective-claim-to-evidence-matrix-v1"},
+    "status": {"const": "claim_scope_resolved"},
+    "review_uid": {"type": "string", "minLength": 1},
+    "reviewed_on": {"type": "string", "format": "date"},
+    "claims": {
+      "type": "array",
+      "minItems": 7,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["claim", "testable", "formally_executable_now", "endpoint", "evidence_units", "limitations", "promotion_ceiling"],
+        "properties": {
+          "claim": {"type": "string", "minLength": 1},
+          "testable": {"enum": ["yes", "conditional", "no"]},
+          "formally_executable_now": {"type": "boolean"},
+          "endpoint": {"type": "string", "minLength": 1},
+          "evidence_units": {"type": "array", "items": {"type": "string"}},
+          "limitations": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+          "promotion_ceiling": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "global_limitations": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "protected_holdout_access": {"const": 0}
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/therapeutic-platform-annotation-binding-v2.json",
+  "title": "NeuronSifter therapeutic platform annotation binding audit",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "created_at",
+    "status",
+    "selected_sources",
+    "platform_summaries",
+    "annotation_identity_bound",
+    "ambiguous_mapping_policy_frozen",
+    "aggregation_rule",
+    "outcome_driven_mapping_choices",
+    "source_bindings",
+    "protected_holdout_access"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-therapeutic-platform-annotation-binding-v2"},
+    "created_at": {"type": "string", "minLength": 1},
+    "status": {"enum": ["bound", "partial_binding_with_rejected_sources"]},
+    "selected_sources": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "platform_summaries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "platform_accession",
+          "source_accession",
+          "species",
+          "annotation_path",
+          "annotation_source_url",
+          "annotation_content_sha256",
+          "annotation_identity_bound",
+          "feature_count",
+          "objective_member_count",
+          "objective_member_bound_count",
+          "objective_coverage_fraction",
+          "missing_objective_members",
+          "contradictory_objective_members",
+          "duplicate_probe_objective_members",
+          "aggregation_rule",
+          "outcome_driven_mapping_choices",
+          "status"
+        ],
+        "properties": {
+          "platform_accession": {"type": "string", "minLength": 1},
+          "source_accession": {"type": "string", "minLength": 1},
+          "species": {"type": "string", "minLength": 1},
+          "annotation_path": {"type": "string", "minLength": 1},
+          "annotation_source_url": {"type": "string", "format": "uri"},
+          "annotation_content_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "annotation_identity_bound": {"const": true},
+          "feature_count": {"type": "integer", "minimum": 1},
+          "objective_member_count": {"type": "integer", "minimum": 1},
+          "objective_member_bound_count": {"type": "integer", "minimum": 0},
+          "objective_coverage_fraction": {"type": "number", "minimum": 0, "maximum": 1},
+          "missing_objective_members": {"type": "array", "items": {"type": "string"}},
+          "contradictory_objective_members": {"type": "array", "items": {"type": "string"}},
+          "duplicate_probe_objective_members": {"type": "array", "items": {"type": "string"}},
+          "duplicate_probe_count": {"type": "integer", "minimum": 0},
+          "aggregation_rule": {"const": "median_over_unique_objective_member_features_prespecified_before_outcomes"},
+          "outcome_driven_mapping_choices": {"const": false},
+          "status": {"enum": ["bound", "rejected_incomplete_objective_coverage"]}
+        },
+        "additionalProperties": true
+      }
+    },
+    "annotation_identity_bound": {"const": true},
+    "ambiguous_mapping_policy_frozen": {"const": true},
+    "aggregation_rule": {"const": "median_over_unique_objective_member_features_prespecified_before_outcomes"},
+    "outcome_driven_mapping_choices": {"const": false},
+    "source_bindings": {"type": "object"},
+    "protected_holdout_access": {"const": 0}
+  },
+  "additionalProperties": true
+}

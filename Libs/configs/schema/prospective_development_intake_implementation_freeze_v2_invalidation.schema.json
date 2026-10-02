@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/prospective-development-intake-implementation-freeze-v2-invalidation-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "reason", "created_at",
+    "invalidated_freeze_binding", "access_blocked_intake_binding",
+    "metadata_requests_attempted", "metadata_assets_retrieved",
+    "source_asset_content_retrieved", "development_outcome_access",
+    "six_context_outcome_access", "protected_holdout_access"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-prospective-development-intake-implementation-freeze-v2-invalidation-v1"},
+    "status": {"const": "invalidated_after_access_blocked_metadata_attempt"},
+    "reason": {"const": "inherited_loopback_proxy_unavailable_on_cpu03"},
+    "created_at": {"type": "string"},
+    "invalidated_freeze_binding": {"type": "object"},
+    "access_blocked_intake_binding": {"type": "object"},
+    "metadata_requests_attempted": {"const": true},
+    "metadata_assets_retrieved": {"const": 0},
+    "source_asset_content_retrieved": {"const": false},
+    "development_outcome_access": {"const": 0},
+    "six_context_outcome_access": {"const": 0},
+    "protected_holdout_access": {"const": 0}
+  }
+}

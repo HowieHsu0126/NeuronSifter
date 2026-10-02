@@ -1,0 +1,15 @@
+experiment_family:
+  family_id: external_evidence_only
+  description: AD-only paper-grade experiment family declaration for external_evidence_only.
+  disease_program: ad_control
+  kind: evidence_adapter
+  profile_name: ''
+  adapter_name: external_evidence_only
+  runnable: true
+  reference_only: false
+  reason_if_not_runnable: ''
+  matched_seed_policy: fixed_suite_seeds
+  claim_guardrails:
+  - ad_only
+  - no_g5_upgrade
+  - no_clinical_endpoint_prediction

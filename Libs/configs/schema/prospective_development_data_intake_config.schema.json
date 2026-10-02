@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/prospective-development-data-intake-config-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "intake_uid", "authorization", "parent_state",
+    "repository_families", "role_requirements", "metadata_policy",
+    "selection_policy", "boundaries", "outputs"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-prospective-development-data-intake-config-v1"},
+    "status": {"const": "authorized_for_outcome_blind_preregistration"},
+    "intake_uid": {"const": "prospective_public_cns_action_response_foundation"},
+    "authorization": {"type": "object"},
+    "parent_state": {"type": "object"},
+    "repository_families": {"type": "array", "minItems": 1, "maxItems": 6},
+    "role_requirements": {"type": "object"},
+    "metadata_policy": {"type": "object"},
+    "selection_policy": {"type": "object"},
+    "boundaries": {"type": "object"},
+    "outputs": {"type": "object"}
+  }
+}
