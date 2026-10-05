@@ -1,0 +1,15 @@
+experiment_family:
+  family_id: action_target_only
+  description: AD-only paper-grade experiment family declaration for action_target_only.
+  disease_program: ad_control
+  kind: structured_action_ablation
+  profile_name: action_conditioning_target_identity
+  adapter_name: ''
+  runnable: true
+  reference_only: false
+  reason_if_not_runnable: ''
+  matched_seed_policy: fixed_suite_seeds
+  claim_guardrails:
+  - ad_only
+  - no_g5_upgrade
+  - no_clinical_endpoint_prediction

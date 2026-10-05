@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/prospective-zero-shot-execution-authorization-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "review_uid",
+    "reviewed_on",
+    "protocol_decision",
+    "execution_authorized",
+    "authorized_scope",
+    "blocked_scope",
+    "issuance_conditions",
+    "blocking_findings",
+    "protected_holdout_access",
+    "decision_binding"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-prospective-zero-shot-execution-authorization-v1"},
+    "status": {"enum": ["issuable_pending_user_authorization", "not_issuable"]},
+    "review_uid": {"type": "string", "minLength": 1},
+    "reviewed_on": {"type": "string", "format": "date"},
+    "protocol_decision": {"enum": ["PROTOCOL_READY_FOR_ZERO_SHOT_EXECUTION", "PROTOCOL_NOT_FORMALLY_EXECUTABLE"]},
+    "execution_authorized": {"const": false},
+    "authorized_scope": {"type": "array", "items": {"type": "string"}},
+    "blocked_scope": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "issuance_conditions": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "blocking_findings": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "protected_holdout_access": {"const": 0},
+    "decision_binding": {"type": "object"}
+  }
+}

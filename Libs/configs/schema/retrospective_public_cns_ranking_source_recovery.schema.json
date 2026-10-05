@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/retrospective-public-cns-ranking-source-recovery-v1.json",
+  "title": "NeuronSifter bounded public CNS ranking source recovery audit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "intake_uid", "queue_digest", "queue_record_count",
+    "queue_consumed_record_count", "queue_remaining_record_count", "publication_uid",
+    "source_accession", "source_manifest_binding", "source_artifact_binding",
+    "source_structure", "qualification", "citation_substitution_performed",
+    "protected_holdout_access", "formal_evidence_admitted", "candidate_set_created",
+    "independent_decision_sensitive_group_count", "required_group_count", "next_action"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-retrospective-public-cns-ranking-source-recovery-v1"},
+    "status": {"const": "queue_exhausted_without_new_decision_sensitive_group"},
+    "intake_uid": {"const": "public_cns_ranking_context_completion"},
+    "queue_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "queue_record_count": {"const": 1},
+    "queue_consumed_record_count": {"const": 1},
+    "queue_remaining_record_count": {"const": 0},
+    "publication_uid": {"const": "pubmed:36102902"},
+    "source_accession": {"const": "PMC9635626"},
+    "source_manifest_binding": {"type": "object"},
+    "source_artifact_binding": {"type": "object"},
+    "source_structure": {
+      "type": "object",
+      "required": [
+        "document_id", "pmid", "pmcid", "doi", "license", "protocol_marker_count",
+        "figure_passage_count", "table_passage_count", "positive_control_compounds",
+        "vehicle_control_compounds", "unspecified_test_compounds_present",
+        "disease_specific_model_present", "named_therapeutic_action_count",
+        "biological_replicate_count_recoverable", "demonstration_replication"
+      ]
+    },
+    "qualification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "record_status", "evidence_grade", "evidence_role", "reason"],
+      "properties": {
+        "status": {"const": "rejected_non_formal"},
+        "record_status": {"const": "rejected"},
+        "evidence_grade": {"const": "D"},
+        "evidence_role": {"const": "non_formal_rejection"},
+        "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "citation_substitution_performed": {"const": false},
+    "protected_holdout_access": {"const": 0},
+    "formal_evidence_admitted": {"const": false},
+    "candidate_set_created": {"const": false},
+    "independent_decision_sensitive_group_count": {"const": 2},
+    "required_group_count": {"const": 3},
+    "next_action": {"const": "stop_new_intake_queue_exhausted_preserve_two_of_three_groups"}
+  }
+}

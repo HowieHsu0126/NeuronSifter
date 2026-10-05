@@ -1,0 +1,110 @@
+{
+  "$id": "https://neuronsifter.local/schema/current_c1_contract_artifact_projection.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "derivedArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "configured_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "configured_sha256_matches": {
+          "type": "boolean"
+        },
+        "derived_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "path": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "derived_sha256",
+        "configured_sha256",
+        "configured_sha256_matches"
+      ],
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "blocker_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "blockers": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "path": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "path",
+          "message"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "capability_manifest": {
+      "$ref": "#/$defs/derivedArtifact"
+    },
+    "corpus_hash": {
+      "$ref": "#/$defs/sha256"
+    },
+    "corpus_uid": {
+      "const": "public_foundation_corpus_rescue"
+    },
+    "next_action": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "neuronsifter-current-c1-contract-artifact-projection"
+    },
+    "status": {
+      "enum": [
+        "derived",
+        "blocked"
+      ]
+    },
+    "training_allowed": {
+      "const": false
+    },
+    "vocabulary_manifest": {
+      "$ref": "#/$defs/derivedArtifact"
+    }
+  },
+  "required": [
+    "schema_version",
+    "status",
+    "training_allowed",
+    "corpus_uid",
+    "corpus_hash",
+    "vocabulary_manifest",
+    "capability_manifest",
+    "blocker_count",
+    "blockers",
+    "next_action"
+  ],
+  "title": "NeuronSifter current C1 contract artifact projection",
+  "type": "object"
+}

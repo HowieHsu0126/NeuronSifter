@@ -1,0 +1,7 @@
+name: ftd_control
+config_overrides:
+  benchmark_registry:
+    active_disease_program: ftd_control
+  screening_pipeline:
+    screening_benchmark:
+      active_disease_program: ftd_control

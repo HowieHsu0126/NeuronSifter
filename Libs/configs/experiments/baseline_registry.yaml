@@ -1,0 +1,1265 @@
+schema_version: baseline_registry
+registry_id: baseline_registry
+active_set_version: baseline_registry.1
+active_set_contract:
+  historical_record_count: 36
+  main_baseline_ids: [persistence_or_no_action, linear_delta_or_state_space, gru, chemcpa, cellot, fno, transolver_plus, wdno, deep_ensemble, conformal_calibration]
+  main_ablation_ids: [neuronsifter_deterministic, neuronsifter_drug_id_conditioning, neuronsifter_scalar_exposure, neuronsifter_without_constraints_and_reliability, neuronsifter_without_assimilation_and_what_if_pairing]
+  current_execution_gate: blocked_round11_full_suite
+active_set_profiles:
+  - {active_set_id: persistence_or_no_action, registry_baseline_id: persistence, claim_ids: [C2], paper_role: main_baseline, execution_tier: P1_main, replacement_group: '', activation_condition: round11_full_suite_reopened_and_source_license_gate_passed, main_table: true, source_status: inherited_registry}
+  - {active_set_id: linear_delta_or_state_space, registry_baseline_id: linear_shallow_dynamics, claim_ids: [C2], paper_role: main_baseline, execution_tier: P1_main, replacement_group: '', activation_condition: round11_full_suite_reopened_and_source_license_gate_passed, main_table: true, source_status: inherited_registry}
+  - {active_set_id: gru, registry_baseline_id: null, claim_ids: [C2], paper_role: main_baseline, execution_tier: P1_main, replacement_group: '', activation_condition: round11_full_suite_reopened_and_source_license_gate_passed, main_table: true, source_status: project_owned_profile}
+  - {active_set_id: chemcpa, registry_baseline_id: null, claim_ids: [C2], paper_role: main_baseline, execution_tier: P1_main, replacement_group: chemical_perturbation, activation_condition: round11_full_suite_reopened_and_source_license_gate_passed, main_table: true, source_status: source_verification_pending}
+  - {active_set_id: cellot, registry_baseline_id: cellot, claim_ids: [C2], paper_role: main_baseline, execution_tier: P1_main, replacement_group: distribution_mapping, activation_condition: round11_full_suite_reopened_and_source_license_gate_passed, main_table: true, source_status: inherited_registry}
+  - {active_set_id: fno, registry_baseline_id: null, claim_ids: [C2], paper_role: main_baseline, execution_tier: P1_main, replacement_group: deterministic_operator, activation_condition: round11_full_suite_reopened_and_source_license_gate_passed, main_table: true, source_status: project_owned_profile}
+  - {active_set_id: transolver_plus, registry_baseline_id: null, claim_ids: [C2], paper_role: main_baseline, execution_tier: P1_main, replacement_group: deterministic_operator, activation_condition: round11_full_suite_reopened_and_source_license_gate_passed, main_table: true, source_status: source_verified_profile}
+  - {active_set_id: wdno, registry_baseline_id: wdno, claim_ids: [C2], paper_role: main_baseline, execution_tier: P1_main, replacement_group: stochastic_operator, activation_condition: round11_full_suite_reopened_and_source_license_gate_passed, main_table: true, source_status: inherited_registry}
+  - {active_set_id: deep_ensemble, registry_baseline_id: null, claim_ids: [C4], paper_role: main_baseline, execution_tier: P1_main, replacement_group: '', activation_condition: round11_full_suite_reopened_and_source_license_gate_passed, main_table: true, source_status: project_owned_profile}
+  - {active_set_id: conformal_calibration, registry_baseline_id: null, claim_ids: [C4], paper_role: main_baseline, execution_tier: P1_main, replacement_group: '', activation_condition: round11_full_suite_reopened_and_source_license_gate_passed, main_table: true, source_status: project_owned_profile}
+  - {active_set_id: neuronsifter_deterministic, registry_baseline_id: deterministic_neuronsifter, claim_ids: [C2], paper_role: main_ablation, execution_tier: P1_main, replacement_group: '', activation_condition: round11_full_suite_reopened_and_matched_protocol_approved, main_table: true, source_status: inherited_registry}
+  - {active_set_id: neuronsifter_drug_id_conditioning, registry_baseline_id: null, claim_ids: [C2], paper_role: main_ablation, execution_tier: P1_main, replacement_group: '', activation_condition: round11_full_suite_reopened_and_matched_protocol_approved, main_table: true, source_status: project_owned_profile}
+  - {active_set_id: neuronsifter_scalar_exposure, registry_baseline_id: null, claim_ids: [C2], paper_role: main_ablation, execution_tier: P1_main, replacement_group: '', activation_condition: round11_full_suite_reopened_and_matched_protocol_approved, main_table: true, source_status: project_owned_profile}
+  - {active_set_id: neuronsifter_without_constraints_and_reliability, registry_baseline_id: null, claim_ids: [C4], paper_role: main_ablation, execution_tier: P1_main, replacement_group: '', activation_condition: round11_full_suite_reopened_and_matched_protocol_approved, main_table: true, source_status: project_owned_profile}
+  - {active_set_id: neuronsifter_without_assimilation_and_what_if_pairing, registry_baseline_id: null, claim_ids: [C2, C4], paper_role: main_ablation, execution_tier: P1_main, replacement_group: '', activation_condition: round11_full_suite_reopened_and_matched_protocol_approved, main_table: true, source_status: project_owned_profile}
+entry_gate: blocked_source_or_license
+round11_boundary:
+  typed_state_blocks: implemented
+  partial_state_masks: implemented
+  round11_exit_gate: blocked_full_suite
+  evidence_fabric_sealed: false
+  DT_CORE: not_evaluated
+  prohibited_actions:
+    - formal_baseline_training
+    - headline_comparison
+    - evidence_fabric_sealing
+    - DT_CORE
+    - large_multi_seed_campaign
+    - v1_v2_identity_mutation
+inventory_checkout_paths:
+  - Libs/external/diffusionpde
+  - Libs/external/mddm/mdlm
+  - Libs/external/mddm/mdm-prime/world_model/Active-JEPA
+  - Libs/external/mddm/mdm-prime/world_model/Brain-JEPA
+  - Libs/external/mddm/mdm-prime/world_model/EchoJEPA
+  - Libs/external/mddm/mdm-prime/world_model/H-JEPA
+  - Libs/external/mddm/mdm-prime/world_model/I-JEPA
+  - Libs/external/mddm/mdm-prime/world_model/LeWorldModel
+  - Libs/external/mddm/mdm-prime/world_model/Point-JEPA
+  - Libs/external/neural_operator/Transolver
+  - Libs/external/neural_operator/Transolver_plus
+  - Libs/external/neural_operator/pdediff
+  - Libs/external/neural_operator/wdno
+  - Libs/external/tabular_baselines/T-JEPA
+  - Libs/external/transcriptome_world_model/GeneJEPA
+  - Libs/external/world_model/Active-JEPA
+  - Libs/external/world_model/H-JEPA
+  - Libs/external/world_model/I-JEPA
+  - Libs/external/world_model/LeWorldModel
+  - Libs/external/world_model/Point-JEPA
+required_fields:
+  - baseline_id
+  - claim_ids
+  - baseline_class
+  - scientific_question
+  - task_families
+  - applicability
+  - official_repository
+  - official_paper
+  - upstream_status
+  - commit
+  - tag
+  - license
+  - license_snapshot_hash
+  - weights
+  - data_requirements
+  - input_semantics
+  - output_semantics
+  - native_environment
+  - native_command
+  - native_expected_metrics
+  - adapter_path
+  - patch_manifest
+  - matched_tuning_budget
+  - matched_training_budget
+  - matched_inference_budget
+  - status
+  - blockers
+  - paper_role
+  - execution_tier
+  - replacement_group
+  - activation_condition
+  - main_table
+baselines:
+  - &internal_owned
+    baseline_id: persistence
+    paper_role: main_baseline
+    execution_tier: P1_main
+    replacement_group: ''
+    activation_condition: round11_full_suite_reopened_and_source_license_gate_passed
+    main_table: true
+    claim_ids: [C2]
+    baseline_class: trivial_lower_bound
+    scientific_question: Does learned rollout improve over carrying the last observed state forward?
+    task_families: [long_horizon_twin_rollout]
+    applicability: &applicable
+      status: applicable
+      reason: Canonical state grids can be copied without action information.
+    official_repository: &project_repo
+      url: project://NeuronSifter
+      local_path: Libs/exp/baselines/adapters
+      verification_status: not_applicable
+      verification_basis: Project-owned baseline.
+    official_paper: &no_paper {title: '', url: ''}
+    upstream_status: not_run
+    commit: project_worktree
+    tag: ''
+    license: project_license
+    license_snapshot_hash: ''
+    weights: &no_weights {status: not_applicable, identity: ''}
+    data_requirements: [canonical_state_grid, frozen_split_manifest]
+    input_semantics: &state_input
+      available: [observed_state, state_mask]
+      unavailable_by_design: [future_state, hidden_test_outcome]
+      axis_conversion: Preserve time x region x compartment x species axes.
+      feature_mapping: Identity mapping over the canonical state grid.
+      mask_handling: Carry only observed values; never impute unavailable action semantics.
+      action_representation: none
+    output_semantics: &deterministic_grid_output
+      canonical_form: time x region x compartment x species prediction
+      uncertainty_support: none
+      semantic_loss: No action response or stochastic uncertainty.
+    native_environment: Libs/external/environments/persistence.yaml
+    native_command: ''
+    native_expected_metrics: [trajectory_rmse, terminal_error]
+    adapter_path: Libs/exp/baselines/adapters/base.py
+    patch_manifest: ''
+    matched_tuning_budget: &zero_tuning {validation_runs: 0, test_tuning: false}
+    matched_training_budget: &zero_training {max_epochs: 0, gpu_hours: 0, seed_set: [deterministic]}
+    matched_inference_budget: &deterministic_inference {samples: 1, denoising_steps: 0, wall_clock_limit_minutes: matched}
+    status: blocked
+    blockers: [blocked_round11_full_suite, adapter_smoke_not_run]
+
+  - baseline_id: linear_shallow_dynamics
+    paper_role: main_baseline
+    execution_tier: P1_main
+    replacement_group: ''
+    activation_condition: round11_full_suite_reopened_and_source_license_gate_passed
+    main_table: true
+    claim_ids: [C2]
+    baseline_class: simple_strong
+    scientific_question: Is nonlinear world-action modeling necessary beyond regularized shallow dynamics?
+    task_families: [long_horizon_twin_rollout]
+    applicability: *applicable
+    official_repository: *project_repo
+    official_paper: *no_paper
+    upstream_status: not_run
+    commit: project_worktree
+    tag: ''
+    license: project_license
+    license_snapshot_hash: ''
+    weights: *no_weights
+    data_requirements: [canonical_state_grid, frozen_split_manifest]
+    input_semantics: *state_input
+    output_semantics: *deterministic_grid_output
+    native_environment: Libs/external/environments/linear_shallow_dynamics.yaml
+    native_command: ''
+    native_expected_metrics: [trajectory_rmse, terminal_error]
+    adapter_path: Libs/exp/baselines/adapters/base.py
+    patch_manifest: ''
+    matched_tuning_budget: &matched_tuning {validation_runs: 20, test_tuning: false}
+    matched_training_budget: &matched_training {max_epochs: matched, gpu_hours: matched, seed_set: [40, 41, 42, 43, 44]}
+    matched_inference_budget: *deterministic_inference
+    status: blocked
+    blockers: [blocked_round11_full_suite, adapter_smoke_not_run]
+
+  - baseline_id: deterministic_neuronsifter
+    paper_role: main_ablation
+    execution_tier: P1_main
+    replacement_group: ''
+    activation_condition: round11_full_suite_reopened_and_matched_protocol_approved
+    main_table: true
+    claim_ids: [C2]
+    baseline_class: same_backbone_ablation
+    scientific_question: Does stochastic diffusion improve fidelity and uncertainty over the same deterministic backbone?
+    task_families: [long_horizon_twin_rollout, uncertainty_evaluation]
+    applicability: *applicable
+    official_repository: *project_repo
+    official_paper: *no_paper
+    upstream_status: not_run
+    commit: project_worktree
+    tag: ''
+    license: project_license
+    license_snapshot_hash: ''
+    weights: *no_weights
+    data_requirements: [canonical_state_grid, structured_action_program, frozen_split_manifest]
+    input_semantics: *state_input
+    output_semantics: *deterministic_grid_output
+    native_environment: Libs/external/environments/deterministic_neuronsifter.yaml
+    native_command: ''
+    native_expected_metrics: [trajectory_rmse, risk_coverage_auc]
+    adapter_path: Libs/exp/baselines/adapters/base.py
+    patch_manifest: ''
+    matched_tuning_budget: *matched_tuning
+    matched_training_budget: *matched_training
+    matched_inference_budget: *deterministic_inference
+    status: blocked
+    blockers: [blocked_round11_full_suite, matched_protocol_smoke_not_run]
+
+  - baseline_id: transolver
+    paper_role: conditional_replacement
+    execution_tier: P2_conditional
+    replacement_group: deterministic_operator
+    activation_condition: activate_only_if_primary_blocked_or_task_compatibility_proven
+    main_table: false
+    claim_ids: [C2]
+    baseline_class: historical_landmark
+    scientific_question: Does the project-native operator outperform physics-attention on the matched state grid?
+    task_families: [long_horizon_twin_rollout]
+    applicability:
+      status: pending
+      reason: Native mesh semantics require an explicit canonical-grid adapter and cannot receive unsupported action fields.
+    official_repository:
+      url: https://github.com/thuml/Transolver
+      local_path: Libs/external/neural_operator/Transolver
+      verification_status: verified
+      verification_basis: Author laboratory organization repository named by the paper README.
+    official_paper: {title: 'Transolver: A Fast Transformer Solver for PDEs on General Geometries', url: 'https://arxiv.org/abs/2402.02366'}
+    upstream_status: blocked_missing_asset
+    commit: 75e0f67643806a81cd1d3f6adc88dd8c02416fe7
+    tag: ''
+    license: MIT
+    license_snapshot_hash: 2c919cd03fa823bf7eefc00a957ff8324c865cd22aa5285e563dc4b558084f25
+    weights: {status: blocked_missing_asset, identity: ''}
+    data_requirements: [official_pde_benchmark_asset]
+    input_semantics: *state_input
+    output_semantics: *deterministic_grid_output
+    native_environment: Libs/external/environments/transolver.yaml
+    native_command: Official benchmark command is dataset-specific; no asset-free experiment is documented.
+    native_expected_metrics: [relative_l2]
+    adapter_path: Libs/exp/baselines/adapters/base.py
+    patch_manifest: ''
+    matched_tuning_budget: *matched_tuning
+    matched_training_budget: *matched_training
+    matched_inference_budget: *deterministic_inference
+    status: blocked
+    blockers: [blocked_missing_asset, adapter_not_implemented, blocked_round11_full_suite]
+
+  - baseline_id: diffusionpde
+    paper_role: conditional_replacement
+    execution_tier: P2_conditional
+    replacement_group: stochastic_operator
+    activation_condition: activate_only_if_primary_blocked_or_task_compatibility_proven
+    main_table: false
+    claim_ids: [C2]
+    baseline_class: current_sota
+    scientific_question: Does occupancy-conditioned CNS rollout outperform a generic diffusion PDE solver under partial observation?
+    task_families: [long_horizon_twin_rollout, partial_observation]
+    applicability:
+      status: pending
+      reason: Native PDE arrays lack CNS axes and structured actions; an explicit lossy adapter is required.
+    official_repository:
+      url: https://github.com/jhhuangchloe/DiffusionPDE
+      local_path: Libs/external/diffusionpde
+      verification_status: verified
+      verification_basis: Official project page links this repository and its README states official implementation.
+    official_paper: {title: 'DiffusionPDE: Generative PDE-Solving Under Partial Observation', url: 'https://arxiv.org/abs/2406.17763'}
+    upstream_status: blocked_missing_asset
+    commit: 1e2bc8b9e312f3a936630a30d2f49aedabf0cea7
+    tag: ''
+    license: CC-BY-NC-SA-4.0
+    license_snapshot_hash: 24da0be18c7e2323224a12438c1dd4d58318f2703f75759c860d70849a43f1f4
+    weights: {status: blocked_missing_asset, identity: Official checkpoints require external Google Drive retrieval and checksum qualification.}
+    data_requirements: [official_pde_dataset, official_checkpoint]
+    input_semantics: *state_input
+    output_semantics:
+      canonical_form: normalized stochastic state-grid samples after explicit axis conversion
+      uncertainty_support: stochastic samples
+      semantic_loss: Generic PDE variables do not encode CNS mechanisms or structured actions.
+    native_environment: Libs/external/environments/diffusionpde.yaml
+    native_command: python3 generate_pde.py --config configs/darcy-forward.yaml
+    native_expected_metrics: [relative_l2]
+    adapter_path: Libs/exp/baselines/adapters/base.py
+    patch_manifest: ''
+    matched_tuning_budget: *matched_tuning
+    matched_training_budget: *matched_training
+    matched_inference_budget: &stochastic_inference {samples: matched, denoising_steps: matched, wall_clock_limit_minutes: matched}
+    status: blocked
+    blockers: [blocked_missing_asset, adapter_not_implemented, blocked_round11_full_suite]
+
+  - baseline_id: wdno
+    paper_role: main_baseline
+    execution_tier: P1_main
+    replacement_group: ''
+    activation_condition: round11_full_suite_reopened_and_source_license_gate_passed
+    main_table: true
+    claim_ids: [C2]
+    baseline_class: current_sota
+    scientific_question: Does graph-spectral temporal-wavelet rollout outperform a generic wavelet diffusion neural operator?
+    task_families: [long_horizon_twin_rollout, partial_observation]
+    applicability:
+      status: pending
+      reason: Native PDE wavelet axes and controls require an explicit CNS state/action mapping.
+    official_repository:
+      url: https://github.com/AI4Science-WestlakeU/wdno
+      local_path: Libs/external/neural_operator/wdno
+      verification_status: verified
+      verification_basis: Institutional organization repository declares itself the official paper repository.
+    official_paper: {title: 'Wavelet Diffusion Neural Operator', url: 'https://openreview.net/forum?id=FQhDIGuaJ4'}
+    upstream_status: blocked_missing_asset
+    commit: 2d5c0ffbe11797e669efe0a34bd22f087eae51d7
+    tag: ''
+    license: MIT
+    license_snapshot_hash: 01ea6d664b089be8686ed2d420b2d9efe3fa13ba9a25ca3e619fa79ff45e278f
+    weights: {status: blocked_missing_asset, identity: Official checkpoints require external Google Drive retrieval and checksum qualification.}
+    data_requirements: [official_wdno_dataset, official_checkpoint]
+    input_semantics: *state_input
+    output_semantics: {canonical_form: normalized stochastic state-grid samples after explicit axis conversion, uncertainty_support: stochastic samples, semantic_loss: Native wavelet PDE variables do not encode CNS mechanisms or occupancy programs.}
+    native_environment: Libs/external/environments/wdno.yaml
+    native_command: cd smoke && python wave_trans_2d.py
+    native_expected_metrics: [relative_l2]
+    adapter_path: Libs/exp/baselines/adapters/base.py
+    patch_manifest: ''
+    matched_tuning_budget: *matched_tuning
+    matched_training_budget: *matched_training
+    matched_inference_budget: *stochastic_inference
+    status: blocked
+    blockers: [blocked_missing_asset, adapter_not_implemented, blocked_round11_full_suite]
+
+  - baseline_id: pdediff
+    paper_role: conditional_replacement
+    execution_tier: P2_conditional
+    replacement_group: stochastic_operator
+    activation_condition: activate_only_if_primary_blocked_or_task_compatibility_proven
+    main_table: false
+    claim_ids: [C2]
+    baseline_class: historical_landmark
+    scientific_question: Does NeuronSifter outperform conditional diffusion for PDE forecasting and assimilation?
+    task_families: [long_horizon_twin_rollout, partial_observation]
+    applicability: {status: pending, reason: Native scalar PDE trajectories require a declared lossy CNS-axis adapter.}
+    official_repository:
+      url: https://github.com/cambridge-mlg/pdediff
+      local_path: Libs/external/neural_operator/pdediff
+      verification_status: verified
+      verification_basis: Research-group organization repository for the named paper.
+    official_paper: {title: 'On conditional diffusion models for PDE simulations', url: 'https://openreview.net/forum?id=UQFYoNk2R7'}
+    upstream_status: blocked_missing_asset
+    commit: f85743c3dce4bd63315df1f2ad7e8180475a8e4d
+    tag: ''
+    license: MIT
+    license_snapshot_hash: cf979439d4da647f1ac6fadb3302d8e5084351e2c2d170500cd2e89a06edcaac
+    weights: {status: blocked_missing_asset, identity: ''}
+    data_requirements: [generated_native_pde_dataset]
+    input_semantics: *state_input
+    output_semantics: {canonical_form: normalized stochastic state-grid samples after explicit axis conversion, uncertainty_support: stochastic samples, semantic_loss: Native PDE state omits CNS axes and structured interventions.}
+    native_environment: Libs/external/environments/pdediff.yaml
+    native_command: python main.py -m seed=0 mode=train experiment=KS_joint_SDA window=5
+    native_expected_metrics: [mse, correlation]
+    adapter_path: Libs/exp/baselines/adapters/base.py
+    patch_manifest: Libs/external/patches/pdediff/preexisting_worktree_manifest.json
+    matched_tuning_budget: *matched_tuning
+    matched_training_budget: *matched_training
+    matched_inference_budget: *stochastic_inference
+    status: blocked
+    blockers: [external_checkout_dirty, patch_scientific_effect_unknown, blocked_missing_asset, blocked_round11_full_suite]
+
+  - baseline_id: t_jepa
+    paper_role: positioning_only
+    execution_tier: P4_no_execution
+    replacement_group: ''
+    activation_condition: positioning_record_only
+    main_table: false
+    claim_ids: [C1]
+    baseline_class: positioning_reference
+    scientific_question: Does CNS-specific state representation transfer outperform generic tabular JEPA pretraining?
+    task_families: [sample_state_transfer]
+    applicability: {status: pending, reason: Tabular samples cannot represent the full state grid or structured action rollout.}
+    official_repository:
+      url: https://github.com/jose-melo/t-jepa
+      local_path: Libs/external/tabular_baselines/T-JEPA
+      verification_status: verified
+      verification_basis: Paper author repository linked from the existing official paper record.
+    official_paper: {title: 'T-JEPA: A Joint-Embedding Predictive Architecture for Tabular Data', url: 'https://openreview.net/forum?id=Mf4n2uWikZ'}
+    upstream_status: blocked_missing_asset
+    commit: 98dda991dd5e5d12266b3557aa80a33c4e0a6606
+    tag: ''
+    license: MIT
+    license_snapshot_hash: e0e9fa559822bc1219066b97683461ec757e9503db0ae502630b58d76c5d32ef
+    weights: *no_weights
+    data_requirements: [official_tabular_benchmark_dataset]
+    input_semantics:
+      available: [sample_feature_vector]
+      unavailable_by_design: [state_grid, occupancy_program, future_trajectory]
+      axis_conversion: Flatten only declared sample features; never synthesize state axes.
+      feature_mapping: Frozen training-only feature vocabulary.
+      mask_handling: Native tabular masking with unavailable fields excluded.
+      action_representation: none
+    output_semantics: {canonical_form: sample embedding or class score, uncertainty_support: none, semantic_loss: No state-grid dynamics or structured intervention semantics.}
+    native_environment: Libs/external/environments/t_jepa.yaml
+    native_command: python run_benchmark.py
+    native_expected_metrics: [auroc, accuracy]
+    adapter_path: Libs/exp/baselines/adapters/base.py
+    patch_manifest: Libs/external/patches/t_jepa/preexisting_worktree_manifest.json
+    matched_tuning_budget: *matched_tuning
+    matched_training_budget: *matched_training
+    matched_inference_budget: *deterministic_inference
+    status: blocked
+    blockers: [external_checkout_dirty, patch_scientific_effect_unknown, blocked_missing_asset, blocked_round11_full_suite]
+
+  - baseline_id: gene_jepa
+    paper_role: positioning_only
+    execution_tier: P4_no_execution
+    replacement_group: ''
+    activation_condition: positioning_record_only
+    main_table: false
+    claim_ids: [C1]
+    baseline_class: positioning_reference
+    scientific_question: Does NeuronSifter state transfer add value beyond transcriptome-specific JEPA representation learning?
+    task_families: [sample_state_transfer]
+    applicability: {status: pending, reason: Transcriptome-only semantics do not cover the CNS state grid or dynamics.}
+    official_repository: {url: 'https://github.com/BiostateAI/GeneJEPA', local_path: 'Libs/external/transcriptome_world_model/GeneJEPA', verification_status: verified, verification_basis: Institutional author repository associated with the paper.}
+    official_paper: {title: GeneJEPA, url: 'https://doi.org/10.1101/2025.10.14.682378'}
+    upstream_status: not_run
+    commit: a2f4d7218b17f2f52cc5f1cc94420c8ef1ae3265
+    tag: ''
+    license: unknown
+    license_snapshot_hash: ''
+    weights: *no_weights
+    data_requirements: [official_gene_expression_dataset]
+    input_semantics: {available: [gene_expression], unavailable_by_design: [state_grid, occupancy_program, future_trajectory], axis_conversion: none, feature_mapping: Frozen gene vocabulary required., mask_handling: Native gene masking only., action_representation: none}
+    output_semantics: {canonical_form: transcriptome embedding, uncertainty_support: none, semantic_loss: Omits non-transcriptomic state and structured interventions.}
+    native_environment: Libs/external/environments/gene_jepa.yaml
+    native_command: ''
+    native_expected_metrics: []
+    adapter_path: Libs/exp/baselines/adapters/base.py
+    patch_manifest: ''
+    matched_tuning_budget: *matched_tuning
+    matched_training_budget: *matched_training
+    matched_inference_budget: *deterministic_inference
+    status: blocked
+    blockers: [license_unclear, upstream_command_not_identified, blocked_round11_full_suite]
+
+  - baseline_id: mamba_neural_operator
+    paper_role: appendix_optional
+    execution_tier: P3_appendix
+    replacement_group: ''
+    activation_condition: appendix_only_no_main_gate
+    main_table: false
+    claim_ids: [C2]
+    baseline_class: current_sota
+    scientific_question: Does NeuronSifter outperform a selective-state-space neural operator on matched rollouts?
+    task_families: [long_horizon_twin_rollout]
+    applicability: {status: pending, reason: Native image/PDE tensor semantics require explicit canonical-axis conversion.}
+    official_repository: {url: 'https://github.com/Math-ML-X/Mamba-Neural-Operator', local_path: 'Libs/external/neural_operator/Mamba-Neural-Operator', verification_status: verified, verification_basis: arXiv record links the organization repository.}
+    official_paper: {title: Mamba Neural Operator, url: 'https://arxiv.org/abs/2410.02113'}
+    upstream_status: not_run
+    commit: ''
+    tag: ''
+    license: unknown
+    license_snapshot_hash: ''
+    weights: *no_weights
+    data_requirements: [official_pde_dataset]
+    input_semantics: *state_input
+    output_semantics: *deterministic_grid_output
+    native_environment: Libs/external/environments/mamba_neural_operator.yaml
+    native_command: ''
+    native_expected_metrics: []
+    adapter_path: Libs/exp/baselines/adapters/base.py
+    patch_manifest: ''
+    matched_tuning_budget: *matched_tuning
+    matched_training_budget: *matched_training
+    matched_inference_budget: *deterministic_inference
+    status: blocked
+    blockers: [license_unclear, existing_source_copy_not_git_pinned, blocked_round11_full_suite]
+
+  - baseline_id: coda_no
+    paper_role: appendix_optional
+    execution_tier: P3_appendix
+    replacement_group: ''
+    activation_condition: appendix_only_no_main_gate
+    main_table: false
+    claim_ids: [C2]
+    baseline_class: current_sota
+    scientific_question: Does mechanism-aware expert routing outperform codomain-attention neural operation?
+    task_families: [long_horizon_twin_rollout]
+    applicability: {status: pending, reason: Native multiphysics fields require explicit mapping to the CNS state grid.}
+    official_repository: {url: 'https://github.com/neuraloperator/CoDA-NO', local_path: 'Libs/external/neural_operator/CoDA-NO', verification_status: verified, verification_basis: Repository redirect resolves to the official neuraloperator organization.}
+    official_paper: {title: 'CoDA-NO: Codomain Attention Neural Operator', url: 'https://arxiv.org/abs/2403.12553'}
+    upstream_status: not_run
+    commit: ''
+    tag: ''
+    license: unknown
+    license_snapshot_hash: ''
+    weights: *no_weights
+    data_requirements: [official_multiphysics_dataset]
+    input_semantics: *state_input
+    output_semantics: *deterministic_grid_output
+    native_environment: Libs/external/environments/coda_no.yaml
+    native_command: ''
+    native_expected_metrics: []
+    adapter_path: Libs/exp/baselines/adapters/base.py
+    patch_manifest: ''
+    matched_tuning_budget: *matched_tuning
+    matched_training_budget: *matched_training
+    matched_inference_budget: *deterministic_inference
+    status: blocked
+    blockers: [license_unclear, existing_source_copy_not_git_pinned, blocked_round11_full_suite]
+
+  - baseline_id: random_acquisition
+    paper_role: acquisition_only
+    execution_tier: P4_no_execution
+    replacement_group: tool_acquisition
+    activation_condition: separate_c3_protocol
+    main_table: false
+    claim_ids: [C3]
+    baseline_class: acquisition_policy
+    scientific_question: Does learned acquisition improve over seeded random tool selection at fixed budget?
+    task_families: [tool_acquisition]
+    applicability: *applicable
+    official_repository: *project_repo
+    official_paper: *no_paper
+    upstream_status: not_run
+    commit: project_worktree
+    tag: ''
+    license: project_license
+    license_snapshot_hash: ''
+    weights: *no_weights
+    data_requirements: [hidden_tool_outcome_matrix, frozen_cost_model]
+    input_semantics: &acquisition_input {available: [revealed_history, remaining_budget, candidate_ids], unavailable_by_design: [hidden_tool_outcomes, test_labels], axis_conversion: none, feature_mapping: Candidate identifiers only., mask_handling: Hidden outcomes remain masked until queried., action_representation: structured_action_uid}
+    output_semantics: &acquisition_output {canonical_form: ranked query batch, uncertainty_support: none, semantic_loss: Ignores posterior uncertainty and mechanism evidence.}
+    native_environment: Libs/external/environments/random_acquisition.yaml
+    native_command: ''
+    native_expected_metrics: [fixed_budget_risk, top_k_retention]
+    adapter_path: Libs/exp/baselines/adapters/base.py
+    patch_manifest: ''
+    matched_tuning_budget: *zero_tuning
+    matched_training_budget: *zero_training
+    matched_inference_budget: *deterministic_inference
+    status: blocked
+    blockers: [acquisition_matrix_not_sealed, blocked_round11_full_suite]
+
+  - baseline_id: uncertainty_acquisition
+    paper_role: acquisition_only
+    execution_tier: P4_no_execution
+    replacement_group: tool_acquisition
+    activation_condition: separate_c3_protocol
+    main_table: false
+    claim_ids: [C3]
+    baseline_class: acquisition_policy
+    scientific_question: Does decision-aware acquisition outperform uncertainty-only selection?
+    task_families: [tool_acquisition]
+    applicability: *applicable
+    official_repository: *project_repo
+    official_paper: *no_paper
+    upstream_status: not_run
+    commit: project_worktree
+    tag: ''
+    license: project_license
+    license_snapshot_hash: ''
+    weights: *no_weights
+    data_requirements: [hidden_tool_outcome_matrix, frozen_cost_model, calibrated_uncertainty]
+    input_semantics: *acquisition_input
+    output_semantics: {canonical_form: ranked query batch, uncertainty_support: consumes model uncertainty, semantic_loss: Omits expected decision-risk reduction.}
+    native_environment: Libs/external/environments/uncertainty_acquisition.yaml
+    native_command: ''
+    native_expected_metrics: [fixed_budget_risk, top_k_retention]
+    adapter_path: Libs/exp/baselines/adapters/base.py
+    patch_manifest: ''
+    matched_tuning_budget: *matched_tuning
+    matched_training_budget: *zero_training
+    matched_inference_budget: *deterministic_inference
+    status: blocked
+    blockers: [acquisition_matrix_not_sealed, blocked_round11_full_suite]
+
+  - baseline_id: fixed_cascade
+    paper_role: acquisition_only
+    execution_tier: P4_no_execution
+    replacement_group: tool_acquisition
+    activation_condition: separate_c3_protocol
+    main_table: false
+    claim_ids: [C3, C5]
+    baseline_class: simple_strong
+    scientific_question: Does learned routing improve over a preregistered fixed tool cascade?
+    task_families: [tool_acquisition, throughput]
+    applicability: *applicable
+    official_repository: *project_repo
+    official_paper: *no_paper
+    upstream_status: not_run
+    commit: project_worktree
+    tag: ''
+    license: project_license
+    license_snapshot_hash: ''
+    weights: *no_weights
+    data_requirements: [hidden_tool_outcome_matrix, frozen_cost_model]
+    input_semantics: *acquisition_input
+    output_semantics: {canonical_form: ordered fixed tool sequence, uncertainty_support: none, semantic_loss: Does not adapt to posterior or observed tool results.}
+    native_environment: Libs/external/environments/fixed_cascade.yaml
+    native_command: ''
+    native_expected_metrics: [fixed_budget_risk, cost_to_target]
+    adapter_path: Libs/exp/baselines/adapters/base.py
+    patch_manifest: ''
+    matched_tuning_budget: *zero_tuning
+    matched_training_budget: *zero_training
+    matched_inference_budget: *deterministic_inference
+    status: blocked
+    blockers: [acquisition_matrix_not_sealed, blocked_round11_full_suite]
+
+  - baseline_id: oracle_hidden_matrix
+    paper_role: oracle_only
+    execution_tier: P4_no_execution
+    replacement_group: ''
+    activation_condition: oracle_only_never_ranked_with_deployable_methods
+    main_table: false
+    claim_ids: [C3]
+    baseline_class: oracle_upper_bound
+    scientific_question: What is the non-deployable upper bound when hidden outcomes are revealed?
+    task_families: [tool_acquisition]
+    applicability: {status: applicable, reason: Evaluation-only upper bound; never ranked with deployable methods.}
+    official_repository: *project_repo
+    official_paper: *no_paper
+    upstream_status: not_run
+    commit: project_worktree
+    tag: ''
+    license: project_license
+    license_snapshot_hash: ''
+    weights: *no_weights
+    data_requirements: [complete_hidden_tool_outcome_matrix]
+    input_semantics: {available: [hidden_tool_outcomes, full_cost_matrix], unavailable_by_design: [], axis_conversion: none, feature_mapping: none, mask_handling: Oracle-only unmasking., action_representation: structured_action_uid}
+    output_semantics: {canonical_form: non-deployable optimal query sequence, uncertainty_support: exact hidden outcomes, semantic_loss: Uses forbidden future information and is only an upper bound.}
+    native_environment: Libs/external/environments/oracle_hidden_matrix.yaml
+    native_command: ''
+    native_expected_metrics: [oracle_regret_upper_bound]
+    adapter_path: Libs/exp/baselines/adapters/base.py
+    patch_manifest: ''
+    matched_tuning_budget: *zero_tuning
+    matched_training_budget: *zero_training
+    matched_inference_budget: *deterministic_inference
+    status: blocked
+    blockers: [evaluation_matrix_not_sealed, must_not_rank_with_deployable_methods]
+
+  - baseline_id: temperature_scaling
+    paper_role: appendix_optional
+    execution_tier: P3_appendix
+    replacement_group: ''
+    activation_condition: appendix_only_no_main_gate
+    main_table: false
+    claim_ids: [C4]
+    baseline_class: uq_or_calibration
+    scientific_question: Does TRI add value beyond validation-only post-hoc calibration?
+    task_families: [reliable_screening]
+    applicability: *applicable
+    official_repository: *project_repo
+    official_paper: *no_paper
+    upstream_status: not_run
+    commit: project_worktree
+    tag: ''
+    license: project_license
+    license_snapshot_hash: ''
+    weights: *no_weights
+    data_requirements: [validation_logits, frozen_test_logits]
+    input_semantics: {available: [validation_logits, validation_labels], unavailable_by_design: [test_labels], axis_conversion: none, feature_mapping: none, mask_handling: Test labels are never exposed., action_representation: none}
+    output_semantics: {canonical_form: calibrated score, uncertainty_support: calibration confidence only, semantic_loss: 'Does not model OOD, PKPD, or ranking stability.'}
+    native_environment: Libs/external/environments/temperature_scaling.yaml
+    native_command: ''
+    native_expected_metrics: [ece, aurc, false_accept_rate]
+    adapter_path: Libs/exp/baselines/adapters/base.py
+    patch_manifest: ''
+    matched_tuning_budget: *matched_tuning
+    matched_training_budget: *zero_training
+    matched_inference_budget: *deterministic_inference
+    status: blocked
+    blockers: [blocked_round11_full_suite, matched_protocol_smoke_not_run]
+
+  - &pending_acquisition
+    baseline_id: mf_mes
+    paper_role: acquisition_only
+    execution_tier: P4_no_execution
+    replacement_group: tool_acquisition
+    activation_condition: separate_c3_protocol
+    main_table: false
+    claim_ids: [C3]
+    baseline_class: acquisition_policy
+    scientific_question: Does decision-centric tool acquisition outperform multi-fidelity max-value entropy search?
+    task_families: [tool_acquisition]
+    applicability: {status: pending, reason: Official code and scalable compatibility are not yet verified.}
+    official_repository: &pending_repo {url: '', local_path: '', verification_status: source_verification_pending, verification_basis: 'No author, institution, or official project-page code link has been confirmed.'}
+    official_paper: {title: Multi-fidelity Max-value Entropy Search, url: ''}
+    upstream_status: not_run
+    commit: ''
+    tag: ''
+    license: unknown
+    license_snapshot_hash: ''
+    weights: *no_weights
+    data_requirements: [multi_fidelity_objective_matrix]
+    input_semantics: *acquisition_input
+    output_semantics: *acquisition_output
+    native_environment: Libs/external/environments/mf_mes.yaml
+    native_command: ''
+    native_expected_metrics: []
+    adapter_path: Libs/exp/baselines/adapters/base.py
+    patch_manifest: ''
+    matched_tuning_budget: *matched_tuning
+    matched_training_budget: *matched_training
+    matched_inference_budget: *deterministic_inference
+    status: blocked
+    blockers: [source_verification_pending, license_unclear, commit_not_pinned]
+
+  - baseline_id: pbgi
+    paper_role: acquisition_only
+    execution_tier: P4_no_execution
+    replacement_group: tool_acquisition
+    activation_condition: separate_c3_protocol
+    main_table: false
+    claim_ids: [C3]
+    baseline_class: acquisition_policy
+    scientific_question: Does NeuronSifter acquisition outperform PBGI under matched costs and hidden outcomes?
+    task_families: [tool_acquisition]
+    applicability: {status: pending, reason: Official source and exact task semantics are not yet verified.}
+    official_repository: *pending_repo
+    official_paper: {title: PBGI, url: ''}
+    upstream_status: not_run
+    commit: ''
+    tag: ''
+    license: unknown
+    license_snapshot_hash: ''
+    weights: *no_weights
+    data_requirements: [hidden_tool_outcome_matrix]
+    input_semantics: *acquisition_input
+    output_semantics: *acquisition_output
+    native_environment: Libs/external/environments/pbgi.yaml
+    native_command: ''
+    native_expected_metrics: []
+    adapter_path: Libs/exp/baselines/adapters/base.py
+    patch_manifest: ''
+    matched_tuning_budget: *matched_tuning
+    matched_training_budget: *matched_training
+    matched_inference_budget: *deterministic_inference
+    status: blocked
+    blockers: [source_verification_pending, license_unclear, commit_not_pinned]
+
+  - &pending_biological
+    baseline_id: chreode
+    paper_role: positioning_only
+    execution_tier: P4_no_execution
+    replacement_group: ''
+    activation_condition: positioning_record_only
+    main_table: false
+    claim_ids: [C2]
+    baseline_class: positioning_reference
+    scientific_question: How does a cell world model compare conceptually and empirically when task-compatible?
+    task_families: [biological_state_transition]
+    applicability: {status: pending, reason: Task compatibility and official code are not confirmed.}
+    official_repository: *pending_repo
+    official_paper: {title: Chreode, url: ''}
+    upstream_status: not_run
+    commit: ''
+    tag: ''
+    license: unknown
+    license_snapshot_hash: ''
+    weights: *no_weights
+    data_requirements: [official_cell_transition_dataset]
+    input_semantics: {available: [cell_state, perturbation], unavailable_by_design: [cns_state_grid, occupancy_program], axis_conversion: not_verified, feature_mapping: not_verified, mask_handling: not_verified, action_representation: perturbation_only}
+    output_semantics: {canonical_form: cell-state transition, uncertainty_support: not_verified, semantic_loss: Cell state is not a CNS region-compartment-species field.}
+    native_environment: Libs/external/environments/chreode.yaml
+    native_command: ''
+    native_expected_metrics: []
+    adapter_path: Libs/exp/baselines/adapters/base.py
+    patch_manifest: ''
+    matched_tuning_budget: *matched_tuning
+    matched_training_budget: *matched_training
+    matched_inference_budget: *deterministic_inference
+    status: blocked
+    blockers: [source_verification_pending, license_unclear, commit_not_pinned, task_applicability_pending]
+
+  - baseline_id: vcworld
+    paper_role: positioning_only
+    execution_tier: P4_no_execution
+    replacement_group: ''
+    activation_condition: positioning_record_only
+    main_table: false
+    claim_ids: [C2]
+    baseline_class: positioning_reference
+    scientific_question: How does a biological world model compare when evaluated only on compatible transition tasks?
+    task_families: [biological_state_transition]
+    applicability: {status: pending, reason: Task compatibility and official code are not confirmed.}
+    official_repository: *pending_repo
+    official_paper: {title: VCWorld, url: ''}
+    upstream_status: not_run
+    commit: ''
+    tag: ''
+    license: unknown
+    license_snapshot_hash: ''
+    weights: *no_weights
+    data_requirements: [official_biological_transition_dataset]
+    input_semantics: {available: [biological_state, perturbation], unavailable_by_design: [cns_state_grid, occupancy_program], axis_conversion: not_verified, feature_mapping: not_verified, mask_handling: not_verified, action_representation: perturbation_only}
+    output_semantics: {canonical_form: biological-state transition, uncertainty_support: not_verified, semantic_loss: Biological state is not proven equivalent to the CNS state grid.}
+    native_environment: Libs/external/environments/vcworld.yaml
+    native_command: ''
+    native_expected_metrics: []
+    adapter_path: Libs/exp/baselines/adapters/base.py
+    patch_manifest: ''
+    matched_tuning_budget: *matched_tuning
+    matched_training_budget: *matched_training
+    matched_inference_budget: *deterministic_inference
+    status: blocked
+    blockers: [source_verification_pending, license_unclear, commit_not_pinned, task_applicability_pending]
+
+  - <<: *internal_owned
+    baseline_id: from_scratch_supervised_encoder
+    paper_role: appendix_optional
+    execution_tier: P3_appendix
+    replacement_group: ''
+    activation_condition: appendix_only_no_main_gate
+    main_table: false
+    claim_ids: [C1]
+    baseline_class: simple_strong
+    scientific_question: Does public foundation pretraining improve transfer over supervised training from scratch?
+    task_families: [sample_state_transfer]
+    data_requirements: [frozen_c1_train_split, frozen_transfer_tasks]
+    native_environment: Libs/external/environments/from_scratch_supervised_encoder.yaml
+    native_expected_metrics: [auroc, auprc, few_shot_transfer]
+    matched_tuning_budget: *matched_tuning
+    matched_training_budget: *matched_training
+    blockers: [blocked_round11_full_suite, c1_transfer_runner_not_ready]
+
+  - <<: *internal_owned
+    baseline_id: single_source_pretraining
+    paper_role: appendix_optional
+    execution_tier: P3_appendix
+    replacement_group: ''
+    activation_condition: appendix_only_no_main_gate
+    main_table: false
+    claim_ids: [C1]
+    baseline_class: same_backbone_ablation
+    scientific_question: Does multi-source public pretraining improve transfer beyond a matched single-source model?
+    task_families: [sample_state_transfer]
+    data_requirements: [frozen_single_source_split, frozen_transfer_tasks]
+    native_environment: Libs/external/environments/single_source_pretraining.yaml
+    native_expected_metrics: [auroc, auprc, source_shortcut_score]
+    matched_tuning_budget: *matched_tuning
+    matched_training_budget: *matched_training
+    blockers: [blocked_round11_full_suite, c1_transfer_runner_not_ready]
+
+  - <<: *internal_owned
+    baseline_id: generic_masked_encoder
+    paper_role: appendix_optional
+    execution_tier: P3_appendix
+    replacement_group: ''
+    activation_condition: appendix_only_no_main_gate
+    main_table: false
+    claim_ids: [C1]
+    baseline_class: simple_strong
+    scientific_question: Do CNS semantics and alignment improve transfer over a generic masked encoder?
+    task_families: [sample_state_transfer]
+    data_requirements: [frozen_c1_train_split, frozen_transfer_tasks]
+    native_environment: Libs/external/environments/generic_masked_encoder.yaml
+    native_expected_metrics: [masked_reconstruction, few_shot_transfer]
+    matched_tuning_budget: *matched_tuning
+    matched_training_budget: *matched_training
+    blockers: [blocked_round11_full_suite, c1_transfer_runner_not_ready]
+
+  - <<: *internal_owned
+    baseline_id: score_only
+    paper_role: appendix_optional
+    execution_tier: P3_appendix
+    replacement_group: ''
+    activation_condition: appendix_only_no_main_gate
+    main_table: false
+    claim_ids: [C4]
+    baseline_class: uq_or_calibration
+    scientific_question: Does TRI gating reduce false acceptance beyond raw intervention score?
+    task_families: [reliable_screening]
+    data_requirements: [frozen_screening_scores, frozen_test_decisions]
+    native_environment: Libs/external/environments/score_only.yaml
+    native_expected_metrics: [aurc, false_accept_rate, accepted_precision]
+    blockers: [blocked_round11_full_suite, matched_protocol_smoke_not_run]
+
+  - <<: *internal_owned
+    baseline_id: uncertainty_only
+    paper_role: appendix_optional
+    execution_tier: P3_appendix
+    replacement_group: ''
+    activation_condition: appendix_only_no_main_gate
+    main_table: false
+    claim_ids: [C4]
+    baseline_class: uq_or_calibration
+    scientific_question: Does TRI add value beyond uncertainty-only rejection?
+    task_families: [reliable_screening]
+    data_requirements: [frozen_uncertainty_scores, frozen_test_decisions]
+    native_environment: Libs/external/environments/uncertainty_only.yaml
+    native_expected_metrics: [aurc, false_accept_rate, coverage]
+    blockers: [blocked_round11_full_suite, matched_protocol_smoke_not_run]
+
+  - <<: *internal_owned
+    baseline_id: pkpd_only
+    paper_role: appendix_optional
+    execution_tier: P3_appendix
+    replacement_group: ''
+    activation_condition: appendix_only_no_main_gate
+    main_table: false
+    claim_ids: [C4]
+    baseline_class: uq_or_calibration
+    scientific_question: Does TRI add value beyond a PK/PD-consistency-only decision gate?
+    task_families: [reliable_screening]
+    data_requirements: [frozen_pkpd_consistency, frozen_test_decisions]
+    native_environment: Libs/external/environments/pkpd_only.yaml
+    native_expected_metrics: [false_accept_rate, accepted_precision, coverage]
+    blockers: [blocked_round11_full_suite, matched_protocol_smoke_not_run]
+
+  - <<: *internal_owned
+    baseline_id: ood_only
+    paper_role: appendix_optional
+    execution_tier: P3_appendix
+    replacement_group: ''
+    activation_condition: appendix_only_no_main_gate
+    main_table: false
+    claim_ids: [C4]
+    baseline_class: uq_or_calibration
+    scientific_question: Does TRI add value beyond an OOD-only decision gate?
+    task_families: [reliable_screening]
+    data_requirements: [frozen_ood_scores, frozen_test_decisions]
+    native_environment: Libs/external/environments/ood_only.yaml
+    native_expected_metrics: [ood_auroc, false_accept_rate, coverage]
+    blockers: [blocked_round11_full_suite, matched_protocol_smoke_not_run]
+
+  - <<: *pending_biological
+    baseline_id: geneformer
+    paper_role: conditional_replacement
+    execution_tier: P2_conditional
+    replacement_group: state_foundation
+    activation_condition: inactive_until_c1_reopened_and_source_license_gate_passed
+    main_table: false
+    claim_ids: [C1]
+    scientific_question: Does CNS-specific state pretraining improve transfer beyond a public single-cell foundation model?
+    task_families: [sample_state_transfer]
+    applicability: {status: pending, reason: 'Official source, model release, and frozen gene-vocabulary compatibility require qualification.'}
+    official_paper: {title: Geneformer, url: ''}
+    data_requirements: [official_pretraining_checkpoint, compatible_gene_vocabulary]
+    input_semantics: {available: [gene_expression], unavailable_by_design: [cns_state_grid, occupancy_program, future_trajectory], axis_conversion: not_verified, feature_mapping: official_gene_vocabulary_required, mask_handling: not_verified, action_representation: none}
+    output_semantics: {canonical_form: sample embedding, uncertainty_support: not_verified, semantic_loss: Omits non-transcriptomic state and structured intervention rollout.}
+    native_environment: Libs/external/environments/geneformer.yaml
+
+  - <<: *pending_biological
+    baseline_id: scgpt
+    paper_role: conditional_replacement
+    execution_tier: P2_conditional
+    replacement_group: state_foundation
+    activation_condition: inactive_until_c1_reopened_and_source_license_gate_passed
+    main_table: false
+    claim_ids: [C1]
+    scientific_question: Does CNS-specific state pretraining improve transfer beyond a generative single-cell foundation model?
+    task_families: [sample_state_transfer]
+    applicability: {status: pending, reason: 'Official source, checkpoint license, and frozen vocabulary compatibility require qualification.'}
+    official_paper: {title: scGPT, url: ''}
+    data_requirements: [official_pretraining_checkpoint, compatible_gene_vocabulary]
+    input_semantics: {available: [gene_expression], unavailable_by_design: [cns_state_grid, occupancy_program, future_trajectory], axis_conversion: not_verified, feature_mapping: official_gene_vocabulary_required, mask_handling: not_verified, action_representation: none}
+    output_semantics: {canonical_form: sample embedding, uncertainty_support: not_verified, semantic_loss: Omits non-transcriptomic state and structured intervention rollout.}
+    native_environment: Libs/external/environments/scgpt.yaml
+
+  - <<: *pending_biological
+    baseline_id: scfoundation
+    paper_role: conditional_replacement
+    execution_tier: P2_conditional
+    replacement_group: state_foundation
+    activation_condition: inactive_until_c1_reopened_and_source_license_gate_passed
+    main_table: false
+    claim_ids: [C1]
+    scientific_question: Does CNS-specific state pretraining improve transfer beyond a large single-cell foundation model?
+    task_families: [sample_state_transfer]
+    applicability: {status: pending, reason: 'Official source, checkpoint license, and matched-input compatibility require qualification.'}
+    official_paper: {title: scFoundation, url: ''}
+    data_requirements: [official_pretraining_checkpoint, compatible_gene_vocabulary]
+    input_semantics: {available: [gene_expression], unavailable_by_design: [cns_state_grid, occupancy_program, future_trajectory], axis_conversion: not_verified, feature_mapping: official_gene_vocabulary_required, mask_handling: not_verified, action_representation: none}
+    output_semantics: {canonical_form: sample embedding, uncertainty_support: not_verified, semantic_loss: Omits non-transcriptomic state and structured intervention rollout.}
+    native_environment: Libs/external/environments/scfoundation.yaml
+
+  - <<: *pending_biological
+    baseline_id: gears
+    paper_role: appendix_optional
+    execution_tier: P3_appendix
+    replacement_group: ''
+    activation_condition: appendix_only_no_main_gate
+    main_table: false
+    scientific_question: Does structured CNS action rollout outperform a gene-perturbation prediction model on compatible tasks?
+    task_families: [biological_state_transition]
+    applicability: {status: pending, reason: Static gene-perturbation outputs are not equivalent to CNS field trajectories.}
+    official_paper: {title: GEARS, url: ''}
+    data_requirements: [official_perturbation_dataset]
+    native_environment: Libs/external/environments/gears.yaml
+
+  - <<: *pending_biological
+    baseline_id: cpa
+    paper_role: conditional_replacement
+    execution_tier: P2_conditional
+    replacement_group: chemical_perturbation
+    activation_condition: activate_only_if_primary_blocked_or_task_compatibility_proven
+    main_table: false
+    scientific_question: Does structured CNS action rollout outperform compositional perturbation autoencoding on compatible tasks?
+    task_families: [biological_state_transition]
+    applicability: {status: pending, reason: Cell-level perturbation response is not equivalent to a CNS state-grid trajectory.}
+    official_paper: {title: CPA, url: ''}
+    data_requirements: [official_perturbation_dataset]
+    native_environment: Libs/external/environments/cpa.yaml
+
+  - <<: *pending_biological
+    baseline_id: cellot
+    paper_role: main_baseline
+    execution_tier: P1_main
+    replacement_group: ''
+    activation_condition: round11_full_suite_reopened_and_source_license_gate_passed
+    main_table: true
+    scientific_question: Does structured CNS action rollout outperform optimal-transport perturbation prediction on compatible tasks?
+    task_families: [biological_state_transition]
+    applicability: {status: pending, reason: Population transport semantics are not equivalent to CNS field dynamics.}
+    official_paper: {title: CellOT, url: ''}
+    data_requirements: [official_perturbation_dataset]
+    native_environment: Libs/external/environments/cellot.yaml
+
+  - <<: *pending_acquisition
+    baseline_id: info_bax
+    paper_role: acquisition_only
+    execution_tier: P4_no_execution
+    replacement_group: tool_acquisition
+    activation_condition: separate_c3_protocol
+    main_table: false
+    scientific_question: Does decision-centric acquisition outperform information-based Bayesian experimental design under matched cost?
+    official_paper: {title: InfoBAX, url: ''}
+    native_environment: Libs/external/environments/info_bax.yaml
+
+  - <<: *pending_acquisition
+    baseline_id: ps_bax
+    paper_role: acquisition_only
+    execution_tier: P4_no_execution
+    replacement_group: tool_acquisition
+    activation_condition: separate_c3_protocol
+    main_table: false
+    scientific_question: Does decision-centric acquisition outperform posterior-sampling BAX under matched cost?
+    official_paper: {title: PS-BAX, url: ''}
+    native_environment: Libs/external/environments/ps_bax.yaml
+
+  - <<: *pending_acquisition
+    baseline_id: cost_aware_bo
+    paper_role: acquisition_only
+    execution_tier: P4_no_execution
+    replacement_group: tool_acquisition
+    activation_condition: separate_c3_protocol
+    main_table: false
+    scientific_question: Does trajectory decision-risk acquisition outperform generic cost-aware Bayesian optimization?
+    official_paper: {title: Cost-aware Bayesian optimization, url: ''}
+    native_environment: Libs/external/environments/cost_aware_bo.yaml
+
+# This is the authoritative Baseline-First contract.  V3/V3.1 above remains a
+# historical inventory and is intentionally not rewritten to hide its blockers.
+baseline_first_program:
+  schema_version: baseline_first_qualification_v1
+  freeze_name: neuronsifter_baseline_first
+  claim_ids: [C1, C2, C3, C4, C5]
+  baseline_classes: [B0_naive_lower_bound, B1_simple_strong, B2_same_backbone_ablation, B3_external_pretrained_model, B4_external_task_specific_model, B5_tool_acquisition_policy, B6_reliability_baseline, B7_scale_deployment_baseline, B8_oracle_upper_bound, B9_related_work_only]
+  frozen_cardinality:
+    baseline_count: 57
+    mandatory_count: 48
+    conditional_count: 9
+    class_counts: {B0_naive_lower_bound: 8, B1_simple_strong: 10, B2_same_backbone_ablation: 5, B3_external_pretrained_model: 4, B4_external_task_specific_model: 13, B5_tool_acquisition_policy: 7, B6_reliability_baseline: 5, B7_scale_deployment_baseline: 4, B8_oracle_upper_bound: 1}
+  v31_binding:
+    main_baseline_ids: [persistence_or_no_action, linear_delta_or_state_space, gru, chemcpa, cellot, fno, transolver_plus, wdno, deep_ensemble, conformal_calibration]
+    main_ablation_ids: [neuronsifter_deterministic, neuronsifter_drug_id_conditioning, neuronsifter_scalar_exposure, neuronsifter_without_constraints_and_reliability, neuronsifter_without_assimilation_and_what_if_pairing]
+    profile_mapping_sha256: 584fb431f48bf5df65db5b7f89d142d66ab340e02c30a3d2f8ddd5dde561e9ee
+  fairness_contract:
+    shared_inputs: [frozen_data_manifests, frozen_train_validation_test_splits, biological_unit_grouping, input_information_availability, validation_only_model_selection, common_metric_implementation, failure_accounting, seed_accounting, result_schema]
+    same_backbone_controls: [width_depth, optimizer_family, training_steps, effective_batch, scheduler, regularization_search_budget, early_stopping_rule, checkpoint_selection]
+    failure_accounting: [retain_failed_runs, retain_oom_and_divergence, no_failed_seed_deletion]
+    pretrained_reporting: [pretraining_provenance, pretrained_parameter_count, downstream_adaptation_compute, inference_compute]
+  tuning_contract:
+    validation_only: true
+    same_order_effective_trial_budget: true
+    retain_all_attempts: true
+    prohibited: [test_set_hyperparameter_selection, extra_neuronsifter_trials, paper_hyperparameters_without_adaptation, failed_seed_deletion, post_test_baseline_changes]
+  source_qualification_contract:
+    required_fields: [data_terms, weight_terms, package_terms, anonymous_package_permission, environment_lock, patch_integrity]
+    resolved_statuses: [qualified, not_applicable]
+    environment_lock_required: true
+    patch_integrity_required: true
+    anonymous_package_permission_required: true
+    evidence_defaults: &bf_source_evidence_defaults
+      data_terms_evidence_path: not_acquired
+      data_terms_evidence_sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+      data_terms_evidence_provenance: not_available
+      weight_terms_evidence_path: not_acquired
+      weight_terms_evidence_sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+      weight_terms_evidence_provenance: not_available
+      package_terms_evidence_path: not_acquired
+      package_terms_evidence_sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+      package_terms_evidence_provenance: not_available
+      anonymous_package_permission_evidence_path: not_acquired
+      anonymous_package_permission_evidence_sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+      anonymous_package_permission_evidence_provenance: not_available
+      environment_lock_path: not_acquired
+      environment_lock_sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+      patch_diff_path: not_acquired
+      patch_diff_sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+      adapter_qualification_sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+      upstream_qualification_sha256: '0000000000000000000000000000000000000000000000000000000000000000'
+  data_gate_evidence:
+    c1: {path: Output/audits/c1_rescue_feasibility_decision.json, expected_sha256: 3fd91a0d90746d2f3e10cb4918fd22e073705b5300da80d40b67152eca3cfcd4, expected_schema_version: neuronsifter-c1-rescue-feasibility-decision-v1, expected_status: pivot_to_c2_recommended, required_provenance_fields: [created_at, artifacts]}
+    c2: {path: Output/audits/c2r_entry_gate_decision.json, expected_sha256: 3a4f0f58d305366b18b4efc55cc35e4e6e94582a9993c9a0458e307495b485ae, expected_schema_version: neuronsifter-c2r-entry-gate-v1, expected_status: pivot_away_from_c2_recommended, required_provenance_fields: [registry_uid, registry_sealing]}
+    c3: {path: Output/audits/public_foundation_corpus_tool_model_registry.json, expected_sha256: 880252b366c279bf440e783c74a73405edcb44d39af11d1acd98d206b010da1d, expected_schema_version: neuronsifter-public-foundation-corpus-evidence-artifact-v1, expected_status: passed, required_provenance_fields: [created_at, producer]}
+    c4: {path: Output/audits/trajectory_numeric_lineage_audit.json, expected_sha256: cf59789e11e068703eed633cb3f24be561b4d8b0fe2853ffb578ba5ab4035176, expected_schema_version: neuronsifter-trajectory-numeric-lineage-audit-v1, expected_status: pass, required_provenance_fields: [git_commit, producer_command, source_artifacts]}
+    c5: {path: Output/audits/training_window_runtime_audit.json, expected_sha256: e8e7a98faaf5f309e0573d02f3781dda84d629bcc37fc2b9d154f37460550e82, expected_schema_version: paper_grade_runtime_profile.v1, expected_status: null, required_provenance_fields: [audit_name, scope, split_name]}
+  data_gate_artifact_bindings:
+    C1:
+      corpus_identity_sha256: {path: Output/audits/c1_rescue_current_capability_matrix.json, sha256: 942178ce99e1840b3b900cd555b694f0819992b38be1260e4aed0e7d11f37cea}
+      split_manifest_sha256: {path: Output/audits/c1_task_registry.json, sha256: 9b2acc0c5adc5880ce7bbf87e81f356953268ea52101b0bc6449a016b03aa2dd}
+      leakage_audit_sha256: {path: Output/audits/c1_rescue_candidate_independence_graph.json, sha256: c3fc3cd77c72f4be22cb928692f5c228d59da470c1147dd51fc3db30004c9c69}
+    C2:
+      trajectory_registry_sha256: {path: Output/audits/c2r_action_quarantine.tsv, sha256: 4993f6fe8823ce167892c5d33ac0a19d60ea98d37596907f435cbc7c47bd2843}
+      split_manifest_sha256: {path: Output/audits/c2r_independent_domain_decision.json, sha256: d7447d889609ac88d207c8cf3c183d8cfedd4c3ca075beea74a76cedbee4d1f6}
+      leakage_audit_sha256: {path: Output/audits/c2r_baseline_fairness_registry.json, sha256: b9814814b8fd37b8531c0a650b65c3fddcb6cd23e34a8f3a67bb5b0d1f76a490}
+    C3:
+      tool_outcome_matrix_sha256: {path: Output/audits/public_foundation_corpus_tool_model_registry.json, sha256: 880252b366c279bf440e783c74a73405edcb44d39af11d1acd98d206b010da1d}
+      split_manifest_sha256: {path: Output/audits/public_foundation_corpus_frozen_splits.json, sha256: b3d759555e09f3c0b8e5ceb8e3dae20464366a0e5169b344491ca8be8bcfb1ff}
+    C4:
+      prediction_bundle_sha256: {path: Output/audits/trajectory_numeric_lineage_audit.json, sha256: cf59789e11e068703eed633cb3f24be561b4d8b0fe2853ffb578ba5ab4035176}
+      split_manifest_sha256: {path: Output/audits/public_foundation_corpus_split_manifest.json, sha256: 75cc5ad0425fa3b965696c94f0ddc93e4b081303df4584249170da0da076cd26}
+    C5:
+      checkpoint_bundle_sha256: {path: Output/audits/training_window_runtime_audit.json, sha256: e8e7a98faaf5f309e0573d02f3781dda84d629bcc37fc2b9d154f37460550e82}
+      split_manifest_sha256: {path: Output/audits/public_foundation_corpus_split_manifest.json, sha256: 75cc5ad0425fa3b965696c94f0ddc93e4b081303df4584249170da0da076cd26}
+  qualification_evidence:
+    simple_baseline_sanity: {path: Output/audits/baseline_task_sanity_evidence.json, expected_sha256: '0000000000000000000000000000000000000000000000000000000000000000', expected_schema_version: baseline_task_sanity_evidence_v1, expected_status: passed, required_provenance_fields: [producer, created_at, artifact_manifest]}
+    strong_baseline_results: {path: Output/audits/baseline_strong_results_evidence.json, expected_sha256: '0000000000000000000000000000000000000000000000000000000000000000', expected_schema_version: baseline_strong_results_evidence_v1, expected_status: available, required_provenance_fields: [producer, created_at, artifact_manifest]}
+    challenge_thresholds: {path: Output/audits/neuronsifter_challenge_thresholds_evidence.json, expected_sha256: '0000000000000000000000000000000000000000000000000000000000000000', expected_schema_version: neuronsifter_challenge_thresholds_evidence_v1, expected_status: frozen, required_provenance_fields: [producer, created_at, artifact_manifest]}
+    test_access_ledger: {path: Output/audits/baseline_test_access_ledger.json, expected_sha256: '0000000000000000000000000000000000000000000000000000000000000000', expected_schema_version: baseline_test_access_ledger_v1, expected_status: sealed, required_provenance_fields: [producer, created_at, artifact_manifest]}
+    current_baseline_qualification_gate: {path: Output/audits/baseline_registry_qualification_gate.json, expected_sha256: 92d68137f706feff178b4d1976806d1fb668084d905a7ca1ffad939dc91a6d8c, expected_schema_version: baseline_registry_qualification_gate, expected_status: blocked_source_or_license, required_provenance_fields: []}
+    historical_baseline_qualification_gate: {path: Output/audits/baseline_r1_gate.json, expected_sha256: 8690c59091393a099d92c378798213e9fe01405e16f2488cba8c97b39f010e2c, expected_schema_version: baseline_r1_gate, expected_status: blocked_source_or_license, required_provenance_fields: []}
+  challenge_threshold_contract:
+    freeze_before_neuronsifter_test: true
+    minimum_seed_count_for_qualification: 3
+    headline_seed_count: 5
+    paired_bootstrap_ci: true
+    coverage_floor: task_specific_coverage_floor_must_be_frozen_before_test_access
+  training_authorization_contract:
+    gate_name: baseline_challenge_suite_resolved
+    prohibit_headline_training_until_resolved: true
+    allowed_pre_gate_work: [allen_full_materialization, e2_e4_evidence_recovery, baseline_source_and_environment_qualification, small_debug_and_shape_tests, data_and_split_validation]
+  mandatory_baselines:
+    - &bf_c1 {<<: *bf_source_evidence_defaults, baseline_uid: feature_mean, display_name: Feature mean, baseline_class: B0_naive_lower_bound, claim_ids: [C1], task_compatibility: conditional_pending_data, required_modalities: [sample_observation, gene_expression], required_action_fields: [], required_trajectory_semantics: [], implementation_source: project_owned, official_or_authoritative: project_owned, repository_or_package: project://NeuronSifter, tag_or_commit: project_worktree, checkpoint_identity: not_applicable, license: project_license, redistribution_policy: project_owned, data_terms: not_applicable, weight_terms: not_applicable, package_terms: not_applicable, anonymous_package_permission: not_applicable, environment: Libs/external/environments/feature_mean.yaml, input_adapter: Libs/exp/baselines/adapters/base.py, output_adapter: Libs/exp/baselines/adapters/base.py, tuning_space: none, tuning_budget: 0_validation_trials, seed_policy: deterministic, compute_profile: cpu_small, expected_artifacts: [source_manifest, license_audit, environment_lock, patch_manifest], mandatory_or_conditional: mandatory, exclusion_reason: ''}
+    - {<<: *bf_c1, baseline_uid: feature_median, display_name: Feature median}
+    - {<<: *bf_c1, baseline_uid: pca_ridge_logistic, display_name: PCA plus Ridge or Logistic, baseline_class: B1_simple_strong, tuning_space: pca_components_and_regularization, tuning_budget: 20_validation_trials, seed_policy: seeds_40_44}
+    - {<<: *bf_c1, baseline_uid: pca_nearest_neighbor, display_name: PCA plus nearest neighbor, baseline_class: B1_simple_strong, tuning_space: pca_components_and_neighbors, tuning_budget: 20_validation_trials, seed_policy: seeds_40_44}
+    - {<<: *bf_c1, baseline_uid: scvi, display_name: scVI, baseline_class: B4_external_task_specific_model, implementation_source: official_repository, official_or_authoritative: official, repository_or_package: https://github.com/scverse/scvi-tools, tag_or_commit: source_pin_pending, checkpoint_identity: from_scratch_or_official_checkpoint_pending, license: MIT, redistribution_policy: source_terms_pending, environment: Libs/external/scvi, tuning_space: learning_rate_latent_dim, tuning_budget: 20_validation_trials, seed_policy: seeds_40_44}
+    - {<<: *bf_c1, baseline_uid: generic_encoder_from_scratch, display_name: From-scratch generic encoder, baseline_class: B1_simple_strong, tuning_space: width_depth_learning_rate, tuning_budget: 20_validation_trials, seed_policy: seeds_40_44}
+    - {<<: *bf_c1, baseline_uid: single_source_encoder, display_name: Single-source encoder, baseline_class: B2_same_backbone_ablation, tuning_space: matched_backbone_controls, tuning_budget: matched_validation_trials, seed_policy: seeds_40_44}
+    - {<<: *bf_c1, baseline_uid: no_ontology_encoder, display_name: No-ontology encoder, baseline_class: B2_same_backbone_ablation, tuning_space: matched_backbone_controls, tuning_budget: matched_validation_trials, seed_policy: seeds_40_44}
+    - {<<: *bf_c1, baseline_uid: geneformer, display_name: Geneformer, baseline_class: B3_external_pretrained_model, implementation_source: official_repository, official_or_authoritative: official, repository_or_package: https://github.com/broadinstitute/Geneformer, tag_or_commit: source_pin_pending, checkpoint_identity: official_checkpoint_identity_pending, license: source_license_pending, redistribution_policy: source_and_checkpoint_terms_pending, environment: Libs/external/geneformer, tuning_space: adapter_learning_rate, tuning_budget: 20_validation_trials, seed_policy: seeds_40_44}
+    - {<<: *bf_c1, baseline_uid: scgpt, display_name: scGPT, baseline_class: B3_external_pretrained_model, implementation_source: official_repository, official_or_authoritative: official, repository_or_package: https://github.com/bowang-lab/scGPT, tag_or_commit: source_pin_pending, checkpoint_identity: official_checkpoint_identity_pending, license: MIT, redistribution_policy: checkpoint_terms_pending, environment: Libs/external/scgpt, tuning_space: adapter_learning_rate, tuning_budget: 20_validation_trials, seed_policy: seeds_40_44}
+    - {<<: *bf_c1, baseline_uid: uce, display_name: UCE, baseline_class: B3_external_pretrained_model, implementation_source: official_repository, official_or_authoritative: official, repository_or_package: https://github.com/snap-stanford/uce, tag_or_commit: source_pin_pending, checkpoint_identity: official_checkpoint_identity_pending, license: source_license_pending, redistribution_policy: source_and_checkpoint_terms_pending, environment: Libs/external/uce, tuning_space: adapter_learning_rate, tuning_budget: 20_validation_trials, seed_policy: seeds_40_44}
+    - {<<: *bf_c1, baseline_uid: scfoundation, display_name: scFoundation, baseline_class: B3_external_pretrained_model, implementation_source: official_repository, official_or_authoritative: official, repository_or_package: https://github.com/biomap-research/scFoundation, tag_or_commit: source_pin_pending, checkpoint_identity: official_checkpoint_identity_pending, license: source_license_pending, redistribution_policy: source_and_checkpoint_terms_pending, environment: Libs/external/scfoundation, tuning_space: adapter_learning_rate, tuning_budget: 20_validation_trials, seed_policy: seeds_40_44}
+    - &bf_c2 {<<: *bf_source_evidence_defaults, baseline_uid: identity_no_action, display_name: Identity or no-action, baseline_class: B0_naive_lower_bound, claim_ids: [C2], task_compatibility: conditional_pending_data, required_modalities: [canonical_state_grid], required_action_fields: [], required_trajectory_semantics: [time, region, compartment, species], implementation_source: project_owned, official_or_authoritative: project_owned, repository_or_package: project://NeuronSifter, tag_or_commit: project_worktree, checkpoint_identity: not_applicable, license: project_license, redistribution_policy: project_owned, data_terms: not_applicable, weight_terms: not_applicable, package_terms: not_applicable, anonymous_package_permission: not_applicable, environment: Libs/external/environments/identity_no_action.yaml, input_adapter: Libs/exp/baselines/adapters/base.py, output_adapter: Libs/exp/baselines/adapters/base.py, tuning_space: none, tuning_budget: 0_validation_trials, seed_policy: deterministic, compute_profile: cpu_small, expected_artifacts: [source_manifest, license_audit, environment_lock, patch_manifest], mandatory_or_conditional: mandatory, exclusion_reason: ''}
+    - {<<: *bf_c2, baseline_uid: persistence, display_name: Persistence}
+    - {<<: *bf_c2, baseline_uid: linear_delta, display_name: Linear delta, baseline_class: B1_simple_strong, required_action_fields: [target_set, drug_set, dose, schedule, route], tuning_space: regularization, tuning_budget: 20_validation_trials, seed_policy: seeds_40_44}
+    - {<<: *bf_c2, baseline_uid: linear_state_space_var, display_name: Linear state-space or VAR, baseline_class: B1_simple_strong, required_action_fields: [target_set, drug_set, dose, schedule, route], tuning_space: lag_and_regularization, tuning_budget: 20_validation_trials, seed_policy: seeds_40_44}
+    - {<<: *bf_c2, baseline_uid: shallow_mlp, display_name: Shallow MLP, baseline_class: B1_simple_strong, required_action_fields: [target_set, drug_set, dose, schedule, route], tuning_space: width_learning_rate, tuning_budget: 20_validation_trials, seed_policy: seeds_40_44}
+    - {<<: *bf_c2, baseline_uid: gru, display_name: GRU, baseline_class: B1_simple_strong, required_action_fields: [target_set, drug_set, dose, schedule, route], tuning_space: width_depth_learning_rate, tuning_budget: 20_validation_trials, seed_policy: seeds_40_44}
+    - {<<: *bf_c2, baseline_uid: deeponet, display_name: DeepONet, baseline_class: B4_external_task_specific_model, required_action_fields: [target_set, drug_set, dose, schedule, route], implementation_source: maintained_authoritative_implementation, official_or_authoritative: authoritative_maintained, repository_or_package: https://github.com/neuraloperator/neuraloperator, tag_or_commit: source_pin_pending, checkpoint_identity: from_scratch, license: MIT, redistribution_policy: MIT, environment: Libs/external/neuraloperator, tuning_space: branch_and_trunk_width, tuning_budget: 20_validation_trials, seed_policy: seeds_40_44}
+    - {<<: *bf_c2, baseline_uid: fno_tfno, display_name: FNO or TFNO, baseline_class: B4_external_task_specific_model, required_action_fields: [target_set, drug_set, dose, schedule, route], implementation_source: maintained_authoritative_implementation, official_or_authoritative: authoritative_maintained, repository_or_package: https://github.com/neuraloperator/neuraloperator, tag_or_commit: source_pin_pending, checkpoint_identity: from_scratch, license: MIT, redistribution_policy: MIT, environment: Libs/external/neuraloperator, tuning_space: modes_width_depth, tuning_budget: 20_validation_trials, seed_policy: seeds_40_44}
+    - {<<: *bf_c2, baseline_uid: transolver_plus, display_name: Transolver++, baseline_class: B4_external_task_specific_model, required_action_fields: [target_set, drug_set, dose, schedule, route], implementation_source: official_repository, official_or_authoritative: official, repository_or_package: https://github.com/thuml/Transolver_plus, tag_or_commit: d5a23bc734a0ebac56384cf72049a26af9673452, checkpoint_identity: not_required_from_scratch, license: MIT, redistribution_policy: source_terms_pending, environment: Libs/external/neural_operator/Transolver_plus, tuning_space: width_depth_learning_rate, tuning_budget: 20_validation_trials, seed_policy: seeds_40_44}
+    - {<<: *bf_c2, baseline_uid: diffusionpde, display_name: DiffusionPDE, baseline_class: B4_external_task_specific_model, required_action_fields: [target_set, drug_set, dose, schedule, route], implementation_source: official_repository, official_or_authoritative: official, repository_or_package: https://github.com/jhhuangchloe/DiffusionPDE, tag_or_commit: 1e2bc8b9e312f3a936630a30d2f49aedabf0cea7, checkpoint_identity: official_checkpoint_identity_pending, license: CC-BY-NC-SA-4.0, redistribution_policy: noncommercial_source_terms, environment: Libs/external/diffusionpde, tuning_space: diffusion_steps_learning_rate, tuning_budget: 20_validation_trials, seed_policy: seeds_40_44}
+    - {<<: *bf_c2, baseline_uid: wdno, display_name: WDNO, baseline_class: B4_external_task_specific_model, required_action_fields: [target_set, drug_set, dose, schedule, route], implementation_source: official_repository, official_or_authoritative: official, repository_or_package: https://github.com/AI4Science-WestlakeU/wdno, tag_or_commit: 2d5c0ffbe11797e669efe0a34bd22f087eae51d7, checkpoint_identity: official_checkpoint_identity_pending, license: MIT, redistribution_policy: checkpoint_terms_pending, environment: Libs/external/neural_operator/wdno, tuning_space: diffusion_steps_learning_rate, tuning_budget: 20_validation_trials, seed_policy: seeds_40_44}
+    - {<<: *bf_c2, baseline_uid: deterministic_neuronsifter, display_name: Deterministic NeuronSifter, baseline_class: B2_same_backbone_ablation, required_action_fields: [target_set, drug_set, dose, schedule, route], tuning_space: matched_backbone_controls, tuning_budget: matched_validation_trials, seed_policy: seeds_40_44}
+    - &bf_c2_conditional {<<: *bf_c2, baseline_uid: scgen, display_name: scGen, baseline_class: B4_external_task_specific_model, required_modalities: [single_cell_gene_expression, perturbation_labels], required_action_fields: [perturbation], required_trajectory_semantics: [], implementation_source: official_repository, official_or_authoritative: official, repository_or_package: https://github.com/theislab/scgen, tag_or_commit: source_pin_pending, checkpoint_identity: not_required_from_scratch, license: GPL-3.0, redistribution_policy: source_terms_pending, environment: Libs/external/scgen, tuning_space: official_task_compatible_space, tuning_budget: 20_validation_trials, seed_policy: seeds_40_44, mandatory_or_conditional: conditional, exclusion_reason: requires_compatible_single_cell_perturbation_task}
+    - {<<: *bf_c2_conditional, baseline_uid: cpa, display_name: CPA, repository_or_package: https://github.com/theislab/cpa, license: BSD-3-Clause}
+    - {<<: *bf_c2_conditional, baseline_uid: chemcpa, display_name: chemCPA, repository_or_package: https://github.com/theislab/chemCPA, license: MIT}
+    - {<<: *bf_c2_conditional, baseline_uid: cellot, display_name: CellOT, repository_or_package: https://github.com/bunnech/cellot, license: BSD-3-Clause}
+    - {<<: *bf_c2_conditional, baseline_uid: conditional_monge_gap, display_name: Conditional Monge Gap, official_or_authoritative: source_verification_pending, repository_or_package: '', license: source_license_pending, redistribution_policy: source_terms_pending, exclusion_reason: official_implementation_not_yet_verified}
+    - {<<: *bf_c2_conditional, baseline_uid: gears, display_name: GEARS, repository_or_package: https://github.com/snap-stanford/GEARS, license: MIT}
+    - {<<: *bf_c2_conditional, baseline_uid: cellflow, display_name: CellFlow, official_or_authoritative: source_verification_pending, repository_or_package: '', license: source_license_pending, redistribution_policy: source_terms_pending, exclusion_reason: official_implementation_not_yet_verified}
+    - {<<: *bf_c2_conditional, baseline_uid: bliss_loewe_hsa, display_name: Bliss Loewe HSA, baseline_class: B1_simple_strong, implementation_source: project_owned_protocol_adapter, official_or_authoritative: project_owned, repository_or_package: project://NeuronSifter, tag_or_commit: project_worktree, checkpoint_identity: not_applicable, license: project_license, redistribution_policy: project_owned, environment: Libs/external/environments/bliss_loewe_hsa.yaml, exclusion_reason: requires_combo_outcome_semantics}
+    - &bf_c3 {<<: *bf_source_evidence_defaults, baseline_uid: random_acquisition, display_name: Random, baseline_class: B0_naive_lower_bound, claim_ids: [C3], task_compatibility: conditional_pending_data, required_modalities: [frozen_tool_outcome_matrix], required_action_fields: [], required_trajectory_semantics: [], implementation_source: project_owned, official_or_authoritative: project_owned, repository_or_package: project://NeuronSifter, tag_or_commit: project_worktree, checkpoint_identity: not_applicable, license: project_license, redistribution_policy: project_owned, data_terms: not_applicable, weight_terms: not_applicable, package_terms: not_applicable, anonymous_package_permission: not_applicable, environment: Libs/external/environments/random_acquisition.yaml, input_adapter: Libs/exp/baselines/adapters/base.py, output_adapter: Libs/exp/baselines/adapters/base.py, tuning_space: none, tuning_budget: 0_validation_trials, seed_policy: seeds_40_44, compute_profile: cpu_small, expected_artifacts: [source_manifest, license_audit, environment_lock, patch_manifest], mandatory_or_conditional: mandatory, exclusion_reason: ''}
+    - {<<: *bf_c3, baseline_uid: round_robin, display_name: Round-robin}
+    - {<<: *bf_c3, baseline_uid: cheapest_first, display_name: Cheapest-first}
+    - {<<: *bf_c3, baseline_uid: highest_fidelity_only, display_name: Highest-fidelity-only}
+    - {<<: *bf_c3, baseline_uid: fixed_cascade, display_name: Fixed cascade, baseline_class: B1_simple_strong}
+    - {<<: *bf_c3, baseline_uid: mechanism_rule, display_name: Mechanism rule, baseline_class: B1_simple_strong}
+    - {<<: *bf_c3, baseline_uid: uncertainty_acquisition, display_name: Uncertainty, baseline_class: B5_tool_acquisition_policy, tuning_space: acquisition_rule}
+    - {<<: *bf_c3, baseline_uid: entropy_bald, display_name: Entropy or BALD, baseline_class: B5_tool_acquisition_policy, tuning_space: acquisition_rule}
+    - {<<: *bf_c3, baseline_uid: expected_error_reduction, display_name: Expected error reduction, baseline_class: B5_tool_acquisition_policy, tuning_space: acquisition_rule}
+    - {<<: *bf_c3, baseline_uid: infobax, display_name: InfoBAX, baseline_class: B5_tool_acquisition_policy, implementation_source: source_verification_pending, official_or_authoritative: source_verification_pending, repository_or_package: '', tag_or_commit: source_pin_pending, checkpoint_identity: not_applicable, license: source_license_pending, redistribution_policy: source_terms_pending, environment: Libs/external/infobax, tuning_space: acquisition_rule}
+    - {<<: *bf_c3, baseline_uid: ps_bax, display_name: PS-BAX, baseline_class: B5_tool_acquisition_policy, implementation_source: source_verification_pending, official_or_authoritative: source_verification_pending, repository_or_package: '', tag_or_commit: source_pin_pending, checkpoint_identity: not_applicable, license: source_license_pending, redistribution_policy: source_terms_pending, environment: Libs/external/ps_bax, tuning_space: acquisition_rule}
+    - {<<: *bf_c3, baseline_uid: mf_mes, display_name: MF-MES, baseline_class: B5_tool_acquisition_policy, implementation_source: protocol_equivalent_pending, official_or_authoritative: source_verification_pending, repository_or_package: '', tag_or_commit: source_pin_pending, checkpoint_identity: not_applicable, license: source_license_pending, redistribution_policy: source_terms_pending, environment: Libs/external/mf_mes, tuning_space: acquisition_rule}
+    - {<<: *bf_c3, baseline_uid: cost_aware_bo, display_name: Cost-aware BO, baseline_class: B5_tool_acquisition_policy, tuning_space: acquisition_rule}
+    - {<<: *bf_c3, baseline_uid: oracle_acquisition, display_name: Oracle, baseline_class: B8_oracle_upper_bound, mandatory_or_conditional: conditional, exclusion_reason: must_not_rank_with_deployable_policies}
+    - &bf_c4 {<<: *bf_source_evidence_defaults, baseline_uid: raw_score, display_name: Raw score, baseline_class: B6_reliability_baseline, claim_ids: [C4], task_compatibility: conditional_pending_data, required_modalities: [frozen_validation_test_predictions], required_action_fields: [target_set, drug_set, dose, schedule, route], required_trajectory_semantics: [time, region, compartment, species], implementation_source: project_owned, official_or_authoritative: project_owned, repository_or_package: project://NeuronSifter, tag_or_commit: project_worktree, checkpoint_identity: frozen_checkpoint_required, license: project_license, redistribution_policy: project_owned, data_terms: not_applicable, weight_terms: not_applicable, package_terms: not_applicable, anonymous_package_permission: not_applicable, environment: Libs/external/environments/reliability.yaml, input_adapter: Libs/exp/baselines/adapters/base.py, output_adapter: Libs/exp/baselines/adapters/base.py, tuning_space: validation_threshold_only, tuning_budget: 20_validation_trials, seed_policy: seeds_40_44, compute_profile: cpu_small, expected_artifacts: [source_manifest, license_audit, environment_lock, patch_manifest], mandatory_or_conditional: mandatory, exclusion_reason: ''}
+    - {<<: *bf_c4, baseline_uid: uncertainty_only, display_name: Uncertainty-only}
+    - {<<: *bf_c4, baseline_uid: calibration_only, display_name: Calibration-only}
+    - {<<: *bf_c4, baseline_uid: ood_only, display_name: OOD-only}
+    - {<<: *bf_c4, baseline_uid: pkpd_only, display_name: PK PD-only}
+    - {<<: *bf_c4, baseline_uid: no_tri, display_name: No-TRI, baseline_class: B2_same_backbone_ablation}
+    - &bf_c5 {<<: *bf_source_evidence_defaults, baseline_uid: large_only, display_name: Large-only, baseline_class: B7_scale_deployment_baseline, claim_ids: [C5], task_compatibility: conditional_pending_data, required_modalities: [frozen_model_checkpoints], required_action_fields: [target_set, drug_set, dose, schedule, route], required_trajectory_semantics: [time, region, compartment, species], implementation_source: project_owned, official_or_authoritative: project_owned, repository_or_package: project://NeuronSifter, tag_or_commit: project_worktree, checkpoint_identity: frozen_checkpoint_required, license: project_license, redistribution_policy: project_owned, data_terms: not_applicable, weight_terms: not_applicable, package_terms: not_applicable, anonymous_package_permission: not_applicable, environment: Libs/external/environments/scale_deployment.yaml, input_adapter: Libs/exp/baselines/adapters/base.py, output_adapter: Libs/exp/baselines/adapters/base.py, tuning_space: frozen_deployment_policy, tuning_budget: validation_only, seed_policy: seeds_40_44, compute_profile: gpu_profile_pending, expected_artifacts: [source_manifest, license_audit, environment_lock, patch_manifest], mandatory_or_conditional: mandatory, exclusion_reason: ''}
+    - {<<: *bf_c5, baseline_uid: student_without_distillation, display_name: Student without distillation, baseline_class: B2_same_backbone_ablation}
+    - {<<: *bf_c5, baseline_uid: fixed_escalation, display_name: Fixed escalation}
+    - {<<: *bf_c5, baseline_uid: no_escalation, display_name: No escalation}
+    - {<<: *bf_c5, baseline_uid: no_cascade, display_name: No cascade}
+
+# ICLR-scale active evidence set. The historical 57-entry baseline_first_program
+# above is immutable evidence and is reconciled by the reduction migration ledger.
+reduction_registry:
+  schema_version: baseline_registry_reduction_v1
+  registry_id: neuronsifter_iclr_scale_baseline_registry
+  historical_source_path: Libs/configs/experiments/baseline_registry.yaml
+  historical_source_sha256: de594c562be1b3a4ff9f107cb9e4f87ec6d16fce67a34c5de532efd2b45351da
+  target_cardinality: {total: 27, mandatory: 20, conditional: 5, upper_bounds: 2}
+  claim_slots:
+    C1: [pca_linear, scvi, generic_masked_encoder, scgpt, uce]
+    C2: [persistence, linear_state_space, gru, fno_neuraloperator, transolver_plus_plus, wdno]
+    C3: [random, fixed_cascade, uncertainty_bald, ps_bax, mf_mes, cost_aware_bo]
+    C4: [raw_score_no_tri, uncertainty_only, calibration_only]
+  defaults: &reduction_defaults
+    task_compatibility: applicable
+    required_modalities: [sample_observation]
+    required_action_fields: []
+    required_trajectory_semantics: []
+    implementation_source: project_owned_or_authoritative_adapter
+    official_or_authoritative: authoritative_maintained
+    repository_or_package: project://NeuronSifter
+    tag_or_commit: pending_source_lock
+    checkpoint_identity: not_applicable
+    license: project_or_upstream_terms_pending
+    redistribution_policy: source_terms_pending
+    environment: Libs/external/environments/baseline_reduction.yaml
+    input_adapter: Libs/exp/baselines/adapters/base.py
+    output_adapter: Libs/exp/baselines/adapters/base.py
+    tuning_space: preregistered_validation_space
+    tuning_budget: matched_order_effective_trial_budget
+    seed_policy: qualification_3_headline_5
+    compute_profile: matched_task_budget
+    expected_artifacts: [source_manifest, license_audit, environment_lock, patch_manifest, upstream_qualification, adapter_qualification]
+    exclusion_reason: ''
+  mandatory:
+    - {<<: *reduction_defaults, baseline_uid: pca_linear, display_name: PCA plus linear model, baseline_class: B1_simple_strong, claim_ids: [C1], required_modalities: [sample_observation, gene_expression], tuning_space: pca_components_regularization}
+    - {<<: *reduction_defaults, baseline_uid: scvi, display_name: scVI, baseline_class: B4_external_task_specific_model, claim_ids: [C1], implementation_source: official_repository, official_or_authoritative: official, repository_or_package: https://github.com/scverse/scvi-tools, required_modalities: [sample_observation, gene_expression], tuning_space: latent_dimension_learning_rate}
+    - {<<: *reduction_defaults, baseline_uid: generic_masked_encoder, display_name: Generic masked encoder, baseline_class: B1_simple_strong, claim_ids: [C1], required_modalities: [sample_observation, gene_expression], tuning_space: width_depth_mask_ratio}
+    - {<<: *reduction_defaults, baseline_uid: scgpt, display_name: scGPT, baseline_class: B3_external_pretrained_model, claim_ids: [C1], implementation_source: official_repository, official_or_authoritative: official, repository_or_package: https://github.com/bowang-lab/scGPT, required_modalities: [sample_observation, gene_expression], tuning_space: adapter_learning_rate}
+    - {<<: *reduction_defaults, baseline_uid: uce, display_name: UCE, baseline_class: B3_external_pretrained_model, claim_ids: [C1], implementation_source: official_repository, official_or_authoritative: official, repository_or_package: https://github.com/snap-stanford/uce, required_modalities: [sample_observation, gene_expression], tuning_space: adapter_learning_rate}
+    - {<<: *reduction_defaults, baseline_uid: persistence, display_name: Persistence, baseline_class: B0_naive_lower_bound, claim_ids: [C2], required_modalities: [canonical_state_grid, state_mask], required_trajectory_semantics: [time, region, compartment, species], tuning_space: none, tuning_budget: 0_validation_trials, seed_policy: deterministic}
+    - {<<: *reduction_defaults, baseline_uid: linear_state_space, display_name: Linear state-space or VAR, baseline_class: B1_simple_strong, claim_ids: [C2], required_modalities: [canonical_state_grid, structured_action_program], required_action_fields: [target_set, drug_set, dose, schedule, route], required_trajectory_semantics: [time, region, compartment, species], tuning_space: lag_regularization}
+    - {<<: *reduction_defaults, baseline_uid: gru, display_name: GRU, baseline_class: B1_simple_strong, claim_ids: [C2], required_modalities: [canonical_state_grid, structured_action_program], required_action_fields: [target_set, drug_set, dose, schedule, route], required_trajectory_semantics: [time, region, compartment, species], tuning_space: width_depth_learning_rate}
+    - {<<: *reduction_defaults, baseline_uid: fno_neuraloperator, display_name: FNO or TFNO, baseline_class: B4_external_task_specific_model, claim_ids: [C2], implementation_source: maintained_authoritative_implementation, repository_or_package: https://github.com/neuraloperator/neuraloperator, required_modalities: [canonical_state_grid, structured_action_program], required_action_fields: [target_set, drug_set, dose, schedule, route], required_trajectory_semantics: [time, region, compartment, species], tuning_space: modes_width_depth}
+    - {<<: *reduction_defaults, baseline_uid: transolver_plus_plus, display_name: Transolver++, baseline_class: B4_external_task_specific_model, claim_ids: [C2], implementation_source: official_repository, official_or_authoritative: official, repository_or_package: https://github.com/thuml/Transolver_plus, required_modalities: [canonical_state_grid, structured_action_program], required_action_fields: [target_set, drug_set, dose, schedule, route], required_trajectory_semantics: [time, region, compartment, species], tuning_space: width_depth_learning_rate}
+    - {<<: *reduction_defaults, baseline_uid: wdno, display_name: WDNO, baseline_class: B4_external_task_specific_model, claim_ids: [C2], implementation_source: official_repository, official_or_authoritative: official, repository_or_package: https://github.com/AI4Science-WestlakeU/wdno, required_modalities: [canonical_state_grid, structured_action_program], required_action_fields: [target_set, drug_set, dose, schedule, route], required_trajectory_semantics: [time, region, compartment, species], tuning_space: modes_width_depth}
+    - {<<: *reduction_defaults, baseline_uid: random, display_name: Random acquisition, baseline_class: B0_naive_lower_bound, claim_ids: [C3], required_modalities: [frozen_tool_outcome_matrix], tuning_space: none, tuning_budget: 0_validation_trials, seed_policy: seeds_40_44}
+    - {<<: *reduction_defaults, baseline_uid: fixed_cascade, display_name: Fixed cascade, baseline_class: B1_simple_strong, claim_ids: [C3], required_modalities: [frozen_tool_outcome_matrix], tuning_space: fixed_thresholds}
+    - {<<: *reduction_defaults, baseline_uid: uncertainty_bald, display_name: Uncertainty or BALD, baseline_class: B5_tool_acquisition_policy, claim_ids: [C3], required_modalities: [frozen_tool_outcome_matrix, predictive_uncertainty], tuning_space: acquisition_rule}
+    - {<<: *reduction_defaults, baseline_uid: ps_bax, display_name: PS-BAX, baseline_class: B5_tool_acquisition_policy, claim_ids: [C3], required_modalities: [frozen_tool_outcome_matrix, predictive_uncertainty], implementation_source: protocol_equivalent_or_official, tuning_space: acquisition_rule}
+    - {<<: *reduction_defaults, baseline_uid: mf_mes, display_name: MF-MES, baseline_class: B5_tool_acquisition_policy, claim_ids: [C3], required_modalities: [frozen_tool_outcome_matrix, fidelity_costs], implementation_source: protocol_equivalent_or_official, tuning_space: acquisition_rule}
+    - {<<: *reduction_defaults, baseline_uid: cost_aware_bo, display_name: Cost-aware BO, baseline_class: B5_tool_acquisition_policy, claim_ids: [C3], required_modalities: [frozen_tool_outcome_matrix, fidelity_costs], tuning_space: acquisition_rule}
+    - {<<: *reduction_defaults, baseline_uid: raw_score_no_tri, display_name: Raw score without TRI, baseline_class: B6_reliability_baseline, claim_ids: [C4], required_modalities: [frozen_validation_test_predictions], required_action_fields: [target_set, drug_set, dose, schedule, route], required_trajectory_semantics: [time, region, compartment, species], tuning_space: validation_threshold_only}
+    - {<<: *reduction_defaults, baseline_uid: uncertainty_only, display_name: Uncertainty-only, baseline_class: B6_reliability_baseline, claim_ids: [C4], required_modalities: [frozen_validation_test_predictions, predictive_uncertainty], tuning_space: validation_threshold_only}
+    - {<<: *reduction_defaults, baseline_uid: calibration_only, display_name: Calibration-only, baseline_class: B6_reliability_baseline, claim_ids: [C4], required_modalities: [frozen_validation_test_predictions, calibration_outputs], tuning_space: validation_threshold_only}
+  conditional:
+    - {<<: *reduction_defaults, baseline_uid: geneformer, display_name: Geneformer, baseline_class: B3_external_pretrained_model, claim_ids: [C1], activation_condition: activate only if C1 modality and checkpoint license audit pass, decision_artifact: Output/audits/baselines/geneformer/conditional_activation_decision.json, mandatory_when_activated: true, incompatibility_proof_when_inactive: Output/audits/baselines/geneformer/incompatibility_proof.json, activation_frozen_before_test: true, implementation_source: official_repository, official_or_authoritative: official, repository_or_package: https://github.com/broadinstitute/Geneformer}
+    - {<<: *reduction_defaults, baseline_uid: scfoundation, display_name: scFoundation, baseline_class: B3_external_pretrained_model, claim_ids: [C1], activation_condition: activate only if C1 modality and checkpoint license audit pass, decision_artifact: Output/audits/baselines/scfoundation/conditional_activation_decision.json, mandatory_when_activated: true, incompatibility_proof_when_inactive: Output/audits/baselines/scfoundation/incompatibility_proof.json, activation_frozen_before_test: true, implementation_source: official_repository, official_or_authoritative: official, repository_or_package: https://github.com/biomap-research/scFoundation}
+    - {<<: *reduction_defaults, baseline_uid: domain_specific_perturbation_primary, display_name: Domain-specific perturbation primary, baseline_class: B4_external_task_specific_model, claim_ids: [C2], activation_condition: activate after C2 domain freeze and before test access, decision_artifact: Output/audits/domain_specific_perturbation_primary_decision.json, mandatory_when_activated: true, incompatibility_proof_when_inactive: Output/audits/domain_specific_perturbation_primary_incompatibility_proof.json, activation_frozen_before_test: true, candidate_methods: [chemCPA/CPA, GEARS, CellOT/CMonge, CellFlow], resolved_method: null, task_compatibility: conditional_pending_data, required_modalities: [single_cell_gene_expression, perturbation_labels]}
+    - {<<: *reduction_defaults, baseline_uid: diffusionpde_partial_observation, display_name: DiffusionPDE partial-observation adapter, baseline_class: B4_external_task_specific_model, claim_ids: [C2], activation_condition: activate only if partial-observation CNS grid adapter is lossless and source terms pass, decision_artifact: Output/audits/baselines/diffusionpde_partial_observation/conditional_activation_decision.json, mandatory_when_activated: true, incompatibility_proof_when_inactive: Output/audits/baselines/diffusionpde_partial_observation/incompatibility_proof.json, activation_frozen_before_test: true, implementation_source: official_repository, official_or_authoritative: official, repository_or_package: https://github.com/jhhuangchloe/DiffusionPDE, required_modalities: [canonical_state_grid, partial_observation_mask]}
+    - {<<: *reduction_defaults, baseline_uid: tri_domain_specific_component, display_name: TRI domain-specific component, baseline_class: B6_reliability_baseline, claim_ids: [C4], activation_condition: activate only when domain-specific TRI component is preregistered and compatible with frozen prediction bundle, decision_artifact: Output/audits/tri_domain_specific_component_decision.json, mandatory_when_activated: true, incompatibility_proof_when_inactive: Output/audits/tri_domain_specific_component_incompatibility_proof.json, activation_frozen_before_test: true, required_modalities: [frozen_validation_test_predictions, domain_specific_reliability_features]}
+  upper_bounds:
+    - {<<: *reduction_defaults, baseline_uid: hidden_outcome_oracle, display_name: Hidden-outcome oracle, baseline_class: B8_oracle_upper_bound, claim_ids: [C3], deployable: false, eligible_for_best_baseline_claim: false, reported_in_separate_table_section: true, required_modalities: [hidden_tool_outcomes], exclusion_reason: evaluation_only_upper_bound}
+    - {<<: *reduction_defaults, baseline_uid: full_information_retraining_oracle, display_name: Full-information retraining oracle, baseline_class: B8_oracle_upper_bound, claim_ids: [C1, C2, C3, C4], deployable: false, eligible_for_best_baseline_claim: false, reported_in_separate_table_section: true, required_modalities: [full_future_information], exclusion_reason: evaluation_only_upper_bound}

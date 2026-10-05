@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/therapeutic-source-priority-v1.json",
+  "title": "NeuronSifter therapeutic source priority contract",
+  "type": "object",
+  "required": ["schema_version", "status", "source_selection_basis", "source_policy", "registries", "candidates", "outputs"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-therapeutic-source-priority-v1"},
+    "status": {"const": "frozen_before_outcome_materialization"},
+    "source_selection_basis": {"const": "metadata_only"},
+    "source_policy": {
+      "type": "object",
+      "required": ["strict_public_only", "model_predictions_inspected", "outcome_values_inspected", "author_claims_as_ground_truth", "simulator_values_as_ground_truth"],
+      "properties": {
+        "strict_public_only": {"const": true},
+        "model_predictions_inspected": {"const": false},
+        "outcome_values_inspected": {"const": false},
+        "author_claims_as_ground_truth": {"const": false},
+        "simulator_values_as_ground_truth": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "registries": {
+      "type": "object",
+      "required": ["geo_accessions", "arrayexpress_accessions", "arrayexpress_study_details"],
+      "properties": {
+        "geo_accessions": {"type": "string", "minLength": 1},
+        "arrayexpress_accessions": {"type": "string", "minLength": 1},
+        "arrayexpress_study_details": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "candidates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["source_repository", "source_accession", "priority_rank", "selection_class", "expected_evidence_class", "expected_matched_control", "expected_therapeutic_arm_count", "expected_candidate_pair_count", "expected_candidate_set_count", "expected_replicate_structure", "expected_uncertainty_source", "objective_compatibility", "rationale", "main_uncertainty"],
+        "properties": {
+          "source_repository": {"enum": ["GEO", "ArrayExpress"]},
+          "source_accession": {"type": "string", "minLength": 1},
+          "priority_rank": {"type": "integer", "minimum": 1},
+          "selection_class": {"enum": ["selected_for_materialization", "conditional_follow_up", "low_yield_reference"]},
+          "expected_evidence_class": {"enum": ["E2_REAL_ENDPOINT", "E4_REAL_TRAJECTORY"]},
+          "expected_matched_control": {"type": "boolean"},
+          "expected_therapeutic_arm_count": {"type": "integer", "minimum": 0},
+          "expected_candidate_pair_count": {"type": "integer", "minimum": 0},
+          "expected_candidate_set_count": {"type": "integer", "minimum": 0},
+          "expected_replicate_structure": {"type": "string", "minLength": 1},
+          "expected_uncertainty_source": {"type": "string", "minLength": 1},
+          "objective_compatibility": {"type": "string", "minLength": 1},
+          "rationale": {"type": "string", "minLength": 1},
+          "main_uncertainty": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
+      }
+    },
+    "outputs": {
+      "type": "object",
+      "required": ["priority_table", "selection_audit"],
+      "properties": {
+        "priority_table": {"type": "string", "minLength": 1},
+        "selection_audit": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

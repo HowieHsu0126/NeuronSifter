@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/phase1a_source_governance.schema.json",
+  "title": "NeuronSifter Phase 1A source governance artifacts",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"type": "string"},
+    "status": {"type": "string"},
+    "producer": {"type": "string"},
+    "created_at": {"type": "string"},
+    "nodes": {"type": "array"},
+    "edges": {"type": "array"},
+    "mirror_groups_frozen": {"type": "boolean"},
+    "publication_accession_groups_frozen": {"type": "boolean"},
+    "decision_count": {"type": "integer"},
+    "unresolved_counts": {"type": "object"},
+    "decisions": {"type": "array"}
+  },
+  "anyOf": [
+    {
+      "required": ["schema_version", "status", "nodes", "edges", "mirror_groups_frozen", "publication_accession_groups_frozen"],
+      "properties": {
+        "producer": {"type": "string"},
+        "created_at": {"type": "string"},
+        "schema_version": {"const": "neuronsifter-phase1a-source-independence-graph-v1"},
+        "status": {"const": "passed"},
+        "nodes": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["source_id", "decision", "publication_accession_group", "mirror_group"], "properties": {"source_id": {"type": "string", "minLength": 1}, "decision": {"enum": ["qualified_for_mainline", "qualified_for_weak_calibration", "qualified_as_context_prior", "deferred", "formally_excluded"]}, "publication_accession_group": {"type": "string", "minLength": 1}, "mirror_group": {"type": "string", "minLength": 1}}}},
+        "edges": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["source_id", "mirror_group", "relation"], "properties": {"source_id": {"type": "string", "minLength": 1}, "mirror_group": {"type": "string", "minLength": 1}, "relation": {"const": "source_membership"}}}},
+        "mirror_groups_frozen": {"const": true},
+        "publication_accession_groups_frozen": {"const": true}
+      }
+    },
+    {
+      "required": ["schema_version", "status", "decision_count", "unresolved_counts", "decisions"],
+      "properties": {
+        "producer": {"type": "string"},
+        "created_at": {"type": "string"},
+        "schema_version": {"const": "neuronsifter-phase1a-license-role-decisions-v1"},
+        "status": {"const": "passed"},
+        "decision_count": {"const": 16},
+        "unresolved_counts": {"type": "object", "additionalProperties": false, "required": ["license_unresolved", "role_unresolved", "release_unresolved"], "properties": {"license_unresolved": {"const": 0}, "role_unresolved": {"const": 0}, "release_unresolved": {"const": 0}}},
+        "decisions": {"type": "array", "minItems": 16, "maxItems": 16, "items": {"type": "object", "additionalProperties": false, "required": ["source_id", "decision", "license_status", "role_status", "release_status", "decision_reason", "consumed_by_phase1a", "use_scope", "redistribution_allowed", "raw_asset_release_allowed", "derived_artifact_release_allowed", "role_boundary"], "properties": {"source_id": {"type": "string", "minLength": 1}, "decision": {"enum": ["qualified_for_mainline", "qualified_for_weak_calibration", "qualified_as_context_prior", "deferred", "formally_excluded"]}, "license_status": {"type": "string", "minLength": 1}, "role_status": {"type": "string", "minLength": 1}, "release_status": {"type": "string", "minLength": 1}, "terms_snapshot_sha256": {"type": ["string", "null"]}, "use_scope": {"type": "string", "minLength": 1}, "redistribution_allowed": {"type": ["boolean", "null"]}, "raw_asset_release_allowed": {"const": false}, "derived_artifact_release_allowed": {"type": "boolean"}, "role_boundary": {"type": "string", "minLength": 1}, "decision_reason": {"type": "string", "minLength": 1}, "consumed_by_phase1a": {"type": "boolean"}}}}
+      }
+    }
+  ]
+}

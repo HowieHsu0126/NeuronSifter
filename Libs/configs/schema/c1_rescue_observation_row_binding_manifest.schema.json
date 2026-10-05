@@ -1,0 +1,424 @@
+{
+  "$defs": {
+    "axis_binding": {
+      "additionalProperties": false,
+      "properties": {
+        "bytes": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "key_column": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "record_count": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "bytes",
+        "record_count",
+        "key_column"
+      ],
+      "type": "object"
+    },
+    "block": {
+      "additionalProperties": false,
+      "properties": {
+        "adapter": {
+          "enum": [
+            "parquet_long_keyed",
+            "zarr_csr_ordinal",
+            "zarr_dense_indexed"
+          ]
+        },
+        "biological_unit_count": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "block_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "block_uid": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "family_uid": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "features": {
+          "$ref": "#/$defs/feature_binding"
+        },
+        "forbidden_row_index_mismatch_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "manifest": {
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          },
+          "required": [
+            "path",
+            "sha256"
+          ],
+          "type": "object"
+        },
+        "matrix_manifest": {
+          "$ref": "#/$defs/matrix_manifest"
+        },
+        "matrix_shape": {
+          "items": false,
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "minimum": 1,
+              "type": "integer"
+            }
+          ],
+          "type": "array"
+        },
+        "metadata": {
+          "$ref": "#/$defs/axis_binding"
+        },
+        "observation_count": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "selector_contract": {
+          "$ref": "#/$defs/selector_contract"
+        },
+        "source_accession": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "stored_value_row_count": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "values": {
+          "$ref": "#/$defs/value_binding"
+        }
+      },
+      "required": [
+        "block_uid",
+        "block_sha256",
+        "family_uid",
+        "source_id",
+        "source_accession",
+        "adapter",
+        "manifest",
+        "biological_unit_count",
+        "observation_count",
+        "matrix_shape",
+        "stored_value_row_count",
+        "metadata",
+        "values",
+        "features",
+        "matrix_manifest",
+        "selector_contract"
+      ],
+      "type": "object"
+    },
+    "feature_binding": {
+      "additionalProperties": false,
+      "properties": {
+        "bytes": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "key_column": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "record_count": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "bytes",
+        "record_count",
+        "key_column"
+      ],
+      "type": "object"
+    },
+    "file_binding": {
+      "additionalProperties": false,
+      "properties": {
+        "bytes": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "bytes"
+      ],
+      "type": "object"
+    },
+    "matrix_manifest": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "bytes": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "path": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          },
+          "required": [
+            "path",
+            "sha256",
+            "bytes"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "path_binding": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "record_count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "record_count"
+      ],
+      "type": "object"
+    },
+    "selector_contract": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_row_index_source": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "column": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "forbidden_columns": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "kind": {
+          "enum": [
+            "keyed_value_join",
+            "metadata_ordinal_where",
+            "explicit_value_row_index"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "column",
+        "canonical_row_index_source",
+        "forbidden_columns"
+      ],
+      "type": "object"
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "value_binding": {
+      "additionalProperties": false,
+      "properties": {
+        "bytes": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "feature_key_column": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "format": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "unit_key_column": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "bytes",
+        "format",
+        "unit_key_column",
+        "feature_key_column"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://neuronsifter.local/schema/c1_rescue_observation_row_binding_manifest.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "adapter_observation_counts": {
+      "const": {
+        "parquet_long_keyed": 46,
+        "zarr_csr_ordinal": 902302,
+        "zarr_dense_indexed": 7136
+      }
+    },
+    "adapter_unit_counts": {
+      "const": {
+        "parquet_long_keyed": 46,
+        "zarr_csr_ordinal": 9,
+        "zarr_dense_indexed": 7136
+      }
+    },
+    "binding_hash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "biological_unit_count": {
+      "const": 7191
+    },
+    "block_count": {
+      "const": 8
+    },
+    "blocks": {
+      "items": {
+        "$ref": "#/$defs/block"
+      },
+      "maxItems": 8,
+      "minItems": 8,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "corpus_hash": {
+      "const": "3c9899d1704ce262801229d98fb5402f49159fb8959295d3b86600522b4ab7f1"
+    },
+    "corpus_uid": {
+      "const": "public_foundation_corpus_rescue"
+    },
+    "derivation_policy": {
+      "const": "read_only_derived_artifact_for_frozen_rescue"
+    },
+    "observation_count": {
+      "const": 909484
+    },
+    "query_domain": {
+      "$ref": "#/$defs/path_binding"
+    },
+    "row_binding_table": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/path_binding"
+        },
+        {
+          "properties": {
+            "record_count": {
+              "const": 7191
+            }
+          }
+        }
+      ]
+    },
+    "schema_version": {
+      "const": "neuronsifter-c1-observation-row-binding-v1"
+    },
+    "scope": {
+      "const": "reduced_transcriptomics_core"
+    },
+    "within_unit_aggregation_required": {
+      "const": true
+    }
+  },
+  "required": [
+    "schema_version",
+    "corpus_uid",
+    "corpus_hash",
+    "scope",
+    "derivation_policy",
+    "query_domain",
+    "row_binding_table",
+    "block_count",
+    "biological_unit_count",
+    "observation_count",
+    "adapter_unit_counts",
+    "adapter_observation_counts",
+    "within_unit_aggregation_required",
+    "blocks",
+    "binding_hash"
+  ],
+  "title": "NeuronSifter C1 observation row binding manifest V2 rescue",
+  "type": "object"
+}

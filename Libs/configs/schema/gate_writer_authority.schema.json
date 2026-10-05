@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "neuronsifter-gate-writer-authority-v1",
+  "title": "NeuronSifter canonical Gate decision",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "gate_uid",
+    "stage_uid",
+    "controller_uid",
+    "validator_uid",
+    "input_artifact_hashes",
+    "config_hash",
+    "git_commit",
+    "decision",
+    "blockers",
+    "created_at",
+    "lineage_parent"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-gate-writer-authority-v1"},
+    "gate_uid": {"type": "string", "minLength": 1},
+    "stage_uid": {"type": "string", "minLength": 1},
+    "controller_uid": {"const": "neuronsifter_orchestration_controller"},
+    "validator_uid": {"type": "string", "minLength": 1},
+    "input_artifact_hashes": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+    },
+    "config_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "git_commit": {"type": "string", "pattern": "^[a-f0-9]{40,64}$"},
+    "decision": {"enum": ["accepted", "blocked", "rejected", "not_evaluated"]},
+    "blockers": {"type": "array", "items": {"type": "object"}},
+    "created_at": {"type": "string", "format": "date-time"},
+    "lineage_parent": {"type": "string", "minLength": 1},
+    "terminal_state": {"type": "string"}
+  },
+  "additionalProperties": true
+}

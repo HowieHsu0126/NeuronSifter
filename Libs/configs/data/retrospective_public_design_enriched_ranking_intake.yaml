@@ -1,0 +1,128 @@
+retrospective_public_design_enriched_ranking_intake:
+  schema_version: neuronsifter-retrospective-public-design-enriched-ranking-intake-config-v1
+  status: authorized_for_preregistration
+  intake_uid: design_enriched_public_cns_ranking_context_completion
+  authorization:
+    mode: metadata_only
+    outcome_blind: true
+    bounded: true
+    source_count_cap: 5
+    metadata_record_cap: 150
+    per_query_cap: 25
+    independent_queue_required: true
+    parent_gate: 2_of_3
+    target: one_new_independent_decision_sensitive_group
+    stop_at_independent_decision_sensitive_groups: 3
+    stop_when_queue_exhausted: true
+  parent_state:
+    status: qualified_public_candidates_but_split_insufficient
+    accepted_records: 36
+    rejected_records: 7
+    independent_decision_sensitive_groups: 2
+    required_groups: 3
+    frozen_queue_digest: da26b83d34ee00b417bf7dcb4a75680a05add3a57f75f50b7eef09b9f67c08fd
+    refresh_queue_digest: 34db9a92c841568b7b8e26f922bac1d80cdeb6823fced6384ebf0788ae2034d4
+    prior_intake_preregistration_digest: a288c6aeecfc202ced7f9e1766a3c87973b7f279ca9b886ff38bbbe214706031
+    prior_intake_queue_digest: 9349a8a111095e19b72195aad4240f4c4ae84e311945d458c003e5e414885448
+    protected_holdout_access: 0
+  search_plan:
+    publication_date_from: "2015-01-01"
+    publication_date_to: "2026-08-27"
+    max_queries: 6
+    max_ids_per_query: 25
+    metadata_record_cap: 150
+    sort: relevance
+    queries:
+      - query_uid: disease_ipsc_compound_screen
+        query: '(("Neurodegenerative Diseases"[MeSH Terms] OR "Alzheimer Disease"[MeSH Terms] OR "Parkinson Disease"[MeSH Terms] OR "Amyotrophic Lateral Sclerosis"[MeSH Terms] OR "Huntington Disease"[MeSH Terms] OR "Rett Syndrome"[MeSH Terms]) AND "Induced Pluripotent Stem Cells"[MeSH Terms] AND ("Drug Screening Assays"[MeSH Terms] OR "High-Throughput Screening Assays"[MeSH Terms]) AND "Journal Article"[Publication Type]) NOT (Review[Publication Type] OR Comment[Publication Type] OR Editorial[Publication Type] OR Clinical Trial[Publication Type] OR Meta-Analysis[Publication Type]) AND ("2015/01/01"[Date - Publication] : "2026/08/27"[Date - Publication])'
+      - query_uid: disease_organoid_compound_screen
+        query: '(("Neurodegenerative Diseases"[MeSH Terms] OR "Alzheimer Disease"[MeSH Terms] OR "Parkinson Disease"[MeSH Terms] OR "Amyotrophic Lateral Sclerosis"[MeSH Terms]) AND "Organoids"[MeSH Terms] AND ("Drug Screening Assays"[MeSH Terms] OR "Dose-Response Relationship, Drug"[MeSH Terms]) AND "Journal Article"[Publication Type]) NOT (Review[Publication Type] OR Comment[Publication Type] OR Editorial[Publication Type] OR Clinical Trial[Publication Type] OR Meta-Analysis[Publication Type]) AND ("2015/01/01"[Date - Publication] : "2026/08/27"[Date - Publication])'
+      - query_uid: disease_neurite_intervention_comparison
+        query: '(((Alzheimer*[Title] OR Parkinson*[Title] OR amyotrophic[Title] OR ALS[Title] OR Huntington*[Title] OR Rett[Title] OR neurodegener*[Title] OR "spinal cord injury"[Title] OR "brain injury"[Title]) AND (neurite[Title] OR axon[Title] OR dendrite[Title] OR morphology[Title]) AND (drug[Title] OR compound[Title] OR treatment[Title] OR therapy[Title]) AND (versus[Title] OR comparison[Title] OR combination[Title] OR monotherapy[Title] OR "dose-response"[Title] OR screening[Title])) AND "Journal Article"[Publication Type]) NOT (Review[Publication Type] OR Comment[Publication Type] OR Editorial[Publication Type] OR Clinical Trial[Publication Type] OR Meta-Analysis[Publication Type]) AND ("2015/01/01"[Date - Publication] : "2026/08/27"[Date - Publication])'
+      - query_uid: disease_neural_activity_intervention_comparison
+        query: '(((Alzheimer*[Title] OR Parkinson*[Title] OR amyotrophic[Title] OR ALS[Title] OR Huntington*[Title] OR Rett[Title] OR epilepsy[Title] OR neurodegener*[Title]) AND (electrophysiology[Title] OR excitability[Title] OR calcium[Title] OR synaptic[Title] OR "network activity"[Title]) AND (drug[Title] OR compound[Title] OR medication[Title] OR treatment[Title] OR therapy[Title]) AND (versus[Title] OR comparison[Title] OR combination[Title] OR monotherapy[Title] OR "dose-response"[Title] OR screening[Title])) AND "Journal Article"[Publication Type]) NOT (Review[Publication Type] OR Comment[Publication Type] OR Editorial[Publication Type] OR Clinical Trial[Publication Type] OR Meta-Analysis[Publication Type]) AND ("2015/01/01"[Date - Publication] : "2026/08/27"[Date - Publication])'
+      - query_uid: neurodegeneration_combination_monotherapy
+        query: '(((Alzheimer*[Title] OR Parkinson*[Title] OR amyotrophic[Title] OR ALS[Title] OR Huntington*[Title] OR Rett[Title] OR frontotemporal[Title] OR neurodegener*[Title]) AND (combination[Title] OR monotherapy[Title] OR versus[Title]) AND (drug[Title] OR compound[Title] OR medication[Title] OR treatment[Title] OR therapy[Title])) AND "Journal Article"[Publication Type]) NOT (Review[Publication Type] OR Comment[Publication Type] OR Editorial[Publication Type] OR Clinical Trial[Publication Type] OR Meta-Analysis[Publication Type]) AND ("2015/01/01"[Date - Publication] : "2026/08/27"[Date - Publication])'
+      - query_uid: cns_injury_therapeutic_screen
+        query: '(("Spinal Cord Injuries"[MeSH Terms] OR "Brain Injuries"[MeSH Terms] OR "Peripheral Nerve Injuries"[MeSH Terms]) AND ("Drug Screening Assays"[MeSH Terms] OR "Dose-Response Relationship, Drug"[MeSH Terms]) AND ("Neurons"[MeSH Terms] OR neurite[Title] OR axon[Title] OR survival[Title]) AND "Journal Article"[Publication Type]) NOT (Review[Publication Type] OR Comment[Publication Type] OR Editorial[Publication Type] OR Clinical Trial[Publication Type] OR Meta-Analysis[Publication Type]) AND ("2015/01/01"[Date - Publication] : "2026/08/27"[Date - Publication])'
+  selection_policy:
+    source_policy: primary_public_experimental_only
+    public_access_requirement: pmc_link_required
+    required_publication_type: Journal Article
+    excluded_publication_types: [Review, Comment, Editorial, Letter, News, Meta-Analysis]
+    excluded_doi_prefixes: [10.3390/]
+    minimum_named_intervention_entities: 2
+    disease_or_injury_context_required: true
+    cns_model_or_endpoint_required: true
+    shared_control_expected: true
+    biological_replication_or_uncertainty_expected: true
+    required_design_signals:
+      - direct_head_to_head
+      - combination_vs_monotherapy
+      - dose_response
+      - multi_arm_screen
+    objective_uids:
+      electrophysiology: functional_electrophysiology_rescue_v1
+      calcium_activity: functional_calcium_activity_rescue_v1
+      cell_viability_survival: functional_cell_viability_rescue_v1
+      neurite_morphology: functional_neurite_morphology_rescue_v1
+      synaptic_phenotype: functional_synaptic_phenotype_rescue_v1
+      quantitative_pathology_phenotype: functional_pathology_phenotype_rescue_v1
+    outcome_bearing_title_terms:
+      - significant
+      - winner
+      - strongest
+      - improve
+      - mitigate
+      - rescue
+      - benefit
+      - protect
+      - increase
+      - decrease
+      - enhance
+      - reduce
+      - restore
+      - attenuate
+      - efficacy
+      - promote
+      - inhibit
+      - facilitate
+      - prevent
+      - ameliorate
+      - reverse
+    non_original_or_non_interventional_title_terms:
+      - protocol
+      - methods
+      - methodological
+      - diagnostic
+      - biomarker
+      - classification
+      - association
+      - cohort
+      - case report
+      - systematic review
+      - meta-analysis
+    ranking_order:
+      - named_intervention_entity_count
+      - design_signal_priority
+      - independent_context_diversity
+      - query_support_count
+      - public_source_completeness
+      - publication_date_recency
+      - publication_uid
+  boundaries:
+    abstracts_retrieved_before_queue_freeze: false
+    full_text_retrieved_before_queue_freeze: false
+    figures_retrieved_before_queue_freeze: false
+    supplementary_retrieved_before_queue_freeze: false
+    outcome_values_retrieved_before_queue_freeze: false
+    observed_effect_used_for_priority: false
+    p_values_used_for_priority: false
+    author_winner_statement_used_for_priority: false
+    protected_holdout_access: 0
+    existing_queue_mutation_allowed: false
+  outputs:
+    preregistration_manifest: Input/manifests/retrospective_public/design_enriched_ranking_intake_preregistration.json
+    metadata_snapshot: Input/raw/public/retrospective/design_enriched_ranking_intake/pubmed_metadata_snapshot.json
+    source_queue: Input/manifests/retrospective_public/design_enriched_ranking_intake_queue.tsv
+    intake_audit: Output/audits/retrospective_public_design_enriched_ranking_intake.json

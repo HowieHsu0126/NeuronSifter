@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/prospective-protocol-scientific-review-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "review_uid",
+    "reviewed_on",
+    "review_mode",
+    "primary_conclusion",
+    "acceptance_resolution",
+    "immutable_parent_state",
+    "formal_claim_boundary",
+    "blocking_findings",
+    "execution_authority",
+    "artifact_bindings",
+    "no_result_generation_declaration"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-prospective-protocol-scientific-review-v1"},
+    "status": {"enum": ["PROTOCOL_READY_FOR_ZERO_SHOT_EXECUTION", "PROTOCOL_NOT_FORMALLY_EXECUTABLE"]},
+    "review_uid": {"type": "string", "minLength": 1},
+    "reviewed_on": {"type": "string", "format": "date"},
+    "review_mode": {"const": "protocol_review_only"},
+    "primary_conclusion": {"type": "string", "minLength": 1},
+    "acceptance_resolution": {"type": "object"},
+    "immutable_parent_state": {"type": "object"},
+    "formal_claim_boundary": {"type": "object"},
+    "blocking_findings": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "execution_authority": {"type": "object"},
+    "artifact_bindings": {"type": "object"},
+    "no_result_generation_declaration": {"const": true}
+  }
+}

@@ -1,0 +1,6 @@
+schema_version: deployment_comparison_registry_v1
+registry_id: neuronsifter_deployment_comparisons
+entries:
+  - {deployment_uid: large_only, original_baseline_uid: large_only, comparison_role: scale_control, deployable: true, historical_evidence_hash: 7f260f7645e6c692414ad577a780cc0f77335b4039f0f2fc433b68863148a6e9}
+  - {deployment_uid: student_without_distillation, original_baseline_uid: student_without_distillation, comparison_role: distillation_control, deployable: true, historical_evidence_hash: fc2f0ddb113e7e9265959cef864ee2f5be3cfaf296085465d7d2bcab528625eb}
+  - {deployment_uid: fixed_escalation_or_no_cascade, original_baseline_uid: fixed_escalation_or_no_cascade, comparison_role: escalation_control, deployable: true, historical_evidence_hash: 4a6986e2f424c001cd27bdf91ee62f4cb58952b8624b03022be5251e57c803c3, composed_from_historical_uids: [fixed_escalation, no_escalation, no_cascade], composed_source_hashes: [4a6986e2f424c001cd27bdf91ee62f4cb58952b8624b03022be5251e57c803c3, de7f3df05b30bbf394bd22ac0c3fa24f26fa437ac088ec25a88733ac85f62825, 07769cf32b7dcbc394a860dde81d3987d2c0c3a8c9541a8d7a4e59649b69ed51]}

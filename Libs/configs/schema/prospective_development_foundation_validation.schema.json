@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/prospective-development-foundation-validation-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "passed", "blocker_count", "blockers", "foundation_status", "metadata_asset_count", "queue_lineage_count", "source_payloads_recovered", "formal_roles_assigned", "six_context_outcome_access", "training_authorized", "gpu_authorized", "protected_holdout_access", "recompute", "validation_host", "slurm_job_id", "validation_scope", "implementation_bindings"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-prospective-development-foundation-validation-v1"},
+    "status": {"enum": ["passed", "blocked"]},
+    "passed": {"type": "boolean"},
+    "blocker_count": {"type": "integer"},
+    "blockers": {"type": "array", "items": {"type": "string"}},
+    "foundation_status": {"type": ["string", "null"]},
+    "metadata_asset_count": {"type": "integer"},
+    "queue_lineage_count": {"type": "integer"},
+    "source_payloads_recovered": {"type": "integer"},
+    "formal_roles_assigned": {"type": "integer"},
+    "six_context_outcome_access": {"const": 0},
+    "training_authorized": {"const": false},
+    "gpu_authorized": {"const": false},
+    "protected_holdout_access": {"const": 0},
+    "recompute": {"type": "boolean"},
+    "validation_host": {"type": "string"},
+    "slurm_job_id": {"type": ["string", "null"]},
+    "validation_scope": {"type": "array", "items": {"type": "string"}},
+    "implementation_bindings": {"type": "object", "minProperties": 3}
+  }
+}

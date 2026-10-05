@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/prospective-development-intake-failure-taxonomy-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "adjudication_uid", "reviewed_on", "metadata_asset_count", "rejection_reason_counts", "classification_policy", "metadata_signal_counts", "modality_signal_counts", "functional_endpoint_signal_counts", "repository_family_counts", "capability_resolution", "screening_metadata_scope", "cross_repository_lineage_deduplication_complete", "semantic_exclusion_implementation_complete", "scope_boundary", "six_context_outcome_access", "protected_holdout_access", "artifact_bindings"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-prospective-development-intake-failure-taxonomy-v1"},
+    "status": {"const": "bounded_metadata_universe_no_eligible_lineage"},
+    "adjudication_uid": {"type": "string"},
+    "reviewed_on": {"type": "string"},
+    "metadata_asset_count": {"type": "integer", "minimum": 0},
+    "rejection_reason_counts": {"type": "object"},
+    "classification_policy": {"const": "first_failure_reason_per_asset"},
+    "metadata_signal_counts": {"type": "object"},
+    "modality_signal_counts": {"type": "object"},
+    "functional_endpoint_signal_counts": {"type": "object"},
+    "repository_family_counts": {"type": "object"},
+    "capability_resolution": {"type": "object"},
+    "screening_metadata_scope": {"type": "string"},
+    "cross_repository_lineage_deduplication_complete": {"const": false},
+    "semantic_exclusion_implementation_complete": {"const": false},
+    "scope_boundary": {"type": "string"},
+    "six_context_outcome_access": {"const": 0},
+    "protected_holdout_access": {"const": 0},
+    "artifact_bindings": {"type": "object"}
+  }
+}

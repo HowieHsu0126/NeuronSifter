@@ -1,0 +1,277 @@
+schema_version: neuronsifter-round22-contract-v1
+round_id: neuronsifter_round22
+final_gate: agent_twin_coevolution_evidence_resolved
+program_gate: neuronsifter_agent_twin_adaptive_evidence_resolved
+
+claim_boundary:
+  c2_b_status: blocked_insufficient_real_e2_e4
+  c2_b_recovery_artifact: Output/audits/round22_c2b_recovery_status.json
+  static_reference_immutable: true
+  public_only: true
+  simulator_or_tool_evidence_is_not_clinical_validation: true
+
+freeze:
+  required_inputs:
+    - input_id: round21_training_input_freeze
+      path: Output/audits/round21_training_input_freeze.json
+    - input_id: round21_checkpoint_catalog
+      path: Output/audits/round21_checkpoint_catalog.json
+    - input_id: round21_static_twin_evidence
+      path: Output/audits/round21_static_twin_evidence.json
+    - input_id: round21_c3_readiness
+      path: Output/audits/round21_c3_readiness.json
+    - input_id: round21_coevolution_prerequisite_status
+      path: Output/audits/round21_coevolution_prerequisite_status.json
+    - input_id: c1_neuronsifter_results
+      path: Output/paper_reports/c1_neuronsifter_results.tsv
+    - input_id: c2s_neuronsifter_results
+      path: Output/paper_reports/c2s_neuronsifter_results.tsv
+    - input_id: round21_c1_claim_gate
+      path: Output/audits/round21_c1_claim_gate.json
+    - input_id: round21_c2s_claim_gate
+      path: Output/audits/round21_c2s_claim_gate.json
+  checkpoint_selection:
+    rule: best_validation_checkpoint
+    forbidden_roles: [test, final_holdout]
+    metric_direction: minimize
+  authority_recovery:
+    recovery_id: neuronsifter_round22a
+    exact_filename_only: true
+    narrative_authority_forbidden: true
+    recovery_cutover_git_identity:
+      commit: 0df2deea6e17e8ce8b41d818d078cba389879374
+      tree: 910b45e50c002bcfc17bf9b5bda07f1fa34e086b
+    tier_a_archive_indexes: []
+    tier_b_reconstruction_manifests: []
+    git_search:
+      include_refs: true
+      include_reflogs: true
+      include_unreachable_commits: true
+      exclude_prunable_worktrees: true
+      exclude_ephemeral_filesystems: true
+    scheduler_reconciliation:
+      accounting_start_time: "2026-01-01"
+      exclusive_job_id_upper_bound: 510538
+      job_name_prefix: NrnSift_
+      expected_job_count: 648
+      expected_workdir_count: 10
+      verification_job:
+        job_id: 510538
+        expected_state: COMPLETED
+        expected_exit_code: "0:0"
+        expected_node: cpu04
+      expected_extra_workdirs:
+        - path: /share/home/anonymous/Researches/.bf3_candidates/candidate_bf3_depclosure_v4
+          expected_job_count: 2
+        - path: /share/home/anonymous/Researches/.bf3_candidates/candidate_bf3_primary_source_snapshot_v14
+          expected_job_count: 2
+      ephemeral_roots: [/tmp, /dev/shm, /var/tmp]
+      accounting_snapshot_output: Output/audits/round22a_scheduler_accounting_snapshot.json
+      output: Output/audits/round22a_scheduler_workdir_reconciliation.json
+    historical_roots:
+      - root_id: git_object_database
+        path: .
+        resolver: git_exact_path_history
+        source_classes: [git_object_database, content_addressed_store]
+        immutability_basis: git_blob_and_commit_identity
+        max_entries: 500000
+      - root_id: registered_git_worktrees
+        path: .
+        resolver: git_registered_worktrees_exact_path
+        source_classes: [historical_isolated_worktree, preserved_compute_archive]
+        immutability_basis: git_worktree_registry_and_file_bytes
+        max_entries: 10000
+      - root_id: round21_audit_archives
+        path: Output/audits
+        resolver: filesystem_exact_filename
+        source_classes: [slurm_execution_archive, immutable_output_archive]
+        immutability_basis: repository_registered_output_root_and_file_bytes
+        max_depth: 12
+        max_entries: 250000
+      - root_id: round21_paper_report_archives
+        path: Output/paper_reports
+        resolver: filesystem_exact_filename
+        source_classes: [immutable_output_archive, delivery_bundle]
+        immutability_basis: repository_registered_output_root_and_file_bytes
+        max_depth: 8
+        max_entries: 100000
+      - root_id: round21_iclr_delivery_bundles
+        path: Output/outputs/iclr2027
+        resolver: filesystem_exact_filename
+        source_classes: [delivery_bundle]
+        immutability_basis: repository_registered_delivery_root_and_file_bytes
+        max_depth: 16
+        max_entries: 250000
+      - root_id: round21_job_archives
+        path: Output/logs
+        resolver: filesystem_exact_filename
+        source_classes: [slurm_execution_archive, preserved_compute_archive]
+        immutability_basis: repository_registered_log_root_and_file_bytes
+        max_depth: 16
+        max_entries: 250000
+      - root_id: round21_result_archives
+        path: Output/results
+        resolver: filesystem_exact_filename
+        source_classes: [preserved_compute_archive]
+        immutability_basis: repository_registered_result_root_and_file_bytes
+        max_depth: 16
+        max_entries: 250000
+  output: Output/audits/round22_static_twin_freeze.json
+
+tool_outcomes:
+  output_root: Input/processed/tool_outcomes/round22
+  required_fields:
+    - state
+    - structured_action
+    - tool
+    - fidelity
+    - result
+    - uncertainty
+    - actual_runtime
+    - compute_cost
+    - wall_clock_cost
+    - failure_status
+    - tool_version
+    - provenance
+    - hidden_evaluation_role
+  formal_metadata_fields:
+    - state_uid
+    - structured_action_uid
+    - tool_version
+    - fidelity
+    - compute_cost
+    - wall_clock_cost
+    - hidden_evaluation_role
+    - result_schema_version
+    - uncertainty_schema_version
+    - result_hash_verified
+    - uncertainty_hash_verified
+    - result_observed_hash
+    - uncertainty_observed_hash
+    - hash_readback_uid
+    - formal_round22_execution
+  source_manifests:
+    - path: Input/processed/active_learning/simulation_result_manifest_al_discovery.tsv
+      role: existing_active_learning_artifact
+    - path: Input/processed/active_learning/simulation_result_manifest_al_refinement.tsv
+      role: existing_active_learning_artifact
+    - path: Input/processed/active_learning/simulation_result_manifest_al_confirmation.tsv
+      role: existing_active_learning_artifact
+  output_matrix: Output/audits/round22_tool_outcome_matrix.json
+  output_coverage: Output/audits/round22_tool_coverage.tsv
+  output_failure_catalog: Output/audits/round22_tool_failure_catalog.tsv
+  cost_model_freeze: Output/audits/round22_cost_model_freeze.json
+  cost_definitions:
+    compute_cost:
+      expression: gpu_hours*gpu_rate + cpu_hours*cpu_rate + memory_gb_hours*memory_rate
+      unit: normalized_compute_cost
+    wall_clock_cost:
+      expression: wall_seconds*wall_rate
+      unit: normalized_wall_cost
+    composite_realized_cost:
+      expression: compute_weight*compute_cost + wall_weight*wall_clock_cost + api_cost
+      unit: normalized_composite_cost
+  sensitivity_contract:
+    relative_variations: [-0.50, -0.25, 0.25, 0.50]
+    required_directions: [fixed_budget_decision_risk, fixed_risk_total_cost]
+
+c3_static:
+  rounds: 3
+  tasks_per_round: 128
+  quota:
+    exploitation: 0.40
+    exploration: 0.40
+    sentinel: 0.20
+  hidden_outcomes_visible_during_replay: false
+  holdout_evidence_path: Output/audits/dt_round18_temporal_split_audit.json
+  baselines:
+    - random
+    - fixed_cascade
+    - uncertainty_bald
+    - ps_bax
+    - mf_mes
+    - cost_aware_bo
+    - neuronsifter_static
+  oracle: full_information_oracle
+  primary_metrics:
+    - decision_risk_at_fixed_budget
+    - cost_to_fixed_target_risk
+    - top_k_retention
+    - false_elimination
+    - cumulative_regret
+    - high_fidelity_calls
+    - realized_tool_cost
+    - wall_clock_cost
+  output_results: Output/paper_reports/c3_static_acquisition_results.tsv
+  output_budget_risk: Output/paper_reports/c3_budget_risk_curves.tsv
+  output_fixed_target_cost: Output/paper_reports/c3_fixed_target_cost.tsv
+  output_tool_usage: Output/paper_reports/c3_tool_usage.tsv
+  output_failure_results: Output/paper_reports/c3_failure_results.tsv
+  gate_output: Output/audits/c3_static_agent_gate.json
+
+c4_tri:
+  calibration_split: validation_only
+  variants:
+    - raw_score_no_tri
+    - uncertainty_only
+    - calibration_only
+    - full_tri
+  metrics:
+    - risk_coverage_curve
+    - aurc
+    - false_accept
+    - accepted_precision
+    - coverage
+    - ood_performance
+    - calibration_error
+    - tool_support_risk
+    - mechanism_disagreement
+    - post_assimilation_calibration
+  coverage_floor: 0.10
+  rollback_threshold: 0.02
+  output_freeze: Output/audits/round22_tri_calibration_freeze.json
+  output_results: Output/paper_reports/c4_selective_risk_results.tsv
+  gate_output: Output/audits/c4_static_reliability_gate.json
+
+gates:
+  intermediate: static_agent_reliability_reference_resolved
+  intermediate_output: Output/audits/static_agent_reliability_reference_gate.json
+  final: agent_twin_coevolution_evidence_resolved
+  program: neuronsifter_agent_twin_adaptive_evidence_resolved
+
+coevolution:
+  comparison_matrix:
+    - static_reference
+    - agent_only
+    - twin_only
+    - full_coevolution
+    - naive_latest_batch_joint_update
+    - full_replay_joint_update
+  rounds: 3
+  output_comparison_freeze: Output/audits/coevolution_comparison_freeze.json
+  output_evidence: Output/audits/agent_twin_coevolution_evidence.json
+  output_checkpoint_lineage: Output/audits/round22_checkpoint_lineage.json
+  output_claim_scope: Output/audits/round22_claim_scope_matrix.tsv
+  output_program_gate: Output/audits/round22_program_gate.json
+  ablations:
+    - no_twin_debt
+    - no_falsifier
+    - no_evidence_quality_weighting
+    - no_replay
+    - no_calibration_preservation
+    - no_rollback
+    - no_sentinel_allocation
+    - no_failure_aware_acquisition
+  statistics:
+    confidence_interval: paired_bootstrap_95
+    bootstrap_replicates: 2000
+    bootstrap_seed: 3407
+    paired_unit: hidden_episode_by_round
+
+reproducibility:
+  output: Output/audits/round22_reproducibility_commands.json
+  resource_catalog: Output/audits/round22_resource_catalog.json
+  commands:
+    - python Libs/scripts/builders/build_round22_agent_twin_coevolution_readiness.py
+    - python Libs/scripts/validators/validate_round22_agent_twin_coevolution.py
+    - python -m pytest Libs/tests/test_round22_agent_twin_coevolution.py -q

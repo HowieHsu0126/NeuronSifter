@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/prospective-development-data-authority-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "audit_uid",
+    "reviewed_on",
+    "development_domains",
+    "role_feasibility",
+    "four_role_partition_possible",
+    "target_modality_coverage",
+    "missing_indispensable_dimensions",
+    "training_authorized",
+    "new_data_intake_authorized",
+    "six_context_outcome_access",
+    "protected_holdout_access",
+    "artifact_bindings"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-prospective-development-data-authority-v1"},
+    "status": {"enum": ["PROSPECTIVE_TRAINING_DOMAIN_QUALIFIED", "NO_INDEPENDENT_PROSPECTIVE_TRAINING_DOMAIN"]},
+    "audit_uid": {"type": "string", "minLength": 1},
+    "reviewed_on": {"type": "string", "format": "date"},
+    "development_domains": {"type": "array", "minItems": 3, "items": {"type": "object"}},
+    "role_feasibility": {"type": "object"},
+    "four_role_partition_possible": {"type": "boolean"},
+    "target_modality_coverage": {"type": "object"},
+    "missing_indispensable_dimensions": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "training_authorized": {"type": "boolean"},
+    "new_data_intake_authorized": {"type": "boolean"},
+    "six_context_outcome_access": {"const": 0},
+    "protected_holdout_access": {"const": 0},
+    "artifact_bindings": {"type": "object"}
+  }
+}

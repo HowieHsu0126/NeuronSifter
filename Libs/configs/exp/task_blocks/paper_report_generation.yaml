@@ -1,0 +1,43 @@
+task_block:
+  task_id: paper_report_generation
+  task_name: paper_report_generation
+  task_family: aggregation_and_completion_audit
+  description: Paper-grade AD-only paper_report_generation task block.
+  shell_entrypoint: Libs/scripts/experiments/run_paper_report_generation.sh
+  shell_path: Libs/scripts/experiments/run_paper_report_generation.sh
+  python_entrypoint: Libs/exp/aggregation/build_paper_grade_tables.py
+  python_path: Libs/exp/aggregation/build_paper_grade_tables.py
+  config_requirements:
+  - Libs/configs/config_stack.yaml
+  - Libs/configs/exp/paper_grade_full_suite.yaml
+  expected_inputs:
+  - per_seed_manifests
+  - aggregate_metrics
+  expected_outputs:
+  - metrics.json
+  - run_metadata.json
+  - artifact_hashes.json
+  - status.json
+  - artifact_manifest.json
+  metrics:
+  - paper_table_count
+  - completion_audit_status
+  - claim_guardrail_status
+  seeds:
+  - 40
+  - 41
+  - 42
+  - 43
+  - 44
+  resource_profile: cpu_gate
+  postrun_checks:
+  - Libs/scripts/validators/validate_paper_grade_full_suite.py --mode postrun
+  claim_guardrails:
+  - preserve_ad_only_scope
+  - preserve_G2_pass_with_warnings
+  - preserve_G5_not_passed
+  - no_general_drug_screening_claim
+  - no_direct_clinical_endpoint_prediction_claim
+  - no_private_clinical_data_training_claim
+  - no_secondary_disease_readiness_claim
+  status: ready

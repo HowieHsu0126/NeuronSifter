@@ -1,0 +1,23 @@
+config_includes:
+- config_stack.yaml
+- data/adni_controlled_access.yaml
+
+controlled_research_stack:
+  schema_version: neuronsifter-controlled-research-stack-v1
+  stack_role: explicit_controlled_research_overlay
+  entrypoint: Libs/configs/config_stack_controlled_research.yaml
+  public_entrypoint: Libs/configs/config_stack.yaml
+  controlled_config: Libs/configs/data/adni_controlled_access.yaml
+  non_public: true
+  non_paper: true
+  paper_evidence_allowed: false
+  c1_c5_evidence_allowed: false
+  explicit_invocation_required: true
+  governance_approval_required: true
+  approval_evidence_required: true
+  network_credentials_required_for_sync: true
+  fail_closed_without_approval: true
+  fail_closed_without_credentials: true
+  silent_fallback_allowed: false
+  public_fallback_allowed: false
+  synthetic_fallback_allowed: false

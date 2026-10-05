@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/prospective-development-source-recovery-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "adjudication_uid", "reviewed_on", "intake_uid", "metadata_asset_count", "metadata_eligible_count", "queue_lineage_count", "source_payloads_recovered", "empirical_action_response_units", "reason", "development_outcome_access", "six_context_outcome_access", "protected_holdout_access", "artifact_bindings"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-prospective-development-source-recovery-v1"},
+    "status": {"const": "NOT_RUN_QUEUE_EMPTY"},
+    "adjudication_uid": {"type": "string"},
+    "reviewed_on": {"type": "string"},
+    "intake_uid": {"type": "string"},
+    "metadata_asset_count": {"type": "integer", "minimum": 0},
+    "metadata_eligible_count": {"const": 0},
+    "queue_lineage_count": {"const": 0},
+    "source_payloads_recovered": {"const": 0},
+    "empirical_action_response_units": {"const": 0},
+    "reason": {"type": "string"},
+    "development_outcome_access": {"const": 0},
+    "six_context_outcome_access": {"const": 0},
+    "protected_holdout_access": {"const": 0},
+    "artifact_bindings": {"type": "object"}
+  }
+}

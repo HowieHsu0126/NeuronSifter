@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/public_foundation_corpus_g2_m1_admission_audit.schema.json",
+  "title": "NeuronSifter Public Foundation Corpus G2-M1 Admission Audit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "producer", "created_at", "audit_uid", "status", "scope",
+    "source_role_transition_count", "source_ledger_binding", "candidates",
+    "family_summary", "requalification_request_binding", "blocker_codes"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-public-foundation-corpus-g2-m1-admission-audit-v1"},
+    "producer": {"const": "Libs/scripts/builders/build_public_foundation_corpus_g2_m1_admission_audit.py"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "audit_uid": {"type": "string", "pattern": "^pfc-g2-m1-[0-9a-f]{32}$"},
+    "status": {"const": "candidate_audit_only"},
+    "scope": {"const": "reduced_transcriptomics_core"},
+    "source_role_transition_count": {"const": 0},
+    "source_ledger_binding": {"$ref": "#/$defs/fileBinding"},
+    "candidates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/candidate"}
+    },
+    "family_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cns_disease_aging_state_transcriptomics",
+        "cns_cell_type_region_atlas_transcriptomics",
+        "compound_dose_time_perturbation_transcriptomics"
+      ],
+      "properties": {
+        "cns_disease_aging_state_transcriptomics": {"$ref": "#/$defs/familySummary"},
+        "cns_cell_type_region_atlas_transcriptomics": {"$ref": "#/$defs/familySummary"},
+        "compound_dose_time_perturbation_transcriptomics": {"$ref": "#/$defs/familySummary"}
+      }
+    },
+    "requalification_request_binding": {"$ref": "#/$defs/fileBinding"},
+    "blocker_codes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fileBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "record_count"],
+      "properties": {
+        "path": {"type": "string", "pattern": "^Output/audits/[A-Za-z0-9_.-]+\\.(?:json|tsv)$"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "record_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "evidenceBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "declared_sha256", "declared_size_bytes", "exists", "current_size_bytes", "size_matches_declared", "content_checksum_reverified"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "declared_sha256": {"$ref": "#/$defs/sha256"},
+        "declared_size_bytes": {"type": "integer", "minimum": 0},
+        "exists": {"type": "boolean"},
+        "current_size_bytes": {"type": ["integer", "null"], "minimum": 0},
+        "size_matches_declared": {"type": "boolean"},
+        "content_checksum_reverified": {"const": false}
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id", "family_id", "source_id", "source_accession",
+        "publication_accession_group", "mirror_group", "phase1a_decision",
+        "candidate_kind", "audit_status", "admission_allowed", "value_evidence",
+        "metadata_evidence", "local_value_format", "local_sample_count",
+        "biological_unit_axis_status", "disease_region_axis_status",
+        "required_next_evidence", "blocker_codes"
+      ],
+      "properties": {
+        "candidate_id": {"type": "string", "pattern": "^[a-z0-9_]{3,128}$"},
+        "family_id": {"enum": ["cns_disease_aging_state_transcriptomics", "cns_cell_type_region_atlas_transcriptomics", "compound_dose_time_perturbation_transcriptomics"]},
+        "source_id": {"type": "string", "minLength": 1},
+        "source_accession": {"type": "string", "minLength": 1},
+        "publication_accession_group": {"type": "string", "minLength": 1},
+        "mirror_group": {"type": "string", "minLength": 1},
+        "phase1a_decision": {"enum": ["qualified_for_mainline", "qualified_for_weak_calibration", "qualified_as_context_prior", "deferred", "formally_excluded"]},
+        "candidate_kind": {"type": "string", "minLength": 1},
+        "audit_status": {"enum": ["candidate_audited", "not_viable", "not_materialized"]},
+        "admission_allowed": {"const": false},
+        "value_evidence": {"type": "array", "items": {"$ref": "#/$defs/evidenceBinding"}},
+        "metadata_evidence": {"type": "array", "items": {"$ref": "#/$defs/evidenceBinding"}},
+        "local_value_format": {"type": "string", "minLength": 1},
+        "local_sample_count": {"type": "integer", "minimum": 0},
+        "biological_unit_axis_status": {"type": "string", "minLength": 1},
+        "disease_region_axis_status": {"type": "string", "minLength": 1},
+        "required_next_evidence": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "blocker_codes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "familySummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_count", "candidate_audited_count", "admission_allowed_count", "status", "blocker_codes"],
+      "properties": {
+        "candidate_count": {"type": "integer", "minimum": 0},
+        "candidate_audited_count": {"type": "integer", "minimum": 0},
+        "admission_allowed_count": {"const": 0},
+        "status": {"const": "not_passed"},
+        "blocker_codes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/zero-shot-method-authority-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "review_uid",
+    "reviewed_on",
+    "historical_freeze",
+    "candidate_authority_matrix",
+    "composite_method_authority",
+    "hard_stop",
+    "formal_authority",
+    "artifact_bindings"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-zero-shot-method-authority-v1"},
+    "status": {"enum": ["FORMAL_ZERO_SHOT_CHECKPOINT_AVAILABLE", "NO_FORMAL_ZERO_SHOT_CHECKPOINT"]},
+    "review_uid": {"type": "string", "minLength": 1},
+    "reviewed_on": {"type": "string", "format": "date"},
+    "historical_freeze": {"type": "object"},
+    "candidate_authority_matrix": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "required": [
+          "component_uid",
+          "checkpoint",
+          "training",
+          "selection",
+          "code_identity",
+          "config_identity",
+          "lineage",
+          "formal_eligibility",
+          "prospective_zero_shot_eligible",
+          "blockers"
+        ]
+      }
+    },
+    "composite_method_authority": {"type": "object"},
+    "hard_stop": {"type": "object"},
+    "formal_authority": {"type": "object"},
+    "artifact_bindings": {"type": "object"}
+  }
+}

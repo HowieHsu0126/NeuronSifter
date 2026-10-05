@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "neuronsifter://schema/baseline-registry-reduction-v1",
+  "type": "object",
+  "required": ["schema_version", "registry_id", "target_cardinality", "claim_slots", "mandatory", "conditional", "upper_bounds"],
+  "properties": {
+    "schema_version": {"const": "baseline_registry_reduction_v1"},
+    "registry_id": {"type": "string"},
+    "historical_source_path": {"type": "string"},
+    "historical_source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "target_cardinality": {
+      "type": "object", "required": ["total", "mandatory", "conditional", "upper_bounds"], "additionalProperties": false,
+      "properties": {"total": {"const": 27}, "mandatory": {"const": 20}, "conditional": {"const": 5}, "upper_bounds": {"const": 2}}
+    },
+    "claim_slots": {"type": "object", "additionalProperties": {"type": "array", "items": {"type": "string"}}},
+    "mandatory": {"type": "array", "minItems": 20, "maxItems": 20, "uniqueItems": true, "items": {"$ref": "#/$defs/entry"}},
+    "conditional": {"type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true, "items": {"$ref": "#/$defs/conditional"}},
+    "upper_bounds": {"type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true, "items": {"$ref": "#/$defs/upper_bound"}}
+  },
+  "$defs": {
+    "entry": {
+      "type": "object", "required": ["baseline_uid", "display_name", "baseline_class", "claim_ids", "task_compatibility", "required_modalities", "required_action_fields", "required_trajectory_semantics", "implementation_source", "official_or_authoritative", "repository_or_package", "tag_or_commit", "checkpoint_identity", "license", "redistribution_policy", "environment", "input_adapter", "output_adapter", "tuning_space", "tuning_budget", "seed_policy", "compute_profile", "expected_artifacts", "exclusion_reason"],
+      "properties": {
+        "baseline_uid": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]*$"}, "display_name": {"type": "string"}, "baseline_class": {"enum": ["B0_naive_lower_bound", "B1_simple_strong", "B2_same_backbone_ablation", "B3_external_pretrained_model", "B4_external_task_specific_model", "B5_tool_acquisition_policy", "B6_reliability_baseline", "B7_scale_deployment_baseline", "B8_oracle_upper_bound", "B9_related_work_only"]}, "claim_ids": {"type": "array", "items": {"enum": ["C1", "C2", "C3", "C4", "C5"]}}, "task_compatibility": {"type": "string"}, "required_modalities": {"type": "array", "items": {"type": "string"}}, "required_action_fields": {"type": "array", "items": {"type": "string"}}, "required_trajectory_semantics": {"type": "array", "items": {"type": "string"}}, "implementation_source": {"type": "string"}, "official_or_authoritative": {"type": "string"}, "repository_or_package": {"type": "string"}, "tag_or_commit": {"type": "string"}, "checkpoint_identity": {"type": "string"}, "license": {"type": "string"}, "redistribution_policy": {"type": "string"}, "environment": {"type": "string"}, "input_adapter": {"type": "string"}, "output_adapter": {"type": "string"}, "tuning_space": {"type": "string"}, "tuning_budget": {"type": "string"}, "seed_policy": {"type": "string"}, "compute_profile": {"type": "string"}, "expected_artifacts": {"type": "array", "items": {"type": "string"}}, "exclusion_reason": {"type": "string"}
+      }, "additionalProperties": true
+    },
+    "conditional": {
+      "allOf": [{"$ref": "#/$defs/entry"}, {"type": "object", "required": ["activation_condition", "decision_artifact", "mandatory_when_activated", "incompatibility_proof_when_inactive", "activation_frozen_before_test"], "properties": {"activation_condition": {"type": "string", "minLength": 1}, "decision_artifact": {"type": "string", "minLength": 1}, "mandatory_when_activated": {"const": true}, "incompatibility_proof_when_inactive": {"type": "string", "minLength": 1}, "activation_frozen_before_test": {"const": true}}}],
+      "type": "object"
+    },
+    "upper_bound": {
+      "allOf": [{"$ref": "#/$defs/entry"}, {"type": "object", "required": ["deployable", "eligible_for_best_baseline_claim", "reported_in_separate_table_section"], "properties": {"baseline_class": {"const": "B8_oracle_upper_bound"}, "deployable": {"const": false}, "eligible_for_best_baseline_claim": {"const": false}, "reported_in_separate_table_section": {"const": true}}}],
+      "type": "object"
+    }
+  }
+}

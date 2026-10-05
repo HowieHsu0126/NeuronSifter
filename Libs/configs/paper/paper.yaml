@@ -1,0 +1,439 @@
+paper:
+  paths:
+    figure_dir: Docs/manuscript/Figs
+    table_dir: Docs/manuscript/Tabs
+    report_dir: Output/paper_reports
+    formal_scale_audit_path: Output/paper_reports/formal_scale_audit.json
+    main_tex_path: Docs/manuscript/main.tex
+  output_roots:
+    screening_formal_root: Output/results/dynamics_formal
+    screening_ablation_root: Output/results/dynamics_ablations
+  latex_build:
+    toolchain:
+    - tool: pdflatex
+      command: /share/home/anonymous/texlive/2025/bin/custom/pdflatex
+      args:
+      - -synctex=1
+      - -interaction=nonstopmode
+      - -file-line-error
+      - main.tex
+    - tool: bibtex
+      command: /share/home/anonymous/texlive/2025/bin/custom/bibtex
+      args:
+      - main
+    - tool: pdflatex
+      command: /share/home/anonymous/texlive/2025/bin/custom/pdflatex
+      args:
+      - -synctex=1
+      - -interaction=nonstopmode
+      - -file-line-error
+      - main.tex
+    - tool: pdflatex
+      command: /share/home/anonymous/texlive/2025/bin/custom/pdflatex
+      args:
+      - -synctex=1
+      - -interaction=nonstopmode
+      - -file-line-error
+      - main.tex
+  artifact_policy:
+    forbid_obsolete_alias_fallback: true
+    current_mainline_profiles:
+    - dynamics_mainline_ad
+    - action_conditioning_drug_identity
+    - action_conditioning_target_identity
+    - action_conditioning_scalar_exposure
+    - occupancy_shallow_reference
+    - rollout_operator_deterministic_neuronsifter
+    - rollout_operator_transolver
+    - rollout_operator_factor_coupled
+    - ad_screening_without_atlas_prior
+    - ad_screening_without_pkpd_prior
+    - ad_screening_without_tri_gate
+    - dynamics_without_local_response_heads
+  publication_claim_suite:
+    dynamics_profiles:
+    - dynamics_mainline_ad
+    - action_conditioning_drug_identity
+    - action_conditioning_target_identity
+    - action_conditioning_scalar_exposure
+    - occupancy_shallow_reference
+    - rollout_operator_deterministic_neuronsifter
+    - rollout_operator_transolver
+    - rollout_operator_factor_coupled
+    - ad_screening_without_atlas_prior
+    - ad_screening_without_pkpd_prior
+    - ad_screening_without_tri_gate
+    - dynamics_without_local_response_heads
+    secondary_benchmark_profiles:
+    - dynamics_mainline_pd
+    framework_audit_profiles:
+    - measurement_semantics_audit
+    - scaler_leakage_audit
+    - crossscale_alignment_audit
+    - dynamics_calibration_audit
+    baseline_suite_enabled: true
+    framework_audit_enabled: true
+    fsdp_smoke_enabled: true
+    controlled_access_validation_enabled: false
+    final_report_cluster_profile: publication
+    final_report_job_suffix: publication_final_report
+    final_report_commands:
+    - '{python_executable} -u Libs/scripts/reports/build_framework_hardening_audits.py --config {config_path}'
+    - '{python_executable} -u Libs/scripts/reports/build_paper_results.py --config {config_path}'
+    - '{python_executable} -u Libs/scripts/validators/validate_design_contract_coverage.py --config {config_path}'
+    - '{python_executable} -u Libs/scripts/validators/validate_publication_readiness_contracts.py --config {config_path}'
+    - '{python_executable} -u Libs/scripts/reports/compile_manuscript.py --config {config_path}'
+  publication_readiness:
+    research_positioning:
+      method_claim: occupancy_conditioned_action_interface_neuronsifter_stochastic_world_model_tri_gated_reliable_screening
+      disease_scope: ad_control
+      data_boundary: public_only_known_targets_and_compounds
+      endpoint_policy: retrospective_clinical_direction_consistency
+      prohibited_method_claims:
+      - molecular_generation
+      - analog_expansion
+      - docking_method_novelty
+      - pbpk_qsp_method_novelty
+      - treatment_recommendation
+    submission_policy:
+      draft_source: Docs/manuscript
+      venue_template_policy: migrate_after_scientific_readiness_freeze
+      readiness_freeze_date: '2026-09-06'
+      readiness_failure_policy: delay_submission_until_scientific_readiness
+      formal_result_materialization_policy:
+        fail_fast_before_main_tables: true
+        ready_result_statuses:
+        - materialized
+        required_surfaces:
+        - formal_dynamics_profiles
+        - claim_metric_catalog
+        - baseline_result_matrix
+        - ablation_result_catalog
+        - selective_risk_catalog
+      anonymous_package_contents:
+      - code
+      - configs
+      - split_manifests
+      - small_smoke_artifacts
+      excluded_package_contents:
+      - large_simulation_stores
+      - controlled_access_records
+    core_claims:
+    - claim_id: occupancy_conditioned_action_interface
+      required_holdouts:
+      - regimen_holdout
+      - target_program_holdout
+      required_outputs:
+      - occupancy_representation_ablation
+      - drug_id_conditioning_ablation
+      - target_id_conditioning_ablation
+      required_bootstrap_ci: paired_bootstrap_95
+      acceptance_delta_policy: ci_excludes_zero_and_direction_consistent
+      required_metric_families:
+      - ranking
+      - case_direction
+    - claim_id: stochastic_neuronsifter_world_model
+      required_holdouts:
+      - trajectory_random
+      - family_holdout
+      required_outputs:
+      - rollout_fidelity
+      - diffusion_vs_deterministic_ablation
+      - uq_metric_catalog
+      required_bootstrap_ci: paired_bootstrap_95
+      acceptance_delta_policy: ci_excludes_zero_and_direction_consistent
+      required_metric_families:
+      - rollout_fidelity
+      - uncertainty
+      - scaling_transfer
+    - claim_id: mechanism_expert_routing
+      required_holdouts:
+      - family_holdout
+      - source_holdout
+      required_outputs:
+      - expert_utilization
+      - router_entropy
+      - mechanism_coupling_matrix
+      - case_level_activation
+      required_bootstrap_ci: paired_bootstrap_95
+      acceptance_delta_policy: ci_excludes_zero_and_direction_consistent
+      required_metric_families:
+      - mechanism_expert
+    - claim_id: tri_gated_reliable_screening
+      required_holdouts:
+      - source_holdout
+      - target_program_holdout
+      required_outputs:
+      - selective_risk_curve
+      - risk_coverage_auc
+      - ood_routing
+      - pkpd_consistency_gate
+      required_bootstrap_ci: paired_bootstrap_95
+      acceptance_delta_policy: ci_excludes_zero_and_direction_consistent
+      required_metric_families:
+      - tri
+      - ranking
+      - case_direction
+    statistical_contract:
+      primary_interval: paired_bootstrap_95
+      bootstrap_sample_count: 2000
+      random_seed: 3407
+      acceptance_rule: claim_delta_ci_must_exclude_zero
+      direction_rule: all_primary_direction_signs_must_match
+      multiple_comparison_policy: report_claim_family_without_pvalue_mining
+    strict_splits:
+      frozen_split_manifest_root: Input/processed/simulation_audit/splits
+      split_names:
+      - trajectory_random
+      - family_holdout
+      - regimen_holdout
+      - target_program_holdout
+      - source_holdout
+      leakage_zero_tolerance_terms:
+      - trajectory_uid
+      - content_hash
+      - trajectory_family_uid
+      - regimen_uid
+      - target_program_uid
+      - source_collection
+      source_holdout_policy: isolate_training_priors_from_case_anchor_sources
+    g5_foundation_pretraining:
+      enabled: true
+      disease_scope: ad_control
+      headline_profile: neuronsifter_large
+      offline_high_fidelity_profile: neuronsifter_xl
+      high_throughput_profile: neuronsifter_student
+      store_trajectory_min_count: 1000000
+      effective_sample_gate: g5_effective_sample_gate
+      required_gate_terms:
+      - unique_trajectory_families
+      - unique_regimens
+      - unique_target_programs
+      - counterfactual_pairs
+      - qc_grade_a_b_rate
+      - teacher_uncertainty
+      - zero_split_leakage
+      - scaling_law
+      - cross_holdout_transfer
+      - downstream_gains
+      upgrade_claim_allowed_after_all_gates: staged_million_scale_foundation_pretraining
+      failure_policy: delay_submission_until_scientific_readiness
+      expansion_quota:
+        dose_schedule_regimen_grid: 0.40
+        ad_cns_evidence_gated_target_compound_catalog: 0.30
+        subtype_bbb_clearance_inflammation_ephys_profiles: 0.30
+      quota_sum: 1.00
+      regimen_expansion_axes:
+      - dose
+      - schedule
+      route_policy: core_mainstream_routes_only
+      candidate_boundary:
+        allowed_entity_scope: public_known_targets_and_compounds
+        allow_molecule_generation: false
+        allow_analog_expansion: false
+        allow_private_patient_records: false
+    model_profiles:
+      headline_model: neuronsifter_large
+      scaling_profiles:
+      - neuronsifter_xl
+      - neuronsifter_large
+      - neuronsifter_student
+      distillation_chain:
+      - teacher_profile: neuronsifter_xl
+        student_profile: neuronsifter_large
+        objective_family: trajectory_score_distillation
+      - teacher_profile: neuronsifter_large
+        student_profile: neuronsifter_student
+        objective_family: high_throughput_screening_distillation
+      efficiency_metrics:
+      - candidates_per_second
+      - gpu_hours
+      - gpu_hours_per_10k_regimens
+      - cost_per_10k_regimens
+      - accuracy_efficiency_tradeoff
+      - tri_student_error_compensation
+    metric_catalog:
+      rollout_fidelity:
+      - trajectory_rmse
+      - terminal_state_error
+      - biomarker_effect_error
+      - direction_hit
+      - rank_recovery
+      uncertainty:
+      - coverage
+      - crps
+      - nll
+      - ece
+      ranking:
+      - target_ndcg
+      - regimen_ndcg
+      - ranking_stability
+      - route_ordering_hit
+      tri:
+      - selective_risk
+      - risk_coverage_auc
+      - aurc
+      - ood_auroc
+      - pkpd_consistency
+      mechanism_expert:
+      - expert_utilization
+      - router_entropy
+      - species_attribution
+      - mechanism_coupling_matrix
+      - score_norm_by_expert
+      - uncertainty_by_expert
+      - case_level_activation
+      case_direction:
+      - positive_control_rank
+      - negative_control_downweight
+      - stage_specific_rank_shift
+      - route_dose_schedule_ordering
+      - tri_rejection_of_high_raw_score_low_reliability
+      scaling_transfer:
+      - scaling_slope
+      - cross_holdout_transfer_delta
+      - downstream_gain_delta
+    baseline_grid:
+      result_table_layout: horizontal_wide_main_text
+      baselines:
+      - baseline_id: external_evidence_only
+        family: evidence_only
+        conditioning: external_evidence_scores
+      - baseline_id: drug_id_conditioned_neuronsifter
+        family: action_ablation_same_backbone
+        conditioning: drug_id
+      - baseline_id: target_id_conditioned_neuronsifter
+        family: action_ablation_same_backbone
+        conditioning: target_id
+      - baseline_id: scalar_exposure_conditioned_neuronsifter
+        family: action_ablation_same_backbone
+        conditioning: scalar_exposure
+      - baseline_id: occupancy_only_shallow_model
+        family: shallow_occupancy_baseline
+        conditioning: occupancy_program
+      - baseline_id: transolver_microenvironment_operator
+        family: neural_operator_ablation
+        conditioning: occupancy_program
+      - baseline_id: factor_coupled_neural_operator
+        family: neural_operator_ablation
+        conditioning: occupancy_program
+      - baseline_id: deterministic_neuronsifter
+        family: stochasticity_ablation
+        conditioning: occupancy_program
+      - baseline_id: diffusion_pde_adapter
+        family: external_neural_operator_reference
+        conditioning: occupancy_program
+      - baseline_id: wdno_adapter
+        family: external_neural_operator_reference
+        conditioning: occupancy_program
+      - baseline_id: coda_no_adapter
+        family: external_neural_operator_reference
+        conditioning: occupancy_program
+      - baseline_id: mamba_neural_operator_adapter
+        family: external_neural_operator_reference
+        conditioning: occupancy_program
+      - baseline_id: full_neuronsifter_large
+        family: project_native_mainline
+        conditioning: occupancy_program
+      action_ablation_policy:
+        shared_backbone: neuronsifter_large
+        replacement_axis:
+        - drug_id
+        - target_id
+        - scalar_exposure
+        - occupancy_program
+    tri_calibration:
+      threshold_source_split: validation
+      test_policy: evaluate_only_no_threshold_refit
+      source_holdout_policy: evaluate_only_no_threshold_refit
+      required_terms:
+      - trajectory_uncertainty
+      - ranking_stability
+      - coverage
+      - ood_risk
+      - pkpd_consistency
+    report_outputs:
+      report_dir: Output/paper_reports
+      required_artifacts:
+      - measurement_semantics_audit.json
+      - scaler_leakage_audit.json
+      - dynamics_calibration_audit.json
+      - crossscale_alignment_audit.json
+      - claim_metric_catalog.tsv
+      - baseline_result_matrix.tsv
+      - ablation_result_catalog.tsv
+      - selective_risk_catalog.tsv
+      - g5_effective_sample_audit.json
+      - scaling_transfer_summary.json
+      - scale_registry_audit.json
+      - scale_consistency_summary.json
+      - distillation_summary.json
+      - teacher_mixture_summary.json
+      - fsdp_smoke_summary.json
+      - gpu_stochastic_smoke_summary.json
+      - foundation_readiness_gate.json
+      - figure_manifest.json
+      - claim_discipline_audit.json
+      - active_learning_loop_summary.json
+      - active_learning_empirical_gap_audit.json
+      controlled_access_optional_artifacts:
+      - adni_controlled_bundle_pointer.json
+      - adni_state_inference_summary.json
+      - adni_longitudinal_validation_summary.json
+      - adni_missing_modality_robustness.json
+      - adni_world_state_factor_anchoring.json
+      - adni_posterior_calibration_summary.json
+    hardening_gates:
+      measurement_semantics_registry:
+        require_registry_catalog: true
+        require_sample_semantics_coverage: true
+        require_world_state_semantics_coverage: true
+      scaler_leakage:
+        require_bundle_scaler_artifacts: true
+        require_inverse_transform_artifacts: true
+        leakage_guard: heldout_rows_never_used_for_fit
+      dynamics_calibration:
+        require_provisional_main_dynamics_label: true
+        require_teacher_loss_weight_audit: true
+        require_external_calibration_claim_only_when_validated: true
+      crossscale_alignment:
+        require_paired_anchor_count: true
+        require_weak_anchor_distinction: true
+        require_registry_level_alignment_only_for_weak_sources: true
+      output_schemas:
+        claim_metric_catalog: publication_claim_metric_fields
+        baseline_result_matrix: publication_baseline_result_fields
+        ablation_result_catalog: publication_ablation_result_fields
+        selective_risk_catalog: publication_selective_risk_fields
+        figure_manifest: publication_figure_manifest_fields
+    manuscript_plan:
+      table_layout_policy: horizontal_wide_main_text
+      figures:
+      - figure_id: system_overview
+        output_name: publication_system_overview
+        claim_link: occupancy_conditioned_action_interface
+      - figure_id: rollout_fidelity
+        output_name: publication_rollout_fidelity
+        claim_link: stochastic_neuronsifter_world_model
+      - figure_id: occupancy_ablation
+        output_name: publication_occupancy_ablation
+        claim_link: occupancy_conditioned_action_interface
+      - figure_id: tri_risk_coverage
+        output_name: publication_tri_risk_coverage
+        claim_link: tri_gated_reliable_screening
+      - figure_id: expert_diagnostics
+        output_name: publication_expert_diagnostics
+        claim_link: mechanism_expert_routing
+      - figure_id: g5_scaling_transfer
+        output_name: publication_g5_scaling_transfer
+        claim_link: stochastic_neuronsifter_world_model
+      - figure_id: ad_directional_case_matrix
+        output_name: publication_ad_directional_case_matrix
+        claim_link: tri_gated_reliable_screening
+      tables:
+      - table_id: full_baseline_matrix
+        output_name: publication_full_baseline_matrix
+      - table_id: claim_metric_matrix
+        output_name: publication_claim_metric_matrix
+      - table_id: selective_risk_matrix
+        output_name: publication_selective_risk_matrix

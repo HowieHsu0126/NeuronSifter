@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Restricted C2 baseline qualification",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "status",
+    "qualification_scope",
+    "formal_challenge_started",
+    "challenge_thresholds_frozen",
+    "headline_training_started",
+    "controlled_access_count",
+    "execution",
+    "blockers"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-restricted-c2-baseline-qualification"},
+    "status": {"enum": ["passed", "failed"]},
+    "qualification_scope": {"const": "train_validation_adapter_smoke_only"},
+    "claim_scope": {"const": "simulator_grounded_c2_restricted"},
+    "domain_uid": {"type": "string", "minLength": 1},
+    "trajectory_store": {
+      "type": "object",
+      "required": ["declared_path", "store_hash", "shape", "chunks"]
+    },
+    "split_access": {
+      "type": "object",
+      "required": [
+        "train_trajectory_count",
+        "validation_trajectory_count",
+        "final_holdout_trajectory_count_declared",
+        "final_holdout_prediction_materialized",
+        "final_holdout_metrics_computed",
+        "validation_used_for_tuning"
+      ]
+    },
+    "adapters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "baseline_uid",
+          "implementation_source",
+          "qualification_status",
+          "validation_only",
+          "prediction_shape",
+          "validation_mse",
+          "validation_prediction_sha256"
+        ]
+      }
+    },
+    "formal_challenge_started": {"const": false},
+    "challenge_thresholds_frozen": {"const": false},
+    "headline_training_started": {"const": false},
+    "controlled_access_count": {"const": 0},
+    "execution": {"type": "object"},
+    "input_bindings": {"type": "object"},
+    "artifact_manifest": {"type": "array", "items": {"type": "string"}},
+    "blockers": {"type": "array"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "passed"}}},
+      "then": {
+        "required": [
+          "claim_scope",
+          "domain_uid",
+          "trajectory_store",
+          "split_access",
+          "adapters",
+          "input_bindings",
+          "artifact_manifest"
+        ]
+      }
+    }
+  ]
+}

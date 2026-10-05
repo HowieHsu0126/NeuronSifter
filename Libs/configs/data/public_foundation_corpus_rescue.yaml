@@ -1,0 +1,265 @@
+public_foundation_corpus_rescue:
+  contract_version: '2.0.0-rescue.1'
+  corpus_uid: public_foundation_corpus_rescue
+  parent_corpus:
+    corpus_uid: public_foundation_corpus_v1
+    identity_hash: 06ae88daf3c44be2c2bb96e51c939554e160b205138ec96f471adb5d82eee791
+    evidence_bundle_path: Output/audits/public_foundation_corpus_evidence_bundle.json
+    evidence_bundle_sha256: 8c2c59b0280158bade6446d20051fa7d25b13f09d6dd89f1764104b4d6aedd1e
+    canonical_blocks_path: Output/audits/public_foundation_corpus_canonical_observation_blocks.json
+    canonical_blocks_sha256: bba711ddcb49a769081f10036afe6a5c3566140e24472f9d8ab92a6933fe6614
+    frozen_splits_path: Output/audits/public_foundation_corpus_frozen_splits.json
+    frozen_splits_sha256: b3d759555e09f3c0b8e5ceb8e3dae20464366a0e5169b344491ca8be8bcfb1ff
+    leakage_audit_path: Output/audits/public_foundation_corpus_leakage_audit.json
+    leakage_audit_sha256: 3cce650b2eb2b02e3680801846e4fc0049664559c205edf85fdad9406aa85039
+    qualified_action_subset_path: Output/audits/c1_qualified_action_subset_manifest.json
+    qualified_action_subset_sha256: 23e2f386a256c80466a3302802c04e4cdd419a307db3abb09ddbb8ba5d647207
+    student_smoke_result_path: Output/results/c1/runs/student_b8_atlas_20260722_v1/run_result.json
+    student_smoke_result_sha256: 8b2071247ababbbdbbd90200fdd8765bef8a11aacca771f40c77f6a37b946989
+
+  rescue_contract:
+    minimum_task_family_count: 2
+    minimum_holdout_family_count: 2
+    minimum_cross_source_anchor_count: 1
+    minimum_perturbation_transfer_anchor_count: 1
+    allowed_decisions:
+    - rescue_feasible
+    - pivot_to_c2_recommended
+    - blocked_external_dependency
+    grade_roles:
+      A: main_training
+      B: main_training
+      C: weak_calibration
+      D: reject
+      S: stress_test_only
+    forbidden_mainline_roles:
+    - weak_calibration
+    - context_prior
+    - deferred
+    - controlled
+    - migration_only
+    synthetic_observation_coverage_allowed: false
+
+  paths:
+    raw_root: Input/raw/public_foundation_corpus_rescue
+    canonical_root: Input/canonical/public_foundation_corpus_rescue
+    split_root: Input/canonical/public_foundation_corpus_rescue/splits/reduced_transcriptomics_core_v2
+    audit_root: Output/audits
+
+  frozen_evidence_snapshots:
+    controlled_isolation:
+      path: Output/audits/c1_rescue_frozen_controlled_isolation_snapshot.json
+      bytes: 7536
+      sha256: 01be0dd4379b076e13c3c1c00bb4d7bfb51317f4f78744c4f838e1eee314545e
+      live_path: Output/audits/public_mainline_isolation_audit.json
+      live_supersession_policy: require_pass_and_zero_controlled_reachability
+
+  candidates:
+    gse262992:
+      candidate_uid: perturbation_geo_gse262992_dexamethasone
+      source_id: geo
+      source_accession: GSE262992
+      family_id: compound_dose_time_perturbation_transcriptomics
+      publication_accession_group: geo::GSE262992
+      mirror_group: geo::GSE262992
+      official_release: Public on Mar 20 2026
+      official_series_url: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE262992
+      soft_url: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE262992&targ=self&form=text&view=full
+      raw_archive_url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE262nnn/GSE262992/suppl/GSE262992_RAW.tar
+      raw_filelist_url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE262nnn/GSE262992/suppl/filelist.txt
+      series_matrix_url: https://ftp.ncbi.nlm.nih.gov/geo/series/GSE262nnn/GSE262992/matrix/GSE262992_series_matrix.txt.gz
+      terms_url: https://www.ncbi.nlm.nih.gov/geo/info/download.html
+      expected_raw_archive_bytes: 40038400
+      expected_raw_archive_sha256: 052e6f371a73f714f74ec268dd6de45fdf7e1711994f7cd1be6976763abfb59d
+      expected_sample_count: 12
+      expected_replicates_per_condition: 3
+      admitted_conditions:
+        control:
+          sample_accessions: [GSM8182839, GSM8182840, GSM8182841]
+          action_status: not_applicable_control
+        dexamethasone:
+          sample_accessions: [GSM8182842, GSM8182843, GSM8182844]
+          action_status: qualified_action_candidate
+          canonical_agent_name: dexamethasone
+          compound_uid: pubchem:5743
+          inchi_key_prefix: UREBDLICKHMUKA
+          dose_value: 1.0
+          dose_unit: uM
+          duration: 72.0
+          duration_unit: h
+          schedule: continuous_72h
+          route: in_vitro_media
+      quarantined_conditions:
+      - bmp4_only
+      - dexamethasone_plus_bmp4
+      qc_grade_candidate: B
+      qc_grade_rationale: >-
+        The official GEO release provides complete FPKM matrices and three declared
+        replicates per condition, but donor and biological-versus-technical replicate
+        identity are unavailable. Replicates are aggregated to one condition unit.
+      biological_unit_policy:
+        unit_type: independent_condition
+        replicate_policy: median_aggregate_declared_replicates
+        effective_sample_size: 2
+      region_ontology_id: UBERON:0002421
+      cns_context_class: hippocampal_neural_stem_cell_model
+
+    e_mtab_6772_controls:
+      candidate_uid: perturbation_arrayexpress_e_mtab_6772_controls_v2
+      source_id: arrayexpress
+      source_accession: E-MTAB-6772
+      block_variant: controls_v2
+      parent_source_accession: E-MTAB-6772
+      family_id: compound_dose_time_perturbation_transcriptomics
+      publication_accession_group: doi:10.1007/s13311-019-00754-z::E-MTAB-6772
+      mirror_group: arrayexpress::E-MTAB-6772
+      parent_v1_block_manifest: Input/canonical/public_foundation_corpus_v1/blocks/arrayexpress/E-MTAB-6772/f0ac1bb93ac4168d/block_manifest.json
+      parent_v1_block_sha256: f0ac1bb93ac4168d1ef9d9f34a0e8db5bb4684b7d71277748282604a4de803c9
+      observation_role: qualified_non_action_control_context_candidate
+      expected_control_sample_count: 6
+      qc_grade_candidate: B
+      biological_unit_policy:
+        unit_type: declared_control_specimen
+        replicate_policy: preserve_declared_samples_without_inventing_mouse_ids
+        effective_sample_size: 6
+      region_ontology_id: UBERON:0002421
+
+  split_policy:
+    deterministic_seed: neuronsifter-public-foundation-corpus-v2-split-20260722
+    validation_group_fraction: 0.2
+    actionless_control_policy: train_context_only
+    nested_split_order:
+    - source_holdout
+    - publication_accession_holdout
+    - family_holdout
+    - regimen_holdout
+    - target_program_holdout
+    required_zero_overlap_keys:
+    - canonical_uid
+    - content_hash
+    - family_uid
+    - regimen_uid
+    - target_program_proxy
+    - source_holdout_role
+    adversarial_leakage_injection_required: true
+
+  storage_policy:
+    decimal_byte_cap: 1000000000000
+    expected_increment_upper_bound_bytes: 250000000
+
+  rescue_feasibility:
+    contract_version: neuronsifter-c1-rescue-feasibility-v1
+    required_task_family_count: 2
+    required_holdout_family_count: 2
+    required_cross_source_anchor_count: 1
+    required_perturbation_transfer_anchor_count: 1
+    selected_option_id: V2-A
+    counted_task_families:
+    - atlas_representation_transfer
+    - perturbation_action_transfer
+    counted_holdout_families:
+    - family_holdout
+    - source_publication_holdout
+    additional_structural_holdouts:
+    - regimen_holdout
+    required_headline_capabilities:
+    - validation_checkpoint_selection
+    - linear_probe
+    - few_shot_evaluation
+    - retrieval_evaluation
+    - shortcut_diagnostics
+    - paired_bootstrap_statistics
+    - baseline_runner
+    - report_builder
+    candidate_audit:
+      gse262992:
+        candidate_uid: perturbation_geo_gse262992_dexamethasone
+        evidence_kind: sealed_rescue_block
+        block_uid: pfc_geo_gse262992_dex_control_rescue
+        official_source: NCBI GEO
+        official_accession: GSE262992
+        official_release: Public on Mar 20 2026
+        license_terms_status: public_terms_snapshot_verified
+        training_role_compatibility: qualified_for_mainline
+        metadata_completeness: complete_for_condition_level_aggregation
+        biological_unit_definition: median_aggregated_declared_condition
+        expected_grade: B
+        expected_ess: 2
+        task_family_enabled: perturbation_action_transfer
+        holdout_family_enabled: source_publication_holdout
+        cross_source_anchor_potential: qualified_dexamethasone_anchor
+        action_linkage_potential: qualified_one_action
+        parser_availability: implemented_and_materialized
+        implementation_cost: completed
+        scientific_risk: donor_and_replicate_identity_unavailable_condition_level_only
+        decision: admitted_rescue
+      e_mtab_6772_controls:
+        candidate_uid: perturbation_arrayexpress_e_mtab_6772_controls_v2
+        evidence_kind: sealed_rescue_block
+        block_uid: pfc_arrayexpress_e_mtab_6772_controls_rescue
+        official_source: EMBL-EBI ArrayExpress
+        official_accession: E-MTAB-6772
+        official_release: existing V1-qualified public release
+        license_terms_status: public_with_attribution_snapshot_verified
+        training_role_compatibility: qualified_non_action_control_context
+        metadata_completeness: complete_for_declared_control_samples
+        biological_unit_definition: declared_control_specimen
+        expected_grade: B
+        expected_ess: 6
+        task_family_enabled: perturbation_action_transfer_context_only
+        holdout_family_enabled: none_independently
+        cross_source_anchor_potential: none_same_study_as_v1_treated_block
+        action_linkage_potential: not_applicable_control
+        parser_availability: implemented_and_materialized
+        implementation_cost: completed
+        scientific_risk: same_underlying_accession_as_v1_treated_block
+        decision: admitted_context_not_independent
+      e_geod_26972:
+        candidate_uid: disease_arrayexpress_e_geod_26972
+        evidence_kind: migration_input_only
+        block_uid: migration_arrayexpress_e_geod_26972_f9ab61a1bf2c
+        official_source: EMBL-EBI ArrayExpress
+        official_accession: E-GEOD-26972
+        official_release: legacy public snapshot
+        license_terms_status: source_license_pending_accession_requalification
+        training_role_compatibility: migration_input_only
+        metadata_completeness: partial_subject_identity_unavailable
+        biological_unit_definition: unresolved_specimen
+        expected_grade: C
+        expected_ess: 0
+        task_family_enabled: none_without_requalification
+        holdout_family_enabled: none_without_requalification
+        cross_source_anchor_potential: disease_label_candidate_only
+        action_linkage_potential: not_applicable
+        parser_availability: migration_parser_only
+        implementation_cost: medium_requalification_and_canonicalization
+        scientific_risk: partial_gene_mapping_and_unresolved_independence_unit
+        decision: rejected_from_v2_mainline
+    options:
+      V2-A:
+        option_name: minimal
+        status: selected_and_materialized
+        new_sources_accessions:
+        - geo:GSE262992
+        reused_accession_context:
+        - arrayexpress:E-MTAB-6772:controls_v2
+        new_canonical_blocks:
+        - pfc_geo_gse262992_dex_control_rescue
+        - pfc_arrayexpress_e_mtab_6772_controls_rescue
+        new_expected_observations: 8
+        new_expected_ess: 8
+        new_task_families:
+        - perturbation_action_transfer
+        reachable_task_families:
+        - atlas_representation_transfer
+        - perturbation_action_transfer
+        reachable_holdout_families:
+        - family_holdout
+        - source_publication_holdout
+        new_actions: 1
+        new_cross_source_anchors: 1
+        new_parsers:
+        - GSE262992_FPKM_condition_aggregator
+        - E-MTAB-6772_control_context_reconstructor
+        license_risk: low_internal_training_with_attribution
+        estimated_scientific_sufficiency: minimum_contract_reachable_with_low_ess_caveat

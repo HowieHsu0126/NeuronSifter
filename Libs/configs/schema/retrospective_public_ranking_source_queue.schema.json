@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/retrospective-public-ranking-source-queue-v1.json",
+  "title": "NeuronSifter outcome-blind ranking-informative public source queue audit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "queue_path", "queue_digest", "record_count",
+    "priority_order", "ranking_informativeness_priors", "outcome_values_used_for_priority",
+    "observed_effect_used_for_priority", "p_values_used_for_priority",
+    "abstract_outcome_claims_used_for_priority", "current_live_web_search_used_for_formal_evidence",
+    "protected_holdout_access", "formal_evidence_admitted", "next_action", "records"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-retrospective-public-ranking-source-queue-v1"},
+    "status": {"const": "ranking_informative_queue_frozen"},
+    "queue_path": {"type": "string", "minLength": 1},
+    "queue_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "record_count": {"type": "integer", "minimum": 1},
+    "priority_order": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "ranking_informativeness_priors": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "outcome_values_used_for_priority": {"const": false},
+    "observed_effect_used_for_priority": {"const": false},
+    "p_values_used_for_priority": {"const": false},
+    "abstract_outcome_claims_used_for_priority": {"const": false},
+    "current_live_web_search_used_for_formal_evidence": {"const": false},
+    "protected_holdout_access": {"const": 0},
+    "formal_evidence_admitted": {"const": 0},
+    "next_action": {"const": "materialize_sources_in_priority_order_and_qualify_immediately"},
+    "created_at": {"type": "string", "minLength": 1},
+    "records": {"type": "array", "minItems": 1, "items": {"type": "object"}}
+  }
+}

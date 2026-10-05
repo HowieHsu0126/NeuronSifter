@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "neuronsifter-agent-in-digital-twin-development-v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["agent_in_digital_twin"],
+  "properties": {
+    "agent_in_digital_twin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "mode", "formal_evidence_gate", "publication_claim_eligible", "protected_holdout_access", "scientific_task", "mainline_operator", "belief_invariant", "controller", "memory", "mcp_trust_boundaries", "tool_selection", "intervention_objective", "coevolution", "development_smoke", "engineering_closure"],
+      "properties": {
+        "schema_version": {"const": "neuronsifter-agent-in-digital-twin-development-v1"},
+        "mode": {"const": "development_only"},
+        "formal_evidence_gate": {"const": "BLOCKED_REQUIRES_EXTERNAL_MULTI_ARM_FUNCTIONAL_OUTCOMES"},
+        "publication_claim_eligible": {"const": false},
+        "protected_holdout_access": {"const": 0},
+        "scientific_task": {"const": "closed_loop_cns_intervention_optimization"},
+        "mainline_operator": {"const": "neuronsifter_world_action"},
+        "belief_invariant": {"type": "object", "additionalProperties": false, "required": ["fields", "hidden_scientific_state_from_memory"], "properties": {"fields": {"type": "array", "minItems": 5, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}, "hidden_scientific_state_from_memory": {"const": 0}}},
+        "controller": {"type": "object", "additionalProperties": false, "required": ["max_rounds", "tool_budget", "stop_on_insufficient_evidence", "reflection_format", "raw_hidden_reasoning_persistence"], "properties": {"max_rounds": {"type": "integer", "minimum": 1}, "tool_budget": {"type": "integer", "minimum": 0}, "stop_on_insufficient_evidence": {"const": true}, "reflection_format": {"const": "structured_summary_only"}, "raw_hidden_reasoning_persistence": {"const": false}}},
+        "memory": {"type": "object", "additionalProperties": false, "required": ["layers", "twin_belief_is_separate", "invalidation_required"], "properties": {"layers": {"const": ["working", "episodic", "semantic", "procedural"]}, "twin_belief_is_separate": {"const": true}, "invalidation_required": {"const": true}}},
+        "mcp_trust_boundaries": {"type": "array", "minItems": 6, "uniqueItems": true},
+        "tool_selection": {"type": "object", "additionalProperties": false, "required": ["action_type", "objective", "proxy_allowed", "proxy_label_required"], "properties": {"action_type": {"const": "information_action"}, "objective": {"type": "string", "minLength": 1}, "proxy_allowed": {"const": true}, "proxy_label_required": {"const": true}}},
+        "intervention_objective": {"type": "object", "additionalProperties": false, "required": ["uncertainty_weight", "safety_weight", "cost_weight", "violation_weight", "support_weight"], "properties": {"uncertainty_weight": {"type": "number", "minimum": 0}, "safety_weight": {"type": "number", "minimum": 0}, "cost_weight": {"type": "number", "minimum": 0}, "violation_weight": {"type": "number", "minimum": 0}, "support_weight": {"type": "number", "minimum": 0}}},
+        "coevolution": {"type": "object", "additionalProperties": false, "required": ["sequential_rounds", "variants", "rollback_enabled", "minimum_old_domain_retention", "maximum_calibration_drift"], "properties": {"sequential_rounds": {"type": "integer", "minimum": 3}, "variants": {"type": "array", "minItems": 4, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}, "rollback_enabled": {"const": true}, "minimum_old_domain_retention": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}, "maximum_calibration_drift": {"type": "number", "minimum": 0}}},
+        "development_smoke": {"type": "object", "additionalProperties": false, "required": ["output_root", "development_only", "publication_claim_eligible"], "properties": {"output_root": {"type": "string", "pattern": "^(?!/).+"}, "development_only": {"const": true}, "publication_claim_eligible": {"const": false}}},
+        "engineering_closure": {"type": "object", "additionalProperties": false, "required": ["schema_version", "required_scenarios", "replay_rounds", "authoritative_status", "formal_real_world_action", "formal_agent_in_twin", "formal_coevolution", "output_root", "audit_path", "development_only", "publication_claim_eligible"], "properties": {"schema_version": {"const": "neuronsifter-agent-in-twin-engineering-closure-v1"}, "required_scenarios": {"type": "array", "minItems": 8, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}, "replay_rounds": {"type": "integer", "minimum": 3}, "authoritative_status": {"const": "ENGINEERING_READY_AWAITING_EXTERNAL_THERAPEUTIC_EVIDENCE"}, "formal_real_world_action": {"const": "not_qualified"}, "formal_agent_in_twin": {"const": "not_qualified"}, "formal_coevolution": {"const": "not_qualified"}, "output_root": {"type": "string", "pattern": "^(?!/).+"}, "audit_path": {"type": "string", "pattern": "^(?!/).+"}, "development_only": {"const": true}, "publication_claim_eligible": {"const": false}}}
+      }
+    }
+  }
+}

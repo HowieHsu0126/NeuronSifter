@@ -1,0 +1,93 @@
+trajectory_action_registry_c2r:
+  contract_version: neuronsifter-c2r-trajectory-action-qualification-v1
+  registry_uid: trajectory_action_registry_v2
+  qualification_only: true
+  training_permitted: false
+  immutable_inputs:
+    - corpus_uid: public_foundation_corpus_v1
+      identity_hash: 06ae88daf3c44be2c2bb96e51c939554e160b205138ec96f471adb5d82eee791
+      evidence_bundle_path: Output/audits/public_foundation_corpus_evidence_bundle.json
+    - corpus_uid: public_foundation_corpus_rescue
+      identity_hash: 3c9899d1704ce262801229d98fb5402f49159fb8959295d3b86600522b4ab7f1
+      evidence_bundle_path: Output/audits/public_foundation_corpus_rescue_evidence_bundle.json
+  inputs:
+    c2_trajectory_authority_path: Output/audits/c2_trajectory_authority.json
+    c2_action_coverage_path: Output/audits/c2_action_coverage.json
+    c2_structured_action_audit_path: Output/audits/c2_structured_action_audit.json
+    c2_holdout_reachability_path: Output/audits/c2_holdout_reachability.json
+    c2_preflight_path: Output/audits/c2_preflight.json
+    c2_g4_validation_path: Output/audits/c2_g4_validation.json
+    c2_gate_summary_path: Output/paper_reports/c2_gate_summary.json
+    trajectory_qc_catalog_path: Input/processed/simulation_audit/simulation_qc_catalog.tsv
+    regimen_catalog_path: Input/processed/action_ready/regimen_catalog.tsv
+    osp_pbpk_catalog_path: Input/processed/full_microenvironment_teacher_ready/pbpk_rollout_catalog.tsv
+    neuron_rxd_catalog_path: Input/processed/full_microenvironment_teacher_ready/neuron_rxd_protocol_catalog.tsv
+    source_model_catalog_path: Input/processed/full_microenvironment_teacher_ready/source_model_catalog.tsv
+    public_action_catalog_path: Output/audits/public_foundation_corpus_rescue_structured_action_catalog.json
+  candidate_domains:
+    legacy_full_microenvironment:
+      simulator_family_uid: full_microenvironment_teacher
+      equation_identity: repository_full_microenvironment_operator_splitting
+      numerical_solver: repository_configured_dynamics_fields
+      parameter_lineage: generated_parameter_profile_uid
+      independence_level: shared_lineage
+    legacy_mesoscopic:
+      simulator_family_uid: mesoscopic_solver_teacher
+      equation_identity: repository_mesoscopic_cns_transport_dynamics
+      numerical_solver: repository_configured_dynamics_fields
+      parameter_lineage: generated_parameter_profile_uid
+      independence_level: shared_lineage
+    osp_pbpk:
+      simulator_family_uid: osp_pksim_model_library
+      equation_identity: OSP_PKSim_PBPK_model
+      numerical_solver: OSP_PKSim
+      parameter_lineage: public_osp_model_file_plus_repository_adapter
+      independence_level: independent
+    neuron_rxd:
+      simulator_family_uid: modeldb_allen_neuron_rxd
+      equation_identity: NEURON_RxD_biophysical_cell_model
+      numerical_solver: NEURON_RxD
+      parameter_lineage: public_ModelDB_model_plus_repository_coupling
+      independence_level: independent
+  real_observation_candidates:
+    - candidate_uid: clue_touchstone_npc_neu_static_perturbation
+      block_manifest_path: Input/canonical/public_foundation_corpus_v1/blocks/clue_lincs/NPC_NEU_TRT_CP/5e51623d38597355/block_manifest.json
+      baseline_status: time_matched_vehicle_controls_not_same_unit_pre_action_baseline
+      trajectory_status: static_condition_signature_not_longitudinal_trajectory
+    - candidate_uid: arrayexpress_e_mtab_6772_pantethine_endpoint
+      block_manifest_path: Input/canonical/public_foundation_corpus_v1/blocks/arrayexpress/E-MTAB-6772/f0ac1bb93ac4168d/block_manifest.json
+      baseline_status: vehicle_controls_lineage_only_not_observed_pre_action_state
+      trajectory_status: treatment_endpoint_not_longitudinal_trajectory
+    - candidate_uid: geo_gse262992_dexamethasone_endpoint
+      block_manifest_path: Input/canonical/public_foundation_corpus_rescue/blocks/geo/GSE262992/b3da1aaeebb91094/block_manifest.json
+      baseline_status: matched_control_condition_not_same_unit_pre_action_baseline
+      trajectory_status: one_72_hour_post_action_endpoint_not_longitudinal_trajectory
+  action_contract:
+    required_physical_fields:
+      - action_uid
+      - intervention_type
+      - agent_set
+      - target_set_or_explicit_unknown
+      - dose_value
+      - dose_unit
+      - duration
+      - schedule
+      - route_or_explicit_not_applicable
+      - source_publication_or_model_provenance
+    observed_exposure_or_occupancy_reference_required_for_headline: true
+    bootstrap_prior_is_observed_provenance: false
+  entry_requirements:
+    independent_dynamics_domains: 2
+    strict_action_holdout: true
+    strict_trajectory_or_simulator_holdout: true
+    fair_action_ablation: true
+    deterministic_stochastic_comparison: true
+    strong_baseline_executable: true
+    bootstrap_pairing_unit_defined: true
+    c2_leakage_audit_passed: true
+  execution:
+    job_name_prefix: NrnSift_C2R_
+    slurm_accounting_required: false
+    terminal_evidence_source_when_sacct_unavailable: scontrol_and_preserved_scheduler_logs
+  outputs:
+    audit_root: Output/audits

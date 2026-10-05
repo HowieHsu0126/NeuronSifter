@@ -1,0 +1,131 @@
+retrospective_public_source_data_first_intake:
+  schema_version: neuronsifter-retrospective-public-source-data-first-intake-config-v1
+  status: authorized_for_preregistration
+  intake_uid: public_source_data_first_cns_ranking_recovery
+  authorization:
+    mode: repository_metadata_only
+    outcome_blind: true
+    bounded: true
+    repository_family_cap: 4
+    metadata_asset_cap: 160
+    per_family_asset_cap: 40
+    preregistered_source_cap: 8
+    target_new_decision_sensitive_groups: 1
+    stop_at_independent_decision_sensitive_groups: 3
+    stop_when_queue_exhausted: true
+  parent_state:
+    status: qualified_public_candidates_but_split_insufficient
+    accepted_records: 36
+    rejected_records: 7
+    legal_candidate_sets: 6
+    independent_public_contexts: 6
+    independent_decision_sensitive_groups: 2
+    required_groups: 3
+    publication_first_route_exhausted: true
+    frozen_queue_digest: da26b83d34ee00b417bf7dcb4a75680a05add3a57f75f50b7eef09b9f67c08fd
+    refresh_queue_digest: 34db9a92c841568b7b8e26f922bac1d80cdeb6823fced6384ebf0788ae2034d4
+    prior_public_intake_queue_digest: 9349a8a111095e19b72195aad4240f4c4ae84e311945d458c003e5e414885448
+    design_enriched_intake_queue_digest: 93b5233f9360c8a6a7a061652609af4ba060bf5d751eb1cce64e187ceca900e8
+    protected_holdout_access: 0
+  repository_families:
+    - family_uid: local_public_source_inventory
+      adapter: bounded_local_file_metadata_inventory
+      root: Input/raw/public/retrospective
+      asset_cap: 40
+      external_network_required: false
+      query_plan:
+        - unregistered_machine_readable_source_assets
+    - family_uid: biostudies_s_epmc
+      adapter: biostudies_search_and_detail_metadata
+      search_url: https://www.ebi.ac.uk/biostudies/api/v1/search
+      detail_url_template: https://www.ebi.ac.uk/biostudies/api/v1/studies/{accession}
+      file_url_template: https://www.ebi.ac.uk/biostudies/files/{accession}/{file_path}
+      asset_cap: 40
+      external_network_required: true
+      query_plan:
+        - 'collection:S-EPMC AND (neuron OR neuronal OR brain OR microglia OR astrocyte) AND (drug OR compound OR treatment)'
+        - 'collection:S-EPMC AND (Alzheimer OR Parkinson OR neurodegeneration OR ALS OR Rett) AND (supplementary OR source-data OR spreadsheet)'
+    - family_uid: biostudies_arrayexpress
+      adapter: biostudies_search_and_detail_metadata
+      search_url: https://www.ebi.ac.uk/biostudies/api/v1/search
+      detail_url_template: https://www.ebi.ac.uk/biostudies/api/v1/studies/{accession}
+      file_url_template: https://www.ebi.ac.uk/biostudies/files/{accession}/{file_path}
+      asset_cap: 40
+      external_network_required: true
+      query_plan:
+        - 'collection:ArrayExpress AND (Alzheimer OR Parkinson OR neurodegeneration OR ALS OR Rett) AND (drug OR compound OR treatment)'
+        - 'collection:ArrayExpress AND (neuron OR neuronal OR organoid OR microglia OR astrocyte) AND (screen OR dose OR combination)'
+    - family_uid: europe_pmc_supplementary_index
+      adapter: europe_pmc_lite_supplement_metadata
+      search_url: https://www.ebi.ac.uk/europepmc/webservices/rest/search
+      asset_cap: 40
+      external_network_required: true
+      query_plan:
+        - 'OPEN_ACCESS:Y AND HAS_SUPPL:Y AND (TITLE:"Alzheimer" OR TITLE:"Parkinson" OR TITLE:"ALS" OR TITLE:"Rett" OR TITLE:"neurodegeneration") AND (TITLE:"drug" OR TITLE:"compound" OR TITLE:"treatment")'
+        - 'OPEN_ACCESS:Y AND HAS_SUPPL:Y AND (TITLE:"neurite" OR TITLE:"synaptic" OR TITLE:"calcium" OR TITLE:"electrophysiology") AND (TITLE:"screen" OR TITLE:"dose" OR TITLE:"combination" OR TITLE:"comparison")'
+  metadata_policy:
+    allowed_fields:
+      - asset_name
+      - asset_type
+      - asset_size_bytes
+      - repository_accession
+      - study_title
+      - study_or_publication_identifier
+      - publication_date
+      - license_or_access_status
+      - declared_assay_or_model_keywords
+      - metadata_native_intervention_names
+      - data_table_availability
+    forbidden_fields:
+      - numeric_outcome
+      - effect_direction
+      - winner_statement
+      - p_value
+      - plot_content
+      - result_table_content
+    machine_readable_extensions: [.csv, .tsv, .xls, .xlsx, .json, .txt, .zip]
+    maximum_single_asset_bytes: 67108864
+    maximum_total_recovery_bytes: 268435456
+  selection_policy:
+    source_policy: primary_public_source_data_only
+    excluded_repository_or_publisher: [MDPI]
+    excluded_doi_prefixes: [10.3390/]
+    cns_or_neural_model_required: true
+    disease_injury_or_pathological_context_required: true
+    intervention_requirement: two_named_entities_or_structured_dose_or_combination_arms
+    shared_control_metadata_signal_required: true
+    functional_endpoint_required: true
+    biological_replication_or_uncertainty_metadata_required: true
+    publication_or_study_identity_required: true
+    quantitative_source_data_asset_required: true
+    objective_uids:
+      electrophysiology: functional_electrophysiology_rescue_v1
+      calcium_activity: functional_calcium_activity_rescue_v1
+      cell_viability_survival: functional_cell_viability_rescue_v1
+      neurite_morphology: functional_neurite_morphology_rescue_v1
+      synaptic_phenotype: functional_synaptic_phenotype_rescue_v1
+      quantitative_pathology_phenotype: functional_pathology_phenotype_rescue_v1
+    ranking_order:
+      - quantitative_asset_specificity
+      - intervention_structure_strength
+      - biological_replication_or_uncertainty_signal
+      - shared_control_signal
+      - independent_context_diversity
+      - repository_family_diversity
+      - publication_or_study_identity
+      - asset_uid
+  boundaries:
+    source_asset_content_retrieved_before_queue_freeze: false
+    numeric_outcomes_retrieved_before_queue_freeze: false
+    effect_direction_used_for_priority: false
+    p_values_used_for_priority: false
+    winner_statements_used_for_priority: false
+    protected_holdout_access: 0
+    historical_queue_mutation_allowed: false
+    automatic_additional_intake_allowed: false
+  outputs:
+    preregistration_manifest: Input/manifests/retrospective_public/source_data_first_preregistration.json
+    metadata_universe: Input/manifests/retrospective_public/source_data_metadata_universe.tsv
+    source_queue: Input/manifests/retrospective_public/source_data_ranking_queue.tsv
+    metadata_snapshot: Input/raw/public/retrospective/source_data_first/metadata_snapshot.json
+    intake_audit: Output/audits/retrospective_public_source_data_first_intake.json

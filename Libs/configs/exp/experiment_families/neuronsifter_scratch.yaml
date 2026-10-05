@@ -1,0 +1,15 @@
+experiment_family:
+  family_id: neuronsifter_scratch
+  description: AD-only paper-grade experiment family declaration for neuronsifter_scratch.
+  disease_program: ad_control
+  kind: project_ablation
+  profile_name: neuronsifter_scratch_ad
+  adapter_name: ''
+  runnable: true
+  reference_only: false
+  reason_if_not_runnable: ''
+  matched_seed_policy: fixed_suite_seeds
+  claim_guardrails:
+  - ad_only
+  - no_g5_upgrade
+  - no_clinical_endpoint_prediction

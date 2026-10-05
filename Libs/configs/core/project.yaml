@@ -1,0 +1,160 @@
+project:
+  name: NeuronSifter
+  prefix: NrnSift
+  raw_root: Input/raw
+  processed_root: Input/processed
+  disease_scope:
+  - Alzheimer disease
+  - Alzheimer's disease
+  - late-onset Alzheimer disease
+  - early-onset Alzheimer disease
+  - mild cognitive impairment
+  - subjective cognitive decline
+  - normal aging
+  - cognitive aging
+  tissue_priority:
+  - brain tissue
+  - cerebrospinal fluid
+  - plasma
+  - serum
+  - whole blood
+  - PBMC
+  optional_imaging_gate:
+  - non_imaging_mainline_complete
+  - search_repository_accession_freeze_complete
+  - literature_parameter_bank_initialized
+foundation_twin:
+  twin_role: pan_neuro_screening_twin
+  application_role: drug_screening_decision_core
+  molecule_scope: screening_decision_only
+  public_data_boundary:
+    observed_data: true
+    public_simulation_data: true
+    controlled_access_required: false
+  disease_families:
+  - AD
+  - PD
+  - FTD
+  - ALS
+  disease_program_to_family:
+    ad_control: AD
+    pd_control: PD
+    ftd_control: FTD
+    als_control: ALS
+  supported_modalities:
+  - transcriptomics
+  - metabolomics
+  - morphology
+  - electrophysiology
+  - pharmacology
+  - solver_observation
+  world_state_factors:
+  - factor_id: z_tx
+    factor_label: Transcriptomic Cell Program State
+    primary_modalities:
+    - transcriptomics
+    - metabolomics
+    hidden_state_support: true
+  - factor_id: z_pk
+    factor_label: Exposure and Occupancy State
+    primary_modalities:
+    - pharmacology
+    - solver_observation
+    hidden_state_support: true
+  - factor_id: z_env
+    factor_label: Microenvironment State
+    primary_modalities:
+    - transcriptomics
+    - metabolomics
+    - solver_observation
+    hidden_state_support: true
+  - factor_id: z_ephys
+    factor_label: Electrophysiology State
+    primary_modalities:
+    - electrophysiology
+    - solver_observation
+    hidden_state_support: true
+  - factor_id: z_morph
+    factor_label: Morphology State
+    primary_modalities:
+    - morphology
+    - solver_observation
+    hidden_state_support: true
+  capability_hierarchy:
+    hard_gates:
+    - structured_world_state
+    - causal_dynamics
+    - long_horizon_action_rollout
+    - counterfactual_planning
+    engineering:
+    - multimodal_alignment
+    - interactive_rollout_latency
+    - online_continual_calibration
+    high_order:
+    - causal_robustness
+    - hierarchical_generalization
+    - interacting_subsystems
+    - explanation_and_confidence
+    - drift_adaptation
+  simulation_teacher_sources:
+  - pkpd_compartment_solver
+  - transport_reaction_diffusion_solver
+  - allen_glif_models
+  - public_biophysical_neuron_models
+  - blue_brain_morphoelectrical_models
+  - blue_brain_neuro_glia_vasculature_models
+  crossmodal_anchor_sources:
+  - source_id: allen_cell_types_patchseq
+    anchor_scope: transcriptome_morphology_electrophysiology
+    supervision_role: high_confidence_alignment_anchor
+  - source_id: dandi_neurophysiology
+    anchor_scope: electrophysiology_time_series
+    supervision_role: electrophysiology_teacher_anchor
+  - source_id: neuromorpho
+    anchor_scope: morphology_structure
+    supervision_role: morphology_teacher_anchor
+  - source_id: blue_brain_open_data
+    anchor_scope: morphoelectrical_bridge
+    supervision_role: crossmodal_teacher_anchor
+logging_registry:
+  logger_name: NeuronSifter
+  console_enabled: true
+  console_level: INFO
+  file_enabled: true
+  file_level: INFO
+  capture_warnings: true
+  stream: stderr
+  root_dir: Output/logs/pipeline
+execution_environment:
+  python_executable: /share/home/anonymous/miniconda3/bin/python
+source_policy:
+  strict_public_only_flag: true
+  imaging_enabled_flag: false
+  mainline_source_keys:
+  - allen_brain_cell_atlas
+  - biccn_public
+  - geo
+  - arrayexpress
+  - metabolomics_workbench
+  - clue_lincs
+  - open_targets
+  - chembl
+  - drugcentral
+  - bindingdb
+  - dgidb
+  - drugcomb
+  - literature_parameter_bank
+  historical_optional_source_keys:
+  - oasis
+  - nemo_archive
+  structural_prior_source_keys:
+  - allen_brain_cell_atlas
+  - biccn_public
+  - literature_parameter_bank
+  atlas_prior_source_keys:
+  - allen_brain_cell_atlas
+  - biccn_public
+  benchmark_main_sources:
+  - geo
+  - arrayexpress
+  - metabolomics_workbench

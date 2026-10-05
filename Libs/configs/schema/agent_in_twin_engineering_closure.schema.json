@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "neuronsifter-agent-in-twin-engineering-closure-v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "development_only",
+    "publication_claim_eligible",
+    "protected_holdout_access",
+    "formal_evidence_gate",
+    "formal_real_world_action",
+    "formal_agent_in_twin",
+    "formal_coevolution",
+    "scenarios",
+    "checks",
+    "checkpoint_path",
+    "checkpoint_sha256",
+    "artifact_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-agent-in-twin-engineering-closure-v1"},
+    "status": {"enum": ["ENGINEERING_READY_AWAITING_EXTERNAL_THERAPEUTIC_EVIDENCE", "ENGINEERING_CLOSURE_FAILED"]},
+    "development_only": {"const": true},
+    "publication_claim_eligible": {"const": false},
+    "protected_holdout_access": {"const": 0},
+    "formal_evidence_gate": {"const": "BLOCKED_REQUIRES_EXTERNAL_MULTI_ARM_FUNCTIONAL_OUTCOMES"},
+    "formal_real_world_action": {"const": "not_qualified"},
+    "formal_agent_in_twin": {"const": "not_qualified"},
+    "formal_coevolution": {"const": "not_qualified"},
+    "checkpoint_path": {"type": "string", "minLength": 1},
+    "checkpoint_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "artifact_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "scenarios": {
+      "type": "object",
+      "additionalProperties": {"$ref": "#/$defs/scenario"},
+      "required": [
+        "normal_multi_round_loop",
+        "tool_failure_and_partial_result",
+        "contradictory_observation_admission",
+        "checkpoint_restart_replay",
+        "memory_invalidation_and_truth_isolation",
+        "unsupported_action_abstention",
+        "tool_boundary_and_idempotence",
+        "bidirectional_coevolution"
+      ]
+    },
+    "checks": {
+      "type": "object",
+      "required": [
+        "all_scenarios_passed",
+        "scientific_state_identity_bound",
+        "posterior_changes_trigger_reranking",
+        "typed_tool_failures_visible",
+        "memory_cannot_modify_truth",
+        "unsupported_actions_abstain",
+        "bidirectional_coupling_observed",
+        "protected_holdout_access",
+        "development_only",
+        "publication_claim_eligible"
+      ],
+      "properties": {
+        "all_scenarios_passed": {"type": "boolean"},
+        "scientific_state_identity_bound": {"type": "boolean"},
+        "posterior_changes_trigger_reranking": {"type": "boolean"},
+        "typed_tool_failures_visible": {"type": "boolean"},
+        "memory_cannot_modify_truth": {"type": "boolean"},
+        "unsupported_actions_abstain": {"type": "boolean"},
+        "bidirectional_coupling_observed": {"type": "boolean"},
+        "protected_holdout_access": {"const": 0},
+        "development_only": {"const": true},
+        "publication_claim_eligible": {"const": false}
+      },
+      "additionalProperties": {"type": ["boolean", "integer", "number", "string"]}
+    }
+  },
+  "$defs": {
+    "scenario": {
+      "type": "object",
+      "required": ["passed"],
+      "properties": {"passed": {"type": "boolean"}},
+      "additionalProperties": true
+    }
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/c1_unified_preflight.schema.json",
+  "title": "NeuronSifter C1 unified preflight",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "training_allowed", "headline_training_allowed",
+    "training_started", "headline_training_started", "corpus_uid", "corpus_identity_hash",
+    "block_hashes", "split_hashes", "action_subset_hash", "crosswalk_hash",
+    "source_qualification_evidence_hash", "controlled_isolation_evidence", "evidence_validator_status",
+    "eligible_roles", "rejected_roles", "family_ess", "sampling_policy",
+    "model_config_hash", "training_seed_list", "task_registry_hash", "baseline_registry_hash",
+    "fairness_registry_hash", "config_hash", "config_registry_hash", "contract_hash", "capability_manifest_hash",
+    "regression_binding",
+    "headline_feasibility", "headline_requirements", "blocker_count", "blockers", "g3_status"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-c1-unified-preflight-v3"},
+    "status": {"enum": ["passed", "blocked"]},
+    "training_allowed": {"type": "boolean"},
+    "headline_training_allowed": {"type": "boolean"},
+    "training_started": {"type": "boolean"},
+    "headline_training_started": {"type": "boolean"},
+    "corpus_uid": {"const": "public_foundation_corpus_v1"},
+    "corpus_identity_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "block_hashes": {"type": "object", "minProperties": 6, "additionalProperties": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+    "split_hashes": {"type": "object", "minProperties": 6, "additionalProperties": {"type": "string", "pattern": "^[0-9a-f]{64}$"}},
+    "action_subset_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "crosswalk_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_qualification_evidence_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "controlled_isolation_evidence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["frozen_reference_hash", "current_hash", "controlled_reachability"],
+      "properties": {
+        "frozen_reference_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "current_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "controlled_reachability": {"type": "integer", "minimum": 0}
+      }
+    },
+    "evidence_validator_status": {"type": ["string", "null"]},
+    "eligible_roles": {"const": ["qualified_for_mainline"]},
+    "rejected_roles": {"type": "array", "items": {"type": "string"}},
+    "family_ess": {"type": "object", "additionalProperties": {"type": "number", "minimum": 0}},
+    "sampling_policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["family", "biological_unit", "within_unit"],
+      "properties": {
+        "family": {"const": "family_balanced"},
+        "biological_unit": {"const": "biological_unit_balanced"},
+        "within_unit": {"const": "required_before_loss"}
+      }
+    },
+    "model_config_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "training_seed_list": {"const": [3407, 3408, 3409, 3410, 3411]},
+    "task_registry_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "baseline_registry_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fairness_registry_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "config_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "config_registry_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "contract_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "capability_manifest_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "regression_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "config_file_hash", "resolved_config_hash", "foundation_state_contract_hash",
+        "runtime_source_diff_hash", "corpus_hash", "all_match"
+      ],
+      "properties": {
+        "config_file_hash": {"$ref": "#/$defs/hash_comparison"},
+        "resolved_config_hash": {"$ref": "#/$defs/hash_comparison"},
+        "foundation_state_contract_hash": {"$ref": "#/$defs/hash_comparison"},
+        "runtime_source_diff_hash": {"$ref": "#/$defs/hash_comparison"},
+        "corpus_hash": {"$ref": "#/$defs/hash_comparison"},
+        "all_match": {"type": "boolean"}
+      }
+    },
+    "regression_run_uid": {"type": ["string", "null"]},
+    "regression_slurm_job_id": {"type": ["string", "null"]},
+    "completed_run_count": {"type": "integer", "minimum": 0},
+    "headline_feasibility": {"type": "object"},
+    "headline_requirements": {"type": "array", "items": {"type": "object"}},
+    "blocker_count": {"type": "integer", "minimum": 0},
+    "blockers": {"type": "array", "items": {"type": "object"}},
+    "g3_status": {"enum": ["passed", "failed_empirical", "failed_statistics", "blocked_incomplete", "not_evaluated"]}
+  },
+  "$defs": {
+    "hash_comparison": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["current_hash", "regression_hash", "matches"],
+      "properties": {
+        "current_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "regression_hash": {
+          "oneOf": [
+            {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+            {"type": "null"}
+          ]
+        },
+        "matches": {"type": "boolean"}
+      }
+    }
+  }
+}

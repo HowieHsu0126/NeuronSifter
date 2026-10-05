@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["schema_version", "baseline_first"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-baseline-first-contract-v1"},
+    "baseline_first": {
+      "type": "object",
+      "required": [
+        "gate_name",
+        "status_when_blocked",
+        "candidate",
+        "historical_freeze_inputs",
+        "inherited_audits",
+        "expected_counts"
+      ],
+      "properties": {
+        "gate_name": {"const": "baseline_first_c1_c2_challenge_resolved"},
+        "status_when_blocked": {"const": "blocked_baseline_first_c1_c2_challenge"},
+        "candidate": {
+          "type": "object",
+          "required": [
+            "require_git_backed_clean_checkout",
+            "require_node_local_staging",
+            "pytest_runtime",
+            "forbidden_runtime_actions"
+          ]
+        },
+        "historical_freeze_inputs": {"type": "object", "minProperties": 4},
+        "inherited_audits": {"type": "object", "minProperties": 7},
+        "expected_counts": {
+          "type": "object",
+          "required": ["historical_entries", "mandatory", "conditional", "upper_bounds"],
+          "properties": {
+            "historical_entries": {"const": 57},
+            "mandatory": {"const": 20},
+            "conditional": {"const": 5},
+            "upper_bounds": {"const": 2}
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

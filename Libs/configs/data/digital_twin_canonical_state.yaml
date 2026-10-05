@@ -1,0 +1,184 @@
+digital_twin_canonical_state:
+  version: digital_twin_canonical_state_v1
+  serialization_version: neuronsifter-digital-twin-state-block-v2
+  validation_version: neuronsifter-digital-twin-state-block-validation-v2
+  schema_field_keys:
+    state_block: digital_twin_canonical_state_block_fields
+    axis_metadata: digital_twin_canonical_state_axis_metadata_fields
+    element_masks: digital_twin_canonical_state_element_mask_fields
+    value_storage: digital_twin_canonical_state_value_storage_fields
+    aggregation_semantics: digital_twin_canonical_state_aggregation_semantics_fields
+    eligibility: digital_twin_canonical_state_eligibility_fields
+  canonical_axis_order:
+  - time
+  - region
+  - compartment
+  - species
+  axis_owners:
+    time: dynamics_ready_registry.time_grid
+    region: spatial_atlas_registry.regions
+    compartment: screening_pipeline.pkpd_ready_registry.compartments
+    species: dynamics_ready_registry.species
+  observation_owners:
+    modalities: serving_registry.supported_modalities
+    feature_namespaces: serving_registry.request_feature_namespace
+    measurement_semantics: measurement_semantics_registry
+  required_biological_context_fields:
+  - disease_program
+  - organism
+  - tissue_or_biofluid
+  required_provenance_fields:
+  - source_uid
+  - source_record_uid
+  - source_artifact_sha256
+  required_mapping_provenance_fields:
+  - mapping_uid
+  - mapping_method
+  - source_coordinate_system
+  - mapping_version
+  unit_policy:
+    exact_species_unit_required: true
+    conversion_kind: already_canonical_state_unit
+    missing_species_axis_conversion_kind: not_applicable_missing_species_axis
+  mapping_policy:
+    require_explicit_coordinate_mapping: true
+    allow_implicit_broadcast: false
+    allow_zero_fill_for_missing: false
+    reject_duplicate_canonical_coordinates: true
+  uncertainty_policy:
+    provided_status: provided
+    missing_status: missing
+    require_nonnegative_finite_values: true
+  element_mask_states:
+  - observed
+  - missing
+  - unavailable
+  - not_applicable
+  - quarantined
+  value_storage_formats:
+  - dense
+  - sparse
+  - ragged
+  - reference
+  supported_evidence_types:
+  - real_static_state
+  - real_perturbation_endpoint
+  - real_longitudinal_trajectory
+  - legacy_simulator_trajectory
+  - clean_simulator_trajectory
+  - published_mechanistic_output
+  - tool_result
+  - hypothetical_scenario
+  - ontology_or_prior
+  supported_time_semantics:
+  - absolute_time
+  - relative_to_action
+  - pseudotime
+  - cross_sectional
+  - ordered_endpoint
+  - simulator_time
+  - unknown
+  - not_applicable
+  supported_pairing_semantics:
+  - same_unit_longitudinal
+  - same_unit_action_endpoint
+  - cross_sectional
+  - semantic_alignment_only
+  - simulator_generated
+  - not_paired
+  supported_aggregation_methods:
+  - none
+  - cell_to_donor
+  - sample_to_subject
+  - technical_replicate
+  - pseudobulk
+  - source_aggregate
+  - legacy_aggregate_unknown
+  supported_aggregation_semantics:
+  - none
+  - cell_to_donor
+  - sample_to_subject
+  - technical_replicate
+  - pseudobulk
+  - source_aggregate
+  - legacy_aggregate_unknown
+  aggregation_levels:
+  - none
+  - donor
+  - subject
+  - technical_replicate
+  - pseudobulk
+  - source
+  - unknown
+  loss_eligibility_policy:
+    train_qc_grades:
+    - A
+    - B
+    - C
+    temporal_qc_grades:
+    - A
+    - B
+    uncertainty_calibration_qc_grades:
+    - A
+    - B
+    - C
+    constraint_evaluation_qc_grades:
+    - A
+    - B
+    temporal_evidence_types:
+    - real_longitudinal_trajectory
+    - legacy_simulator_trajectory
+    - clean_simulator_trajectory
+    temporal_time_semantics:
+    - absolute_time
+    - relative_to_action
+    - simulator_time
+    temporal_pairing_semantics:
+    - same_unit_longitudinal
+    - simulator_generated
+    state_reconstruction_evidence_types:
+    - real_static_state
+    - real_perturbation_endpoint
+    - real_longitudinal_trajectory
+    - legacy_simulator_trajectory
+    - clean_simulator_trajectory
+    - published_mechanistic_output
+    - tool_result
+    - hypothetical_scenario
+    temporal_action_endpoint_evidence_types:
+    - real_perturbation_endpoint
+    - clean_simulator_trajectory
+    - published_mechanistic_output
+    - hypothetical_scenario
+    uncertainty_calibration_evidence_types:
+    - real_static_state
+    - real_perturbation_endpoint
+    - real_longitudinal_trajectory
+    - clean_simulator_trajectory
+    - published_mechanistic_output
+    - tool_result
+    constraint_evaluation_evidence_types:
+    - real_static_state
+    - real_perturbation_endpoint
+    - real_longitudinal_trajectory
+    - legacy_simulator_trajectory
+    - clean_simulator_trajectory
+    - published_mechanistic_output
+    what_if_initialization_evidence_types:
+    - real_static_state
+    - real_longitudinal_trajectory
+    - clean_simulator_trajectory
+    - published_mechanistic_output
+    what_if_initialization_pairing_semantics:
+    - cross_sectional
+    - same_unit_longitudinal
+    - simulator_generated
+    - semantic_alignment_only
+  audit_output_paths:
+    state_path_inventory: Output/audits/dt_round11_state_path_inventory.json
+    state_reuse_map: Output/audits/dt_round11_state_reuse_map.json
+    state_block_validation: Output/audits/dt_round11_state_block_validation.json
+    mask_semantics: Output/audits/dt_round11_mask_semantics_audit.json
+    legacy_aggregate: Output/audits/dt_round11_legacy_aggregate_audit.json
+    full_suite_failure_triage: Output/audits/dt_round11_full_suite_failure_triage.json
+    execution: Output/audits/dt_round11_execution.json

@@ -1,0 +1,389 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/c1_objective_capability_manifest.schema.json",
+  "title": "NeuronSifter C1 objective capability manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "corpus_uid", "corpus_hash", "scope", "derivation_policy",
+    "observation_binding_hash", "qualified_action_subset_hash", "required_blocks",
+    "semantic_policy_version", "sampler_contract", "sampler_profiles",
+    "single_source_selection_contract", "runtime_guarantee_policy", "splits"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-c1-objective-capability-v2"},
+    "corpus_uid": {"const": "public_foundation_corpus_v1"},
+    "corpus_hash": {"const": "06ae88daf3c44be2c2bb96e51c939554e160b205138ec96f471adb5d82eee791"},
+    "scope": {"const": "reduced_transcriptomics_core"},
+    "derivation_policy": {"const": "read_only_derived_artifact_outside_frozen_v1"},
+    "observation_binding_hash": {"$ref": "#/$defs/sha256"},
+    "qualified_action_subset_hash": {"$ref": "#/$defs/sha256"},
+    "required_blocks": {
+      "const": {
+        "cellxgene_amygdala_2021_phase1e_v1": "b8bc4cab7c8a3e57d9ca64900a1420b8e078b10c5d2b43c3b821f8e15c88684b",
+        "clue_touchstone_v1_1_npc_neu_perturbation_phase1e_v1": "5e51623d3859735518f0d08e954a29805b2fe5075b234fd5ce2dc8b195b560ea",
+        "pfc_arrayexpress_e_geod_37263_phase1f_v1": "eb4f5d16ab060ca809a95f31e0b8a0330c51d0ecbc2cebff6e566df2305714d9",
+        "pfc_arrayexpress_e_mtab_6772_perturbation_phase1f_v1": "f0ac1bb93ac4168d1ef9d9f34a0e8db5bb4684b7d71277748282604a4de803c9",
+        "pfc_geo_gse28146_phase1e_v1": "35dbdac27abdb900130c1ece7c4f47070c5baeacde329f2097aed0190ba0695d",
+        "whb_allen_nonneurons_20240330_phase1e_v1": "0d406b9eb593e33c3611d63ba862d14075ea6e97f9dc724c8d5417bf6f08d5e3"
+      }
+    },
+    "semantic_policy_version": {"const": "neuronsifter-c1-qualified-semantic-key-v1"},
+    "sampler_contract": {"const": {
+      "version": "neuronsifter-c1-objective-aware-unit-sampler-v1",
+      "batch_size": 6,
+      "max_observations_per_biological_unit": 8,
+      "observation_reservation_policy": "objective_required_rows_before_hash_ranked_fill",
+      "runtime_postcondition_policy": "fail_closed_before_batch_return"
+    }},
+    "sampler_profiles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "from_scratch_supervised_encoder", "single_source_pretraining",
+        "single_family_pretraining",
+        "no_ontology_alignment", "no_source_family_balancing",
+        "generic_masked_encoder", "no_source_nuisance_control",
+        "no_biological_unit_aggregation", "neuronsifter_foundation_state_encoder"
+      ],
+      "properties": {
+        "from_scratch_supervised_encoder": {"$ref": "#/$defs/sampler_profile"},
+        "single_source_pretraining": {"$ref": "#/$defs/sampler_profile"},
+        "single_family_pretraining": {"$ref": "#/$defs/sampler_profile"},
+        "no_ontology_alignment": {"$ref": "#/$defs/sampler_profile"},
+        "no_source_family_balancing": {"$ref": "#/$defs/sampler_profile"},
+        "generic_masked_encoder": {"$ref": "#/$defs/sampler_profile"},
+        "no_source_nuisance_control": {"$ref": "#/$defs/sampler_profile"},
+        "no_biological_unit_aggregation": {"$ref": "#/$defs/sampler_profile"},
+        "neuronsifter_foundation_state_encoder": {"$ref": "#/$defs/sampler_profile"}
+      }
+    },
+    "single_source_selection_contract": {"const": {
+      "policy": "train_role_action_units_desc_then_source_id_asc_v1",
+      "candidate_eligibility": "single_source_profile_structurally_feasible_with_identifiable_action",
+      "manual_source_argument_policy": "assertion_only"
+    }},
+    "runtime_guarantee_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["structural_feasibility", "batch_guarantee", "profile_scope"],
+      "properties": {
+        "structural_feasibility": {"const": "static_plan_fit_only_not_a_batch_guarantee"},
+        "batch_guarantee": {"const": "exact_loader_replay_and_runtime_postcondition_required"},
+        "profile_scope": {"const": "split_role_source_profile_exact_match_required"}
+      }
+    },
+    "splits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_publication_holdout",
+        "family_holdout_cns_disease_aging_state_transcriptomics",
+        "family_holdout_cns_cell_type_region_atlas_transcriptomics",
+        "family_holdout_compound_dose_time_perturbation_transcriptomics",
+        "regimen_holdout",
+        "target_program_holdout"
+      ],
+      "properties": {
+        "source_publication_holdout": {"$ref": "#/$defs/split"},
+        "family_holdout_cns_disease_aging_state_transcriptomics": {"$ref": "#/$defs/split"},
+        "family_holdout_cns_cell_type_region_atlas_transcriptomics": {"$ref": "#/$defs/split"},
+        "family_holdout_compound_dose_time_perturbation_transcriptomics": {"$ref": "#/$defs/split"},
+        "regimen_holdout": {"$ref": "#/$defs/split"},
+        "target_program_holdout": {"$ref": "#/$defs/split"}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "sampler_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baseline_id", "sampler_contract_version", "sampler_mode",
+        "pretraining_scope", "source_scope_policy", "objective_set",
+        "active_objectives", "sampling_policy", "weighting_policy",
+        "row_sampling_interpretation", "family_balance_requirement", "batch_size",
+        "max_observations_per_biological_unit", "within_unit_aggregation",
+        "observation_reservation_policy", "runtime_postcondition_policy",
+        "sampler_profile_contract_hash"
+      ],
+      "properties": {
+        "baseline_id": {"type": "string", "minLength": 1},
+        "sampler_contract_version": {"const": "neuronsifter-c1-objective-aware-unit-sampler-v1"},
+        "sampler_mode": {"enum": [
+          "not_applicable", "family_balanced_plain",
+          "family_balanced_objective_aware", "family_and_biological_unit_balanced_plain",
+          "family_and_biological_unit_balanced_objective_aware", "biological_unit_balanced_plain",
+          "objective_constrained_row_proportional_fill"
+        ]},
+        "pretraining_scope": {"enum": ["none", "one_train_source_per_run", "one_train_family_per_run", "all_train_sources"]},
+        "source_scope_policy": {"enum": ["no_pretraining_scope", "train_role_action_units_desc_then_source_id_asc_v1", "all_train_sources", "all_sources_within_selected_family"]},
+        "objective_set": {"enum": ["none", "masked_only", "alignment", "within_source", "full_without_ontology_alignment", "full_without_nuisance_control", "full_without_biological_unit_aggregation", "full"]},
+        "active_objectives": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "sampling_policy": {"enum": ["family_balanced", "family_and_biological_unit_balanced", "biological_unit_balanced", "row_balanced", "objective_constrained_row_proportional_fill"]},
+        "weighting_policy": {"enum": ["biological_unit_balanced", "observation_balanced_within_family", "observation_row_balanced", "objective_constrained_row_proportional_weighting"]},
+        "row_sampling_interpretation": {"enum": ["not_applicable", "objective_required_unit_reservation_then_row_proportional_fill_not_unbiased_raw_rows"]},
+        "family_balance_requirement": {"enum": ["required", "disabled_by_declared_ablation", "not_applicable_no_pretraining", "not_applicable_single_family"]},
+        "batch_size": {"const": 6},
+        "max_observations_per_biological_unit": {"const": 8},
+        "within_unit_aggregation": {"const": "required_before_loss"},
+        "observation_reservation_policy": {"const": "objective_required_rows_before_hash_ranked_fill"},
+        "runtime_postcondition_policy": {"const": "fail_closed_before_batch_return"},
+        "sampler_profile_contract_hash": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "profile_sampler_structural_feasibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status", "plan_fit", "blocker", "sampler_profile_contract_hash",
+        "source_scope", "scope_unit_hash", "unit_count", "represented_source_count",
+        "represented_family_count", "alignment_required", "alignment_plan_fit",
+        "action_required", "action_plan_fit", "nuisance_scope_required",
+        "nuisance_scope_fit", "family_balance_plan_status",
+        "within_unit_aggregation_fit", "replay_required",
+        "runtime_postcondition_required", "required_biological_unit_count",
+        "required_observation_count"
+      ],
+      "properties": {
+        "status": {"enum": ["structurally_feasible", "not_structurally_feasible", "not_applicable"]},
+        "plan_fit": {"type": "boolean"},
+        "blocker": {"type": "string", "minLength": 1},
+        "sampler_profile_contract_hash": {"$ref": "#/$defs/sha256"},
+        "source_scope": {"type": "string", "minLength": 1},
+        "scope_unit_hash": {"$ref": "#/$defs/sha256"},
+        "unit_count": {"type": "integer", "minimum": 0},
+        "represented_source_count": {"type": "integer", "minimum": 0},
+        "represented_family_count": {"type": "integer", "minimum": 0},
+        "alignment_required": {"type": "boolean"},
+        "alignment_plan_fit": {"type": "boolean"},
+        "action_required": {"type": "boolean"},
+        "action_plan_fit": {"type": "boolean"},
+        "nuisance_scope_required": {"type": "boolean"},
+        "nuisance_scope_fit": {"type": "boolean"},
+        "family_balance_plan_status": {"enum": ["plan_fit", "not_fit", "disabled_by_declared_ablation", "not_applicable", "not_applicable_single_family"]},
+        "within_unit_aggregation_fit": {"type": "boolean"},
+        "replay_required": {"type": "boolean"},
+        "runtime_postcondition_required": {"type": "boolean"},
+        "required_biological_unit_count": {"type": "integer", "minimum": 0},
+        "required_observation_count": {"type": "integer", "minimum": 0}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "structurally_feasible"}}, "required": ["status"]},
+          "then": {"properties": {
+            "plan_fit": {"const": true},
+            "blocker": {"const": "runtime_replay_required"},
+            "alignment_plan_fit": {"const": true},
+            "action_plan_fit": {"const": true},
+            "nuisance_scope_fit": {"const": true},
+            "within_unit_aggregation_fit": {"const": true},
+            "replay_required": {"const": true},
+            "runtime_postcondition_required": {"const": true}
+          }}
+        },
+        {
+          "if": {"properties": {"status": {"const": "not_structurally_feasible"}}, "required": ["status"]},
+          "then": {"properties": {"plan_fit": {"const": false}}}
+        },
+        {
+          "if": {"properties": {"status": {"const": "not_applicable"}}, "required": ["status"]},
+          "then": {"properties": {"plan_fit": {"const": false}}}
+        }
+      ]
+    },
+    "profile_sampler_structural_feasibility_map": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "from_scratch_supervised_encoder", "single_source_pretraining",
+        "single_family_pretraining",
+        "no_ontology_alignment", "no_source_family_balancing",
+        "generic_masked_encoder", "no_source_nuisance_control",
+        "no_biological_unit_aggregation", "neuronsifter_foundation_state_encoder"
+      ],
+      "properties": {
+        "from_scratch_supervised_encoder": {"$ref": "#/$defs/profile_sampler_structural_feasibility"},
+        "single_source_pretraining": {"$ref": "#/$defs/profile_sampler_structural_feasibility"},
+        "single_family_pretraining": {"$ref": "#/$defs/profile_sampler_structural_feasibility"},
+        "no_ontology_alignment": {"$ref": "#/$defs/profile_sampler_structural_feasibility"},
+        "no_source_family_balancing": {"$ref": "#/$defs/profile_sampler_structural_feasibility"},
+        "generic_masked_encoder": {"$ref": "#/$defs/profile_sampler_structural_feasibility"},
+        "no_source_nuisance_control": {"$ref": "#/$defs/profile_sampler_structural_feasibility"},
+        "no_biological_unit_aggregation": {"$ref": "#/$defs/profile_sampler_structural_feasibility"},
+        "neuronsifter_foundation_state_encoder": {"$ref": "#/$defs/profile_sampler_structural_feasibility"}
+      }
+    },
+    "alignment_capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status", "data_status", "semantic_policy_version", "eligible_anchor_count",
+        "eligible_positive_pair_count", "eligible_biological_unit_count", "semantic_group_count",
+        "represented_source_count", "batch_guarantee", "blocker"
+      ],
+      "properties": {
+        "status": {"const": "not_estimable"},
+        "data_status": {"enum": ["available", "not_available"]},
+        "semantic_policy_version": {"const": "neuronsifter-c1-qualified-semantic-key-v1"},
+        "eligible_anchor_count": {"type": "integer", "minimum": 0},
+        "eligible_positive_pair_count": {"type": "integer", "minimum": 0},
+        "eligible_biological_unit_count": {"type": "integer", "minimum": 0},
+        "semantic_group_count": {"type": "integer", "minimum": 0},
+        "represented_source_count": {"type": "integer", "minimum": 0},
+        "batch_guarantee": {"const": false},
+        "blocker": {"type": "string", "minLength": 1}
+      }
+    },
+    "action_capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status", "data_status", "action_row_runtime_path",
+        "representation_identifiability_status", "eligible_observation_count",
+        "eligible_biological_unit_count", "distinct_qualified_action_uid_count",
+        "distinct_physical_exposure_vector_count",
+        "within_source_family_non_action_contrast_available", "represented_source_count",
+        "batch_guarantee", "blocker"
+      ],
+      "properties": {
+        "status": {"const": "not_estimable"},
+        "data_status": {"enum": ["available", "not_available"]},
+        "action_row_runtime_path": {"enum": ["available", "not_available"]},
+        "representation_identifiability_status": {"enum": ["structurally_identifiable", "not_structurally_identifiable"]},
+        "eligible_observation_count": {"type": "integer", "minimum": 0},
+        "distinct_qualified_action_uid_count": {"type": "integer", "minimum": 0},
+        "distinct_physical_exposure_vector_count": {"type": "integer", "minimum": 0},
+        "eligible_biological_unit_count": {"type": "integer", "minimum": 0},
+        "within_source_family_non_action_contrast_available": {"type": "boolean"},
+        "represented_source_count": {"type": "integer", "minimum": 0},
+        "batch_guarantee": {"const": false},
+        "blocker": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"representation_identifiability_status": {"const": "structurally_identifiable"}}, "required": ["representation_identifiability_status"]},
+          "then": {"anyOf": [
+            {"properties": {"distinct_physical_exposure_vector_count": {"minimum": 2}}},
+            {"properties": {"within_source_family_non_action_contrast_available": {"const": true}}}
+          ]}
+        },
+        {
+          "if": {"properties": {"representation_identifiability_status": {"const": "not_structurally_identifiable"}}, "required": ["representation_identifiability_status"]},
+          "then": {"properties": {
+            "distinct_physical_exposure_vector_count": {"maximum": 1},
+            "within_source_family_non_action_contrast_available": {"const": false}
+          }}
+        }
+      ]
+    },
+    "role_scopes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["all_sources", "sources", "families"],
+      "properties": {
+        "all_sources": {"$ref": "#/$defs/scope"},
+        "sources": {
+          "type": "object",
+          "additionalProperties": {"$ref": "#/$defs/scope"}
+        },
+        "families": {
+          "type": "object",
+          "additionalProperties": {"$ref": "#/$defs/scope"}
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "unit_count", "observation_count", "represented_source_count", "represented_family_count",
+        "alignment", "physical_exposure_context", "profile_sampler_structural_feasibility"
+      ],
+      "properties": {
+        "unit_count": {"type": "integer", "minimum": 0},
+        "observation_count": {"type": "integer", "minimum": 0},
+        "represented_source_count": {"type": "integer", "minimum": 0},
+        "represented_family_count": {"type": "integer", "minimum": 0},
+        "alignment": {"$ref": "#/$defs/alignment_capability"},
+        "physical_exposure_context": {"$ref": "#/$defs/action_capability"},
+        "profile_sampler_structural_feasibility": {"$ref": "#/$defs/profile_sampler_structural_feasibility_map"}
+      }
+    },
+    "single_source_candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rank", "source_id", "eligible_action_biological_unit_count",
+        "eligible_action_observation_count", "distinct_qualified_action_uid_count",
+        "distinct_physical_exposure_vector_count",
+        "sampler_profile_contract_hash", "scope_unit_hash"
+      ],
+      "properties": {
+        "rank": {"type": "integer", "minimum": 1},
+        "source_id": {"type": "string", "minLength": 1},
+        "eligible_action_biological_unit_count": {"type": "integer", "minimum": 1},
+        "eligible_action_observation_count": {"type": "integer", "minimum": 1},
+        "distinct_qualified_action_uid_count": {"type": "integer", "minimum": 1},
+        "distinct_physical_exposure_vector_count": {"type": "integer", "minimum": 1},
+        "sampler_profile_contract_hash": {"$ref": "#/$defs/sha256"},
+        "scope_unit_hash": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "single_source_selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy", "candidate_eligibility", "manual_source_argument_policy",
+        "selection_status", "candidates", "selected_source", "blocker"
+      ],
+      "properties": {
+        "policy": {"const": "train_role_action_units_desc_then_source_id_asc_v1"},
+        "candidate_eligibility": {"const": "single_source_profile_structurally_feasible_with_identifiable_action"},
+        "manual_source_argument_policy": {"const": "assertion_only"},
+        "selection_status": {"enum": ["selected", "not_estimable"]},
+        "candidates": {"type": "array", "items": {"$ref": "#/$defs/single_source_candidate"}},
+        "selected_source": {"type": ["string", "null"]},
+        "blocker": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"selection_status": {"const": "selected"}}, "required": ["selection_status"]},
+          "then": {"properties": {
+            "candidates": {"minItems": 1},
+            "selected_source": {"type": "string", "minLength": 1},
+            "blocker": {"const": "none"}
+          }}
+        },
+        {
+          "if": {"properties": {"selection_status": {"const": "not_estimable"}}, "required": ["selection_status"]},
+          "then": {"properties": {
+            "candidates": {"maxItems": 0},
+            "selected_source": {"const": null},
+            "blocker": {"const": "no_structurally_feasible_identifiable_action_source"}
+          }}
+        }
+      ]
+    },
+    "split": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["split_manifest_hash", "roles", "single_source_selection"],
+      "properties": {
+        "split_manifest_hash": {"$ref": "#/$defs/sha256"},
+        "single_source_selection": {"$ref": "#/$defs/single_source_selection"},
+        "roles": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["train", "validation", "test"],
+          "properties": {
+            "train": {"$ref": "#/$defs/role_scopes"},
+            "validation": {"$ref": "#/$defs/role_scopes"},
+            "test": {"$ref": "#/$defs/role_scopes"}
+          }
+        }
+      }
+    }
+  }
+}

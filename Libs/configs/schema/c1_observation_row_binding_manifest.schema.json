@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/c1_observation_row_binding_manifest.schema.json",
+  "title": "NeuronSifter C1 observation row binding manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "corpus_uid",
+    "corpus_hash",
+    "scope",
+    "derivation_policy",
+    "query_domain",
+    "row_binding_table",
+    "block_count",
+    "biological_unit_count",
+    "observation_count",
+    "adapter_unit_counts",
+    "adapter_observation_counts",
+    "within_unit_aggregation_required",
+    "blocks",
+    "binding_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-c1-observation-row-binding-v1"},
+    "corpus_uid": {"const": "public_foundation_corpus_v1"},
+    "corpus_hash": {"const": "06ae88daf3c44be2c2bb96e51c939554e160b205138ec96f471adb5d82eee791"},
+    "scope": {"const": "reduced_transcriptomics_core"},
+    "derivation_policy": {"const": "read_only_derived_artifact_outside_frozen_v1"},
+    "query_domain": {"$ref": "#/$defs/path_binding"},
+    "row_binding_table": {
+      "allOf": [
+        {"$ref": "#/$defs/path_binding"},
+        {"properties": {"record_count": {"const": 7183}}}
+      ]
+    },
+    "block_count": {"const": 6},
+    "biological_unit_count": {"const": 7183},
+    "observation_count": {"const": 909476},
+    "adapter_unit_counts": {
+      "const": {
+        "parquet_long_keyed": 46,
+        "zarr_csr_ordinal": 9,
+        "zarr_dense_indexed": 7128
+      }
+    },
+    "adapter_observation_counts": {
+      "const": {
+        "parquet_long_keyed": 46,
+        "zarr_csr_ordinal": 902302,
+        "zarr_dense_indexed": 7128
+      }
+    },
+    "within_unit_aggregation_required": {"const": true},
+    "blocks": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/block"}
+    },
+    "binding_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "path_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "record_count"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "record_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "file_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "bytes"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "bytes": {"type": "integer", "minimum": 1}
+      }
+    },
+    "matrix_manifest": {
+      "anyOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256", "bytes"],
+          "properties": {
+            "path": {"type": "string", "minLength": 1},
+            "sha256": {"$ref": "#/$defs/sha256"},
+            "bytes": {"type": "integer", "minimum": 1}
+          }
+        }
+      ]
+    },
+    "selector_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "column", "canonical_row_index_source", "forbidden_columns"],
+      "properties": {
+        "kind": {"enum": ["keyed_value_join", "metadata_ordinal_where", "explicit_value_row_index"]},
+        "column": {"type": "string", "minLength": 1},
+        "canonical_row_index_source": {"type": "string", "minLength": 1},
+        "forbidden_columns": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "block": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "block_uid", "block_sha256", "family_uid", "source_id", "source_accession",
+        "adapter", "manifest", "biological_unit_count", "observation_count",
+        "matrix_shape", "stored_value_row_count", "metadata", "values", "features",
+        "matrix_manifest", "selector_contract"
+      ],
+      "properties": {
+        "block_uid": {"type": "string", "minLength": 1},
+        "block_sha256": {"$ref": "#/$defs/sha256"},
+        "family_uid": {"type": "string", "minLength": 1},
+        "source_id": {"type": "string", "minLength": 1},
+        "source_accession": {"type": "string", "minLength": 1},
+        "adapter": {"enum": ["parquet_long_keyed", "zarr_csr_ordinal", "zarr_dense_indexed"]},
+        "manifest": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256"],
+          "properties": {
+            "path": {"type": "string", "minLength": 1},
+            "sha256": {"$ref": "#/$defs/sha256"}
+          }
+        },
+        "biological_unit_count": {"type": "integer", "minimum": 1},
+        "observation_count": {"type": "integer", "minimum": 1},
+        "matrix_shape": {
+          "type": "array",
+          "prefixItems": [
+            {"type": "integer", "minimum": 1},
+            {"type": "integer", "minimum": 1}
+          ],
+          "items": false,
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "stored_value_row_count": {"type": "integer", "minimum": 1},
+        "metadata": {"$ref": "#/$defs/axis_binding"},
+        "values": {"$ref": "#/$defs/value_binding"},
+        "features": {"$ref": "#/$defs/feature_binding"},
+        "matrix_manifest": {"$ref": "#/$defs/matrix_manifest"},
+        "selector_contract": {"$ref": "#/$defs/selector_contract"},
+        "forbidden_row_index_mismatch_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "axis_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "bytes", "record_count", "key_column"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "bytes": {"type": "integer", "minimum": 1},
+        "record_count": {"type": "integer", "minimum": 1},
+        "key_column": {"type": "string", "minLength": 1}
+      }
+    },
+    "value_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "bytes", "format", "unit_key_column", "feature_key_column"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "bytes": {"type": "integer", "minimum": 1},
+        "format": {"type": "string", "minLength": 1},
+        "unit_key_column": {"type": "string", "minLength": 1},
+        "feature_key_column": {"type": "string", "minLength": 1}
+      }
+    },
+    "feature_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "bytes", "record_count", "key_column"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "bytes": {"type": "integer", "minimum": 1},
+        "record_count": {"type": "integer", "minimum": 1},
+        "key_column": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

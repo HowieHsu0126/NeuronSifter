@@ -1,0 +1,27 @@
+schema_version: coevolution_comparison_registry_v1
+registry_id: neuronsifter_coevolution_comparisons
+entries:
+  - comparison_uid: static_twin_static_agent
+    twin_state: frozen
+    agent_state: frozen
+    evaluation_role: coevolution_control
+  - comparison_uid: static_twin_adaptive_agent
+    twin_state: frozen
+    agent_state: adaptive
+    evaluation_role: one_sided_adaptation
+  - comparison_uid: adaptive_twin_static_agent
+    twin_state: adaptive
+    agent_state: frozen
+    evaluation_role: one_sided_adaptation
+  - comparison_uid: full_agent_twin_coevolution
+    twin_state: adaptive
+    agent_state: adaptive
+    evaluation_role: primary_coevolution
+  - comparison_uid: naive_latest_batch_joint_update
+    twin_state: latest_batch
+    agent_state: latest_batch
+    evaluation_role: replay_control
+  - comparison_uid: full_replay_joint_update
+    twin_state: replay_buffer
+    agent_state: replay_buffer
+    evaluation_role: replay_control

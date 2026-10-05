@@ -1,0 +1,427 @@
+digital_twin_evidence_fabric:
+  version: digital_twin_evidence_fabric_v1
+  schema_versions:
+    inventory: neuronsifter-dt-evidence-fabric-inventory-v1
+    relationship_graph: neuronsifter-dt-evidence-relationship-graph-v1
+    validation: neuronsifter-dt-evidence-fabric-validation-v1
+  schema_field_keys:
+    evidence_record: digital_twin_evidence_record_fields
+    relationship: digital_twin_evidence_relationship_fields
+    role_matrix: digital_twin_evidence_role_matrix_fields
+  evidence_types:
+  - real_static_state
+  - real_perturbation_endpoint
+  - real_longitudinal_trajectory
+  - legacy_simulator_trajectory
+  - clean_simulator_trajectory
+  - published_mechanistic_output
+  - tool_result
+  - hypothetical_scenario
+  - ontology_or_prior
+  pairing_semantics:
+  - same_unit_longitudinal
+  - same_unit_action_endpoint
+  - cross_sectional
+  - semantic_alignment_only
+  - simulator_generated
+  - not_paired
+  time_semantics:
+  - static
+  - endpoint
+  - longitudinal
+  - simulated_trajectory
+  - timeless
+  fidelity_levels:
+  - observed
+  - aggregate_audit
+  - legacy_simulator
+  - clean_simulator
+  - published_model
+  - tool_native
+  - hypothetical
+  - prior
+  qc_grades:
+  - A
+  - B
+  - C
+  - D
+  - S
+  - ungraded
+  claim_eligibility_values:
+  - ineligible
+  - state_reconstruction_only
+  - endpoint_direction_only
+  - dynamics_pretraining_only
+  - context_only
+  - evaluation_only
+  allowed_train_roles:
+  - state_reconstruction
+  - endpoint_calibration
+  - trajectory_representation_pretraining
+  - numerical_dynamics
+  - clean_dynamics
+  - constraint_learning
+  - context_prior
+  - weak_calibration
+  - physical_action_comparison
+  - dose_response
+  - route_schedule
+  - action_contrast
+  allowed_eval_roles:
+  - holdout
+  - endpoint_evaluation
+  - trajectory_evaluation
+  - stress_test
+  - context_prior
+  - strict_action_holdout
+  role_policy:
+    unqualified_non_core_train_roles:
+    - context_prior
+    - weak_calibration
+    unqualified_non_core_eval_roles:
+    - context_prior
+    - holdout
+    observation_evidence_types:
+    - real_static_state
+    - real_perturbation_endpoint
+    - real_longitudinal_trajectory
+    generated_evidence_types:
+    - legacy_simulator_trajectory
+    - clean_simulator_trajectory
+    - published_mechanistic_output
+    - tool_result
+    - hypothetical_scenario
+    legacy_forbidden_train_roles:
+    - physical_action_comparison
+    - dose_response
+    - route_schedule
+    - action_contrast
+    legacy_forbidden_eval_roles:
+    - strict_action_holdout
+  relationship_types:
+    biological_unit_uid: describes_biological_unit
+    state_uid: describes_state
+    action_uid: references_action
+    trajectory_uid: references_trajectory
+    tool_result_uid: references_tool_result
+    model_family_uid: produced_by_model_family
+    related_evidence: related_to
+    paired_evidence: paired_with
+    semantic_alignment: semantically_aligned_with
+  external_entity_kinds:
+    biological_unit_uid: biological_unit
+    state_uid: state
+    action_uid: action
+    trajectory_uid: trajectory
+    tool_result_uid: tool_result
+    model_family_uid: model_family
+  output_paths:
+    inventory: Output/audits/dt_evidence_fabric_inventory.json
+    relationship_graph: Output/audits/dt_evidence_relationship_graph.json
+    role_matrix: Output/audits/dt_evidence_role_matrix.tsv
+    validation: Output/audits/dt_evidence_fabric_validation.json
+  sealing_policy:
+    passed_status: passed_sealed
+    missing_status: blocked_missing_required_frozen_inputs
+    invalid_status: blocked_invalid_evidence_fabric
+    require_all_required_sources: true
+    require_identity_match: true
+    reject_absolute_paths: true
+    reject_symlink_escape: true
+    hash_before_and_after_read: true
+  source_adapters:
+  - adapter_id: public_foundation_corpus_v1_evidence_bundle
+    path: Output/audits/public_foundation_corpus_evidence_bundle.json
+    reader_type: json_artifact
+    required: true
+    expected_identity:
+      schema_version: neuronsifter-public-foundation-corpus-evidence-bundle-v1
+      corpus_uid: public_foundation_corpus_v1
+      corpus_hash: 06ae88daf3c44be2c2bb96e51c939554e160b205138ec96f471adb5d82eee791
+    evidence_defaults: &frozen_public_prior
+      evidence_type: ontology_or_prior
+      source_uid: public_foundation_corpus
+      publication_accession: null
+      biological_unit_uid: null
+      state_uid: null
+      action_uid: null
+      trajectory_uid: null
+      tool_result_uid: null
+      model_family_uid: null
+      time_semantics: timeless
+      pairing_semantics: not_paired
+      fidelity: aggregate_audit
+      qc_grade: ungraded
+      uncertainty: {status: source_reported}
+      allowed_train_roles: [context_prior]
+      allowed_eval_roles: [holdout]
+      claim_eligibility: context_only
+  - adapter_id: public_foundation_corpus_v1_observation_blocks
+    path: Output/audits/public_foundation_corpus_canonical_observation_blocks.json
+    reader_type: json_artifact
+    required: true
+    expected_identity:
+      schema_version: neuronsifter-public-foundation-corpus-evidence-artifact-v1
+    evidence_defaults: *frozen_public_prior
+  - adapter_id: public_foundation_corpus_v1_frozen_splits
+    path: Output/audits/public_foundation_corpus_frozen_splits.json
+    reader_type: json_artifact
+    required: true
+    expected_identity:
+      schema_version: neuronsifter-public-foundation-corpus-evidence-artifact-v1
+    evidence_defaults: *frozen_public_prior
+  - adapter_id: public_foundation_corpus_rescue_evidence_bundle
+    path: Output/audits/public_foundation_corpus_rescue_evidence_bundle.json
+    reader_type: json_artifact
+    required: true
+    expected_identity:
+      schema_version: neuronsifter-public-foundation-corpus-v2-evidence-bundle-v1
+      corpus_uid: public_foundation_corpus_rescue
+      corpus_identity_hash: 3c9899d1704ce262801229d98fb5402f49159fb8959295d3b86600522b4ab7f1
+      parent_corpus_uid: public_foundation_corpus_v1
+      parent_corpus_identity_hash: 06ae88daf3c44be2c2bb96e51c939554e160b205138ec96f471adb5d82eee791
+    evidence_defaults: *frozen_public_prior
+  - adapter_id: public_foundation_corpus_rescue_observation_blocks
+    path: Output/audits/public_foundation_corpus_rescue_canonical_observation_blocks.json
+    reader_type: json_artifact
+    required: true
+    expected_identity:
+      schema_version: neuronsifter-public-foundation-corpus-v2-observation-blocks-v1
+    evidence_defaults: *frozen_public_prior
+  - adapter_id: public_foundation_corpus_rescue_frozen_splits
+    path: Output/audits/public_foundation_corpus_rescue_frozen_splits.json
+    reader_type: json_artifact
+    required: true
+    expected_identity:
+      schema_version: neuronsifter-public-foundation-corpus-v2-frozen-splits-v1
+    evidence_defaults: *frozen_public_prior
+  - adapter_id: c1_route_closeout
+    path: Output/audits/c1_route_closeout.json
+    reader_type: json_artifact
+    required: true
+    expected_identity: {}
+    evidence_defaults: *frozen_public_prior
+  - adapter_id: c1_rescue_feasibility_decision
+    path: Output/audits/c1_rescue_feasibility_decision.json
+    reader_type: json_artifact
+    required: true
+    expected_identity: {}
+    evidence_defaults: *frozen_public_prior
+  - adapter_id: c2_pretraining_reachability_decision
+    path: Output/audits/c2_pretraining_reachability_decision.json
+    reader_type: json_artifact
+    required: true
+    expected_identity: {}
+    evidence_defaults: *frozen_public_prior
+  - adapter_id: c2_g4_validation
+    path: Output/audits/c2_g4_validation.json
+    reader_type: json_artifact
+    required: true
+    expected_identity: {}
+    evidence_defaults: *frozen_public_prior
+  - adapter_id: c2r_entry_gate_decision
+    path: Output/audits/c2r_entry_gate_decision.json
+    reader_type: json_artifact
+    required: true
+    expected_identity: {}
+    evidence_defaults: *frozen_public_prior
+  - adapter_id: trajectory_numeric_lineage_audit
+    path: Output/audits/trajectory_numeric_lineage_audit.json
+    reader_type: json_artifact
+    required: true
+    expected_identity:
+      schema_version: neuronsifter-trajectory-numeric-lineage-audit-v1
+      current_snapshot.qc_summary.train_eligible_count: 222336
+    evidence_defaults:
+      evidence_type: legacy_simulator_trajectory
+      source_uid: legacy_trajectory_lineage
+      publication_accession: null
+      biological_unit_uid: null
+      state_uid: null
+      action_uid: null
+      trajectory_uid: null
+      tool_result_uid: null
+      model_family_uid: null
+      time_semantics: simulated_trajectory
+      pairing_semantics: simulator_generated
+      fidelity: aggregate_audit
+      qc_grade: ungraded
+      uncertainty: {status: aggregate_only_record_catalog_required}
+      allowed_train_roles: []
+      allowed_eval_roles: []
+      claim_eligibility: ineligible
+  - adapter_id: simulation_qc_catalog
+    path: Input/processed/simulation_audit/simulation_qc_catalog.tsv
+    reader_type: tsv_records
+    required: true
+    required_columns: [trajectory_uid, qc_grade]
+    uid_columns: [trajectory_uid]
+    field_sources: {trajectory_uid: [trajectory_uid], model_family_uid: [teacher_family, source_collection], qc_grade: [qc_grade]}
+    provenance_fields: [trajectory_family_uid, qc_use, paired_status, content_hash]
+    evidence_defaults:
+      evidence_type: legacy_simulator_trajectory
+      source_uid: legacy_simulation_qc_catalog
+      publication_accession: null
+      biological_unit_uid: null
+      state_uid: null
+      action_uid: null
+      trajectory_uid: null
+      tool_result_uid: null
+      model_family_uid: null
+      time_semantics: simulated_trajectory
+      pairing_semantics: simulator_generated
+      fidelity: legacy_simulator
+      qc_grade: ungraded
+      uncertainty: {status: source_reported}
+      allowed_train_roles: [trajectory_representation_pretraining, numerical_dynamics]
+      allowed_eval_roles: [trajectory_evaluation]
+      claim_eligibility: dynamics_pretraining_only
+  - adapter_id: study_bundle_catalog
+    path: Input/processed/model_input/study_bundle_catalog.tsv
+    reader_type: tsv_records
+    required: true
+    required_columns: [study_uid]
+    uid_columns: [study_uid]
+    field_sources: {source_uid: [source_key, study_uid], publication_accession: [source_accession]}
+    provenance_fields: [study_uid, modality, sample_context, model_ready_flag]
+    evidence_defaults: &real_static_defaults
+      evidence_type: real_static_state
+      source_uid: public_static_state_catalog
+      publication_accession: null
+      biological_unit_uid: null
+      state_uid: null
+      action_uid: null
+      trajectory_uid: null
+      tool_result_uid: null
+      model_family_uid: null
+      time_semantics: static
+      pairing_semantics: cross_sectional
+      fidelity: observed
+      qc_grade: ungraded
+      uncertainty: {status: source_reported}
+      allowed_train_roles: [state_reconstruction]
+      allowed_eval_roles: [holdout]
+      claim_eligibility: state_reconstruction_only
+  - adapter_id: sample_observation_catalog
+    path: Input/processed/sample_observation/sample_observation_catalog.tsv
+    reader_type: tsv_records
+    required: true
+    required_columns: [observation_uid]
+    uid_columns: [observation_uid]
+    field_sources: {biological_unit_uid: [biological_unit_uid, sample_uid], state_uid: [state_uid]}
+    provenance_fields: [observation_uid, observed_axes, missing_axes, measurement_modality, modality, feature_namespace, biological_context, source_uncertainty, mapping_uncertainty]
+    evidence_defaults: *real_static_defaults
+  - adapter_id: structured_action_catalog
+    path: Input/processed/action_ready/regimen_catalog.tsv
+    reader_type: tsv_records
+    required: true
+    required_columns: [regimen_uid]
+    uid_columns: [regimen_uid]
+    field_sources: {action_uid: [action_uid, regimen_uid]}
+    provenance_fields: [regimen_uid, target_program_uid, route, schedule]
+    evidence_defaults:
+      <<: *frozen_public_prior
+      source_uid: structured_action_catalog
+  - adapter_id: clue_touchstone_holding
+    path: Input/processed/intervention_program/intervention_program_catalog.tsv
+    reader_type: tsv_records
+    required: true
+    required_columns: [intervention_uid]
+    uid_columns: [intervention_uid]
+    field_sources: {source_uid: [source_key, source_accession], action_uid: [action_uid, intervention_uid]}
+    provenance_fields: [block_id, source_release, modality, source_holdout_role]
+    required_row_match:
+      field: block_id
+      value: GSE92742-TouchstoneV1.1::NPC_NEU_TRT_CP
+    evidence_defaults:
+      evidence_type: real_perturbation_endpoint
+      source_uid: lincs_clue_touchstone
+      publication_accession: GSE92742-TouchstoneV1.1
+      biological_unit_uid: null
+      state_uid: null
+      action_uid: null
+      trajectory_uid: null
+      tool_result_uid: null
+      model_family_uid: null
+      time_semantics: endpoint
+      pairing_semantics: same_unit_action_endpoint
+      fidelity: observed
+      qc_grade: ungraded
+      uncertainty: {status: source_reported}
+      allowed_train_roles: [endpoint_calibration]
+      allowed_eval_roles: [endpoint_evaluation]
+      claim_eligibility: endpoint_direction_only
+  - adapter_id: drugcomb_holding
+    path: Input/processed/external_adapters/drugcomb_combination_prior_catalog.tsv
+    reader_type: tsv_records
+    required: true
+    required_columns: [combination_uid]
+    uid_columns: [combination_uid]
+    field_sources: {source_uid: [source_key], action_uid: [combination_uid]}
+    provenance_fields: [source_release, block_id, source_holdout_role]
+    evidence_defaults:
+      <<: *frozen_public_prior
+      source_uid: drugcomb
+  - adapter_id: bindingdb_holding
+    path: Input/processed/drug_target_ready/drug_target_edge_catalog.tsv
+    reader_type: tsv_records
+    required: true
+    required_columns: [edge_uid]
+    uid_columns: [edge_uid]
+    field_sources: {source_uid: [source_key]}
+    provenance_fields: [edge_uid, target_uid, compound_uid, bindingdb_ligand_id]
+    evidence_defaults:
+      <<: *frozen_public_prior
+      source_uid: bindingdb
+  - adapter_id: mechanistic_model_registry
+    path: Input/processed/full_microenvironment_teacher_ready/source_model_catalog.tsv
+    reader_type: tsv_records
+    required: true
+    required_columns: [source_model_uid]
+    uid_columns: [source_model_uid]
+    field_sources: {model_family_uid: [model_family_uid, source_model_uid]}
+    provenance_fields: [source_model_uid, source_model_family, source_url, provenance_level]
+    evidence_defaults:
+      evidence_type: published_mechanistic_output
+      source_uid: mechanistic_model_registry
+      publication_accession: null
+      biological_unit_uid: null
+      state_uid: null
+      action_uid: null
+      trajectory_uid: null
+      tool_result_uid: null
+      model_family_uid: null
+      time_semantics: simulated_trajectory
+      pairing_semantics: simulator_generated
+      fidelity: published_model
+      qc_grade: ungraded
+      uncertainty: {status: source_reported}
+      allowed_train_roles: [context_prior]
+      allowed_eval_roles: [holdout]
+      claim_eligibility: context_only
+  - adapter_id: tool_registry
+    path: Input/processed/external_adapters/external_adapter_catalog.tsv
+    reader_type: tsv_records
+    required: true
+    required_columns: [adapter_uid]
+    uid_columns: [adapter_uid]
+    field_sources: {tool_result_uid: [tool_result_uid]}
+    provenance_fields: [adapter_uid, source_key, adapter_role, provenance_level]
+    evidence_defaults:
+      evidence_type: tool_result
+      source_uid: external_tool_registry
+      publication_accession: null
+      biological_unit_uid: null
+      state_uid: null
+      action_uid: null
+      trajectory_uid: null
+      tool_result_uid: null
+      model_family_uid: null
+      time_semantics: timeless
+      pairing_semantics: not_paired
+      fidelity: tool_native
+      qc_grade: ungraded
+      uncertainty: {status: source_reported}
+      allowed_train_roles: [weak_calibration]
+      allowed_eval_roles: [holdout]
+      claim_eligibility: ineligible

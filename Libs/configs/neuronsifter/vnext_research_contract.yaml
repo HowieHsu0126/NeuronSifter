@@ -1,0 +1,282 @@
+neuronsifter_vnext:
+  schema_version: neuronsifter-vnext-research-contract-v1
+  contract_id: neuronsifter_vnext_dev_v1
+  status: canonical_development_contract
+  canonical_framework:
+    name: Decision-Consistent Scientific Twin
+    headline_claim: Decision-consistent shared belief enables reliable selective CNS intervention progression.
+    headline_claim_count: 1
+    mainline_operator: neuronsifter_world_action
+    primary_contribution: H1_decision_consistent_shared_belief
+    hierarchy:
+      - id: A0
+        label: Scientific-State Adequacy
+        role: prerequisite
+      - id: A1
+        label: World-Action Adequacy
+        role: prerequisite
+      - id: H1
+        label: Decision-Consistent Shared Belief
+        role: primary_scientific_contribution
+      - id: H2
+        label: Reliable Selective Progression
+        role: operating_boundary
+      - id: E1
+        label: Agent-Twin Co-Evolution Extension
+        role: adaptive_extension
+      - id: E2
+        label: Real Biological Intervention Expansion
+        role: blocked_extension
+      - id: D1
+        label: Scale / Deployment
+        role: supporting_engineering_evidence
+  dual_gates:
+    development:
+      neuronsifter_core_development_authorized: true
+      development_training_allowed: true
+    publication:
+      external_baseline_comparison_resolved: false
+      headline_comparison_authorized: false
+      protected_final_holdout_access: false
+  claim_boundary:
+    c2_b: blocked_insufficient_real_e2_e4
+    public_only: true
+    development_results_publication_claim_eligible: false
+    external_baseline_program: paused_preserve_round20qr_v3
+    preserved_baseline_lineage: Output/audits/round20qr_v3
+  data_boundary:
+    c1:
+      source_role: verified_public_allen_cns_foundation
+      allowed_partitions: [train, validation, development_diagnostic]
+    c2s:
+      source_role: modeldb_romani_current_clamp_restricted
+      allowed_partitions: [train, validation, development_diagnostic]
+    forbidden_inputs:
+      - protected_publication_final_holdout
+      - external_baseline_test_results
+      - c2_b_unsupported_intervention_truth
+      - controlled_participant_data
+  runtime:
+    kernels:
+      scientific_belief: infer_belief
+      world_channel: rollout
+      information_channel: predict_tool_outcome
+      decision_controller:
+        - rank_interventions
+        - value_information_actions
+        - select_tool
+        - assimilate_observation
+        - compute_reliability
+        - accept
+        - reject
+        - acquire
+        - escalate
+        - abstain
+    posterior:
+      schema_version: neuronsifter-posterior-v1
+      immutable_identity_field: posterior_uid
+      required_components: [state, uncertainty, support, mechanism, reliability]
+    decision_consistency:
+      invariant_fields:
+        - posterior_uid_rollout
+        - posterior_uid_query
+        - posterior_uid_assimilation_parent
+        - posterior_uid_decision
+      hidden_scientific_decision_states: 0
+      invalid_tool_result_moves_biological_state: false
+  training:
+    lineage_id: neuronsifter_vnext_dev_v1
+    stages: [Debug, Student, Large]
+    development_steps:
+      Debug: 1
+      Student: 2
+      Large: 2
+    selected_large_seed_count_minimum: 3
+    evidence_role: development_only
+    publication_claim_eligible: false
+    protected_test_access_count: 0
+    c2s_development:
+      source_domain: modeldb_romani_current_clamp_restricted
+      readiness_path: Output/audits/c2_domain_readiness.json
+      action_catalog_path: Input/manifests/c2/action_catalog.tsv
+      trajectory_manifest_path: Input/manifests/c2/trajectory_manifest.tsv
+      strict_split_manifest_path: Input/manifests/c2/strict_split_manifest.tsv
+      trajectory_array_name: trajectories
+      uncertainty_array_name: teacher_uncertainty
+      allowed_split_roles: [train, validation]
+      protected_split_role: test
+      optimizer:
+        learning_rate: 0.0001
+        weight_decay: 0.0001
+        gradient_clip_norm: 1.0
+      uncertainty:
+        minimum_standard_deviation: 0.0001
+        mc_dropout_pass_count: 3
+        calibration_interval_level: 0.9
+      profiles:
+        Debug:
+          operator_hidden_dim: 64
+          operator_depth: 1
+          attention_head_count: 4
+          mechanism_state_token_count: 8
+          graph_mode_count: 12
+          wavelet_level_count: 1
+          training_sample_count: 2
+          training_denoising_step_count: 2
+          evaluation_sample_count: 4
+          evaluation_denoising_step_count: 4
+        Student:
+          operator_hidden_dim: 128
+          operator_depth: 2
+          attention_head_count: 8
+          mechanism_state_token_count: 16
+          graph_mode_count: 24
+          wavelet_level_count: 2
+          training_sample_count: 2
+          training_denoising_step_count: 3
+          evaluation_sample_count: 4
+          evaluation_denoising_step_count: 4
+        Large:
+          operator_hidden_dim: 256
+          operator_depth: 4
+          attention_head_count: 8
+          mechanism_state_token_count: 32
+          graph_mode_count: 36
+          wavelet_level_count: 3
+          training_sample_count: 2
+          training_denoising_step_count: 4
+          evaluation_sample_count: 8
+          evaluation_denoising_step_count: 6
+  development_diagnostics:
+    c1:
+      checkpoint_path: Output/runs/round23/c1/large_seed3407/last.pt
+      split_uid: family_holdout_cns_cell_type_region_atlas_transcriptomics
+      split_role: validation
+      role_binding_path: Input/canonical/public_foundation_corpus_v1/splits/reduced_transcriptomics_core_v1/family_holdout_cns_cell_type_region_atlas_transcriptomics.validation.tsv
+      batch_size: 6
+      batch_count: 12
+      posterior_sample_count: 8
+      calibration_interval_level: 0.9
+      missing_modality_status: not_evaluable_transcriptomics_only_contract
+      cross_source_transfer_status: proxy_only_no_qualified_cross_source_anchor
+    c2s:
+      selected_model_scale: Large
+      selected_seeds: [3407, 3408, 3409]
+      constraint_metric_semantics: negative_state_fraction_proxy_not_constraint_residual_magnitude
+  mechanism_test:
+    variants: [S_shared_posterior, D_decoupled_posteriors, P_shared_point, U_uncertainty_query]
+    matched_fields: [encoder_capacity, world_action_backbone, training_data, candidate_pools, optimizer, steps, checkpoint_selection, tool_capabilities, compute_budget]
+    primary_question: shared_posterior_outperforms_controls_on_decision_consistency
+    theoretical_metric: posterior_total_variation
+    proxy_policy: declare_stable_proxy_separately_when_tv_unavailable
+    protocol:
+      execution_mode: offline_development_replay
+      seed_count: 12
+      query_budget: 1
+      minimum_valid_episode_count: 12
+      required_control_win_fraction: 0.6666666667
+      maximum_decision_risk_ratio_vs_best_control: 0.95
+      maximum_rank_disagreement_ratio_vs_decoupled: 0.95
+      seed_win_metric_order: [decision_risk_at_matched_cost, intervention_rank_disagreement, top_query_regret]
+      seed_win_tie_tolerance: 1.0e-12
+      response_objective: electrophysiology_response_magnitude_not_biological_efficacy
+    recovery_protocol:
+      attempt_id: attempt_03_ephys_response_alignment
+      trigger: attempt_02_review_invalidated_mismatched_response_definition
+      review_invalidated_attempt_id: attempt_02_prospective_equal_charge_actions
+      candidate_pool_id: modeldb_romani_equal_charge_structured_action_dev_v1
+      candidate_pool_config: Libs/configs/neuronsifter/round23_mechanism_pool.yaml
+      prospective_registered_tool_execution: true
+      endpoint_filtering_after_outcome_observation_allowed: false
+      acceptance_thresholds_inherited_without_change: true
+      checkpoint_update_allowed: false
+      protected_test_access_allowed: false
+  adaptation:
+    required_static_reference: true
+    matrix: [frozen_twin_frozen_agent, frozen_twin_adaptive_agent, adaptive_twin_frozen_agent, adaptive_twin_adaptive_agent]
+    offline_replay_is_empirical_prospective_evidence: false
+    rollback_required_if_updates_run: true
+    offline_protocol:
+      source_mechanism_attempt_id: attempt_03_ephys_response_alignment
+      sequential_round_count: 3
+      query_without_replacement: true
+      twin_update_scope: scientific_posterior_calibration_layer_only
+      neural_twin_checkpoint_update_allowed: false
+      agent_preference_learning_rate: 0.5
+      minimum_old_domain_retention: 0.9
+      maximum_calibration_drift: 0.15
+      reliability_accept_threshold: 0.8
+      calibration_interval_level: 0.9
+      information_action_cost: 1.0
+      controls: [latest_batch_joint_update, full_replay_joint_update]
+      invalid_observation_rollback_probe: nonfinite_observation
+      empirical_coevolution_claim_allowed: false
+  round24:
+    schema_version: neuronsifter-round24-prospective-adaptation-v1
+    lineage_id: neuronsifter_vnext_dev_v1
+    status: development_only_prospective_adaptation
+    static_reference:
+      required_round23_gate: neuronsifter_vnext_core_development_resolved
+      mechanism_resolution: partial
+      mechanism_gate_path: Output/audits/round23_coupling_mechanism_gate.json
+      static_reference_path: Output/audits/round23_static_dev_reference.json
+      checkpoint_selection: validation_only
+      neural_world_action_checkpoint_immutable: true
+      twin_update_scope: scientific_posterior_assimilation_only_no_model_parameter_update
+    prospective_environment:
+      registered_tool: neuron_rxd_microenvironment_teacher.run_protocol_batch
+      source_domain: modeldb_romani_current_clamp_restricted
+      allowed_split_roles: [train, validation, development_diagnostic]
+      protected_test_access_allowed: false
+      candidate_pool_outcome_visibility: after_dispatch_only
+      minimum_sequential_round_count: 3
+      query_without_replacement: true
+    primary_comparison:
+      systems: [frozen_twin_frozen_agent, adaptive_twin_frozen_agent]
+      agent_parameters_updated: false
+      matched_candidate_pools: true
+      matched_tool_capabilities: true
+      matched_round_budgets: true
+      update_strategies: [none, latest_batch, full_replay, governed]
+    reliability_gate:
+      minimum_old_domain_retention: 0.9
+      maximum_calibration_drift: 0.15
+      reliability_accept_threshold: 0.8
+      rollback_on_degradation: true
+      model_bound_pre_post_evaluation_required: true
+      placeholder_metrics_are_admissible: false
+    evaluation_binding:
+      c1_posterior_consumed_by_encoder: false
+      c2s_posterior_consumed_by_world_action_predictor: false
+      pre_post_metric_inputs_available: false
+      current_status: blocked_missing_model_bound_pre_post_evaluation
+      permitted_program_status: blocked_adaptive_development
+    conditional_agent_adaptation:
+      authorized_only_if: neuronsifter_prospective_twin_adaptation_resolved
+      systems: [frozen_twin_frozen_agent, frozen_twin_adaptive_agent, adaptive_twin_frozen_agent, adaptive_twin_adaptive_agent]
+      empirical_coevolution_claim_allowed: false
+      currently_authorized: false
+    evidence_boundary:
+      evidence_role: development_only
+      publication_claim_eligible: false
+      protected_final_holdout_access: false
+      external_baseline_comparison_authorized: false
+      c2b: blocked_insufficient_real_e2_e4
+  outputs:
+    framework: Docs/design/iclr/NEURONSIFTER_VNEXT_RESEARCH_FRAMEWORK.md
+    contract: Libs/configs/neuronsifter/vnext_research_contract.yaml
+    framework_migration_audit: Output/audits/round23_vnext_framework_migration.json
+    dual_gate_policy: Output/audits/round23_dual_gate_policy.json
+    decision_consistency_contract: Output/audits/round23_decision_consistency_contract.json
+    posterior_lineage_validation: Output/audits/round23_posterior_lineage_validation.json
+    training_manifest: Output/audits/round23_training_manifest.json
+    checkpoint_catalog: Output/audits/round23_development_checkpoint_catalog.json
+    coupling_gate: Output/audits/round23_coupling_mechanism_gate.json
+    development_gate: Output/audits/round23_vnext_development_gate.json
+  acceptance:
+    single_canonical_framework: true
+    historical_claims_reconciled: true
+    development_gate_open: true
+    publication_gate_closed: true
+    protected_test_access: false
+    c2b_blocked: true

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/public-retrospective-ranking-evidence-structural-scarcity-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "scope_boundary", "route_evidence",
+    "current_evidence_state", "adjudication", "prohibited_interpretations",
+    "authorized_next_route", "formal_authority", "artifact_bindings", "created_at"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-public-ranking-evidence-structural-scarcity-v1"},
+    "status": {"const": "PUBLIC_RETROSPECTIVE_THERAPEUTIC_RANKING_EVIDENCE_STRUCTURALLY_SPARSE"},
+    "scope_boundary": {"type": "string", "minLength": 1},
+    "route_evidence": {"type": "array", "minItems": 3},
+    "current_evidence_state": {"type": "object"},
+    "adjudication": {"type": "object"},
+    "prohibited_interpretations": {"type": "array", "minItems": 1},
+    "authorized_next_route": {"const": "prospective_uncertainty_aware_protocol_design_only"},
+    "formal_authority": {"type": "object"},
+    "artifact_bindings": {"type": "object"},
+    "created_at": {"type": "string", "minLength": 1}
+  }
+}

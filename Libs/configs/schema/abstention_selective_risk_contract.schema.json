@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/abstention-selective-risk-contract-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "review_uid",
+    "reviewed_on",
+    "parent_protocol",
+    "context_roles",
+    "evidence_roles",
+    "baselines",
+    "metrics",
+    "metric_definitions",
+    "selective_risk",
+    "tool_policy",
+    "memory_policy",
+    "method_requirements",
+    "outputs"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-abstention-selective-risk-contract-v1"},
+    "status": {"const": "frozen_review_contract"},
+    "review_uid": {"const": "public_six_context_zero_shot_protocol_review"},
+    "reviewed_on": {"type": "string", "format": "date"},
+    "parent_protocol": {"type": "object"},
+    "context_roles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["positive_ranking", "ambiguous_abstention"],
+      "properties": {
+        "positive_ranking": {"type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true, "items": {"type": "string"}},
+        "ambiguous_abstention": {"type": "array", "minItems": 4, "maxItems": 4, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "evidence_roles": {"type": "object"},
+    "baselines": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["baseline_uid", "definition", "uncertainty_enabled", "abstention_enabled", "implementation_binding", "execution_ready"],
+        "properties": {
+          "baseline_uid": {"type": "string", "minLength": 1},
+          "definition": {"type": "string", "minLength": 1},
+          "uncertainty_enabled": {"type": "boolean"},
+          "abstention_enabled": {"type": "boolean"},
+          "implementation_binding": {"type": ["object", "null"]},
+          "execution_ready": {"type": "boolean"}
+        }
+      }
+    },
+    "metrics": {"type": "object"},
+    "metric_definitions": {"type": "object", "minProperties": 1},
+    "selective_risk": {"type": "object"},
+    "tool_policy": {"type": "object"},
+    "memory_policy": {"type": "object"},
+    "method_requirements": {"type": "object"},
+    "outputs": {"type": "object"}
+  }
+}

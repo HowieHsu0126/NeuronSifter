@@ -1,0 +1,78 @@
+retrospective_replay_benchmark:
+  schema_version: neuronsifter-retrospective-replay-benchmark-v1
+  contract_version: v1
+  status: frozen_before_candidate_materialization
+  evidence_contract: Libs/configs/data/retrospective_public_therapeutic_evidence.yaml
+  public_boundary:
+    strict_public_only: true
+    controlled_access_records_allowed: false
+    unpublished_partner_records_allowed: false
+    protected_holdout_access: 0
+    publication_claim_eligible: false
+  source_snapshot_policy:
+    snapshot_identity_required: true
+    snapshot_manifest_required: true
+    queryable_source_snapshot_required: true
+    live_web_search_allowed: false
+    live_database_queries_allowed: false
+    source_snapshot_must_be_cutoff_bound: true
+    publication_date_field: publication_date
+  temporal_protocol:
+    cutoff_field: knowledge_cutoff
+    available_evidence_rule: publication_date <= knowledge_cutoff
+    hidden_future_rule: publication_date > knowledge_cutoff or outcome_visibility == hidden_future
+    target_publication_hidden_until_reveal: true
+    target_outcome_hidden_until_reveal: true
+    direct_target_retrieval_must_be_impossible: true
+    citation_chain_audit_required: true
+    database_version_drift_audit_required: true
+  tool_access:
+    registered_tools_only: true
+    allowed_tool_result_origins:
+      - frozen_public_source_snapshot
+      - registered_public_evidence_adapter
+    arbitrary_shell_allowed: false
+    tool_result_requires_provenance: true
+    tool_result_requires_content_hash: true
+    tool_result_requires_schema_validation: true
+    hidden_outcome_fields_in_tool_result: false
+    protected_target_reveal_before_terminal_decision: false
+  memory_isolation:
+    reset_between_episodes: true
+    hidden_outcome_persistence_forbidden: true
+    cross_split_memory_reuse_forbidden: true
+    memory_snapshot_hash_required: true
+  split_policy:
+    roles:
+      - retrospective_train
+      - retrospective_validation
+      - retrospective_development_eval
+    create_only_after_qualified_candidate_sets: true
+    grouping_fields:
+      - publication_uid
+      - source_snapshot_uid
+      - study_uid
+      - biological_context_uid
+      - action_family_uid
+      - target_program_uid
+      - regimen_family_uid
+    publication_overlap_forbidden: true
+    source_snapshot_overlap_forbidden: true
+    hidden_target_in_queryable_corpus_forbidden: true
+  qualification_gate:
+    minimum_legal_candidate_sets: 1
+    minimum_decision_sensitive_candidate_sets: 1
+    minimum_independent_publications: 1
+    allowed_formal_evidence_grades: [A, B, C]
+    prohibited_truth_grades: [D, M]
+    objective_selection_outcome_blind: true
+  inputs:
+    evidence_registry: Input/manifests/retrospective_public/evidence_registry.tsv
+    tool_access_snapshot_manifest: Input/manifests/retrospective_public/tool_access_snapshot_manifest.tsv
+    hidden_outcome_manifest: Input/manifests/retrospective_public/hidden_outcome_manifest.tsv
+  outputs:
+    benchmark_audit: Output/audits/retrospective_replay_benchmark.json
+    leakage_audit: Output/audits/retrospective_replay_leakage_audit.json
+    train_split: Input/manifests/retrospective_public/retrospective_train.tsv
+    validation_split: Input/manifests/retrospective_public/retrospective_validation.tsv
+    development_eval_split: Input/manifests/retrospective_public/retrospective_development_eval.tsv

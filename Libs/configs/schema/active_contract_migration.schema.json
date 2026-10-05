@@ -1,0 +1,232 @@
+{
+  "$id": "https://neuronsifter.local/schema/active_contract_migration.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "check": {
+      "additionalProperties": false,
+      "properties": {
+        "actual": {},
+        "expected": {},
+        "name": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "passed": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "expected",
+        "actual",
+        "passed"
+      ],
+      "type": "object"
+    },
+    "artifact": {
+      "additionalProperties": false,
+      "properties": {
+        "exists": {
+          "type": "boolean"
+        },
+        "expected_sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha256"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "hash_matches": {
+          "type": "boolean"
+        },
+        "name": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/sha256"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "name",
+        "path",
+        "exists",
+        "sha256",
+        "expected_sha256",
+        "hash_matches"
+      ],
+      "type": "object"
+    },
+    "contract": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_checks": {
+          "items": {
+            "$ref": "#/$defs/artifact"
+          },
+          "type": "array"
+        },
+        "binding_checks": {
+          "items": {
+            "$ref": "#/$defs/check"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "config_path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "current_config_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "migration_binding_valid": {
+          "type": "boolean"
+        },
+        "pre_migration_config_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "resolved_contract_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "uid": {
+          "enum": [
+            "c1_foundation_rescue",
+            "c2_structured_world_action",
+            "c2_trajectory_action_registry"
+          ]
+        }
+      },
+      "required": [
+        "uid",
+        "config_path",
+        "pre_migration_config_sha256",
+        "current_config_sha256",
+        "resolved_contract_sha256",
+        "binding_checks",
+        "artifact_checks",
+        "migration_binding_valid"
+      ],
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "blocker_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "blockers": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "message": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "path": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "path",
+          "message"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "contracts": {
+      "items": {
+        "$ref": "#/$defs/contract"
+      },
+      "maxItems": 3,
+      "minItems": 3,
+      "type": "array"
+    },
+    "current_rescue": {
+      "additionalProperties": false,
+      "properties": {
+        "corpus_hash": {
+          "$ref": "#/$defs/sha256"
+        },
+        "corpus_uid": {
+          "const": "public_foundation_corpus_rescue"
+        },
+        "evidence_status": {
+          "type": "string"
+        },
+        "validation_status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "corpus_uid",
+        "corpus_hash",
+        "evidence_status",
+        "validation_status"
+      ],
+      "type": "object"
+    },
+    "execution_artifacts_ready": {
+      "type": "boolean"
+    },
+    "migration_binding_valid": {
+      "type": "boolean"
+    },
+    "next_action": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "neuronsifter-active-contract-migration"
+    },
+    "status": {
+      "enum": [
+        "verified",
+        "blocked"
+      ]
+    },
+    "training_allowed": {
+      "const": false
+    }
+  },
+  "required": [
+    "schema_version",
+    "status",
+    "training_allowed",
+    "current_rescue",
+    "contracts",
+    "migration_binding_valid",
+    "execution_artifacts_ready",
+    "blocker_count",
+    "blockers",
+    "next_action"
+  ],
+  "title": "NeuronSifter active contract migration audit",
+  "type": "object"
+}

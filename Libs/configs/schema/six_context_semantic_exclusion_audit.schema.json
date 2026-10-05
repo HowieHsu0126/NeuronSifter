@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/six-context-semantic-exclusion-audit-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "audit_uid",
+    "reviewed_on",
+    "evaluation_identity",
+    "exact_exclusion",
+    "semantic_exclusion",
+    "role_reuse_risk",
+    "six_context_outcome_access",
+    "protected_holdout_access",
+    "artifact_bindings"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-six-context-semantic-exclusion-audit-v1"},
+    "status": {"enum": ["passed", "failed_incomplete_semantic_independence"]},
+    "audit_uid": {"type": "string", "minLength": 1},
+    "reviewed_on": {"type": "string", "format": "date"},
+    "evaluation_identity": {"type": "object"},
+    "exact_exclusion": {"type": "object"},
+    "semantic_exclusion": {"type": "object"},
+    "role_reuse_risk": {"type": "object"},
+    "six_context_outcome_access": {"const": 0},
+    "protected_holdout_access": {"const": 0},
+    "artifact_bindings": {"type": "object"}
+  }
+}

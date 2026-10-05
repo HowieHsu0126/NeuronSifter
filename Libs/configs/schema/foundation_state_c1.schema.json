@@ -1,0 +1,629 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/foundation_state_c1.schema.json",
+  "title": "NeuronSifter C1 Foundation State Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version", "schema_path", "claim_id", "task_status", "result_status", "gate",
+    "frozen_corpus", "loader", "encoder", "objectives", "baselines", "evaluation",
+    "scaling", "acceptance", "training", "execution", "artifacts"
+  ],
+  "properties": {
+    "contract_version": {"const": "1.2.0"},
+    "schema_path": {"const": "Libs/configs/schema/foundation_state_c1.schema.json"},
+    "claim_id": {"const": "C1"},
+    "task_status": {
+      "const": {"P3-T01": "in_progress", "P3-T02": "not_started", "P3-T03": "not_started"}
+    },
+    "result_status": {"const": "requires_experiment_result"},
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gate_id", "current_status", "fail_closed"],
+      "properties": {
+        "gate_id": {"const": "G3_foundation_transfer_evidence"},
+        "current_status": {"const": "not_evaluated"},
+        "fail_closed": {"const": true}
+      }
+    },
+    "frozen_corpus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "corpus_uid", "scope", "identity_hash", "evidence_bundle_path",
+        "required_gate_status", "required_block_count", "required_family_count",
+        "required_grade_ab_observation_count", "required_grade_ab_ess",
+        "required_qualified_action_count", "qualified_action_subset_manifest_path",
+        "qualified_action_subset_schema_path",
+        "qualified_action_subset_hash", "required_crosswalk", "required_query_domain",
+        "required_blocks", "required_split_manifests",
+        "required_modality", "required_roles",
+        "required_qc_grades", "forbidden_roles", "allowed_governance_reference_refresh", "mutation_policy",
+        "verify_referenced_evidence_hashes", "verify_block_manifest_hashes",
+        "verify_block_content_hashes", "verify_split_binding_hashes",
+        "verify_qualified_action_hashes", "required_observation_binding"
+      ],
+      "properties": {
+        "corpus_uid": {"const": "public_foundation_corpus_v1"},
+        "scope": {"const": "reduced_transcriptomics_core"},
+        "identity_hash": {"const": "06ae88daf3c44be2c2bb96e51c939554e160b205138ec96f471adb5d82eee791"},
+        "evidence_bundle_path": {"const": "Output/audits/public_foundation_corpus_evidence_bundle.json"},
+        "required_gate_status": {
+          "const": {
+            "iclr_v2.public_corpus.G1": "passed",
+            "iclr_v2.public_corpus.G2": "PASS_WITH_SCOPE_LIMITATION",
+            "iclr_v2.public_corpus.G2_full_multimodal": "not_passed"
+          }
+        },
+        "required_block_count": {"const": 6},
+        "required_family_count": {"const": 3},
+        "required_grade_ab_observation_count": {"const": 909476},
+        "required_grade_ab_ess": {"const": 7183},
+        "required_qualified_action_count": {"const": 7123},
+        "qualified_action_subset_manifest_path": {"const": "Output/audits/c1_qualified_action_subset_manifest.json"},
+        "qualified_action_subset_schema_path": {"const": "Libs/configs/schema/c1_qualified_action_subset_manifest.schema.json"},
+        "qualified_action_subset_hash": {"const": "3d87bb11423424f067351e990f18c7f65e3f10fdf62d90a3dc954abdc33ffd18"},
+        "required_crosswalk": {"const": {
+          "mapping_version": "public_foundation_corpus_v1_crosswalk_2026-07-17",
+          "table_path": "Output/audits/public_foundation_corpus_entity_unit_crosswalk.tsv",
+          "table_sha256": "1d43440154fb6acb234f799c486776367d54eb922a815fa56d1a737f726a7649",
+          "record_count": 558789
+        }},
+        "required_query_domain": {"const": {
+          "path": "Input/canonical/public_foundation_corpus_v1/splits/reduced_transcriptomics_core_v1/query_domain.tsv",
+          "sha256": "98756ec2408452724267c9c48d8dfd99780c24b5e8fe9aebf43819632bb05645",
+          "record_count": 7183
+        }},
+        "required_blocks": {"const": {
+          "pfc_geo_gse28146_phase1e_v1": "35dbdac27abdb900130c1ece7c4f47070c5baeacde329f2097aed0190ba0695d",
+          "pfc_arrayexpress_e_geod_37263_phase1f_v1": "eb4f5d16ab060ca809a95f31e0b8a0330c51d0ecbc2cebff6e566df2305714d9",
+          "whb_allen_nonneurons_20240330_phase1e_v1": "0d406b9eb593e33c3611d63ba862d14075ea6e97f9dc724c8d5417bf6f08d5e3",
+          "cellxgene_amygdala_2021_phase1e_v1": "b8bc4cab7c8a3e57d9ca64900a1420b8e078b10c5d2b43c3b821f8e15c88684b",
+          "clue_touchstone_v1_1_npc_neu_perturbation_phase1e_v1": "5e51623d3859735518f0d08e954a29805b2fe5075b234fd5ce2dc8b195b560ea",
+          "pfc_arrayexpress_e_mtab_6772_perturbation_phase1f_v1": "f0ac1bb93ac4168d1ef9d9f34a0e8db5bb4684b7d71277748282604a4de803c9"
+        }},
+        "required_split_manifests": {"const": {
+          "source_publication_holdout": "bd21098bbb750b3b26299d090b0c4885e357dbc17ebc265bfd15afbd1f6655a1",
+          "family_holdout_cns_disease_aging_state_transcriptomics": "2a19fd303ff01188569b134adb5524a7a029e3014d61ce018a96b2dc2381c40d",
+          "family_holdout_cns_cell_type_region_atlas_transcriptomics": "41e4712f536afda8dab1f516f187520d61c125a41077e08016953611856a2950",
+          "family_holdout_compound_dose_time_perturbation_transcriptomics": "201d7eeee7529cb038ff456672db96ffc8dc045f99d0b002194ab8c4eeeebc73",
+          "regimen_holdout": "e71e2755efa77eaad7ddecea39af5a444cf1ea127eed70620d12e24e62b79a26",
+          "target_program_holdout": "0ae1d5b4e22284cf92dbe264cebb83fc5465ca499e2c1d5e5591df1fccefc6a9"
+        }},
+        "required_modality": {"const": "transcriptomics"},
+        "required_roles": {"const": ["qualified_for_mainline"]},
+        "required_qc_grades": {"const": ["A", "B"]},
+        "forbidden_roles": {
+          "const": ["weak_calibration", "context_prior", "migration_input_only", "synthetic_teacher", "deferred", "controlled"]
+        },
+        "allowed_governance_reference_refresh": {"const": ["controlled_isolation"]},
+        "mutation_policy": {"const": "reject_and_require_new_corpus_version"},
+        "verify_referenced_evidence_hashes": {"const": true},
+        "verify_block_manifest_hashes": {"const": true},
+        "verify_block_content_hashes": {"const": true},
+        "verify_split_binding_hashes": {"const": true},
+        "verify_qualified_action_hashes": {"const": true},
+        "required_observation_binding": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "manifest_path", "schema_path", "row_table_path", "manifest_sha256",
+            "row_table_sha256", "binding_hash", "block_count", "biological_unit_count",
+            "observation_count"
+          ],
+          "properties": {
+            "manifest_path": {"const": "Output/audits/c1_observation_row_binding_manifest.json"},
+            "schema_path": {"const": "Libs/configs/schema/c1_observation_row_binding_manifest.schema.json"},
+            "row_table_path": {"const": "Input/processed/foundation_state_c1/public_foundation_corpus_v1_observation_row_bindings.tsv"},
+            "manifest_sha256": {"const": "5ad26767a98ea3fc28cbbfdf77a76e3a7eee8080bee20bc19824cb77d5393aed"},
+            "row_table_sha256": {"const": "035b7a24be4feb69e37690bcdda15567314f7eb57c671121af3a4d40322f9112"},
+            "binding_hash": {"const": "8847c902fb67671f0948e17fd21196459b48a250d9f8a8de21febe0a5a23792c"},
+            "block_count": {"const": 6},
+            "biological_unit_count": {"const": 7183},
+            "observation_count": {"const": 909476}
+          }
+        }
+      }
+    },
+    "loader": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role_aware", "sampling_policy", "weighting_policy", "within_unit_aggregation",
+        "observation_row_random_sampling_allowed", "default_batch_family_coverage",
+        "family_probability_policy", "biological_unit_probability_policy",
+        "within_unit_observation_policy", "max_observations_per_biological_unit",
+        "sampler_contract", "observation_selection_policy", "feature_selection_policy", "feature_value_normalization_policy", "mask_policy",
+        "training_roles", "calibration_roles",
+        "evaluation_roles", "test_tuning_allowed"
+      ],
+      "properties": {
+        "role_aware": {"const": true},
+        "sampling_policy": {"const": "family_balanced"},
+        "weighting_policy": {"const": "biological_unit_balanced"},
+        "within_unit_aggregation": {"const": "required_before_loss"},
+        "observation_row_random_sampling_allowed": {"const": false},
+        "default_batch_family_coverage": {"const": "all_available_families"},
+        "family_probability_policy": {"const": "uniform_over_available_families"},
+        "biological_unit_probability_policy": {"const": "uniform_within_family"},
+        "within_unit_observation_policy": {"const": "deterministic_aggregate_or_bounded_subsample"},
+        "max_observations_per_biological_unit": {"const": 8},
+        "sampler_contract": {"const": {
+          "version": "neuronsifter-c1-objective-aware-unit-sampler-v1",
+          "batch_size": 6,
+          "observation_reservation_policy": "objective_required_rows_before_hash_ranked_fill",
+          "runtime_postcondition_policy": "fail_closed_before_batch_return"
+        }},
+        "observation_selection_policy": {"const": "hash_ranked_canonical_ordinal"},
+        "feature_selection_policy": {"const": "top_abs_value_then_token_id"},
+        "feature_value_normalization_policy": {"const": "per_observation_selected_feature_zscore_leave_one_masked_out_v2"},
+        "mask_policy": {"const": "sha256_epoch_batch_observation_single_token"},
+        "training_roles": {"const": ["train"]},
+        "calibration_roles": {"const": ["validation"]},
+        "evaluation_roles": {"const": ["test"]},
+        "test_tuning_allowed": {"const": false}
+      }
+    },
+    "encoder": {"$ref": "#/$defs/encoder"},
+    "objectives": {"$ref": "#/$defs/objectives"},
+    "baselines": {"$ref": "#/$defs/baselines"},
+    "evaluation": {"$ref": "#/$defs/evaluation"},
+    "scaling": {"$ref": "#/$defs/scaling"},
+    "acceptance": {"$ref": "#/$defs/acceptance"},
+    "training": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["optimizer", "learning_rate", "gradient_clip_norm", "precision", "precision_by_run_kind", "gradient_accumulation_steps", "headline_seeds", "smoke_steps", "default_steps", "checkpoint_selection_metric", "checkpoint_selection_split_role", "test_tuning_allowed"],
+      "properties": {
+        "optimizer": {"const": "AdamW"},
+        "learning_rate": {"const": 0.0001},
+        "gradient_clip_norm": {"const": 1.0},
+        "precision": {"const": "fp32_debug_bf16_headline"},
+        "precision_by_run_kind": {"const": {"development_smoke": "fp32", "headline": "bf16"}},
+        "gradient_accumulation_steps": {"const": {"Debug": 1, "Student": 1, "Large": 1}},
+        "headline_seeds": {"const": [3407, 3408, 3409, 3410, 3411]},
+        "smoke_steps": {"const": {"Debug": 1, "Student": 2}},
+        "default_steps": {"const": {"Debug": 1, "Student": 1000, "Large": 2000}},
+        "checkpoint_selection_metric": {"const": "validation_macro_family_primary"},
+        "checkpoint_selection_split_role": {"const": "validation"},
+        "test_tuning_allowed": {"const": false}
+      }
+    },
+    "execution": {"$ref": "#/$defs/execution"},
+    "artifacts": {"$ref": "#/$defs/artifacts"}
+  },
+  "$defs": {
+    "encoder": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_id", "modality_scope", "input_contract", "profiles", "posterior",
+        "masking", "objective_runtime", "objective_sets", "loss_weights",
+        "contrastive_temperature", "nuisance_gradient_scale", "unavailable_heads"
+      ],
+      "properties": {
+        "model_id": {"const": "neuronsifter_foundation_state_encoder"},
+        "modality_scope": {"const": "transcriptomics_only"},
+        "input_contract": {
+          "const": {
+            "tokenization": "namespace_preserving_gene_token_union",
+            "vocabulary_binding": "frozen_feature_metadata_union_manifest",
+            "vocabulary_manifest_path": "Output/audits/c1_vocabulary_manifest.json",
+            "vocabulary_manifest_sha256": "2d8a950f82a85233dececd8a765dad3c9e1c46f4d06333e516fce517a45cac9a",
+            "feature_namespace_alias_policy": "neuronsifter-c1-feature-token-v1",
+            "crosswalk_usage": "provenance_binding_and_identity_audit_only",
+            "cross_namespace_gene_merge_allowed": false,
+            "padding_feature_id": 0,
+            "unknown_feature_policy": "reject",
+            "source_identity_as_input": false,
+            "family_identity_as_input": false,
+            "retrieval_target_context_policy": "mask_target_ontology_context",
+            "observation_to_biological_unit_index_required": true,
+            "within_unit_aggregation_stage": "per_observation_loss_to_unit_before_weighted_reduction",
+            "raw_expression_mean_aggregation_allowed": false,
+            "explicit_action_availability_mask": true,
+            "action_feature_dim": 8,
+            "action_descriptor_version": "neuronsifter-c1-physical-exposure-descriptor-v1",
+            "action_identity_scope": "physical_exposure_only_without_agent_target_or_occupancy_identity",
+            "semantic_alignment_policy": "neuronsifter-c1-qualified-semantic-key-v1",
+            "program_vocab_status": "not_available",
+            "missing_ontology_id": 0,
+            "ontology_context_scope": "source_vocabulary_ids_without_graph_relations"
+          }
+        },
+        "profiles": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["Debug", "Student", "Large"],
+          "properties": {
+            "Debug": {"$ref": "#/$defs/encoder_profile"},
+            "Student": {"$ref": "#/$defs/encoder_profile"},
+            "Large": {"$ref": "#/$defs/encoder_profile"}
+          }
+        },
+        "posterior": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "family", "log_variance_min", "log_variance_max",
+            "stochastic_training", "deterministic_evaluation_summary"
+          ],
+          "properties": {
+            "family": {"const": "diagonal_gaussian"},
+            "log_variance_min": {"type": "number"},
+            "log_variance_max": {"type": "number"},
+            "stochastic_training": {"const": true},
+            "deterministic_evaluation_summary": {"const": "posterior_mean"}
+          }
+        },
+        "masking": {
+          "const": {
+            "target_values_hidden_from_encoder": true,
+            "minimum_masked_tokens_per_unit": 1,
+            "padding_tokens_never_masked": true,
+            "mask_schedule_source": "versioned_training_config"
+          }
+        },
+        "objective_runtime": {
+          "const": {
+            "masked_gene_program_prediction": "masked_reconstruction_and_program_loss",
+            "within_transcriptomics_feature_masking": "masked_reconstruction_loss",
+            "source_aware_contrastive_alignment": "cross_source_semantic_group_contrastive_loss_with_eligibility_count",
+            "ontology_aware_gene_cell_region_embedding": "namespace_preserving_gene_tokens_plus_source_vocabulary_cell_region_context_without_graph_relations",
+            "family_conditioned_representation_learning": "family_balanced_batch_policy_without_family_identity_input",
+            "biological_unit_aggregation": "per_observation_loss_to_unit_before_weighted_reduction",
+            "action_conditioned_perturbation_representation": "explicit_availability_masked_physical_exposure_context_without_agent_target_or_occupancy_identity",
+            "source_family_nuisance_regularization": "gradient_reversal_classifiers",
+            "uncertainty_aware_latent_posterior": "diagonal_gaussian_kl"
+          }
+        },
+        "objective_sets": {
+          "const": {
+            "masked_only": [
+              "within_transcriptomics_feature_masking",
+              "family_conditioned_representation_learning",
+              "biological_unit_aggregation",
+              "uncertainty_aware_latent_posterior"
+            ],
+            "alignment": [
+              "within_transcriptomics_feature_masking",
+              "source_aware_contrastive_alignment",
+              "ontology_aware_gene_cell_region_embedding",
+              "family_conditioned_representation_learning",
+              "biological_unit_aggregation",
+              "uncertainty_aware_latent_posterior"
+            ],
+            "within_source": [
+              "within_transcriptomics_feature_masking",
+              "ontology_aware_gene_cell_region_embedding",
+              "family_conditioned_representation_learning",
+              "biological_unit_aggregation",
+              "action_conditioned_perturbation_representation",
+              "uncertainty_aware_latent_posterior"
+            ],
+            "full_without_ontology_alignment": [
+              "within_transcriptomics_feature_masking",
+              "source_aware_contrastive_alignment",
+              "family_conditioned_representation_learning",
+              "biological_unit_aggregation",
+              "action_conditioned_perturbation_representation",
+              "source_family_nuisance_regularization",
+              "uncertainty_aware_latent_posterior"
+            ],
+            "full_without_nuisance_control": [
+              "within_transcriptomics_feature_masking",
+              "source_aware_contrastive_alignment",
+              "ontology_aware_gene_cell_region_embedding",
+              "family_conditioned_representation_learning",
+              "biological_unit_aggregation",
+              "action_conditioned_perturbation_representation",
+              "uncertainty_aware_latent_posterior"
+            ],
+            "full_without_biological_unit_aggregation": [
+              "within_transcriptomics_feature_masking",
+              "source_aware_contrastive_alignment",
+              "ontology_aware_gene_cell_region_embedding",
+              "family_conditioned_representation_learning",
+              "action_conditioned_perturbation_representation",
+              "source_family_nuisance_regularization",
+              "uncertainty_aware_latent_posterior"
+            ],
+            "full": [
+              "within_transcriptomics_feature_masking",
+              "source_aware_contrastive_alignment",
+              "ontology_aware_gene_cell_region_embedding",
+              "family_conditioned_representation_learning",
+              "biological_unit_aggregation",
+              "action_conditioned_perturbation_representation",
+              "source_family_nuisance_regularization",
+              "uncertainty_aware_latent_posterior"
+            ]
+          }
+        },
+        "loss_weights": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "masked_reconstruction", "posterior_kl", "cross_source_alignment",
+            "source_nuisance", "family_nuisance", "program_prediction"
+          ],
+          "properties": {
+            "masked_reconstruction": {"type": "number", "minimum": 0},
+            "posterior_kl": {"type": "number", "minimum": 0},
+            "cross_source_alignment": {"type": "number", "minimum": 0},
+            "source_nuisance": {"type": "number", "minimum": 0},
+            "family_nuisance": {"type": "number", "minimum": 0},
+            "program_prediction": {"type": "number", "minimum": 0}
+          }
+        },
+        "contrastive_temperature": {"type": "number", "exclusiveMinimum": 0},
+        "nuisance_gradient_scale": {"type": "number", "minimum": 0},
+        "unavailable_heads": {
+          "const": {
+            "transcriptomics_to_electrophysiology": "not_available",
+            "transcriptomics_to_imaging": "not_available",
+            "morphology_to_transcriptomics": "not_available",
+            "paired_cross_modal_reconstruction": "not_available",
+            "same_donor_multimodal_imputation": "not_available"
+          }
+        }
+      }
+    },
+    "encoder_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "token_dim", "latent_dim", "attention_heads", "transformer_layers",
+        "feedforward_dim", "dropout_rate", "feature_token_budget"
+      ],
+      "properties": {
+        "token_dim": {"type": "integer", "minimum": 1},
+        "latent_dim": {"type": "integer", "minimum": 1},
+        "attention_heads": {"type": "integer", "minimum": 1},
+        "transformer_layers": {"type": "integer", "minimum": 1},
+        "feedforward_dim": {"type": "integer", "minimum": 1},
+        "dropout_rate": {"type": "number", "minimum": 0, "exclusiveMaximum": 1},
+        "feature_token_budget": {"type": "integer", "minimum": 1}
+      }
+    },
+    "objectives": {
+      "type": "object", "additionalProperties": false,
+      "required": ["allowed", "forbidden_as_c1_evidence", "unavailable_head_policy", "synthetic_pair_substitution_allowed"],
+      "properties": {
+        "allowed": {"const": [
+          "masked_gene_program_prediction", "within_transcriptomics_feature_masking",
+          "source_aware_contrastive_alignment", "ontology_aware_gene_cell_region_embedding",
+          "family_conditioned_representation_learning", "biological_unit_aggregation",
+          "action_conditioned_perturbation_representation", "source_family_nuisance_regularization",
+          "uncertainty_aware_latent_posterior"
+        ]},
+        "forbidden_as_c1_evidence": {"const": [
+          "transcriptomics_to_electrophysiology", "transcriptomics_to_imaging",
+          "morphology_to_transcriptomics", "paired_cross_modal_reconstruction",
+          "same_donor_multimodal_imputation"
+        ]},
+        "unavailable_head_policy": {"const": "disabled_and_report_not_available"},
+        "synthetic_pair_substitution_allowed": {"const": false}
+      }
+    },
+    "baselines": {
+      "type": "object", "additionalProperties": false,
+      "required": ["required", "single_source_selection", "single_family_selection", "runtime_profiles", "primary_data_weighting_ablation", "fairness"],
+      "properties": {
+        "required": {"const": [
+          "from_scratch_supervised_encoder", "single_source_pretraining", "single_family_pretraining",
+          "no_ontology_alignment", "no_source_family_balancing",
+          "generic_masked_encoder", "no_source_nuisance_control",
+          "no_biological_unit_aggregation", "neuronsifter_foundation_state_encoder"
+        ]},
+        "single_source_selection": {"const": {
+          "policy": "train_role_action_units_desc_then_source_id_asc_v1",
+          "candidate_eligibility": "single_source_profile_structurally_feasible_with_identifiable_action",
+          "manual_source_argument_policy": "assertion_only"
+        }},
+        "single_family_selection": {"const": {
+          "policy": "explicit_preregistered_family_variant_v1",
+          "allowed_families": [
+            "cns_disease_aging_state_transcriptomics",
+            "cns_cell_type_region_atlas_transcriptomics",
+            "compound_dose_time_perturbation_transcriptomics"
+          ],
+          "variants": {
+            "disease_only": "cns_disease_aging_state_transcriptomics",
+            "atlas_only": "cns_cell_type_region_atlas_transcriptomics",
+            "perturbation_only": "compound_dose_time_perturbation_transcriptomics"
+          },
+          "manual_family_argument_policy": "required_exact_match"
+        }},
+        "runtime_profiles": {"const": {
+          "from_scratch_supervised_encoder": {
+            "pretraining_scope": "none", "source_scope_policy": "no_pretraining_scope", "objective_set": "none",
+            "ontology_context": false, "action_context": false,
+            "sampling_policy": "family_balanced", "weighting_policy": "biological_unit_balanced",
+            "family_balance_requirement": "not_applicable_no_pretraining"
+          },
+          "single_source_pretraining": {
+            "pretraining_scope": "one_train_source_per_run", "source_scope_policy": "train_role_action_units_desc_then_source_id_asc_v1", "objective_set": "within_source",
+            "ontology_context": true, "action_context": true,
+            "sampling_policy": "family_balanced", "weighting_policy": "biological_unit_balanced",
+            "family_balance_requirement": "required"
+          },
+          "single_family_pretraining": {
+            "pretraining_scope": "one_train_family_per_run", "source_scope_policy": "all_sources_within_selected_family", "objective_set": "masked_only",
+            "ontology_context": false, "action_context": false,
+            "sampling_policy": "biological_unit_balanced", "weighting_policy": "biological_unit_balanced",
+            "family_balance_requirement": "not_applicable_single_family"
+          },
+          "no_ontology_alignment": {
+            "pretraining_scope": "all_train_sources", "source_scope_policy": "all_train_sources", "objective_set": "full_without_ontology_alignment",
+            "ontology_context": false, "action_context": true,
+            "sampling_policy": "family_balanced", "weighting_policy": "biological_unit_balanced",
+            "family_balance_requirement": "required"
+          },
+          "no_source_family_balancing": {
+            "pretraining_scope": "all_train_sources", "source_scope_policy": "all_train_sources", "objective_set": "full",
+            "ontology_context": true, "action_context": true,
+            "sampling_policy": "objective_constrained_row_proportional_fill", "weighting_policy": "objective_constrained_row_proportional_weighting",
+            "family_balance_requirement": "disabled_by_declared_ablation"
+          },
+          "generic_masked_encoder": {
+            "pretraining_scope": "all_train_sources", "source_scope_policy": "all_train_sources", "objective_set": "masked_only",
+            "ontology_context": false, "action_context": false,
+            "sampling_policy": "family_balanced", "weighting_policy": "biological_unit_balanced",
+            "family_balance_requirement": "required"
+          },
+          "no_source_nuisance_control": {
+            "pretraining_scope": "all_train_sources", "source_scope_policy": "all_train_sources", "objective_set": "full_without_nuisance_control",
+            "ontology_context": true, "action_context": true,
+            "sampling_policy": "family_balanced", "weighting_policy": "biological_unit_balanced",
+            "family_balance_requirement": "required"
+          },
+          "no_biological_unit_aggregation": {
+            "pretraining_scope": "all_train_sources", "source_scope_policy": "all_train_sources", "objective_set": "full_without_biological_unit_aggregation",
+            "ontology_context": true, "action_context": true,
+            "sampling_policy": "family_and_biological_unit_balanced", "weighting_policy": "biological_unit_balanced",
+            "family_balance_requirement": "required"
+          },
+          "neuronsifter_foundation_state_encoder": {
+            "pretraining_scope": "all_train_sources", "source_scope_policy": "all_train_sources", "objective_set": "full",
+            "ontology_context": true, "action_context": true,
+            "sampling_policy": "family_balanced", "weighting_policy": "biological_unit_balanced",
+            "family_balance_requirement": "required"
+          }
+        }},
+        "primary_data_weighting_ablation": {"const": {
+          "status": "planned_requires_matched_objectives",
+          "objective_set": "masked_only",
+          "variants": ["row_proportional", "biological_unit_balanced"],
+          "matched_active_objectives_required": true,
+          "current_full_objective_row_profile_qualifies": false
+        }},
+        "fairness": {
+          "type": "object", "additionalProperties": false,
+          "required": ["identical_frozen_splits", "identical_feature_mapping", "identical_training_budget_within_scale", "copied_paper_numbers_allowed", "external_model_requires_input_semantic_and_license_qualification"],
+          "properties": {
+            "identical_frozen_splits": {"const": true},
+            "identical_feature_mapping": {"const": true},
+            "identical_training_budget_within_scale": {"const": true},
+            "copied_paper_numbers_allowed": {"const": false},
+            "external_model_requires_input_semantic_and_license_qualification": {"const": true}
+          }
+        }
+      }
+    },
+    "evaluation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["task_families", "unavailable_task_families", "holdout_families", "frozen_split_uids", "unavailable_holdouts", "shortcut_diagnostics", "required_metric_views", "pooled_micro_average_as_headline_allowed", "bootstrap_unit_by_family", "direct_atlas_cell_bootstrap_allowed", "interval", "bootstrap_samples", "bootstrap_seed", "headline_training_seeds", "validation_only_calibration", "source_shortcut_tolerance", "source_shortcut_tolerance_metric", "source_shortcut_tolerance_status", "source_shortcut_tolerance_preregistered_before_training", "feasibility_policy"],
+      "properties": {
+        "task_families": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string"}},
+        "unavailable_task_families": {"const": ["masked_program_prediction", "action_conditioned_response_prediction"]},
+        "holdout_families": {"const": ["source_publication_holdout", "family_holdout", "regimen_holdout", "target_program_holdout"]},
+        "frozen_split_uids": {"const": ["source_publication_holdout", "family_holdout_cns_disease_aging_state_transcriptomics", "family_holdout_cns_cell_type_region_atlas_transcriptomics", "family_holdout_compound_dose_time_perturbation_transcriptomics", "regimen_holdout", "target_program_holdout"]},
+        "unavailable_holdouts": {"const": ["modality_holdout", "paired_cross_modal_holdout"]},
+        "shortcut_diagnostics": {"const": ["source_classifier", "publication_accession_classifier", "family_classifier", "block_identifier_classifier", "source_label_permutation", "family_balanced_vs_pooled"]},
+        "required_metric_views": {"const": ["per_family", "macro_family_average", "ess_weighted", "raw_observation_weighted_auxiliary"]},
+        "pooled_micro_average_as_headline_allowed": {"const": false},
+        "bootstrap_unit_by_family": {"const": {
+          "cns_disease_aging_state_transcriptomics": "subject_specimen",
+          "cns_cell_type_region_atlas_transcriptomics": "donor",
+          "compound_dose_time_perturbation_transcriptomics": "independent_condition_or_action"
+        }},
+        "direct_atlas_cell_bootstrap_allowed": {"const": false},
+        "interval": {"const": "paired_bootstrap_95"},
+        "bootstrap_samples": {"const": 2000},
+        "bootstrap_seed": {"const": 3407},
+        "headline_training_seeds": {"const": 5},
+        "validation_only_calibration": {"const": true},
+        "source_shortcut_tolerance": {"const": 0.10},
+        "source_shortcut_tolerance_metric": {"const": "chance_normalized_balanced_accuracy"},
+        "source_shortcut_tolerance_status": {"const": "preregistered"},
+        "source_shortcut_tolerance_preregistered_before_training": {"const": true},
+        "feasibility_policy": {"const": "fail_closed_per_task_and_split"}
+      }
+    },
+    "scaling": {
+      "type": "object", "additionalProperties": false,
+      "required": ["biological_unit_fractions", "source_family_counts", "model_scales", "objective_sets", "primary_scale_axis", "secondary_scale_axis", "observation_rows_as_only_scale_axis_allowed", "synthetic_trajectories_allowed", "subset_policy", "duplicate_realized_subset_policy"],
+      "properties": {
+        "biological_unit_fractions": {"const": [0.1, 0.25, 0.5, 1.0]},
+        "source_family_counts": {"const": [1, 2, 3]},
+        "model_scales": {"const": ["Student", "Large"]},
+        "objective_sets": {"const": ["masked_only", "alignment", "full"]},
+        "primary_scale_axis": {"const": "effective_biological_units"},
+        "secondary_scale_axis": {"const": "source_family_diversity"},
+        "observation_rows_as_only_scale_axis_allowed": {"const": false},
+        "synthetic_trajectories_allowed": {"const": false},
+        "subset_policy": {"const": "deterministic_family_stratified_nested_hash"},
+        "duplicate_realized_subset_policy": {"const": "mark_not_estimable"}
+      }
+    },
+    "acceptance": {
+      "type": "object", "additionalProperties": false,
+      "required": ["minimum_distinct_task_families", "minimum_distinct_holdout_families", "primary_paired_ci_must_exclude_zero", "source_shortcut_tolerance_must_be_preregistered", "source_shortcut_must_not_exceed_tolerance", "few_shot_and_transfer_direction_consistent", "scaling_direction_reasonable", "test_set_tuning_allowed", "missing_or_failed_runs_may_be_dropped", "claim_if_passed", "forbidden_claims"],
+      "properties": {
+        "minimum_distinct_task_families": {"const": 2},
+        "minimum_distinct_holdout_families": {"const": 2},
+        "primary_paired_ci_must_exclude_zero": {"const": true},
+        "source_shortcut_tolerance_must_be_preregistered": {"const": true},
+        "source_shortcut_must_not_exceed_tolerance": {"const": true},
+        "few_shot_and_transfer_direction_consistent": {"const": true},
+        "scaling_direction_reasonable": {"const": true},
+        "test_set_tuning_allowed": {"const": false},
+        "missing_or_failed_runs_may_be_dropped": {"const": false},
+        "claim_if_passed": {"const": "reduced_transcriptomics_foundation_transfer"},
+        "forbidden_claims": {"const": ["complete_multimodal_foundation_corpus", "paired_cross_modal_prediction", "same_subject_multimodal_reconstruction", "patient_level_longitudinal_digital_twin_supervision", "deferred_modalities_in_mainline"]}
+      }
+    },
+    "execution": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "headline_model_scale", "headline_runtime_profile_id", "headline_resource_profile",
+        "development_model_scale", "development_resource_profiles", "job_name_prefix",
+        "job_name_max_length", "scheduler_log_directory", "headline_submission_policy", "required_headline_capabilities",
+        "attempt_artifact_directory", "evidence_validation_path", "unified_preflight_path",
+        "execution_schema_path", "g3_gate_schema_path"
+      ],
+      "properties": {
+        "headline_model_scale": {"const": "Large"},
+        "headline_runtime_profile_id": {"const": "neuronsifter_foundation_state_encoder"},
+        "headline_resource_profile": {"const": "headline_gpu"},
+        "development_model_scale": {"const": "Student"},
+        "development_resource_profiles": {"const": ["debug_gpu", "student_gpu"]},
+        "job_name_prefix": {"const": "NrnSift_C1_"},
+        "job_name_max_length": {"const": 96},
+        "scheduler_log_directory": {"const": "Output/logs/c1"},
+        "headline_submission_policy": {"const": "block_if_g3_coverage_unreachable_or_implementation_incomplete"},
+        "required_headline_capabilities": {"const": [
+          "validation_checkpoint_selection", "linear_probe", "few_shot_evaluation",
+          "retrieval_evaluation", "shortcut_diagnostics", "paired_bootstrap_statistics",
+          "baseline_runner", "slurm_execution", "report_builder"
+        ]},
+        "attempt_artifact_directory": {"const": "Output/audits/c1_run_attempts"},
+        "evidence_validation_path": {"const": "Output/audits/public_foundation_corpus_evidence_validation.json"},
+        "unified_preflight_path": {"const": "Output/audits/c1_preflight.json"},
+        "execution_schema_path": {"const": "Libs/configs/schema/c1_execution_artifacts.schema.json"},
+        "g3_gate_schema_path": {"const": "Libs/configs/schema/c1_g3_gate.schema.json"}
+      }
+    },
+    "artifacts": {
+      "type": "object", "additionalProperties": false,
+      "required": ["observation_binding_validation_path", "preflight_output_path", "preflight_schema_path", "run_preflight_schema_path", "pretraining_manifest_path", "transfer_result_catalog_path", "source_leakage_diagnostic_path", "scaling_transfer_summary_path", "gate_output_path", "objective_capability_manifest_path", "objective_capability_manifest_schema_path", "objective_capability_manifest_sha256", "unified_preflight_schema_path"],
+      "properties": {
+        "observation_binding_validation_path": {"const": "Output/audits/c1_observation_row_binding_validation.json"},
+        "preflight_output_path": {"const": "Output/audits/c1_foundation_corpus_preflight.json"},
+        "preflight_schema_path": {"const": "Libs/configs/schema/c1_foundation_corpus_preflight.schema.json"},
+        "run_preflight_schema_path": {"const": "Libs/configs/schema/c1_foundation_run_preflight.schema.json"},
+        "pretraining_manifest_path": {"const": "Output/results/c1/foundation_pretraining_manifest.tsv"},
+        "transfer_result_catalog_path": {"const": "Output/results/c1/foundation_transfer_result_catalog.tsv"},
+        "source_leakage_diagnostic_path": {"const": "Output/results/c1/source_leakage_diagnostic.tsv"},
+        "scaling_transfer_summary_path": {"const": "Output/results/c1/scaling_transfer_summary.json"},
+        "gate_output_path": {"const": "Output/audits/c1_foundation_transfer_gate.json"},
+        "objective_capability_manifest_path": {"const": "Output/audits/c1_objective_capability_manifest.json"},
+        "objective_capability_manifest_schema_path": {"const": "Libs/configs/schema/c1_objective_capability_manifest.schema.json"},
+        "objective_capability_manifest_sha256": {"const": "2d417340c9045c26e6f3419784fc988cb14bfe4cc683ad316d0f02d44223c696"},
+        "unified_preflight_schema_path": {"const": "Libs/configs/schema/c1_unified_preflight.schema.json"}
+      }
+    }
+  }
+}

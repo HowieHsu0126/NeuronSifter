@@ -1,0 +1,318 @@
+{
+  "$defs": {
+    "hash_comparison": {
+      "additionalProperties": false,
+      "properties": {
+        "current_hash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "matches": {
+          "type": "boolean"
+        },
+        "regression_hash": {
+          "oneOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "current_hash",
+        "regression_hash",
+        "matches"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://neuronsifter.local/schema/c1_rescue_unified_preflight.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "action_subset_hash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "baseline_registry_hash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "block_hashes": {
+      "additionalProperties": {
+        "pattern": "^[0-9a-f]{64}$",
+        "type": "string"
+      },
+      "maxProperties": 8,
+      "minProperties": 8,
+      "type": "object"
+    },
+    "blocker_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "blockers": {
+      "items": {
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "capability_manifest_hash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "completed_run_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "config_hash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "config_registry_hash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "contract_hash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "controlled_isolation_evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "controlled_reachability": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "current_hash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "frozen_reference_hash": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "frozen_reference_hash",
+        "current_hash",
+        "controlled_reachability"
+      ],
+      "type": "object"
+    },
+    "corpus_identity_hash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "corpus_uid": {
+      "const": "public_foundation_corpus_rescue"
+    },
+    "crosswalk_hash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "eligible_roles": {
+      "const": [
+        "qualified_for_mainline"
+      ]
+    },
+    "evidence_validator_status": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "fairness_registry_hash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "family_ess": {
+      "additionalProperties": {
+        "minimum": 0,
+        "type": "number"
+      },
+      "type": "object"
+    },
+    "g3_status": {
+      "enum": [
+        "passed",
+        "failed_empirical",
+        "failed_statistics",
+        "blocked_incomplete",
+        "not_evaluated"
+      ]
+    },
+    "headline_feasibility": {
+      "type": "object"
+    },
+    "headline_requirements": {
+      "items": {
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "headline_training_allowed": {
+      "type": "boolean"
+    },
+    "headline_training_started": {
+      "type": "boolean"
+    },
+    "model_config_hash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "regression_binding": {
+      "additionalProperties": false,
+      "properties": {
+        "all_match": {
+          "type": "boolean"
+        },
+        "config_file_hash": {
+          "$ref": "#/$defs/hash_comparison"
+        },
+        "corpus_hash": {
+          "$ref": "#/$defs/hash_comparison"
+        },
+        "foundation_state_contract_hash": {
+          "$ref": "#/$defs/hash_comparison"
+        },
+        "resolved_config_hash": {
+          "$ref": "#/$defs/hash_comparison"
+        },
+        "runtime_source_diff_hash": {
+          "$ref": "#/$defs/hash_comparison"
+        }
+      },
+      "required": [
+        "config_file_hash",
+        "resolved_config_hash",
+        "foundation_state_contract_hash",
+        "runtime_source_diff_hash",
+        "corpus_hash",
+        "all_match"
+      ],
+      "type": "object"
+    },
+    "regression_run_uid": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "regression_slurm_job_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "rejected_roles": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "sampling_policy": {
+      "additionalProperties": false,
+      "properties": {
+        "biological_unit": {
+          "const": "biological_unit_balanced"
+        },
+        "family": {
+          "const": "family_balanced"
+        },
+        "within_unit": {
+          "const": "required_before_loss"
+        }
+      },
+      "required": [
+        "family",
+        "biological_unit",
+        "within_unit"
+      ],
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "neuronsifter-c1-unified-preflight-v3"
+    },
+    "source_qualification_evidence_hash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "split_hashes": {
+      "additionalProperties": {
+        "pattern": "^[0-9a-f]{64}$",
+        "type": "string"
+      },
+      "maxProperties": 6,
+      "minProperties": 6,
+      "type": "object"
+    },
+    "status": {
+      "enum": [
+        "passed",
+        "blocked"
+      ]
+    },
+    "task_registry_hash": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "training_allowed": {
+      "type": "boolean"
+    },
+    "training_seed_list": {
+      "const": [
+        3407,
+        3408,
+        3409,
+        3410,
+        3411
+      ]
+    },
+    "training_started": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema_version",
+    "status",
+    "training_allowed",
+    "headline_training_allowed",
+    "training_started",
+    "headline_training_started",
+    "corpus_uid",
+    "corpus_identity_hash",
+    "block_hashes",
+    "split_hashes",
+    "action_subset_hash",
+    "crosswalk_hash",
+    "source_qualification_evidence_hash",
+    "controlled_isolation_evidence",
+    "evidence_validator_status",
+    "eligible_roles",
+    "rejected_roles",
+    "family_ess",
+    "sampling_policy",
+    "model_config_hash",
+    "training_seed_list",
+    "task_registry_hash",
+    "baseline_registry_hash",
+    "fairness_registry_hash",
+    "config_hash",
+    "config_registry_hash",
+    "contract_hash",
+    "capability_manifest_hash",
+    "regression_binding",
+    "headline_feasibility",
+    "headline_requirements",
+    "blocker_count",
+    "blockers",
+    "g3_status"
+  ],
+  "title": "NeuronSifter C1 unified preflight V2 rescue",
+  "type": "object"
+}

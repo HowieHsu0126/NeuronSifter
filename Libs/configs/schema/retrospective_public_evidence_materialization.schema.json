@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/retrospective-public-evidence-materialization-v1.json",
+  "title": "NeuronSifter public retrospective evidence materialization audit",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "contract_version",
+    "status",
+    "contract_digest",
+    "accepted_record_count",
+    "rejected_record_count",
+    "candidate_set_count",
+    "legal_candidate_set_count",
+    "decision_sensitive_candidate_set_count",
+    "protected_holdout_access",
+    "world_action_authorized",
+    "agent_in_twin_authorized",
+    "coevolution_authorized"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-retrospective-public-evidence-materialization-audit-v1"},
+    "contract_version": {"const": "v1"},
+    "status": {"type": "string", "minLength": 1},
+    "contract_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "accepted_record_count": {"type": "integer", "minimum": 0},
+    "rejected_record_count": {"type": "integer", "minimum": 0},
+    "candidate_set_count": {"type": "integer", "minimum": 0},
+    "legal_candidate_set_count": {"type": "integer", "minimum": 0},
+    "decision_sensitive_candidate_set_count": {"type": "integer", "minimum": 0},
+    "protected_holdout_access": {"const": 0},
+    "world_action_authorized": {"const": false},
+    "agent_in_twin_authorized": {"const": false},
+    "coevolution_authorized": {"const": false}
+  }
+}

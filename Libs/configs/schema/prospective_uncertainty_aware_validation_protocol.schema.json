@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/prospective-uncertainty-aware-validation-protocol-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "protocol_uid", "claim_boundaries",
+    "evaluation_population", "model_route_comparison", "tasks",
+    "allowed_information_actions", "baselines", "metrics", "reporting_policy",
+    "acceptance_conditions", "execution_authority", "evidence_bindings", "created_at"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-prospective-uncertainty-aware-validation-protocol-v1"},
+    "status": {"const": "protocol_frozen_execution_not_authorized"},
+    "protocol_uid": {"const": "evidence_scarcity_aware_agent_in_twin_validation"},
+    "claim_boundaries": {"type": "object"},
+    "evaluation_population": {"type": "object"},
+    "model_route_comparison": {"type": "object"},
+    "tasks": {"type": "array", "minItems": 1},
+    "allowed_information_actions": {"type": "array", "minItems": 1},
+    "baselines": {"type": "array", "minItems": 1},
+    "metrics": {"type": "object"},
+    "reporting_policy": {"type": "object"},
+    "acceptance_conditions": {"type": "object"},
+    "execution_authority": {"type": "object"},
+    "evidence_bindings": {"type": "object"},
+    "created_at": {"type": "string", "minLength": 1}
+  }
+}

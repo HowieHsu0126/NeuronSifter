@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/prospective-four-role-assignment-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "adjudication_uid", "reviewed_on", "roles", "independence_graph_node_count", "independence_graph_edge_count", "all_roles_nonempty", "source_lineage_disjoint", "assignment_performed", "reason", "six_context_outcome_access", "protected_holdout_access"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-prospective-four-role-assignment-v1"},
+    "status": {"const": "NOT_ASSIGNABLE_QUEUE_EMPTY"},
+    "adjudication_uid": {"type": "string"},
+    "reviewed_on": {"type": "string"},
+    "roles": {"type": "object"},
+    "independence_graph_node_count": {"const": 0},
+    "independence_graph_edge_count": {"const": 0},
+    "all_roles_nonempty": {"const": false},
+    "source_lineage_disjoint": {"const": false},
+    "assignment_performed": {"const": false},
+    "reason": {"type": "string"},
+    "six_context_outcome_access": {"const": 0},
+    "protected_holdout_access": {"const": 0}
+  }
+}

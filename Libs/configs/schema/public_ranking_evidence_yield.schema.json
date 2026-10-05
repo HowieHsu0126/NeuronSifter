@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/public-ranking-evidence-yield-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "route_count", "routes", "aggregate_funnel",
+    "unit_caveat", "current_gate", "additional_homologous_search_authorized", "created_at"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-public-ranking-evidence-yield-v1"},
+    "status": {"const": "bounded_routes_exhausted_no_new_decision_sensitive_group"},
+    "route_count": {"const": 3},
+    "routes": {"type": "array", "minItems": 3, "maxItems": 3},
+    "aggregate_funnel": {"type": "object"},
+    "unit_caveat": {"type": "string", "minLength": 1},
+    "current_gate": {"type": "object"},
+    "additional_homologous_search_authorized": {"const": false},
+    "created_at": {"type": "string", "minLength": 1}
+  }
+}

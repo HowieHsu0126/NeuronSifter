@@ -1,0 +1,169 @@
+prospective_development_data_intake:
+  schema_version: neuronsifter-prospective-development-data-intake-config-v1
+  status: authorized_for_outcome_blind_preregistration
+  intake_uid: prospective_public_cns_action_response_foundation
+  authorization:
+    mode: development_repository_metadata_only_then_frozen_recovery
+    outcome_blind_selection: true
+    bounded: true
+    repository_family_cap: 5
+    metadata_asset_cap: 320
+    per_family_asset_cap: 64
+    preregistered_source_lineage_cap: 16
+    target_formal_role_count: 4
+    stop_when_domain_qualified: true
+    stop_when_queue_exhausted: true
+  parent_state:
+    development_domain_status: NO_INDEPENDENT_PROSPECTIVE_TRAINING_DOMAIN
+    method_preregistration_status: NOT_ISSUED_TRAINING_DOMAIN_UNQUALIFIED
+    historical_checkpoint_status: NO_FORMAL_ZERO_SHOT_CHECKPOINT
+    training_authorized: false
+    gpu_authorized: false
+    six_context_outcome_access: 0
+    protected_holdout_access: 0
+  repository_families:
+    - family_uid: local_public_source_inventory
+      adapter: bounded_local_file_metadata_inventory
+      root: Input/raw/public/retrospective
+      asset_cap: 64
+      external_network_required: false
+      query_plan:
+        - unregistered_machine_readable_development_assets
+    - family_uid: biostudies_s_epmc
+      adapter: biostudies_search_and_detail_metadata
+      search_url: https://www.ebi.ac.uk/biostudies/api/v1/search
+      detail_url_template: https://www.ebi.ac.uk/biostudies/api/v1/studies/{accession}
+      file_url_template: https://www.ebi.ac.uk/biostudies/files/{accession}/{file_path}
+      asset_cap: 64
+      external_network_required: true
+      query_plan:
+        - 'collection:S-EPMC AND (neuron OR neuronal OR neural OR organoid OR microglia OR astrocyte) AND (drug OR compound OR antibody OR protein OR biologic) AND (supplementary OR source-data OR spreadsheet)'
+        - 'collection:S-EPMC AND (neurite OR synaptic OR calcium OR electrophysiology OR survival OR morphology) AND (treatment OR dose OR baseline OR control)'
+    - family_uid: biostudies_arrayexpress
+      adapter: biostudies_search_and_detail_metadata
+      search_url: https://www.ebi.ac.uk/biostudies/api/v1/search
+      detail_url_template: https://www.ebi.ac.uk/biostudies/api/v1/studies/{accession}
+      file_url_template: https://www.ebi.ac.uk/biostudies/files/{accession}/{file_path}
+      asset_cap: 64
+      external_network_required: true
+      query_plan:
+        - 'collection:ArrayExpress AND (neuron OR neuronal OR neural OR brain OR organoid) AND (drug OR compound OR antibody OR protein) AND (time-course OR dose OR control)'
+        - 'collection:ArrayExpress AND (iPSC OR primary-neuron OR microglia OR astrocyte) AND (treatment OR perturbation) AND (baseline OR control)'
+    - family_uid: europe_pmc_supplementary_index
+      adapter: europe_pmc_lite_supplement_metadata
+      search_url: https://www.ebi.ac.uk/europepmc/webservices/rest/search
+      asset_cap: 64
+      external_network_required: true
+      query_plan:
+        - 'OPEN_ACCESS:Y AND HAS_SUPPL:Y AND (TITLE:"neuron" OR TITLE:"neuronal" OR TITLE:"organoid" OR TITLE:"microglia") AND (TITLE:"drug" OR TITLE:"compound" OR TITLE:"treatment" OR TITLE:"dose")'
+        - 'OPEN_ACCESS:Y AND HAS_SUPPL:Y AND (TITLE:"protein" OR TITLE:"antibody" OR TITLE:"enzyme" OR TITLE:"biologic") AND (TITLE:"neural" OR TITLE:"brain" OR TITLE:"neuron")'
+    - family_uid: geo_intervention_metadata
+      adapter: ncbi_gds_esearch_esummary_metadata
+      search_url: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi
+      summary_url: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi
+      asset_cap: 64
+      external_network_required: true
+      query_plan:
+        - '(neuron OR neuronal OR neural OR brain-organoid) AND (drug OR compound OR treatment) AND (time-course OR dose OR control)'
+        - '(neuron OR neural OR microglia OR astrocyte) AND (protein OR antibody OR biologic OR enzyme) AND (treatment OR delivery OR exposure)'
+  role_requirements:
+    TRAIN:
+      required_capabilities:
+        - empirical_action_response
+        - multi_source_lineage
+    MODEL_SELECTION_VALIDATION:
+      required_capabilities:
+        - empirical_action_response
+        - source_independent_from_train
+    UNCERTAINTY_CALIBRATION:
+      required_capabilities:
+        - empirical_action_response
+        - source_independent_from_train_and_selection
+        - replicate_or_uncertainty
+    NON_EVAL_QUALIFICATION:
+      required_capabilities:
+        - empirical_action_response
+        - independent_source_lineage
+        - target_relevant_functional_endpoint
+    modality_requirements:
+      pharmacological_multi_source: true
+      protein_biologic_present: true
+      real_baseline_post_action: true
+      functional_endpoint_present: true
+    six_context_exclusion:
+      exact_identity: required
+      publication_study_context_action_endpoint_lineage: required
+      outcome_access: 0
+  metadata_policy:
+    allowed_fields:
+      - repository_accession
+      - study_or_publication_identifier
+      - study_title
+      - biological_model
+      - intervention_modality
+      - named_agent
+      - dose_availability
+      - timepoint_availability
+      - baseline_control_availability
+      - endpoint_class
+      - replication_metadata
+      - source_data_availability
+      - publication_date
+      - license_or_access_status
+      - asset_name
+      - asset_type
+      - asset_size_bytes
+    forbidden_fields:
+      - numeric_outcome
+      - effect_magnitude
+      - outcome_direction
+      - winner_statement
+      - p_value
+      - result_table_content
+      - figure_content
+    machine_readable_extensions: [.csv, .tsv, .xls, .xlsx, .json, .txt, .zip]
+    maximum_single_asset_bytes: 134217728
+    maximum_total_recovery_bytes: 1073741824
+  selection_policy:
+    source_policy: primary_public_development_data_only
+    excluded_repository_or_publisher: [MDPI]
+    excluded_doi_prefixes: [10.3390/]
+    cns_or_neural_model_required: true
+    intervention_modality_required: [small_molecule_compound, protein_biologic_delivery]
+    named_agent_required: true
+    baseline_or_control_required: true
+    post_action_metadata_signal_required: true
+    dose_or_intensity_required: true
+    timepoint_required: true
+    biological_replication_required: true
+    source_data_asset_required: true
+    functional_endpoint_preferred: true
+    transcriptomic_auxiliary_allowed: true
+    outcome_bearing_title_rejected: true
+    queue_priority:
+      - protein_biologic_capability
+      - functional_longitudinal_capability
+      - independent_pharmacology_lineage
+      - formal_role_capability_count
+      - repository_family_diversity
+      - machine_readable_asset_specificity
+      - lineage_uid
+  boundaries:
+    source_asset_content_retrieved_before_queue_freeze: false
+    development_numeric_outcomes_retrieved_before_queue_freeze: false
+    six_context_outcome_access: 0
+    protected_holdout_access: 0
+    training_authorized: false
+    gpu_authorized: false
+    world_action_compiler_authorized: false
+    historical_intake_mutation_allowed: false
+    automatic_second_intake_allowed: false
+  outputs:
+    preregistration_manifest: Input/manifests/prospective_development/prospective_development_data_intake_preregistration.json
+    role_requirements_snapshot: Input/manifests/prospective_development/prospective_development_role_requirements.yaml
+    exclusion_snapshot: Input/manifests/prospective_development/six_context_development_exclusion_snapshot.json
+    metadata_universe: Input/manifests/prospective_development/prospective_development_metadata_universe.tsv
+    source_queue: Input/manifests/prospective_development/prospective_development_source_queue.tsv
+    metadata_snapshot: Input/raw/public/prospective_development/metadata_snapshot.json
+    intake_audit: Output/audits/prospective_development_data_intake.json
+    validation_audit: Output/audits/prospective_development_data_intake_validation.json

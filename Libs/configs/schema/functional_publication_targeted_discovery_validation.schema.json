@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/functional-publication-targeted-discovery-validation-v1.json",
+  "title": "NeuronSifter targeted functional publication discovery validation",
+  "type": "object",
+  "required": ["schema_version", "status", "passed", "blocker_count", "blockers", "query_count", "result_count", "novel_lead_count", "admitted_source_count", "legal_candidate_set_count", "qualified_candidate_set_count", "protected_holdout_access"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-functional-publication-targeted-discovery-validation-v1"},
+    "status": {"enum": ["passed", "blocked"]},
+    "passed": {"type": "boolean"},
+    "blocker_count": {"type": "integer", "minimum": 0},
+    "blockers": {"type": "array", "items": {"type": "string"}},
+    "query_count": {"const": 4},
+    "result_count": {"type": "integer", "minimum": 0},
+    "novel_lead_count": {"type": "integer", "minimum": 0},
+    "admitted_source_count": {"const": 0},
+    "legal_candidate_set_count": {"const": 0},
+    "qualified_candidate_set_count": {"const": 0},
+    "protected_holdout_access": {"const": 0}
+  },
+  "additionalProperties": false
+}

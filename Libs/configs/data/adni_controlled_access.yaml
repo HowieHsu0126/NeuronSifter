@@ -1,0 +1,1382 @@
+adni_controlled_access:
+  enabled: true
+  source_key: adni_controlled_access
+  benchmark_role: controlled_access_longitudinal_validation_state_inference_benchmark
+  governance:
+    access_boundary: controlled_access
+    participant_level_policy: private_or_controlled_namespace_only
+    public_release_policy: aggregate_summary_only
+    publication_boundary: preserve_public_only_mainline
+    data_use_agreement_required: true
+    approved_application_scope_required: true
+    raw_redistribution_allowed: false
+    derived_participant_level_redistribution_allowed: false
+    acknowledgement_policy_required: true
+    evidence:
+      governance_root: ADNI_access_governance
+      required_documents:
+      - document_id: adni_data_use_agreement
+        relative_path: ADNI_data_use_agreement.pdf
+        document_kind: data_use_agreement
+        required: true
+      - document_id: approved_application_scope
+        relative_path: approved_application_scope.pdf
+        document_kind: approved_scope
+        required: true
+      - document_id: approved_data_type_inventory
+        relative_path: approved_data_type_inventory.tsv
+        document_kind: approved_data_inventory
+        required: true
+      - document_id: storage_access_policy
+        relative_path: storage_access_policy.md
+        document_kind: storage_policy
+        required: true
+      - document_id: publication_acknowledgement_policy
+        relative_path: publication_acknowledgement_policy.md
+        document_kind: publication_policy
+        required: true
+      approved_scope_flags:
+        ai_ml_modeling: true
+        digital_twin_modeling: true
+        disease_progression_modeling: true
+        biomarker_modeling: true
+        controlled_validation_calibration: true
+      storage_policy:
+        participant_level_namespace: Input/private/adni
+        processed_private_namespace: Input/processed/adni
+        public_namespace_policy: aggregate_summaries_only
+        credential_storage_policy: environment_only_or_private_cookie_jar
+      acknowledgement_publication_policy:
+        acknowledgement_required: true
+        administrative_review_required: true
+        status: required_before_public_submission
+  credentials:
+    email_env: ADNI_IDA_EMAIL
+    password_env: ADNI_IDA_PASSWORD
+    hash_salt_env: ADNI_HASH_SALT
+    logging_policy: aggregate_counts_only
+  paths:
+    private_root: Input/private/adni
+    processed_root: Input/processed/adni
+    raw_manifest: raw_manifest.tsv
+    download_receipts: manifests/download_receipts.tsv
+    checksum_table: manifests/checksums.tsv
+    approved_asset_manifest: manifests/approved_assets.tsv
+    missing_role_audit: manifests/missing_role_audit.json
+    manifest_schema_audit: manifests/manifest_schema_audit.json
+    collection_page_inventory: navigation/ida_collection_page_inventory.json
+    collection_next_action_report: navigation/ida_collection_next_action_report.json
+    planned_downloads: manifests/planned_downloads.tsv
+    sample_observation_registry: adni_sample_observation_registry.tsv
+    longitudinal_transition_table: adni_longitudinal_transition_table.tsv
+    feature_matrix: adni_feature_matrix.parquet
+    imaging_inventory: adni_imaging_inventory.tsv
+    medication_exposure: adni_medication_exposure.tsv
+    domain_inventory: adni_domain_inventory.tsv
+    missingness_audit: adni_missingness_audit.json
+    split_audit: adni_split_audit.json
+    model_input_registry: adni_model_input_registry.json
+    access_governance_report: adni_access_governance.json
+    controlled_bundle_pointer: Output/paper_reports/adni_controlled_bundle_pointer.json
+    sample_index: model_inputs/sample_index.parquet
+    feature_index: model_inputs/feature_index.parquet
+    matrix_raw: model_inputs/matrix_raw.npy
+    matrix_norm: model_inputs/matrix_norm.npy
+    matrix_missing_mask: model_inputs/matrix_missing_mask.npy
+    train_scaler: model_inputs/train_only_scaler.json
+    transition_label_index: model_inputs/transition_labels.parquet
+    controlled_application_audit: adni_controlled_application_audit.json
+    state_projection_report: model_outputs/adni_state_projection_report.json
+    world_state_predictions: model_outputs/adni_world_state_predictions.parquet
+    state_inference_summary: Output/paper_reports/adni_state_inference_summary.json
+    longitudinal_validation_summary: Output/paper_reports/adni_longitudinal_validation_summary.json
+    missing_modality_robustness: Output/paper_reports/adni_missing_modality_robustness.json
+    world_state_factor_anchoring: Output/paper_reports/adni_world_state_factor_anchoring.json
+    posterior_calibration_summary: Output/paper_reports/adni_posterior_calibration_summary.json
+  acquisition:
+    mode: collection_first
+    manifest_path: Input/private/adni/manifests/ida_generated_manifest.tsv
+    manifest_format: auto
+    minimum_downloadable_records: 1
+    direct_download_allowed: true
+    identifier_request_dry_run_required: true
+    allow_identifier_download_after_dry_run: false
+    participant_data_download_root: downloads/manifest_assets
+    filename_default_extension: bin
+    identifier_download_request_templates:
+      image_id: https://ida.loni.usc.edu/pages/access/download.jsp?imageId={identifier}
+      file_id: https://ida.loni.usc.edu/pages/access/download.jsp?fileId={identifier}
+      package_id: https://ida.loni.usc.edu/pages/access/download.jsp?packageId={identifier}
+    manifest_first:
+      generated_manifest_path: Input/private/adni/manifests/ida_generated_manifest.tsv
+    collection_first:
+      enabled: true
+      project: ADNI
+      execution_profile: build_manifest_only
+      profiles:
+        build_manifest_only:
+          build_manifest_only: true
+          download_enabled: false
+          enforce_required_roles_on_download: true
+          max_records: 512
+        smoke_download:
+          build_manifest_only: false
+          download_enabled: true
+          enforce_required_roles_on_download: false
+          max_records: 1
+        required_roles_download:
+          build_manifest_only: false
+          download_enabled: true
+          enforce_required_roles_on_download: true
+          max_records: 512
+      browser_engine: auto
+      headless: true
+      playwright_launch_args:
+      - --no-proxy-server
+      proxy_environment_variables:
+      - HTTP_PROXY
+      - HTTPS_PROXY
+      - http_proxy
+      - https_proxy
+      - ALL_PROXY
+      - all_proxy
+      playwright_debug_screenshot: navigation/ida_playwright_last_page.png
+      target_collection_name: neuronsifter_adni_v0_smoke
+      build_manifest_only: true
+      download_enabled: false
+      enforce_required_roles_on_download: true
+      max_records: 512
+      smoke_profile: clinical_or_metadata_first
+      deny_raw_dicom_or_full_image: true
+      denied_filename_patterns:
+      - (?i)\.dcm$
+      - (?i)\.dicom$
+      - (?i)\.nii(\.gz)?$
+      - (?i)\.img$
+      - (?i)\.hdr$
+      preferred_record_patterns:
+      - (?i)clinical
+      - (?i)metadata
+      - (?i)study\s*data
+      - (?i)ADNIMERGE
+      denied_link_patterns:
+      - (?i)support
+      - (?i)privacy
+      - (?i)contact
+      - (?i)faq
+      - (?i)login
+      - (?i)logout
+      denied_navigation_path_names:
+      - search.jsp
+      - support.jsp
+      - login.jsp
+      - index.jsp
+      direct_download_path_patterns:
+      - (?i)/download
+      - (?i)/file
+      direct_download_file_patterns:
+      - (?i)\.(csv|tsv|json|xlsx?|zip|tar|gz|txt)(\?|$)
+      arc_builder:
+        enabled: true
+        base_url: https://ida.loni.usc.edu
+        get_searches_path: /ajax2/xml/search/getSearches_v2
+        get_variables_path: /ajax2/xml/search/getVariables_v2
+        download_tables_path: /ajax2/xml/search/downloadTables_v2
+        get_study_categories_path: /ajax2/xml/search/getStudyCategories_v2
+        get_study_data_path: /pages/ajax/getStudyData
+        search_download_base_path: /download/files/search/
+        study_download_base_path: /download/files/study/
+        selected_search_name_patterns:
+        - (?i)ADNI Recommended PET and MRI
+        role_table_categories:
+          visit_diagnosis:
+          - DXSUM
+          demographics:
+          - PTDEMOG
+          cognitive_scores:
+          - NEUROBAT
+          neuropsychiatric_scores:
+          - NPIQ
+          - NPI
+          medications:
+          - RECMHIST
+          apoe_genetics:
+          - APOERES
+          mri_freesurfer:
+          - UCSFFSX7
+          t1_inventory:
+          - MRI3META
+          amyloid_pet:
+          - UCBERKELEY_AMY_6MM
+          tau_pet:
+          - UCBERKELEY_TAU_6MM
+          csf_biomarkers:
+          - UPENNBIOMK_ROCHE_ELECSYS
+          plasma_biomarkers:
+          - UPENN_PLASMA_FUJIREBIO_QUANTERIX
+          omics_inventory:
+          - GENETIC
+        role_study_file_patterns:
+          adni_merge_core:
+            type: table
+            allow_archive: true
+            item_name_patterns:
+            - (?i)^ADNIMERGE - Key ADNI tables merged into one table \[ADNI1,GO,2,3\]$
+          fdg_pet:
+            type: table
+            allow_archive: true
+            item_name_patterns:
+            - (?i)^UC Berkeley - FDG Analysis \[ADNI1,GO,2,3\]$
+      navigation_targets:
+      - target_key: project_landing
+        url: https://ida.loni.usc.edu/login.jsp?project=ADNI
+        target_kind: Project Landing
+      - target_key: image_collections
+        url: https://ida.loni.usc.edu/pages/access/search.jsp?page=DOWNLOADS&project=ADNI&subPage=IMAGE_COLLECTIONS&tab=collection
+        target_kind: Image Collections
+      - target_key: data_collections
+        url: https://ida.loni.usc.edu/pages/access/search.jsp?page=DOWNLOADS&project=ADNI&subPage=DATA_COLLECTIONS&tab=collection
+        target_kind: Data Collections
+      - target_key: advanced_search
+        url: https://ida.loni.usc.edu/explore/jsp/search_v2/search.jsp?project=ADNI
+        target_kind: Advanced Search
+      candidate_text_patterns:
+        csv:
+        - (?i)\bCSV\b
+        - (?i)export.*csv
+        - (?i)download.*csv
+        advanced_download:
+        - (?i)advanced\s*download
+        one_click_download:
+        - (?i)1[-\s]*click\s*download
+        - (?i)one[-\s]*click\s*download
+        add_to_collection:
+        - (?i)add\s*to\s*collection
+        data_collections:
+        - (?i)data\s*collections?
+        collection:
+        - (?i)collection
+        download:
+        - (?i)download
+  sync:
+    transport_kind: approved_manifest_or_ida_discovery
+    credential_required: true
+    reuse_existing_files: true
+    download_chunk_size_bytes: 1048576
+    allowed_asset_kinds:
+    - clinical_table
+    - biomarker_table
+    - genetics_table
+    - medication_table
+    - imaging_inventory
+    - imaging_archive
+    - omics_inventory
+    allowed_data_domains:
+    - clinical_longitudinal
+    - visit_diagnosis
+    - demographics
+    - cognition
+    - medications
+    - genetics
+    - mri_structural
+    - mri_freesurfer
+    - t1_inventory
+    - pet_biomarker
+    - fluid_biomarker
+    - omics
+    allowed_modalities:
+    - clinical
+    - apoe
+    - mri
+    - pet_amyloid
+    - pet_tau
+    - fdg_pet
+    - csf
+    - plasma
+    - genomics
+    scoped_unavailable_table_roles: []
+    required_table_roles:
+    - adni_merge_core
+    - visit_diagnosis
+    - demographics
+    - cognitive_scores
+    - neuropsychiatric_scores
+    - medications
+    - apoe_genetics
+    - mri_freesurfer
+    - t1_inventory
+    - amyloid_pet
+    - tau_pet
+    - fdg_pet
+    - csf_biomarkers
+    - plasma_biomarkers
+    - omics_inventory
+    role_registry:
+      adni_merge_core:
+        required: true
+        asset_kind: clinical_table
+        data_domain: clinical_longitudinal
+        modality: clinical
+        target_relative_path: downloads/tables/ADNIMERGE.csv
+        filename_patterns:
+        - (?i)ADNIMERGE.*\.csv$
+      visit_diagnosis:
+        required: true
+        asset_kind: clinical_table
+        data_domain: visit_diagnosis
+        modality: clinical
+        target_relative_path: downloads/tables/ADNI_DX.csv
+        filename_patterns:
+        - (?i)(DXSUM|diagnos|visit).*\.csv$
+      demographics:
+        required: true
+        asset_kind: clinical_table
+        data_domain: demographics
+        modality: clinical
+        target_relative_path: downloads/tables/PTDEMOG.csv
+        filename_patterns:
+        - (?i)(PTDEMOG|demograph).*\.csv$
+      cognitive_scores:
+        required: true
+        asset_kind: clinical_table
+        data_domain: cognition
+        modality: clinical
+        target_relative_path: downloads/tables/NEUROBAT.csv
+        filename_patterns:
+        - (?i)(NEUROBAT|MMSE|CDR|ADAS|FAQ).*\.csv$
+      neuropsychiatric_scores:
+        required: true
+        asset_kind: clinical_table
+        data_domain: cognition
+        modality: clinical
+        target_relative_path: downloads/tables/NPIQ.csv
+        filename_patterns:
+        - (?i)(NPIQ?|Neuropsychiatric).*\.csv$
+      medications:
+        required: true
+        asset_kind: medication_table
+        data_domain: medications
+        modality: clinical
+        target_relative_path: downloads/tables/RECMHIST.csv
+        filename_patterns:
+        - (?i)(RECMHIST|MEDS|medication).*\.csv$
+      apoe_genetics:
+        required: true
+        asset_kind: genetics_table
+        data_domain: genetics
+        modality: apoe
+        target_relative_path: downloads/tables/APOERES.csv
+        filename_patterns:
+        - (?i)(APOERES|APOE).*\.csv$
+      mri_freesurfer:
+        required: true
+        asset_kind: biomarker_table
+        data_domain: mri_freesurfer
+        modality: mri
+        target_relative_path: downloads/tables/UCSFFSL.csv
+        filename_patterns:
+        - (?i)(UCSFFSL|FreeSurfer|FS).*\.csv$
+      t1_inventory:
+        required: true
+        asset_kind: imaging_inventory
+        data_domain: t1_inventory
+        modality: mri
+        target_relative_path: downloads/imaging/t1_inventory.csv
+        filename_patterns:
+        - (?i)(T1|MPRAGE|MRI).*inventory.*\.csv$
+      amyloid_pet:
+        required: true
+        asset_kind: biomarker_table
+        data_domain: pet_biomarker
+        modality: pet_amyloid
+        target_relative_path: downloads/tables/amyloid_pet.csv
+        filename_patterns:
+        - (?i)(AV45|AMYLOID|Florbetapir).*\.csv$
+      tau_pet:
+        required: true
+        asset_kind: biomarker_table
+        data_domain: pet_biomarker
+        modality: pet_tau
+        target_relative_path: downloads/tables/tau_pet.csv
+        filename_patterns:
+        - (?i)(AV1451|TAU|Flortaucipir).*PET.*\.csv$
+      fdg_pet:
+        required: true
+        asset_kind: biomarker_table
+        data_domain: pet_biomarker
+        modality: fdg_pet
+        target_relative_path: downloads/tables/fdg_pet.csv
+        filename_patterns:
+        - (?i)(FDG).*\.csv$
+      csf_biomarkers:
+        required: true
+        asset_kind: biomarker_table
+        data_domain: fluid_biomarker
+        modality: csf
+        target_relative_path: downloads/tables/csf_biomarkers.csv
+        filename_patterns:
+        - (?i)(CSF|ABETA|PTAU).*\.csv$
+      plasma_biomarkers:
+        required: true
+        asset_kind: biomarker_table
+        data_domain: fluid_biomarker
+        modality: plasma
+        target_relative_path: downloads/tables/plasma_biomarkers.csv
+        filename_patterns:
+        - (?i)(PLASMA|NfL|GFAP).*\.csv$
+      omics_inventory:
+        required: true
+        asset_kind: omics_inventory
+        data_domain: omics
+        modality: genomics
+        target_relative_path: downloads/tables/omics_inventory.csv
+        filename_patterns:
+        - (?i)(omics|genomics|GWAS|WGS|RNA).*\.csv$
+    approved_asset_manifest_fields:
+    - asset_uid
+    - include_flag
+    - transport_kind
+    - asset_kind
+    - data_domain
+    - table_role
+    - modality
+    - adni_cohort
+    - source_url
+    - source_path
+    - target_relative_path
+    - participant_level_flag
+    - allowed_use
+    - notes
+    receipt_fields:
+    - asset_uid
+    - asset_kind
+    - data_domain
+    - table_role
+    - modality
+    - adni_cohort
+    - local_path_private
+    - checksum_sha256
+    - size_bytes
+    - sync_date
+    - status
+    - participant_level_flag
+    - allowed_use
+    - notes
+    authenticated_http:
+      authentication_order: browser_cookie_jar_first
+      password_login_fallback: false
+      cookie_jar_path: Input/private/adni/secrets/ida.loni.usc.edu_cookies.txt
+      candidate_cookie_jar_paths:
+      - Input/private/adni/secrets/cookies.txt
+      cookie_jar_format: netscape_mozilla
+      cookie_domain_allowlist:
+      - ida.loni.usc.edu
+      - .ida.loni.usc.edu
+      - .loni.usc.edu
+      - .usc.edu
+      authentication_kind: form_post
+      login_url: https://ida.loni.usc.edu/login.jsp?project=ADNI
+      submit_url: https://ida.loni.usc.edu/explore/jsp/common/login.jsp
+      email_field: userEmail
+      password_field: userPassword
+      extra_post_fields:
+        isAjax: "true"
+      hidden_field_names:
+      - project
+      csrf_field_names:
+      - csrf
+      - _csrf
+      - authenticity_token
+      form_field_selectors:
+        email: input[name="userEmail"]
+        password: input[name="userPassword"]
+        csrf: input[type="hidden"]
+      cookie_policy:
+        require_session_cookie: true
+        allowed_session_cookie_names:
+        - JSESSIONID
+        - ida_session
+        - IDA_USC
+        - BIGipServerweb_loni
+        accept_zero_expiry_session_cookies: true
+        zero_expiry_session_cookie_names:
+        - JSESSIONID
+        - IDA_USC
+        - BIGipServerweb_loni
+        accepted_policy_cookie_name: idaCookiePolicy
+        accepted_policy_cookie_value: "true"
+      success_text_patterns:
+      - (?i)success
+      - (?i)logout
+      - (?i)study data
+      success_status_codes:
+      - 200
+      login_page_text_patterns:
+      - (?i)<input[^>]+name=["']userEmail["']
+      - (?i)<input[^>]+name=["']userPassword["']
+      authenticated_entry_text_patterns:
+      - (?i)download
+      - (?i)study data
+      - (?i)archive
+      - (?i)Analysis Ready Cohort
+      request_headers:
+        User-Agent: NeuronSifterADNIControlledAccess/2026-05-12
+      network_policy:
+        use_environment_proxy: false
+    ida_discovery:
+      enabled: true
+      required_gate: false
+      link_href_regex: href=["']([^"']+)["']
+      discovery_targets:
+      - target_key: study_data_tables
+        url: https://ida.loni.usc.edu/explore/jsp/search_v2/search.jsp?project=ADNI
+        target_kind: ARC Builder
+      - target_key: arc_downloads
+        url: https://ida.loni.usc.edu/pages/access/search.jsp?page=DOWNLOADS&project=ADNI&subPage=IMAGE_COLLECTIONS&tab=collection
+        target_kind: ARC
+  builder:
+    table_inputs:
+      clinical_core:
+        table_role: adni_merge_core
+        local_relative_path: downloads/tables/ADNIMERGE.csv
+        delimiter: ','
+        required: true
+      visit_diagnosis:
+        table_role: visit_diagnosis
+        local_relative_path: downloads/tables/ADNI_DX.csv
+        delimiter: ','
+        required: true
+      demographics:
+        table_role: demographics
+        local_relative_path: downloads/tables/PTDEMOG.csv
+        delimiter: ','
+        required: true
+      cognitive_scores:
+        table_role: cognitive_scores
+        local_relative_path: downloads/tables/NEUROBAT.csv
+        delimiter: ','
+        required: true
+      neuropsychiatric_scores:
+        table_role: neuropsychiatric_scores
+        local_relative_path: downloads/tables/NPIQ.csv
+        delimiter: ','
+        required: true
+      medications:
+        table_role: medications
+        local_relative_path: downloads/tables/RECMHIST.csv
+        delimiter: ','
+        required: true
+      apoe:
+        table_role: apoe_genetics
+        local_relative_path: downloads/tables/APOERES.csv
+        delimiter: ','
+        required: true
+      mri_freesurfer:
+        table_role: mri_freesurfer
+        local_relative_path: downloads/tables/UCSFFSL.csv
+        delimiter: ','
+        required: true
+      imaging_inventory:
+        table_role: t1_inventory
+        local_relative_path: downloads/imaging/t1_inventory.csv
+        delimiter: ','
+        required: true
+      amyloid_pet:
+        table_role: amyloid_pet
+        local_relative_path: downloads/tables/amyloid_pet.csv
+        delimiter: ','
+        required: true
+      tau_pet:
+        table_role: tau_pet
+        local_relative_path: downloads/tables/tau_pet.csv
+        delimiter: ','
+        required: true
+      fdg_pet:
+        table_role: fdg_pet
+        local_relative_path: downloads/tables/fdg_pet.csv
+        delimiter: ','
+        required: true
+      csf_biomarkers:
+        table_role: csf_biomarkers
+        local_relative_path: downloads/tables/csf_biomarkers.csv
+        delimiter: ','
+        required: true
+      plasma_biomarkers:
+        table_role: plasma_biomarkers
+        local_relative_path: downloads/tables/plasma_biomarkers.csv
+        delimiter: ','
+        required: true
+      omics_inventory:
+        table_role: omics_inventory
+        local_relative_path: downloads/tables/omics_inventory.csv
+        delimiter: ','
+        required: true
+    missing_tokens:
+    - ''
+    - NA
+    - N/A
+    - NaN
+    - nan
+    - null
+    - None
+    hash_prefix_length: 32
+    sample_uid_prefix: adni_sample
+    visit_uid_prefix: adni_visit
+    image_uid_prefix: adni_image
+    date_format: "%Y-%m-%d"
+    numeric_imputation_value: 0.0
+    numeric_value_parsing:
+      censored_bound_policy: use_reported_boundary_value
+      censored_bound_prefixes:
+      - ">="
+      - "<="
+      - ">"
+      - "<"
+      thousands_separator: ","
+    icv_adjustment:
+      reference_intracranial_volume: 1500000.0
+    followup_month_from_visit_code:
+      bl: 0
+      sc: 0
+      m03: 3
+      m06: 6
+      m12: 12
+      m18: 18
+      m24: 24
+      m36: 36
+      m48: 48
+      m60: 60
+      m72: 72
+      m84: 84
+      m96: 96
+    site_identifier_from_ptid_regex: "^([0-9]{3})_S_[0-9]+$"
+    diagnosis_numeric_map:
+      CN: 0
+      SMC: 0
+      EMCI: 1
+      LMCI: 1
+      MCI: 1
+      Dementia: 2
+      AD: 2
+    diagnosis_normalization_map:
+      cognitively normal: CN
+      normal: CN
+      significant memory concern: SMC
+      early mild cognitive impairment: EMCI
+      late mild cognitive impairment: LMCI
+      mild cognitive impairment: MCI
+      alzheimer disease: AD
+      alzheimers disease: AD
+      dementia: Dementia
+    column_aliases:
+      subject_identifier:
+      - RID
+      - PTID
+      - SUBJECT
+      - subject_id
+      participant_identifier:
+      - PTID
+      - RID
+      visit_code:
+      - VISCODE
+      - VISCODE2
+      - visit_code
+      exam_date:
+      - EXAMDATE
+      - EXAM_DATE
+      - exam_date
+      diagnosis:
+      - DX
+      - DIAGNOSIS
+      - diagnosis
+      age:
+      - AGE
+      - age
+      sex:
+      - PTGENDER
+      - PTSEX
+      - SEX
+      - sex
+      education:
+      - PTEDUCAT
+      - EDUCATION
+      - education
+      site_identifier:
+      - SITEID
+      - SITE
+      - site
+      apoe4_count:
+      - APOE4
+      - APOE4_COUNT
+      mmse:
+      - MMSE
+      cdrsb:
+      - CDRSB
+      adas:
+      - ADAS13
+      - ADAS11
+      faq:
+      - FAQ
+      npi:
+      - NPI
+      amyloid:
+      - AV45
+      - AMYLOID_SUVR
+      - AMYLOID
+      tau:
+      - TAU_SUVR
+      - TAU
+      fdg:
+      - FDG
+      abeta:
+      - ABETA
+      - ABETA42
+      ptau:
+      - PTAU
+      ttau:
+      - TAU
+      nfl:
+      - NFL
+      gfap:
+      - GFAP
+    apoe_table:
+      subject_identifier:
+      - RID
+      - PTID
+      apoe4_count:
+      - APOE4
+      genotype:
+      - GENOTYPE
+      - genotype
+      allele_one:
+      - APGEN1
+      - APOE_A1
+      allele_two:
+      - APGEN2
+      - APOE_A2
+    medication_table:
+      subject_identifier:
+      - RID
+      - PTID
+      visit_code:
+      - VISCODE
+      - VISCODE2
+      medication_name:
+      - CMTRT
+      - MEDICATION
+      - DRUGNAME
+      - MHDESC
+      exposure_status:
+      - CMINDC
+      - STATUS
+      - USE_FLAG
+      - MHCUR
+      start_date:
+      - CMSTDTC
+      - STARTDATE
+      - MHDTONSET
+      end_date:
+      - CMENDTC
+      - ENDDATE
+    generic_table_columns:
+      subject_identifier:
+      - RID
+      - PTID
+      - SUBJECT
+      visit_code:
+      - VISCODE
+      - VISCODE2
+      - EXAMDATE
+      - exam_date
+      inventory_uid:
+      - IMAGEUID
+      - FILEID
+      - RUNID
+      - INVENTORY_UID
+      modality:
+      - MODALITY
+      - modality
+      assay_name:
+      - ASSAY
+      - TESTNAME
+      - MEASURE
+      availability_flag:
+      - AVAILABLE
+      - include_flag
+    imaging_inventory_columns:
+      subject_identifier:
+      - RID
+      - PTID
+      participant_identifier:
+      - PTID
+      visit_code:
+      - VISCODE
+      - VISCODE2
+      modality:
+      - MODALITY
+      - modality
+      image_uid:
+      - IMAGEUID
+      - ID
+      - image_uid
+      sequence:
+      - SEQUENCE
+      - sequence
+      collection:
+      - COLLECTION
+      - collection
+      local_relative_path:
+      - LOCAL_PATH
+      - local_relative_path
+      checksum_sha256:
+      - CHECKSUM
+      - checksum_sha256
+      acquisition_date:
+      - SCANDATE
+      - acquisition_date
+      site_identifier:
+      - SITEID
+      - SITE
+    modality_aliases:
+      mri:
+      - MRI
+      - MR
+      - T1
+      - MPRAGE
+      pet_amyloid:
+      - AV45
+      - AMYLOID
+      - FLORBETAPIR
+      pet_tau:
+      - TAU
+      - AV1451
+      - FLORTAUCIPIR
+      fdg_pet:
+      - FDG
+      csf:
+      - CSF
+      plasma:
+      - PLASMA
+      genomics:
+      - GENETIC
+      - GENOMICS
+      - APOE
+    modality_output_order:
+    - clinical
+    - apoe
+    - mri
+    - pet_amyloid
+    - pet_tau
+    - fdg_pet
+    - csf
+    - plasma
+    - genomics
+    feature_definitions:
+    - feature_name: age
+      feature_group: demographic
+      source_table_roles:
+      - adni_merge_core
+      - demographics
+      source_columns:
+      - AGE
+      unit: year
+      normalization_policy: train_split_zscore
+      modality_flag: clinical
+    - feature_name: education_years
+      feature_group: demographic
+      source_table_roles:
+      - adni_merge_core
+      - demographics
+      source_columns:
+      - PTEDUCAT
+      - EDUCATION
+      unit: year
+      normalization_policy: train_split_zscore
+      modality_flag: clinical
+    - feature_name: apoe4_count
+      feature_group: genetic
+      source_table_roles:
+      - adni_merge_core
+      - apoe_genetics
+      source_columns:
+      - APOE4
+      - APOE4_COUNT
+      unit: allele_count
+      normalization_policy: none
+      modality_flag: genomics
+    - feature_name: mmse_total
+      feature_group: clinical
+      source_table_roles:
+      - adni_merge_core
+      - cognitive_scores
+      source_columns:
+      - MMSE
+      unit: score
+      normalization_policy: train_split_zscore
+      modality_flag: clinical
+    - feature_name: cdrsb_total
+      feature_group: clinical
+      source_table_roles:
+      - adni_merge_core
+      - cognitive_scores
+      source_columns:
+      - CDRSB
+      unit: score
+      normalization_policy: train_split_zscore
+      modality_flag: clinical
+    - feature_name: adas_cog
+      feature_group: clinical
+      source_table_roles:
+      - adni_merge_core
+      - cognitive_scores
+      source_columns:
+      - ADAS13
+      - ADAS11
+      unit: score
+      normalization_policy: train_split_zscore
+      modality_flag: clinical
+    - feature_name: faq_total
+      feature_group: clinical
+      source_table_roles:
+      - adni_merge_core
+      - cognitive_scores
+      source_columns:
+      - FAQ
+      unit: score
+      normalization_policy: train_split_zscore
+      modality_flag: clinical
+    - feature_name: npi_total
+      feature_group: clinical
+      source_table_roles:
+      - adni_merge_core
+      - neuropsychiatric_scores
+      - cognitive_scores
+      source_columns:
+      - NPI
+      - NPISCORE
+      - NPITOTAL
+      unit: score
+      normalization_policy: train_split_zscore
+      modality_flag: clinical
+    - feature_name: hippocampus_volume
+      feature_group: mri
+      source_table_roles:
+      - adni_merge_core
+      - mri_freesurfer
+      source_columns:
+      - Hippocampus
+      - HIPPOCAMPUS
+      unit: mm3
+      normalization_policy: icv_adjust_then_train_split_zscore
+      modality_flag: mri
+    - feature_name: entorhinal_thickness
+      feature_group: mri
+      source_table_roles:
+      - adni_merge_core
+      - mri_freesurfer
+      source_columns:
+      - Entorhinal
+      - ENTORHINAL
+      unit: mm
+      normalization_policy: train_split_zscore
+      modality_flag: mri
+    - feature_name: whole_brain_volume
+      feature_group: mri
+      source_table_roles:
+      - adni_merge_core
+      - mri_freesurfer
+      source_columns:
+      - WholeBrain
+      - WHOLEBRAIN
+      unit: mm3
+      normalization_policy: icv_adjust_then_train_split_zscore
+      modality_flag: mri
+    - feature_name: intracranial_volume
+      feature_group: mri
+      source_table_roles:
+      - adni_merge_core
+      - mri_freesurfer
+      source_columns:
+      - ICV
+      - IntracranialVol
+      unit: mm3
+      normalization_policy: train_split_zscore
+      modality_flag: mri
+    - feature_name: amyloid_suvr
+      feature_group: pet
+      source_table_roles:
+      - adni_merge_core
+      - amyloid_pet
+      source_columns:
+      - AV45
+      - AMYLOID_SUVR
+      - AMYLOID
+      - SUMMARY_SUVR
+      unit: suvr
+      normalization_policy: train_split_zscore
+      modality_flag: pet_amyloid
+    - feature_name: tau_suvr
+      feature_group: pet
+      source_table_roles:
+      - adni_merge_core
+      - tau_pet
+      source_columns:
+      - TAU_SUVR
+      - AV1451
+      - META_TEMPORAL_SUVR
+      unit: suvr
+      normalization_policy: train_split_zscore
+      modality_flag: pet_tau
+    - feature_name: fdg_suvr
+      feature_group: pet
+      source_table_roles:
+      - adni_merge_core
+      - fdg_pet
+      source_columns:
+      - FDG
+      - MEAN
+      unit: suvr
+      normalization_policy: train_split_zscore
+      modality_flag: fdg_pet
+    - feature_name: csf_abeta42
+      feature_group: fluid
+      source_table_roles:
+      - adni_merge_core
+      - csf_biomarkers
+      source_columns:
+      - ABETA
+      - ABETA42
+      unit: pg_per_ml
+      normalization_policy: train_split_zscore
+      modality_flag: csf
+    - feature_name: csf_ptau
+      feature_group: fluid
+      source_table_roles:
+      - adni_merge_core
+      - csf_biomarkers
+      source_columns:
+      - PTAU
+      unit: pg_per_ml
+      normalization_policy: train_split_zscore
+      modality_flag: csf
+    - feature_name: csf_ttau
+      feature_group: fluid
+      source_table_roles:
+      - adni_merge_core
+      - csf_biomarkers
+      source_columns:
+      - TAU
+      unit: pg_per_ml
+      normalization_policy: train_split_zscore
+      modality_flag: csf
+    - feature_name: plasma_nfl
+      feature_group: fluid
+      source_table_roles:
+      - plasma_biomarkers
+      source_columns:
+      - NFL
+      - NfL_Q
+      - NfL_F
+      unit: pg_per_ml
+      normalization_policy: train_split_zscore
+      modality_flag: plasma
+    - feature_name: plasma_gfap
+      feature_group: fluid
+      source_table_roles:
+      - plasma_biomarkers
+      source_columns:
+      - GFAP
+      - GFAP_Q
+      - GFAP_F
+      unit: pg_per_ml
+      normalization_policy: train_split_zscore
+      modality_flag: plasma
+    - feature_name: active_medication_count
+      feature_group: medication
+      source_table_roles:
+      - medications
+      source_columns:
+      - MEDICATION_COUNT
+      - ACTIVE_MEDICATION_COUNT
+      unit: count
+      normalization_policy: train_split_zscore
+      modality_flag: clinical
+    split_policy:
+      policy_uid: adni_subject_holdout_site_audit
+      train_fraction: 0.7
+      validation_fraction: 0.15
+      test_fraction: 0.15
+      assignment_hash_context: adni_subject_holdout_split
+      split_names:
+      - train
+      - validation
+      - test
+      forbid_subject_overlap: true
+      report_site_overlap_matrix: true
+      report_diagnosis_transition_counts: true
+      report_modality_missingness_profiles: true
+      report_cohort_holdout_counts: true
+  application:
+    benchmark_id: adni_controlled_state_inference_validation
+    model_family: screening_checkpoint_world_state_adapter_with_train_split_centroid_calibrator
+    screening_checkpoint:
+      selection_policy: current_public_mainline_production
+      profile_name: dynamics_mainline_ad
+      artifact_root: Output/results/dynamics_formal
+      benchmark_name_template: dynamics_twin_ad_mainline_seed_{seed}
+      seed_value: 3407
+      checkpoint_relative_path: production/ad_screening_system/model_weights.pt
+      manifest_relative_path: production/ad_screening_system/training_manifest.json
+      expected_scope: production
+      expected_fold_name: production
+      expected_model_name: ad_screening_system
+      expected_model_contract_version: ad_full_microenvironment_v2
+      required: true
+      model_state_key: model_state
+      model_kwargs_key: model_kwargs
+      state_dict_strict: true
+      target_dimension_source: checkpoint_patient_state_dim
+    adni_tabular_adapter:
+      adapter_name: train_split_state_projection_to_screening_world_state
+      fit_split: train
+      inference_splits:
+      - validation
+      - test
+      batch_size: 32
+      projection_policy:
+        kind: train_centered_svd_random_projection_completion
+        random_seed: 3407
+        minimum_train_samples: 1
+        summary_feature_names:
+        - centroid_disease_probability
+        - matrix_mean
+        - matrix_standard_deviation
+        - nonzero_fraction
+        - disease_differential_projection
+        - latent_norm
+      posterior_calibration:
+        ece_bin_count: 10
+      factor_anchoring:
+        anchor_features:
+        - diagnosis_numeric
+        - mmse_total
+        - cdrsb_total
+        - amyloid_suvr
+        - tau_suvr
+        - hippocampus_volume
+    state_factor_mapping:
+      diagnosis_numeric:
+        normal: 0
+        mild_cognitive_impairment: 1
+        dementia_or_ad: 2
+      pathology_state:
+        amyloid_positive_feature: amyloid_suvr
+        tau_positive_feature: tau_suvr
+    transition_labels:
+      stable: stable
+      progression: progression
+      improvement: improvement
+    pathology_thresholds:
+      amyloid_suvr_positive_min: 1.11
+      tau_suvr_positive_min: 1.25
+    missingness_tasks:
+    - task_id: drop_mri
+      modality: mri
+    - task_id: drop_pet_amyloid
+      modality: pet_amyloid
+    - task_id: drop_pet_tau
+      modality: pet_tau
+    - task_id: drop_fdg_pet
+      modality: fdg_pet
+    - task_id: drop_fluid_biomarkers
+      modality: fluid
+    holdout_policy:
+      forbid_subject_overlap: true
+      site_holdout_mode: report_overlap_not_training_signal
+      cohort_holdout_mode: report_cohort_counts_by_split
+    metrics:
+      classification:
+      - balanced_accuracy
+      - macro_f1
+      - sample_count
+      calibration:
+      - brier_score
+      longitudinal:
+      - conversion_balanced_accuracy
+      - progression_rate_mae
+      missingness:
+      - balanced_accuracy_delta_from_complete
+  validators:
+    raw_identifier_min_length: 5
+    public_raw_identifier_value_patterns:
+    - ^[0-9]{3}_S_[0-9]+$
+    require_required_role_coverage: true
+    require_train_only_scaler: true
+    require_controlled_application_reports: true
+    public_scan_roots:
+    - Output/paper_reports
+    - Output/logs
+    public_text_scan_suffixes:
+    - .json
+    - .tsv
+    - .csv
+    - .txt
+    - .log
+    participant_level_output_roots:
+    - Input/private/adni
+    - Input/processed/adni
+    forbidden_public_path_fragments:
+    - adni_sample_observation_registry
+    - adni_feature_matrix
+    - adni_longitudinal_transition_table
+    - adni_model_input_registry
+    - adni_imaging_inventory
+    - model_inputs
+    - Input/private/adni
+    forbidden_public_json_keys:
+    - sample_uid
+    - subject_uid_hash
+    - visit_uid
+    - image_uid_hash
+    - site_uid_hash
+    - local_path_private
+schemas:
+  adni_raw_manifest_fields:
+  - asset_uid
+  - asset_kind
+  - data_domain
+  - table_role
+  - modality
+  - adni_cohort
+  - local_path_private
+  - checksum_sha256
+  - size_bytes
+  - sync_date
+  - status
+  - participant_level_flag
+  - allowed_use
+  - notes
+  adni_sample_observation_fields:
+  - sample_uid
+  - subject_uid_hash
+  - visit_uid
+  - source_key
+  - adni_cohort
+  - visit_code
+  - exam_date_relative
+  - diagnosis
+  - diagnosis_numeric
+  - age
+  - sex
+  - education
+  - apoe4_count
+  - site_uid_hash
+  - available_modalities
+  - clinical_score_available
+  - mri_available
+  - pet_amyloid_available
+  - pet_tau_available
+  - fdg_pet_available
+  - csf_available
+  - plasma_available
+  - genomics_available
+  - followup_month
+  - conversion_event
+  - benchmark_split
+  adni_longitudinal_transition_fields:
+  - subject_uid_hash
+  - source_sample_uid
+  - target_sample_uid
+  - source_visit_uid
+  - target_visit_uid
+  - delta_month
+  - dx_t0
+  - dx_t1
+  - mmse_t0
+  - mmse_t1
+  - cdrsb_t0
+  - cdrsb_t1
+  - adas_t0
+  - adas_t1
+  - amyloid_t0
+  - amyloid_t1
+  - tau_t0
+  - tau_t1
+  - mri_region_features_t0_path
+  - mri_region_features_t1_path
+  - transition_label
+  - progression_rate
+  - benchmark_split
+  adni_feature_matrix_fields:
+  - sample_uid
+  - feature_name
+  - feature_value
+  - feature_unit
+  - feature_timepoint
+  - missingness_flag
+  - normalization_policy
+  adni_imaging_inventory_fields:
+  - image_uid_hash
+  - subject_uid_hash
+  - visit_uid
+  - source_key
+  - adni_cohort
+  - visit_code
+  - modality
+  - sequence
+  - collection
+  - local_path_private
+  - checksum_sha256
+  - participant_level_flag
+  - allowed_use
+  adni_medication_exposure_fields:
+  - exposure_uid_hash
+  - subject_uid_hash
+  - visit_uid
+  - sample_uid
+  - source_key
+  - visit_code
+  - medication_name_hash
+  - exposure_status
+  - exposure_timepoint
+  - participant_level_flag
+  - allowed_use
+  adni_domain_inventory_fields:
+  - inventory_uid_hash
+  - subject_uid_hash
+  - visit_uid
+  - source_key
+  - table_role
+  - data_domain
+  - modality
+  - visit_code
+  - inventory_label
+  - availability_flag
+  - participant_level_flag
+  - allowed_use
+  adni_feature_index_fields:
+  - feature_name
+  - feature_group
+  - feature_unit
+  - modality_flag
+  - normalization_policy
+  - source_table_roles
+  - source_columns
+  adni_world_state_prediction_fields:
+  - sample_uid
+  - benchmark_split
+  - diagnosis_numeric
+  - centroid_disease_probability
+  - screening_disease_probability
+  - z_tx_mean
+  - z_tx_norm
+  - z_pk_mean
+  - z_pk_norm
+  - z_env_mean
+  - z_env_norm
+  - z_ephys_mean
+  - z_ephys_norm
+  - z_morph_mean
+  - z_morph_norm
+  - baseline_field_mean
+  - hidden_parameter_posterior_mean

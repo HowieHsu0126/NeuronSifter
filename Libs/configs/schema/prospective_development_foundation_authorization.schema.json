@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/prospective-development-foundation-authorization-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "development_domain_qualified", "method_preregistration_allowed", "training_authorized", "gpu_authorized", "adjudication_uid", "reviewed_on", "allowed_scope", "blocked_scope", "terminal_status", "six_context_outcome_access", "protected_holdout_access", "decision_binding"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-prospective-development-foundation-authorization-v1"},
+    "status": {"enum": ["method_preregistration_permitted", "not_issuable"]},
+    "development_domain_qualified": {"type": "boolean"},
+    "method_preregistration_allowed": {"type": "boolean"},
+    "training_authorized": {"const": false},
+    "gpu_authorized": {"const": false},
+    "adjudication_uid": {"type": "string"},
+    "reviewed_on": {"type": "string"},
+    "allowed_scope": {"type": "array", "items": {"type": "string"}},
+    "blocked_scope": {"type": "array", "items": {"type": "string"}},
+    "terminal_status": {"type": "string"},
+    "six_context_outcome_access": {"const": 0},
+    "protected_holdout_access": {"const": 0},
+    "decision_binding": {"type": "object"}
+  }
+}

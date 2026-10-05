@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/prospective-development-intake-implementation-freeze-v3.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "intake_uid", "created_at",
+    "preregistration_digest", "preregistration_binding", "implementation_bindings",
+    "superseded_freeze_binding", "invalidation_binding", "repair_reason",
+    "source_asset_content_retrieved", "development_outcome_access",
+    "six_context_outcome_access", "protected_holdout_access", "freeze_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-prospective-development-intake-implementation-freeze-v3"},
+    "status": {"const": "frozen_before_repository_metadata_retry"},
+    "intake_uid": {"type": "string"},
+    "created_at": {"type": "string"},
+    "preregistration_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "preregistration_binding": {"type": "object"},
+    "implementation_bindings": {"type": "object", "minProperties": 8},
+    "superseded_freeze_binding": {"type": "object"},
+    "invalidation_binding": {"type": "object"},
+    "repair_reason": {"const": "direct_network_retry_after_inherited_loopback_proxy_failure"},
+    "source_asset_content_retrieved": {"const": false},
+    "development_outcome_access": {"const": 0},
+    "six_context_outcome_access": {"const": 0},
+    "protected_holdout_access": {"const": 0},
+    "freeze_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

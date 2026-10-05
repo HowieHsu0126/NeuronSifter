@@ -1,0 +1,28 @@
+prospective_development_foundation_adjudication:
+  schema_version: neuronsifter-prospective-development-foundation-adjudication-config-v1
+  adjudication_uid: bounded_public_prospective_development_foundation
+  reviewed_on: '2026-08-28'
+  expected_parent:
+    intake_status: development_source_queue_exhausted
+    metadata_asset_count: 153
+    metadata_eligible_count: 0
+    queue_lineage_count: 0
+    six_context_outcome_access: 0
+    protected_holdout_access: 0
+  terminal_status: PUBLIC_PROSPECTIVE_DEVELOPMENT_DATA_INSUFFICIENT
+  boundaries:
+    global_public_data_absence_claimed: false
+    automatic_second_intake_allowed: false
+    development_outcome_access: 0
+    six_context_outcome_access: 0
+    protected_holdout_access: 0
+    training_authorized: false
+    gpu_authorized: false
+  outputs:
+    source_recovery_audit: Output/audits/prospective_development_source_recovery.json
+    failure_taxonomy: Output/audits/prospective_development_intake_failure_taxonomy.json
+    role_assignment: Output/audits/prospective_four_role_assignment.json
+    foundation_decision: Output/audits/prospective_development_foundation_decision.json
+    conditional_authorization: Input/manifests/prospective_development/prospective_development_foundation_authorization.json
+    failure_analysis_report: Output/paper_reports/prospective_development_data_failure_analysis.md
+    validation_audit: Output/audits/prospective_development_foundation_validation.json

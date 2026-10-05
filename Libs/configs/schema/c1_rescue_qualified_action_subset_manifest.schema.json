@@ -1,0 +1,105 @@
+{
+  "$id": "https://neuronsifter.local/schema/c1_rescue_qualified_action_subset_manifest.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "catalog_count": {
+      "const": 3
+    },
+    "corpus_hash": {
+      "const": "3c9899d1704ce262801229d98fb5402f49159fb8959295d3b86600522b4ab7f1"
+    },
+    "corpus_uid": {
+      "const": "public_foundation_corpus_rescue"
+    },
+    "qualified_action_subset_hash": {
+      "const": "c2165c124e9be2cb472244119e113479c67c5741de94dcaa5631fb04bba85b9f"
+    },
+    "qualified_catalogs": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "action_linkage_complete": {
+            "const": true
+          },
+          "asset_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "bytes": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "canonical_observation_uid": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "path": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "record_count": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "role": {
+            "const": "qualified_for_mainline"
+          },
+          "sha256": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "source_accession": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "source_id": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "asset_id",
+          "path",
+          "record_count",
+          "bytes",
+          "sha256",
+          "source_id",
+          "source_accession",
+          "canonical_observation_uid",
+          "role",
+          "action_linkage_complete"
+        ],
+        "type": "object"
+      },
+      "maxItems": 3,
+      "minItems": 3,
+      "type": "array"
+    },
+    "record_count": {
+      "const": 7124
+    },
+    "role": {
+      "const": "qualified_for_mainline"
+    },
+    "schema_version": {
+      "const": "neuronsifter-c1-qualified-action-subset-v2"
+    },
+    "status": {
+      "const": "passed"
+    }
+  },
+  "required": [
+    "schema_version",
+    "corpus_uid",
+    "corpus_hash",
+    "role",
+    "record_count",
+    "catalog_count",
+    "qualified_catalogs",
+    "qualified_action_subset_hash",
+    "status"
+  ],
+  "title": "NeuronSifter C1 qualified action subset manifest V2 rescue",
+  "type": "object"
+}

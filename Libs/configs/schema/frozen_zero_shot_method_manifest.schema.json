@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/frozen-zero-shot-method-manifest-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "review_uid",
+    "reviewed_on",
+    "checkpoint_components",
+    "evaluation_independence",
+    "configuration_identity",
+    "implementation_identity",
+    "input_compatibility",
+    "uncertainty_identity",
+    "abstention_identity",
+    "memory_identity",
+    "blocking_findings",
+    "protected_holdout_access"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-frozen-zero-shot-method-manifest-v1"},
+    "status": {"enum": ["complete_and_executable", "incomplete_not_executable"]},
+    "review_uid": {"type": "string", "minLength": 1},
+    "reviewed_on": {"type": "string", "format": "date"},
+    "checkpoint_components": {"type": "array", "minItems": 2, "items": {"type": "object"}},
+    "evaluation_independence": {"type": "object"},
+    "configuration_identity": {"type": "object"},
+    "implementation_identity": {"type": "object"},
+    "input_compatibility": {"type": "object"},
+    "uncertainty_identity": {"type": "object"},
+    "abstention_identity": {"type": "object"},
+    "memory_identity": {"type": "object"},
+    "blocking_findings": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "protected_holdout_access": {"const": 0}
+  }
+}

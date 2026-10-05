@@ -1,0 +1,147 @@
+agent_twin_wp1_validation:
+  schema_version: neuronsifter-agent-twin-wp1-runtime-v5
+  candidate:
+    worktree: /share/home/anonymous/Researches/NeuronSifter-agent-twin-coevolution-candidate-20260803-main
+    commit: 6d2a7b2dda370dbaddfba4abef701978b6c36692
+    tree: 1644cd6141636dad693f6ac47b3ea51cfeb2e869
+    parent_commit: cd964535839f76369a3b34ff60902053c082b0ba
+    update_contract_path: Output/audits/agent_twin_update_contract.json
+    update_contract_sha256: 3bc609afda3eb762a6f3205b218ba3837da1e1cd05745822b404c0c6fc8474d2
+  scheduler:
+    job_name: NrnSift_agent_twin_wp1
+    resource_config: Libs/configs/config_stack.yaml
+    resource_profile_key_path: cluster_registry.active_learning.cpu_tests
+    nodes: 1
+    ntasks: 1
+    walltime: '04:00:00'
+  runtime:
+    python_config_key_path: cluster_registry.python_executable
+    scratch_base: /tmp
+    private_shm:
+      enabled: true
+      size: 512M
+      mount_options:
+      - nosuid
+      - nodev
+      executor: bwrap_nested_nonroot
+      bwrap_executable: /usr/bin/bwrap
+    environment:
+      python_no_user_site: true
+      pytest_disable_plugin_autoload: true
+      tokenizers_parallelism: false
+    git_metadata:
+      isolation_mode: candidate_dot_git_pointer
+      global_git_dir_forbidden: true
+      global_git_work_tree_forbidden: true
+  staging:
+    maximum_git_blob_bytes: 100000000
+    dependency_root: /share/home/anonymous/Researches/NeuronSifter
+    prerequisite_config_path: Libs/configs/experiments/agent_twin_coevolution.yaml
+    supplemental_contract_config_path: Libs/configs/validation/supplemental_milestone_contracts.yaml
+    external_file_dependencies:
+    - logical_path: Input/processed/intervention_program/intervention_program_catalog.tsv
+      required_for: full_cpu_suite
+    - logical_path: Input/processed/candidate_validation/candidate_validation_catalog.tsv
+      required_for: full_cpu_suite
+    - logical_path: Input/processed/structural_prior/public_ad_meso/region_prior_catalog.tsv
+      required_for: full_cpu_suite
+    - logical_path: Input/processed/model_input/study_bundle_catalog.tsv
+      required_for: full_cpu_suite
+    - logical_path: Input/processed/action_ready/regimen_catalog.tsv
+      required_for: full_cpu_suite
+    - logical_path: Input/processed/dynamics_ready/public_ad_meso/sample_alignment_catalog.tsv
+      required_for: full_cpu_suite
+    - logical_path: Input/processed/dynamics_ready/public_ad_meso/simulation_catalog.tsv
+      required_for: full_cpu_suite_and_numeric_lineage
+    - logical_path: Input/processed/simulation_audit/simulation_qc_summary.json
+      required_for: full_cpu_suite_and_supplemental_validator
+    - logical_path: Input/processed/simulation_audit/simulation_qc_catalog.tsv
+      required_for: full_cpu_suite_and_supplemental_validator
+    - logical_path: Input/processed/simulation_audit/simulation_pair_alignment_audit.tsv
+      required_for: full_cpu_suite_and_supplemental_validator
+    - logical_path: Input/processed/simulation_audit/simulation_numeric_audit.tsv
+      required_for: full_cpu_suite_and_numeric_lineage
+    - logical_path: Input/processed/simulation_audit/simulation_teacher_uncertainty_audit.tsv
+      required_for: full_cpu_suite
+    - logical_path: Input/processed/simulation_audit/simulation_split_leakage_audit.json
+      required_for: supplemental_validator
+    - logical_path: Input/processed/ai_ready/ai_ready_audit.json
+      required_for: supplemental_validator
+    - logical_path: Input/processed/full_microenvironment_teacher_ready/trajectory_store.zarr/trajectories/.zarray
+      required_for: numeric_lineage
+    - logical_path: Input/processed/full_microenvironment_teacher_ready/pbpk_rollout_catalog.tsv
+      required_for: full_cpu_suite_and_supplemental_validator
+    - logical_path: Input/processed/full_microenvironment_teacher_ready/neuron_rxd_protocol_catalog.tsv
+      required_for: full_cpu_suite_and_supplemental_validator
+    - logical_path: Input/processed/full_microenvironment_teacher_ready/source_model_catalog.tsv
+      required_for: supplemental_validator
+    - logical_path: Input/processed/full_microenvironment_teacher_ready/full_microenvironment_teacher_catalog.tsv
+      required_for: full_cpu_suite
+    - logical_path: Input/processed/full_microenvironment_teacher_ready/chembl_pbpk_parameter_catalog.tsv
+      required_for: supplemental_validator
+    - logical_path: Output/audits/iclr_repo_inventory.json
+      required_for: full_cpu_suite_and_numeric_lineage
+    - logical_path: Output/audits/formal_experiment_readiness_audit.json
+      required_for: full_cpu_suite
+    - logical_path: Output/audits/dt_round11d_full_suite_execution.json
+      source_path: Output/audits/round17-full-suite-f58476e-20260729T080757Z/execution-output/repository-output/audits/dt_round11d_full_suite_execution.json
+      required_for: full_cpu_suite_round11f_controller_lineage
+    - logical_path: Output/audits/dt_round11d_full_suite_results.xml
+      source_path: Output/audits/round17-full-suite-f58476e-20260729T080757Z/execution-output/repository-output/audits/dt_round11d_full_suite_results.xml
+      required_for: full_cpu_suite_round11f_controller_lineage
+    - logical_path: Output/audits/dt_round11d_full_suite_failure_triage.json
+      source_path: Output/audits/round17-full-suite-f58476e-20260729T080757Z/execution-output/repository-output/audits/dt_round11d_full_suite_failure_triage.json
+      required_for: full_cpu_suite_round11f_controller_lineage
+    - logical_path: Output/audits/dt_round11_closure_decision.json
+      source_path: Output/audits/round17-full-suite-f58476e-20260729T080757Z/execution-output/repository-output/audits/dt_round11_closure_decision.json
+      required_for: full_cpu_suite_round11f_controller_lineage
+    - logical_path: Output/audits/dt_round11e_targeted_gate.json
+      source_path: Output/audits/round17-full-suite-f58476e-20260729T080757Z/execution-output/repository-output/audits/dt_round11e_targeted_gate.json
+      required_for: full_cpu_suite_round11f_controller_lineage
+    - logical_path: Output/audits/dt_round11e_repair_wave_record.json
+      source_path: Output/audits/round17-full-suite-f58476e-20260729T080757Z/execution-output/repository-output/audits/dt_round11e_repair_wave_record.json
+      required_for: full_cpu_suite_round11f_controller_lineage
+    - logical_path: Output/audits/dt_round11e_testcase_failure_ledger.tsv
+      source_path: Output/audits/round17-full-suite-f58476e-20260729T080757Z/execution-output/repository-output/audits/dt_round11e_testcase_failure_ledger.tsv
+      required_for: full_cpu_suite_round11f_controller_lineage
+    - logical_path: Output/audits/dt_round11e_failure_dependency_graph.json
+      source_path: Output/audits/round17-full-suite-f58476e-20260729T080757Z/execution-output/repository-output/audits/dt_round11e_failure_dependency_graph.json
+      required_for: full_cpu_suite_round11f_controller_lineage
+    - logical_path: Output/audits/dt_round11e_full_suite_execution.json
+      source_path: Output/audits/round17-full-suite-f58476e-20260729T080757Z/execution-output/repository-output/audits/dt_round11e_full_suite_execution.json
+      required_for: full_cpu_suite_round11f_controller_lineage
+    - logical_path: Output/audits/dt_round14_frozen_gap_resolution_ledger.tsv
+      required_for: full_cpu_suite_round18_parent_ledger
+    - logical_path: Output/audits/dt_round18_entry_gate.json
+      required_for: full_cpu_suite_round18_parent_artifacts
+    - logical_path: Output/audits/dt_round18_handoff.json
+      required_for: full_cpu_suite_round18_parent_artifacts
+    - logical_path: Output/audits/dt_round17i_gate.json
+      required_for: full_cpu_suite_round18_parent_artifacts
+    - logical_path: Output/audits/dt_round17_gate.json
+      required_for: full_cpu_suite_round18_parent_artifacts
+    - logical_path: Output/audits/dt_round16_gate.json
+      required_for: full_cpu_suite_round18_parent_artifacts
+    - logical_path: Output/audits/dt_round14_evidence_fabric_coverage.json
+      required_for: full_cpu_suite_round18_parent_artifacts
+    - logical_path: Output/audits/dt_round15_trajectory_coverage.json
+      required_for: full_cpu_suite_round18_parent_artifacts
+    - logical_path: Output/paper_reports/g5_effective_sample_audit.json
+      required_for: full_cpu_suite
+    external_manifest_dependencies:
+    - manifest_path: Input/processed/model_input/study_bundle_catalog.tsv
+      path_columns:
+      - sample_index_path
+      - scaler_artifact_path
+      required_for: full_cpu_suite
+  timeouts:
+    candidate_identity: 120s
+    stage_candidate: 45m
+    private_shm_probe: 5m
+    git_metadata_probe: 5m
+    contract_validator: 10m
+    focused_tests: 30m
+    candidate_collection: 30m
+    inherited_collection: 30m
+    full_suite: 150m
+    supplemental_contract_validator: 30m

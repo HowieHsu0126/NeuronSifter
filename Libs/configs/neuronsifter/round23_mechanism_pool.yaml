@@ -1,0 +1,104 @@
+round23_mechanism_pool:
+  schema_version: neuronsifter-round23-prospective-mechanism-pool-v1
+  pool_id: modeldb_romani_equal_charge_structured_action_dev_v1
+  evidence_role: development_only
+  publication_claim_eligible: false
+  source_domain: modeldb_romani_current_clamp_restricted
+  source_model_id: modeldb_romani_2013_ca3_ca1
+  registered_tool: neuron_rxd_microenvironment_teacher.run_protocol_batch
+  output_root: Output/runs/round23/c2s/prospective_mechanism_pool_v1
+  candidate_split_role: validation
+  allowed_split_roles: [train, validation]
+  protected_test_access_allowed: false
+  protected_action_uids:
+  - current_clamp_holdout_drive
+  - control_current_zero_for_holdout_drive
+  protected_protocol_identity:
+    amplitude_nA: 0.2
+    duration_ms: 120.0
+    delay_ms: 40.0
+  design:
+    hypothesis: a_cost_matched_structured_action_pool_removes_the_decision_degeneracy_without_changing_the_shared_belief_gate
+    primary_outcome: decision_risk_at_matched_information_cost
+    response_objective: electrophysiology_response_magnitude_not_biological_efficacy
+    endpoint_selection: aggregate_all_declared_electrophysiology_species_and_regions
+    endpoint_filtering_after_outcome_observation_allowed: false
+    absolute_current_charge_nA_ms: 6.0
+    information_query_cost: 1.0
+    mechanism_protocol_source: neuronsifter_vnext.mechanism_test.protocol
+    control_systems: [S_shared_posterior, D_decoupled_posteriors, P_shared_point, U_uncertainty_query]
+    checkpoint_scale: Large
+    checkpoint_update_allowed: false
+  protocols:
+  - action_uid: equal_charge_long_low_positive
+    pair_uid: equal_charge_long_low_positive_pair
+    amplitude_nA: 0.04
+    duration_ms: 150.0
+    delay_ms: 40.0
+    split_role: train
+  - action_uid: equal_charge_reference_positive
+    pair_uid: equal_charge_reference_positive_pair
+    amplitude_nA: 0.05
+    duration_ms: 120.0
+    delay_ms: 40.0
+    split_role: train
+  - action_uid: equal_charge_medium_positive
+    pair_uid: equal_charge_medium_positive_pair
+    amplitude_nA: 0.075
+    duration_ms: 80.0
+    delay_ms: 40.0
+    split_role: train
+  - action_uid: equal_charge_short_positive
+    pair_uid: equal_charge_short_positive_pair
+    amplitude_nA: 0.1
+    duration_ms: 60.0
+    delay_ms: 40.0
+    split_role: train
+  - action_uid: equal_charge_long_low_negative
+    pair_uid: equal_charge_long_low_negative_pair
+    amplitude_nA: -0.04
+    duration_ms: 150.0
+    delay_ms: 40.0
+    split_role: train
+  - action_uid: equal_charge_medium_negative
+    pair_uid: equal_charge_medium_negative_pair
+    amplitude_nA: -0.075
+    duration_ms: 80.0
+    delay_ms: 40.0
+    split_role: train
+  - action_uid: equal_charge_high_positive
+    pair_uid: equal_charge_high_positive_pair
+    amplitude_nA: 0.12
+    duration_ms: 50.0
+    delay_ms: 40.0
+    split_role: validation
+  - action_uid: equal_charge_higher_positive
+    pair_uid: equal_charge_higher_positive_pair
+    amplitude_nA: 0.15
+    duration_ms: 40.0
+    delay_ms: 40.0
+    split_role: validation
+  - action_uid: equal_charge_brief_positive
+    pair_uid: equal_charge_brief_positive_pair
+    amplitude_nA: 0.24
+    duration_ms: 25.0
+    delay_ms: 40.0
+    split_role: validation
+  - action_uid: equal_charge_reference_negative
+    pair_uid: equal_charge_reference_negative_pair
+    amplitude_nA: -0.05
+    duration_ms: 120.0
+    delay_ms: 40.0
+    split_role: validation
+  - action_uid: equal_charge_short_negative
+    pair_uid: equal_charge_short_negative_pair
+    amplitude_nA: -0.1
+    duration_ms: 60.0
+    delay_ms: 40.0
+    split_role: validation
+  - action_uid: equal_charge_higher_negative
+    pair_uid: equal_charge_higher_negative_pair
+    amplitude_nA: -0.15
+    duration_ms: 40.0
+    delay_ms: 40.0
+    split_role: validation

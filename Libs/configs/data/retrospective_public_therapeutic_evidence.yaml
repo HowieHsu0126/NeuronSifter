@@ -1,0 +1,172 @@
+retrospective_public_therapeutic_evidence:
+  schema_version: neuronsifter-retrospective-public-therapeutic-evidence-v1
+  contract_version: v1
+  status: frozen_before_evidence_materialization
+  route: PUBLIC_RETROSPECTIVE_THERAPEUTIC_EVIDENCE_QUALIFICATION
+  public_boundary:
+    strict_public_only: true
+    controlled_access_records_allowed: false
+    unpublished_partner_records_allowed: false
+    evidence_role: retrospective_qualification
+    publication_claim_eligible: false
+    model_predictions_inspected: false
+    author_prose_as_ground_truth: false
+    simulator_or_docking_as_empirical_truth: false
+    protected_holdout_access: 0
+  evidence_grades:
+    A:
+      name: public_replicate_measurements
+      formal_role: empirical_replicate_truth
+      formal_truth_eligible: true
+      required_fields:
+        - replicate_uid
+        - numeric_outcome
+        - unit
+        - uncertainty
+        - measurement_protocol
+      uncertainty_sources:
+        - replicate_measurement
+        - replicate_bootstrap
+    B:
+      name: published_arm_summary
+      formal_role: summary_statistic_truth
+      formal_truth_eligible: true
+      required_fields:
+        - arm_mean
+        - biological_replicate_count
+        - uncertainty
+        - unit
+        - measurement_protocol
+      uncertainty_sources:
+        - source_reported_sd
+        - source_reported_sem
+        - source_reported_ci
+    C:
+      name: auditable_figure_table_extraction
+      formal_role: audited_summary_statistic_truth
+      formal_truth_eligible: true
+      required_fields:
+        - arm_mean
+        - biological_replicate_count
+        - uncertainty
+        - extraction_method
+        - extraction_artifact_hash
+        - unit
+      uncertainty_sources:
+        - extracted_sd
+        - extracted_sem
+        - extracted_ci
+      extraction_requirements:
+        - independent_extraction_qc
+        - source_locator
+        - figure_or_table_identity
+    D:
+      name: prose_or_abstract_direction
+      formal_role: weak_hypothesis_only
+      formal_truth_eligible: false
+      allowed_roles:
+        - hypothesis_generation
+        - consistency_check
+      prohibited_roles:
+        - benchmark_ground_truth
+        - ranking_target
+        - qualification_statistic
+    M:
+      name: mechanistic_model_or_tool_output
+      formal_role: mechanism_support_only
+      formal_truth_eligible: false
+      allowed_roles:
+        - candidate_prior
+        - uncertainty_reduction
+        - information_action_selection
+      prohibited_roles:
+        - empirical_outcome_ground_truth
+        - retrospective_endpoint_label
+        - therapeutic_superiority_proof
+  admission:
+    required_source_fields:
+      - evidence_uid
+      - publication_uid
+      - study_uid
+      - source_snapshot_uid
+      - publication_date
+      - public_access_status
+      - source_content_hash
+      - measurement_protocol
+      - biological_context_uid
+      - common_control_uid
+      - structured_action_uid
+      - objective_uid
+      - evidence_grade
+    required_outcome_fields:
+      - candidate_set_uid
+      - outcome_uid
+      - arm_mean
+      - biological_replicate_count
+      - uncertainty
+      - unit
+      - outcome_visibility
+      - target_retrieval_blocked
+    formal_grades: [A, B, C]
+    non_formal_grades: [D, M]
+    allowed_public_access_status: public
+    missing_value_policy: explicit_unknown_or_explicit_unavailable
+    inferred_context_or_action_policy: reject
+    common_control_required: true
+    minimum_candidate_actions: 2
+    minimum_biological_replicates_per_arm: 2
+    objective_selection_outcome_blind: true
+    empirical_outcome_must_be_distinct_from_tool_output: true
+  context_matching:
+    exact_match_fields:
+      - species
+      - disease_or_background_state
+      - tissue_or_cell_type
+      - assay
+      - measurement_protocol
+      - time_window
+      - common_control_uid
+    cross_context_comparison_allowed: false
+    cross_assay_comparison_allowed: false
+    cross_time_window_comparison_allowed: false
+    cross_publication_summary_pooling_allowed: false
+  summary_statistics:
+    effect_estimator: control_referenced_difference_after_direction_normalization
+    direction_normalization: prespecified_objective_direction_only
+    variance_model: independent_arm_mean_sampling_variance
+    sd_sem_conversion: sem_times_sqrt_n
+    ci_conversion: two_sided_t_interval_with_reported_confidence_level
+    ci_default_confidence_level: 0.95
+    missing_variance_policy: reject_formal_evidence
+    pooled_variance_across_publications: prohibited
+    summary_statistic_is_not_individual_replicate_claim: true
+  qualification:
+    statistic_family:
+      replicate_grade: nonparametric_bootstrap
+      summary_grade: parametric_normal_summary_bootstrap
+    bootstrap_resamples: 2000
+    bootstrap_seed: 3407
+    confidence_interval: percentile_95
+    pairwise_comparison: common_control_within_context
+    multiple_arm_policy: shared_control_pairwise_contrasts_with_control_correlation_recorded
+    rank_probability_required: true
+    uncertainty_calibration_required: true
+    decision_sensitive_min_top_probability: 0.95
+    decision_sensitive_min_benefit_probability: 0.95
+    weakly_decision_sensitive_min_top_probability: 0.80
+    weakly_decision_sensitive_min_benefit_probability: 0.80
+    rank_margin_threshold: 0.10
+    near_null_absolute_score_maximum: 0.10
+    point_estimate_only_is_insufficient: true
+  provenance:
+    registry_path: Input/manifests/retrospective_public/evidence_registry.tsv
+    required_source_locator: true
+    required_content_hash: true
+    required_snapshot_identity: true
+    required_publication_date: true
+    current_live_web_search_allowed: false
+    current_database_state_as_snapshot_allowed: false
+  outputs:
+    contract_audit: Output/audits/retrospective_public_evidence_contract.json
+    statistical_policy: Output/audits/retrospective_public_statistical_policy.json
+    evidence_registry: Input/manifests/retrospective_public/evidence_registry.tsv

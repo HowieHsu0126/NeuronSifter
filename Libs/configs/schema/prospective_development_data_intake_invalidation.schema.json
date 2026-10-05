@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/prospective-development-data-intake-invalidation-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "reason", "created_at",
+    "preregistration_digest", "archived_artifact_bindings",
+    "retry_scope", "source_asset_content_retrieved",
+    "development_outcome_access", "six_context_outcome_access",
+    "protected_holdout_access"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-prospective-development-data-intake-invalidation-v1"},
+    "status": {"const": "access_blocked_attempt_archived_for_same_query_retry"},
+    "reason": {"const": "inherited_loopback_proxy_unavailable_on_cpu03"},
+    "created_at": {"type": "string"},
+    "preregistration_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "archived_artifact_bindings": {"type": "object", "minProperties": 4},
+    "retry_scope": {"const": "same_preregistered_queries_and_caps_only"},
+    "source_asset_content_retrieved": {"const": false},
+    "development_outcome_access": {"const": 0},
+    "six_context_outcome_access": {"const": 0},
+    "protected_holdout_access": {"const": 0}
+  }
+}

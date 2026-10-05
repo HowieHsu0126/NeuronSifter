@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/prospective-development-foundation-adjudication-config-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "adjudication_uid", "reviewed_on", "expected_parent", "terminal_status", "boundaries", "outputs"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-prospective-development-foundation-adjudication-config-v1"},
+    "adjudication_uid": {"const": "bounded_public_prospective_development_foundation"},
+    "reviewed_on": {"type": "string", "format": "date"},
+    "expected_parent": {"type": "object"},
+    "terminal_status": {"const": "PUBLIC_PROSPECTIVE_DEVELOPMENT_DATA_INSUFFICIENT"},
+    "boundaries": {"type": "object"},
+    "outputs": {"type": "object", "minProperties": 7}
+  }
+}

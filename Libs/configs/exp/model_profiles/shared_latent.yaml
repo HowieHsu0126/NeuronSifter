@@ -1,0 +1,5 @@
+name: shared_latent
+execution:
+  train_commands:
+    - '{python_executable} -u Libs/exp/training/train_shared_latent_benchmark.py --config {config_path} --training-scope {training_scope} --device {device}'
+    - '{python_executable} -u Libs/exp/evaluation/evaluate_shared_latent_benchmark.py --config {config_path}'

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/prospective-twin-reconstruction-decision-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "audit_uid",
+    "reviewed_on",
+    "terminal_blocker",
+    "work_package_status",
+    "scientific_interpretation",
+    "missing_development_data",
+    "next_action",
+    "execution_authority",
+    "artifact_bindings"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-prospective-twin-reconstruction-decision-v1"},
+    "status": {"enum": ["PROSPECTIVE_ZERO_SHOT_METHOD_QUALIFIED", "NO_INDEPENDENT_PROSPECTIVE_TRAINING_DOMAIN", "PROSPECTIVE_TWIN_NOT_QUALIFIED"]},
+    "audit_uid": {"type": "string", "minLength": 1},
+    "reviewed_on": {"type": "string", "format": "date"},
+    "terminal_blocker": {"type": ["string", "null"]},
+    "work_package_status": {"type": "object"},
+    "scientific_interpretation": {"type": "string", "minLength": 1},
+    "missing_development_data": {"type": "array", "items": {"type": "string"}},
+    "next_action": {"type": "string", "minLength": 1},
+    "execution_authority": {"type": "object"},
+    "artifact_bindings": {"type": "object"}
+  }
+}

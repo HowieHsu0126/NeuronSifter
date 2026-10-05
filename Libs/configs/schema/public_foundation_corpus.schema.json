@@ -1,0 +1,1288 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/public_foundation_corpus.schema.json",
+  "title": "NeuronSifter Public Foundation Corpus V1 Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "corpus_version",
+    "schema_path",
+    "audit_output_path",
+    "evidence_bundle_schema_path",
+    "evidence_bundle_output_path",
+    "scope",
+    "source_discovery_freeze_date",
+    "semantic_alignment",
+    "disease_programs",
+    "core_observation_families",
+    "deferred_modalities",
+    "source_governance",
+    "controlled_exclusions",
+    "crosswalk_contract",
+    "canonical_observation_contract",
+    "structured_action_contract",
+    "tool_model_registry_contract",
+    "quality_and_training_roles",
+    "split_policy",
+    "cross_modal_claim_policy",
+    "storage_policy",
+    "g2_m1_admission_audit",
+    "phase1e_materialization",
+    "phase1f_disease_pair_materialization",
+    "phase1e_atlas_materialization",
+    "phase1e_cellxgene_atlas_materialization",
+    "phase1e_perturbation_materialization",
+    "phase1f_perturbation_pair_materialization",
+    "gates"
+  ],
+  "properties": {
+    "contract_version": {"const": "1.0.0"},
+    "corpus_version": {"const": "public_foundation_corpus_v1"},
+    "schema_path": {"const": "Libs/configs/schema/public_foundation_corpus.schema.json"},
+    "audit_output_path": {
+      "type": "string",
+      "pattern": "^Output/audits/[A-Za-z0-9_./-]+\\.json$"
+    },
+    "evidence_bundle_schema_path": {
+      "const": "Libs/configs/schema/public_foundation_corpus_evidence.schema.json"
+    },
+    "evidence_bundle_output_path": {
+      "const": "Output/audits/public_foundation_corpus_evidence_bundle.json"
+    },
+    "scope": {"const": "reduced_transcriptomics_core"},
+    "source_discovery_freeze_date": {"const": "2026-07-31", "format": "date"},
+    "semantic_alignment": {"$ref": "#/$defs/semanticAlignment"},
+    "disease_programs": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {"$ref": "#/$defs/diseaseProgram"}
+    },
+    "core_observation_families": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {"$ref": "#/$defs/coreObservationFamily"}
+    },
+    "deferred_modalities": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {"$ref": "#/$defs/deferredModality"}
+    },
+    "source_governance": {"$ref": "#/$defs/sourceGovernance"},
+    "controlled_exclusions": {"$ref": "#/$defs/controlledExclusions"},
+    "crosswalk_contract": {"$ref": "#/$defs/crosswalkContract"},
+    "canonical_observation_contract": {"$ref": "#/$defs/canonicalObservationContract"},
+    "structured_action_contract": {"$ref": "#/$defs/structuredActionContract"},
+    "tool_model_registry_contract": {"$ref": "#/$defs/toolModelRegistryContract"},
+    "quality_and_training_roles": {"$ref": "#/$defs/qualityTrainingRoles"},
+    "split_policy": {"$ref": "#/$defs/splitPolicy"},
+    "cross_modal_claim_policy": {"$ref": "#/$defs/crossModalClaimPolicy"},
+    "storage_policy": {"$ref": "#/$defs/storagePolicy"},
+    "g2_m1_admission_audit": {"$ref": "#/$defs/g2M1AdmissionAudit"},
+    "phase1e_materialization": {"$ref": "#/$defs/phase1eMaterialization"},
+    "phase1f_disease_pair_materialization": {"$ref": "#/$defs/phase1fDiseasePairMaterialization"},
+    "phase1e_atlas_materialization": {"$ref": "#/$defs/phase1eAtlasMaterialization"},
+    "phase1e_cellxgene_atlas_materialization": {"$ref": "#/$defs/phase1eCellxgeneAtlasMaterialization"},
+    "phase1e_perturbation_materialization": {"$ref": "#/$defs/phase1ePerturbationMaterialization"},
+    "phase1f_perturbation_pair_materialization": {
+      "type": "object",
+      "required": [
+        "output_root", "source_ledger_path", "qualification_delta_path",
+        "candidate_audit_path", "block_manifest_audit_path", "qc_audit_path",
+        "ess_audit_path", "action_linkage_path", "pair_independence_path",
+        "admission_audit_path", "validation_path", "manifest_schema_path",
+        "phase1f_pair_reference", "candidate", "qc", "biological_unit_policy",
+        "action", "license_role", "parser"
+      ],
+      "properties": {
+        "manifest_schema_path": {"const": "Libs/configs/schema/phase1f_perturbation_pair_block.schema.json"},
+        "candidate": {
+          "type": "object",
+          "required": ["source_id", "source_accession", "family_id"],
+          "properties": {
+            "source_id": {"const": "arrayexpress"},
+            "source_accession": {"const": "E-MTAB-6772"},
+            "family_id": {"const": "compound_dose_time_perturbation_transcriptomics"}
+          }
+        },
+        "qc": {
+          "type": "object",
+          "required": ["expected_treated_count", "expected_control_count", "expected_canonical_gene_count", "expected_scalar_value_count", "grade"],
+          "properties": {
+            "expected_treated_count": {"const": 6},
+            "expected_control_count": {"const": 6},
+            "expected_canonical_gene_count": {"const": 14042},
+            "expected_scalar_value_count": {"const": 84252},
+            "grade": {"const": "B"}
+          }
+        },
+        "action": {
+          "type": "object",
+          "required": ["physical_dose", "dose_unit", "duration", "duration_unit", "schedule", "route", "target_set", "exposure_program_ref", "occupancy_program_ref"],
+          "properties": {
+            "physical_dose": {"const": 15.0},
+            "dose_unit": {"const": "mg"},
+            "duration": {"const": 5.5},
+            "duration_unit": {"const": "month"},
+            "schedule": {"const": "three_times_per_week"},
+            "route": {"const": "intraperitoneal"},
+            "target_set": {"const": "explicit_unknown"},
+            "exposure_program_ref": {"const": "explicit_unavailable"},
+            "occupancy_program_ref": {"const": "explicit_unavailable"}
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "gates": {"$ref": "#/$defs/gates"}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "cross_modal_claim_policy": {
+            "properties": {
+              "cross_modal_prediction_claim_allowed": {"const": true}
+            },
+            "required": ["cross_modal_prediction_claim_allowed"]
+          }
+        },
+        "required": ["cross_modal_claim_policy"]
+      },
+      "then": {
+        "properties": {
+          "cross_modal_claim_policy": {
+            "properties": {
+              "paired_benchmark": {
+                "properties": {
+                  "status": {"const": "qualified"},
+                  "real_pair_count": {"type": "integer", "minimum": 1}
+                },
+                "required": ["status", "real_pair_count"]
+              }
+            },
+            "required": ["paired_benchmark"]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "semanticAlignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alignment_kind",
+        "same_subject_cross_modal_pairing_required",
+        "required_axes",
+        "missing_required_axis_policy",
+        "longitudinal_evidence_requires_real_subject_and_time"
+      ],
+      "properties": {
+        "alignment_kind": {"const": "semantic_canonical_alignment"},
+        "same_subject_cross_modal_pairing_required": {"const": false},
+        "required_axes": {
+          "type": "array",
+          "minItems": 14,
+          "maxItems": 14,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "study",
+              "biological_unit",
+              "species",
+              "disease_state",
+              "tissue",
+              "brain_region",
+              "cell_type",
+              "assay",
+              "modality",
+              "feature",
+              "time",
+              "dose",
+              "unit",
+              "provenance"
+            ]
+          }
+        },
+        "missing_required_axis_policy": {"const": "quarantine"},
+        "longitudinal_evidence_requires_real_subject_and_time": {"const": true}
+      }
+    },
+    "diseaseProgram": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["program_id", "disease_family"],
+      "properties": {
+        "program_id": {
+          "enum": ["ad_control", "pd_control", "ftd_control", "als_control", "neuroinflammation_control"]
+        },
+        "disease_family": {"enum": ["AD", "PD", "FTD", "ALS", "neuroinflammation"]}
+      }
+    },
+    "coreObservationFamily": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "family_id",
+        "modality",
+        "minimum_independent_source_ids",
+        "independent_group_key",
+        "nonoverlapping_publication_accession_groups_required",
+        "minimum_cns_sources",
+        "mirrored_accessions_count_as_independent"
+      ],
+      "properties": {
+        "family_id": {
+          "enum": [
+            "cns_disease_aging_state_transcriptomics",
+            "cns_cell_type_region_atlas_transcriptomics",
+            "compound_dose_time_perturbation_transcriptomics"
+          ]
+        },
+        "modality": {"const": "transcriptomics"},
+        "minimum_independent_source_ids": {"const": 2},
+        "independent_group_key": {"const": "publication_accession_group"},
+        "nonoverlapping_publication_accession_groups_required": {"const": true},
+        "minimum_cns_sources": {"const": 1},
+        "mirrored_accessions_count_as_independent": {"const": false}
+      }
+    },
+    "deferredModality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "modality",
+        "allowed_roles",
+        "counts_toward_core_ess",
+        "counts_toward_core_g2",
+        "primary_supervision_allowed"
+      ],
+      "properties": {
+        "modality": {
+          "enum": [
+            "epigenomics",
+            "genomics",
+            "gwas",
+            "proteomics",
+            "metabolomics",
+            "lipidomics",
+            "electrophysiology",
+            "morphology",
+            "imaging"
+          ]
+        },
+        "allowed_roles": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": {"enum": ["context_prior", "weak_calibration", "holdout_extension"]}
+        },
+        "counts_toward_core_ess": {"const": false},
+        "counts_toward_core_g2": {"const": false},
+        "primary_supervision_allowed": {"const": false}
+      }
+    },
+    "sourceGovernance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "access_policy",
+        "silent_source_substitution_allowed",
+        "required_release_fields",
+        "allowed_access_classes",
+        "qualification_failure_policy"
+      ],
+      "properties": {
+        "access_policy": {"const": "strict_public_only"},
+        "silent_source_substitution_allowed": {"const": false},
+        "required_release_fields": {
+          "type": "array",
+          "minItems": 19,
+          "maxItems": 19,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "source_id",
+              "official_url",
+              "release_version",
+              "retrieval_date",
+              "source_card_path",
+              "terms_snapshot_path",
+              "terms_snapshot_sha256",
+              "license_snapshot_path",
+              "license_snapshot_sha256",
+              "raw_sha256",
+              "processed_sha256",
+              "parser_id",
+              "parser_version",
+              "mapping_version",
+              "provenance_record_id",
+              "training_evaluation_role",
+              "holdout_group",
+              "publication_accession_group",
+              "access_class"
+            ]
+          }
+        },
+        "allowed_access_classes": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {"enum": ["public_unrestricted", "public_with_attribution"]}
+        },
+        "qualification_failure_policy": {"const": "quarantine"}
+      }
+    },
+    "controlledExclusions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "public_mainline_dependency_allowed",
+        "required_public_mainline_reachability_count",
+        "preserve_isolation_audit",
+        "sources"
+      ],
+      "properties": {
+        "public_mainline_dependency_allowed": {"const": false},
+        "required_public_mainline_reachability_count": {"const": 0},
+        "preserve_isolation_audit": {"const": true},
+        "sources": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["source_id", "access_class", "public_mainline_role"],
+            "properties": {
+              "source_id": {
+                "enum": ["adni", "dbgap", "uk_biobank", "rosmap", "amp_ad", "restricted_synapse"]
+              },
+              "access_class": {"const": "controlled_or_restricted"},
+              "public_mainline_role": {"const": "excluded_audit_only"}
+            }
+          }
+        }
+      }
+    },
+    "crosswalkContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entity_types",
+        "unit_ontologies",
+        "critical_mapping_conflict_limit",
+        "unresolved_required_mapping_policy"
+      ],
+      "properties": {
+        "entity_types": {
+          "type": "array",
+          "minItems": 10,
+          "maxItems": 10,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "gene",
+              "protein",
+              "compound",
+              "cell_type",
+              "brain_region",
+              "assay",
+              "disease",
+              "publication",
+              "species",
+              "unit"
+            ]
+          }
+        },
+        "unit_ontologies": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {"enum": ["UCUM", "UO"]}
+        },
+        "critical_mapping_conflict_limit": {"const": 0},
+        "unresolved_required_mapping_policy": {"const": "quarantine"}
+      }
+    },
+    "canonicalObservationContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raw_matrix_migration_input_only",
+        "accepted_value_block_formats",
+        "required_manifest_fields",
+        "synthetic_values_allowed"
+      ],
+      "properties": {
+        "raw_matrix_migration_input_only": {"const": true},
+        "accepted_value_block_formats": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": {"enum": ["zarr", "parquet", "h5ad"]}
+        },
+        "required_manifest_fields": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "block_sha256",
+              "ontology_versions",
+              "unit_mapping_version",
+              "qc_grade",
+              "mapping_confidence",
+              "split_role"
+            ]
+          }
+        },
+        "synthetic_values_allowed": {"const": false}
+      }
+    },
+    "structuredActionContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required_fields", "incomplete_record_policy"],
+      "properties": {
+        "required_fields": {
+          "type": "array",
+          "minItems": 14,
+          "maxItems": 14,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "action_uid",
+              "intervention_type",
+              "target_set",
+              "agent_set",
+              "dose_value",
+              "dose_unit",
+              "schedule",
+              "route",
+              "assay_context",
+              "state_scope",
+              "source_publication",
+              "source_accession",
+              "exposure_program_ref",
+              "occupancy_program_ref"
+            ]
+          }
+        },
+        "incomplete_record_policy": {"const": "quarantine"}
+      }
+    },
+    "toolModelRegistryContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required_fields", "generated_trajectories_count_as_observations"],
+      "properties": {
+        "required_fields": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "tool_family",
+              "tool_name",
+              "tool_version",
+              "official_reference",
+              "parser_or_adapter_version",
+              "smoke_status"
+            ]
+          }
+        },
+        "generated_trajectories_count_as_observations": {"const": false}
+      }
+    },
+    "qualityTrainingRoles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["grade_roles", "main_training_grades", "core_ess_grades", "synthetic_teacher_policy"],
+      "properties": {
+        "grade_roles": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["A", "B", "C", "D", "S"],
+          "properties": {
+            "A": {"const": "main_training"},
+            "B": {"const": "main_training"},
+            "C": {"const": "weak_calibration"},
+            "D": {"const": "reject"},
+            "S": {"const": "stress_test_only"}
+          }
+        },
+        "main_training_grades": {"const": ["A", "B"]},
+        "core_ess_grades": {"const": ["A", "B"]},
+        "synthetic_teacher_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["observation_coverage_eligible", "core_g2_eligible", "main_training_eligible"],
+          "properties": {
+            "observation_coverage_eligible": {"const": false},
+            "core_g2_eligible": {"const": false},
+            "main_training_eligible": {"const": false}
+          }
+        }
+      }
+    },
+    "splitPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "query_domain_status",
+        "split_manifest_status",
+        "deterministic_assignment",
+        "split_seed_required_at_freeze",
+        "deterministic_seed",
+        "query_domain_freeze_date",
+        "split_manifest_freeze_date",
+        "validation_group_fraction",
+        "split_root",
+        "split_manifest_path",
+        "nested_split_order",
+        "required_zero_overlap_keys",
+        "adversarial_leakage_injection_required"
+      ],
+      "properties": {
+        "query_domain_status": {"const": "frozen"},
+        "split_manifest_status": {"const": "frozen"},
+        "deterministic_assignment": {"const": "hash_grouped_after_freeze"},
+        "split_seed_required_at_freeze": {"const": true},
+        "deterministic_seed": {"const": "neuronsifter-public-foundation-corpus-v1-split-20260718"},
+        "query_domain_freeze_date": {"const": "2026-07-18"},
+        "split_manifest_freeze_date": {"const": "2026-07-18"},
+        "validation_group_fraction": {"const": 0.2},
+        "split_root": {"const": "Input/canonical/public_foundation_corpus_v1/splits/reduced_transcriptomics_core_v1"},
+        "split_manifest_path": {"const": "Output/audits/public_foundation_corpus_split_manifest.json"},
+        "nested_split_order": {
+          "const": [
+            "source_holdout",
+            "publication_accession_holdout",
+            "family_holdout",
+            "regimen_holdout",
+            "target_program_holdout"
+          ]
+        },
+        "required_zero_overlap_keys": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "canonical_uid",
+              "content_hash",
+              "family_uid",
+              "regimen_uid",
+              "target_program_proxy",
+              "source_holdout_role"
+            ]
+          }
+        },
+        "adversarial_leakage_injection_required": {"const": true}
+      }
+    },
+    "crossModalClaimPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "semantic_alignment_sufficient_for_prediction_claim",
+        "cross_modal_prediction_claim_allowed",
+        "required_paired_benchmark_kind",
+        "synthetic_or_inferred_pairs_eligible",
+        "absent_benchmark_report_policy",
+        "paired_benchmark"
+      ],
+      "properties": {
+        "semantic_alignment_sufficient_for_prediction_claim": {"const": false},
+        "cross_modal_prediction_claim_allowed": {"type": "boolean"},
+        "required_paired_benchmark_kind": {"const": "real_paired_subset"},
+        "synthetic_or_inferred_pairs_eligible": {"const": false},
+        "absent_benchmark_report_policy": {"const": "remove_claim"},
+        "paired_benchmark": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "provenance_kind", "real_pair_count"],
+          "properties": {
+            "status": {"enum": ["not_available", "qualified"]},
+            "provenance_kind": {"const": "real_only"},
+            "real_pair_count": {"type": "integer", "minimum": 0}
+          }
+        }
+      }
+    },
+    "storagePolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "counted_persistent_classes",
+        "decimal_byte_cap",
+        "cap_exceeded_gate_policy",
+        "large_raw_assets_git_tracked_allowed",
+        "content_addressed_storage_required",
+        "scan_root_paths",
+        "scan_excluded_paths",
+        "previous_confirmed_usage_bytes",
+        "largest_directory_limit",
+        "storage_ledger_schema_path",
+        "storage_ledger_path",
+        "storage_validation_path"
+      ],
+      "properties": {
+        "counted_persistent_classes": {"const": ["raw", "processed", "canonical", "cache", "output"]},
+        "decimal_byte_cap": {"const": 1000000000000},
+        "cap_exceeded_gate_policy": {"const": "fail"},
+        "large_raw_assets_git_tracked_allowed": {"const": false},
+        "content_addressed_storage_required": {"const": true},
+        "scan_root_paths": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["raw", "processed", "canonical", "cache", "output"],
+          "properties": {
+            "raw": {"const": "Input/raw"},
+            "processed": {"const": "Input/processed"},
+            "canonical": {"const": "Input/canonical"},
+            "cache": {"const": "Input/cache"},
+            "output": {"const": "Output"}
+          }
+        },
+        "scan_excluded_paths": {
+          "const": ["Output/audits/public_foundation_corpus_storage_ledger.json"]
+        },
+        "previous_confirmed_usage_bytes": {"const": 422655337981},
+        "largest_directory_limit": {"const": 20},
+        "storage_ledger_schema_path": {"const": "Libs/configs/schema/public_foundation_corpus_storage_ledger.schema.json"},
+        "storage_ledger_path": {"const": "Output/audits/public_foundation_corpus_storage_ledger.json"},
+        "storage_validation_path": {"const": "Output/audits/public_foundation_corpus_storage_validation.json"}
+      }
+    },
+    "g2M1AdmissionAudit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "output_path", "request_output_path", "schema_path", "source_ledger_path",
+        "admission_statuses", "no_source_role_transition_allowed",
+        "required_requalification_artifacts", "candidates"
+      ],
+      "properties": {
+        "output_path": {"const": "Output/audits/public_foundation_corpus_g2_m1_admission_audit.json"},
+        "request_output_path": {"const": "Output/audits/source_requalification_request.json"},
+        "schema_path": {"const": "Libs/configs/schema/public_foundation_corpus_g2_m1_admission_audit.schema.json"},
+        "source_ledger_path": {"const": "Output/audits/source_qualification_ledger.tsv"},
+        "admission_statuses": {"const": ["candidate_audited", "not_viable", "not_materialized"]},
+        "no_source_role_transition_allowed": {"const": true},
+        "required_requalification_artifacts": {
+          "const": [
+            "source_requalification_request.json", "source_qualification_delta.tsv",
+            "license_release_checksum_evidence", "parser_mapping_provenance_evidence",
+            "independence_graph_delta", "role_transition_justification"
+          ]
+        },
+        "candidates": {
+          "type": "array",
+          "minItems": 6,
+          "items": {"$ref": "#/$defs/g2M1Candidate"}
+        }
+      }
+    },
+    "g2M1Candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id", "family_id", "source_id", "source_accession",
+        "publication_accession_group", "mirror_group", "candidate_kind",
+        "value_evidence_paths", "metadata_evidence_paths", "local_value_format",
+        "local_sample_count", "biological_unit_axis_status", "disease_region_axis_status",
+        "required_next_evidence"
+      ],
+      "properties": {
+        "candidate_id": {"type": "string", "pattern": "^[a-z0-9_]{3,128}$"},
+        "family_id": {"enum": ["cns_disease_aging_state_transcriptomics", "cns_cell_type_region_atlas_transcriptomics", "compound_dose_time_perturbation_transcriptomics"]},
+        "source_id": {"type": "string", "pattern": "^[a-z0-9_]{3,64}$"},
+        "source_accession": {"type": "string", "minLength": 1},
+        "publication_accession_group": {"type": "string", "minLength": 1},
+        "mirror_group": {"type": "string", "minLength": 1},
+        "candidate_kind": {"type": "string", "minLength": 1},
+        "value_evidence_paths": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "metadata_evidence_paths": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "local_value_format": {"type": "string", "minLength": 1},
+        "local_sample_count": {"type": "integer", "minimum": 0},
+        "biological_unit_axis_status": {"type": "string", "minLength": 1},
+        "disease_region_axis_status": {"type": "string", "minLength": 1},
+        "required_next_evidence": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "phase1eMaterialization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "output_root", "source_ledger_path", "qualification_delta_path",
+        "admission_audit_path", "validation_path", "candidate", "qc",
+        "biological_unit_policy", "parser"
+      ],
+      "properties": {
+        "output_root": {"const": "Input/canonical/public_foundation_corpus_v1"},
+        "source_ledger_path": {"const": "Output/audits/source_qualification_ledger.tsv"},
+        "qualification_delta_path": {"const": "Output/audits/source_qualification_delta.tsv"},
+        "admission_audit_path": {"const": "Output/audits/phase1e_gse28146_mainline_admission.json"},
+        "validation_path": {"const": "Output/audits/phase1e_gse28146_mainline_block_validation.json"},
+        "candidate": {"$ref": "#/$defs/phase1eCandidate"},
+        "qc": {"$ref": "#/$defs/phase1eQc"},
+        "biological_unit_policy": {"$ref": "#/$defs/phase1eBiologicalUnitPolicy"},
+        "parser": {"$ref": "#/$defs/phase1eParser"}
+      }
+    },
+    "phase1eCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id", "source_accession", "family_id", "publication_accession_group",
+        "mirror_group", "mirror_source_id", "mirror_source_accession", "raw_value_path",
+        "platform_annotation_path", "release_evidence_paths", "raw_mirror_paths",
+        "study_release_date", "publication_pubmed_id", "publication_doi",
+        "platform_accession", "platform_equivalence"
+      ],
+      "properties": {
+        "source_id": {"const": "geo"},
+        "source_accession": {"const": "GSE28146"},
+        "family_id": {"const": "cns_disease_aging_state_transcriptomics"},
+        "publication_accession_group": {"const": "geo::GSE28146"},
+        "mirror_group": {"const": "geo::GSE28146"},
+        "mirror_source_id": {"const": "arrayexpress"},
+        "mirror_source_accession": {"const": "E-GEOD-28146"},
+        "raw_value_path": {"const": "Input/raw/geo/phase1e/GSE28146/official_snapshots/gse28146_family.soft.gz"},
+        "platform_annotation_path": {"const": "Input/raw/arrayexpress/phase1e/E-GEOD-28146/official_snapshots/A-AFFY-44.adf.txt"},
+        "release_evidence_paths": {"type": "array", "minItems": 4, "uniqueItems": true, "items": {"type": "string", "pattern": "^Input/raw/"}},
+        "raw_mirror_paths": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string", "pattern": "^Input/raw/arrayexpress/"}},
+        "study_release_date": {"const": "2011-08-01"},
+        "publication_pubmed_id": {"const": "21756998"},
+        "publication_doi": {"const": "10.1016/j.jchemneu.2011.06.007"},
+        "platform_accession": {"const": "GPL570"},
+        "platform_equivalence": {"const": "A-AFFY-44_is_HG-U133_Plus_2_and_GPL570"}
+      }
+    },
+    "phase1eQc": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["expected_sample_count", "minimum_mapped_gene_count", "minimum_finite_fraction", "grade", "grade_rationale"],
+      "properties": {
+        "expected_sample_count": {"const": 30},
+        "minimum_mapped_gene_count": {"const": 10000},
+        "minimum_finite_fraction": {"const": 0.99},
+        "grade": {"const": "B"},
+        "grade_rationale": {"type": "string", "minLength": 80}
+      }
+    },
+    "phase1eBiologicalUnitPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["unit_type", "identity_source", "technical_replicate_policy", "donor_status", "effective_sample_size_formula"],
+      "properties": {
+        "unit_type": {"const": "specimen"},
+        "identity_source": {"const": "source_sample_accession"},
+        "technical_replicate_policy": {"const": "one_array_per_specimen_declared_by_source"},
+        "donor_status": {"const": "not_provided"},
+        "effective_sample_size_formula": {"const": "unique biological_unit_id after mirror and technical-replicate deduplication"}
+      }
+    },
+    "phase1eParser": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["parser_id", "parser_version", "mapping_version", "unit_mapping_version"],
+      "properties": {
+        "parser_id": {"const": "materialize_geo_gse28146_soft_v1"},
+        "parser_version": {"const": "1.0.0"},
+        "mapping_version": {"const": "a_affy_44_entrez_median_v1"},
+        "unit_mapping_version": {"const": "mas5_signal_intensity_not_ucum_v1"}
+      }
+    },
+    "phase1fDiseasePairMaterialization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["output_root", "source_ledger_path", "qualification_delta_path", "admission_audit_path", "validation_path", "phase1f_pair_reference", "candidate", "qc", "biological_unit_policy", "parser"],
+      "properties": {
+        "output_root": {"const": "Input/canonical/public_foundation_corpus_v1"},
+        "source_ledger_path": {"const": "Output/audits/source_qualification_ledger.tsv"},
+        "qualification_delta_path": {"const": "Output/audits/source_qualification_delta.tsv"},
+        "admission_audit_path": {"const": "Output/audits/phase1f_gse37263_mainline_admission.json"},
+        "validation_path": {"const": "Output/audits/phase1f_gse37263_mainline_block_validation.json"},
+        "phase1f_pair_reference": {"$ref": "#/$defs/phase1fDiseasePairReference"},
+        "candidate": {"$ref": "#/$defs/phase1fDiseaseCandidate"},
+        "qc": {"$ref": "#/$defs/phase1fDiseaseQc"},
+        "biological_unit_policy": {"$ref": "#/$defs/phase1fDiseaseBiologicalUnitPolicy"},
+        "parser": {"$ref": "#/$defs/phase1fDiseaseParser"}
+      }
+    },
+    "phase1fDiseasePairReference": {
+      "type": "object", "additionalProperties": false,
+      "required": ["admission_audit_path", "expected_canonical_uid", "expected_source_id", "expected_source_accession", "expected_publication_accession_group", "expected_mirror_group"],
+      "properties": {
+        "admission_audit_path": {"const": "Output/audits/phase1e_gse28146_mainline_admission.json"},
+        "expected_canonical_uid": {"const": "pfc_geo_gse28146_phase1e_v1"},
+        "expected_source_id": {"const": "geo"},
+        "expected_source_accession": {"const": "GSE28146"},
+        "expected_publication_accession_group": {"const": "geo::GSE28146"},
+        "expected_mirror_group": {"const": "geo::GSE28146"}
+      }
+    },
+    "phase1fDiseaseCandidate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["source_id", "source_accession", "secondary_accession", "family_id", "publication_accession_group", "mirror_group", "raw_value_path", "sample_metadata_path", "study_metadata_path", "platform_annotation_path", "terms_snapshot_path", "official_study_url", "official_platform_url", "study_release_date", "publication_pubmed_id", "publication_doi", "platform_accession"],
+      "properties": {
+        "source_id": {"const": "arrayexpress"}, "source_accession": {"const": "E-GEOD-37263"}, "secondary_accession": {"const": "GSE37263"},
+        "family_id": {"const": "cns_disease_aging_state_transcriptomics"},
+        "publication_accession_group": {"const": "arrayexpress::E-GEOD-37263::10.1002/jnr.22290"}, "mirror_group": {"const": "geo::GSE37263"},
+        "raw_value_path": {"const": "Input/raw/arrayexpress/downloads/studies/E-GEOD-37263/E-GEOD-37263.processed.1.zip"},
+        "sample_metadata_path": {"const": "Input/raw/arrayexpress/downloads/studies/E-GEOD-37263/E-GEOD-37263.sdrf.txt"},
+        "study_metadata_path": {"const": "Input/raw/arrayexpress/downloads/studies/E-GEOD-37263/E-GEOD-37263.idf.txt"},
+        "platform_annotation_path": {"const": "Input/raw/geo/platform_annotations/GPL5175/GPL5175_full.txt"},
+        "terms_snapshot_path": {"const": "Input/raw/arrayexpress/terms/biostudies_arrayexpress_snapshot.html"},
+        "official_study_url": {"type": "string", "pattern": "^https://www\\.ebi\\.ac\\.uk/biostudies/"},
+        "official_platform_url": {"type": "string", "pattern": "^https://www\\.ncbi\\.nlm\\.nih\\.gov/geo/"},
+        "study_release_date": {"const": "2012-04-12"}, "publication_pubmed_id": {"const": "19937809"}, "publication_doi": {"const": "10.1002/jnr.22290"}, "platform_accession": {"const": "GPL5175"}
+      }
+    },
+    "phase1fDiseaseQc": {
+      "type": "object", "additionalProperties": false,
+      "required": ["expected_sample_count", "expected_source_feature_count", "expected_unique_gene_assignment_count", "expected_backbone_missing_quarantine_count", "expected_accepted_source_mapping_count", "expected_canonical_gene_count", "expected_multi_gene_quarantine_count", "expected_unassigned_quarantine_count", "minimum_mapped_gene_count", "minimum_finite_fraction", "grade", "grade_rationale"],
+      "properties": {
+        "expected_sample_count": {"const": 16}, "expected_source_feature_count": {"const": 22011}, "expected_unique_gene_assignment_count": {"const": 14839},
+        "expected_backbone_missing_quarantine_count": {"const": 144}, "expected_accepted_source_mapping_count": {"const": 14695}, "expected_canonical_gene_count": {"const": 14510},
+        "expected_multi_gene_quarantine_count": {"const": 2795}, "expected_unassigned_quarantine_count": {"const": 4377}, "minimum_mapped_gene_count": {"const": 14000},
+        "minimum_finite_fraction": {"const": 0.99}, "grade": {"const": "B"}, "grade_rationale": {"type": "string", "minLength": 120}
+      }
+    },
+    "phase1fDiseaseBiologicalUnitPolicy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["unit_type", "identity_source", "technical_replicate_policy", "donor_status", "effective_sample_size_formula"],
+      "properties": {
+        "unit_type": {"const": "subject_specimen"}, "identity_source": {"const": "source_native_subject_token_and_sample_accession"},
+        "technical_replicate_policy": {"const": "one_array_per_subject_specimen_declared_by_source"}, "donor_status": {"const": "observed_source_native_subject_token"},
+        "effective_sample_size_formula": {"const": "unique source-native subject token after mirror and technical-replicate deduplication"}
+      }
+    },
+    "phase1fDiseaseParser": {
+      "type": "object", "additionalProperties": false,
+      "required": ["parser_id", "parser_version", "mapping_version", "unit_mapping_version"],
+      "properties": {
+        "parser_id": {"const": "materialize_arrayexpress_gse37263_gene_level_v1"}, "parser_version": {"const": "1.0.0"},
+        "mapping_version": {"const": "gpl5175_unique_entrez_assignment_and_hgnc_backbone_v1"}, "unit_mapping_version": {"const": "quantile_normalized_log2_signal_not_ucum_v1"}
+      }
+    },
+    "phase1eAtlasMaterialization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "output_root", "source_ledger_path", "qualification_delta_path",
+        "admission_audit_path", "validation_path", "source_card_path", "retrieval_record_path", "phase1f_pair_reference", "candidate",
+        "qc", "biological_unit_policy", "parser"
+      ],
+      "properties": {
+        "output_root": {"const": "Input/canonical/public_foundation_corpus_v1"},
+        "source_ledger_path": {"const": "Output/audits/source_qualification_ledger.tsv"},
+        "qualification_delta_path": {"const": "Output/audits/source_qualification_delta.tsv"},
+        "admission_audit_path": {"const": "Output/audits/phase1e_allen_whb_nonneurons_mainline_admission.json"},
+        "validation_path": {"const": "Output/audits/phase1e_allen_whb_nonneurons_mainline_block_validation.json"},
+        "source_card_path": {"const": "Output/audits/phase1e_allen_whb_nonneurons_source_card.json"},
+        "retrieval_record_path": {"const": "Output/audits/phase1e_allen_whb_nonneurons_retrieval_record.json"},
+        "phase1f_pair_reference": {"$ref": "#/$defs/phase1fAtlasPairReference"},
+        "candidate": {"$ref": "#/$defs/phase1eAtlasCandidate"},
+        "qc": {"$ref": "#/$defs/phase1eAtlasQc"},
+        "biological_unit_policy": {"$ref": "#/$defs/phase1eAtlasBiologicalUnitPolicy"},
+        "parser": {"$ref": "#/$defs/phase1eAtlasParser"}
+      }
+    },
+    "phase1fAtlasPairReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "admission_audit_path", "expected_canonical_uid", "expected_source_id",
+        "expected_source_accession", "expected_publication_accession_group",
+        "expected_mirror_group"
+      ],
+      "properties": {
+        "admission_audit_path": {"const": "Output/audits/phase1e_cellxgene_amygdala_mainline_admission.json"},
+        "expected_canonical_uid": {"const": "cellxgene_amygdala_2021_phase1e_v1"},
+        "expected_source_id": {"const": "cellxgene_census"},
+        "expected_source_accession": {"const": "874e8a85-7fe2-487d-9fef-8fe7f0a17872"},
+        "expected_publication_accession_group": {"const": "cellxgene::10.1016/j.neuron.2021.09.001::f3c49918-4707-4d92-bb6d-2b5b4eb9d1b4"},
+        "expected_mirror_group": {"const": "cellxgene::22ccff12-9a18-4b01-ba10-302df57a01f8::874e8a85-7fe2-487d-9fef-8fe7f0a17872"}
+      }
+    },
+    "phase1eAtlasCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id", "source_accession", "family_id", "publication_accession_group",
+        "mirror_group", "raw_value_path", "official_value_url", "expected_raw_bytes", "expression_release_version",
+        "metadata_release_version", "release_evidence_paths"
+      ],
+      "properties": {
+        "source_id": {"const": "allen_brain_cell_atlas"},
+        "source_accession": {"const": "WHB-10Xv3-Nonneurons-20240330"},
+        "family_id": {"const": "cns_cell_type_region_atlas_transcriptomics"},
+        "publication_accession_group": {"const": "allen::WHB-10Xv3-20240330"},
+        "mirror_group": {"const": "allen::WHB-10Xv3-Nonneurons-20240330"},
+        "raw_value_path": {"const": "Input/raw/allen_brain_cell_atlas/downloads/releases/20250531/WHB-10Xv3/WHB-10Xv3-Nonneurons-raw.h5ad"},
+        "official_value_url": {"const": "https://allen-brain-cell-atlas.s3.us-west-2.amazonaws.com/expression_matrices/WHB-10Xv3/20240330/WHB-10Xv3-Nonneurons-raw.h5ad"},
+        "expected_raw_bytes": {"const": 4750864855},
+        "expression_release_version": {"const": "20240330"},
+        "metadata_release_version": {"const": "20241115"},
+        "release_evidence_paths": {"type": "array", "minItems": 9, "uniqueItems": true, "items": {"type": "string", "pattern": "^Input/raw/"}}
+      }
+    },
+    "phase1eAtlasQc": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["minimum_donor_count", "expected_donor_count", "minimum_cell_count", "expected_cell_count", "minimum_mapped_gene_count", "expected_mapped_gene_count", "grade", "grade_rationale"],
+      "properties": {
+        "minimum_donor_count": {"const": 4},
+        "expected_donor_count": {"const": 4},
+        "minimum_cell_count": {"const": 10000},
+        "expected_cell_count": {"const": 888263},
+        "minimum_mapped_gene_count": {"const": 10000},
+        "expected_mapped_gene_count": {"const": 59357},
+        "grade": {"const": "B"},
+        "grade_rationale": {"type": "string", "minLength": 80}
+      }
+    },
+    "phase1eAtlasBiologicalUnitPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["unit_type", "identity_source", "technical_replicate_policy", "donor_status", "effective_sample_size_formula"],
+      "properties": {
+        "unit_type": {"const": "cell"},
+        "identity_source": {"const": "h5ad_obs_name_joined_to_official_cell_label"},
+        "technical_replicate_policy": {"const": "cell_label_unique; cells_are_not_counted_as_independent_donors"},
+        "donor_status": {"const": "observed"},
+        "effective_sample_size_formula": {"const": "unique donor_label after exact h5ad obs-name to official cell-label join; cells are not counted as independent donors"}
+      }
+    },
+    "phase1eAtlasParser": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["parser_id", "parser_version", "mapping_version", "unit_mapping_version", "sparse_chunk_size"],
+      "properties": {
+        "parser_id": {"const": "materialize_allen_whb_nonneurons_sparse_h5ad_v1"},
+        "parser_version": {"const": "1.0.0"},
+        "mapping_version": {"const": "whb_ensembl_gene_identifier_exact_v1"},
+        "unit_mapping_version": {"const": "raw_umi_count_not_ucum_v1"},
+        "sparse_chunk_size": {"const": 2000000}
+      }
+    },
+    "phase1eCellxgeneAtlasMaterialization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "output_root", "source_ledger_path", "qualification_delta_path",
+        "admission_audit_path", "validation_path", "source_card_path", "retrieval_record_path", "candidate",
+        "qc", "biological_unit_policy", "parser"
+      ],
+      "properties": {
+        "output_root": {"const": "Input/canonical/public_foundation_corpus_v1"},
+        "source_ledger_path": {"const": "Output/audits/source_qualification_ledger.tsv"},
+        "qualification_delta_path": {"const": "Output/audits/source_qualification_delta.tsv"},
+        "admission_audit_path": {"const": "Output/audits/phase1e_cellxgene_amygdala_mainline_admission.json"},
+        "validation_path": {"const": "Output/audits/phase1e_cellxgene_amygdala_mainline_block_validation.json"},
+        "source_card_path": {"const": "Output/audits/phase1e_cellxgene_amygdala_source_card.json"},
+        "retrieval_record_path": {"const": "Output/audits/phase1e_cellxgene_amygdala_retrieval_record.json"},
+        "candidate": {"$ref": "#/$defs/phase1eCellxgeneAtlasCandidate"},
+        "qc": {"$ref": "#/$defs/phase1eCellxgeneAtlasQc"},
+        "biological_unit_policy": {"$ref": "#/$defs/phase1eCellxgeneAtlasBiologicalUnitPolicy"},
+        "parser": {"$ref": "#/$defs/phase1eCellxgeneAtlasParser"}
+      }
+    },
+    "phase1eCellxgeneAtlasCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id", "source_accession", "collection_id", "dataset_id", "family_id",
+        "publication_accession_group", "mirror_group", "raw_value_path", "official_value_url",
+        "expected_raw_bytes", "expected_raw_sha256", "publication_doi", "source_release_version",
+        "retrieval_job_id", "retrieval_log_path", "release_evidence_paths"
+      ],
+      "properties": {
+        "source_id": {"const": "cellxgene_census"},
+        "source_accession": {"const": "874e8a85-7fe2-487d-9fef-8fe7f0a17872"},
+        "collection_id": {"const": "22ccff12-9a18-4b01-ba10-302df57a01f8"},
+        "dataset_id": {"const": "f3c49918-4707-4d92-bb6d-2b5b4eb9d1b4"},
+        "family_id": {"const": "cns_cell_type_region_atlas_transcriptomics"},
+        "publication_accession_group": {"const": "cellxgene::10.1016/j.neuron.2021.09.001::f3c49918-4707-4d92-bb6d-2b5b4eb9d1b4"},
+        "mirror_group": {"const": "cellxgene::22ccff12-9a18-4b01-ba10-302df57a01f8::874e8a85-7fe2-487d-9fef-8fe7f0a17872"},
+        "raw_value_path": {"const": "Input/raw/cellxgene_census/phase1e/reward_circuitry_2021/amygdala/874e8a85-7fe2-487d-9fef-8fe7f0a17872.h5ad"},
+        "official_value_url": {"const": "https://datasets.cellxgene.cziscience.com/874e8a85-7fe2-487d-9fef-8fe7f0a17872.h5ad"},
+        "expected_raw_bytes": {"const": 138178869},
+        "expected_raw_sha256": {"const": "d67e415ca5d4ab03751724cba4f0b77f69307a482ade58f9cfd380202f74d93c"},
+        "publication_doi": {"const": "10.1016/j.neuron.2021.09.001"},
+        "source_release_version": {"const": "874e8a85-7fe2-487d-9fef-8fe7f0a17872"},
+        "retrieval_job_id": {"const": "486183"},
+        "retrieval_log_path": {"const": "Output/logs/NrnSift_cellxgene_remote_sha_486183.out"},
+        "release_evidence_paths": {"type": "array", "minItems": 3, "uniqueItems": true, "items": {"type": "string", "pattern": "^Input/raw/"}}
+      }
+    },
+    "phase1eCellxgeneAtlasQc": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["minimum_donor_count", "minimum_cell_count", "minimum_mapped_gene_count", "grade", "grade_rationale"],
+      "properties": {
+        "minimum_donor_count": {"const": 5},
+        "minimum_cell_count": {"const": 10000},
+        "minimum_mapped_gene_count": {"const": 10000},
+        "grade": {"const": "B"},
+        "grade_rationale": {"type": "string", "minLength": 80}
+      }
+    },
+    "phase1eCellxgeneAtlasBiologicalUnitPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["unit_type", "identity_source", "technical_replicate_policy", "donor_status", "effective_sample_size_formula"],
+      "properties": {
+        "unit_type": {"const": "cell"},
+        "identity_source": {"const": "cellxgene_h5ad_obs_index"},
+        "technical_replicate_policy": {"const": "obs_index_unique; cells_are_not_counted_as_independent_donors"},
+        "donor_status": {"const": "observed"},
+        "effective_sample_size_formula": {"const": "unique donor_id after explicit unknown_or_missing_cell_type quarantine; cells are not counted as independent donors"}
+      }
+    },
+    "phase1eCellxgeneAtlasParser": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["parser_id", "parser_version", "mapping_version", "unit_mapping_version", "sparse_chunk_size", "cell_type_quarantine_values"],
+      "properties": {
+        "parser_id": {"const": "materialize_cellxgene_amygdala_sparse_h5ad_v1"},
+        "parser_version": {"const": "1.0.0"},
+        "mapping_version": {"const": "cellxgene_ensembl_feature_and_cl_uberon_exact_v1"},
+        "unit_mapping_version": {"const": "raw_count_matrix_not_ucum_v1"},
+        "sparse_chunk_size": {"const": 2000000},
+        "cell_type_quarantine_values": {"const": ["unknown", ""]}
+      }
+    },
+    "phase1ePerturbationMaterialization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "output_root", "source_ledger_path", "qualification_delta_path",
+        "candidate_audit_path", "block_manifest_audit_path", "qc_audit_path",
+        "ess_audit_path", "action_linkage_path", "admission_audit_path",
+        "validation_path", "candidate", "qc", "biological_unit_policy",
+        "license_role", "parser"
+      ],
+      "properties": {
+        "output_root": {"const": "Input/canonical/public_foundation_corpus_v1"},
+        "source_ledger_path": {"const": "Output/audits/source_qualification_ledger.tsv"},
+        "qualification_delta_path": {"const": "Output/audits/source_qualification_delta.tsv"},
+        "candidate_audit_path": {"const": "Output/audits/g2_m1_perturbation_candidate_audit.json"},
+        "block_manifest_audit_path": {"const": "Output/audits/g2_m1_perturbation_block_manifest.json"},
+        "qc_audit_path": {"const": "Output/audits/g2_m1_perturbation_qc.json"},
+        "ess_audit_path": {"const": "Output/audits/g2_m1_perturbation_ess.json"},
+        "action_linkage_path": {"const": "Output/audits/g2_m1_perturbation_action_linkage.json"},
+        "admission_audit_path": {"const": "Output/audits/g2_m1_perturbation_admission_decision.json"},
+        "validation_path": {"const": "Output/audits/g2_m1_perturbation_block_validation.json"},
+        "candidate": {"$ref": "#/$defs/phase1ePerturbationCandidate"},
+        "qc": {"$ref": "#/$defs/phase1ePerturbationQc"},
+        "biological_unit_policy": {"$ref": "#/$defs/phase1ePerturbationBiologicalUnitPolicy"},
+        "license_role": {"$ref": "#/$defs/phase1ePerturbationLicenseRole"},
+        "parser": {"$ref": "#/$defs/phase1ePerturbationParser"}
+      }
+    },
+    "phase1ePerturbationCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id", "source_accession", "parent_accession", "source_subset_id",
+        "family_id", "publication_accession_group", "mirror_group", "raw_value_path",
+        "raw_archive_path", "official_value_url", "expected_raw_bytes", "expected_raw_sha256",
+        "expected_archive_bytes", "expected_archive_sha256",
+        "publication_uid", "publication_doi", "source_release_version",
+        "retrieval_date", "verification_job_id", "eligible_cell_ids",
+        "cns_context_class", "explicitly_excluded_cell_ids", "metadata_paths",
+        "release_evidence_paths"
+      ],
+      "properties": {
+        "source_id": {"const": "clue_lincs"},
+        "source_accession": {"const": "GSE92742-TouchstoneV1.1::NPC_NEU_TRT_CP"},
+        "parent_accession": {"const": "GSE92742-TouchstoneV1.1"},
+        "source_subset_id": {"const": "NPC_NEU_TRT_CP"},
+        "family_id": {"const": "compound_dose_time_perturbation_transcriptomics"},
+        "publication_accession_group": {"const": "clue::GSE92742-TouchstoneV1.1::NPC_NEU_TRT_CP"},
+        "mirror_group": {"const": "clue::GSE92742-TouchstoneV1.1::NPC_NEU_TRT_CP"},
+        "raw_value_path": {"const": "Input/raw/clue_lincs/downloads/builds/TouchstoneV1.1/files/GSE92742_Broad_LINCS_Level5_COMPZ.MODZ_n473647x12328.gctx"},
+        "raw_archive_path": {"const": "Input/raw/clue_lincs/downloads/builds/TouchstoneV1.1/files/GSE92742_Broad_LINCS_Level5_COMPZ.MODZ_n473647x12328.gctx.gz"},
+        "official_value_url": {"type": "string", "pattern": "^https://www\\.ncbi\\.nlm\\.nih\\.gov/geo/download/"},
+        "expected_raw_bytes": {"const": 23380287022},
+        "expected_raw_sha256": {"const": "b293f3fb7c2298a60526de727e5400d8400af4b77a23c4ed2116f86199fb45e8"},
+        "expected_archive_bytes": {"const": 21328033748},
+        "expected_archive_sha256": {"const": "790f6c94b90c8b79ca5c1d338501a6bfdf0639dba591ee094b2cc23912670ce5"},
+        "publication_uid": {"const": "doi:10.1016/j.cell.2017.10.049"},
+        "publication_doi": {"const": "10.1016/j.cell.2017.10.049"},
+        "source_release_version": {"const": "TouchstoneV1.1"},
+        "retrieval_date": {"const": "2026-04-14"},
+        "verification_job_id": {"const": "486241"},
+        "eligible_cell_ids": {"const": ["NPC", "NEU"]},
+        "cns_context_class": {"const": "CNS_derived_model"},
+        "explicitly_excluded_cell_ids": {"const": ["SHSY5Y"]},
+        "metadata_paths": {"type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true, "items": {"type": "string", "pattern": "^Input/raw/clue_lincs/"}},
+        "release_evidence_paths": {"type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true, "items": {"type": "string", "pattern": "^Input/raw/clue_lincs/"}}
+      }
+    },
+    "phase1ePerturbationQc": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minimum_selected_condition_count", "minimum_source_instance_count",
+        "expected_feature_count", "expected_source_subset_signature_count",
+        "expected_replicate_control_valid_signature_count",
+        "expected_duplicate_condition_signature_count", "expected_selected_condition_count",
+        "expected_selected_context_counts", "expected_quarantine_count",
+        "expected_quarantine_reason_counts",
+        "expected_shsy5y_signature_count", "expected_shsy5y_compound_signature_count",
+        "allowed_perturbation_type", "allowed_raw_dose_units",
+        "canonical_dose_unit", "allowed_raw_time_units", "canonical_time_unit",
+        "grade", "grade_rationale"
+      ],
+      "properties": {
+        "minimum_selected_condition_count": {"const": 7000},
+        "minimum_source_instance_count": {"const": 2},
+        "expected_feature_count": {"const": 12328},
+        "expected_source_subset_signature_count": {"const": 7813},
+        "expected_replicate_control_valid_signature_count": {"const": 7602},
+        "expected_duplicate_condition_signature_count": {"const": 480},
+        "expected_selected_condition_count": {"const": 7122},
+        "expected_selected_context_counts": {"const": {"NPC": 4054, "NEU": 3068}},
+        "expected_quarantine_count": {"const": 691},
+        "expected_quarantine_reason_counts": {"const": {"duplicate_condition_signature_not_counted": 480, "source_instance_count_below_minimum": 195, "source_instance_semantics_mismatch": 16}},
+        "expected_shsy5y_signature_count": {"const": 465},
+        "expected_shsy5y_compound_signature_count": {"const": 0},
+        "allowed_perturbation_type": {"const": "trt_cp"},
+        "allowed_raw_dose_units": {"const": ["µM"]},
+        "canonical_dose_unit": {"const": "uM"},
+        "allowed_raw_time_units": {"const": ["h"]},
+        "canonical_time_unit": {"const": "h"},
+        "grade": {"const": "B"},
+        "grade_rationale": {"type": "string", "minLength": 160}
+      }
+    },
+    "phase1ePerturbationBiologicalUnitPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["unit_type", "identity_source", "technical_replicate_policy", "control_reuse_policy", "donor_status", "effective_sample_size_formula"],
+      "properties": {
+        "unit_type": {"const": "perturbation_condition"},
+        "identity_source": {"const": "cell_context_compound_dose_time_after_source_instance_and_time_matched_control_validation"},
+        "technical_replicate_policy": {"const": "Level5_MODZ_source_instances_are_one_condition_and_duplicate_condition_signatures_are_collapsed"},
+        "control_reuse_policy": {"const": "time_matched_controls_are_linked_once_by_control_group_and_never_counted_in_ess"},
+        "donor_status": {"const": "explicit_unavailable"},
+        "effective_sample_size_formula": {"const": "unique cell_context_compound_dose_time condition after replicate aggregation, duplicate-condition collapse, and time-matched control validation"}
+      }
+    },
+    "phase1ePerturbationLicenseRole": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["internal_model_training", "derived_embedding_checkpoint_distribution", "benchmark_result_publication", "raw_data_redistribution", "processed_data_redistribution", "anonymous_release_package"],
+      "properties": {
+        "internal_model_training": {"const": "allowed_for_registered_nonprofit_research_group"},
+        "derived_embedding_checkpoint_distribution": {"const": "requires_prior_contact_not_allowed_by_default"},
+        "benchmark_result_publication": {"const": "allowed_with_publication_policy_and_attribution"},
+        "raw_data_redistribution": {"const": "prohibited"},
+        "processed_data_redistribution": {"const": "prohibited"},
+        "anonymous_release_package": {"const": "retrieval_script_checksum_and_transformation_contract_only"}
+      }
+    },
+    "phase1ePerturbationParser": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["parser_id", "parser_version", "mapping_version", "unit_mapping_version", "value_semantics", "row_chunk_size"],
+      "properties": {
+        "parser_id": {"const": "materialize_clue_touchstone_npc_neu_level5_v1"},
+        "parser_version": {"const": "1.1.0"},
+        "mapping_version": {"const": "clue_pert_id_entrez_gene_and_cns_model_context_v1"},
+        "unit_mapping_version": {"const": "clue_sig_microM_inst_um_hour_to_UCUM_v2"},
+        "value_semantics": {"const": "Level5_COMPZ_MODZ_consensus_z_score"},
+        "row_chunk_size": {"const": 64}
+      }
+    },
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "public_corpus_g1",
+        "public_corpus_g2",
+        "full_multimodal_extension",
+        "legacy_simulation_readiness"
+      ],
+      "properties": {
+        "public_corpus_g1": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["gate_id", "current_status", "fail_closed", "required_conditions"],
+          "properties": {
+            "gate_id": {"const": "iclr_v2.public_corpus.G1"},
+            "current_status": {"const": "passed"},
+            "fail_closed": {"const": true},
+            "required_conditions": {
+              "const": [
+                "license_and_terms_verified",
+                "version_and_checksums_verified",
+                "provenance_verified",
+                "entity_and_unit_audit_passed",
+                "controlled_reachability_zero",
+                "critical_mapping_conflicts_zero",
+                "storage_cap_confirmed"
+              ]
+            }
+          }
+        },
+        "public_corpus_g2": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "gate_id",
+            "scope",
+            "current_status",
+            "passing_status",
+            "fail_closed",
+            "full_multimodal_claim_allowed"
+          ],
+          "properties": {
+            "gate_id": {"const": "iclr_v2.public_corpus.G2"},
+            "scope": {"const": "reduced_transcriptomics_core"},
+            "current_status": {"const": "PASS_WITH_SCOPE_LIMITATION"},
+            "passing_status": {"const": "PASS_WITH_SCOPE_LIMITATION"},
+            "fail_closed": {"const": true},
+            "full_multimodal_claim_allowed": {"const": false}
+          }
+        },
+        "full_multimodal_extension": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["gate_id", "current_status", "fail_closed"],
+          "properties": {
+            "gate_id": {"const": "iclr_v2.public_corpus.G2_full_multimodal"},
+            "current_status": {"const": "not_passed"},
+            "fail_closed": {"const": true}
+          }
+        },
+        "legacy_simulation_readiness": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["gate_id", "public_observation_gate_evidence_allowed"],
+          "properties": {
+            "gate_id": {"const": "legacy.simulation_readiness.G2"},
+            "public_observation_gate_evidence_allowed": {"const": false}
+          }
+        }
+      }
+    }
+  }
+}

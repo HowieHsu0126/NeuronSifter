@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "neuronsifter-round24b-posterior-bound-evaluation-v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "contract_id", "lineage_id", "evidence_boundary", "reference", "posterior", "typed_current_clamp", "prospective", "updates", "bad_update", "statistics", "outputs"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-round24b-posterior-bound-evaluation-v1"},
+    "contract_id": {"const": "neuronsifter_vnext_dev_v1_round24b"},
+    "lineage_id": {"const": "neuronsifter_vnext_dev_v1"},
+    "evidence_boundary": {
+      "type": "object", "additionalProperties": false,
+      "required": ["evidence_role", "publication_claim_eligible", "protected_holdout_access", "external_comparison_open", "c2b_status"],
+      "properties": {
+        "evidence_role": {"const": "development_only"},
+        "publication_claim_eligible": {"const": false},
+        "protected_holdout_access": {"const": 0},
+        "external_comparison_open": {"const": false},
+        "c2b_status": {"const": "blocked_insufficient_real_e2_e4"}
+      }
+    },
+    "reference": {"type": "object", "required": ["static_reference_path", "c1_checkpoint_path", "c2s_checkpoint_path", "c1_split_uid", "c1_split_role", "registered_tool_uid", "registered_tool_version"]},
+    "posterior": {"type": "object", "required": ["schema_version", "source_schema_version", "minimum_dimension", "c1_condition_scale", "c2s_condition_scale", "required_effect_probe_abs"]},
+    "typed_current_clamp": {"type": "object", "required": ["schema_version", "route", "target", "amplitude_unit", "duration_unit", "delay_unit", "response_species_ids", "posterior_condition_channel_species", "signed_species_ids"], "properties": {"response_species_ids": {"type": "array", "items": {"type": "string"}, "minItems": 1}, "posterior_condition_channel_species": {"type": "object", "additionalProperties": false, "required": ["posterior_response_mean", "posterior_response_std"], "properties": {"posterior_response_mean": {"type": "string", "minLength": 1}, "posterior_response_std": {"type": "string", "minLength": 1}}}, "signed_species_ids": {"type": "array", "items": {"type": "string"}}}},
+    "prospective": {"type": "object", "required": ["rounds", "query_without_replacement", "common_frozen_agent", "candidate_pool_uid", "candidate_pool_visibility", "candidate_protocols"], "properties": {"candidate_protocols": {"type": "array", "minItems": 3, "items": {"type": "object", "required": ["action_uid", "pair_uid", "amplitude_nA", "duration_ms", "delay_ms"]}}}},
+    "updates": {"type": "object", "required": ["strategies", "neural_checkpoint_update_allowed", "agent_parameters_update_allowed", "minimum_old_domain_retention", "maximum_calibration_drift", "coverage_floor", "minimum_new_evidence_fit_gain"]},
+    "bad_update": {"type": "object", "additionalProperties": false, "required": ["maximum_posterior_mean_l2_shift", "metrics_restore_tolerance"], "properties": {"maximum_posterior_mean_l2_shift": {"type": "number", "exclusiveMinimum": 0}, "metrics_restore_tolerance": {"const": 0.0}}},
+    "statistics": {
+      "type": "object", "additionalProperties": false,
+      "required": ["interval", "bootstrap_replicates", "bootstrap_seed", "paired_unit"],
+      "properties": {
+        "interval": {"const": "paired_bootstrap_95"},
+        "bootstrap_replicates": {"const": 2000},
+        "bootstrap_seed": {"const": 3407},
+        "paired_unit": {"const": "evaluation_uid"}
+      }
+    },
+    "outputs": {"type": "object", "required": ["c1_binding_audit", "c2s_binding_audit", "c1_pre_post_metrics", "c2s_pre_post_metrics", "update_strategy_results", "paired_metrics", "bootstrap_summary", "posterior_lineage_catalog", "twin_gate"]}
+  }
+}

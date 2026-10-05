@@ -1,0 +1,140 @@
+therapeutic_decision_evidence_contract:
+  schema_version: neuronsifter-therapeutic-decision-evidence-contract-v2
+  contract_version: v2
+  status: frozen_before_evidence_acquisition
+  public_boundary:
+    strict_public_only: true
+    evidence_role: development_only
+    publication_claim_eligible: false
+    protected_holdout_access: 0
+    model_predictions_inspected: false
+    author_claims_as_ground_truth: false
+    simulator_values_as_ground_truth: false
+  admission:
+    required_fields:
+      - source_uid
+      - study_accession
+      - biological_context_uid
+      - common_control_uid
+      - world_action_uid
+      - objective_uid
+      - outcome
+      - unit
+      - time_window
+      - replicate_uid
+      - uncertainty
+      - evidence_grade
+    required_source_properties:
+      - public_access_status
+      - publication_or_accession_identity
+      - measurement_protocol
+      - source_content_hash
+    allowed_evidence_classes:
+      - E2_REAL_ENDPOINT
+      - E4_REAL_TRAJECTORY
+    prohibited_evidence_classes:
+      - SIMULATOR_ONLY
+      - AUTHOR_CLAIM_ONLY
+      - MODEL_PREDICTION
+      - DOCKING_PROXY
+      - UNMATCHED_DIRECTIONAL_ONLY
+    missing_value_policy: explicit_unknown_or_explicit_unavailable
+    reject_inferred_context_or_action_fields: true
+  context_matching:
+    required_identity_fields:
+      - species
+      - disease_or_background_state
+      - tissue_or_cell_type
+      - assay
+      - measurement_protocol
+      - time_window
+    exact_match_fields:
+      - species
+      - disease_or_background_state
+      - tissue_or_cell_type
+      - assay
+      - measurement_protocol
+      - time_window
+      - common_control_uid
+    harmonization_policy: frozen_before_outcome_materialization
+    cross_context_comparison_allowed: false
+    cross_assay_comparison_allowed: false
+    cross_time_window_comparison_allowed: false
+  action_comparability:
+    minimum_candidate_actions: 2
+    require_common_control: true
+    require_same_biological_context: true
+    comparable_action_fields:
+      - target_set
+      - drug_set
+      - dose
+      - schedule
+      - route
+    missing_action_semantics_policy: reject_candidate_set
+    combinations_must_be_explicit: true
+  quantitative_outcome:
+    require_numeric_outcome: true
+    require_unit: true
+    require_replicate_identity: true
+    minimum_biological_replicates_per_arm: 2
+    require_uncertainty: true
+    allowed_uncertainty_sources:
+      - replicate_measurement
+      - replicate_bootstrap
+      - source_reported
+    normalization_must_be_prespecified: true
+    objective_selection_outcome_blind: true
+  qualification:
+    statistic_family: paired_bootstrap
+    bootstrap_resamples: 2000
+    bootstrap_seed: 3407
+    rank_probability_required: true
+    confidence_interval_required: true
+    replicate_consistency_required: true
+    classifications:
+      - decision_sensitive
+      - weakly_decision_sensitive
+      - scientifically_informative_but_not_rankable
+      - ambiguous
+      - near_null
+      - invalid_context
+    decision_sensitive_thresholds:
+      minimum_top_probability: 0.95
+      minimum_benefit_probability: 0.95
+    weakly_decision_sensitive_thresholds:
+      minimum_top_probability: 0.80
+      minimum_benefit_probability: 0.80
+    rank_margin_threshold: 0.10
+    near_null_absolute_score_maximum: 0.10
+    point_estimate_only_is_insufficient: true
+  split_policy:
+    create_only_after_nonzero_qualified_sets: true
+    roles:
+      - train
+      - validation
+      - development_eval
+    grouping_fields:
+      - publication_uid
+      - accession_uid
+      - biological_context_uid
+      - biological_unit_uid
+      - action_family_uid
+      - agent_or_target_family_uid
+      - regimen_family_uid
+      - objective_uid
+      - trajectory_uid
+    protected_holdout_access: 0
+  downstream_authorization:
+    benchmark_split_created: false
+    world_action_training_authorized: false
+    static_reference_authorized: false
+    tri_calibration_authorized: false
+    agent_in_twin_authorized: false
+    coevolution_authorized: false
+    publication_comparison_open: false
+  current_gate_bindings:
+    real_intervention_domain: Output/audits/real_intervention_decision_domain.json
+    targeted_therapeutic_domain: Output/audits/therapeutic_decision_domain.json
+    targeted_benchmark_split_audit: Output/audits/therapeutic_decision_benchmark_split_audit.json
+  output:
+    audit_path: Output/audits/therapeutic_decision_evidence_contract.json

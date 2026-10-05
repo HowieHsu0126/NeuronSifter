@@ -1,0 +1,130 @@
+therapeutic_source_priority:
+  schema_version: neuronsifter-therapeutic-source-priority-v1
+  status: frozen_before_outcome_materialization
+  source_selection_basis: metadata_only
+  source_policy:
+    strict_public_only: true
+    model_predictions_inspected: false
+    outcome_values_inspected: false
+    author_claims_as_ground_truth: false
+    simulator_values_as_ground_truth: false
+  registries:
+    geo_accessions: Input/raw/geo/accession_freeze/accessions.tsv
+    arrayexpress_accessions: Input/raw/arrayexpress/accession_freeze/accessions.tsv
+    arrayexpress_study_details: Input/raw/arrayexpress/downloads/study_details
+  candidates:
+    - source_repository: ArrayExpress
+      source_accession: E-GEOD-55369
+      priority_rank: 1
+      selection_class: selected_for_materialization
+      expected_evidence_class: E2_REAL_ENDPOINT
+      expected_matched_control: true
+      expected_therapeutic_arm_count: 4
+      expected_candidate_pair_count: 3
+      expected_candidate_set_count: 1
+      expected_replicate_structure: two_biological_replicates_per_condition
+      expected_uncertainty_source: source_reported_replicate_or_pairwise_error
+      objective_compatibility: requires_contract_namespace_mapping
+      rationale: multi_condition_primary_neuronal_experiment_with_vehicle_and_combination_rescue_arms
+      main_uncertainty: two_color_ratio_design_and_action_semantics_require_source_level_qc
+    - source_repository: ArrayExpress
+      source_accession: E-GEOD-41345
+      priority_rank: 2
+      selection_class: selected_for_materialization
+      expected_evidence_class: E2_REAL_ENDPOINT
+      expected_matched_control: true
+      expected_therapeutic_arm_count: 2
+      expected_candidate_pair_count: 1
+      expected_candidate_set_count: 1
+      expected_replicate_structure: four_protocol_groups_with_four_to_five_biological_replicates
+      expected_uncertainty_source: biological_replicate_grouping
+      objective_compatibility: requires_context_specific_therapeutic_contrast
+      rationale: four_arm_mTBI_ex4_design_with_behavioral_and_hippocampal_transcriptomic_endpoints
+      main_uncertainty: injury_state_and_therapeutic_action_must_not_be_collapsed
+    - source_repository: ArrayExpress
+      source_accession: E-GEOD-14499
+      priority_rank: 3
+      selection_class: conditional_follow_up
+      expected_evidence_class: E2_REAL_ENDPOINT
+      expected_matched_control: true
+      expected_therapeutic_arm_count: 1
+      expected_candidate_pair_count: 0
+      expected_candidate_set_count: 0
+      expected_replicate_structure: four_treated_and_three_to_four_control_groups_by_tissue
+      expected_uncertainty_source: biological_replicate_grouping
+      objective_compatibility: single_action_context_only
+      rationale: APP_transgenic_BDNF_and_control_groups_are_useful_for_context_mapping_but_not_multi_action_ranking
+      main_uncertainty: tissue_specific_and_genotype_specific_controls_must_remain_separate
+    - source_repository: ArrayExpress
+      source_accession: E-GEOD-36237
+      priority_rank: 4
+      selection_class: conditional_follow_up
+      expected_evidence_class: E2_REAL_ENDPOINT
+      expected_matched_control: true
+      expected_therapeutic_arm_count: 1
+      expected_candidate_pair_count: 0
+      expected_candidate_set_count: 0
+      expected_replicate_structure: eight_biological_replicates_by_genotype_and_region
+      expected_uncertainty_source: biological_replicate_grouping
+      objective_compatibility: single_action_context_only
+      rationale: PDE9A_inhibitor_has_matched_vehicle_and_AD_model_context_but_only_one_therapeutic_action
+      main_uncertainty: genotype_and_region_interactions_require_separate_context_groups
+    - source_repository: ArrayExpress
+      source_accession: E-MTAB-11855
+      priority_rank: 5
+      selection_class: conditional_follow_up
+      expected_evidence_class: E2_REAL_ENDPOINT
+      expected_matched_control: true
+      expected_therapeutic_arm_count: 1
+      expected_candidate_pair_count: 0
+      expected_candidate_set_count: 0
+      expected_replicate_structure: disease_by_compound_factorial_groups
+      expected_uncertainty_source: biological_replicate_grouping
+      objective_compatibility: single_action_context_only
+      rationale: patient_derived_induced_neuron_shikonin_design_has_disease_and_compound_factors
+      main_uncertainty: donor_and_disease_contexts_must_not_be_pooled_across_action_comparisons
+    - source_repository: ArrayExpress
+      source_accession: E-GEOD-45534
+      priority_rank: 6
+      selection_class: low_yield_reference
+      expected_evidence_class: E2_REAL_ENDPOINT
+      expected_matched_control: true
+      expected_therapeutic_arm_count: 1
+      expected_candidate_pair_count: 0
+      expected_candidate_set_count: 0
+      expected_replicate_structure: source_defined_cell_line_replicates
+      expected_uncertainty_source: biological_replicate_grouping
+      objective_compatibility: single_action_context_only
+      rationale: J147_and_vehicle_are_a_valid_matched_control_pair_but_not_a_therapeutic_ranking_set
+      main_uncertainty: cell_line_context_and_short_exposure_limit_transferability
+    - source_repository: ArrayExpress
+      source_accession: E-GEOD-32536
+      priority_rank: 7
+      selection_class: low_yield_reference
+      expected_evidence_class: E2_REAL_ENDPOINT
+      expected_matched_control: true
+      expected_therapeutic_arm_count: 1
+      expected_candidate_pair_count: 0
+      expected_candidate_set_count: 0
+      expected_replicate_structure: source_defined_mouse_replicates
+      expected_uncertainty_source: biological_replicate_grouping
+      objective_compatibility: single_action_context_only
+      rationale: pioglitazone_has_behavioral_and_molecular_endpoints_but_only_one_therapeutic_arm
+      main_uncertainty: behavioral_and_transcriptomic_endpoints_need_separate_objective_namespaces
+    - source_repository: ArrayExpress
+      source_accession: E-MTAB-5742
+      priority_rank: 8
+      selection_class: low_yield_reference
+      expected_evidence_class: E2_REAL_ENDPOINT
+      expected_matched_control: true
+      expected_therapeutic_arm_count: 1
+      expected_candidate_pair_count: 0
+      expected_candidate_set_count: 0
+      expected_replicate_structure: three_biological_replicates_per_condition
+      expected_uncertainty_source: biological_replicate_grouping
+      objective_compatibility: single_action_context_only
+      rationale: paired_helical_filament_stimulation_is_a_pathology_perturbation_not_a_therapeutic_ranking_domain
+      main_uncertainty: pathology_perturbation_must_not_be_labeled_as_therapeutic_action
+  outputs:
+    priority_table: Output/audits/therapeutic_source_priority.tsv
+    selection_audit: Output/audits/therapeutic_source_selection.json

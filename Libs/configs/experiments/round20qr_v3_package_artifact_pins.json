@@ -1,0 +1,37 @@
+{
+  "schema_version": "neuronsifter-round20qr-v3-package-artifact-pins-v1",
+  "authority": "git_bound_registry_pin",
+  "registry_sha256": "7cd9752d07784a46b46a03a16d742a3f81c678fc770864b202d9fcd8b0977920",
+  "artifact_pins": [
+    {
+      "baseline_uid": "scvi",
+      "distribution": "scvi-tools",
+      "version": "0.20.3",
+      "official_source": "https://github.com/scverse/scvi-tools",
+      "artifact_authority": "pypi_wheel",
+      "artifact_url": "https://files.pythonhosted.org/packages/c0/f2/aeb400729cc727d889f3ced11971b22ffab105acc3586411cc256c897d27/scvi_tools-0.20.3-py3-none-any.whl",
+      "artifact_path": "/share/home/anonymous/Researches/NeuronSifter/Input/processed/round20qr_v3/package_artifacts/scvi_tools-0.20.3-py3-none-any.whl",
+      "artifact_sha256": "9e02c1d7770a56300569def2c48b4d99cb92f9ca5dcce9d2cb19d463d2aafed5"
+    },
+    {
+      "baseline_uid": "scgpt",
+      "distribution": "scgpt",
+      "version": "0.2.4",
+      "official_source": "https://github.com/bowang-lab/scGPT",
+      "artifact_authority": "pypi_wheel",
+      "artifact_url": "https://files.pythonhosted.org/packages/b7/7e/3367409c11cbec534514b53c51cf77a456aed0d967470d5c9d0f016fd5a6/scgpt-0.2.4-py3-none-any.whl",
+      "artifact_path": "/share/home/anonymous/Researches/NeuronSifter/Input/processed/round20qr_v3/package_artifacts/scgpt-0.2.4-py3-none-any.whl",
+      "artifact_sha256": "aafa4ac8dcb5a3d7b81ab71f136baf324b7dc6d83109781340ba601fd236759f"
+    },
+    {
+      "baseline_uid": "fno_neuraloperator",
+      "distribution": "neuraloperator",
+      "version": "2.0.0",
+      "official_source": "https://github.com/neuraloperator/neuraloperator",
+      "artifact_authority": "pypi_wheel",
+      "artifact_url": "https://files.pythonhosted.org/packages/08/fe/5d74759a33732ce4dbac7bfef339bba371868544a7bcd44e5083495940e1/neuraloperator-2.0.0-py3-none-any.whl",
+      "artifact_path": "/share/home/anonymous/Researches/NeuronSifter/Input/processed/round20qr_v3/package_artifacts/neuraloperator-2.0.0-py3-none-any.whl",
+      "artifact_sha256": "2f4edf579057a100d03a5d8728c145bd114e6da77563fa9f8c8f7c213784d265"
+    }
+  ]
+}

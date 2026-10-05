@@ -1,0 +1,523 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/public_foundation_corpus_evidence.schema.json",
+  "title": "NeuronSifter Public Foundation Corpus V1 Evidence Bundle",
+  "description": "Fail-closed evidence contract for Output/audits/public_foundation_corpus_evidence_bundle.json.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "corpus_uid",
+    "corpus_hash",
+    "contract",
+    "evidence",
+    "family_assessments",
+    "paired_benchmark",
+    "derived_gates"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "neuronsifter-public-foundation-corpus-evidence-bundle-v1"
+    },
+    "corpus_uid": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{2,127}$"
+    },
+    "corpus_hash": {
+      "$ref": "#/$defs/sha256"
+    },
+    "contract": {
+      "$ref": "#/$defs/contractReference"
+    },
+    "evidence": {
+      "$ref": "#/$defs/evidenceSet"
+    },
+    "family_assessments": {
+      "$ref": "#/$defs/familyAssessments"
+    },
+    "paired_benchmark": {
+      "$ref": "#/$defs/pairedBenchmark"
+    },
+    "derived_gates": {
+      "$ref": "#/$defs/derivedGates"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "derived_gates": {
+            "properties": {
+              "iclr_v2.public_corpus.G1": {
+                "properties": {
+                  "status": {"const": "passed"}
+                },
+                "required": ["status"]
+              }
+            },
+            "required": ["iclr_v2.public_corpus.G1"]
+          }
+        },
+        "required": ["derived_gates"]
+      },
+      "then": {
+        "properties": {
+          "evidence": {
+            "properties": {
+              "source_qualification": {"$ref": "#/$defs/passedEvidenceReference"},
+              "legacy_disposition": {"$ref": "#/$defs/passedEvidenceReference"},
+              "entity_unit_crosswalk": {"$ref": "#/$defs/passedEvidenceReference"},
+              "controlled_isolation": {"$ref": "#/$defs/passedEvidenceReference"}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "derived_gates": {
+            "properties": {
+              "iclr_v2.public_corpus.G2": {
+                "properties": {
+                  "status": {"const": "PASS_WITH_SCOPE_LIMITATION"}
+                },
+                "required": ["status"]
+              }
+            },
+            "required": ["iclr_v2.public_corpus.G2"]
+          }
+        },
+        "required": ["derived_gates"]
+      },
+      "then": {
+        "properties": {
+          "derived_gates": {
+            "properties": {
+              "iclr_v2.public_corpus.G1": {
+                "properties": {
+                  "status": {"const": "passed"}
+                }
+              }
+            }
+          },
+          "evidence": {
+            "properties": {
+              "source_qualification": {"$ref": "#/$defs/passedEvidenceReference"},
+              "entity_unit_crosswalk": {"$ref": "#/$defs/passedEvidenceReference"},
+              "canonical_observation_blocks": {"$ref": "#/$defs/passedEvidenceReference"},
+              "structured_action_catalog": {"$ref": "#/$defs/passedEvidenceReference"},
+              "tool_model_registry": {"$ref": "#/$defs/passedEvidenceReference"},
+              "frozen_splits": {"$ref": "#/$defs/passedEvidenceReference"},
+              "leakage_audit": {"$ref": "#/$defs/passedEvidenceReference"},
+              "qc_ess_statistics": {"$ref": "#/$defs/passedEvidenceReference"},
+              "storage_ledger": {"$ref": "#/$defs/passedEvidenceReference"},
+              "controlled_isolation": {"$ref": "#/$defs/passedEvidenceReference"}
+            }
+          },
+          "family_assessments": {
+            "properties": {
+              "cns_disease_aging_state_transcriptomics": {"$ref": "#/$defs/qualifiedFamilyAssessment"},
+              "cns_cell_type_region_atlas_transcriptomics": {"$ref": "#/$defs/qualifiedFamilyAssessment"},
+              "compound_dose_time_perturbation_transcriptomics": {"$ref": "#/$defs/qualifiedFamilyAssessment"}
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "relativeJsonPath": {
+      "type": "string",
+      "pattern": "^Output/audits/[A-Za-z0-9][A-Za-z0-9_.-]*(?:/[A-Za-z0-9][A-Za-z0-9_.-]*)*\\.json$"
+    },
+    "contractReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref", "sha256"],
+      "properties": {
+        "ref": {
+          "const": "Libs/configs/data/public_foundation_corpus.yaml"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "evidenceReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "schema_version",
+        "producer",
+        "record_count",
+        "status"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/relativeJsonPath"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "schema_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "producer": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "record_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "status": {
+          "enum": ["passed", "failed_capacity", "not_passed", "blocked", "not_available", "pending_revalidation"]
+        }
+      }
+    },
+    "passedEvidenceReference": {
+      "allOf": [
+        {"$ref": "#/$defs/evidenceReference"},
+        {
+          "properties": {
+            "status": {"const": "passed"}
+          }
+        }
+      ]
+    },
+    "evidenceSet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_qualification",
+        "legacy_disposition",
+        "entity_unit_crosswalk",
+        "canonical_observation_blocks",
+        "structured_action_catalog",
+        "tool_model_registry",
+        "frozen_splits",
+        "leakage_audit",
+        "qc_ess_statistics",
+        "storage_ledger",
+        "controlled_isolation"
+      ],
+      "properties": {
+        "source_qualification": {"$ref": "#/$defs/evidenceReference"},
+        "legacy_disposition": {"$ref": "#/$defs/evidenceReference"},
+        "entity_unit_crosswalk": {"$ref": "#/$defs/evidenceReference"},
+        "canonical_observation_blocks": {"$ref": "#/$defs/evidenceReference"},
+        "structured_action_catalog": {"$ref": "#/$defs/evidenceReference"},
+        "tool_model_registry": {"$ref": "#/$defs/evidenceReference"},
+        "frozen_splits": {"$ref": "#/$defs/evidenceReference"},
+        "leakage_audit": {"$ref": "#/$defs/evidenceReference"},
+        "qc_ess_statistics": {"$ref": "#/$defs/evidenceReference"},
+        "storage_ledger": {"$ref": "#/$defs/evidenceReference"},
+        "controlled_isolation": {"$ref": "#/$defs/evidenceReference"}
+      }
+    },
+    "familyAssessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "qualified_source_count",
+        "independent_publication_accession_group_count",
+        "cns_source_count",
+        "real_value_block_count",
+        "grade_ab_observation_count",
+        "grade_ab_effective_sample_size",
+        "query_domain_status",
+        "nested_split_status",
+        "leakage_status",
+        "blocker_codes"
+      ],
+      "properties": {
+        "status": {
+          "enum": ["qualified", "not_passed"]
+        },
+        "qualified_source_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "independent_publication_accession_group_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "cns_source_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "real_value_block_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "grade_ab_observation_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "grade_ab_effective_sample_size": {
+          "type": "number",
+          "minimum": 0
+        },
+        "query_domain_status": {
+          "enum": ["frozen", "not_frozen"]
+        },
+        "nested_split_status": {
+          "enum": ["frozen", "not_frozen"]
+        },
+        "leakage_status": {
+          "enum": ["passed", "not_passed", "not_tested"]
+        },
+        "blocker_codes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {"const": "qualified"}
+            },
+            "required": ["status"]
+          },
+          "then": {
+            "properties": {
+              "qualified_source_count": {"minimum": 2},
+              "independent_publication_accession_group_count": {"minimum": 2},
+              "cns_source_count": {"minimum": 1},
+              "real_value_block_count": {"minimum": 1},
+              "grade_ab_observation_count": {"minimum": 1},
+              "grade_ab_effective_sample_size": {"exclusiveMinimum": 0},
+              "query_domain_status": {"const": "frozen"},
+              "nested_split_status": {"const": "frozen"},
+              "leakage_status": {"const": "passed"},
+              "blocker_codes": {"maxItems": 0}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {"const": "not_passed"}
+            },
+            "required": ["status"]
+          },
+          "then": {
+            "properties": {
+              "blocker_codes": {"minItems": 1}
+            }
+          }
+        }
+      ]
+    },
+    "qualifiedFamilyAssessment": {
+      "allOf": [
+        {"$ref": "#/$defs/familyAssessment"},
+        {
+          "properties": {
+            "status": {"const": "qualified"}
+          }
+        }
+      ]
+    },
+    "familyAssessments": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cns_disease_aging_state_transcriptomics",
+        "cns_cell_type_region_atlas_transcriptomics",
+        "compound_dose_time_perturbation_transcriptomics"
+      ],
+      "properties": {
+        "cns_disease_aging_state_transcriptomics": {"$ref": "#/$defs/familyAssessment"},
+        "cns_cell_type_region_atlas_transcriptomics": {"$ref": "#/$defs/familyAssessment"},
+        "compound_dose_time_perturbation_transcriptomics": {"$ref": "#/$defs/familyAssessment"}
+      }
+    },
+    "pairedBenchmark": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "provenance_kind",
+        "real_pair_count",
+        "cross_modal_prediction_claim_allowed",
+        "absent_or_unqualified_claim_policy"
+      ],
+      "properties": {
+        "status": {
+          "enum": ["qualified", "not_passed", "not_available"]
+        },
+        "provenance_kind": {
+          "const": "real_only"
+        },
+        "real_pair_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "cross_modal_prediction_claim_allowed": {
+          "type": "boolean"
+        },
+        "absent_or_unqualified_claim_policy": {
+          "const": "remove_claim"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "cross_modal_prediction_claim_allowed": {"const": true}
+            },
+            "required": ["cross_modal_prediction_claim_allowed"]
+          },
+          "then": {
+            "properties": {
+              "status": {"const": "qualified"},
+              "real_pair_count": {"minimum": 1}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {"enum": ["not_passed", "not_available"]}
+            },
+            "required": ["status"]
+          },
+          "then": {
+            "properties": {
+              "cross_modal_prediction_claim_allowed": {"const": false}
+            }
+          }
+        }
+      ]
+    },
+    "g1Gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gate_id", "status", "fail_closed", "blocker_codes"],
+      "properties": {
+        "gate_id": {"const": "iclr_v2.public_corpus.G1"},
+        "status": {"enum": ["passed", "not_passed"]},
+        "fail_closed": {"const": true},
+        "blocker_codes": {"$ref": "#/$defs/blockerCodes"}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"status": {"const": "passed"}},
+            "required": ["status"]
+          },
+          "then": {
+            "properties": {"blocker_codes": {"maxItems": 0}}
+          }
+        },
+        {
+          "if": {
+            "properties": {"status": {"const": "not_passed"}},
+            "required": ["status"]
+          },
+          "then": {
+            "properties": {"blocker_codes": {"minItems": 1}}
+          }
+        }
+      ]
+    },
+    "g2Gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gate_id",
+        "status",
+        "scope",
+        "fail_closed",
+        "full_multimodal_claim_allowed",
+        "blocker_codes"
+      ],
+      "properties": {
+        "gate_id": {"const": "iclr_v2.public_corpus.G2"},
+        "status": {"enum": ["PASS_WITH_SCOPE_LIMITATION", "not_passed"]},
+        "scope": {"const": "reduced_transcriptomics_core"},
+        "fail_closed": {"const": true},
+        "full_multimodal_claim_allowed": {"const": false},
+        "blocker_codes": {"$ref": "#/$defs/blockerCodes"}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"status": {"const": "PASS_WITH_SCOPE_LIMITATION"}},
+            "required": ["status"]
+          },
+          "then": {
+            "properties": {"blocker_codes": {"maxItems": 0}}
+          }
+        },
+        {
+          "if": {
+            "properties": {"status": {"const": "not_passed"}},
+            "required": ["status"]
+          },
+          "then": {
+            "properties": {"blocker_codes": {"minItems": 1}}
+          }
+        }
+      ]
+    },
+    "fullMultimodalGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gate_id", "status", "fail_closed", "blocker_codes"],
+      "properties": {
+        "gate_id": {"const": "iclr_v2.public_corpus.G2_full_multimodal"},
+        "status": {"const": "not_passed"},
+        "fail_closed": {"const": true},
+        "blocker_codes": {"$ref": "#/$defs/nonEmptyBlockerCodes"}
+      }
+    },
+    "blockerCodes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 160
+      }
+    },
+    "nonEmptyBlockerCodes": {
+      "allOf": [
+        {"$ref": "#/$defs/blockerCodes"},
+        {"minItems": 1}
+      ]
+    },
+    "derivedGates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "iclr_v2.public_corpus.G1",
+        "iclr_v2.public_corpus.G2",
+        "iclr_v2.public_corpus.G2_full_multimodal"
+      ],
+      "properties": {
+        "iclr_v2.public_corpus.G1": {"$ref": "#/$defs/g1Gate"},
+        "iclr_v2.public_corpus.G2": {"$ref": "#/$defs/g2Gate"},
+        "iclr_v2.public_corpus.G2_full_multimodal": {"$ref": "#/$defs/fullMultimodalGate"}
+      }
+    }
+  }
+}

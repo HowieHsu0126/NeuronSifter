@@ -1,0 +1,293 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NeuronSifter Round-22 Agent-Twin Co-evolution Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "round_id",
+    "final_gate",
+    "program_gate",
+    "claim_boundary",
+    "freeze",
+    "tool_outcomes",
+    "c3_static",
+    "c4_tri",
+    "gates",
+    "coevolution",
+    "reproducibility"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-round22-contract-v1"},
+    "round_id": {"const": "neuronsifter_round22"},
+    "final_gate": {"const": "agent_twin_coevolution_evidence_resolved"},
+    "program_gate": {"const": "neuronsifter_agent_twin_adaptive_evidence_resolved"},
+    "claim_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["c2_b_status", "c2_b_recovery_artifact", "static_reference_immutable", "public_only", "simulator_or_tool_evidence_is_not_clinical_validation"],
+      "properties": {
+        "c2_b_status": {"const": "blocked_insufficient_real_e2_e4"},
+        "c2_b_recovery_artifact": {"type": "string", "minLength": 1},
+        "static_reference_immutable": {"const": true},
+        "public_only": {"const": true},
+        "simulator_or_tool_evidence_is_not_clinical_validation": {"const": true}
+      }
+    },
+    "freeze": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required_inputs", "checkpoint_selection", "authority_recovery", "output"],
+      "properties": {
+        "required_inputs": {
+          "type": "array",
+          "minItems": 9,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["input_id", "path"],
+            "properties": {
+              "input_id": {"type": "string", "minLength": 1},
+              "path": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        "checkpoint_selection": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["rule", "forbidden_roles", "metric_direction"],
+          "properties": {
+            "rule": {"const": "best_validation_checkpoint"},
+            "forbidden_roles": {"type": "array", "contains": {"const": "test"}, "items": {"type": "string"}},
+            "metric_direction": {"enum": ["minimize", "maximize"]}
+          }
+        },
+        "authority_recovery": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["recovery_id", "exact_filename_only", "narrative_authority_forbidden", "recovery_cutover_git_identity", "tier_a_archive_indexes", "tier_b_reconstruction_manifests", "git_search", "scheduler_reconciliation", "historical_roots"],
+          "properties": {
+            "recovery_id": {"const": "neuronsifter_round22a"},
+            "exact_filename_only": {"const": true},
+            "narrative_authority_forbidden": {"const": true},
+            "recovery_cutover_git_identity": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["commit", "tree"],
+              "properties": {
+                "commit": {"type": "string", "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"},
+                "tree": {"type": "string", "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"}
+              }
+            },
+            "tier_a_archive_indexes": {
+              "type": "array",
+              "maxItems": 16,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["path", "sha256", "provenance_mode", "git_commit", "git_tree", "git_blob", "git_path"],
+                "properties": {
+                  "path": {"type": "string", "minLength": 1},
+                  "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+                  "provenance_mode": {"const": "git_blob_at_declared_commit"},
+                  "git_commit": {"type": "string", "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"},
+                  "git_tree": {"type": "string", "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"},
+                  "git_blob": {"type": "string", "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"},
+                  "git_path": {"type": "string", "minLength": 1}
+                }
+              }
+            },
+            "tier_b_reconstruction_manifests": {
+              "type": "array",
+              "maxItems": 9,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["authority_uid", "path", "sha256"],
+                "properties": {
+                  "authority_uid": {"enum": ["round21_training_input_freeze", "round21_checkpoint_catalog", "round21_static_twin_evidence", "round21_c3_readiness", "round21_coevolution_prerequisite_status", "c1_neuronsifter_results", "c2s_neuronsifter_results", "round21_c1_claim_gate", "round21_c2s_claim_gate"]},
+                  "path": {"type": "string", "minLength": 1},
+                  "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+                }
+              }
+            },
+            "git_search": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["include_refs", "include_reflogs", "include_unreachable_commits", "exclude_prunable_worktrees", "exclude_ephemeral_filesystems"],
+              "properties": {
+                "include_refs": {"const": true},
+                "include_reflogs": {"const": true},
+                "include_unreachable_commits": {"const": true},
+                "exclude_prunable_worktrees": {"const": true},
+                "exclude_ephemeral_filesystems": {"const": true}
+              }
+            },
+            "scheduler_reconciliation": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["accounting_start_time", "exclusive_job_id_upper_bound", "job_name_prefix", "expected_job_count", "expected_workdir_count", "verification_job", "expected_extra_workdirs", "ephemeral_roots", "accounting_snapshot_output", "output"],
+              "properties": {
+                "accounting_start_time": {"type": "string", "minLength": 1},
+                "exclusive_job_id_upper_bound": {"type": "integer", "minimum": 1},
+                "job_name_prefix": {"const": "NrnSift_"},
+                "expected_job_count": {"type": "integer", "minimum": 1},
+                "expected_workdir_count": {"type": "integer", "minimum": 1},
+                "verification_job": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["job_id", "expected_state", "expected_exit_code", "expected_node"],
+                  "properties": {
+                    "job_id": {"type": "integer", "minimum": 1},
+                    "expected_state": {"const": "COMPLETED"},
+                    "expected_exit_code": {"const": "0:0"},
+                    "expected_node": {"enum": ["cpu03", "cpu04"]}
+                  }
+                },
+                "expected_extra_workdirs": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["path", "expected_job_count"],
+                    "properties": {
+                      "path": {"type": "string", "minLength": 1},
+                      "expected_job_count": {"type": "integer", "minimum": 1}
+                    }
+                  }
+                },
+                "ephemeral_roots": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {"type": "string", "minLength": 1}
+                },
+                "accounting_snapshot_output": {"type": "string", "minLength": 1},
+                "output": {"type": "string", "minLength": 1}
+              }
+            },
+            "round20q_replay_prerequisite": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["path", "sha256", "provenance_mode", "git_commit", "git_tree", "git_blob", "git_path"],
+              "properties": {
+                "path": {"type": "string", "minLength": 1},
+                "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+                "provenance_mode": {"const": "git_blob_at_declared_commit"},
+                "git_commit": {"type": "string", "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"},
+                "git_tree": {"type": "string", "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"},
+                "git_blob": {"type": "string", "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"},
+                "git_path": {"type": "string", "minLength": 1}
+              }
+            },
+            "historical_roots": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["root_id", "path", "resolver", "source_classes", "immutability_basis", "max_entries"],
+                "properties": {
+                  "root_id": {"type": "string", "minLength": 1},
+                  "path": {"type": "string", "minLength": 1},
+                  "resolver": {"enum": ["git_exact_path_history", "git_registered_worktrees_exact_path", "filesystem_exact_filename"]},
+                  "source_classes": {
+                    "type": "array",
+                    "minItems": 1,
+                    "uniqueItems": true,
+                    "items": {"enum": ["git_object_database", "historical_isolated_worktree", "slurm_execution_archive", "content_addressed_store", "immutable_output_archive", "delivery_bundle", "preserved_compute_archive"]}
+                  },
+                  "immutability_basis": {"type": "string", "minLength": 1},
+                  "max_depth": {"type": "integer", "minimum": 0},
+                  "max_entries": {"type": "integer", "minimum": 1}
+                }
+              }
+            }
+          }
+        },
+        "output": {"type": "string", "minLength": 1}
+      }
+    },
+    "tool_outcomes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["output_root", "required_fields", "formal_metadata_fields", "source_manifests", "output_matrix", "output_coverage", "output_failure_catalog", "cost_model_freeze", "cost_definitions", "sensitivity_contract"],
+      "properties": {
+        "output_root": {"type": "string", "minLength": 1},
+        "required_fields": {"type": "array", "minItems": 13, "items": {"type": "string"}},
+        "formal_metadata_fields": {"const": ["state_uid", "structured_action_uid", "tool_version", "fidelity", "compute_cost", "wall_clock_cost", "hidden_evaluation_role", "result_schema_version", "uncertainty_schema_version", "result_hash_verified", "uncertainty_hash_verified", "result_observed_hash", "uncertainty_observed_hash", "hash_readback_uid", "formal_round22_execution"]},
+        "source_manifests": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["path", "role"], "additionalProperties": false, "properties": {"path": {"type": "string"}, "role": {"enum": ["existing_active_learning_artifact", "round22_formal_tool_outcome"]}}}},
+        "output_matrix": {"type": "string"},
+        "output_coverage": {"type": "string"},
+        "output_failure_catalog": {"type": "string"},
+        "cost_model_freeze": {"type": "string"},
+        "cost_definitions": {"type": "object", "minProperties": 3},
+        "sensitivity_contract": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["relative_variations", "required_directions"],
+          "properties": {
+            "relative_variations": {"const": [-0.5, -0.25, 0.25, 0.5]},
+            "required_directions": {"type": "array", "contains": {"const": "fixed_budget_decision_risk"}, "items": {"type": "string"}}
+          }
+        }
+      }
+    },
+    "c3_static": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rounds", "tasks_per_round", "quota", "hidden_outcomes_visible_during_replay", "holdout_evidence_path", "baselines", "oracle", "primary_metrics", "output_results", "output_budget_risk", "output_fixed_target_cost", "output_tool_usage", "output_failure_results", "gate_output"],
+      "properties": {
+        "rounds": {"const": 3},
+        "tasks_per_round": {"const": 128},
+        "quota": {"type": "object", "additionalProperties": false, "required": ["exploitation", "exploration", "sentinel"], "properties": {"exploitation": {"const": 0.4}, "exploration": {"const": 0.4}, "sentinel": {"const": 0.2}}},
+        "hidden_outcomes_visible_during_replay": {"const": false},
+        "holdout_evidence_path": {"type": "string", "minLength": 1},
+        "baselines": {"const": ["random", "fixed_cascade", "uncertainty_bald", "ps_bax", "mf_mes", "cost_aware_bo", "neuronsifter_static"]},
+        "oracle": {"const": "full_information_oracle"},
+        "primary_metrics": {"type": "array", "minItems": 8, "items": {"type": "string"}},
+        "output_results": {"type": "string"},
+        "output_budget_risk": {"type": "string"},
+        "output_fixed_target_cost": {"type": "string"},
+        "output_tool_usage": {"type": "string"},
+        "output_failure_results": {"type": "string"},
+        "gate_output": {"type": "string"}
+      }
+    },
+    "c4_tri": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["calibration_split", "variants", "metrics", "coverage_floor", "rollback_threshold", "output_freeze", "output_results", "gate_output"],
+      "properties": {
+        "calibration_split": {"const": "validation_only"},
+        "variants": {"const": ["raw_score_no_tri", "uncertainty_only", "calibration_only", "full_tri"]},
+        "metrics": {"type": "array", "minItems": 10, "items": {"type": "string"}},
+        "coverage_floor": {"type": "number", "exclusiveMinimum": 0},
+        "rollback_threshold": {"type": "number", "exclusiveMinimum": 0},
+        "output_freeze": {"type": "string"},
+        "output_results": {"type": "string"},
+        "gate_output": {"type": "string"}
+      }
+    },
+    "gates": {"type": "object", "additionalProperties": false, "required": ["intermediate", "intermediate_output", "final", "program"], "properties": {"intermediate": {"const": "static_agent_reliability_reference_resolved"}, "intermediate_output": {"type": "string"}, "final": {"const": "agent_twin_coevolution_evidence_resolved"}, "program": {"const": "neuronsifter_agent_twin_adaptive_evidence_resolved"}}},
+    "coevolution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["comparison_matrix", "rounds", "output_comparison_freeze", "output_evidence", "output_checkpoint_lineage", "output_claim_scope", "output_program_gate", "ablations", "statistics"],
+      "properties": {
+        "comparison_matrix": {"const": ["static_reference", "agent_only", "twin_only", "full_coevolution", "naive_latest_batch_joint_update", "full_replay_joint_update"]},
+        "rounds": {"const": 3},
+        "output_comparison_freeze": {"type": "string"},
+        "output_evidence": {"type": "string"},
+        "output_checkpoint_lineage": {"type": "string"},
+        "output_claim_scope": {"type": "string"},
+        "output_program_gate": {"type": "string"},
+        "ablations": {"type": "array", "minItems": 8, "items": {"type": "string"}},
+        "statistics": {"type": "object", "additionalProperties": false, "required": ["confidence_interval", "bootstrap_replicates", "bootstrap_seed", "paired_unit"], "properties": {"confidence_interval": {"const": "paired_bootstrap_95"}, "bootstrap_replicates": {"const": 2000}, "bootstrap_seed": {"const": 3407}, "paired_unit": {"const": "hidden_episode_by_round"}}}
+      }
+    },
+    "reproducibility": {"type": "object", "additionalProperties": false, "required": ["output", "resource_catalog", "commands"], "properties": {"output": {"type": "string"}, "resource_catalog": {"type": "string"}, "commands": {"type": "array", "minItems": 3, "items": {"type": "string"}}}}
+  }
+}

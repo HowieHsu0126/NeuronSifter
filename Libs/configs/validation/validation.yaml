@@ -1,0 +1,326 @@
+validation:
+  candidate_validation_execution:
+    output_root_template: Output/candidate_validation_execution/{benchmark_name}
+    selection:
+      case_study_anchor_limit: 16
+      active_learning_candidate_limit: 16
+      maximum_candidate_count: 32
+      priority_aggregation: mean
+      priority_metric: active_learning_uncertainty
+      include_case_study_anchors: true
+      include_active_learning_candidates: true
+      require_docking_eligibility: true
+    binaries:
+      vina: /share/home/anonymous/miniconda3/envs/nrnsift_docking/bin/vina
+      gnina: /share/home/anonymous/miniconda3/envs/nrnsift_docking/bin/gnina
+      obabel: /share/home/anonymous/miniconda3/envs/nrnsift_docking/bin/obabel
+    command_templates:
+      vina: '{vina_binary} --receptor {receptor_path} --ligand {ligand_path} --center_x
+        {center_x} --center_y {center_y} --center_z {center_z} --size_x {size_x} --size_y
+        {size_y} --size_z {size_z} --cpu {cpu_count} --exhaustiveness {exhaustiveness}
+        --num_modes {num_modes} --out {pose_output_path} --log {log_output_path}'
+      gnina: '{gnina_binary} --receptor {receptor_path} --ligand {pose_output_path}
+        --score_only --cnn_scoring rescore --out {rescoring_output_path} --log {rescoring_log_path}'
+    docking:
+      cpu_count: 4
+      exhaustiveness: 8
+      num_modes: 9
+    structure_confidence_by_source:
+      experimental: 1.0
+      predicted: 0.7
+    input_roots:
+      experimental_structure_root: Input/structures/experimental
+      predicted_structure_root: Input/structures/predicted
+      receptor_box_catalog: Input/structures/receptor_box_catalog.tsv
+      ligand_root: Output/candidate_validation_execution/ligands
+    relative_paths:
+      request_catalog: execution_request_catalog.tsv
+      execution_catalog: execution_catalog.tsv
+      docking_root: docking
+      rescoring_root: rescoring
+      pbpk_root: pbpk
+  pbpk_execution:
+    horizon_hours: 672.0
+    step_hours: 6.0
+    brain_compartments:
+    - csf
+    - pvs
+    - isf
+    summary_compartments:
+    - plasma
+    - csf
+    - isf
+    summary_metrics:
+    - plasma_auc
+    - csf_auc
+    - isf_auc
+    - plasma_cmax
+    - csf_cmax
+    - isf_cmax
+    - plasma_tmax
+    - csf_tmax
+    - isf_tmax
+    - brain_plasma_auc_ratio
+    - apparent_clearance
+    readiness_targets:
+      target_brain_plasma_auc_ratio: 0.3
+      target_csf_cmax: 0.25
+      target_isf_cmax: 0.2
+      clearance_upper_bound: 1.5
+    readiness_weights:
+      brain_plasma_auc_ratio: 0.4
+      csf_cmax: 0.2
+      isf_cmax: 0.2
+      clearance: 0.2
+  candidate_validation_registry:
+    local_root: Input/processed
+    relative_paths:
+      candidate_validation_catalog: candidate_validation/candidate_validation_catalog.tsv
+  external_adapter_registry:
+    local_root: Input/processed
+    relative_paths:
+      external_adapter_catalog: external_adapters/external_adapter_catalog.tsv
+      dgidb_drug_gene_interaction_catalog: external_adapters/dgidb_drug_gene_interaction_catalog.tsv
+      drugcomb_combination_prior_catalog: external_adapters/drugcomb_combination_prior_catalog.tsv
+      drugcomb_dose_response_matrix_dir: external_adapters/drugcomb_dose_response_matrix_catalog
+      drugcomb_dose_response_manifest: external_adapters/drugcomb_dose_response_manifest.json
+      dgidb_api_query_manifest: external_adapters/dgidb_api_query_manifest.json
+    materialization:
+      moleculenet_deepchem:
+        source_release: deepchem_2_5_0_moleculenet_property_proxy
+        compound_feature_catalog_path: Input/processed/drug_target_ready/compound_feature_catalog.tsv
+        deepchem_dataset_class: NumpyDataset
+        deepchem_probe_row_count: 256
+        descriptor_fields:
+        - molecular_weight
+        - alogp
+        - tpsa
+        - hba
+        - hbd
+        - rotatable_bonds
+        - ring_count
+        cns_rule_thresholds:
+          molecular_weight_upper: 450.0
+          alogp_lower: 1.0
+          alogp_upper: 4.0
+          tpsa_upper: 90.0
+          hba_upper: 8.0
+          hbd_upper: 3.0
+          rotatable_bonds_upper: 8.0
+          ring_count_lower: 1.0
+        lipinski_thresholds:
+          molecular_weight_upper: 500.0
+          alogp_upper: 5.0
+          hba_upper: 10.0
+          hbd_upper: 5.0
+        source_holdout_role: active_learning_source_prior
+        train_flag: 'no'
+        eval_flag: 'yes'
+        public_url: https://deepchem.io/
+      dgidb:
+        api_url: https://dgidb.org/api/graphql
+        request_header_client_name: neuronsifter-public-evidence-adapter
+        request_timeout_seconds: 120
+        trust_environment_proxy: false
+        query_batch_size: 24
+        source_release: v.5.0.11
+        query_scope: neuronsifter_target_drug_universe
+        target_catalog_path: Input/processed/drug_target_ready/target_catalog.tsv
+        compound_catalog_path: Input/processed/drug_target_ready/compound_catalog.tsv
+        intervention_program_catalog_path: Input/processed/intervention_program/intervention_program_catalog.tsv
+        target_label_separator: '|'
+        compound_set_separator: '|'
+        drug_name_alias_separators:
+        - '::'
+        drug_name_suffixes_to_strip:
+        - HYDROCHLORIDE
+        - SODIUM
+        - ACETATE
+        - CARBONATE
+        require_drug_universe_overlap: true
+        source_holdout_role: train_evidence_source
+        train_flag: 'yes'
+        eval_flag: 'no'
+        public_url_template: https://dgidb.org/genes/{gene_concept_id}
+        graphql_query: |
+          query genes($names: [String!]!) {
+            genes(names: $names) {
+              nodes {
+                name
+                conceptId
+                interactions {
+                  id
+                  interactionScore
+                  interactionTypes {
+                    type
+                    directionality
+                  }
+                  publications {
+                    citation
+                    pmid
+                  }
+                  sources {
+                    id
+                    fullName
+                  }
+                  drug {
+                    name
+                    conceptId
+                  }
+                  gene {
+                    name
+                    conceptId
+                  }
+                }
+              }
+            }
+          }
+      drugcomb:
+        source_release: drugcomb_zenodo_v1_4_v1_5
+        dose_response_csv_path: Input/raw/drugcomb/downloads/releases/zenodo/18449193/drugcomb_data_v1.4.csv
+        synergy_summary_csv_path: Input/raw/drugcomb/downloads/releases/zenodo/15235991/summary_v_1_5.csv
+        chunk_row_count: 250000
+        smoke_row_count: 5000
+        source_holdout_role: method_pretraining_only
+        train_flag: 'yes'
+        eval_flag: 'no'
+        primary_synergy_metric: synergy_zip
+        public_url: https://www.drugcomb.org/
+        required_numeric_summary_fields:
+        - synergy_zip
+        - synergy_bliss
+        - synergy_loewe
+        - synergy_hsa
+        - css_ri
+        - S_sum
+        - S_mean
+        - S_max
+        required_numeric_dose_fields:
+        - conc_r
+        - conc_c
+        - inhibition
+    adapters:
+    - source_key: open_targets
+      source_name: Open Targets
+      adapter_role: target_evidence_adapter
+      method_contribution_flag: 'no'
+      raw_root: Input/raw/open_targets
+      processed_artifact_path: Input/processed/drug_target_ready/target_evidence_catalog.tsv
+      required_processed_artifact_flag: 'yes'
+      provenance_level: public_target_prioritization_evidence
+      validation_policy: processed_catalog_required
+      public_url: https://platform.opentargets.org/
+      note: Therapeutic target identification and prioritisation evidence adapter.
+    - source_key: chembl
+      source_name: ChEMBL
+      adapter_role: compound_target_bioactivity_source
+      method_contribution_flag: 'no'
+      raw_root: Input/raw/chembl
+      processed_artifact_path: Input/processed/drug_target_ready/compound_catalog.tsv
+      required_processed_artifact_flag: 'yes'
+      provenance_level: public_bioactivity_reference
+      validation_policy: processed_catalog_required
+      public_url: https://www.ebi.ac.uk/chembl/
+      note: Bioactive molecule and compound representation source.
+    - source_key: bindingdb
+      source_name: BindingDB
+      adapter_role: affinity_evidence_source
+      method_contribution_flag: 'no'
+      raw_root: Input/raw/bindingdb
+      processed_artifact_path: Input/processed/drug_target_ready/drug_target_edge_catalog.tsv
+      required_processed_artifact_flag: 'yes'
+      provenance_level: measured_binding_affinity_reference
+      validation_policy: processed_catalog_required
+      public_url: https://www.bindingdb.org/rwd/bind/index.jsp
+      note: Measured protein-small molecule binding affinity source.
+    - source_key: drugcentral
+      source_name: DrugCentral
+      adapter_role: drug_annotation_source
+      method_contribution_flag: 'no'
+      raw_root: Input/raw/drugcentral
+      processed_artifact_path: Input/processed/drug_target_ready/compound_catalog.tsv
+      required_processed_artifact_flag: 'yes'
+      provenance_level: drug_annotation_reference
+      validation_policy: processed_catalog_required
+      public_url: https://drugcentral.org/
+      note: Approved drug, mechanism, and annotation source.
+    - source_key: dgidb
+      source_name: DGIdb
+      adapter_role: drug_gene_interaction_source
+      method_contribution_flag: 'no'
+      raw_root: Input/raw/dgidb
+      processed_artifact_path: Input/processed/external_adapters/dgidb_drug_gene_interaction_catalog.tsv
+      required_processed_artifact_flag: 'yes'
+      provenance_level: public_drug_gene_interaction_reference
+      validation_policy: strict_processed_interactions_required
+      public_url: https://beta.dgidb.org/
+      note: Drug-gene interaction adapter; source archives alone are not accepted
+        as processed evidence.
+    - source_key: drugcomb
+      source_name: DrugComb
+      adapter_role: combination_prior_benchmark_source
+      method_contribution_flag: 'no'
+      raw_root: Input/raw/drugcomb
+      processed_artifact_path: Input/processed/external_adapters/drugcomb_combination_prior_catalog.tsv
+      required_processed_artifact_flag: 'yes'
+      provenance_level: public_combination_screening_reference
+      validation_policy: strict_processed_synergy_required
+      public_url: https://www.drugcomb.org/
+      note: Combination screening and synergy prior source for benchmark/pretraining
+        only.
+    - source_key: lincs_clue_sigcom
+      source_name: LINCS/CLUE/SigCom
+      adapter_role: perturbation_signature_evidence_adapter
+      method_contribution_flag: 'no'
+      raw_root: Input/raw/clue_lincs
+      processed_artifact_path: Input/processed/intervention_program/intervention_program_catalog.tsv
+      required_processed_artifact_flag: 'yes'
+      provenance_level: public_perturbation_signature_reference
+      validation_policy: strict_processed_signature_prior_required
+      public_url: https://clue.io/data
+      note: Perturbation signature and reversal-prior adapter; raw CLUE/LINCS
+        cache alone is not accepted without processed intervention evidence.
+    - source_key: osp_pksim_mobi
+      source_name: PK-Sim/MoBi/OSP
+      adapter_role: pbpk_qsp_teacher_generator
+      method_contribution_flag: 'no'
+      raw_root: Libs/external/pbpk
+      processed_artifact_path: Input/processed/full_microenvironment_teacher_ready/pbpk_rollout_catalog.tsv
+      required_processed_artifact_flag: 'yes'
+      provenance_level: repository_generated_mechanistic_rollout
+      validation_policy: teacher_catalog_required
+      public_url: https://www.open-systems-pharmacology.org/
+      note: PBPK/QSP teacher and parameter-prior generator.
+    - source_key: rdkit
+      source_name: RDKit
+      adapter_role: cheminformatics_descriptor_adapter
+      method_contribution_flag: 'no'
+      raw_root: python_package:rdkit
+      processed_artifact_path: Input/processed/drug_target_ready/compound_feature_catalog.tsv
+      required_processed_artifact_flag: 'yes'
+      provenance_level: computed_cheminformatics_descriptor
+      validation_policy: descriptor_catalog_required
+      public_url: https://www.rdkit.org/docs/Overview.html
+      note: Molecule descriptor and scaffold adapter, not molecule generation.
+    - source_key: moleculenet_deepchem
+      source_name: MoleculeNet/DeepChem
+      adapter_role: molecular_property_baseline
+      method_contribution_flag: 'no'
+      raw_root: python_package:deepchem
+      processed_artifact_path: Output/results/baselines/molecular_property_baseline_catalog.tsv
+      required_processed_artifact_flag: 'yes'
+      provenance_level: deepchem_numpy_dataset_descriptor_property_baseline
+      validation_policy: strict_processed_molecular_property_baseline_required
+      public_url: https://deepchem.io/
+      note: Molecular ML benchmark/baseline adapter, not core contribution.
+    - source_key: autodock_vina_gnina
+      source_name: AutoDock Vina/GNINA
+      adapter_role: downstream_structure_validator
+      method_contribution_flag: 'no'
+      raw_root: external_binary:vina_gnina
+      processed_artifact_path: Output/candidate_validation_execution
+      required_processed_artifact_flag: 'no'
+      provenance_level: optional_structure_based_reranking
+      validation_policy: execution_contract_registered
+      public_url: https://vina.scripps.edu/
+      note: Optional downstream docking and rescoring validation.
