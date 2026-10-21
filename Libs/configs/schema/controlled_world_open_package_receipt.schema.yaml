@@ -1,0 +1,48 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: controlled_world_open_package_receipt.schema.yaml
+title: Controlled World Open Package Receipt
+type: object
+required:
+- schema_version
+- receipt_uid
+- evidence_class
+- terminal_decision
+- open_data_qualification
+- training_authorized
+- sufficient_training
+- twin_qualification_pass
+- formal_qualification
+- agent_work_open
+- test_manifest_open
+- manifests
+- manifest_content_identities
+- historical_benchmark_provenance
+- access_counters
+- closed_downstream_flags
+- deterministic_replay
+- construction_audit_path
+- construction_report_path
+properties:
+  schema_version: {const: neuronsifter-controlled-world-open-package-receipt-v1}
+  receipt_uid: {type: string, minLength: 1}
+  evidence_class: {const: controlled_world_non_empirical}
+  terminal_decision:
+    enum:
+    - OPEN_ACTION_IDENTIFICATION_PACKAGE_CONSTRUCTED
+    - OPEN_ACTION_IDENTIFICATION_PACKAGE_NOT_CONSTRUCTED
+  open_data_qualification: {const: pending}
+  training_authorized: {const: false}
+  sufficient_training: {const: false}
+  twin_qualification_pass: {const: false}
+  formal_qualification: {const: false}
+  agent_work_open: {const: false}
+  test_manifest_open: {const: false}
+  manifests: {type: object}
+  manifest_content_identities: {type: object}
+  historical_benchmark_provenance: {type: object}
+  access_counters: {type: object}
+  closed_downstream_flags: {type: object}
+  deterministic_replay: {type: object}
+  construction_audit_path: {type: string, minLength: 1}
+  construction_report_path: {type: string, minLength: 1}
+additionalProperties: false

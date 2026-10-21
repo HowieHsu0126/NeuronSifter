@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/trajectory_failure.schema.json",
+  "title": "NeuronSifter TrajectoryFailure",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "failure_uid", "attempt_uid", "trajectory_family_uid", "producer_uid", "producer_version", "action_uid", "initial_state_uid", "seed", "failure_class", "failure_stage", "message", "artifact_refs", "output_hashes", "retry_of", "superseded_by", "preserved", "provenance", "status"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-trajectory-failure-v1"},
+    "failure_uid": {"type": "string", "minLength": 1},
+    "attempt_uid": {"type": "string", "minLength": 1},
+    "trajectory_family_uid": {"type": "string", "minLength": 1},
+    "producer_uid": {"type": "string", "minLength": 1},
+    "producer_version": {"type": "string", "minLength": 1},
+    "action_uid": {"type": "string", "minLength": 1},
+    "initial_state_uid": {"type": "string", "minLength": 1},
+    "seed": {"type": "integer", "minimum": 0},
+    "failure_class": {"enum": ["numerical_failure", "constraint_failure", "action_incomplete", "initial_state_invalid", "unsupported_domain", "provenance_failure", "hash_failure", "environment_failure"]},
+    "failure_stage": {"type": "string", "minLength": 1},
+    "message": {"type": "string", "minLength": 1},
+    "artifact_refs": {"type": "array", "items": {"type": "string"}},
+    "output_hashes": {"type": "object", "additionalProperties": {"type": "string", "pattern": "^[a-f0-9]{64}$"}},
+    "retry_of": {"type": ["string", "null"]},
+    "superseded_by": {"type": ["string", "null"]},
+    "preserved": {"const": true},
+    "provenance": {"type": "object", "minProperties": 1},
+    "status": {"const": "retained_failure"}
+  }
+}

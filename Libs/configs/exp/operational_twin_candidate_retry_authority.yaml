@@ -1,0 +1,123 @@
+operational_twin_candidate_retry_authority:
+  schema_version: neuronsifter-operational-twin-candidate-retry-authority-v1
+  authoritative_date: '2026-09-12'
+  evidence_class: controlled_world_non_empirical_retry_authority
+  candidate_lineage_uid: operational_twin_candidate_lineage_ef80556d38c9e1b50c28353a
+  repaired_protocol_uid: operational_twin_candidate_protocol_d2a92a44cbb4a23b6fc91645
+  repaired_preflight_uid: operational_twin_candidate_lineage_preflight_1b0203b9807dd9f83876397b
+  repaired_candidate_manifest_hash: 98f23c51af01a30dfa2f7659c2b017e3c521fce8991e636717d94e66c021a9a5
+  repaired_assignment_manifest_hash: f3d0db42070fd93c9d6d410de581f47c1460452717da4d0e704ab7319fda5017
+  repaired_command_catalog_hash: 2a9dca94b7e2f32881e4c446e265c6869e75086f90beb8ec6275615df901840a
+  repaired_source_identity_hash: c9bfb5e38b70ef579f4a6cbccc5ea0fcd456d297bc845a5ac7b5ea71b96de29a
+  terminals:
+    positive: OPERATIONAL_TWIN_CANDIDATE_RETRY_AUTHORITY_FROZEN
+    successor_required: OPERATIONAL_TWIN_SUCCESSOR_LINEAGE_PROTOCOL_REQUIRED
+  next_directions:
+    positive: execute-operational-twin-candidate-lineage-retry
+    successor_required: freeze-operational-twin-successor-lineage-protocol
+  slot_contract:
+    assignment_count: 15
+    total_attempt_slot_count: 30
+    initial_command_indices: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+    retry_command_indices: [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
+    retry_attempt_kind: infrastructure_recovery_01
+    retry_attempt_ordinal: 2
+    retry_conditional: true
+    eligible_after_failure_class: infrastructure_interruption
+    fresh_random_initialization: true
+    state_resume_allowed: false
+  round_47_authority:
+    merged_commit: 536b0d28e05b7c36f5797f2c98c8a5b79b7d7490
+    evidence_commit: f55ad19dde9c07effb1538f18eb32b6c81a9da6e
+    source_commit: 62a2160af0be4de79d7b6f03688e7d22b624974e
+    review_record:
+      path: orchestrator/rounds/round-47-repair-operational-twin-candidate-execution-interfaces/review-record.json
+      git_object_id: 1bc7d6212ffa82d6910ed94bf2c78a25c184acaa
+    closeout_record:
+      path: orchestrator/rounds/round-47-repair-operational-twin-candidate-execution-interfaces/closeout-record.json
+      git_object_id: 854f19400e5e75a9bb4d0e3102e54700ace75e86
+    audit_path: Output/audits/operational_twin_candidate_execution_interfaces.json
+    audit_git_object_id: adb0653027d64cd3df78a134df5b9468cda8ed57
+    preflight_path: Output/audits/operational_twin_candidate_lineage_execution_interface_guarded_preflight.json
+    preflight_git_object_id: 4cb625dbf377fea55f93ec10138678c60514accb
+  round_46_authority:
+    merged_commit: d2d57c9f5a08b5933b66e395f6128de68aacf16f
+    execution_source_commit: a3c4bb054617d9c7a84e19d86003eeddd668bdb0
+    review_record:
+      path: orchestrator/rounds/round-46-execute-operational-twin-candidate-lineage/review-record.json
+      git_object_id: a65b392906e0c9aff2341820335b844c16e7ea6f
+    implementation_notes:
+      path: orchestrator/rounds/round-46-execute-operational-twin-candidate-lineage/implementation-notes.md
+      git_object_id: 5b62a3957d1e27b877bee15bf6bc384617b555ac
+    blocker_summary:
+      path: orchestrator/rounds/round-46-execute-operational-twin-candidate-lineage/validation_logs/execution_blocker_summary.log
+      git_object_id: ad72e24ee59f37c2c38ffed88989de5d7dd2c498
+    candidate_tree_path: Output/results/operational_twin/candidate_lineages/operational_twin_candidate_lineage_ef80556d38c9e1b50c28353a
+    candidate_tree_id: 7bfdaf818be78dad28358529b27afbef987241fc
+    audit_tree_path: Output/audits/operational_twin
+    audit_tree_id: 01bdee5e51a360336c469864ce97043441f17c8f
+    dispatch_manifest: Output/results/operational_twin/candidate_lineages/operational_twin_candidate_lineage_ef80556d38c9e1b50c28353a/execution/dispatch_manifest.json
+    prepublication_command_indices: [2, 5, 8, 11, 14]
+  repaired_artifacts:
+    candidate_lineage_manifest: Output/results/operational_twin/candidate_lineage_protocol/execution_interface_guarded/candidate_lineage_manifest.json
+    assignment_manifest: Output/results/operational_twin/candidate_lineage_protocol/execution_interface_guarded/assignment_manifest.json
+    assignment_commands: Output/results/operational_twin/candidate_lineage_protocol/execution_interface_guarded/assignment_commands.json
+    preflight_authority: Output/audits/operational_twin_candidate_lineage_execution_interface_guarded_preflight.json
+  output_paths:
+    decision_audit: Output/audits/operational_twin_candidate_retry_authority.json
+    decision_report: Output/reports/operational_twin_candidate_retry_authority.md
+    protocol_root: Output/results/operational_twin/candidate_lineage_protocol/retry_authority_guarded
+    candidate_lineage_manifest: Output/results/operational_twin/candidate_lineage_protocol/retry_authority_guarded/candidate_lineage_manifest.json
+    assignment_manifest: Output/results/operational_twin/candidate_lineage_protocol/retry_authority_guarded/assignment_manifest.json
+    assignment_commands: Output/results/operational_twin/candidate_lineage_protocol/retry_authority_guarded/assignment_commands.json
+    preflight_authority: Output/audits/operational_twin_candidate_lineage_retry_authority_guarded_preflight.json
+    preflight_report: Output/reports/operational_twin_candidate_lineage_retry_authority_guarded_preflight.md
+  review_contract:
+    path: orchestrator/rounds/round-48-freeze-operational-twin-candidate-retry-authority/review-record.json
+    schema_version: review-record-v4
+    round_id: round-48-freeze-operational-twin-candidate-retry-authority
+    roadmap_id: 2026-09-01-00-trace-grounded-neural-world
+    roadmap_revision: rev-008
+    roadmap_dir: orchestrator/roadmaps/2026-09-01-00-trace-grounded-neural-world/rev-008
+    milestone_id: operational-twin-qualification
+    direction_id: freeze-operational-twin-candidate-retry-authority
+    extracted_item_id: operational-twin-existing-lineage-retry-authority-decision
+    decision: approved
+  source_bindings:
+  - Libs/configs/config_stack.yaml
+  - Libs/configs/exp/operational_twin_candidate_retry_authority.yaml
+  - Libs/configs/schema/operational_twin_candidate_retry_authority.schema.yaml
+  - Libs/utils/evaluation/operational_twin_candidate_retry_authority.py
+  - Libs/scripts/builders/build_operational_twin_training_protocol.py
+  - Libs/scripts/validators/validate_operational_twin_candidate_retry_authority.py
+  - Libs/scripts/builders/submit_operational_twin_candidate_execution.py
+  - Libs/tests/test_operational_twin_candidate_retry_authority.py
+  - Libs/tests/test_operational_twin_training_protocol.py
+  - Libs/tests/test_operational_twin_candidate_execution.py
+  access_counters:
+    sealed_material_access: 0
+    test_outcome_access: 0
+    protected_holdout_access: 0
+    six_context_outcome_access: 0
+    tool_access: 0
+    mcp_access: 0
+    agent_trace_access: 0
+    agent_access: 0
+    memory_access: 0
+    coevolution_access: 0
+  closed_flags:
+    sufficient_training: false
+    twin_qualification_pass: false
+    formal_qualification: false
+    tool_gate_open: false
+    mcp_gate_open: false
+    agent_trace_gate_open: false
+    agent_work_open: false
+    memory_gate_open: false
+    coevolution_gate_open: false
+    training_execution_authorized: false
+    calibration_fitting_authorized: false
+    checkpoint_creation_authorized: false
+    presealed_freeze_created: false
+  candidate_dispatch_authorized: false
+  scientific_twin_result: NOT_RUN

@@ -1,0 +1,58 @@
+operational_twin_candidate_retry_authority_schema:
+  schema_version: neuronsifter-operational-twin-candidate-retry-authority-schema-v1
+  required_schema_version: neuronsifter-operational-twin-candidate-retry-authority-v1
+  required_authoritative_date: '2026-09-12'
+  required_terminals:
+    positive: OPERATIONAL_TWIN_CANDIDATE_RETRY_AUTHORITY_FROZEN
+    successor_required: OPERATIONAL_TWIN_SUCCESSOR_LINEAGE_PROTOCOL_REQUIRED
+  required_next_directions:
+    positive: execute-operational-twin-candidate-lineage-retry
+    successor_required: freeze-operational-twin-successor-lineage-protocol
+  required_assignment_count: 15
+  required_total_attempt_slot_count: 30
+  required_initial_command_indices: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+  required_retry_command_indices: [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
+  required_retry_attempt_kind: infrastructure_recovery_01
+  required_retry_attempt_ordinal: 2
+  required_failure_class: infrastructure_interruption
+  required_row_results:
+  - EXISTING_LINEAGE_SLOT_AUTHORIZED
+  - SUCCESSOR_LINEAGE_REQUIRED
+  required_audit_schema_version: neuronsifter-operational-twin-candidate-retry-authority-audit-v1
+  required_positive_preflight_schema_version: neuronsifter-operational-twin-candidate-lineage-retry-preflight-v1
+  required_review_contract:
+    path: orchestrator/rounds/round-48-freeze-operational-twin-candidate-retry-authority/review-record.json
+    schema_version: review-record-v4
+    round_id: round-48-freeze-operational-twin-candidate-retry-authority
+    roadmap_id: 2026-09-01-00-trace-grounded-neural-world
+    roadmap_revision: rev-008
+    roadmap_dir: orchestrator/roadmaps/2026-09-01-00-trace-grounded-neural-world/rev-008
+    milestone_id: operational-twin-qualification
+    direction_id: freeze-operational-twin-candidate-retry-authority
+    extracted_item_id: operational-twin-existing-lineage-retry-authority-decision
+    decision: approved
+  required_access_counter_fields:
+  - sealed_material_access
+  - test_outcome_access
+  - protected_holdout_access
+  - six_context_outcome_access
+  - tool_access
+  - mcp_access
+  - agent_trace_access
+  - agent_access
+  - memory_access
+  - coevolution_access
+  required_closed_flag_fields:
+  - sufficient_training
+  - twin_qualification_pass
+  - formal_qualification
+  - tool_gate_open
+  - mcp_gate_open
+  - agent_trace_gate_open
+  - agent_work_open
+  - memory_gate_open
+  - coevolution_gate_open
+  - training_execution_authorized
+  - calibration_fitting_authorized
+  - checkpoint_creation_authorized
+  - presealed_freeze_created

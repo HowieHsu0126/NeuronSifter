@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/round19_e2_e4_alignment.schema.json",
+  "title": "Round19E2E4Alignment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["alignment_uid", "endpoint_uid", "trajectory_uid", "action_identity_match", "dose_match", "route_match", "schedule_match", "timepoint_match", "context_match", "endpoint_mapping", "support_domain_match", "alignment_class", "model_output_non_empirical"],
+  "properties": {
+    "alignment_uid": {"type": "string", "minLength": 1},
+    "endpoint_uid": {"type": "string", "minLength": 1},
+    "trajectory_uid": {"type": "string", "minLength": 1},
+    "action_identity_match": {"type": "boolean"},
+    "dose_match": {"type": "boolean"},
+    "route_match": {"type": "boolean"},
+    "schedule_match": {"type": "boolean"},
+    "timepoint_match": {"type": "boolean"},
+    "context_match": {"type": "boolean"},
+    "endpoint_mapping": {"type": "string", "minLength": 1},
+    "support_domain_match": {"type": "boolean"},
+    "alignment_class": {"enum": ["direct", "partial", "directional_only", "stress_only", "not_comparable"]},
+    "model_output_non_empirical": {"const": true}
+  }
+}

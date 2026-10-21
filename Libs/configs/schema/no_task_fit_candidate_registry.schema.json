@@ -1,0 +1,223 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/no_task_fit_candidate_registry.schema.json",
+  "title": "NeuronSifter no-task-fit candidate registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "registry_uid",
+    "status",
+    "contract",
+    "parent_authority",
+    "asset_lineage",
+    "route_arbitration",
+    "projection_rule",
+    "admissible_route_ids",
+    "candidate_count",
+    "candidates",
+    "candidate_selection_performed",
+    "task_specific_fitting_performed",
+    "performance_evidence_used",
+    "access_boundary",
+    "authorization_closure",
+    "limitations",
+    "next_action"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-no-task-fit-candidate-registry-v1"},
+    "registry_uid": {"const": "no_task_fit_candidate_registry"},
+    "status": {
+      "enum": ["NO_TASK_FIT_CANDIDATES_FROZEN", "NO_ADMISSIBLE_NO_TASK_FIT_TWIN_ROUTE"]
+    },
+    "contract": {"$ref": "#/$defs/contentBinding"},
+    "parent_authority": {"$ref": "#/$defs/statusBinding"},
+    "asset_lineage": {"$ref": "#/$defs/statusBinding"},
+    "route_arbitration": {"$ref": "#/$defs/statusBinding"},
+    "projection_rule": {"const": "all_and_only_admissible_routes"},
+    "admissible_route_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"enum": ["route_a", "route_b", "route_c", "route_d"]}
+    },
+    "candidate_count": {"type": "integer", "minimum": 0, "maximum": 4},
+    "candidates": {
+      "type": "array",
+      "maxItems": 4,
+      "items": {"$ref": "#/$defs/candidateRecord"}
+    },
+    "candidate_selection_performed": {"const": false},
+    "task_specific_fitting_performed": {"const": false},
+    "performance_evidence_used": {"const": false},
+    "access_boundary": {"$ref": "#/$defs/accessBoundary"},
+    "authorization_closure": {"$ref": "#/$defs/authorizationClosure"},
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "next_action": {
+      "enum": ["freeze_admissible_no_task_fit_candidates", "stop_no_admissible_no_task_fit_twin_route"]
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "NO_ADMISSIBLE_NO_TASK_FIT_TWIN_ROUTE"}}},
+      "then": {
+        "properties": {
+          "admissible_route_ids": {"maxItems": 0},
+          "candidate_count": {"const": 0},
+          "candidates": {"maxItems": 0},
+          "next_action": {"const": "stop_no_admissible_no_task_fit_twin_route"}
+        }
+      },
+      "else": {
+        "properties": {
+          "admissible_route_ids": {"minItems": 1},
+          "candidate_count": {"minimum": 1},
+          "candidates": {"minItems": 1},
+          "next_action": {"const": "freeze_admissible_no_task_fit_candidates"}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "repositoryPath": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*[?*\\[\\]])[^\\u0000]+$"
+    },
+    "contentBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"const": "Libs/configs/validation/no_task_fit_route_arbitration.yaml"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "statusBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "status"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "status": {"type": "string", "minLength": 1}
+      }
+    },
+    "assetIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "candidateRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_uid",
+        "route_id",
+        "route_uid",
+        "route_name",
+        "scientific_label",
+        "status",
+        "identity_basis_sha256",
+        "parent_authority_sha256",
+        "asset_lineage_sha256",
+        "required_asset_identities",
+        "task_specific_fitting_performed",
+        "performance_evidence_used",
+        "limitations"
+      ],
+      "properties": {
+        "candidate_uid": {"type": "string", "pattern": "^no_task_fit_candidate_[a-d]_[0-9a-f]{16}$"},
+        "route_id": {"enum": ["route_a", "route_b", "route_c", "route_d"]},
+        "route_uid": {"type": "string", "pattern": "^no_task_fit_route_[a-d]_[0-9a-f]{16}$"},
+        "route_name": {"type": "string", "minLength": 1},
+        "scientific_label": {
+          "enum": [
+            "synthetic_mechanistic_prior",
+            "frozen_foundation_transfer",
+            "prior_predictive",
+            "hybrid_disagreement_preserving"
+          ]
+        },
+        "status": {"const": "frozen_admissible_candidate"},
+        "identity_basis_sha256": {"$ref": "#/$defs/sha256"},
+        "parent_authority_sha256": {"$ref": "#/$defs/sha256"},
+        "asset_lineage_sha256": {"$ref": "#/$defs/sha256"},
+        "required_asset_identities": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/assetIdentity"}
+        },
+        "task_specific_fitting_performed": {"const": false},
+        "performance_evidence_used": {"const": false},
+        "limitations": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "accessBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "six_context_outcome_access",
+        "protected_holdout_access",
+        "new_intake_performed",
+        "task_specific_fitting_performed",
+        "simulator_execution_performed",
+        "candidate_inference_performed",
+        "six_context_files_opened",
+        "protected_files_opened"
+      ],
+      "properties": {
+        "six_context_outcome_access": {"const": 0},
+        "protected_holdout_access": {"const": 0},
+        "new_intake_performed": {"const": false},
+        "task_specific_fitting_performed": {"const": false},
+        "simulator_execution_performed": {"const": false},
+        "candidate_inference_performed": {"const": false},
+        "six_context_files_opened": {"const": false},
+        "protected_files_opened": {"const": false}
+      }
+    },
+    "authorizationClosure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "new_public_data_intake_authorized",
+        "training_authorized",
+        "gpu_authorized",
+        "world_action_compiler_authorized",
+        "uncertainty_implementation_authorized",
+        "formal_evaluation_authorized",
+        "six_context_evaluation_authorized",
+        "tool_calling_authorized",
+        "memory_adaptation_authorized",
+        "agent_in_twin_authorized",
+        "coevolution_authorized"
+      ],
+      "properties": {
+        "new_public_data_intake_authorized": {"const": false},
+        "training_authorized": {"const": false},
+        "gpu_authorized": {"const": false},
+        "world_action_compiler_authorized": {"const": false},
+        "uncertainty_implementation_authorized": {"const": false},
+        "formal_evaluation_authorized": {"const": false},
+        "six_context_evaluation_authorized": {"const": false},
+        "tool_calling_authorized": {"const": false},
+        "memory_adaptation_authorized": {"const": false},
+        "agent_in_twin_authorized": {"const": false},
+        "coevolution_authorized": {"const": false}
+      }
+    }
+  }
+}

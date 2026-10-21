@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/round19_frozen_gap_resolution.schema.json",
+  "title": "Round19FrozenGapResolution",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["gap_uid", "status", "evidence_refs", "resolution_basis"],
+  "properties": {
+    "gap_uid": {"type": "string", "minLength": 1},
+    "status": {"enum": ["resolved_by_admitted_e2", "resolved_by_admitted_e4", "partially_addressed", "frozen_unresolved"]},
+    "evidence_refs": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "resolution_basis": {"type": "string"}
+  }
+}

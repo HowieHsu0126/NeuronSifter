@@ -1,0 +1,129 @@
+controlled_world_open_action_identification:
+  schema_version: neuronsifter-controlled-world-open-action-config-v1
+  evidence_class: controlled_world_non_empirical
+  authority_role: open_action_identification_constructor
+  family_uids:
+  - electrophysiology_conductance_world
+  - calcium_synaptic_world
+  - molecular_pharmacological_causal_world
+  roles: [training, development, calibration]
+  latent_worlds_per_family:
+    training: 12
+    development: 24
+    calibration: 12
+  role_seed_namespaces:
+    training:
+      namespace_uid: open_action_training_seed_namespace
+      base_seed: 120000
+    development:
+      namespace_uid: open_action_development_seed_namespace
+      base_seed: 220000
+    calibration:
+      namespace_uid: open_action_calibration_seed_namespace
+      base_seed: 320000
+  pairing_policy:
+    pair_key_field: counterfactual_pair_uid
+    supported_members_per_pair: 2
+    independent_unit: latent_world
+    require_same_fields:
+    - family_uid
+    - role
+    - latent_world_uid
+    - latent_generator_lineage_uid
+    - seed_identity
+    - biological_context_identity
+    - observation_policy_identity
+    - shared_latent_config_identity
+    require_distinct_fields:
+    - world_uid
+    - action_program_uid
+    - action_binding_identity
+    - action_sequence_identity
+    - replay_identity
+    - observable_output_identity
+    - protocol_state_identity
+  action_programs:
+    electrophysiology_conductance_world:
+    - action_program_uid: electrophysiology_balanced_current_program
+      dose_or_intensity: {value: 2.0, unit: uA}
+      duration: {value: 4.0, unit: ms}
+    - action_program_uid: electrophysiology_sustained_current_program
+      dose_or_intensity: {value: 6.0, unit: uA}
+      duration: {value: 8.0, unit: ms}
+    calcium_synaptic_world:
+    - action_program_uid: calcium_balanced_optical_program
+      dose_or_intensity: {value: 1.5, unit: mW}
+      duration: {value: 2.0, unit: ms}
+    - action_program_uid: calcium_sustained_optical_program
+      dose_or_intensity: {value: 4.0, unit: mW}
+      duration: {value: 4.0, unit: ms}
+    molecular_pharmacological_causal_world:
+    - action_program_uid: molecular_balanced_occupancy_program
+      dose_or_intensity: {value: 1.0, unit: mg/kg}
+      duration: {value: 2.0, unit: hour}
+    - action_program_uid: molecular_sustained_occupancy_program
+      dose_or_intensity: {value: 3.0, unit: mg/kg}
+      duration: {value: 6.0, unit: hour}
+  development_support_cases:
+    collection_uid: development_action_support_probe_collection
+    per_family_minimums:
+      supported: 1
+      out_of_distribution: 1
+      unsupported: 1
+    retained_case_execution_status: retained_not_executed
+    templates:
+      supported: registered_supported_control
+      out_of_distribution: intensity_above_support
+      unsupported: unsupported_route
+  replay_policy:
+    deterministic_replay_required: true
+    byte_equivalent_canonical_observations: true
+    construction_replay_count: 1
+    two_pass_scratch_comparison_required: true
+  failure_policy:
+    retain_every_failure: true
+    reject_malformed_action_mapping: true
+    negative_terminal_on_any_blocker: true
+  access_policy:
+    six_context_outcome_access: 0
+    protected_holdout_access: 0
+    test_outcome_access: 0
+    tool_access: 0
+    mcp_access: 0
+    agent_trace_access: 0
+    agent_access: 0
+    memory_access: 0
+    coevolution_access: 0
+  closed_downstream_flags:
+    training_authorized: false
+    sufficient_training: false
+    twin_qualification_pass: false
+    formal_qualification: false
+    agent_work_open: false
+    test_manifest_open: false
+    tool_gate_open: false
+    mcp_gate_open: false
+    agent_trace_gate_open: false
+    memory_gate_open: false
+    coevolution_gate_open: false
+  terminal_policy:
+    positive_terminal: OPEN_ACTION_IDENTIFICATION_PACKAGE_CONSTRUCTED
+    negative_terminal: OPEN_ACTION_IDENTIFICATION_PACKAGE_NOT_CONSTRUCTED
+    open_data_qualification: pending
+  historical_benchmark_provenance:
+    training_manifest_git_blob: 7cf6c88c22c3af02b599611feaa7815070c61b64
+    development_manifest_git_blob: e0d3544b9352b6cb5113936421961f478d90568a
+    calibration_manifest_git_blob: c06080ae7241bb04b41df7a475889d33b28fbd8d
+    complete_test_manifest_git_blob: 674c793eb70bc25bf4231fae15e7a8c932272436
+    freeze_uid: controlled_world_benchmark_freeze_0281a803b2e6bd6ec95cb4ef
+    test_manifest_uid: controlled_world_benchmark_manifest_b576c61c51961c1c41d6439d
+    test_content_identity: 854350ccada4e2fdf3ef56417be57ef9d787aed8f4e3a1ddd2645d2131c2743b
+    sealed_content_opened: false
+  output_paths:
+    training_manifest: Input/processed/controlled_neural_world/open_action_identification/training_manifest.json
+    development_manifest: Input/processed/controlled_neural_world/open_action_identification/development_manifest.json
+    calibration_manifest: Input/processed/controlled_neural_world/open_action_identification/calibration_manifest.json
+    package_receipt: Input/processed/controlled_neural_world/open_action_identification/package_receipt.json
+    construction_audit: Output/audits/controlled_world_open_package_construction.json
+    construction_report: Output/reports/controlled_world_open_package_construction.md
+    job_receipt: Output/audits/controlled_world_open_package_job_receipt.json

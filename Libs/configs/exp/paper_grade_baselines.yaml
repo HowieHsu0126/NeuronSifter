@@ -1,0 +1,486 @@
+paper_grade_baseline_registry:
+  registry_name: ad_paper_grade_baseline_registry
+  disease_program: ad_control
+  seed_values:
+  - 40
+  - 41
+  - 42
+  - 43
+  - 44
+  split_policy:
+    matched_holdouts:
+    - trajectory_random
+    - family_holdout
+    - regimen_holdout
+    - target_program_holdout
+    - source_holdout
+    matched_seed_policy: same_seed_set_as_neuronsifter
+    budget_policy: matched_training_budget_when_adapter_is_runnable
+  required_fields:
+  - baseline_id
+  - baseline_family
+  - main_table_runnable
+  - appendix_runnable
+  - reference_only
+  - reason_if_not_runnable
+  - matched_split_policy
+  - matched_seed_policy
+  - matched_budget_policy
+  - output_metrics
+  baselines:
+  - baseline_id: native_initial_state_persistence
+    baseline_family: native_evaluation_reference
+    native_evaluation_predictor: initial_state_persistence
+    main_table_runnable: false
+    appendix_runnable: false
+    reference_only: true
+    reason_if_not_runnable: pending_admitted_native_data_and_complete_matched_five_seed_protocol
+    matched_split_policy: all_ad_holdouts
+    matched_seed_policy: same_conditioning_checkpoint_seed
+    matched_budget_policy: same_initial_belief_actions_horizon_and_joint_draw_budget
+    output_metrics: [crps, normalized_rmse, predictive_coverage, predictive_calibration_error]
+  - baseline_id: neuronsifter_mainline
+    baseline_family: project_mainline
+    profile_name: dynamics_mainline_ad
+    main_table_runnable: true
+    appendix_runnable: false
+    reference_only: false
+    reason_if_not_runnable: ''
+    matched_split_policy: all_ad_holdouts
+    matched_seed_policy: fixed_suite_seeds
+    matched_budget_policy: suite_gpu_profile
+    output_metrics:
+    - regimen_ndcg_at_10
+    - concentration_nrmse
+    - direction_hit_rate
+    - tri_consistency
+    - ood_auroc
+  - baseline_id: neuronsifter_parallel_experts
+    baseline_family: project_rollout_ablation
+    profile_name: rollout_operator_parallel_experts
+    main_table_runnable: false
+    appendix_runnable: false
+    reference_only: true
+    reason_if_not_runnable: pending_admitted_native_data_and_complete_matched_five_seed_protocol
+    matched_split_policy: all_ad_holdouts
+    matched_seed_policy: fixed_suite_seeds
+    matched_budget_policy: suite_gpu_profile
+    output_metrics:
+    - regimen_ndcg_at_10
+    - concentration_nrmse
+    - direction_hit_rate
+    - tri_consistency
+    - ood_auroc
+  - baseline_id: neuronsifter_reversed_experts
+    baseline_family: project_rollout_ablation
+    profile_name: rollout_operator_reversed_experts
+    main_table_runnable: false
+    appendix_runnable: false
+    reference_only: true
+    reason_if_not_runnable: pending_admitted_native_data_and_complete_matched_five_seed_protocol
+    matched_split_policy: all_ad_holdouts
+    matched_seed_policy: fixed_suite_seeds
+    matched_budget_policy: suite_gpu_profile
+    output_metrics:
+    - regimen_ndcg_at_10
+    - concentration_nrmse
+    - direction_hit_rate
+    - tri_consistency
+    - ood_auroc
+  - baseline_id: neuronsifter_interleaved_experts
+    baseline_family: project_rollout_ablation
+    profile_name: rollout_operator_interleaved_experts
+    main_table_runnable: false
+    appendix_runnable: false
+    reference_only: true
+    reason_if_not_runnable: pending_admitted_native_data_and_complete_matched_five_seed_protocol
+    matched_split_policy: all_ad_holdouts
+    matched_seed_policy: fixed_suite_seeds
+    matched_budget_policy: suite_gpu_profile
+    output_metrics:
+    - regimen_ndcg_at_10
+    - concentration_nrmse
+    - direction_hit_rate
+    - tri_consistency
+    - ood_auroc
+  - baseline_id: neuronsifter_scratch
+    baseline_family: project_ablation
+    profile_name: neuronsifter_scratch_ad
+    main_table_runnable: true
+    appendix_runnable: false
+    reference_only: false
+    reason_if_not_runnable: ''
+    matched_split_policy: all_ad_holdouts
+    matched_seed_policy: fixed_suite_seeds
+    matched_budget_policy: no_pretrained_checkpoint_same_screening_budget
+    output_metrics:
+    - regimen_ndcg_at_10
+    - concentration_nrmse
+    - direction_hit_rate
+  - baseline_id: action_without_occupancy_conditioning
+    baseline_family: project_action_ablation
+    profile_name: action_conditioning_drug_identity
+    active_action_policy: drug_id
+    main_table_runnable: true
+    appendix_runnable: false
+    reference_only: false
+    reason_if_not_runnable: ''
+    matched_split_policy: all_ad_holdouts
+    matched_seed_policy: fixed_suite_seeds
+    matched_budget_policy: suite_gpu_profile
+    output_metrics:
+    - regimen_ndcg_at_10
+    - direction_hit_rate
+  - baseline_id: deterministic_neuronsifter
+    baseline_family: project_rollout_ablation
+    profile_name: rollout_operator_deterministic_neuronsifter
+    main_table_runnable: true
+    appendix_runnable: false
+    reference_only: false
+    reason_if_not_runnable: ''
+    matched_split_policy: all_ad_holdouts
+    matched_seed_policy: fixed_suite_seeds
+    matched_budget_policy: suite_gpu_profile
+    output_metrics:
+    - concentration_nrmse
+    - risk_coverage_auc
+  - baseline_id: neuronsifter_without_mechanism_experts
+    baseline_family: project_mechanism_ablation
+    profile_name: rollout_operator_without_mechanism_experts
+    main_table_runnable: true
+    appendix_runnable: false
+    reference_only: false
+    reason_if_not_runnable: ''
+    matched_split_policy: all_ad_holdouts
+    matched_seed_policy: fixed_suite_seeds
+    matched_budget_policy: shared_operator_same_training_budget
+    output_metrics:
+    - expert_utilization
+    - router_entropy
+    - concentration_nrmse
+  - baseline_id: neuronsifter_without_graph_wavelet_tokenizer
+    baseline_family: project_architecture_ablation
+    main_table_runnable: false
+    appendix_runnable: false
+    reference_only: true
+    reason_if_not_runnable: no_validated_profile_that_preserves_state_grid_contract_without_graph_wavelet_tokenization
+    matched_split_policy: not_applicable_reference_only
+    matched_seed_policy: not_applicable_reference_only
+    matched_budget_policy: not_applicable_reference_only
+    output_metrics: []
+  - baseline_id: neuronsifter_without_stochastic_uq
+    baseline_family: project_architecture_ablation
+    main_table_runnable: false
+    appendix_runnable: false
+    reference_only: true
+    reason_if_not_runnable: deterministic_profile_exists_but_uncertainty_removal_without_tri_contract_is_not_a_valid_mainline_adapter
+    matched_split_policy: not_applicable_reference_only
+    matched_seed_policy: not_applicable_reference_only
+    matched_budget_policy: not_applicable_reference_only
+    output_metrics: []
+  - baseline_id: screening_without_tri_gate
+    baseline_family: project_decision_ablation
+    profile_name: ad_screening_without_tri_gate
+    main_table_runnable: true
+    appendix_runnable: false
+    reference_only: false
+    reason_if_not_runnable: ''
+    matched_split_policy: all_ad_holdouts
+    matched_seed_policy: fixed_suite_seeds
+    matched_budget_policy: suite_gpu_profile
+    output_metrics:
+    - selective_risk
+    - risk_coverage_auc
+    - acceptance_benefit
+  - baseline_id: native_linear_dynamics
+    baseline_family: linear_dynamics_reference
+    profile_name: rollout_operator_linear_dynamics
+    native_evaluation_predictor: linear_dynamics_direct_mean
+    main_table_runnable: false
+    appendix_runnable: false
+    reference_only: true
+    reason_if_not_runnable: conditional_mean_only_residual_likelihood_native_admission_and_matched_protocol_unbound
+    matched_split_policy: prospective_native_source_roles
+    matched_seed_policy: manuscript_native_five
+    matched_budget_policy: matched_native_conditioning_authority
+    output_metrics:
+    - normalized_rmse
+  - baseline_id: transolver_microenvironment_operator
+    baseline_family: neural_operator_reference
+    profile_name: rollout_operator_transolver
+    native_direct_mean_readiness:
+      main_table_runnable: false
+      appendix_runnable: false
+      reference_only: false
+      reason: residual_likelihood_unbound
+    main_table_runnable: true
+    appendix_runnable: false
+    reference_only: false
+    reason_if_not_runnable: ''
+    matched_split_policy: all_ad_holdouts
+    matched_seed_policy: fixed_suite_seeds
+    matched_budget_policy: suite_gpu_profile
+    output_metrics:
+    - concentration_nrmse
+    - flux_nrmse
+    - regimen_ndcg_at_10
+  - baseline_id: factor_coupled_neural_operator
+    baseline_family: neural_operator_reference
+    profile_name: rollout_operator_factor_coupled
+    main_table_runnable: true
+    appendix_runnable: false
+    reference_only: false
+    reason_if_not_runnable: ''
+    matched_split_policy: all_ad_holdouts
+    matched_seed_policy: fixed_suite_seeds
+    matched_budget_policy: suite_gpu_profile
+    output_metrics:
+    - concentration_nrmse
+    - flux_nrmse
+    - regimen_ndcg_at_10
+  - baseline_id: shared_latent_dual_encoder
+    baseline_family: shared_latent_screening
+    profile_name: shared_latent_formal
+    main_table_runnable: true
+    appendix_runnable: false
+    reference_only: false
+    reason_if_not_runnable: ''
+    matched_split_policy: benchmark_holdouts
+    matched_seed_policy: fixed_suite_seeds
+    matched_budget_policy: cpu_screening_budget
+    output_metrics:
+    - auroc
+    - auprc
+    - macro_f1
+  - baseline_id: external_evidence_only
+    baseline_family: evidence_adapter
+    adapter_name: external_evidence_only
+    main_table_runnable: true
+    appendix_runnable: false
+    reference_only: false
+    reason_if_not_runnable: ''
+    matched_split_policy: source_holdout_only
+    matched_seed_policy: deterministic_adapter_recorded_per_seed
+    matched_budget_policy: no_model_training
+    output_metrics:
+    - regimen_ndcg_at_10
+    - direction_hit_rate
+  - baseline_id: t_jepa_adapter
+    baseline_family: tabular_jepa
+    adapter_name: t_jepa_adapter
+    main_table_runnable: true
+    appendix_runnable: true
+    reference_only: false
+    reason_if_not_runnable: ''
+    matched_split_policy: benchmark_holdouts
+    matched_seed_policy: fixed_suite_seeds
+    matched_budget_policy: adapter_training_budget
+    output_metrics:
+    - auroc
+    - auprc
+    - macro_f1
+  - baseline_id: gene_jepa_adapter
+    baseline_family: transcriptome_world_model
+    adapter_name: gene_jepa_adapter
+    main_table_runnable: true
+    appendix_runnable: true
+    reference_only: false
+    reason_if_not_runnable: ''
+    matched_split_policy: benchmark_holdouts
+    matched_seed_policy: fixed_suite_seeds
+    matched_budget_policy: adapter_training_budget
+    output_metrics:
+    - auroc
+    - auprc
+    - macro_f1
+  - baseline_id: mamba_neural_operator_adapter
+    baseline_family: sequence_operator
+    adapter_name: mamba_neural_operator_adapter
+    main_table_runnable: true
+    appendix_runnable: true
+    reference_only: false
+    reason_if_not_runnable: ''
+    matched_split_policy: benchmark_holdouts
+    matched_seed_policy: fixed_suite_seeds
+    matched_budget_policy: adapter_training_budget
+    output_metrics:
+    - auroc
+    - transition_mse
+  - baseline_id: coda_no_adapter
+    baseline_family: attention_operator
+    adapter_name: coda_no_adapter
+    main_table_runnable: true
+    appendix_runnable: true
+    reference_only: false
+    reason_if_not_runnable: ''
+    matched_split_policy: benchmark_holdouts
+    matched_seed_policy: fixed_suite_seeds
+    matched_budget_policy: adapter_training_budget
+    output_metrics:
+    - auroc
+    - transition_mse
+  - baseline_id: diffusion_pde_adapter
+    baseline_family: diffusion_neural_operator
+    adapter_name: diffusion_pde_adapter
+    main_table_runnable: true
+    appendix_runnable: true
+    reference_only: false
+    reason_if_not_runnable: ''
+    matched_split_policy: benchmark_holdouts
+    matched_seed_policy: fixed_suite_seeds
+    matched_budget_policy: adapter_training_budget
+    output_metrics:
+    - auroc
+    - transition_mse
+  - baseline_id: wdno_adapter
+    baseline_family: diffusion_neural_operator
+    adapter_name: wdno_adapter
+    main_table_runnable: true
+    appendix_runnable: true
+    reference_only: false
+    reason_if_not_runnable: ''
+    matched_split_policy: benchmark_holdouts
+    matched_seed_policy: fixed_suite_seeds
+    matched_budget_policy: adapter_training_budget
+    output_metrics:
+    - auroc
+    - transition_mse
+  - baseline_id: pdediff_adapter
+    baseline_family: diffusion_neural_operator
+    adapter_name: pdediff_adapter
+    main_table_runnable: true
+    appendix_runnable: true
+    reference_only: false
+    reason_if_not_runnable: ''
+    matched_split_policy: benchmark_holdouts
+    matched_seed_policy: fixed_suite_seeds
+    matched_budget_policy: adapter_training_budget
+    output_metrics:
+    - auroc
+    - transition_mse
+  - baseline_id: kg_graph_drug_repurposing_baseline
+    baseline_family: knowledge_graph_screening
+    adapter_name: kg_graph_drug_repurposing_baseline
+    main_table_runnable: true
+    appendix_runnable: true
+    reference_only: false
+    reason_if_not_runnable: ''
+    matched_split_policy: source_holdout_graph_evidence
+    matched_seed_policy: deterministic_adapter_recorded_per_seed
+    matched_budget_policy: no_model_training
+    output_metrics:
+    - graph_prior_score
+    - target_evidence_coverage
+    - edge_evidence_coverage
+  - baseline_id: action_target_only_reference
+    baseline_family: project_action_ablation
+    profile_name: action_conditioning_target_identity
+    main_table_runnable: false
+    appendix_runnable: false
+    reference_only: true
+    reason_if_not_runnable: native_target_identity_implemented_pending_admitted_native_data_and_complete_five_seed_protocol
+    matched_split_policy: same_admitted_sources_as_dynamics_mainline_ad
+    matched_seed_policy: same_current_three_seeds_as_dynamics_mainline_ad
+    matched_budget_policy: same_native_architecture_objectives_and_sampling_as_dynamics_mainline_ad
+    output_metrics: []
+  - baseline_id: action_scalar_pk_exposure_reference
+    baseline_family: project_action_ablation
+    profile_name: action_conditioning_scalar_exposure
+    main_table_runnable: false
+    appendix_runnable: false
+    reference_only: true
+    reason_if_not_runnable: native_source_site_auc_implemented_pending_admitted_native_data_and_complete_five_seed_protocol
+    matched_split_policy: same_admitted_sources_as_dynamics_mainline_ad
+    matched_seed_policy: same_current_three_seeds_as_dynamics_mainline_ad
+    matched_budget_policy: same_native_architecture_objectives_and_sampling_as_dynamics_mainline_ad
+    output_metrics: []
+  - baseline_id: action_route_only_reference
+    baseline_family: project_action_ablation
+    main_table_runnable: false
+    appendix_runnable: false
+    reference_only: true
+    reason_if_not_runnable: route_only_ablation_is_not_supported_without_invalidating_dose_schedule_target_set_contract
+    matched_split_policy: not_applicable_reference_only
+    matched_seed_policy: not_applicable_reference_only
+    matched_budget_policy: not_applicable_reference_only
+    output_metrics: []
+  - baseline_id: action_dose_only_reference
+    baseline_family: project_action_ablation
+    main_table_runnable: false
+    appendix_runnable: false
+    reference_only: true
+    reason_if_not_runnable: dose_only_ablation_is_not_supported_without_invalidating_route_schedule_target_set_contract
+    matched_split_policy: not_applicable_reference_only
+    matched_seed_policy: not_applicable_reference_only
+    matched_budget_policy: not_applicable_reference_only
+    output_metrics: []
+  - baseline_id: action_schedule_only_reference
+    baseline_family: project_action_ablation
+    main_table_runnable: false
+    appendix_runnable: false
+    reference_only: true
+    reason_if_not_runnable: schedule_only_ablation_is_not_supported_without_invalidating_route_dose_target_set_contract
+    matched_split_policy: not_applicable_reference_only
+    matched_seed_policy: not_applicable_reference_only
+    matched_budget_policy: not_applicable_reference_only
+    output_metrics: []
+  - baseline_id: fno_reference
+    baseline_family: neural_operator_reference
+    main_table_runnable: false
+    appendix_runnable: false
+    reference_only: true
+    reason_if_not_runnable: no_repo_adapter_for_state_grid_conditioned_action_rollout
+    matched_split_policy: not_applicable_reference_only
+    matched_seed_policy: not_applicable_reference_only
+    matched_budget_policy: not_applicable_reference_only
+    output_metrics: []
+  - baseline_id: deeponet_reference
+    baseline_family: neural_operator_reference
+    main_table_runnable: false
+    appendix_runnable: false
+    reference_only: true
+    reason_if_not_runnable: no_repo_adapter_for_multimodal_state_grid_contract
+    matched_split_policy: not_applicable_reference_only
+    matched_seed_policy: not_applicable_reference_only
+    matched_budget_policy: not_applicable_reference_only
+    output_metrics: []
+  - baseline_id: graph_neural_operator_reference
+    baseline_family: neural_operator_reference
+    main_table_runnable: false
+    appendix_runnable: false
+    reference_only: true
+    reason_if_not_runnable: no_validated_adapter_for_cns_pkpd_occupancy_program
+    matched_split_policy: not_applicable_reference_only
+    matched_seed_policy: not_applicable_reference_only
+    matched_budget_policy: not_applicable_reference_only
+    output_metrics: []
+  - baseline_id: kg_gnn_reference
+    baseline_family: knowledge_graph_screening
+    main_table_runnable: false
+    appendix_runnable: false
+    reference_only: true
+    reason_if_not_runnable: knowledge_graph_task_not_equivalent_to_cns_microenvironment_rollout
+    matched_split_policy: not_applicable_reference_only
+    matched_seed_policy: not_applicable_reference_only
+    matched_budget_policy: not_applicable_reference_only
+    output_metrics: []
+  - baseline_id: descriptor_ml_reference
+    baseline_family: descriptor_screening
+    main_table_runnable: false
+    appendix_runnable: false
+    reference_only: true
+    reason_if_not_runnable: descriptor_only_model_does_not_consume_structured_action_program
+    matched_split_policy: not_applicable_reference_only
+    matched_seed_policy: not_applicable_reference_only
+    matched_budget_policy: not_applicable_reference_only
+    output_metrics: []
+  - baseline_id: poseidon_style_pde_foundation_reference
+    baseline_family: pde_foundation_reference
+    main_table_runnable: false
+    appendix_runnable: true
+    reference_only: true
+    reason_if_not_runnable: reference_architecture_not_integrated_with_public_ad_registry_stack
+    matched_split_policy: not_applicable_reference_only
+    matched_seed_policy: not_applicable_reference_only
+    matched_budget_policy: not_applicable_reference_only
+    output_metrics: []

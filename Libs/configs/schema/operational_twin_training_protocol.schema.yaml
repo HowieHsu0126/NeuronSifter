@@ -1,0 +1,40 @@
+operational_twin_training_protocol_schema:
+  schema_version: neuronsifter-operational-twin-training-protocol-schema-v1
+  required_method_ids:
+    - persistence_no_action
+    - linear_or_delta
+    - same_backbone_no_action
+    - deterministic_action_conditioned
+    - full_uncertainty_aware_action_conditioned
+  required_seed_count: 3
+  required_assignment_count: 15
+  required_method_runtime_fields:
+    - execution_contract
+    - runtime_family
+    - action_conditioning
+    - loss_contract
+    - calibration_eligible
+    - checkpoint_creation_allowed
+    - metrics_contract
+  required_open_data_terminal: OPEN_TWIN_DEVELOPMENT_DATA_QUALIFIED
+  required_closed_flags:
+    sufficient_training: false
+    twin_qualification_pass: false
+    formal_qualification: false
+  required_zero_access_counters:
+    - sealed_material_access
+    - test_outcome_access
+    - protected_holdout_access
+    - six_context_outcome_access
+    - tool_access
+    - mcp_access
+    - agent_trace_access
+    - agent_access
+    - memory_access
+    - coevolution_access
+  forbidden_path_tokens:
+    - sealed
+    - protected
+    - six_context
+    - test
+  assignment_uid_template: operational_twin__{method_id}__seed_{seed}

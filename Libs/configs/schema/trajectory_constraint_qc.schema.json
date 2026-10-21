@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/trajectory_constraint_qc.schema.json",
+  "title": "NeuronSifter TrajectoryConstraintQC",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "constraint_qc_uid", "trajectory_uid", "policy_version", "required_constraints", "constraint_results", "unsupported_monotonicity_imposed", "status", "blockers"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-trajectory-constraint-qc-v1"},
+    "constraint_qc_uid": {"type": "string", "minLength": 1},
+    "trajectory_uid": {"type": "string", "minLength": 1},
+    "policy_version": {"type": "string", "minLength": 1},
+    "required_constraints": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "constraint_results": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "object", "required": ["state", "evidence"], "properties": {"state": {"enum": ["passed", "passed_with_tolerance", "failed", "not_applicable", "unknown"]}, "evidence": {"type": "object"}}, "additionalProperties": false}},
+    "unsupported_monotonicity_imposed": {"const": false},
+    "status": {"enum": ["passed", "failed"]},
+    "blockers": {"type": "array", "items": {"type": "object"}}
+  }
+}

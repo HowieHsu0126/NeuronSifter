@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/information_action.schema.json",
+  "title": "NeuronSifter InformationAction",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "information_action_uid", "candidate_uids", "requested_observables", "tool_or_source_uid", "fidelity", "measurement_context", "budget_class", "expected_cost", "expected_runtime", "failure_policy", "support_domain_ref", "provenance_ref", "conflicts", "status"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-information-action-v1"},
+    "information_action_uid": {"type": "string", "minLength": 1},
+    "candidate_uids": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1, "uniqueItems": true},
+    "requested_observables": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1, "uniqueItems": true},
+    "tool_or_source_uid": {"type": "string", "minLength": 1},
+    "fidelity": {"type": "string", "minLength": 1},
+    "measurement_context": {"type": "object", "minProperties": 1},
+    "budget_class": {"type": "string", "minLength": 1},
+    "expected_cost": {"type": "object", "minProperties": 1},
+    "expected_runtime": {"type": "object", "minProperties": 1},
+    "failure_policy": {"enum": ["fail_closed", "retain_failed_raw_result", "defer"]},
+    "support_domain_ref": {"type": "string", "minLength": 1},
+    "provenance_ref": {"type": "string", "minLength": 1},
+    "conflicts": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "status": {"enum": ["contract_valid", "pilot_only", "temporarily_unavailable", "unsupported"]}
+  }
+}

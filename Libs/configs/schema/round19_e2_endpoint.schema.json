@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/round19_e2_endpoint.schema.json",
+  "title": "Round19E2Endpoint",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["endpoint_uid", "schema_version", "source_uid", "source_accession", "source_class", "source_version", "license_or_permitted_use", "content_hash", "retrieval_date", "publication_or_accession_identity", "parser_version", "public_availability_timestamp", "organism", "disease_or_state_context", "region", "compartment_or_cell_type", "action_identity", "target_or_agent", "dose", "dose_unit", "route", "schedule", "duration", "timepoint", "endpoint_identity", "endpoint_value", "endpoint_unit", "comparator", "sample_size", "uncertainty", "extraction_method", "label_class", "partition", "independence_groups", "admission_class", "source_is_public", "controlled_access_required", "empirical_observation"],
+  "properties": {
+    "endpoint_uid": {"type": "string", "minLength": 1},
+    "schema_version": {"const": "neuronsifter-round19-e2-endpoint-v1"},
+    "source_class": {"enum": ["open_access_article", "public_abstract", "public_supplement", "public_accession_data", "public_model_repository", "public_code_repository", "public_benchmark_database", "public_institutional_repository"]},
+    "content_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "label_class": {"enum": ["data_derived_label", "author_claim_label", "cross_study_consensus"]},
+    "partition": {"enum": ["development", "qualification", "final_held_out", "stress"]},
+    "admission_class": {"enum": ["admitted_e2_strong", "admitted_e2_weighted", "admitted_e2_directional", "admitted_stress", "quarantined", "rejected"]},
+    "source_is_public": {"const": true},
+    "controlled_access_required": {"const": false},
+    "empirical_observation": {"const": true}
+  }
+}

@@ -1,0 +1,159 @@
+osp_pksim_environment:
+  runtime_strategy: reproducible_environment_script
+  native_physical_export:
+    mode: osp_source_bound_equilibrium.v1
+    activation: explicit_native_physical_input
+    source: completed_osp_csv_and_bound_run_readback
+    quantity_policy: exact_source_path_and_declared_units
+    interpolation: declared_per_source_binding
+    supported_readout: fractional_occupancy
+    biological_calibration: unverified
+  conda_environment_name: nrnsift_osp_pksim
+  conda_no_plugins: false
+  conda_solver: libmamba
+  conda_quiet: true
+  conda_channels:
+  - conda-forge
+  conda_packages:
+  - r-base
+  - r-remotes
+  - r-data.table
+  - r-jsonlite
+  - r-devtools
+  - dotnet-runtime=8.*
+  - pkg-config
+  - zlib
+  - libpng
+  - freetype
+  - fontconfig
+  - cairo
+  - harfbuzz
+  - fribidi
+  - r-ggplot2
+  - r-patchwork
+  - r-r6
+  - r-stringr
+  - r-rlang
+  - r-lifecycle
+  - r-ggtext
+  - r-gridtext
+  - r-sysfonts
+  - r-png
+  - r-showtextdb
+  - r-showtext
+  - r-svglite
+  - r-vdiffr
+  - r-tzdb
+  - r-vroom
+  - r-openxlsx
+  - r-readr
+  - r-systemfonts
+  - r-textshaping
+  - r-ragg
+  r_executable: R
+  rscript_executable: Rscript
+  r_package_repository: https://cloud.r-project.org
+  cran_r_packages:
+  - remotes
+  - data.table
+  - jsonlite
+  github_r_packages:
+  - package_name: ospsuite.utils
+    repository: Open-Systems-Pharmacology/OSPSuite.RUtils
+    ref: main
+    dependencies: true
+  - package_name: tlf
+    repository: Open-Systems-Pharmacology/TLF-Library
+    ref: main
+    dependencies: true
+  - package_name: ospsuite
+    repository: Open-Systems-Pharmacology/OSPSuite-R
+    ref: '*release'
+    dependencies: true
+  required_r_packages:
+  - ospsuite
+  - tlf
+  - data.table
+  - jsonlite
+  proxy_policy:
+    unset_loopback_proxy_on_compute: true
+    loopback_host_patterns:
+    - 127.0.0.1
+    - localhost
+    environment_variables:
+    - HTTP_PROXY
+    - HTTPS_PROXY
+    - ALL_PROXY
+    - http_proxy
+    - https_proxy
+    - all_proxy
+  rollout_entrypoint: Libs/scripts/teacher_generation/run_osp_pksim_rollout.R
+  rollout_output_root: Input/processed/pbpk_teacher/osp_pksim_rollouts
+  model_library:
+    repository_url: https://github.com/Open-Systems-Pharmacology/OSP-PBPK-Model-Library.git
+    local_repo_path: Libs/external/pbpk/OSP-PBPK-Model-Library-12.2.1
+    model_file_glob: '**/*.pksim5'
+    supported_model_extensions:
+    - .pksim5
+    - .pkml
+    - .json
+    smoke_test_model_path: Libs/external/pbpk/OSP-PBPK-Model-Library-12.2.1/Alprazolam/Alprazolam-Model.pksim5
+    library_discovery:
+      enabled: true
+      design_id_prefix: osp_library_teacher
+      subject_covariate_profile: library_default_subject
+      calibration_role: mechanism_teacher_loss
+      regimen_variant_id: library_project_protocol
+      route: library_project_protocol
+      schedule: library_project_protocol
+      dose_level_id: library_project_default
+      dose_multiplier: 1.0
+  output_path_mapping:
+    plasma_regex: plasma|venous|arterial
+    csf_regex: csf|cerebrospinal
+    brain_isf_regex: brain|interstitial|isf|extracellular|intracellular
+    result_file_regex: .*-Results\.csv$
+    csv_metadata_columns:
+    - IndividualId
+    measure_column_keep_regex: plasma|venous|arterial|csf|cerebrospinal|brain|central nervous|cns
+    max_measure_columns_per_chunk: 128
+    required_curve_columns:
+    - plasma_concentration
+    - brain_isf_concentration
+    optional_curve_columns:
+    - csf_concentration
+  rollout_designs:
+  - design_id: alprazolam_adult_oral_library_teacher
+    source_model_id: osp_alprazolam_adult_model
+    model_path: Libs/external/pbpk/OSP-PBPK-Model-Library-12.2.1/Alprazolam/Alprazolam-Model.pksim5
+    compound_uid: osp_alprazolam
+    canonical_compound_id: alprazolam
+    subject_covariate_profile: library_default_adult
+    calibration_role: mechanism_teacher_loss
+    regimen_variants:
+    - regimen_variant_id: library_default_regimen
+      route: oral
+      schedule: library_project_protocol
+      dose_level_id: library_default_dose
+      dose_multiplier: 1.0
+  calibration_sources:
+  - pk_db
+  - epa_pk_time_series
+  - fda_clinical_pharmacology_review
+  cns_exposure_sources:
+  - b3db
+  - tdc_bbb_martins
+  - literature_csf_brain_isf_exposure
+  generated_curve_schema:
+  - compound_uid
+  - route
+  - schedule
+  - dose_multiplier
+  - species
+  - subject_covariate_profile
+  - time_hours
+  - plasma_concentration
+  - csf_concentration
+  - brain_isf_concentration
+  - source_model_id
+  - provenance_level

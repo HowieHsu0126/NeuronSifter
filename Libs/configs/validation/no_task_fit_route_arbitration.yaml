@@ -1,0 +1,1014 @@
+schema_version: neuronsifter-no-task-fit-route-arbitration-contract-v1
+contract_uid: no_task_fit_route_arbitration
+
+parent_authority:
+  path: Output/audits/no_task_fit_parent_authority.json
+  sha256: 56eea3c26d292d2c2e5575cf89021bdeea4055bd6c66dfadcbcb3c1a3e86f554
+  schema_version: neuronsifter-no-task-fit-parent-authority-v1
+  status: NO_TASK_FIT_PARENT_AUTHORITIES_BOUND
+  artifact_count: 9
+  required_fact_count: 101
+  validator_path: Libs/scripts/validators/validate_no_task_fit_parent_authority.py
+  contract_path: Libs/configs/validation/no_task_fit_parent_authority.yaml
+
+outputs:
+  reusable_asset_lineage:
+    path: Output/audits/no_task_fit_reusable_asset_lineage.json
+    schema_path: Libs/configs/schema/no_task_fit_reusable_asset_lineage.schema.json
+    schema_version: neuronsifter-no-task-fit-reusable-asset-lineage-v1
+    status: NO_TASK_FIT_REUSABLE_ASSET_LINEAGE_BOUND
+  route_arbitration:
+    path: Output/audits/no_task_fit_route_arbitration.json
+    schema_path: Libs/configs/schema/no_task_fit_route_arbitration.schema.json
+    schema_version: neuronsifter-no-task-fit-route-arbitration-v1
+  candidate_registry:
+    path: Output/audits/no_task_fit_candidate_registry.json
+    schema_path: Libs/configs/schema/no_task_fit_candidate_registry.schema.json
+    schema_version: neuronsifter-no-task-fit-candidate-registry-v1
+
+rubric:
+  - criterion_id: provenance_license_clarity
+    mandatory: true
+    description: Provenance and license or access terms are explicit and bound for every required asset.
+  - criterion_id: complete_method_identity
+    mandatory: true
+    description: Checkpoint, parameter, equation, prior, solver, and implementation identities required by the route are complete.
+  - criterion_id: no_task_fit_feasibility
+    mandatory: true
+    description: The route requires no training, calibration, adapter fitting, target-task outcome, or post-hoc selection.
+  - criterion_id: interface_compatibility
+    mandatory: true
+    description: Inputs and outputs are explicitly compatible with the future no-task-fit structured-action interface.
+  - criterion_id: modality_control_coverage
+    mandatory: true
+    description: Supported intervention modalities and controls are explicit, with unsupported cases failing closed.
+  - criterion_id: deterministic_or_seed_controlled_execution
+    mandatory: true
+    description: Execution is deterministic or governed by an explicit immutable seed policy.
+  - criterion_id: uncertainty_semantics
+    mandatory: true
+    description: Native uncertainty or a scientifically explicit no-fit uncertainty hook is identified.
+  - criterion_id: execution_resource_feasibility
+    mandatory: true
+    description: CPU execution is established or a strictly necessary inference-only GPU requirement is explicit.
+  - criterion_id: scientific_limitations_bound
+    mandatory: true
+    description: Scientific limitations and prohibited claims are explicit and preserved.
+
+disposition_rules:
+  allowed_results:
+    - satisfied
+    - unsatisfied
+    - not_applicable
+  allowed_dispositions:
+    - admissible
+    - inadmissible
+    - not_available
+  admissible_rule: availability_state_available_and_every_mandatory_criterion_satisfied
+  inadmissible_rule: availability_state_available_and_any_mandatory_criterion_not_satisfied
+  not_available_rule: required_identity_or_asset_chain_absent
+  candidate_projection: all_and_only_admissible_routes
+  empty_registry_terminal: NO_ADMISSIBLE_NO_TASK_FIT_TWIN_ROUTE
+  forbidden_field_names:
+    - metric
+    - metrics
+    - score
+    - rank
+    - ranking
+    - weight
+    - weights
+    - winner
+    - preferred
+    - preferred_route
+    - default_route
+    - efficacy
+    - evaluation_result
+    - inference_result
+    - prediction
+
+access_boundary:
+  six_context_outcome_access: 0
+  protected_holdout_access: 0
+  new_intake_performed: false
+  task_specific_fitting_performed: false
+  simulator_execution_performed: false
+  candidate_inference_performed: false
+  six_context_files_opened: false
+  protected_files_opened: false
+
+authorization_closure:
+  new_public_data_intake_authorized: false
+  training_authorized: false
+  gpu_authorized: false
+  world_action_compiler_authorized: false
+  uncertainty_implementation_authorized: false
+  formal_evaluation_authorized: false
+  six_context_evaluation_authorized: false
+  tool_calling_authorized: false
+  memory_adaptation_authorized: false
+  agent_in_twin_authorized: false
+  coevolution_authorized: false
+
+assets:
+  - asset_uid: parent_no_task_fit_authority
+    path: Output/audits/no_task_fit_parent_authority.json
+    route_roles: [shared]
+    asset_kind: authority_manifest
+    provenance_role: immutable_parent_authority
+    license_access_evidence_status: not_applicable_governance
+    expected_presence: present
+    sha256: 56eea3c26d292d2c2e5575cf89021bdeea4055bd6c66dfadcbcb3c1a3e86f554
+    bytes: 30127
+    git_blob_sha1: 503bd76d46cd807acef415906b8df6232f55e94c
+    git_tracking_state: tracked_clean
+    classification:
+      executable_code: false
+      configuration: false
+      schema: false
+      historical_authority: true
+      explicitly_absent_required_identity: false
+    required_text_markers:
+      - NO_TASK_FIT_PARENT_AUTHORITIES_BOUND
+      - PUBLIC_PROSPECTIVE_DEVELOPMENT_DATA_INSUFFICIENT
+    limitations:
+      - Parent authority binds negative evidence and does not establish candidate performance.
+
+  - asset_uid: shared_world_action_operator
+    path: Libs/models/modules/neuronsifter_world_action.py
+    route_roles: [shared, route_a, route_c, route_d]
+    asset_kind: model_module
+    provenance_role: existing_world_action_interface
+    license_access_evidence_status: repository_internal_only
+    expected_presence: present
+    sha256: b44ec2fc5e91e2e54abeacabab14f9a6c0e3b6c742aa030c5141b514a1d28cfa
+    bytes: 30654
+    git_blob_sha1: 174879fe2ce469187b0e416f27076aaeea73ab2b
+    git_tracking_state: tracked_clean
+    classification:
+      executable_code: true
+      configuration: false
+      schema: false
+      historical_authority: false
+      explicitly_absent_required_identity: false
+    required_text_markers:
+      - class NeuronSifterWorldActionOperator
+      - trajectory_uncertainty_mean
+    limitations:
+      - Existing learned operator code is not itself a no-task-fit candidate identity.
+
+  - asset_uid: shared_support_domain_schema
+    path: Libs/configs/schema/evidence_support_domain.schema.json
+    route_roles: [shared, route_a, route_c]
+    asset_kind: schema
+    provenance_role: existing_support_domain_contract
+    license_access_evidence_status: repository_internal_only
+    expected_presence: present
+    sha256: 6f5f931cdc8839fa8dc6d20b8595076a4fd38b96538cec657e23de0b7d8f2c8f
+    bytes: 1765
+    git_blob_sha1: 67f29d844bb958cb94268518ac20439978ac7fc9
+    git_tracking_state: tracked_clean
+    classification:
+      executable_code: false
+      configuration: false
+      schema: true
+      historical_authority: false
+      explicitly_absent_required_identity: false
+    required_text_markers:
+      - neuronsifter-evidence-support-domain-v1
+      - generalization_status
+    limitations:
+      - This schema describes support domains but does not supply route-specific support evidence.
+
+  - asset_uid: shared_dynamics_solver_configuration
+    path: Libs/configs/model/dynamics_solver.yaml
+    route_roles: [shared, route_a, route_c]
+    asset_kind: model_configuration
+    provenance_role: provisional_mechanistic_parameter_configuration
+    license_access_evidence_status: mixed_internal_and_external_terms_not_fully_bound
+    expected_presence: present
+    sha256: 84421bb4eea2216ac0378fea2e23f19ae2bfad3bf896c8a19cca6a558c756a24
+    bytes: 29831
+    git_blob_sha1: c03d06a8c943571eb6975f29c86e813bc67eb774
+    git_tracking_state: tracked_clean
+    classification:
+      executable_code: false
+      configuration: true
+      schema: false
+      historical_authority: false
+      explicitly_absent_required_identity: false
+    required_text_markers:
+      - 'evidence_status: provisional_parameter_evidence'
+      - 'allow_bootstrap_config_parameters: true'
+      - 'observed_or_synthetic: synthetic_mechanism_teacher'
+      - 'observed_or_synthetic: synthetic_biophysical_teacher'
+    limitations:
+      - Parameters are explicitly provisional and bootstrap configuration parameters remain enabled.
+
+  - asset_uid: route_a_osp_environment
+    path: Libs/configs/runtime/osp_pksim_environment.yaml
+    route_roles: [route_a]
+    asset_kind: runtime_configuration
+    provenance_role: external_solver_environment_declaration
+    license_access_evidence_status: external_terms_referenced_not_bound
+    expected_presence: present
+    sha256: a6f9aca389856a60c9acf9fab0d0d088c575c8514aa94f9a6c2f33237bc924e0
+    bytes: 4085
+    git_blob_sha1: 0287a4f84e51b45efdff590fa82988503d141a41
+    git_tracking_state: tracked_clean
+    classification:
+      executable_code: false
+      configuration: true
+      schema: false
+      historical_authority: false
+      explicitly_absent_required_identity: false
+    required_text_markers:
+      - 'runtime_strategy: reproducible_environment_script'
+      - 'ref: main'
+      - "ref: '*release'"
+    limitations:
+      - External package references are mutable and no exact environment lock is included in the allowlist.
+
+  - asset_uid: route_a_neuron_rxd_teacher_runner
+    path: Libs/scripts/teacher_generation/run_neuron_rxd_microenvironment_teacher.py
+    route_roles: [route_a]
+    asset_kind: execution_script
+    provenance_role: current_clamp_mechanistic_teacher_runtime
+    license_access_evidence_status: external_terms_not_declared_in_allowlisted_asset
+    expected_presence: present
+    sha256: f79347fca83a9fc2acbc9f93a57f67b20d337afcda1912d1fb8ab178f0712e88
+    bytes: 13118
+    git_blob_sha1: a78502d7013944f18e1e4f8be53f1d3cf54487ba
+    git_tracking_state: tracked_clean
+    classification:
+      executable_code: true
+      configuration: false
+      schema: false
+      historical_authority: false
+      explicitly_absent_required_identity: false
+    required_text_markers:
+      - stimulus = h.IClamp
+      - uncertainty = np.full
+    limitations:
+      - Runtime supports a fixed current-clamp protocol rather than the full target intervention domain.
+
+  - asset_uid: route_a_osp_rollout_runner
+    path: Libs/scripts/teacher_generation/run_osp_pksim_rollout.R
+    route_roles: [route_a]
+    asset_kind: execution_script
+    provenance_role: pbpk_mechanistic_teacher_runtime
+    license_access_evidence_status: external_terms_not_declared_in_allowlisted_asset
+    expected_presence: present
+    sha256: 31b2ea979b9c01611b8105b11ca7758dd0b1b17db06b8c633e31326590062e01
+    bytes: 10086
+    git_blob_sha1: fbabf9f5db2cc0c16685c00cd3cac4c9545f507b
+    git_tracking_state: tracked_clean
+    classification:
+      executable_code: true
+      configuration: false
+      schema: false
+      historical_authority: false
+      explicitly_absent_required_identity: false
+    required_text_markers:
+      - runSimulation
+      - setParameterValues
+    limitations:
+      - The script depends on external model payloads and runtime packages not identity-bound here.
+
+  - asset_uid: route_a_full_teacher_registry_builder
+    path: Libs/scripts/builders/build_full_microenvironment_teacher_registry.py
+    route_roles: [route_a]
+    asset_kind: registry_builder
+    provenance_role: synthetic_teacher_assembly
+    license_access_evidence_status: external_terms_labels_not_bound
+    expected_presence: present
+    sha256: 70a735efdee43c017ef2e5415494a310d7f2c653dead037c7c661485e2a7ba80
+    bytes: 24962
+    git_blob_sha1: c3171a083e8592c35e8d7e493a274167cdc74813
+    git_tracking_state: tracked_clean
+    classification:
+      executable_code: true
+      configuration: false
+      schema: false
+      historical_authority: false
+      explicitly_absent_required_identity: false
+    required_text_markers:
+      - '"teacher_evidence_level": "configuration_generated_provisional"'
+      - '"calibration_status": "calibration_pending"'
+      - license_or_terms
+    limitations:
+      - The builder assembles training teachers and does not expose a frozen candidate inference interface.
+
+  - asset_uid: route_a_full_teacher_registry_validator
+    path: Libs/scripts/validators/validate_full_microenvironment_teacher_registry.py
+    route_roles: [route_a]
+    asset_kind: registry_validator
+    provenance_role: synthetic_teacher_registry_validation
+    license_access_evidence_status: repository_internal_only
+    expected_presence: present
+    sha256: 5aa70424d06fb5d56c1efc390fd671353ab118d5bb86ee138ec688d40845f732
+    bytes: 5590
+    git_blob_sha1: f109276e105801c767471bc4238ad106061b5597
+    git_tracking_state: tracked_clean
+    classification:
+      executable_code: true
+      configuration: false
+      schema: false
+      historical_authority: false
+      explicitly_absent_required_identity: false
+    required_text_markers:
+      - calibration_pending
+      - read_zarr_array_metadata
+    limitations:
+      - Registry validation does not qualify simulator transfer as empirical truth.
+
+  - asset_uid: route_a_simulation_teacher_registry_builder
+    path: Libs/scripts/builders/build_simulation_teacher_ready_registry.py
+    route_roles: [route_a]
+    asset_kind: registry_builder
+    provenance_role: simulation_teacher_catalog_assembly
+    license_access_evidence_status: repository_internal_only
+    expected_presence: present
+    sha256: ddece44283b5d5346ccb99a935f1562b925aaef5a11e4ecf60b7b975b18e1143
+    bytes: 1562
+    git_blob_sha1: e5881f687db1a65d0a1cb0bdd475ad222ef98a1a
+    git_tracking_state: tracked_clean
+    classification:
+      executable_code: true
+      configuration: false
+      schema: false
+      historical_authority: false
+      explicitly_absent_required_identity: false
+    required_text_markers:
+      - simulation_teacher_rows
+    limitations:
+      - This is a catalog builder, not a no-task-fit simulator candidate runtime.
+
+  - asset_uid: route_a_simulation_teacher_registry_validator
+    path: Libs/scripts/validators/validate_simulation_teacher_ready_registry.py
+    route_roles: [route_a]
+    asset_kind: registry_validator
+    provenance_role: simulation_teacher_catalog_validation
+    license_access_evidence_status: repository_internal_only
+    expected_presence: present
+    sha256: fc8b2f117a3cb6b507ab750fbea2e8ebf434e7cbed730be886215fdb2a09f5f2
+    bytes: 3778
+    git_blob_sha1: 750d1a5bec06e6600377a5560c8a5521ccd76568
+    git_tracking_state: tracked_clean
+    classification:
+      executable_code: true
+      configuration: false
+      schema: false
+      historical_authority: false
+      explicitly_absent_required_identity: false
+    required_text_markers:
+      - solver_teacher_trajectory
+      - uncertainty_policy
+    limitations:
+      - Teacher catalog validity does not establish a candidate output contract.
+
+  - asset_uid: route_a_mechanistic_runtime_validator
+    path: Libs/scripts/validators/validate_mechanistic_teacher_runtime.py
+    route_roles: [route_a]
+    asset_kind: registry_validator
+    provenance_role: external_solver_runtime_validation
+    license_access_evidence_status: repository_internal_only
+    expected_presence: present
+    sha256: 6a8e9c5dc2f8b13d22730a54878474d3c6d9959887a5a42af663c01303ffa23d
+    bytes: 13601
+    git_blob_sha1: be03db752277203caf7cce589e3d5d2d7f66f6a6
+    git_tracking_state: tracked_clean
+    classification:
+      executable_code: true
+      configuration: false
+      schema: false
+      historical_authority: false
+      explicitly_absent_required_identity: false
+    required_text_markers:
+      - validate_osp_runtime
+      - validate_neuron_teacher
+    limitations:
+      - The validator is not execution evidence and is not run in this arbitration round.
+
+  - asset_uid: route_b_checkpoint_authority
+    path: Output/audits/frozen_zero_shot_method_authority.json
+    route_roles: [route_b, route_d]
+    asset_kind: historical_authority
+    provenance_role: checkpoint_ineligibility_authority
+    license_access_evidence_status: not_applicable_governance
+    expected_presence: present
+    sha256: 6e59323ad2773bb81417affc64780a2e07185811e71f0d4c0cac57e6cfbf1d21
+    bytes: 13687
+    git_blob_sha1: be53dfa4c499eed6bfdb74db448cb3894c3454fd
+    git_tracking_state: tracked_clean
+    classification:
+      executable_code: false
+      configuration: false
+      schema: false
+      historical_authority: true
+      explicitly_absent_required_identity: false
+    required_text_markers:
+      - NO_FORMAL_ZERO_SHOT_CHECKPOINT
+    limitations:
+      - Historical checkpoint bytes are not a formally eligible method identity.
+
+  - asset_uid: route_b_checkpoint_manifest
+    path: Output/audits/frozen_zero_shot_method_manifest.json
+    route_roles: [route_b, route_d]
+    asset_kind: historical_authority
+    provenance_role: incomplete_method_manifest
+    license_access_evidence_status: not_applicable_governance
+    expected_presence: present
+    sha256: e95b001189ff3944a338d2b100b2aa7ca11143e5a3537615255d344ccf9a8bab
+    bytes: 7071
+    git_blob_sha1: ea2ddd96e1ebc042798d5e8a86e3481f9cf47172
+    git_tracking_state: tracked_clean
+    classification:
+      executable_code: false
+      configuration: false
+      schema: false
+      historical_authority: true
+      explicitly_absent_required_identity: false
+    required_text_markers:
+      - incomplete_not_executable
+    limitations:
+      - The manifest records incomplete identity and cannot authorize inference.
+
+  - asset_uid: route_b_protocol_executability
+    path: Output/audits/zero_shot_protocol_executability_decision.json
+    route_roles: [route_b, route_d]
+    asset_kind: historical_authority
+    provenance_role: protocol_non_executability_authority
+    license_access_evidence_status: not_applicable_governance
+    expected_presence: present
+    sha256: 7e8e88cbcfe0d46746ff7db3f51623b23066289c3bbba6c2f9978d9550c7de43
+    bytes: 3047
+    git_blob_sha1: c36f4034953202cc136f6bf0f14624a7a33baa98
+    git_tracking_state: tracked_clean
+    classification:
+      executable_code: false
+      configuration: false
+      schema: false
+      historical_authority: true
+      explicitly_absent_required_identity: false
+    required_text_markers:
+      - ZERO_SHOT_PROTOCOL_REMAINS_NON_EXECUTABLE
+    limitations:
+      - This authority preserves the formal no-go and cannot be reinterpreted as a candidate.
+
+  - asset_uid: route_b_c1_checkpoint_requirement
+    path: Output/runs/round23/c1/large_seed3407/last.pt
+    route_roles: [route_b]
+    asset_kind: checkpoint_requirement
+    provenance_role: explicitly_absent_frozen_checkpoint
+    license_access_evidence_status: absent_required_identity
+    expected_presence: absent
+    sha256: null
+    bytes: null
+    git_blob_sha1: null
+    git_tracking_state: absent
+    classification:
+      executable_code: false
+      configuration: false
+      schema: false
+      historical_authority: false
+      explicitly_absent_required_identity: true
+    required_text_markers: []
+    limitations:
+      - No alternate checkpoint search or recovery is authorized.
+
+  - asset_uid: route_b_c2s_checkpoint_requirement
+    path: Output/runs/round23/c2s/large_seed3407/last.pt
+    route_roles: [route_b]
+    asset_kind: checkpoint_requirement
+    provenance_role: explicitly_absent_frozen_checkpoint
+    license_access_evidence_status: absent_required_identity
+    expected_presence: absent
+    sha256: null
+    bytes: null
+    git_blob_sha1: null
+    git_tracking_state: absent
+    classification:
+      executable_code: false
+      configuration: false
+      schema: false
+      historical_authority: false
+      explicitly_absent_required_identity: true
+    required_text_markers: []
+    limitations:
+      - No alternate checkpoint search or recovery is authorized.
+
+  - asset_uid: route_c_structural_prior_module
+    path: Libs/utils/data/structural_prior_registry.py
+    route_roles: [route_c]
+    asset_kind: prior_module
+    provenance_role: structural_prior_transformation
+    license_access_evidence_status: repository_internal_only
+    expected_presence: present
+    sha256: 4dcc61c38ab724a17bc0d959786f829ee002039f1f72f9a8fd816059a0838009
+    bytes: 6636
+    git_blob_sha1: 59fc2bc62664a9dfc32fc4406118253dfd2c5de1
+    git_tracking_state: tracked_clean
+    classification:
+      executable_code: true
+      configuration: false
+      schema: false
+      historical_authority: false
+      explicitly_absent_required_identity: false
+    required_text_markers:
+      - def structural_prior_tensor
+      - .fillna(0.0)
+    limitations:
+      - Structural priors are component features and include missing-region zero fill, not a complete Bayesian Twin.
+
+  - asset_uid: route_c_structural_prior_builder
+    path: Libs/scripts/builders/build_structural_prior_registry.py
+    route_roles: [route_c]
+    asset_kind: registry_builder
+    provenance_role: structural_prior_catalog_assembly
+    license_access_evidence_status: repository_internal_only
+    expected_presence: present
+    sha256: f6912790f9198b03ca31a92a2604c2f896faf87bfa0ad1d6e674ccb37f932229
+    bytes: 1508
+    git_blob_sha1: 25431982a927814e72691e0445e99b13beee8193
+    git_tracking_state: tracked_clean
+    classification:
+      executable_code: true
+      configuration: false
+      schema: false
+      historical_authority: false
+      explicitly_absent_required_identity: false
+    required_text_markers:
+      - structural_prior_region_rows
+      - structural_prior_local_response_head_rows
+    limitations:
+      - The builder consumes configuration and catalogs outside this route-level identity.
+
+  - asset_uid: route_c_structural_prior_validator
+    path: Libs/scripts/validators/validate_structural_prior_registry.py
+    route_roles: [route_c]
+    asset_kind: registry_validator
+    provenance_role: structural_prior_catalog_validation
+    license_access_evidence_status: repository_internal_only
+    expected_presence: present
+    sha256: b438c97906fda9bc197ec2d1f6c10ce1c5d58408cf46611a8459cbb320b96d55
+    bytes: 3511
+    git_blob_sha1: 9fb796cbed8969d158e3aa116703d23fb5dcf5cb
+    git_tracking_state: tracked_clean
+    classification:
+      executable_code: true
+      configuration: false
+      schema: false
+      historical_authority: false
+      explicitly_absent_required_identity: false
+    required_text_markers:
+      - Missing structural prior row
+    limitations:
+      - Catalog completeness checks do not establish a no-task-fit posterior or uncertainty model.
+
+  - asset_uid: route_c_atlas_prior_builder
+    path: Libs/scripts/builders/build_atlas_prior_registry.py
+    route_roles: [route_c]
+    asset_kind: registry_builder
+    provenance_role: public_atlas_prior_assembly
+    license_access_evidence_status: public_source_reference_without_bound_terms
+    expected_presence: present
+    sha256: 9cee1115188acfa60e80a1c73be4c34d42bad406f9532da8c0822a28ff767e71
+    bytes: 8785
+    git_blob_sha1: cf6cfae9e488b85cd177ffb778f17f5e8264e0f7
+    git_tracking_state: tracked_clean
+    classification:
+      executable_code: true
+      configuration: false
+      schema: false
+      historical_authority: false
+      explicitly_absent_required_identity: false
+    required_text_markers:
+      - '"provenance_level": "native_atlas"'
+      - public_url
+    limitations:
+      - Atlas feature generation is not an intervention-response equation or candidate Twin.
+
+  - asset_uid: route_c_atlas_prior_validator
+    path: Libs/scripts/validators/validate_atlas_prior_registry.py
+    route_roles: [route_c]
+    asset_kind: registry_validator
+    provenance_role: public_atlas_prior_validation
+    license_access_evidence_status: public_source_reference_without_bound_terms
+    expected_presence: present
+    sha256: 88c25e144d58f4ed3cdd69fde539064fe1202f074a1681fde589c4ecf8071a6b
+    bytes: 4553
+    git_blob_sha1: c85d0dc8af43a8ea47e74b8e6cfc0109aae639f9
+    git_tracking_state: tracked_clean
+    classification:
+      executable_code: true
+      configuration: false
+      schema: false
+      historical_authority: false
+      explicitly_absent_required_identity: false
+    required_text_markers:
+      - public_url
+      - native_atlas
+    limitations:
+      - Source validation does not provide route-level equations, priors, or uncertainty propagation.
+
+  - asset_uid: route_c_pkpd_prior_builder
+    path: Libs/scripts/builders/build_pkpd_ready_registry.py
+    route_roles: [route_c]
+    asset_kind: registry_builder
+    provenance_role: bootstrap_pkpd_prior_assembly
+    license_access_evidence_status: source_terms_not_bound_in_allowlisted_asset
+    expected_presence: present
+    sha256: 354c42d2f288d5a68ab15cdd9e7de9cebb897bab6a985f1e222ddc180a1825b0
+    bytes: 6190
+    git_blob_sha1: 5f144c9db7e70616d57a1de8429844aa3aefd999
+    git_tracking_state: tracked_clean
+    classification:
+      executable_code: true
+      configuration: false
+      schema: false
+      historical_authority: false
+      explicitly_absent_required_identity: false
+    required_text_markers:
+      - bootstrap_parameter_priors
+      - descriptor_bootstrap
+    limitations:
+      - Bootstrap PK/PD priors do not constitute independently sourced route-level Bayesian priors.
+
+  - asset_uid: route_c_pkpd_prior_validator
+    path: Libs/scripts/validators/validate_pkpd_ready_registry.py
+    route_roles: [route_c]
+    asset_kind: registry_validator
+    provenance_role: pkpd_prior_catalog_validation
+    license_access_evidence_status: repository_internal_only
+    expected_presence: present
+    sha256: f54b5edaeeffdefe9ec3146a146189c03df0022f586da8102fcab34baabcb29c
+    bytes: 5531
+    git_blob_sha1: ad284e7342f029a1bc16fc843f305ff7d74eca46
+    git_tracking_state: tracked_clean
+    classification:
+      executable_code: true
+      configuration: false
+      schema: false
+      historical_authority: false
+      explicitly_absent_required_identity: false
+    required_text_markers:
+      - Unexpected route set
+      - permeability_score
+    limitations:
+      - Registry range checks do not define a candidate-level prior-predictive model.
+
+routes:
+  - route_id: route_a
+    route_name: Mechanistic Simulator Twin
+    scientific_label: synthetic_mechanistic_prior
+    availability_state: available
+    availability_reason: The bounded repository contains simulator and teacher components, so the route exists structurally even though mandatory formal-candidate criteria remain unsatisfied.
+    required_asset_paths:
+      - Libs/models/modules/neuronsifter_world_action.py
+      - Libs/configs/schema/evidence_support_domain.schema.json
+      - Libs/configs/model/dynamics_solver.yaml
+      - Libs/configs/runtime/osp_pksim_environment.yaml
+      - Libs/scripts/teacher_generation/run_neuron_rxd_microenvironment_teacher.py
+      - Libs/scripts/teacher_generation/run_osp_pksim_rollout.R
+      - Libs/scripts/builders/build_full_microenvironment_teacher_registry.py
+      - Libs/scripts/validators/validate_full_microenvironment_teacher_registry.py
+      - Libs/scripts/builders/build_simulation_teacher_ready_registry.py
+      - Libs/scripts/validators/validate_simulation_teacher_ready_registry.py
+      - Libs/scripts/validators/validate_mechanistic_teacher_runtime.py
+    depends_on_route_ids: []
+    combination_rule_status: not_applicable
+    capability_support_summary:
+      model_family: mechanistic_simulator_ensemble
+      action_modalities: [compound_pbpk, electrical_current_clamp]
+      control_modes: [dose_route_schedule, fixed_current_clamp_protocol]
+      input_interface_status: component_interfaces_only_not_bound_candidate
+      output_interface_status: teacher_trajectory_outputs_not_common_candidate_contract
+      parameter_identity_status: provisional_bootstrap_not_formally_bound
+      solver_environment_status: declared_but_not_fully_pinned_or_qualified
+      execution_policy: cpu_or_external_solver_declared_not_executed
+      uncertainty_hook_status: teacher_uncertainty_fields_without_route_level_no_fit_semantics
+    assumptions:
+      - External solver packages and model payloads would need immutable identities before execution qualification.
+      - Protein/biologic delivery has no executable mechanism in the bounded asset set.
+    criteria:
+      - criterion_id: provenance_license_clarity
+        result: unsatisfied
+        evidence_paths:
+          - Libs/configs/runtime/osp_pksim_environment.yaml
+          - Libs/scripts/builders/build_full_microenvironment_teacher_registry.py
+        reason: External repositories have generic terms labels and mutable refs, without bound license/version snapshots in the allowlist.
+      - criterion_id: complete_method_identity
+        result: unsatisfied
+        evidence_paths:
+          - Libs/configs/model/dynamics_solver.yaml
+          - Libs/configs/runtime/osp_pksim_environment.yaml
+        reason: Parameters remain provisional/bootstrap and external model payloads plus exact runtime locks are outside the frozen identity.
+      - criterion_id: no_task_fit_feasibility
+        result: satisfied
+        evidence_paths:
+          - Libs/scripts/teacher_generation/run_neuron_rxd_microenvironment_teacher.py
+          - Libs/scripts/teacher_generation/run_osp_pksim_rollout.R
+        reason: The available simulator operations do not require six-context fitting or target-task calibration.
+      - criterion_id: interface_compatibility
+        result: unsatisfied
+        evidence_paths:
+          - Libs/models/modules/neuronsifter_world_action.py
+          - Libs/scripts/builders/build_full_microenvironment_teacher_registry.py
+        reason: Teacher generation is not bound to a frozen no-task-fit candidate inference and output interface.
+      - criterion_id: modality_control_coverage
+        result: unsatisfied
+        evidence_paths:
+          - Libs/configs/model/dynamics_solver.yaml
+          - Libs/scripts/teacher_generation/run_neuron_rxd_microenvironment_teacher.py
+        reason: Current assets cover PBPK compounds and fixed current clamp but no explicit protein/biologic delivery execution semantics.
+      - criterion_id: deterministic_or_seed_controlled_execution
+        result: unsatisfied
+        evidence_paths:
+          - Libs/configs/model/dynamics_solver.yaml
+          - Libs/configs/runtime/osp_pksim_environment.yaml
+        reason: One internal sampler seed is declared, but the complete external simulator and environment execution identity is not frozen.
+      - criterion_id: uncertainty_semantics
+        result: unsatisfied
+        evidence_paths:
+          - Libs/scripts/builders/build_full_microenvironment_teacher_registry.py
+          - Libs/scripts/validators/validate_simulation_teacher_ready_registry.py
+        reason: Teacher uncertainty fields and configured floors are not a bound route-level no-fit uncertainty output.
+      - criterion_id: execution_resource_feasibility
+        result: unsatisfied
+        evidence_paths:
+          - Libs/scripts/validators/validate_mechanistic_teacher_runtime.py
+          - Libs/configs/runtime/osp_pksim_environment.yaml
+        reason: CPU-oriented runtimes are declared, but required external packages, compiled mechanisms, and model payload identities are not established by this allowlist.
+      - criterion_id: scientific_limitations_bound
+        result: satisfied
+        evidence_paths:
+          - Output/audits/no_task_fit_parent_authority.json
+          - Libs/configs/model/dynamics_solver.yaml
+        reason: Synthetic/mechanistic-prior status, provisional parameters, and prohibited empirical claims are explicitly retained.
+    limitations:
+      - Synthetic or mechanistic-prior outputs cannot be described as empirical biological truth, clinical validation, efficacy evidence, or causal effect.
+      - Current-clamp support cannot be generalized to other electrical stimulation protocols.
+      - Protein/biologic delivery is unsupported by the bounded executable assets.
+    prohibited_claims:
+      - empirical_biological_truth
+      - clinical_validation
+      - efficacy_evidence
+      - causal_effect
+    expected_disposition: inadmissible
+
+  - route_id: route_b
+    route_name: Frozen Foundation Transfer
+    scientific_label: frozen_foundation_transfer
+    availability_state: not_available
+    availability_reason: The parent authority rejects formal checkpoint identity and both explicitly checked frozen checkpoint paths are absent.
+    required_asset_paths:
+      - Output/audits/no_task_fit_parent_authority.json
+      - Output/audits/frozen_zero_shot_method_authority.json
+      - Output/audits/frozen_zero_shot_method_manifest.json
+      - Output/audits/zero_shot_protocol_executability_decision.json
+      - Output/runs/round23/c1/large_seed3407/last.pt
+      - Output/runs/round23/c2s/large_seed3407/last.pt
+    depends_on_route_ids: []
+    combination_rule_status: not_applicable
+    capability_support_summary:
+      model_family: frozen_foundation_transfer
+      action_modalities: []
+      control_modes: []
+      input_interface_status: unavailable_unbound_adapter
+      output_interface_status: unavailable_unverified_inference_entrypoint
+      parameter_identity_status: unavailable_formal_checkpoint_identity
+      solver_environment_status: not_applicable_route_unavailable
+      execution_policy: not_executable_under_parent_authority
+      uncertainty_hook_status: six_context_uncertainty_and_support_mapping_unbound
+    assumptions:
+      - Checkpoint presence or historical loading would not establish formal eligibility.
+      - No task-specific projection or head may be trained to repair this route.
+    criteria:
+      - criterion_id: provenance_license_clarity
+        result: unsatisfied
+        evidence_paths:
+          - Output/audits/frozen_zero_shot_method_authority.json
+          - Output/audits/frozen_zero_shot_method_manifest.json
+        reason: The historical method artifacts explicitly report incomplete code, config, training, selection, and independence lineage.
+      - criterion_id: complete_method_identity
+        result: unsatisfied
+        evidence_paths:
+          - Output/audits/frozen_zero_shot_method_authority.json
+          - Output/runs/round23/c1/large_seed3407/last.pt
+          - Output/runs/round23/c2s/large_seed3407/last.pt
+        reason: Parent authority is NO_FORMAL_ZERO_SHOT_CHECKPOINT and both explicitly checked checkpoint paths are absent.
+      - criterion_id: no_task_fit_feasibility
+        result: not_applicable
+        evidence_paths:
+          - Output/audits/no_task_fit_parent_authority.json
+        reason: No admissible frozen foundation identity exists to assess without constructing or fitting a new method.
+      - criterion_id: interface_compatibility
+        result: unsatisfied
+        evidence_paths:
+          - Output/audits/frozen_zero_shot_method_manifest.json
+        reason: The historical manifest records no bound six-context adapter or verified inference entrypoint.
+      - criterion_id: modality_control_coverage
+        result: unsatisfied
+        evidence_paths:
+          - Output/audits/frozen_zero_shot_method_manifest.json
+        reason: Historical development actions are current-clamp while target namespaces are compound and protein delivery.
+      - criterion_id: deterministic_or_seed_controlled_execution
+        result: not_applicable
+        evidence_paths:
+          - Output/audits/frozen_zero_shot_method_authority.json
+        reason: No eligible frozen method exists for execution-path qualification.
+      - criterion_id: uncertainty_semantics
+        result: unsatisfied
+        evidence_paths:
+          - Output/audits/frozen_zero_shot_method_manifest.json
+        reason: Six-context uncertainty and support/OOD mappings remain unbound.
+      - criterion_id: execution_resource_feasibility
+        result: not_applicable
+        evidence_paths:
+          - Output/audits/zero_shot_protocol_executability_decision.json
+        reason: Protocol execution remains formally unavailable before resource feasibility can be assessed.
+      - criterion_id: scientific_limitations_bound
+        result: satisfied
+        evidence_paths:
+          - Output/audits/no_task_fit_parent_authority.json
+        reason: Historical checkpoint availability is explicitly separated from formal method eligibility.
+    limitations:
+      - Checkpoint existence or historical loadability cannot establish formal admissibility.
+      - No alternate checkpoint discovery or task-specific head training is authorized.
+    prohibited_claims:
+      - recovered_formal_checkpoint
+      - foundation_transfer_validated
+      - zero_shot_performance
+    expected_disposition: not_available
+
+  - route_id: route_c
+    route_name: Low-Capacity Mechanistic Bayesian Twin
+    scientific_label: prior_predictive
+    availability_state: not_available
+    availability_reason: Component prior builders exist, but no complete route-level Bayesian Twin equations, covariance, prior state, uncertainty propagation, or output implementation identity is present.
+    required_asset_paths:
+      - Libs/models/modules/neuronsifter_world_action.py
+      - Libs/configs/schema/evidence_support_domain.schema.json
+      - Libs/configs/model/dynamics_solver.yaml
+      - Libs/utils/data/structural_prior_registry.py
+      - Libs/scripts/builders/build_structural_prior_registry.py
+      - Libs/scripts/validators/validate_structural_prior_registry.py
+      - Libs/scripts/builders/build_atlas_prior_registry.py
+      - Libs/scripts/validators/validate_atlas_prior_registry.py
+      - Libs/scripts/builders/build_pkpd_ready_registry.py
+      - Libs/scripts/validators/validate_pkpd_ready_registry.py
+    depends_on_route_ids: []
+    combination_rule_status: not_applicable
+    capability_support_summary:
+      model_family: low_capacity_mechanistic_bayesian
+      action_modalities: [compound_component_priors]
+      control_modes: [dose_grid, route_catalog, schedule_catalog]
+      input_interface_status: component_prior_interfaces_only
+      output_interface_status: no_route_level_prior_predictive_output_contract
+      parameter_identity_status: bootstrap_and_provisional_components_not_complete_prior
+      solver_environment_status: analytical_route_not_implemented
+      execution_policy: cpu_component_builders_only_no_candidate_runtime
+      uncertainty_hook_status: no_route_level_prior_uncertainty_propagation
+    assumptions:
+      - Component registries cannot be composed into a Bayesian Twin without a separately specified method.
+      - Missing covariance and uncertainty propagation cannot be inferred from parameter bounds.
+    criteria:
+      - criterion_id: provenance_license_clarity
+        result: unsatisfied
+        evidence_paths:
+          - Libs/scripts/builders/build_atlas_prior_registry.py
+          - Libs/scripts/builders/build_pkpd_ready_registry.py
+        reason: Source references exist, but exact source terms and immutable input-catalog identities are not bound by the route allowlist.
+      - criterion_id: complete_method_identity
+        result: unsatisfied
+        evidence_paths:
+          - Libs/utils/data/structural_prior_registry.py
+          - Libs/configs/model/dynamics_solver.yaml
+        reason: Component prior builders exist, but no complete analytical Bayesian Twin equations, covariance, prior state, or route-level implementation identity exists.
+      - criterion_id: no_task_fit_feasibility
+        result: satisfied
+        evidence_paths:
+          - Libs/scripts/builders/build_structural_prior_registry.py
+          - Libs/scripts/builders/build_pkpd_ready_registry.py
+        reason: The existing prior construction utilities do not require six-context fitting or target-task calibration.
+      - criterion_id: interface_compatibility
+        result: unsatisfied
+        evidence_paths:
+          - Libs/models/modules/neuronsifter_world_action.py
+          - Libs/utils/data/structural_prior_registry.py
+        reason: No executable prior-predictive Twin binds these component priors to the common candidate output contract.
+      - criterion_id: modality_control_coverage
+        result: unsatisfied
+        evidence_paths:
+          - Libs/scripts/builders/build_pkpd_ready_registry.py
+          - Libs/configs/model/dynamics_solver.yaml
+        reason: Compound bootstrap priors exist, but protein/biologic and electrical action semantics are not unified in a no-fit route.
+      - criterion_id: deterministic_or_seed_controlled_execution
+        result: unsatisfied
+        evidence_paths:
+          - Libs/utils/data/structural_prior_registry.py
+          - Libs/scripts/builders/build_atlas_prior_registry.py
+        reason: Component transformations are deterministic, but no complete route execution or sampling policy exists.
+      - criterion_id: uncertainty_semantics
+        result: unsatisfied
+        evidence_paths:
+          - Libs/scripts/builders/build_pkpd_ready_registry.py
+          - Libs/configs/schema/evidence_support_domain.schema.json
+        reason: Bounds and support schemas exist, but no route-level prior uncertainty propagation or missing-uncertainty output is bound.
+      - criterion_id: execution_resource_feasibility
+        result: unsatisfied
+        evidence_paths:
+          - Libs/scripts/builders/build_structural_prior_registry.py
+          - Libs/scripts/builders/build_pkpd_ready_registry.py
+        reason: Component builders are CPU-oriented, but there is no complete candidate execution path to qualify.
+      - criterion_id: scientific_limitations_bound
+        result: satisfied
+        evidence_paths:
+          - Output/audits/no_task_fit_parent_authority.json
+          - Libs/configs/model/dynamics_solver.yaml
+        reason: Prior-predictive and provisional-evidence limitations are explicit and empirical claims remain prohibited.
+    limitations:
+      - Component priors cannot be described as a complete Bayesian Twin or empirical intervention-response evidence.
+      - Missing route-level equations, covariance, uncertainty propagation, and output interface cannot be invented in arbitration.
+    prohibited_claims:
+      - complete_bayesian_twin
+      - empirical_action_response
+      - calibrated_uncertainty
+    expected_disposition: not_available
+
+  - route_id: route_d
+    route_name: Hybrid Frozen Foundation and Mechanistic Twin
+    scientific_label: hybrid_disagreement_preserving
+    availability_state: not_available
+    availability_reason: Route B is unavailable and no independent disagreement-preserving combination rule or hybrid implementation is present.
+    required_asset_paths:
+      - Output/audits/no_task_fit_parent_authority.json
+    depends_on_route_ids: [route_a, route_b]
+    combination_rule_status: absent_not_predeclared
+    capability_support_summary:
+      model_family: frozen_foundation_mechanistic_hybrid
+      action_modalities: []
+      control_modes: []
+      input_interface_status: unavailable_dependency_chain
+      output_interface_status: unavailable_no_disagreement_preserving_contract
+      parameter_identity_status: unavailable_route_b_identity
+      solver_environment_status: unavailable_dependency_chain
+      execution_policy: not_executable_without_independent_a_and_b_admissibility
+      uncertainty_hook_status: unavailable_no_hybrid_disagreement_rule
+    assumptions:
+      - Route C cannot substitute for unavailable Route B.
+      - No averaging or performance-derived weighting may be introduced during arbitration.
+    criteria:
+      - criterion_id: provenance_license_clarity
+        result: not_applicable
+        evidence_paths:
+          - Output/audits/no_task_fit_parent_authority.json
+        reason: Hybrid provenance cannot be assessed without two independently admissible route identities.
+      - criterion_id: complete_method_identity
+        result: unsatisfied
+        evidence_paths:
+          - Output/audits/frozen_zero_shot_method_authority.json
+        reason: Route B is unavailable and no independent hybrid implementation or frozen combination rule exists.
+      - criterion_id: no_task_fit_feasibility
+        result: not_applicable
+        evidence_paths:
+          - Output/audits/no_task_fit_parent_authority.json
+        reason: No hybrid route exists on which to assess no-fit execution.
+      - criterion_id: interface_compatibility
+        result: not_applicable
+        evidence_paths:
+          - Libs/models/modules/neuronsifter_world_action.py
+        reason: No hybrid interface is present in the bounded assets.
+      - criterion_id: modality_control_coverage
+        result: not_applicable
+        evidence_paths:
+          - Output/audits/frozen_zero_shot_method_manifest.json
+        reason: Combined modality coverage cannot be established while Route B is unavailable.
+      - criterion_id: deterministic_or_seed_controlled_execution
+        result: not_applicable
+        evidence_paths:
+          - Output/audits/no_task_fit_parent_authority.json
+        reason: No predeclared hybrid execution path exists.
+      - criterion_id: uncertainty_semantics
+        result: unsatisfied
+        evidence_paths:
+          - Output/audits/frozen_zero_shot_method_manifest.json
+        reason: No frozen disagreement-preserving combination or hybrid uncertainty rule exists.
+      - criterion_id: execution_resource_feasibility
+        result: not_applicable
+        evidence_paths:
+          - Output/audits/zero_shot_protocol_executability_decision.json
+        reason: Resource feasibility is undefined for an unavailable hybrid.
+      - criterion_id: scientific_limitations_bound
+        result: satisfied
+        evidence_paths:
+          - Output/audits/no_task_fit_parent_authority.json
+        reason: The dependency failure and prohibition on invented or performance-weighted hybridization are explicit.
+    limitations:
+      - Route D cannot substitute Route C for unavailable Route B.
+      - No performance-derived weighting or disagreement-erasing aggregation is permitted.
+    prohibited_claims:
+      - admissible_hybrid
+      - ensemble_consensus
+      - performance_weighted_combination
+    expected_disposition: not_available

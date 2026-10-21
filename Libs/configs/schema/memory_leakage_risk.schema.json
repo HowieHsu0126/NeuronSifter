@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/memory_leakage_risk.schema.json",
+  "title": "NeuronSifter Round-18 LLM memory-leakage risk audit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "audit_uid",
+    "model_identity",
+    "declared_model_knowledge_cutoff",
+    "mitigations",
+    "tracks",
+    "title_doi_memorization_probe",
+    "retrieval_isolation_only_contamination_free_claim",
+    "contamination_free_claim",
+    "residual_risk_disclosed",
+    "content_hash",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-memory-leakage-risk-v1"},
+    "audit_uid": {"$ref": "#/$defs/text"},
+    "model_identity": {"$ref": "#/$defs/text"},
+    "declared_model_knowledge_cutoff": {"type": ["string", "null"], "format": "date"},
+    "mitigations": {"$ref": "#/$defs/mitigations"},
+    "tracks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["retrieval_isolated_replay", "post_model_cutoff_replay", "memory_risk_stress_track"],
+      "properties": {
+        "retrieval_isolated_replay": {"$ref": "#/$defs/risk_track"},
+        "post_model_cutoff_replay": {"$ref": "#/$defs/risk_track"},
+        "memory_risk_stress_track": {"$ref": "#/$defs/risk_track"}
+      }
+    },
+    "title_doi_memorization_probe": {"enum": ["passed", "failed", "not_estimable"]},
+    "retrieval_isolation_only_contamination_free_claim": {"const": false},
+    "contamination_free_claim": {"const": false},
+    "residual_risk_disclosed": {"const": true},
+    "content_hash": {"$ref": "#/$defs/hash"},
+    "status": {"enum": ["risk_reported", "blocked_memory_risk_disclosure"]}
+  },
+  "$defs": {
+    "text": {"type": "string", "minLength": 1},
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "mitigations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["opaque_episode_ids", "author_title_doi_masking", "entity_aliases", "distinctive_quote_removal", "retrieval_limited_evidence_packs", "outcome_field_masking", "post_model_cutoff_subset"],
+      "properties": {
+        "opaque_episode_ids": {"type": "boolean"},
+        "author_title_doi_masking": {"type": "boolean"},
+        "entity_aliases": {"type": "boolean"},
+        "distinctive_quote_removal": {"type": "boolean"},
+        "retrieval_limited_evidence_packs": {"type": "boolean"},
+        "outcome_field_masking": {"type": "boolean"},
+        "post_model_cutoff_subset": {"type": "boolean"}
+      }
+    },
+    "risk_track": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["episode_count", "residual_risk", "risk_disclosure"],
+      "properties": {
+        "episode_count": {"type": "integer", "minimum": 0},
+        "residual_risk": {"enum": ["low", "moderate", "high", "unknown"]},
+        "risk_disclosure": {"$ref": "#/$defs/text"}
+      }
+    }
+  }
+}

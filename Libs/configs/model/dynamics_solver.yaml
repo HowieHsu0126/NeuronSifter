@@ -1,0 +1,882 @@
+dynamics_ready_registry:
+  local_root: Input/processed
+  output_root: Input/processed/dynamics_ready/public_ad_meso
+  time_grid:
+    start_hours: 0.0
+    stop_hours: 672.0
+    step_count: 28
+  chunk_size: 32
+  parallel_workers: 8
+  process_start_method: spawn
+  contract_version: ad_full_microenvironment_v2
+  ad_first_data_readiness:
+    primary_disease_program: ad_control
+    active_generation_stage: pilot
+    condition_names:
+    - control
+    - ad_positive
+    generation_stages:
+      pilot:
+        replicate_count: 4
+        target_trajectory_count: 111168
+        readiness_status: pilot_volume_ready_provisional_parameters
+      final:
+        replicate_count: 36
+        target_trajectory_count: 1000512
+        readiness_status: million_volume_ready_provisional_parameters
+    heterogeneity_sampler:
+      family: deterministic_stratified_uniform
+      seed: 3407
+      hash_algorithm: sha1
+      route_source_multiplier_span: 0.15
+      pathology_baseline_multiplier_span: 0.12
+      production_rate_multiplier_span: 0.1
+      clearance_multiplier_span: 0.1
+      mechanism_strength_multiplier_span: 0.08
+      minimum_multiplier: 0.75
+      maximum_multiplier: 1.25
+      shared_patient_multiplier_names:
+      - pathology_baseline
+      - production_rate
+      - clearance
+      regimen_conditioned_multiplier_names:
+      - route_source
+      - mechanism_strength
+    parameter_evidence_policy:
+      active_policy: temporary_acceptance_with_provisional_evidence
+      evidence_status: provisional_parameter_evidence
+      allow_bootstrap_config_parameters: true
+      final_reporting_requirement: replace_or_cite_before_claiming_literature_supported
+  species:
+  - species_id: free_drug
+    species_label: Free Drug
+    species_role: exposure
+    unit: relative_concentration
+    observable_flag: 'yes'
+    note: unbound drug concentration proxy
+  - species_id: target_bound_drug
+    species_label: Target-Bound Drug
+    species_role: occupancy
+    unit: relative_concentration
+    observable_flag: 'yes'
+    note: target occupancy proxy
+  - species_id: misfolded_protein_load
+    species_label: Misfolded Protein Load
+    species_role: pathology
+    unit: relative_burden
+    observable_flag: 'yes'
+    note: aggregate soluble misfolded protein burden
+  - species_id: aggregate_burden
+    species_label: Aggregate Burden
+    species_role: pathology
+    unit: relative_burden
+    observable_flag: 'yes'
+    note: insoluble aggregate burden proxy
+  - species_id: neuroinflammation
+    species_label: Neuroinflammation
+    species_role: inflammation
+    unit: relative_burden
+    observable_flag: 'yes'
+    note: neuroinflammatory burden proxy
+  - species_id: clearance_flux
+    species_label: Clearance Flux
+    species_role: transport
+    unit: relative_flux
+    observable_flag: 'yes'
+    note: aggregate clearance and drainage flux proxy
+  - species_id: circuit_instability
+    species_label: Circuit Instability
+    species_role: local_response
+    unit: relative_drive
+    observable_flag: 'yes'
+    note: mesoscale circuit instability proxy
+  - species_id: amyloid_beta_soluble
+    species_label: Soluble Amyloid Beta
+    species_role: protein_pathology
+    unit: relative_burden
+    observable_flag: 'yes'
+    note: soluble Aβ microenvironment field aligned to PBPK exposure and RxD coupling
+  - species_id: amyloid_plaque
+    species_label: Amyloid Plaque
+    species_role: protein_pathology
+    unit: relative_burden
+    observable_flag: 'yes'
+    note: insoluble Aβ plaque microenvironment field
+  - species_id: phosphorylated_tau
+    species_label: Phosphorylated Tau
+    species_role: protein_pathology
+    unit: relative_burden
+    observable_flag: 'yes'
+    note: tau phosphorylation and spread microenvironment field
+  - species_id: inflammatory_mediator
+    species_label: Inflammatory Mediator
+    species_role: inflammation
+    unit: relative_burden
+    observable_flag: 'yes'
+    note: cytokine and microglial mediator microenvironment field
+  - species_id: calcium_concentration
+    species_label: Calcium Concentration
+    species_role: rxd_electrophysiology
+    unit: relative_concentration
+    observable_flag: 'yes'
+    note: RxD calcium state normalized from NEURON calcium output
+  - species_id: membrane_voltage
+    species_label: Membrane Voltage
+    species_role: rxd_electrophysiology
+    unit: relative_depolarization
+    observable_flag: 'yes'
+    note: membrane voltage depolarization normalized from NEURON millivolt traces
+  - species_id: spike_rate
+    species_label: Spike Rate
+    species_role: rxd_electrophysiology
+    unit: relative_frequency
+    observable_flag: 'yes'
+    note: spike and excitability summary normalized from NEURON traces
+  - species_id: vascular_perivascular_transport
+    species_label: Vascular Perivascular Transport
+    species_role: transport
+    unit: relative_flux
+    observable_flag: 'yes'
+    note: vascular, BBB, CSF, PVS, and meningeal transport coupling field
+  condition_profiles:
+    control:
+      baseline_free_drug: 0.0
+      baseline_target_bound_drug: 0.0
+      baseline_misfolded_protein_load: 0.24
+      baseline_aggregate_burden: 0.17
+      baseline_neuroinflammation: 0.21
+      baseline_clearance_flux: 0.32
+      baseline_circuit_instability: 0.24
+      baseline_amyloid_beta_soluble: 0.24
+      baseline_amyloid_plaque: 0.17
+      baseline_phosphorylated_tau: 0.18
+      baseline_inflammatory_mediator: 0.21
+      baseline_calcium_concentration: 0.16
+      baseline_membrane_voltage: 0.18
+      baseline_spike_rate: 0.14
+      baseline_vascular_perivascular_transport: 0.32
+      misfolded_protein_production_rate: 0.015
+      aggregate_accumulation_rate: 0.007
+    ad_positive:
+      baseline_free_drug: 0.0
+      baseline_target_bound_drug: 0.0
+      baseline_misfolded_protein_load: 0.74
+      baseline_aggregate_burden: 0.66
+      baseline_neuroinflammation: 0.63
+      baseline_clearance_flux: 0.2
+      baseline_circuit_instability: 0.69
+      baseline_amyloid_beta_soluble: 0.74
+      baseline_amyloid_plaque: 0.66
+      baseline_phosphorylated_tau: 0.58
+      baseline_inflammatory_mediator: 0.63
+      baseline_calcium_concentration: 0.44
+      baseline_membrane_voltage: 0.51
+      baseline_spike_rate: 0.49
+      baseline_vascular_perivascular_transport: 0.2
+      misfolded_protein_production_rate: 0.028
+      aggregate_accumulation_rate: 0.014
+  regimen_mechanism_defaults:
+    target_coefficients:
+      APP: 0.22
+      BACE1: 0.18
+      APOE: 0.08
+      MAPT: 0.05
+    compound_overrides:
+      LECANEMAB: 0.36
+      DONANEMAB: 0.42
+      VERUBECESTAT: 0.12
+      TRAMIPROSATE: 0.16
+  field_dynamics_priors:
+    diffusion_scale_by_compartment:
+      plasma: 0.18
+      bbb_interface: 0.14
+      csf: 0.28
+      pvs: 0.22
+      isf: 0.16
+      meningeal_drainage: 0.26
+    clearance_scale_by_compartment:
+      plasma: 0.12
+      bbb_interface: 0.08
+      csf: 0.19
+      pvs: 0.24
+      isf: 0.14
+      meningeal_drainage: 0.31
+    route_source_by_compartment:
+      oral:
+        plasma: 1.0
+        bbb_interface: 0.24
+        csf: 0.16
+        pvs: 0.12
+        isf: 0.08
+        meningeal_drainage: 0.06
+      intravenous:
+        plasma: 1.0
+        bbb_interface: 0.34
+        csf: 0.24
+        pvs: 0.18
+        isf: 0.14
+        meningeal_drainage: 0.09
+      intrathecal:
+        plasma: 0.28
+        bbb_interface: 0.22
+        csf: 1.0
+        pvs: 0.78
+        isf: 0.64
+        meningeal_drainage: 0.46
+    schedule_frequency_multiplier:
+      daily: 1.0
+      twice_daily: 1.18
+      weekly: 0.62
+    route_ordering_evaluation:
+      disease_program: ad_control
+      simulation_condition: ad_positive
+      region_id: hippocampus_ca1
+      compartment_ids:
+      - csf
+      - isf
+      species_id: free_drug
+      time_index: 1
+      normalization_policy: dose_schedule_frequency
+      minimum_normalization_denominator: 1.0e-6
+    target_binding_gain: 0.22
+    amyloid_reduction_gain: 0.31
+    plaque_clearance_gain: 0.14
+    excitability_amyloid_gain: 0.55
+    excitability_plaque_gain: 0.34
+    excitability_relief_gain: 0.28
+    minimum_bound_fraction: 0.02
+    maximum_bound_fraction: 0.88
+    target_adverse_dynamics:
+      BACE1:
+        exposure_neuroinflammation_gain: 0.6
+        exposure_circuit_instability_gain: 0.9
+        target_bound_relief_attenuation: 0.5
+    bound_decay_rate: 0.18
+    parameter_context_scale_by_species:
+      misfolded_protein_load: 0.1
+      aggregate_burden: 0.08
+      amyloid_beta_soluble: 0.1
+      amyloid_plaque: 0.08
+      phosphorylated_tau: 0.07
+      inflammatory_mediator: 0.06
+      calcium_concentration: 0.05
+      membrane_voltage: 0.05
+      spike_rate: 0.05
+      vascular_perivascular_transport: 0.06
+    prior_context_scale_by_drive:
+      pathology: 0.05
+      inflammation: 0.06
+    aggregate_clearance_scale: 0.1
+    inflammation_coupling:
+      misfolded_protein_load: 0.25
+      aggregate_burden: 0.18
+      amyloid_beta_soluble: 0.25
+      amyloid_plaque: 0.18
+      phosphorylated_tau: 0.16
+    inflammation_decay: 0.12
+    clearance_flux_scale:
+      free_drug: 0.5
+      misfolded_relief: 0.3
+      soluble_amyloid_relief: 0.3
+      plaque_relief: 0.18
+      vascular_perivascular_transport: 0.42
+    circuit_instability_scale:
+      neuroinflammation: 0.24
+      inflammatory_mediator: 0.2
+      calcium_concentration: 0.18
+      membrane_voltage: 0.22
+      spike_rate: 0.24
+      decay: 0.16
+    state_upper_bound_by_species:
+      neuroinflammation: 1.5
+      circuit_instability: 1.5
+      amyloid_beta_soluble: 2.0
+      amyloid_plaque: 2.0
+      phosphorylated_tau: 2.0
+      inflammatory_mediator: 1.5
+      calcium_concentration: 1.5
+      membrane_voltage: 1.5
+      spike_rate: 1.5
+      vascular_perivascular_transport: 1.5
+    mesoscopic_solver_coefficients:
+      binding_evidence_offset: 0.7
+      source_background_fraction: 0.25
+      intrathecal_entorhinal_fraction: 0.85
+      transport_centrality_baseline: 0.8
+      transport_centrality_gain: 0.4
+      clearance_bias_baseline: 0.7
+      clearance_bias_gain: 0.3
+      compartment_transfer_fraction: 0.5
+      soluble_pathology_clearance_scale: 0.35
+      aggregate_pathology_clearance_scale: 0.1
+      bound_decay_rate: 0.18
+      target_bound_inflammation_relief: 0.2
+      initial_region_prior_gain:
+        misfolded_protein_load:
+          prior_key: disease_vulnerability_score_normalized
+          gain: 0.1
+        amyloid_beta_soluble:
+          prior_key: disease_vulnerability_score_normalized
+          gain: 0.1
+        aggregate_burden:
+          prior_key: inflammation_propensity_score_normalized
+          gain: 0.08
+        amyloid_plaque:
+          prior_key: inflammation_propensity_score_normalized
+          gain: 0.08
+        neuroinflammation:
+          prior_key: inflammation_propensity_score_normalized
+          gain: 0.1
+        inflammatory_mediator:
+          prior_key: inflammation_propensity_score_normalized
+          gain: 0.1
+        clearance_flux:
+          prior_key: inverse_clearance_constraint_score_normalized
+          gain: 0.05
+        vascular_perivascular_transport:
+          prior_key: inverse_clearance_constraint_score_normalized
+          gain: 0.05
+        circuit_instability:
+          prior_key: transport_centrality_score_normalized
+          gain: 0.12
+        membrane_voltage:
+          prior_key: transport_centrality_score_normalized
+          gain: 0.08
+        spike_rate:
+          prior_key: transport_centrality_score_normalized
+          gain: 0.08
+      full_microenvironment_coupling:
+        amyloid_beta_soluble:
+          source_species: misfolded_protein_load
+          production_gain: 0.18
+          clearance_gain: 0.1
+          target_bound_relief_gain: 0.18
+          plaque_conversion_gain: 0.08
+        amyloid_plaque:
+          source_species: aggregate_burden
+          soluble_conversion_gain: 0.1
+          source_species_gain: 0.1
+          clearance_gain: 0.06
+          target_bound_relief_gain: 0.1
+        phosphorylated_tau:
+          amyloid_gain: 0.12
+          plaque_gain: 0.1
+          inflammation_gain: 0.08
+          clearance_gain: 0.05
+          target_bound_relief_gain: 0.06
+        inflammatory_mediator:
+          amyloid_gain: 0.16
+          plaque_gain: 0.12
+          tau_gain: 0.1
+          decay_gain: 0.12
+          target_bound_relief_gain: 0.08
+        calcium_concentration:
+          circuit_gain: 0.16
+          inflammation_gain: 0.08
+          decay_gain: 0.14
+        membrane_voltage:
+          circuit_gain: 0.14
+          calcium_gain: 0.12
+          decay_gain: 0.12
+        spike_rate:
+          voltage_gain: 0.18
+          calcium_gain: 0.1
+          decay_gain: 0.1
+        vascular_perivascular_transport:
+          clearance_flux_gain: 0.4
+          free_drug_gain: 0.08
+          inflammation_penalty_gain: 0.1
+          decay_gain: 0.08
+    osp_teacher_coupling:
+      plasma_species_id: free_drug
+      target_occupancy_species_id: target_bound_drug
+      cns_exposure_species_ids:
+      - amyloid_beta_soluble
+      - vascular_perivascular_transport
+    neuron_rxd_teacher_coupling:
+      voltage_species_id: membrane_voltage
+      spike_species_id: spike_rate
+      calcium_species_id: calcium_concentration
+      inflammatory_species_id: inflammatory_mediator
+  compartment_parameter_provenance:
+    plasma:
+      source_parameter_name: human_csf_production_rate_ml_per_day
+      source_compartment_id: csf
+    bbb_interface:
+      source_parameter_name: plasma_to_bbb_rate
+      source_compartment_id: bbb_interface
+    csf:
+      source_parameter_name: bbb_to_csf_rate
+      source_compartment_id: csf
+    pvs:
+      source_parameter_name: csf_to_pvs_rate
+      source_compartment_id: pvs
+    isf:
+      source_parameter_name: pvs_to_isf_rate
+      source_compartment_id: isf
+    meningeal_drainage:
+      source_parameter_name: csf_to_meningeal_clearance_rate
+      source_compartment_id: meningeal_drainage
+  teacher_source_policy:
+    primary_pbpk_teacher: osp_pksim_rollout
+    measured_pk_calibration_sources:
+    - pk_db
+    - epa_pk_time_series
+    - fda_clinical_pharmacology_review
+    cns_exposure_sources:
+    - b3db
+    - tdc_bbb_martins
+    - literature_csf_brain_isf_exposure
+    legacy_solver_role: compatibility_baseline
+  osp_pksim_runtime:
+    runtime_strategy: reproducible_environment_script
+    native_physical_export:
+      mode: osp_source_bound_equilibrium.v1
+      activation: explicit_native_physical_input
+      source: completed_osp_csv_and_bound_run_readback
+      quantity_policy: exact_source_path_and_declared_units
+      interpolation: declared_per_source_binding
+      supported_readout: fractional_occupancy
+      biological_calibration: unverified
+    required_r_packages:
+    - ospsuite
+    - tlf
+    - data.table
+    - jsonlite
+    environment_manifest_path: Libs/configs/runtime/osp_pksim_environment.yaml
+    rollout_output_root: Input/processed/pbpk_teacher/osp_pksim_rollouts
+    raw_output_cache:
+      reuse_existing_outputs: true
+      regenerate_invalid_cache: true
+      standardization_policy_uid: osp_pbpk_cns_pk_path_filter_v2
+      minimum_size_bytes: 1
+      required_columns:
+      - standardization_policy_uid
+      - source_output_path
+      - time_hours
+      - concentration
+      - plasma_concentration
+      - csf_concentration
+      - brain_isf_concentration
+    horizon_hours: 672.0
+    step_hours: 6.0
+    calibration_metrics:
+    - plasma_auc
+    - plasma_cmax
+    - plasma_tmax
+    - csf_auc
+    - isf_auc
+    - brain_plasma_auc_ratio
+    observed_or_synthetic: synthetic_mechanism_teacher
+    model_library:
+      repository_url: https://github.com/Open-Systems-Pharmacology/OSP-PBPK-Model-Library.git
+      local_repo_path: Libs/external/pbpk/OSP-PBPK-Model-Library-12.2.1
+      model_file_glob: '**/*.pksim5'
+      supported_model_extensions:
+      - .pksim5
+      - .pkml
+      - .json
+      smoke_test_model_path: Libs/external/pbpk/OSP-PBPK-Model-Library-12.2.1/Alprazolam/Alprazolam-Model.pksim5
+      library_discovery:
+        enabled: true
+        design_id_prefix: osp_library_teacher
+        subject_covariate_profile: library_default_subject
+        calibration_role: mechanism_teacher_loss
+        regimen_variant_id: library_project_protocol
+        route: library_project_protocol
+        schedule: library_project_protocol
+        dose_level_id: library_project_default
+        dose_multiplier: 1.0
+    output_path_mapping:
+      plasma_regex: plasma|venous|arterial
+      csf_regex: csf|cerebrospinal
+      brain_isf_regex: brain|interstitial|isf|extracellular|intracellular
+      result_file_regex: .*-Results\.csv$
+      csv_metadata_columns:
+      - IndividualId
+      measure_column_keep_regex: plasma|venous|arterial|csf|cerebrospinal|brain|central nervous|cns
+      max_measure_columns_per_chunk: 128
+      required_curve_columns:
+      - plasma_concentration
+      - brain_isf_concentration
+      optional_curve_columns:
+      - csf_concentration
+    rollout_designs:
+    - design_id: alprazolam_adult_oral_library_teacher
+      source_model_id: osp_alprazolam_adult_model
+      model_path: Libs/external/pbpk/OSP-PBPK-Model-Library-12.2.1/Alprazolam/Alprazolam-Model.pksim5
+      compound_uid: osp_alprazolam
+      canonical_compound_id: alprazolam
+      subject_covariate_profile: library_default_adult
+      calibration_role: mechanism_teacher_loss
+      regimen_variants:
+      - regimen_variant_id: library_default_regimen
+        route: oral
+        schedule: library_project_protocol
+        dose_level_id: library_default_dose
+        dose_multiplier: 1.0
+    zarr_chunking:
+      simulation_chunk_size: 16
+      time_chunk_size: 112
+      compartment_chunk_size: 3
+      species_chunk_size: 4
+    conda_environment:
+      environment_name: nrnsift_osp_pksim
+      environment_file: Libs/configs/runtime/osp_pksim_environment.yaml
+      execution_strategy: conda_run
+      r_executable: R
+      rscript_executable: Rscript
+      setup_script: Libs/scripts/teacher_generation/setup_osp_pksim_environment.sh
+    teacher_role: mechanism_teacher
+    source_repository: osp_pksim_model_library
+    provenance_level: repository_generated_mechanistic_rollout
+  chembl_pbpk_parameterization:
+    predictor_output_root: Input/processed/pbpk_teacher/chembl_parameter_predictions
+    feature_source_catalog: Input/processed/pkpd_ready/compound_pk_prior_catalog.tsv
+    teacher_role: parameter_predicted_teacher
+    source_repository: chembl_tdc_b3db_pk_literature
+    provenance_level: parameter_predicted_with_uncertainty
+    uncertainty_floor: 0.05
+    uncertainty_scale: 0.2
+    molecular_descriptor_fields:
+    - permeability_score
+    - exposure_scale
+    - clearance_scale
+    parameter_bounds:
+      plasma_clearance_l_per_hour:
+        lower: 0.01
+        upper: 100.0
+        unit: L_per_hour
+      bbb_permeability_relative:
+        lower: 0.0
+        upper: 1.0
+        unit: relative_rate
+      csf_partition_relative:
+        lower: 0.0
+        upper: 2.0
+        unit: relative_partition
+      brain_isf_partition_relative:
+        lower: 0.0
+        upper: 2.0
+        unit: relative_partition
+      meningeal_clearance_relative:
+        lower: 0.0
+        upper: 2.0
+        unit: relative_rate
+    descriptor_coefficients:
+      plasma_clearance_l_per_hour:
+        intercept: 2.0
+        permeability_score: -0.4
+        exposure_scale: -0.3
+        clearance_scale: 1.2
+      bbb_permeability_relative:
+        intercept: 0.05
+        permeability_score: 0.7
+        exposure_scale: 0.15
+        clearance_scale: -0.1
+      csf_partition_relative:
+        intercept: 0.1
+        permeability_score: 0.45
+        exposure_scale: 0.4
+        clearance_scale: -0.08
+      brain_isf_partition_relative:
+        intercept: 0.12
+        permeability_score: 0.5
+        exposure_scale: 0.42
+        clearance_scale: -0.1
+      meningeal_clearance_relative:
+        intercept: 0.15
+        permeability_score: -0.15
+        exposure_scale: -0.1
+        clearance_scale: 0.75
+  neuron_rxd_teacher:
+    disease_scope: ad_control
+    source_priority:
+    - modeldb_romani_2013_ca3_ca1
+    - allen_cell_types_biophysical
+    source_repository_policy: public_modeldb_allen
+    source_download_proxy_policy:
+      unset_loopback_proxy_on_compute: true
+      loopback_host_patterns:
+      - 127.0.0.1
+      - localhost
+      environment_variables:
+      - HTTP_PROXY
+      - HTTPS_PROXY
+      - ALL_PROXY
+      - http_proxy
+      - https_proxy
+      - all_proxy
+    protocol_output_root: Input/processed/electrophysiology_teacher/neuron_rxd_ad_microenvironment
+    state_outputs:
+    - membrane_voltage
+    - spike_count
+    - calcium_concentration
+    - amyloid_beta_field
+    - tau_pathology_field
+    - inflammatory_drive
+    - circuit_instability
+    rxd_species:
+    - calcium
+    - amyloid_beta
+    - tau
+    - inflammatory_mediator
+    sanity_bounds:
+      resting_voltage_millivolt_min: -90.0
+      resting_voltage_millivolt_max: -45.0
+      calcium_concentration_min: 0.0
+      spike_count_min: 0.0
+    observed_or_synthetic: synthetic_biophysical_teacher
+    model_sources:
+      modeldb:
+        source_model_id: modeldb_romani_2013_ca3_ca1
+        repository_url: https://modeldb.science/147757
+        download_url: https://modeldb.science/download/147757
+        local_root: Libs/external/electrophysiology/modeldb_romani_2013_ca3_ca1
+        archive_path: Libs/external/electrophysiology/modeldb_romani_2013_ca3_ca1/modeldb_147757.zip
+        extracted_root: Libs/external/electrophysiology/modeldb_romani_2013_ca3_ca1/source/RomaniEtAl2013
+        mechanism_root: Libs/external/electrophysiology/modeldb_romani_2013_ca3_ca1/source/RomaniEtAl2013/experiment
+        simulation_hoc_path: Libs/external/electrophysiology/modeldb_romani_2013_ca3_ca1/source/RomaniEtAl2013/experiment/loadBasicModel.hoc
+        morphology_root: Libs/external/electrophysiology/modeldb_romani_2013_ca3_ca1/source/RomaniEtAl2013/morphology/n123
+        compiled_library_relpath: x86_64/libnrnmech.so
+      allen_cell_types:
+        source_model_id: allen_cell_types_biophysical
+        repository_url: https://celltypes.brain-map.org/
+        download_url_template: https://api.brain-map.org/neuronal_model/download/{neuronal_model_id}
+        retrieval_strategy: allen_api_neuronal_model_download
+        local_root: Libs/external/electrophysiology/allen_cell_types_biophysical
+        neuronal_model_ids:
+        - 472451419
+        archive_template: neuronal_model_{neuronal_model_id}.zip
+        extracted_root_template: neuronal_model_{neuronal_model_id}
+        mechanism_root: modfiles
+        compiled_library_relpath: x86_64/libnrnmech.so
+    zarr_chunking:
+      simulation_chunk_size: 8
+      time_chunk_size: 256
+      compartment_chunk_size: 3
+      species_chunk_size: 4
+    source_membrane_charge_registration:
+      recording_mode: endpoint_v1
+      source_step_ledger:
+        definition_id: neuron_9_0_1_fast_imem_minus_capacitance_v1
+        phase: after_voltage_update_before_nonvint_state_update
+        required_neuron_version: 9.0.1
+        required_nrnversion: NEURON -- VERSION 9.0.1 HEAD (b12a541+) 2025-11-14
+        primary_revision: b12a541
+        primary_sources:
+        - path: src/nrnoc/fadvance.cpp
+          git_blob_sha1: c79348f7092c88fc14260c6f20390a8be96a2e55
+        - path: src/nrnoc/treeset.cpp
+          git_blob_sha1: e24a45b1962ad4c8eccd4e3b6ca128f42cd94c5b
+        - path: src/nrnoc/capac.cpp
+          git_blob_sha1: bccfe0662ca0c52d39b95c469f3322406cc7cbef
+        - path: src/nrnoc/nonvintblock.h
+          git_blob_sha1: e2c14196fd00a14c1c598b657085ea6efb87ae4a
+        - path: src/nrnoc/stim.mod
+          git_blob_sha1: 687946d3030b18f9382968f593110239004f8174
+        - path: src/nrncvode/cvodeobj.cpp
+          git_blob_sha1: 228b7ac2a530f4ffc405485a16a9ea1d4830cef3
+        - path: src/nrnpython/nrnpy_nrn.cpp
+          git_blob_sha1: 962fcb9609bf93b26649bf0ac7688bbeba9d0d9e
+        - path: src/nrnoc/eion.cpp
+          git_blob_sha1: e616a2927b60f405c27637d8651dfa192e1434d0
+        required_build_identity:
+          source_files_uid: 4c530d89c8fc2e8a23b2245e3a5ef9ef8c2616b9c65fc2289a7a59f882a3d536
+          neuron_runtime_libraries:
+            /share/home/hwxu/miniconda3/lib/python3.13/site-packages/neuron/.data/lib/libivx11dynam.so: c21fe5dd757d6adfa482c846b1f6704e787da515127b82aa833dff12ab0055b1
+            /share/home/hwxu/miniconda3/lib/python3.13/site-packages/neuron/.data/lib/libnrniv.so: dc6eb7e73ff8c2a4316a5353f8abe0ee226502a17f951f4a221b186f1e9f9181
+            /share/home/hwxu/miniconda3/lib/python3.13/site-packages/neuron/.data/lib/libnrnpython3.13.so: 90efa0d0de7bd8b86596ca9827a279ab049ec84908bbb5a46a32b1f73e80a68b
+            /share/home/hwxu/miniconda3/lib/python3.13/site-packages/neuron/.data/lib/librxdmath.so: cb9c849755fb25c6cd0405170a7cd45562974264c57b58a5d54fc617ab093eb4
+            /share/home/hwxu/miniconda3/lib/python3.13/site-packages/neuron/hoc.cpython-313-x86_64-linux-gnu.so: e973c2f7911f7efbe65b3beb1988908bcb78cdc0f6a829a467d297c7127e2ff4
+          python_executable_sha256: 5b1f9edb3e3362e8277908f6f640fc48bc57da93085e359cb55d435a812e4614
+        origins:
+          membrane_current_nA: NEURON_i_membrane_includes_capacitance_excludes_ELECTRODE_CURRENT
+          capacitive_current_mA_cm2: NEURON_i_cap_from_solved_voltage_increment
+          electrode_current_nA: IClamp_i_assigned_at_interval_midpoint
+          assembled_ionic_current_mA_cm2: source_ion_aggregates_plus_pas_before_state_update
+          axial_current_nA: solved_endpoint_voltage_differences_over_source_ri
+          effective_ionic_current_nA: derived_i_membrane_minus_area_scaled_i_cap
+      output_root: Output/results/source_membrane_charge_registration
+      candidate: "Gamma=(Q,C,site); J=F(Q,C) at fixed source parameters"
+      section_name: soma[0]
+      segment_x: 0.5
+      source_dependency_directories: [experiment, template, lib, morphology/n123]
+      initial_voltage_mV: -65.0
+      duration_ms: 400.0
+      continuation_start_ms: 200.0
+      prehistory_pulse_ms: [40.0, 160.0]
+      test_pulse_ms: [240.0, 360.0]
+      stimulus_amplitude_nA: 0.15
+      dt_ms: [0.1, 0.05]
+      cvode_active: false
+      secondorder: 0
+      solver_threads: 1
+      current_origins:
+        ionic: source_ion_aggregates_plus_pas
+        axial: source_endpoint_voltage_over_ri
+      matching_rule: earliest_piecewise_linear_crossing_on_four_trace_common_charge_support
+      matching_charge_points: 33
+      matching_phases:
+      - {name: before_test, start_ms: 200.1, end_ms: 239.9, pulse_on: false}
+      - {name: test_window, start_ms: 240.1, end_ms: 359.9, pulse_on: true}
+      - {name: recovery, start_ms: 360.1, end_ms: 399.9, pulse_on: false}
+      refinement_envelope_factor: 2.0
+      current_atol_nA: 1.0e-9
+      balance_atol_pC: 1.0e-9
+      balance_relative_tolerance: 0.01
+      numerical_scope: empirical_single_refinement_comparison_not_rigorous_error_bound
+    protocol_runtime:
+      h_dt_ms: 0.1
+      simulation_duration_ms: 200.0
+      stimulus_delay_ms: 40.0
+      stimulus_duration_ms: 120.0
+      stimulus_amplitude_nA: 0.15
+      resting_voltage_millivolt: -65.0
+      soma_length_micrometer: 30.0
+      soma_diameter_micrometer: 30.0
+      axial_resistance_ohm_cm: 100.0
+      membrane_capacitance_uF_per_cm2: 1.0
+      leak_conductance_s_per_cm2: 0.0003
+      leak_reversal_millivolt: -54.3
+      sodium_conductance_s_per_cm2: 0.12
+      potassium_conductance_s_per_cm2: 0.036
+      calcium_initial_millimolar: 0.0001
+      amyloid_initial_millimolar: 0.002
+      tau_initial_millimolar: 0.001
+      inflammatory_initial_millimolar: 0.001
+      rxd_diffusion_um2_per_ms: 0.1
+      rxd_decay_per_ms: 0.001
+      amyloid_tau_coupling_per_ms: 0.0005
+      inflammation_amyloid_coupling_per_ms: 0.0004
+    voltage_normalization:
+      resting_millivolt: -70.0
+      depolarized_millivolt: -40.0
+    teacher_role: mechanism_teacher
+    source_repository: modeldb_allen_neuron_rxd
+    provenance_level: repository_generated_biophysical_rollout
+  case_validation_entries:
+  - case_study_name: ad_amyloid_route
+    disease_program: ad_control
+    intervention_label: LECANEMAB
+    endpoint_family: amyloid_reduction
+    endpoint_source_url: https://pubmed.ncbi.nlm.nih.gov/36449413/
+    expected_effect_direction: favorable
+    expected_standardized_effect: 0.55
+    evaluation_metric: standardized_effect_error
+    holdout_from_calibration_flag: 'yes'
+    note: provenance-backed early AD anti-amyloid antibody anchor
+    evidence_source_type: ad_literature_anchor
+    biomarker_endpoint_summary: Amyloid reduction anchor from CLARITY AD literature
+      record.
+    clinical_endpoint_summary: Clinical endpoint direction is qualitatively favorable
+      in early AD; not used as supervised loss.
+    clinical_endpoint_source_url: https://pubmed.ncbi.nlm.nih.gov/36449413/
+    clinical_endpoint_alignment_policy: qualitative_direction_only
+  - case_study_name: ad_amyloid_route
+    disease_program: ad_control
+    intervention_label: DONANEMAB
+    endpoint_family: plaque_reduction
+    endpoint_source_url: https://pubmed.ncbi.nlm.nih.gov/37459141/
+    expected_effect_direction: favorable
+    expected_standardized_effect: 0.68
+    evaluation_metric: standardized_effect_error
+    holdout_from_calibration_flag: 'yes'
+    note: provenance-backed plaque clearance anchor
+    evidence_source_type: ad_literature_anchor
+    biomarker_endpoint_summary: Plaque reduction anchor from TRAILBLAZER-ALZ 2 literature
+      record.
+    clinical_endpoint_summary: Clinical endpoint direction is qualitatively favorable;
+      not numerically fitted.
+    clinical_endpoint_source_url: https://pubmed.ncbi.nlm.nih.gov/37459141/
+    clinical_endpoint_alignment_policy: qualitative_direction_only
+  - case_study_name: ad_amyloid_route
+    disease_program: ad_control
+    intervention_label: VERUBECESTAT
+    endpoint_family: plaque_reduction
+    endpoint_source_url: https://pubmed.ncbi.nlm.nih.gov/29719179/
+    expected_effect_direction: weak_or_negative
+    expected_standardized_effect: 0.18
+    evaluation_metric: standardized_effect_error
+    holdout_from_calibration_flag: 'yes'
+    note: provenance-backed BACE inhibitor negative ranking anchor
+    evidence_source_type: ad_literature_anchor
+    biomarker_endpoint_summary: BACE inhibition anchor with weak or negative screening
+      direction.
+    clinical_endpoint_summary: Clinical endpoint direction is qualitatively weak or
+      negative; not used as supervised loss.
+    clinical_endpoint_source_url: https://pubmed.ncbi.nlm.nih.gov/29719179/
+    clinical_endpoint_alignment_policy: qualitative_direction_only
+  - case_study_name: ad_amyloid_route
+    disease_program: ad_control
+    intervention_label: ADUCANUMAB
+    endpoint_family: amyloid_reduction
+    endpoint_source_url: https://pubmed.ncbi.nlm.nih.gov/34807243/
+    expected_effect_direction: favorable
+    expected_standardized_effect: 0.44
+    evaluation_metric: standardized_effect_error
+    holdout_from_calibration_flag: 'yes'
+    note: provenance-backed anti-amyloid antibody anchor with clinical uncertainty
+      noted qualitatively
+    evidence_source_type: ad_literature_anchor
+    biomarker_endpoint_summary: Amyloid antibody anchor with EMERGE/ENGAGE analysis
+      provenance.
+    clinical_endpoint_summary: Clinical endpoint direction is qualitatively mixed
+      but biomarker direction remains favorable; not numerically fitted.
+    clinical_endpoint_source_url: https://pubmed.ncbi.nlm.nih.gov/34807243/
+    clinical_endpoint_alignment_policy: qualitative_direction_only
+  - case_study_name: ad_amyloid_route
+    disease_program: ad_control
+    intervention_label: SOLANEZUMAB
+    endpoint_family: amyloid_reduction
+    endpoint_source_url: https://pubmed.ncbi.nlm.nih.gov/34155411/
+    expected_effect_direction: weak_or_negative
+    expected_standardized_effect: 0.12
+    evaluation_metric: standardized_effect_error
+    holdout_from_calibration_flag: 'yes'
+    note: provenance-backed weak amyloid antibody comparator anchor
+    evidence_source_type: ad_literature_anchor
+    biomarker_endpoint_summary: Soluble amyloid antibody comparator with weak clinical
+      screening direction.
+    clinical_endpoint_summary: Clinical endpoint direction is qualitatively weak or
+      negative; not numerically fitted.
+    clinical_endpoint_source_url: https://pubmed.ncbi.nlm.nih.gov/34155411/
+    clinical_endpoint_alignment_policy: qualitative_direction_only
+  - case_study_name: ad_amyloid_route
+    disease_program: ad_control
+    intervention_label: TRAMIPROSATE
+    endpoint_family: amyloid_reduction
+    endpoint_source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC3258678/
+    expected_effect_direction: modest_or_mixed
+    expected_standardized_effect: 0.24
+    evaluation_metric: standardized_effect_error
+    holdout_from_calibration_flag: 'yes'
+    note: provenance-backed modest mixed anti-amyloid comparator anchor
+    evidence_source_type: ad_literature_anchor
+    biomarker_endpoint_summary: Anti-amyloid aggregation comparator with modest or
+      mixed screening direction.
+    clinical_endpoint_summary: Clinical endpoint direction is qualitatively modest
+      or mixed; not numerically fitted.
+    clinical_endpoint_source_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC3258678/
+    clinical_endpoint_alignment_policy: qualitative_direction_only
+  relative_paths:
+    species_catalog: dynamics_ready/public_ad_meso/species_catalog.tsv
+    parameter_catalog: dynamics_ready/public_ad_meso/parameter_catalog.tsv
+    simulation_catalog: dynamics_ready/public_ad_meso/simulation_catalog.tsv
+    sample_alignment_catalog: dynamics_ready/public_ad_meso/sample_alignment_catalog.tsv
+    case_validation_catalog: dynamics_ready/public_ad_meso/case_validation_catalog.tsv
+    study_alignment_root: dynamics_ready/public_ad_meso/study_alignments
+    trajectory_store: dynamics_ready/public_ad_meso/trajectory_store.zarr
+  case_validation_metric_weights:
+    aggregate_reduction: 0.35
+    protein_reduction: 0.25
+    inflammation_reduction: 0.2
+    circuit_instability_reduction: 0.2
+  case_validation_metric_thresholds:
+    favorable_min_effect: 0.25
+    weak_or_negative_max_effect: 0.25
+    mixed_min_effect: 0.15
+    mixed_max_effect: 0.45
+    rank_high_min_effect: 0.45
+    rank_mid_min_effect: 0.15
+    structural_support_minimum: 0.25

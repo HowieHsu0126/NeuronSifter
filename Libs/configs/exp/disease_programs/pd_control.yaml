@@ -1,0 +1,7 @@
+name: pd_control
+config_overrides:
+  benchmark_registry:
+    active_disease_program: pd_control
+  screening_pipeline:
+    screening_benchmark:
+      active_disease_program: pd_control

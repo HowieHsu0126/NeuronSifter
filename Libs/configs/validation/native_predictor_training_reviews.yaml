@@ -1,0 +1,4 @@
+# Independent scientific judgements are registered by repository/controller authority.
+# This registry is separate from the audited training configuration to avoid a hash cycle.
+schema_version: native_predictor_training_review_authority.v1
+verdicts: {}

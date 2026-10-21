@@ -1,0 +1,7 @@
+config_includes:
+- manuscript_native_protocol.yaml
+screening_pipeline:
+  screening_benchmark:
+    model_architecture:
+      world_state_posterior:
+        physical_parameter_conditioning: null

@@ -1,0 +1,258 @@
+{
+  "operational_twin_candidate_execution": {
+    "schema_version": "neuronsifter-operational-twin-candidate-execution-v4",
+    "authoritative_date": "2026-09-14",
+    "evidence_class": "controlled_world_non_empirical_execution",
+    "candidate_lineage_uid": "operational_twin_successor_lineage_19c2cadb43baa7e2a7b4e2dc",
+    "protocol_uid": "operational_twin_successor_protocol_ba115767572b1ae7fe097cf3",
+    "preflight_uid": "operational_twin_successor_preflight_727187aa330e1ab4a3666e49",
+    "scheduler_evidence_contract_version": "slurm-22.05.9-execution-interface-v3",
+    "frozen_artifacts": {
+      "candidate_lineage_manifest": {
+        "path": "Output/results/operational_twin/successor_lineage_protocol/candidate_lineage_manifest.json",
+        "internal_hash_field": "candidate_manifest_hash",
+        "internal_hash": "f9eb9f8a5e27cd6cb2b44af81dbfe330fba6a6625e94969c84c7cf1d9ab6fd8a"
+      },
+      "assignment_manifest": {
+        "path": "Output/results/operational_twin/successor_lineage_protocol/assignment_manifest.json",
+        "internal_hash_field": "assignment_manifest_hash",
+        "internal_hash": "6ed4b90dfac3a63fcaadfe7979314af5c2353daa0f9541f213745f2fa87b98a9"
+      },
+      "assignment_commands": {
+        "path": "Output/results/operational_twin/successor_lineage_protocol/assignment_commands.json",
+        "internal_hash_field": "command_catalog_hash",
+        "internal_hash": "d71417d900f80ddbcfff9fee34c86905d556eed67fc02ef89569350db4a5d840"
+      },
+      "preflight_authority": {
+        "path": "Output/audits/operational_twin_candidate_lineage_successor_guarded_preflight.json",
+        "internal_hash_field": "preflight_uid",
+        "internal_hash": "operational_twin_successor_preflight_727187aa330e1ab4a3666e49"
+      },
+      "preflight_report": {
+        "path": "Output/reports/operational_twin_candidate_lineage_successor_guarded_preflight.md",
+        "internal_hash_field": null,
+        "internal_hash": null
+      }
+    },
+    "protocol_review_contract": {
+      "path": "orchestrator/rounds/round-49-freeze-operational-twin-successor-lineage-protocol/review-record.json",
+      "schema_version": "review-record-v4",
+      "round_id": "round-49-freeze-operational-twin-successor-lineage-protocol",
+      "direction_id": "freeze-operational-twin-successor-lineage-protocol",
+      "decision": "approved"
+    },
+    "interface_repair_contract": {
+      "round_id": "round-47-repair-operational-twin-candidate-execution-interfaces",
+      "direction_id": "repair-operational-twin-candidate-execution-interfaces",
+      "baseline_commit": "3ae8875a547786beb65604fe5cc4bc09d4103872",
+      "merged_round_46_commit": "d2d57c9f5a08b5933b66e395f6128de68aacf16f",
+      "audit_path": "Output/audits/operational_twin_candidate_execution_interfaces.json",
+      "report_path": "Output/reports/operational_twin_candidate_execution_interfaces.md",
+      "positive_terminal": "OPERATIONAL_TWIN_CANDIDATE_EXECUTION_INTERFACES_REPAIRED",
+      "negative_terminal": "OPERATIONAL_TWIN_CANDIDATE_EXECUTION_INTERFACES_NOT_REPAIRED",
+      "candidate_dispatch_authorized": false
+    },
+    "terminal_scheduler_contract": {
+      "schema_version": "neuronsifter-operational-twin-candidate-scheduler-receipt-v3",
+      "sacct_fields": [
+        "JobID",
+        "JobIDRaw",
+        "JobName",
+        "Partition",
+        "State",
+        "ExitCode",
+        "NodeList",
+        "AllocTRES",
+        "Elapsed"
+      ],
+      "external_job_id_field": "JobID",
+      "internal_job_id_field": "JobIDRaw",
+      "array_element_identity_template": "{array_job_id}_{command_index}",
+      "exact_external_identity_required": true,
+      "unique_internal_identity_required": true,
+      "master_or_step_rows_selectable": false,
+      "terminal_states": [
+        "BOOT_FAIL",
+        "CANCELLED",
+        "COMPLETED",
+        "DEADLINE",
+        "FAILED",
+        "NODE_FAIL",
+        "OUT_OF_MEMORY",
+        "PREEMPTED",
+        "REVOKED",
+        "TIMEOUT"
+      ]
+    },
+    "execution_round": {
+      "required_direction_id": "execute-operational-twin-candidate-lineage-retry",
+      "required_milestone_id": "operational-twin-qualification",
+      "required_roadmap_id": "2026-09-01-00-trace-grounded-neural-world",
+      "round_directory_template": "orchestrator/rounds/{round_id}"
+    },
+    "attempt_gate": {
+      "require_clean_tracked_source": true,
+      "atomic_no_overwrite": true,
+      "maximum_resource_receipt_age_seconds": 1800,
+      "receipt_before_authority": true,
+      "authority_before_attempt_claim": true
+    },
+    "array_groups": [
+      {
+        "group_id": "persistence_no_action",
+        "method_id": "persistence_no_action",
+        "initial_command_indices": [
+          0,
+          1,
+          2
+        ],
+        "recovery_command_indices": [
+          15,
+          16,
+          17
+        ],
+        "partition": "cpu",
+        "nodelist": "cpu04",
+        "cpus_per_task": 2,
+        "memory": "8G",
+        "gres": null,
+        "exclusive": false,
+        "wall_time": "00:20:00"
+      },
+      {
+        "group_id": "linear_or_delta",
+        "method_id": "linear_or_delta",
+        "initial_command_indices": [
+          3,
+          4,
+          5
+        ],
+        "recovery_command_indices": [
+          18,
+          19,
+          20
+        ],
+        "partition": "gpu1",
+        "nodelist": "gpu03",
+        "cpus_per_task": 6,
+        "memory": "32G",
+        "gres": "gpu:1",
+        "exclusive": false,
+        "wall_time": "02:00:00"
+      },
+      {
+        "group_id": "same_backbone_no_action",
+        "method_id": "same_backbone_no_action",
+        "initial_command_indices": [
+          6,
+          7,
+          8
+        ],
+        "recovery_command_indices": [
+          21,
+          22,
+          23
+        ],
+        "partition": "gpu1",
+        "nodelist": "gpu03",
+        "cpus_per_task": 6,
+        "memory": "32G",
+        "gres": "gpu:1",
+        "exclusive": false,
+        "wall_time": "06:00:00"
+      },
+      {
+        "group_id": "deterministic_action_conditioned",
+        "method_id": "deterministic_action_conditioned",
+        "initial_command_indices": [
+          9,
+          10,
+          11
+        ],
+        "recovery_command_indices": [
+          24,
+          25,
+          26
+        ],
+        "partition": "gpu1",
+        "nodelist": "gpu03",
+        "cpus_per_task": 6,
+        "memory": "32G",
+        "gres": "gpu:1",
+        "exclusive": false,
+        "wall_time": "08:00:00"
+      },
+      {
+        "group_id": "full_uncertainty_aware_action_conditioned",
+        "method_id": "full_uncertainty_aware_action_conditioned",
+        "initial_command_indices": [
+          12,
+          13,
+          14
+        ],
+        "recovery_command_indices": [
+          27,
+          28,
+          29
+        ],
+        "partition": "gpu1",
+        "nodelist": "gpu03",
+        "cpus_per_task": 6,
+        "memory": "32G",
+        "gres": "gpu:1",
+        "exclusive": false,
+        "wall_time": "12:00:00"
+      }
+    ],
+    "output_paths": {
+      "calibration_execution_authority": "Output/audits/operational_twin/successor_calibration_execution_authorities/operational_twin_successor_lineage_19c2cadb43baa7e2a7b4e2dc.json",
+      "pre_dispatch_audit": "Output/audits/operational_twin_successor_candidate_execution_pre_dispatch.json",
+      "execution_root": "Output/results/operational_twin/candidate_lineages/operational_twin_successor_lineage_19c2cadb43baa7e2a7b4e2dc/execution",
+      "dispatch_manifest": "Output/results/operational_twin/candidate_lineages/operational_twin_successor_lineage_19c2cadb43baa7e2a7b4e2dc/execution/dispatch_manifest.json",
+      "recovery_eligibility": "Output/results/operational_twin/candidate_lineages/operational_twin_successor_lineage_19c2cadb43baa7e2a7b4e2dc/execution/recovery_eligibility.json",
+      "candidate_execution_catalog": "Output/results/operational_twin/candidate_lineages/operational_twin_successor_lineage_19c2cadb43baa7e2a7b4e2dc/execution/candidate_execution_catalog.json",
+      "scheduler_receipts_root": "Output/results/operational_twin/candidate_lineages/operational_twin_successor_lineage_19c2cadb43baa7e2a7b4e2dc/execution/scheduler_receipts",
+      "execution_audit": "Output/audits/operational_twin_successor_candidate_execution.json",
+      "execution_report": "Output/reports/operational_twin_successor_candidate_execution.md",
+      "recovery_dispatch_manifest": "Output/results/operational_twin/candidate_lineages/operational_twin_successor_lineage_19c2cadb43baa7e2a7b4e2dc/execution/recovery_dispatch_manifest.json",
+      "dispatch_claim": "Output/results/operational_twin/candidate_lineages/operational_twin_successor_lineage_19c2cadb43baa7e2a7b4e2dc/execution/initial_dispatch_claim.json",
+      "recovery_dispatch_claim": "Output/results/operational_twin/candidate_lineages/operational_twin_successor_lineage_19c2cadb43baa7e2a7b4e2dc/execution/recovery_dispatch_claim.json",
+      "dispatch_release_manifest": "Output/results/operational_twin/candidate_lineages/operational_twin_successor_lineage_19c2cadb43baa7e2a7b4e2dc/execution/initial_release_manifest.json",
+      "recovery_dispatch_release_manifest": "Output/results/operational_twin/candidate_lineages/operational_twin_successor_lineage_19c2cadb43baa7e2a7b4e2dc/execution/recovery_release_manifest.json"
+    },
+    "terminal_policy": {
+      "positive": "OPERATIONAL_TWIN_CANDIDATE_LINEAGE_EXECUTED",
+      "incomplete": "OPERATIONAL_TWIN_CANDIDATE_LINEAGE_EXECUTION_INCOMPLETE",
+      "invalid": "OPERATIONAL_TWIN_CANDIDATE_LINEAGE_EXECUTION_INVALID",
+      "resource_receipt": "OPERATIONAL_TWIN_CANDIDATE_RESOURCE_ENVIRONMENT_RECEIPT_VALID",
+      "execution_authority": "OPERATIONAL_TWIN_CANDIDATE_EXECUTION_AUTHORIZED"
+    },
+    "access_counters": {
+      "sealed_material_access": 0,
+      "test_outcome_access": 0,
+      "protected_holdout_access": 0,
+      "six_context_outcome_access": 0,
+      "tool_access": 0,
+      "mcp_access": 0,
+      "agent_trace_access": 0,
+      "agent_access": 0,
+      "memory_access": 0,
+      "coevolution_access": 0
+    },
+    "closed_flags": {
+      "sufficient_training": false,
+      "twin_qualification_pass": false,
+      "formal_qualification": false,
+      "presealed_freeze_created": false,
+      "scientific_twin_result": "NOT_RUN"
+    },
+    "binding_contract": {
+      "schema_version": "neuronsifter-operational-twin-successor-execution-binding-v1",
+      "protocol_kind": "successor_execution_handoff",
+      "authority_overrides": {
+        "authority_schema_version": "neuronsifter-operational-twin-candidate-execution-authority-v4",
+        "resource_receipt_schema_version": "neuronsifter-operational-twin-candidate-resource-environment-receipt-v4"
+      }
+    }
+  }
+}

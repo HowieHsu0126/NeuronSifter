@@ -1,0 +1,608 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "neuronsifter-controlled-neural-world.schema.json",
+  "title": "NeuronSifter controlled neural world contracts",
+  "oneOf": [
+    {"$ref": "#/$defs/source_config"},
+    {"$ref": "#/$defs/runtime_instance"},
+    {"$ref": "#/$defs/family_manifest"},
+    {"$ref": "#/$defs/validation_audit"}
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "family_uid": {
+      "enum": [
+        "electrophysiology_conductance_world",
+        "calcium_synaptic_world",
+        "molecular_pharmacological_causal_world"
+      ]
+    },
+    "unit_value": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "unit"],
+      "properties": {
+        "value": {"type": "number"},
+        "unit": {"type": "string", "minLength": 1},
+        "seed_jitter": {"type": "number", "minimum": 0}
+      }
+    },
+    "bounded_unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["minimum", "maximum", "unit"],
+      "properties": {
+        "minimum": {"type": "number"},
+        "maximum": {"type": "number"},
+        "unit": {"type": "string", "minLength": 1}
+      }
+    },
+    "variable_unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["variable", "unit"],
+      "properties": {
+        "variable": {"type": "string", "minLength": 1},
+        "unit": {"type": "string", "minLength": 1}
+      }
+    },
+    "biological_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["organism", "region", "compartment", "cell_type"],
+      "properties": {
+        "organism": {"type": "string", "minLength": 1},
+        "region": {"type": "string", "minLength": 1},
+        "compartment": {"type": "string", "minLength": 1},
+        "cell_type": {"type": "string", "minLength": 1}
+      }
+    },
+    "access_counters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["six_context_outcome_access", "protected_holdout_access"],
+      "properties": {
+        "six_context_outcome_access": {"const": 0},
+        "protected_holdout_access": {"const": 0}
+      }
+    },
+    "claim_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "implementation_level_contract_only",
+        "benchmark_qualification_claim",
+        "empirical_evidence",
+        "therapeutic_efficacy_claim",
+        "clinical_validation_claim"
+      ],
+      "properties": {
+        "implementation_level_contract_only": {"const": true},
+        "benchmark_qualification_claim": {"const": false},
+        "empirical_evidence": {"const": false},
+        "therapeutic_efficacy_claim": {"const": false},
+        "clinical_validation_claim": {"const": false}
+      }
+    },
+    "world_action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version", "action_uid", "intervention_type", "target_set", "agent_set",
+        "dose", "dose_unit", "schedule", "route", "duration", "stimulation_or_environment",
+        "state_scope", "support_domain_ref", "source_evidence_refs", "action_provenance_ref",
+        "conflicts", "status"
+      ],
+      "properties": {
+        "schema_version": {"const": "neuronsifter-world-action-v1"},
+        "action_uid": {"type": "string", "minLength": 1},
+        "intervention_type": {"type": "string", "minLength": 1},
+        "target_set": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "agent_set": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "dose": {"type": ["number", "null"]},
+        "dose_unit": {"type": ["string", "null"]},
+        "schedule": {"type": "object", "minProperties": 1},
+        "route": {"type": ["string", "null"]},
+        "duration": {"$ref": "#/$defs/unit_value"},
+        "stimulation_or_environment": {"type": "object", "minProperties": 1},
+        "state_scope": {"type": "object", "minProperties": 1},
+        "support_domain_ref": {"type": "string", "minLength": 1},
+        "source_evidence_refs": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "action_provenance_ref": {"type": "string", "minLength": 1},
+        "conflicts": {"type": "array", "items": {"type": "string"}},
+        "status": {"type": "string", "minLength": 1}
+      }
+    },
+    "action_semantics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_set", "agent_set", "schedule", "route", "support_domain_ref", "provenance_ref"],
+      "properties": {
+        "target_set": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "agent_set": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "schedule": {"type": "object", "minProperties": 1},
+        "route": {"type": ["string", "null"]},
+        "support_domain_ref": {"type": "string", "minLength": 1},
+        "provenance_ref": {"type": "string", "minLength": 1}
+      }
+    },
+    "controlled_action_extension": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["modality", "dose_or_intensity", "duration", "combination", "biological_context", "action_semantics"],
+      "properties": {
+        "modality": {"type": "string", "minLength": 1},
+        "dose_or_intensity": {"$ref": "#/$defs/unit_value"},
+        "duration": {"$ref": "#/$defs/unit_value"},
+        "combination": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "biological_context": {"$ref": "#/$defs/biological_context"},
+        "action_semantics": {"$ref": "#/$defs/action_semantics"}
+      }
+    },
+    "information_action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version", "information_action_uid", "candidate_uids", "requested_observables",
+        "tool_or_source_uid", "fidelity", "measurement_context", "budget_class", "expected_cost",
+        "expected_runtime", "failure_policy", "support_domain_ref", "provenance_ref", "conflicts", "status"
+      ],
+      "properties": {
+        "schema_version": {"const": "neuronsifter-information-action-v1"},
+        "information_action_uid": {"type": "string", "minLength": 1},
+        "candidate_uids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "requested_observables": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "tool_or_source_uid": {"type": "string", "minLength": 1},
+        "fidelity": {"type": "string", "minLength": 1},
+        "measurement_context": {"type": "object", "minProperties": 1},
+        "budget_class": {"type": "string", "minLength": 1},
+        "expected_cost": {"$ref": "#/$defs/unit_value"},
+        "expected_runtime": {"$ref": "#/$defs/unit_value"},
+        "failure_policy": {"type": "string", "minLength": 1},
+        "support_domain_ref": {"type": "string", "minLength": 1},
+        "provenance_ref": {"type": "string", "minLength": 1},
+        "conflicts": {"type": "array", "items": {"type": "string"}},
+        "status": {"type": "string", "minLength": 1}
+      }
+    },
+    "information_spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canonical", "outcome_policy"],
+      "properties": {
+        "canonical": {"$ref": "#/$defs/information_action"},
+        "outcome_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "measured_observables", "missing_observables", "noise_offsets", "failure_code"],
+          "properties": {
+            "status": {"enum": ["partial", "failed"]},
+            "measured_observables": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+            "missing_observables": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+            "noise_offsets": {"type": "object", "additionalProperties": {"type": "number"}},
+            "failure_code": {"type": ["string", "null"]}
+          }
+        }
+      }
+    },
+    "generator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "implementation_uid", "implementation_version", "implementation_path", "deterministic",
+        "seed", "seed_policy", "subseeds", "latent_generator_lineage_uid", "parameters"
+      ],
+      "properties": {
+        "implementation_uid": {"type": "string", "minLength": 1},
+        "implementation_version": {"type": "string", "minLength": 1},
+        "implementation_path": {"const": "Libs/utils/data/controlled_world_runtime.py"},
+        "deterministic": {"const": true},
+        "seed": {"type": "integer", "minimum": 0},
+        "seed_policy": {"const": "fixed_per_world_identity"},
+        "subseeds": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["parameter_jitter", "observation_noise"],
+          "properties": {
+            "parameter_jitter": {"type": "integer", "minimum": 0},
+            "observation_noise": {"type": "integer", "minimum": 0}
+          }
+        },
+        "latent_generator_lineage_uid": {"type": "string", "minLength": 1},
+        "parameters": {"type": "object"}
+      }
+    },
+    "world": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["world_family_uid", "world_uid", "biological_context", "time_grid", "observable_variables", "hidden_variables", "observation_policy"],
+      "properties": {
+        "world_family_uid": {"$ref": "#/$defs/family_uid"},
+        "world_uid": {"type": "string", "minLength": 1},
+        "biological_context": {"$ref": "#/$defs/biological_context"},
+        "time_grid": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["values", "unit"],
+          "properties": {
+            "values": {"type": "array", "minItems": 3, "items": {"type": "number"}},
+            "unit": {"enum": ["ms", "hour"]}
+          }
+        },
+        "observable_variables": {"type": "array", "minItems": 3, "items": {"$ref": "#/$defs/variable_unit"}},
+        "hidden_variables": {"type": "array", "minItems": 4, "items": {"$ref": "#/$defs/variable_unit"}},
+        "observation_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["observed_indices", "noise_scale"],
+          "properties": {
+            "observed_indices": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {"type": "integer", "minimum": 0, "maximum": 7}
+              }
+            },
+            "noise_scale": {"type": "object", "additionalProperties": {"$ref": "#/$defs/unit_value"}}
+          }
+        }
+      }
+    },
+    "world_action_spec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canonical", "extension", "response_delay_steps"],
+      "properties": {
+        "canonical": {"$ref": "#/$defs/world_action"},
+        "extension": {"$ref": "#/$defs/controlled_action_extension"},
+        "response_delay_steps": {"type": "integer", "minimum": 1}
+      }
+    },
+    "support_domain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "support_domain_uid", "supported_intervention_types", "supported_modalities", "supported_routes",
+        "supported_schedule_kinds", "supported_intensity", "supported_duration",
+        "supported_information_observables", "ood_taxonomy"
+      ],
+      "properties": {
+        "support_domain_uid": {"type": "string", "minLength": 1},
+        "supported_intervention_types": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "supported_modalities": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "supported_routes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": ["string", "null"]}},
+        "supported_schedule_kinds": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "supported_intensity": {"$ref": "#/$defs/bounded_unit"},
+        "supported_duration": {"$ref": "#/$defs/bounded_unit"},
+        "supported_information_observables": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "ood_taxonomy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["intensity_outside_support", "duration_outside_support", "biological_context_mismatch", "combination_not_supported"],
+          "properties": {
+            "intensity_outside_support": {"type": "string", "minLength": 1},
+            "duration_outside_support": {"type": "string", "minLength": 1},
+            "biological_context_mismatch": {"type": "string", "minLength": 1},
+            "combination_not_supported": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "base_family": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family_uid", "generator", "world", "world_action", "information_actions", "support_domain", "output_paths"],
+      "properties": {
+        "family_uid": {"$ref": "#/$defs/family_uid"},
+        "generator": {"$ref": "#/$defs/generator"},
+        "world": {"$ref": "#/$defs/world"},
+        "world_action": {"$ref": "#/$defs/world_action_spec"},
+        "information_actions": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"$ref": "#/$defs/information_spec"}},
+        "support_domain": {"$ref": "#/$defs/support_domain"},
+        "output_paths": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["world_instance", "replay_manifest"],
+          "properties": {
+            "world_instance": {"type": "string", "minLength": 1},
+            "replay_manifest": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "electrophysiology_family": {
+      "allOf": [
+        {"$ref": "#/$defs/base_family"},
+        {
+          "properties": {
+            "family_uid": {"const": "electrophysiology_conductance_world"},
+            "generator": {"properties": {"parameters": {"$ref": "#/$defs/electrophysiology_parameters"}}},
+            "world": {
+              "properties": {
+                "world_family_uid": {"const": "electrophysiology_conductance_world"},
+                "observable_variables": {"const": [
+                  {"variable": "membrane_voltage", "unit": "mV"},
+                  {"variable": "calcium_concentration", "unit": "umol/L"},
+                  {"variable": "spike_rate", "unit": "Hz"}
+                ]}
+              }
+            }
+          }
+        }
+      ]
+    },
+    "calcium_synaptic_family": {
+      "allOf": [
+        {"$ref": "#/$defs/base_family"},
+        {
+          "properties": {
+            "family_uid": {"const": "calcium_synaptic_world"},
+            "generator": {"properties": {"parameters": {"$ref": "#/$defs/calcium_synaptic_parameters"}}},
+            "world": {
+              "properties": {
+                "world_family_uid": {"const": "calcium_synaptic_world"},
+                "observable_variables": {"const": [
+                  {"variable": "intracellular_calcium", "unit": "umol/L"},
+                  {"variable": "release_probability", "unit": "probability"},
+                  {"variable": "releasable_vesicle_fraction", "unit": "fraction"},
+                  {"variable": "postsynaptic_current", "unit": "pA"}
+                ]}
+              }
+            }
+          }
+        }
+      ]
+    },
+    "molecular_pharmacological_family": {
+      "allOf": [
+        {"$ref": "#/$defs/base_family"},
+        {
+          "properties": {
+            "family_uid": {"const": "molecular_pharmacological_causal_world"},
+            "generator": {"properties": {"parameters": {"$ref": "#/$defs/molecular_pharmacological_parameters"}}},
+            "world": {
+              "properties": {
+                "world_family_uid": {"const": "molecular_pharmacological_causal_world"},
+                "observable_variables": {"const": [
+                  {"variable": "free_agent_exposure", "unit": "nmol/L"},
+                  {"variable": "target_occupancy", "unit": "fraction"},
+                  {"variable": "downstream_signal", "unit": "normalized_signal"},
+                  {"variable": "biologic_response", "unit": "normalized_response"}
+                ]}
+              }
+            }
+          }
+        }
+      ]
+    },
+    "electrophysiology_parameters": {
+      "type": "object", "additionalProperties": false,
+      "required": ["resting_membrane_voltage", "initial_membrane_voltage", "initial_calcium_concentration", "membrane_leak_rate", "stimulation_gain", "calcium_decay_rate", "spike_threshold", "spike_rate_gain", "spike_calcium_gain"],
+      "properties": {
+        "resting_membrane_voltage": {"$ref": "#/$defs/unit_value"}, "initial_membrane_voltage": {"$ref": "#/$defs/unit_value"},
+        "initial_calcium_concentration": {"$ref": "#/$defs/unit_value"}, "membrane_leak_rate": {"$ref": "#/$defs/unit_value"},
+        "stimulation_gain": {"$ref": "#/$defs/unit_value"}, "calcium_decay_rate": {"$ref": "#/$defs/unit_value"},
+        "spike_threshold": {"$ref": "#/$defs/unit_value"}, "spike_rate_gain": {"$ref": "#/$defs/unit_value"},
+        "spike_calcium_gain": {"$ref": "#/$defs/unit_value"}
+      }
+    },
+    "calcium_synaptic_parameters": {
+      "type": "object", "additionalProperties": false,
+      "required": ["baseline_intracellular_calcium", "initial_intracellular_calcium", "initial_release_probability", "initial_releasable_vesicle_fraction", "initial_postsynaptic_current", "calcium_clearance_rate", "presynaptic_calcium_gain", "release_coupling", "vesicle_release_rate", "vesicle_recovery_rate", "postsynaptic_current_gain", "postsynaptic_decay_rate"],
+      "properties": {
+        "baseline_intracellular_calcium": {"$ref": "#/$defs/unit_value"}, "initial_intracellular_calcium": {"$ref": "#/$defs/unit_value"},
+        "initial_release_probability": {"$ref": "#/$defs/unit_value"}, "initial_releasable_vesicle_fraction": {"$ref": "#/$defs/unit_value"},
+        "initial_postsynaptic_current": {"$ref": "#/$defs/unit_value"}, "calcium_clearance_rate": {"$ref": "#/$defs/unit_value"},
+        "presynaptic_calcium_gain": {"$ref": "#/$defs/unit_value"}, "release_coupling": {"$ref": "#/$defs/unit_value"},
+        "vesicle_release_rate": {"$ref": "#/$defs/unit_value"}, "vesicle_recovery_rate": {"$ref": "#/$defs/unit_value"},
+        "postsynaptic_current_gain": {"$ref": "#/$defs/unit_value"}, "postsynaptic_decay_rate": {"$ref": "#/$defs/unit_value"}
+      }
+    },
+    "molecular_pharmacological_parameters": {
+      "type": "object", "additionalProperties": false,
+      "required": ["initial_free_agent_exposure", "initial_target_occupancy", "initial_downstream_signal", "initial_biologic_response", "dose_to_exposure_gain", "exposure_clearance_rate", "binding_affinity", "occupancy_relaxation_rate", "signal_activation_rate", "signal_decay_rate", "biologic_response_rate", "biologic_clearance_rate", "feedback_rate"],
+      "properties": {
+        "initial_free_agent_exposure": {"$ref": "#/$defs/unit_value"}, "initial_target_occupancy": {"$ref": "#/$defs/unit_value"},
+        "initial_downstream_signal": {"$ref": "#/$defs/unit_value"}, "initial_biologic_response": {"$ref": "#/$defs/unit_value"},
+        "dose_to_exposure_gain": {"$ref": "#/$defs/unit_value"}, "exposure_clearance_rate": {"$ref": "#/$defs/unit_value"},
+        "binding_affinity": {"$ref": "#/$defs/unit_value"}, "occupancy_relaxation_rate": {"$ref": "#/$defs/unit_value"},
+        "signal_activation_rate": {"$ref": "#/$defs/unit_value"}, "signal_decay_rate": {"$ref": "#/$defs/unit_value"},
+        "biologic_response_rate": {"$ref": "#/$defs/unit_value"}, "biologic_clearance_rate": {"$ref": "#/$defs/unit_value"},
+        "feedback_rate": {"$ref": "#/$defs/unit_value"}
+      }
+    },
+    "source_config": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "evidence_class", "benchmark_qualified", "real_world_formal_agent_evaluation", "source_policy", "authorities", "family_manifest", "validation_audit_path", "claim_boundary", "families"],
+      "properties": {
+        "schema_version": {"const": "neuronsifter-controlled-neural-world-config-v2"},
+        "evidence_class": {"const": "controlled_world_non_empirical"},
+        "benchmark_qualified": {"const": false},
+        "real_world_formal_agent_evaluation": {"const": false},
+        "source_policy": {
+          "type": "object", "additionalProperties": false,
+          "required": ["strict_public_only_flag", "controlled_access_required"],
+          "properties": {"strict_public_only_flag": {"const": true}, "controlled_access_required": {"const": false}}
+        },
+        "authorities": {
+          "type": "object", "additionalProperties": false,
+          "required": ["hidden_state_loader_roles", "runtime_reader_roles", "six_context_outcome_access", "protected_holdout_access"],
+          "properties": {
+            "hidden_state_loader_roles": {"const": ["benchmark_harness"]},
+            "runtime_reader_roles": {"const": ["operational_twin", "agent"]},
+            "six_context_outcome_access": {"const": 0},
+            "protected_holdout_access": {"const": 0}
+          }
+        },
+        "family_manifest": {
+          "type": "object", "additionalProperties": false,
+          "required": ["schema_version", "expected_family_uids", "output_path", "benchmark_split_assignment", "sealed_test_partitions", "information_headroom_qualification", "benchmark_qualification"],
+          "properties": {
+            "schema_version": {"const": "neuronsifter-controlled-world-family-manifest-v1"},
+            "expected_family_uids": {"const": ["electrophysiology_conductance_world", "calcium_synaptic_world", "molecular_pharmacological_causal_world"]},
+            "output_path": {"type": "string", "minLength": 1},
+            "benchmark_split_assignment": {"const": "not_created"},
+            "sealed_test_partitions": {"const": "not_created"},
+            "information_headroom_qualification": {"const": "not_run"},
+            "benchmark_qualification": {"const": "not_issued"}
+          }
+        },
+        "validation_audit_path": {"type": "string", "minLength": 1},
+        "claim_boundary": {"$ref": "#/$defs/claim_boundary"},
+        "families": {
+          "type": "array", "minItems": 3, "maxItems": 3,
+          "items": {"oneOf": [
+            {"$ref": "#/$defs/electrophysiology_family"},
+            {"$ref": "#/$defs/calcium_synaptic_family"},
+            {"$ref": "#/$defs/molecular_pharmacological_family"}
+          ]},
+          "allOf": [
+            {"contains": {"properties": {"family_uid": {"const": "electrophysiology_conductance_world"}}, "required": ["family_uid"]}, "minContains": 1, "maxContains": 1},
+            {"contains": {"properties": {"family_uid": {"const": "calcium_synaptic_world"}}, "required": ["family_uid"]}, "minContains": 1, "maxContains": 1},
+            {"contains": {"properties": {"family_uid": {"const": "molecular_pharmacological_causal_world"}}, "required": ["family_uid"]}, "minContains": 1, "maxContains": 1}
+          ]
+        }
+      }
+    },
+    "support_status": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "reason_codes", "support_domain_ref"],
+      "properties": {
+        "status": {"enum": ["supported", "unsupported", "out_of_distribution"]},
+        "reason_codes": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "support_domain_ref": {"type": "string", "minLength": 1}
+      }
+    },
+    "runtime_instance": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schema_version", "authority_role", "evidence_class", "world_identity", "generator_provenance", "action_binding", "support_status", "observations", "information_results", "information_cost_total", "access_counters", "claim_boundary"],
+      "properties": {
+        "schema_version": {"const": "neuronsifter-controlled-neural-world-instance-v2"},
+        "authority_role": {"const": "runtime_observable"},
+        "evidence_class": {"const": "controlled_world_non_empirical"},
+        "world_identity": {
+          "type": "object", "additionalProperties": false,
+          "required": ["world_uid", "world_family_uid", "latent_generator_lineage_uid", "biological_context"],
+          "properties": {
+            "world_uid": {"type": "string", "minLength": 1},
+            "world_family_uid": {"$ref": "#/$defs/family_uid"},
+            "latent_generator_lineage_uid": {"type": "string", "minLength": 1},
+            "biological_context": {"$ref": "#/$defs/biological_context"}
+          }
+        },
+        "generator_provenance": {
+          "type": "object", "additionalProperties": false,
+          "required": ["implementation_uid", "implementation_version", "implementation_path", "code_identity", "config_content_identity", "config_file_identity", "seed", "seed_identity"],
+          "properties": {
+            "implementation_uid": {"type": "string", "minLength": 1}, "implementation_version": {"type": "string", "minLength": 1},
+            "implementation_path": {"type": "string", "minLength": 1}, "code_identity": {"$ref": "#/$defs/sha256"},
+            "config_content_identity": {"$ref": "#/$defs/sha256"}, "config_file_identity": {"$ref": "#/$defs/sha256"},
+            "seed": {"type": "integer", "minimum": 0}, "seed_identity": {"$ref": "#/$defs/sha256"}
+          }
+        },
+        "action_binding": {
+          "type": "object", "additionalProperties": false,
+          "required": ["binding_uid", "canonical_world_action", "controlled_extension", "response_delay_steps", "mapping_status"],
+          "properties": {
+            "binding_uid": {"type": "string", "minLength": 1},
+            "canonical_world_action": {"$ref": "#/$defs/world_action"},
+            "controlled_extension": {"$ref": "#/$defs/controlled_action_extension"},
+            "response_delay_steps": {"type": "integer", "minimum": 1},
+            "mapping_status": {"const": "canonical_mapping_validated"}
+          }
+        },
+        "support_status": {"$ref": "#/$defs/support_status"},
+        "observations": {
+          "type": "array", "minItems": 3,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["time", "measurements", "missing_observables"],
+            "properties": {
+              "time": {"$ref": "#/$defs/unit_value"},
+              "measurements": {"type": "object", "additionalProperties": {"$ref": "#/$defs/unit_value"}},
+              "missing_observables": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}
+            }
+          }
+        },
+        "information_results": {
+          "type": "array", "minItems": 2, "maxItems": 2,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["information_action_uid", "status", "cost", "measurements", "missing_observables", "failure_code", "support_status", "provenance_ref"],
+            "properties": {
+              "information_action_uid": {"type": "string", "minLength": 1},
+              "status": {"enum": ["partial", "failed"]},
+              "cost": {"$ref": "#/$defs/unit_value"},
+              "measurements": {"type": "object", "additionalProperties": {"$ref": "#/$defs/unit_value"}},
+              "missing_observables": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+              "failure_code": {"type": ["string", "null"]},
+              "support_status": {"$ref": "#/$defs/support_status"},
+              "provenance_ref": {"type": "string", "minLength": 1}
+            },
+            "allOf": [
+              {"if": {"properties": {"status": {"const": "partial"}}, "required": ["status"]}, "then": {"properties": {"measurements": {"minProperties": 1}, "failure_code": {"type": "null"}}}},
+              {"if": {"properties": {"status": {"const": "failed"}}, "required": ["status"]}, "then": {"properties": {"measurements": {"maxProperties": 0}, "failure_code": {"type": "string", "minLength": 1}}}}
+            ]
+          }
+        },
+        "information_cost_total": {"$ref": "#/$defs/unit_value"},
+        "access_counters": {"$ref": "#/$defs/access_counters"},
+        "claim_boundary": {"$ref": "#/$defs/claim_boundary"}
+      }
+    },
+    "family_manifest": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schema_version", "manifest_uid", "evidence_class", "family_count", "family_uids", "source_config_ref", "source_config_identity", "families", "access_counters", "real_world_formal_agent_evaluation", "claim_boundary", "benchmark_split_assignment", "sealed_test_partitions", "information_headroom_qualification", "benchmark_qualification"],
+      "properties": {
+        "schema_version": {"const": "neuronsifter-controlled-world-family-manifest-v1"},
+        "manifest_uid": {"type": "string", "minLength": 1},
+        "evidence_class": {"const": "controlled_world_non_empirical"},
+        "family_count": {"const": 3},
+        "family_uids": {"const": ["electrophysiology_conductance_world", "calcium_synaptic_world", "molecular_pharmacological_causal_world"]},
+        "source_config_ref": {"const": "Libs/configs/data/controlled_neural_world.yaml"},
+        "source_config_identity": {"$ref": "#/$defs/sha256"},
+        "families": {
+          "type": "array", "minItems": 3, "maxItems": 3,
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["family_uid", "world_uid", "latent_generator_lineage_uid", "seed", "seed_identity", "runtime_artifact_ref", "runtime_content_identity", "replay_artifact_ref", "replay_content_identity", "replay_uid"],
+            "properties": {
+              "family_uid": {"$ref": "#/$defs/family_uid"}, "world_uid": {"type": "string", "minLength": 1},
+              "latent_generator_lineage_uid": {"type": "string", "minLength": 1}, "seed": {"type": "integer", "minimum": 0},
+              "seed_identity": {"$ref": "#/$defs/sha256"}, "runtime_artifact_ref": {"type": "string", "minLength": 1},
+              "runtime_content_identity": {"$ref": "#/$defs/sha256"}, "replay_artifact_ref": {"type": "string", "minLength": 1},
+              "replay_content_identity": {"$ref": "#/$defs/sha256"}, "replay_uid": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        "access_counters": {"$ref": "#/$defs/access_counters"},
+        "real_world_formal_agent_evaluation": {"const": false},
+        "claim_boundary": {"$ref": "#/$defs/claim_boundary"},
+        "benchmark_split_assignment": {"const": "not_created"},
+        "sealed_test_partitions": {"const": "not_created"},
+        "information_headroom_qualification": {"const": "not_run"},
+        "benchmark_qualification": {"const": "not_issued"}
+      }
+    },
+    "validation_audit": {
+      "type": "object", "additionalProperties": false,
+      "required": ["schema_version", "validator_uid", "status", "blocker_count", "blockers", "checks", "family_count", "family_results", "family_manifest_identity", "access_counters", "claim_boundary"],
+      "properties": {
+        "schema_version": {"const": "neuronsifter-controlled-neural-world-validation-v2"},
+        "validator_uid": {"const": "controlled_neural_world_contract_validator"},
+        "status": {"enum": ["passed", "blocked"]},
+        "blocker_count": {"type": "integer", "minimum": 0},
+        "blockers": {"type": "array", "items": {"type": "object"}},
+        "checks": {"type": "object", "additionalProperties": {"type": "boolean"}},
+        "family_count": {"type": "integer", "minimum": 0, "maximum": 3},
+        "family_results": {"type": "array", "maxItems": 3, "items": {"type": "object"}},
+        "family_manifest_identity": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+        "access_counters": {"$ref": "#/$defs/access_counters"},
+        "claim_boundary": {"$ref": "#/$defs/claim_boundary"}
+      }
+    }
+  }
+}

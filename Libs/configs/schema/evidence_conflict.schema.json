@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/evidence_conflict.schema.json",
+  "title": "NeuronSifter EvidenceConflict",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "conflict_uid", "conflict_type", "member_uids", "state", "typed_context_difference", "provenance_ref", "status"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-evidence-conflict-v1"},
+    "conflict_uid": {"type": "string", "minLength": 1},
+    "conflict_type": {"enum": ["numeric_disagreement", "directional_disagreement", "identity_conflict", "unit_conflict", "time_conflict", "action_conflict", "model_family_disagreement", "source_provenance_conflict", "claim_interpretation_conflict"]},
+    "member_uids": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "state": {"enum": ["unresolved", "context_explained", "version_resolved", "superseded", "retained_for_stress", "invalidated"]},
+    "typed_context_difference": {"type": "object"},
+    "provenance_ref": {"type": "string", "minLength": 1},
+    "status": {"enum": ["active", "resolved", "retained", "invalidated", "pilot_only"]}
+  }
+}

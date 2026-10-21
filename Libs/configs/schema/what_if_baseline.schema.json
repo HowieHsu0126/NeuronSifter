@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://neuronsifter.org/schemas/what_if_baseline.schema.json",
+  "title": "NeuronSifter WhatIfBaseline", "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "baseline_uid", "state_ref", "state_hash", "state_time", "state_uncertainty", "biological_or_model_context", "region", "compartment", "feature_namespace", "support_domain_ref", "source_role", "qc_grade", "missingness", "provenance", "baseline_class", "imputation_policy", "empirical_state", "qualification_only", "eligible_for_biological_claims"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-what-if-baseline-v1"}, "baseline_uid": {"$ref": "#/$defs/text"},
+    "state_ref": {"$ref": "#/$defs/text"}, "state_hash": {"$ref": "#/$defs/hash"}, "state_time": {"type": "number"},
+    "state_uncertainty": {"$ref": "#/$defs/object"}, "biological_or_model_context": {"$ref": "#/$defs/object"},
+    "region": {"$ref": "#/$defs/texts"}, "compartment": {"$ref": "#/$defs/texts"}, "feature_namespace": {"$ref": "#/$defs/text"},
+    "support_domain_ref": {"$ref": "#/$defs/text"}, "source_role": {"$ref": "#/$defs/text"}, "qc_grade": {"enum": ["A", "B", "C", "D", "S"]},
+    "missingness": {"$ref": "#/$defs/object"}, "provenance": {"$ref": "#/$defs/object"},
+    "baseline_class": {"enum": ["governed_observation_derived", "assimilated_posterior", "validated_mechanistic_steady_state", "validated_simulator_state", "qualification_synthetic"]},
+    "imputation_policy": {"const": "none_all_channels_explicit"}, "empirical_state": {"type": "boolean"},
+    "qualification_only": {"type": "boolean"}, "eligible_for_biological_claims": {"type": "boolean"}
+  },
+  "$defs": {"text": {"type": "string", "minLength": 1}, "texts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/text"}}, "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}, "object": {"type": "object", "minProperties": 1}}
+}

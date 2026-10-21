@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://neuronsifter.org/schemas/rollout_request.schema.json",
+  "title": "NeuronSifter RolloutRequest", "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "rollout_request_uid", "what_if_request_uid", "engine_uid", "engine_version", "baseline_hash", "action_program_hash", "control_program_hash", "parameter_hash", "seed", "fidelity", "time_grid", "constraint_policy", "uncertainty_policy", "exact_code_commit", "environment_hash", "input_bundle_hash"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-rollout-request-v1"}, "rollout_request_uid": {"$ref": "#/$defs/text"}, "what_if_request_uid": {"$ref": "#/$defs/text"},
+    "engine_uid": {"$ref": "#/$defs/text"}, "engine_version": {"$ref": "#/$defs/text"}, "baseline_hash": {"$ref": "#/$defs/hash"},
+    "action_program_hash": {"$ref": "#/$defs/hash"}, "control_program_hash": {"$ref": "#/$defs/hash"}, "parameter_hash": {"$ref": "#/$defs/hash"},
+    "seed": {"type": "integer", "minimum": 0}, "fidelity": {"$ref": "#/$defs/text"}, "time_grid": {"type": "array", "minItems": 2, "items": {"type": "number"}},
+    "constraint_policy": {"type": "object", "minProperties": 1}, "uncertainty_policy": {"type": "object", "minProperties": 1},
+    "exact_code_commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"}, "environment_hash": {"$ref": "#/$defs/hash"}, "input_bundle_hash": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {"text": {"type": "string", "minLength": 1}, "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

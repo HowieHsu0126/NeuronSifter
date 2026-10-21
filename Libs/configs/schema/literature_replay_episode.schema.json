@@ -1,0 +1,297 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/literature_replay_episode.schema.json",
+  "title": "NeuronSifter Round-18 LiteratureReplayEpisode",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "episode_uid",
+    "track",
+    "scientific_question",
+    "cutoff_timestamp",
+    "cutoff_basis",
+    "pre_cutoff_evidence_manifest",
+    "candidate_hypotheses",
+    "candidate_actions",
+    "candidate_information_actions",
+    "held_out_outcome_manifest",
+    "evaluation_target",
+    "support_domain",
+    "independence_groups",
+    "leakage_controls",
+    "allowed_tools",
+    "budget",
+    "expected_outputs",
+    "label_provenance",
+    "status",
+    "content_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-literature-replay-episode-v1"},
+    "episode_uid": {"$ref": "#/$defs/text"},
+    "track": {"$ref": "#/$defs/track"},
+    "scientific_question": {"$ref": "#/$defs/text"},
+    "cutoff_timestamp": {"type": "string", "format": "date-time"},
+    "cutoff_basis": {"$ref": "#/$defs/cutoff_basis"},
+    "pre_cutoff_evidence_manifest": {"$ref": "#/$defs/pre_cutoff_manifest"},
+    "candidate_hypotheses": {"$ref": "#/$defs/candidates"},
+    "candidate_actions": {"$ref": "#/$defs/candidates"},
+    "candidate_information_actions": {"$ref": "#/$defs/candidates"},
+    "held_out_outcome_manifest": {"$ref": "#/$defs/held_out_manifest"},
+    "evaluation_target": {"$ref": "#/$defs/evaluation_target"},
+    "support_domain": {"$ref": "#/$defs/support_domain"},
+    "independence_groups": {"$ref": "#/$defs/independence_groups"},
+    "leakage_controls": {"$ref": "#/$defs/leakage_controls"},
+    "allowed_tools": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/text"}
+    },
+    "budget": {"$ref": "#/$defs/budget"},
+    "expected_outputs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": ["prediction", "ranking", "mechanism_assessment", "information_action", "sequential_update", "abstention"]
+      }
+    },
+    "label_provenance": {"$ref": "#/$defs/label_provenance"},
+    "status": {
+      "enum": ["draft", "development", "qualified", "blocked", "rejected", "invalidated", "completed", "final_held_out_frozen", "stress"]
+    },
+    "content_hash": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {
+    "text": {"type": "string", "minLength": 1},
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "track": {
+      "enum": [
+        "endpoint_direction_prediction",
+        "intervention_ranking",
+        "mechanism_discrimination",
+        "information_action_selection",
+        "sequential_hypothesis_replay",
+        "abstention_boundary_compliance"
+      ]
+    },
+    "timestamp_type": {
+      "enum": ["publisher_publication_date", "preprint_public_date", "repository_release_date", "accession_public_release_date", "supplement_release_date", "model_code_public_release_date"]
+    },
+    "cutoff_basis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policy_version"],
+      "properties": {
+        "policy_version": {"const": "neuronsifter-public-availability-timestamp-policy-v1"},
+        "selected_timestamp_type": {"$ref": "#/$defs/timestamp_type"},
+        "temporal_ordering_status": {"enum": ["ordered", "ambiguous", "blocked"]},
+        "strong_admission": {"type": "boolean"}
+      }
+    },
+    "pre_cutoff_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bundle_uid", "source_refs", "source_hashes", "agent_visible"],
+      "properties": {
+        "bundle_uid": {"$ref": "#/$defs/text"},
+        "source_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/text"}},
+        "source_hashes": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "#/$defs/hash"}},
+        "agent_visible": {"const": true}
+      }
+    },
+    "held_out_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bundle_uid", "outcome_refs", "outcome_hashes", "evaluator_only"],
+      "properties": {
+        "bundle_uid": {"$ref": "#/$defs/text"},
+        "outcome_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/text"}},
+        "outcome_hashes": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "#/$defs/hash"}},
+        "evaluator_only": {"const": true}
+      }
+    },
+    "candidate": {
+      "oneOf": [
+        {"$ref": "#/$defs/text"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["hypothesis_uid", "statement"],
+          "properties": {
+            "hypothesis_uid": {"$ref": "#/$defs/text"},
+            "statement": {"$ref": "#/$defs/text"},
+            "mechanism_family": {"type": ["string", "null"]}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["action_uid", "target_set", "drug_set", "dose", "schedule", "route"],
+          "properties": {
+            "action_uid": {"$ref": "#/$defs/text"},
+            "target_set": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/text"}},
+            "drug_set": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/text"}},
+            "dose": {"oneOf": [{"type": "number"}, {"$ref": "#/$defs/text"}]},
+            "schedule": {"$ref": "#/$defs/text"},
+            "route": {"$ref": "#/$defs/text"},
+            "pre_cutoff_score": {"type": "number"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["action_uid", "information_action_uid", "action_class", "expected_information_gain"],
+          "properties": {
+            "action_uid": {"$ref": "#/$defs/text"},
+            "information_action_uid": {"$ref": "#/$defs/text"},
+            "action_class": {"$ref": "#/$defs/text"},
+            "expected_information_gain": {"type": "number", "minimum": 0},
+            "public_only": {"const": true}
+          }
+        }
+      ]
+    },
+    "candidates": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/candidate"}
+    },
+    "evaluation_target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_uid", "target_type", "measurement", "unit", "direction_semantics", "timepoint_or_horizon", "comparator", "uncertainty", "source", "label_extraction_method", "adjudication_status"],
+      "properties": {
+        "target_uid": {"$ref": "#/$defs/text"},
+        "target_type": {
+          "enum": ["directional_endpoint", "numeric_endpoint", "candidate_ranking", "mechanism_status", "information_action_value", "hypothesis_status"]
+        },
+        "measurement": {"$ref": "#/$defs/text"},
+        "unit": {"$ref": "#/$defs/text"},
+        "direction_semantics": {"$ref": "#/$defs/text"},
+        "timepoint_or_horizon": {"$ref": "#/$defs/text"},
+        "comparator": {"$ref": "#/$defs/text"},
+        "uncertainty": {"$ref": "#/$defs/uncertainty"},
+        "source": {"$ref": "#/$defs/text"},
+        "label_extraction_method": {"$ref": "#/$defs/text"},
+        "adjudication_status": {"enum": ["pending", "single_adjudicator", "dual_adjudicated", "blocked"]},
+        "action_identity": {"type": ["string", "null"]},
+        "unit_status": {"enum": ["resolved", "not_applicable", "conflict", "incompatible"]},
+        "unit_conflict": {"type": "boolean"}
+      }
+    },
+    "uncertainty": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "value", "unknown_components"],
+      "properties": {
+        "status": {"enum": ["quantified", "unknown", "not_applicable"]},
+        "value": {"type": ["number", "null"], "minimum": 0},
+        "unknown_components": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/text"}}
+      },
+      "allOf": [
+        {"if": {"properties": {"status": {"const": "unknown"}}}, "then": {"properties": {"value": {"type": "null"}, "unknown_components": {"minItems": 1}}}},
+        {"if": {"properties": {"status": {"const": "quantified"}}}, "then": {"properties": {"value": {"type": "number", "minimum": 0}, "unknown_components": {"maxItems": 0}}}}
+      ]
+    },
+    "support_domain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["domain_uid", "extrapolation"],
+      "properties": {
+        "domain_uid": {"$ref": "#/$defs/text"},
+        "extrapolation": {"type": "boolean"},
+        "organism": {"type": ["string", "null"]},
+        "disease_context": {"type": ["string", "null"]},
+        "biological_context": {"type": ["string", "null"]}
+      }
+    },
+    "independence_groups": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "publication_family",
+        "preprint_to_journal_family",
+        "accession_family",
+        "study_cohort",
+        "biological_unit_family",
+        "compound_scaffold",
+        "target_program",
+        "regimen",
+        "disease_context",
+        "mechanism_family",
+        "simulator_model_family",
+        "tool_family",
+        "partition"
+      ],
+      "properties": {
+        "publication_family": {"$ref": "#/$defs/text"},
+        "preprint_to_journal_family": {"$ref": "#/$defs/text"},
+        "accession_family": {"$ref": "#/$defs/text"},
+        "study_cohort": {"$ref": "#/$defs/text"},
+        "biological_unit_family": {"$ref": "#/$defs/text"},
+        "compound_scaffold": {"$ref": "#/$defs/text"},
+        "target_program": {"$ref": "#/$defs/text"},
+        "regimen": {"$ref": "#/$defs/text"},
+        "disease_context": {"$ref": "#/$defs/text"},
+        "mechanism_family": {"$ref": "#/$defs/text"},
+        "simulator_model_family": {"$ref": "#/$defs/text"},
+        "tool_family": {"$ref": "#/$defs/text"},
+        "partition": {"enum": ["development", "qualification", "final_held_out", "stress"]}
+      }
+    },
+    "leakage_controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "future_evidence_excluded",
+        "held_out_bundle_isolated",
+        "publication_family_isolated",
+        "duplicate_accession_absent",
+        "outcome_fields_masked",
+        "memory_risk_disclosed"
+      ],
+      "properties": {
+        "future_evidence_excluded": {"const": true},
+        "held_out_bundle_isolated": {"const": true},
+        "publication_family_isolated": {"const": true},
+        "duplicate_accession_absent": {"const": true},
+        "outcome_fields_masked": {"const": true},
+        "memory_risk_disclosed": {"const": true},
+        "admission_blocked": {"type": "boolean"},
+        "attack_type": {"type": ["string", "null"]},
+        "schemas_frozen": {"type": "boolean"},
+        "metrics_frozen": {"type": "boolean"},
+        "decision_rules_frozen": {"type": "boolean"},
+        "final_held_out_touched": {"type": "boolean"}
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_tool_calls", "max_evidence_queries", "max_rollouts", "max_cost_units"],
+      "properties": {
+        "max_tool_calls": {"type": "integer", "minimum": 0},
+        "max_evidence_queries": {"type": "integer", "minimum": 0},
+        "max_rollouts": {"type": "integer", "minimum": 0},
+        "max_cost_units": {"type": "number", "minimum": 0}
+      }
+    },
+    "label_provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label_class", "source_refs", "label_extraction_method", "adjudication_status"],
+      "properties": {
+        "label_class": {"enum": ["data_derived_label", "author_claim_label", "cross_study_consensus_label"]},
+        "source_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/text"}},
+        "label_extraction_method": {"$ref": "#/$defs/text"},
+        "adjudication_status": {"enum": ["pending", "single_adjudicator", "dual_adjudicated", "blocked"]},
+        "target_type": {"enum": ["directional_endpoint", "numeric_endpoint", "candidate_ranking", "mechanism_status", "information_action_value", "hypothesis_status"]},
+        "numerical_support_ref": {"type": ["string", "null"]},
+        "strength": {"enum": ["weak", "directional", "quantitative"]},
+        "independence_group_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/text"}}
+      }
+    }
+  }
+}

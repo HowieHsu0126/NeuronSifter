@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/round19_e2_admission.schema.json",
+  "title": "Round19E2AdmissionDecision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["admission_uid", "endpoint_uid", "decision", "reason_codes", "evidence_hash", "eligibility", "empirical_observation"],
+  "properties": {
+    "admission_uid": {"type": "string", "minLength": 1},
+    "endpoint_uid": {"type": "string", "minLength": 1},
+    "decision": {"enum": ["admitted_e2_strong", "admitted_e2_weighted", "admitted_e2_directional", "admitted_stress", "quarantined", "rejected"]},
+    "reason_codes": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "evidence_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "eligibility": {"type": "string", "minLength": 1},
+    "empirical_observation": {"const": true}
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "neuronsifter-operational-twin-development-evidence-v1",
+  "title": "Operational Twin open development/calibration evaluation",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "status",
+    "assignment_uid",
+    "method_id",
+    "seed",
+    "development_only",
+    "calibration_world_only",
+    "formal_qualification",
+    "sufficient_training",
+    "twin_qualification_pass",
+    "roles",
+    "support_abstention",
+    "training_code_commit",
+    "evaluation_code_commit",
+    "harness_scoring",
+    "access_flags",
+    "claim_flags"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "neuronsifter-operational-twin-development-evidence-v1"
+    },
+    "status": {"const": "PASS"},
+    "assignment_uid": {"type": "string", "minLength": 1},
+    "method_id": {"type": "string", "minLength": 1},
+    "seed": {"type": "integer"},
+    "development_only": {"const": true},
+    "calibration_world_only": {"const": true},
+    "formal_qualification": {"const": false},
+    "sufficient_training": {"const": false},
+    "twin_qualification_pass": {"const": false},
+    "roles": {
+      "type": "object",
+      "required": ["development", "calibration"],
+      "properties": {
+        "development": {"$ref": "#/$defs/roleSummary"},
+        "calibration": {"$ref": "#/$defs/roleSummary"}
+      },
+      "additionalProperties": false
+    },
+    "support_abstention": {
+      "type": "object",
+      "required": [
+        "case_count",
+        "status_accuracy",
+        "abstention_compliance",
+        "learned_ood_score_available",
+        "support_policy_source"
+      ]
+    },
+    "training_code_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "evaluation_code_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "harness_scoring": {
+      "type": "object",
+      "required": [
+        "oracle_access_role",
+        "oracle_parameter_fields_serialized",
+        "oracle_state_fields_serialized",
+        "reference_utility_serialized",
+        "reference_utility_use"
+      ],
+      "properties": {
+        "oracle_access_role": {"const": "benchmark_harness"},
+        "oracle_parameter_fields_serialized": {"const": false},
+        "oracle_state_fields_serialized": {"const": false},
+        "reference_utility_serialized": {"const": true},
+        "reference_utility_use": {
+          "const": "post_training_open_development_calibration_scoring_only"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "roleSummary": {
+      "type": "object",
+      "required": [
+        "role",
+        "world_count",
+        "latent_world_pair_count",
+        "trajectory_rmse",
+        "mean_action_contrast_error",
+        "mean_intervention_ranking_regret",
+        "effect_direction_accuracy",
+        "mean_gaussian_nll",
+        "coverage_95"
+      ]
+    }
+  }
+}

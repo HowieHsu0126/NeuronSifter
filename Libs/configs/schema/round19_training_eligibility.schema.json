@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/round19_training_eligibility.schema.json",
+  "title": "Round19TrainingEligibility",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["artifact_uid", "role", "partition", "publication_family", "source_family", "study_family", "biological_unit_family", "action_family", "regimen_family", "support_domain", "eligibility_basis", "validation_only"],
+  "properties": {
+    "artifact_uid": {"type": "string", "minLength": 1},
+    "role": {"enum": ["state_pretraining", "action_endpoint_training", "trajectory_training", "calibration", "validation", "stress_only", "hypothesis_generation_only", "rejected"]},
+    "partition": {"enum": ["development", "qualification", "final_held_out", "stress"]},
+    "publication_family": {"type": "string", "minLength": 1},
+    "source_family": {"type": "string", "minLength": 1},
+    "study_family": {"type": "string", "minLength": 1},
+    "biological_unit_family": {"type": "string", "minLength": 1},
+    "action_family": {"type": "string", "minLength": 1},
+    "regimen_family": {"type": "string", "minLength": 1},
+    "support_domain": {"type": "string", "minLength": 1},
+    "eligibility_basis": {"type": "string", "minLength": 1},
+    "validation_only": {"type": "boolean"}
+  }
+}

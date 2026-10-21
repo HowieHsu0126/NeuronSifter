@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/hypothesis_ledger_entry.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "hypothesis_uid", "version", "parent_hypothesis", "mechanism", "expected_observations", "falsification_criteria", "supporting_evidence", "conflicting_evidence", "test_history", "current_status", "status_decision_ref", "support_score", "falsification_score", "unresolved_conflict_count", "reliability_status", "support_domain_status", "falsifier_agent_ref"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-hypothesis-ledger-entry-v1"}, "hypothesis_uid": {"$ref": "#/$defs/text"}, "version": {"type": "integer", "minimum": 1}, "parent_hypothesis": {"$ref": "#/$defs/nullable_text"}, "mechanism": {"$ref": "#/$defs/text"}, "expected_observations": {"$ref": "#/$defs/nonempty_texts"}, "falsification_criteria": {"$ref": "#/$defs/nonempty_texts"}, "supporting_evidence": {"$ref": "#/$defs/texts"}, "conflicting_evidence": {"$ref": "#/$defs/texts"}, "test_history": {"$ref": "#/$defs/texts"}, "current_status": {"enum": ["proposed", "admitted_for_testing", "under_test", "supported_model_conditionally", "refuted_in_model", "inconclusive", "requires_empirical_test", "unsupported_domain", "retired"]}, "status_decision_ref": {"$ref": "#/$defs/text"}, "support_score": {"$ref": "#/$defs/nullable_number"}, "falsification_score": {"$ref": "#/$defs/nullable_number"}, "unresolved_conflict_count": {"type": "integer", "minimum": 0}, "reliability_status": {"$ref": "#/$defs/text"}, "support_domain_status": {"$ref": "#/$defs/text"}, "falsifier_agent_ref": {"$ref": "#/$defs/nullable_text"}
+  },
+  "$defs": {"text": {"type": "string", "minLength": 1}, "nullable_text": {"anyOf": [{"$ref": "#/$defs/text"}, {"type": "null"}]}, "nullable_number": {"anyOf": [{"type": "number"}, {"type": "null"}]}, "texts": {"type": "array", "items": {"$ref": "#/$defs/text"}, "uniqueItems": true}, "nonempty_texts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/text"}, "uniqueItems": true}}
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/agent_proposal.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "proposal_uid", "agent_uid", "agent_role", "belief_state_ref", "proposal_type", "hypothesis_ref", "world_action_ref", "information_action_ref", "what_if_request_ref", "observation_request_ref", "expected_information_gain", "expected_twin_debt_change", "expected_cost", "risk_class", "support_domain_ref", "evidence_refs", "assumptions", "uncertainties", "prohibited_claim_flags", "provenance"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-agent-proposal-v1"},
+    "proposal_uid": {"$ref": "#/$defs/text"},
+    "agent_uid": {"$ref": "#/$defs/text"},
+    "agent_role": {"enum": ["ScientistAgent", "FalsifierAgent", "ExperimentAgent", "EvidenceAgent"]},
+    "belief_state_ref": {"$ref": "#/$defs/text"},
+    "proposal_type": {"enum": ["new_hypothesis", "hypothesis_revision", "falsification_test", "world_action_candidate", "information_action_candidate", "what_if_candidate", "evidence_query", "conflict_investigation", "stop_recommendation"]},
+    "hypothesis_ref": {"$ref": "#/$defs/nullable_text"},
+    "world_action_ref": {"$ref": "#/$defs/nullable_text"},
+    "information_action_ref": {"$ref": "#/$defs/nullable_text"},
+    "what_if_request_ref": {"$ref": "#/$defs/nullable_text"},
+    "observation_request_ref": {"$ref": "#/$defs/nullable_text"},
+    "expected_information_gain": {"type": "object", "minProperties": 1},
+    "expected_twin_debt_change": {"type": "object", "minProperties": 1},
+    "expected_cost": {"type": "object", "minProperties": 1},
+    "risk_class": {"enum": ["contract_only", "restricted_computational", "stress_only", "external_tool_read_only", "production_prohibited"]},
+    "support_domain_ref": {"$ref": "#/$defs/text"},
+    "evidence_refs": {"$ref": "#/$defs/texts"},
+    "assumptions": {"$ref": "#/$defs/texts"},
+    "uncertainties": {"$ref": "#/$defs/texts"},
+    "prohibited_claim_flags": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["causal_effect_claim", "clinical_recommendation"],
+      "properties": {"causal_effect_claim": {"const": false}, "clinical_recommendation": {"const": false}}
+    },
+    "provenance": {"type": "object", "minProperties": 1}
+  },
+  "$defs": {
+    "text": {"type": "string", "minLength": 1},
+    "nullable_text": {"anyOf": [{"$ref": "#/$defs/text"}, {"type": "null"}]},
+    "texts": {"type": "array", "items": {"$ref": "#/$defs/text"}, "uniqueItems": true}
+  }
+}

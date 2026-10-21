@@ -1,0 +1,16 @@
+experiment_family:
+  family_id: descriptor_ml_baseline
+  description: AD-only paper-grade experiment family declaration for descriptor_ml_baseline.
+  disease_program: ad_control
+  kind: descriptor_ml_reference
+  profile_name: ''
+  adapter_name: ''
+  runnable: false
+  reference_only: true
+  reason_if_not_runnable: No AD matched-split descriptor-ML adapter is validated in
+    the current suite.
+  matched_seed_policy: fixed_suite_seeds
+  claim_guardrails:
+  - ad_only
+  - no_g5_upgrade
+  - no_clinical_endpoint_prediction

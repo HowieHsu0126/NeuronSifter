@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/observation_qc.schema.json",
+  "title": "NeuronSifter ObservationQC",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "qc_uid", "source_result_uid", "schema_validity", "entity_mapping_quality", "unit_validity", "biological_unit_identity", "time_alignment", "action_alignment", "assay_quality", "missingness", "outlier_status", "source_reliability", "tool_reliability", "qc_grade", "predecessor_qc_grade", "verification_artifact_ref", "reason_codes", "provenance_ref"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-observation-qc-v1"},
+    "qc_uid": {"type": "string", "minLength": 1},
+    "source_result_uid": {"type": "string", "minLength": 1},
+    "schema_validity": {"enum": ["passed", "partial", "failed", "flagged", "not_applicable"]},
+    "entity_mapping_quality": {"enum": ["passed", "partial", "failed", "flagged", "not_applicable"]},
+    "unit_validity": {"enum": ["passed", "partial", "failed", "flagged", "not_applicable"]},
+    "biological_unit_identity": {"enum": ["passed", "partial", "failed", "flagged", "not_applicable"]},
+    "time_alignment": {"enum": ["passed", "partial", "failed", "flagged", "not_applicable"]},
+    "action_alignment": {"enum": ["passed", "partial", "failed", "flagged", "not_applicable"]},
+    "assay_quality": {"enum": ["passed", "partial", "failed", "flagged", "not_applicable"]},
+    "missingness": {"enum": ["passed", "partial", "failed", "flagged", "not_applicable"]},
+    "outlier_status": {"enum": ["passed", "partial", "failed", "flagged", "not_applicable"]},
+    "source_reliability": {"enum": ["passed", "partial", "failed", "flagged", "not_applicable"]},
+    "tool_reliability": {"enum": ["passed", "partial", "failed", "flagged", "not_applicable"]},
+    "qc_grade": {"enum": ["A", "B", "C", "D", "S"]},
+    "predecessor_qc_grade": {"type": ["string", "null"], "enum": ["A", "B", "C", "D", "S", null]},
+    "verification_artifact_ref": {"type": ["string", "null"]},
+    "reason_codes": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "provenance_ref": {"type": "string", "minLength": 1}
+  }
+}

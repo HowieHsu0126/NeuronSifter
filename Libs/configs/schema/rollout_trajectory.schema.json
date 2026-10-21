@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://neuronsifter.org/schemas/rollout_trajectory.schema.json",
+  "title": "NeuronSifter RolloutTrajectory", "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "rollout_uid", "request_uid", "attempt_uid", "engine_uid", "baseline_uid", "action_uid", "control_pair_uid", "native_time_grid", "canonical_time_grid", "state_namespace", "state_artifact_ref", "uncertainty_artifact_ref", "constraint_artifact_ref", "content_hashes", "status", "eligibility", "provenance", "output_class", "empirical_observation"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-rollout-trajectory-v1"}, "rollout_uid": {"$ref": "#/$defs/text"}, "request_uid": {"$ref": "#/$defs/text"},
+    "attempt_uid": {"$ref": "#/$defs/text"}, "engine_uid": {"$ref": "#/$defs/text"}, "baseline_uid": {"$ref": "#/$defs/text"}, "action_uid": {"$ref": "#/$defs/text"},
+    "control_pair_uid": {"$ref": "#/$defs/text"}, "native_time_grid": {"$ref": "#/$defs/numbers"}, "canonical_time_grid": {"$ref": "#/$defs/numbers"},
+    "state_namespace": {"$ref": "#/$defs/text"}, "state_artifact_ref": {"$ref": "#/$defs/text"}, "uncertainty_artifact_ref": {"$ref": "#/$defs/text"},
+    "constraint_artifact_ref": {"$ref": "#/$defs/text"}, "content_hashes": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "#/$defs/hash"}},
+    "status": {"enum": ["completed", "quarantined", "failed"]}, "eligibility": {"$ref": "#/$defs/text"}, "provenance": {"type": "object", "minProperties": 1},
+    "output_class": {"const": "model_rollout"}, "empirical_observation": {"const": false}
+  },
+  "$defs": {"text": {"type": "string", "minLength": 1}, "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}, "numbers": {"type": "array", "minItems": 2, "items": {"type": "number"}}}
+}

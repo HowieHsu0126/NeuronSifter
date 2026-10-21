@@ -1,0 +1,342 @@
+schema_version: neuronsifter-mechanism-source-queue-contract-v1
+status: frozen_before_network_and_source_content
+contract_uid: mechanism_source_queue
+method_uid: mechanistic_belief_twin_v1
+
+cutoff:
+  official_date_at_or_before: '2021-03-02T23:59:59Z'
+  comparison: inclusive
+
+upstream_authorities:
+  - path: Libs/configs/validation/mechanistic_belief_construct_firewall.yaml
+    sha256: f450ed2e1be9f09fdc1b8e7bc5066b2c68a5307c4af7b4778d5686f36cd3e374
+    validator: validate_construct_authority
+  - path: Output/audits/mechanistic_belief_cutoff_receipt.json
+    sha256: a2c9cd351a8f8199a87864d4a7f97f5a3444e859a55efd717343654a5c1570cc
+    validator: validate_cutoff_receipt
+  - path: Output/audits/mechanistic_belief_construct_authority.json
+    sha256: a1ea36299c2f2097a7606a45a1643edd731aa693643113b3ee03bea7e0b120e0
+    validator: validate_construct_authority
+  - path: Libs/configs/validation/mechanistic_belief_prior_reliability.yaml
+    sha256: 26ca9004d107fd153d4a8fd26850a9a09931ab10424eed432b6497ca9420a452
+    validator: validate_prior_reliability_outputs
+  - path: Libs/configs/schema/mechanistic_belief_prior_reliability_authority.schema.json
+    sha256: 69de25bf337727b8f287a8733bea5f786ee16ee984609e213b294d2413efd719
+    validator: validate_prior_reliability_outputs
+  - path: Libs/configs/schema/mechanistic_belief_terminal_decision_table.schema.json
+    sha256: f103b08d53df01ed50c3138b0fff62f685c72c517e96fd6a6b0b479e10b0abca
+    validator: validate_prior_reliability_outputs
+  - path: Output/audits/mechanistic_belief_prior_reliability_authority.json
+    sha256: 258049e0acc0bae52723bb540454dcba4ca383709373935bff2294fba63c3f7e
+    validator: validate_prior_reliability_outputs
+  - path: Output/audits/mechanistic_belief_terminal_decision_table.json
+    sha256: d347da41cb7bed51bf67c93d9c80e9588fd1dddb8d32c51fecafd8fa7d23341f
+    validator: validate_prior_reliability_outputs
+
+source_inputs:
+  dynamics_config:
+    path: Libs/configs/model/dynamics_solver.yaml
+    sha256: 84421bb4eea2216ac0378fea2e23f19ae2bfad3bf896c8a19cca6a558c756a24
+  data_registry:
+    path: Libs/configs/data/data_registry.yaml
+    sha256: d4bde1fb5e0d0797ceac840ba140b388f6e413d872470be5116e1716dfe8b557
+  validation_config:
+    path: Libs/configs/validation/validation.yaml
+    sha256: a7a9996c3571f90e55da87504ad45500da6764acec38263709a300bc85288e12
+  snapshot_builder:
+    path: Libs/scripts/data_acquisition/snapshot_public_sources.py
+    sha256: 3a1cb10bc247dcbaa6d9da5f82361df14c669fa836236d6412a0b8acbd08a5f5
+  external_adapter_builder:
+    path: Libs/scripts/builders/build_external_adapter_registry.py
+    sha256: acb08aa22edf8a740422142eaad3b1991dbceb0c3968df29c276b9342b64f90b
+  external_adapter_materialization:
+    path: Libs/utils/evaluation/external_adapter_materialization.py
+    sha256: 43baa7d1f88c656cebb56303be40fc329049d3a9d0d540de633ee15f5812e557
+  target_catalog:
+    path: Input/processed/drug_target_ready/target_catalog.tsv
+    sha256: e7e10206180df6540800523ff599aa4185b383b234665fe547d1cc629521f39a
+  compound_catalog:
+    path: Input/processed/drug_target_ready/compound_catalog.tsv
+    sha256: d4c86e0bb56a103db89812c86542d48a4dbe2b4bd9b76d6e8b073e1a603d9f67
+  intervention_program_catalog:
+    path: Input/processed/intervention_program/intervention_program_catalog.tsv
+    sha256: c20078a2327546146e0a46ae804aeb5508d091d4e6b23d4ca76a41af0b5830ae
+
+projection:
+  projector_version: mechanism-source-action-projector-v1
+  context_source_section: dynamics_ready_registry.case_validation_entries
+  context_fields:
+    - validation_uid
+    - case_study_name
+    - disease_program
+    - intervention_label
+    - endpoint_family
+  compound_fields:
+    - compound_uid
+    - canonical_compound_id
+    - canonical_id_namespace
+    - preferred_name
+    - chembl_id
+    - drugcentral_struct_id
+    - bindingdb_ligand_id
+  target_fields:
+    - target_uid
+    - canonical_entity_id
+    - canonical_entity_label
+    - target_symbol
+  intervention_fields:
+    - intervention_program_uid
+    - regimen_uid
+    - target_program_set
+    - target_program_label_set
+    - compound_set
+    - route
+    - schedule
+    - dose_level_id
+    - dose_multiplier
+  forbidden_fields:
+    - title
+    - abstract
+    - result_prose
+    - endpoint_source_url
+    - biomarker_endpoint_summary
+    - clinical_endpoint_summary
+    - clinical_endpoint_source_url
+    - clinical_endpoint_alignment_policy
+    - expected_effect_direction
+    - expected_standardized_effect
+    - evaluation_metric
+    - evidence_summary
+    - selection_reason
+    - pkpd_feasibility_score
+    - aggregate_affinity_score
+    - aggregate_target_evidence_score
+    - ranking
+    - rank
+    - benefit
+    - efficacy
+    - outcome
+    - outcomes
+    - result
+    - results
+    - figure
+    - figures
+    - supplement
+    - supplements
+    - citation_context
+    - note
+  reference_action_rule:
+    dose_level_id: dose_100
+    dose: 1.0
+    dose_unit: relative_reference_dose
+    protein_or_biologic:
+      route: intravenous
+      schedule: weekly
+    small_molecule:
+      route: oral
+      schedule: daily
+  interventions:
+    - intervention_label: LECANEMAB
+      modality: protein_or_biologic
+    - intervention_label: DONANEMAB
+      modality: protein_or_biologic
+    - intervention_label: VERUBECESTAT
+      modality: small_molecule
+    - intervention_label: ADUCANUMAB
+      modality: protein_or_biologic
+    - intervention_label: SOLANEZUMAB
+      modality: protein_or_biologic
+    - intervention_label: TRAMIPROSATE
+      modality: small_molecule
+
+mechanism_relevance_vocabulary:
+  - exposure_occupancy
+  - cns_transport
+  - protein_pathology
+  - neuroinflammation
+  - electrophysiology
+  - structural_morphology
+
+families:
+  - priority: 1
+    family_uid: publication_metadata
+    source_type: publication
+    slot_quota_per_intervention: 4
+    network_mode: preregistered_metadata_only
+    endpoint: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi
+    summary_endpoint: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi
+    configured_release: ncbi_pubmed_live_metadata_with_historical_date_filter
+    preregistered_disposition: unavailable
+  - priority: 2
+    family_uid: open_targets_target_metadata
+    source_type: target_database
+    slot_quota_per_intervention: 2
+    network_mode: disabled_cutoff_ineligible_release
+    endpoint: https://ftp.ebi.ac.uk/pub/databases/opentargets/platform/25.03/output/
+    configured_release: '25.03'
+    preregistered_disposition: cutoff_ineligible_release
+  - priority: 3
+    family_uid: chembl_compound_target_metadata
+    source_type: compound_target_database
+    slot_quota_per_intervention: 2
+    network_mode: disabled_source_date_ambiguous
+    endpoint: https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/
+    configured_release: chembl_36_via_mutable_latest
+    preregistered_disposition: source_date_ambiguous
+  - priority: 4
+    family_uid: bindingdb_record_metadata
+    source_type: binding_database
+    slot_quota_per_intervention: 1
+    network_mode: disabled_cutoff_ineligible_release
+    endpoint: https://www.bindingdb.org/rwd/bind/downloads/BindingDB_All_202604_tsv.zip
+    configured_release: BindingDB_All_202604
+    preregistered_disposition: cutoff_ineligible_release
+  - priority: 5
+    family_uid: drugcentral_drug_moa_metadata
+    source_type: drug_moa_database
+    slot_quota_per_intervention: 1
+    network_mode: disabled_cutoff_ineligible_release
+    endpoint: https://unmtid-dbs.net/download/DrugCentral/2021_09_01/drug.target.interaction.tsv.gz
+    configured_release: '2021_09_01'
+    preregistered_disposition: cutoff_ineligible_release
+  - priority: 6
+    family_uid: dgidb_drug_gene_metadata
+    source_type: drug_gene_database
+    slot_quota_per_intervention: 2
+    network_mode: disabled_source_date_ambiguous
+    endpoint: https://api.github.com/repos/dgidb/dgidb-v5/releases/latest
+    configured_release: v.5.0.11_via_mutable_latest
+    preregistered_disposition: source_date_ambiguous
+
+publication_query:
+  database: pubmed
+  result_order: pub_date
+  maximum_date: '2021/03/02'
+  minimum_date: '1900/01/01'
+  query_template: '({intervention}[All Fields]) AND (exposure[All Fields] OR occupancy[All Fields] OR "blood brain barrier"[All Fields] OR "cns transport"[All Fields] OR "amyloid beta"[All Fields] OR tau[All Fields] OR "protein pathology"[All Fields] OR neuroinflammation[All Fields] OR microglia[All Fields] OR electrophysiology[All Fields] OR neuronal[All Fields] OR morphology[All Fields] OR structural[All Fields]) AND ("1900/01/01"[Date - Publication] : "2021/03/02"[Date - Publication])'
+  search_method: GET
+  summary_method: GET
+  headers:
+    Accept: application/json
+    User-Agent: NeuronSifter-MechanismSourceQueue/1.0
+  response_content_types:
+    - application/json
+    - text/json
+  allowed_response_fields:
+    search:
+      - esearchresult.idlist
+    summary:
+      - result.uids
+      - result.<pmid>.uid
+      - result.<pmid>.sortpubdate
+      - result.<pmid>.articleids.idtype
+      - result.<pmid>.articleids.value
+  forbidden_response_fields:
+    - title
+    - abstract
+    - result_prose
+    - conclusions
+    - efficacy
+    - effect
+    - ranking
+    - figure
+    - supplement
+    - citation_context
+
+response_field_policy:
+  allowed_by_family:
+    publication_metadata:
+      - esearchresult.idlist
+      - result.uids
+      - result.<pmid>.uid
+      - result.<pmid>.sortpubdate
+      - result.<pmid>.articleids.idtype
+      - result.<pmid>.articleids.value
+    open_targets_target_metadata: []
+    chembl_compound_target_metadata: []
+    bindingdb_record_metadata: []
+    drugcentral_drug_moa_metadata: []
+    dgidb_drug_gene_metadata: []
+  forbidden_for_every_family:
+    - title
+    - abstract
+    - full_text
+    - result_prose
+    - conclusions
+    - efficacy
+    - effect
+    - ranking
+    - figure
+    - supplement
+    - citation_context
+    - outcome
+    - source_content
+
+request_policy:
+  maximum_requests: 48
+  concurrency: 1
+  timeout_seconds: 30
+  retries: 0
+  maximum_response_bytes: 2097152
+  maximum_total_response_bytes: 33554432
+  maximum_redirects: 3
+  minimum_request_interval_ms: 400
+  allowed_host_suffixes:
+    - ncbi.nlm.nih.gov
+  raw_response_persistence_allowed: false
+  response_value_logging_allowed: false
+
+queue_policy:
+  family_cap: 6
+  global_slot_cap: 160
+  per_intervention_slot_cap: 12
+  exact_slots_per_intervention: 12
+  identity_normalization:
+    pmid: digits_only
+    doi: lowercase_trimmed
+    structured_database_records: family_scoped_no_fuzzy_merge
+  deduplication_key:
+    - canonical_intervention_uid
+    - canonical_source_identity
+  disposition_precedence:
+    - forbidden_metadata
+    - request_failed
+    - cutoff_ineligible_release
+    - source_date_ambiguous
+    - access_license_ambiguous
+    - unavailable
+    - duplicate
+    - eligible
+  ordering:
+    - canonical_intervention_uid
+    - mechanism_tag_priority
+    - family_priority
+    - official_date_ascending
+    - source_type
+    - canonical_source_identity
+    - family_slot_ordinal
+  no_refill_after_exclusion: true
+  no_replacement_after_preregistration: true
+
+artifacts:
+  preregistration: Input/manifests/mechanistic_belief/mechanism_source_preregistration.json
+  queue: Input/manifests/mechanistic_belief/mechanism_source_queue.json
+  chronology: Output/audits/mechanism_source_queue_chronology.json
+  content_authorization: Output/audits/mechanism_source_content_authorization.json
+
+access_counters:
+  six_context_outcome_access: 0
+  protected_holdout_access: 0
+  source_content_access: 0
+
+downstream_authorization:
+  source_content_authorized: false
+  mechanism_basis_sufficiency_authorized: false
+  numerical_prior_population_authorized: false
+  world_action_compiler_authorized: false
+  runtime_implementation_authorized: false
+  agent_trace_authorized: false
+  inference_authorized: false
+  training_authorized: false
+  gpu_authorized: false
+  evaluation_authorized: false

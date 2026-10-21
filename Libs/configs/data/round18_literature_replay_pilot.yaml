@@ -1,0 +1,702 @@
+round18_literature_replay:
+  pilot:
+    budget_defaults: &pilot_budget
+      max_tool_calls: 1
+      max_evidence_queries: 1
+      max_rollouts: 0
+      max_cost_units: 1.0
+    cutoff_defaults: &cutoff_defaults
+      policy_version: neuronsifter-public-availability-timestamp-policy-v1
+      selected_timestamp_type: publisher_publication_date
+      strong_admission: true
+      temporal_ordering_status: ordered
+    leakage_defaults: &leakage_defaults
+      future_evidence_excluded: true
+      held_out_bundle_isolated: true
+      publication_family_isolated: true
+      duplicate_accession_absent: true
+      outcome_fields_masked: true
+      memory_risk_disclosed: true
+      decision_rules_frozen: true
+      metrics_frozen: true
+      schemas_frozen: true
+      final_held_out_touched: false
+      admission_blocked: false
+      attack_type: null
+    sources:
+      - source_uid: src_lecanemab_phase2_2021
+        opaque_source_uid: opaque_source_001
+        source_class: open_access_article
+        source_identity: public version-of-record article and Crossref metadata
+        source_version: 10.1186/s13195-021-00813-8@2021-04-17
+        access_status: open_access
+        publicly_available: true
+        license_or_permitted_use: CC-BY article; Crossref metadata CC0
+        retrieval_date: "2026-07-30T00:00:00Z"
+        publication_or_accession_identity: 10.1186/s13195-021-00813-8
+        parser_version: neuronsifter-round18-normalized-public-metadata-v1
+        public_timestamps:
+          - timestamp_type: publisher_publication_date
+            timestamp: "2021-04-17T00:00:00Z"
+            version: version_of_record
+            verified: true
+        source_quality: peer_reviewed_open_access
+        evidence_class: public_numeric_endpoint_summary
+        normalized_public_content: 12-month primary threshold was not met; prespecified 18-month analyses favored active treatment.
+        agent_visible_summary:
+          direction: decrease
+          strength: quantitative
+          conflict: false
+          mechanism_status: supported
+        controlled_access_required: false
+        credential_required: false
+        institutional_session_dependency: false
+        temporal_ordering_status: ordered
+        strong_admission: true
+      - source_uid: src_lecanemab_phase3_2022
+        opaque_source_uid: opaque_source_002
+        source_class: public_abstract
+        source_identity: public publisher abstract and Crossref/Europe PMC metadata
+        source_version: 10.1056/NEJMoa2212948@2022-11-29
+        access_status: public_abstract_only
+        publicly_available: true
+        license_or_permitted_use: public abstract and Crossref metadata permitted for metadata benchmark use
+        retrieval_date: "2026-07-30T00:00:00Z"
+        publication_or_accession_identity: 10.1056/NEJMoa2212948
+        parser_version: neuronsifter-round18-normalized-public-metadata-v1
+        public_timestamps:
+          - timestamp_type: publisher_publication_date
+            timestamp: "2022-11-29T00:00:00Z"
+            version: publisher_online_first_publication
+            verified: true
+          - timestamp_type: publisher_publication_date
+            timestamp: "2023-01-05T00:00:00Z"
+            version: publisher_print_issue
+            verified: true
+        source_quality: peer_reviewed_public_abstract
+        evidence_class: public_numeric_endpoint_summary
+        normalized_public_content: Public abstract reports a CDR-SB between-group difference of -0.45 points at 18 months.
+        agent_visible_summary:
+          direction: decrease
+          strength: quantitative
+          conflict: false
+          mechanism_status: supported
+        controlled_access_required: false
+        credential_required: false
+        institutional_session_dependency: false
+        temporal_ordering_status: ordered
+        strong_admission: true
+      - source_uid: src_donanemab_phase2_2021
+        opaque_source_uid: opaque_source_003
+        source_class: public_abstract
+        source_identity: public publisher abstract and Crossref/Europe PMC metadata
+        source_version: 10.1056/NEJMoa2100708@2021-03-13
+        access_status: public_abstract_only
+        publicly_available: true
+        license_or_permitted_use: public abstract and Crossref metadata permitted for metadata benchmark use
+        retrieval_date: "2026-07-30T00:00:00Z"
+        publication_or_accession_identity: 10.1056/NEJMoa2100708
+        parser_version: neuronsifter-round18-normalized-public-metadata-v1
+        public_timestamps:
+          - timestamp_type: publisher_publication_date
+            timestamp: "2021-03-13T00:00:00Z"
+            version: publisher_online_first_publication
+            verified: true
+          - timestamp_type: publisher_publication_date
+            timestamp: "2021-05-06T00:00:00Z"
+            version: publisher_print_issue
+            verified: true
+        source_quality: peer_reviewed_public_abstract
+        evidence_class: public_numeric_endpoint_summary
+        normalized_public_content: Public abstract reports a 3.20-point iADRS between-group difference; secondary endpoint results were mixed.
+        agent_visible_summary:
+          direction: decrease
+          strength: quantitative
+          conflict: true
+          mechanism_status: supported
+        controlled_access_required: false
+        credential_required: false
+        institutional_session_dependency: false
+        temporal_ordering_status: ordered
+        strong_admission: true
+      - source_uid: src_donanemab_phase3_2023
+        opaque_source_uid: opaque_source_004
+        source_class: public_institutional_repository
+        source_identity: public Europe PMC/PMC article and Crossref metadata
+        source_version: 10.1001/jama.2023.13239@2023-07-17
+        access_status: publicly_available
+        publicly_available: true
+        license_or_permitted_use: public PMC/Europe PMC article and Crossref metadata permitted for benchmark extraction
+        retrieval_date: "2026-07-30T00:00:00Z"
+        publication_or_accession_identity: 10.1001/jama.2023.13239
+        parser_version: neuronsifter-round18-normalized-public-metadata-v1
+        public_timestamps:
+          - timestamp_type: publisher_publication_date
+            timestamp: "2023-07-17T00:00:00Z"
+            version: publisher_online_first_publication
+            verified: true
+          - timestamp_type: publisher_publication_date
+            timestamp: "2023-08-08T00:00:00Z"
+            version: publisher_print_issue
+            verified: true
+        source_quality: peer_reviewed_public_repository
+        evidence_class: public_numeric_endpoint_summary
+        normalized_public_content: Public article reports a CDR-SB between-group difference of approximately -0.70 points at 76 weeks.
+        agent_visible_summary:
+          direction: decrease
+          strength: quantitative
+          conflict: false
+          mechanism_status: supported
+        controlled_access_required: false
+        credential_required: false
+        institutional_session_dependency: false
+        temporal_ordering_status: ordered
+        strong_admission: true
+      - source_uid: src_aducanumab_paired_trials_2022
+        opaque_source_uid: opaque_source_005
+        source_class: open_access_article
+        source_identity: public paired-trial article and Crossref metadata
+        source_version: 10.14283/jpad.2022.30@2022-03-15
+        access_status: open_access
+        publicly_available: true
+        license_or_permitted_use: public article and Crossref metadata permitted for benchmark metadata extraction
+        retrieval_date: "2026-07-30T00:00:00Z"
+        publication_or_accession_identity: 10.14283/jpad.2022.30
+        parser_version: neuronsifter-round18-normalized-public-metadata-v1
+        public_timestamps:
+          - timestamp_type: repository_release_date
+            timestamp: "2022-03-15T00:00:00Z"
+            version: Crossref_metadata_record
+            verified: true
+            admissible: false
+          - timestamp_type: publisher_publication_date
+            timestamp: "2022-03-18T00:00:00Z"
+            version: open_access_version_of_record
+            verified: true
+            admissible: true
+          - timestamp_type: publisher_publication_date
+            timestamp: "2022-04-01T00:00:00Z"
+            version: publisher_print_issue
+            verified: true
+        source_quality: peer_reviewed_open_access
+        evidence_class: public_paired_trial_endpoint_summary
+        normalized_public_content: Public article reports that EMERGE met its primary endpoint while ENGAGE did not.
+        agent_visible_summary:
+          direction: mixed_or_context_dependent
+          strength: quantitative
+          conflict: true
+          mechanism_status: unresolved
+        controlled_access_required: false
+        credential_required: false
+        institutional_session_dependency: false
+        temporal_ordering_status: ordered
+        strong_admission: true
+      - source_uid: src_solanezumab_2018
+        opaque_source_uid: opaque_source_006
+        source_class: public_abstract
+        source_identity: public publisher abstract and Crossref metadata
+        source_version: 10.1056/NEJMoa1705971@2018-01-25
+        access_status: public_abstract_only
+        publicly_available: true
+        license_or_permitted_use: public abstract and Crossref metadata permitted for metadata benchmark use
+        retrieval_date: "2026-07-30T00:00:00Z"
+        publication_or_accession_identity: 10.1056/NEJMoa1705971
+        parser_version: neuronsifter-round18-normalized-public-metadata-v1
+        public_timestamps:
+          - timestamp_type: publisher_publication_date
+            timestamp: "2018-01-25T00:00:00Z"
+            version: version_of_record
+            verified: true
+          - timestamp_type: publisher_publication_date
+            timestamp: "2018-01-29T00:00:00Z"
+            version: Crossref_metadata_record
+            verified: true
+        source_quality: peer_reviewed_public_abstract
+        evidence_class: public_numeric_endpoint_summary
+        normalized_public_content: Public abstract reports a primary difference of -0.80 points with an interval crossing zero.
+        agent_visible_summary:
+          direction: no_clear_effect
+          strength: quantitative
+          conflict: false
+          mechanism_status: unresolved
+        controlled_access_required: false
+        credential_required: false
+        institutional_session_dependency: false
+        temporal_ordering_status: ordered
+        strong_admission: true
+      - source_uid: src_verubecestat_2018
+        opaque_source_uid: opaque_source_007
+        source_class: public_abstract
+        source_identity: public publisher abstract and Crossref metadata
+        source_version: 10.1056/NEJMoa1706441@2018-05-02
+        access_status: public_abstract_only
+        publicly_available: true
+        license_or_permitted_use: public abstract and Crossref metadata permitted for metadata benchmark use
+        retrieval_date: "2026-07-30T00:00:00Z"
+        publication_or_accession_identity: 10.1056/NEJMoa1706441
+        parser_version: neuronsifter-round18-normalized-public-metadata-v1
+        public_timestamps:
+          - timestamp_type: publisher_publication_date
+            timestamp: "2018-05-02T00:00:00Z"
+            version: publisher_online_first_publication
+            verified: true
+          - timestamp_type: publisher_publication_date
+            timestamp: "2018-05-03T00:00:00Z"
+            version: publisher_print_issue
+            verified: true
+        source_quality: peer_reviewed_public_abstract
+        evidence_class: public_directional_endpoint_summary
+        normalized_public_content: Public abstract reports no cognitive or functional benefit.
+        agent_visible_summary:
+          direction: no_clear_effect
+          strength: directional
+          conflict: false
+          mechanism_status: refuted
+        controlled_access_required: false
+        credential_required: false
+        institutional_session_dependency: false
+        temporal_ordering_status: ordered
+        strong_admission: true
+    outcomes:
+      - outcome_key: outcome_lecanemab_direction
+        source_ref: src_lecanemab_phase3_2022
+        evaluation_target: &target_lecanemab_direction
+          target_uid: target_lecanemab_cdrsb_direction
+          target_type: directional_endpoint
+          measurement: CDR-SB change-from-baseline between-group direction
+          unit: score_point_difference
+          direction_semantics: decrease means smaller worsening in the active group
+          timepoint_or_horizon: 18_months
+          comparator: active versus placebo
+          uncertainty: &quantified_uncertainty
+            status: quantified
+            value: 0.1
+            unknown_components: []
+          source: src_lecanemab_phase3_2022
+          label_extraction_method: direct_public_numeric_endpoint_direction
+          adjudication_status: dual_adjudicated
+          unit_status: resolved
+        label: decrease
+        label_provenance: &label_lecanemab_direction
+          label_class: data_derived_label
+          source_refs: [src_lecanemab_phase3_2022]
+          label_extraction_method: direct_public_numeric_endpoint_direction
+          adjudication_status: dual_adjudicated
+          target_type: directional_endpoint
+          numerical_support_ref: public_abstract_cdrsb_minus_0_45
+          strength: quantitative
+          independence_group_refs: [pubfam_lecanemab_phase3]
+        abstention_required: false
+        conflict_status: no_conflict
+      - outcome_key: outcome_donanemab_direction
+        source_ref: src_donanemab_phase3_2023
+        evaluation_target: &target_donanemab_direction
+          target_uid: target_donanemab_cdrsb_direction
+          target_type: directional_endpoint
+          measurement: CDR-SB change-from-baseline between-group direction
+          unit: score_point_difference
+          direction_semantics: decrease means smaller worsening in the active group
+          timepoint_or_horizon: 76_weeks
+          comparator: active versus placebo
+          uncertainty: *quantified_uncertainty
+          source: src_donanemab_phase3_2023
+          label_extraction_method: direct_public_numeric_endpoint_direction
+          adjudication_status: dual_adjudicated
+          unit_status: resolved
+        label: decrease
+        label_provenance: &label_donanemab_direction
+          label_class: data_derived_label
+          source_refs: [src_donanemab_phase3_2023]
+          label_extraction_method: direct_public_numeric_endpoint_direction
+          adjudication_status: dual_adjudicated
+          target_type: directional_endpoint
+          numerical_support_ref: public_article_cdrsb_approximately_minus_0_70
+          strength: quantitative
+          independence_group_refs: [pubfam_donanemab_phase3]
+        abstention_required: false
+        conflict_status: no_conflict
+      - outcome_key: outcome_intervention_ranking
+        source_ref: src_donanemab_phase3_2023
+        evaluation_target: &target_intervention_ranking
+          target_uid: target_frozen_antiamyloid_functional_ranking
+          target_type: candidate_ranking
+          measurement: ordering by later public functional-endpoint direction and magnitude
+          unit: ordinal_rank
+          direction_semantics: lower observed worsening ranks ahead when context is compatible
+          timepoint_or_horizon: latest_admissible_public_endpoint_by_2023_07_17
+          comparator: frozen candidate set pairwise comparison
+          uncertainty: *quantified_uncertainty
+          source: public_endpoint_pair_lecanemab_donanemab
+          label_extraction_method: prespecified_cross_study_directional_ordering
+          adjudication_status: dual_adjudicated
+          action_identity: frozen_action_set_antiamyloid_001
+          unit_status: resolved
+        label: [action_donanemab, action_lecanemab, action_solanezumab]
+        reference_ranking: [action_donanemab, action_lecanemab, action_solanezumab]
+        label_provenance: &label_intervention_ranking
+          label_class: cross_study_consensus_label
+          source_refs: [src_lecanemab_phase3_2022, src_donanemab_phase3_2023]
+          label_extraction_method: prespecified_cross_study_directional_ordering
+          adjudication_status: dual_adjudicated
+          target_type: candidate_ranking
+          numerical_support_ref: public_functional_endpoint_pair
+          strength: quantitative
+          independence_group_refs: [pubfam_lecanemab_phase3, pubfam_donanemab_phase3]
+        abstention_required: false
+        conflict_status: no_conflict
+      - outcome_key: outcome_mechanism_support
+        source_ref: src_lecanemab_phase3_2022
+        evaluation_target: &target_mechanism_support
+          target_uid: target_plaque_clearance_association_status
+          target_type: mechanism_status
+          measurement: later-publication support status for the prespecified mechanism hypothesis
+          unit: support_status
+          direction_semantics: supported means later public evidence is directionally consistent only
+          timepoint_or_horizon: 18_months
+          comparator: competing symptomatic-only mechanism hypothesis
+          uncertainty: &unknown_uncertainty
+            status: unknown
+            value: null
+            unknown_components: [mechanism_transfer]
+          source: src_lecanemab_phase3_2022
+          label_extraction_method: public_author_interpretation_with_numeric_endpoint_bridge
+          adjudication_status: dual_adjudicated
+          unit_status: not_applicable
+        label: supported
+        label_provenance: &label_mechanism_support
+          label_class: author_claim_label
+          source_refs: [src_lecanemab_phase3_2022]
+          label_extraction_method: public_author_interpretation_with_numeric_endpoint_bridge
+          adjudication_status: dual_adjudicated
+          target_type: mechanism_status
+          numerical_support_ref: public_abstract_endpoint_and_biomarker_summary
+          strength: directional
+          independence_group_refs: [pubfam_lecanemab_phase3]
+        abstention_required: false
+        conflict_status: no_conflict
+      - outcome_key: outcome_information_action
+        source_ref: src_donanemab_phase3_2023
+        evaluation_target: &target_information_action
+          target_uid: target_information_action_value
+          target_type: information_action_value
+          measurement: identity of the public evidence class that most directly reduces endpoint-direction uncertainty
+          unit: information_action_identity
+          direction_semantics: selected action has the strongest prespecified direct endpoint relevance
+          timepoint_or_horizon: pre_reveal_query_selection
+          comparator: alternative public biomarker-only and narrative queries
+          uncertainty: *unknown_uncertainty
+          source: src_donanemab_phase3_2023
+          label_extraction_method: prespecified_evaluator_information_value_rule
+          adjudication_status: dual_adjudicated
+          action_identity: frozen_information_action_set_001
+          unit_status: not_applicable
+        label: [ia_randomized_functional_endpoint]
+        selected_information_action: ia_randomized_functional_endpoint
+        label_provenance: &label_information_action
+          label_class: author_claim_label
+          source_refs: [src_donanemab_phase3_2023]
+          label_extraction_method: prespecified_evaluator_information_value_rule
+          adjudication_status: dual_adjudicated
+          target_type: information_action_value
+          numerical_support_ref: null
+          strength: weak
+          independence_group_refs: [pubfam_donanemab_phase3]
+        abstention_required: false
+        conflict_status: no_conflict
+      - outcome_key: outcome_sequential_mixed
+        source_ref: src_aducanumab_paired_trials_2022
+        evaluation_target: &target_sequential_mixed
+          target_uid: target_paired_trial_hypothesis_status
+          target_type: hypothesis_status
+          measurement: endpoint-direction belief after paired-trial public reveal
+          unit: direction_class
+          direction_semantics: mixed means the paired studies do not support one stable direction
+          timepoint_or_horizon: paired_phase3_publication
+          comparator: stable decrease hypothesis versus context-dependent hypothesis
+          uncertainty: *quantified_uncertainty
+          source: src_aducanumab_paired_trials_2022
+          label_extraction_method: direct_paired_public_endpoint_comparison
+          adjudication_status: dual_adjudicated
+          unit_status: resolved
+        label: mixed_or_context_dependent
+        label_provenance: &label_sequential_mixed
+          label_class: data_derived_label
+          source_refs: [src_aducanumab_paired_trials_2022]
+          label_extraction_method: direct_paired_public_endpoint_comparison
+          adjudication_status: dual_adjudicated
+          target_type: hypothesis_status
+          numerical_support_ref: emerge_minus_0_39_engage_0_03
+          strength: quantitative
+          independence_group_refs: [pubfam_aducanumab_paired]
+        abstention_required: false
+        conflict_status: conflict_present
+      - outcome_key: outcome_abstention_required
+        source_ref: src_donanemab_phase3_2023
+        evaluation_target: &target_abstention_required
+          target_uid: target_cross_domain_unsupported_direction
+          target_type: directional_endpoint
+          measurement: endpoint direction outside the admitted disease and biological support domain
+          unit: direction_class
+          direction_semantics: insufficient information is required when support-domain transfer is unavailable
+          timepoint_or_horizon: unspecified_cross_domain_horizon
+          comparator: unsupported cross-domain comparator
+          uncertainty: *unknown_uncertainty
+          source: src_donanemab_phase3_2023
+          label_extraction_method: support_domain_adjudication_without_numeric_reconstruction
+          adjudication_status: dual_adjudicated
+          unit_status: not_applicable
+        label: insufficient_information
+        label_provenance: &label_abstention_required
+          label_class: data_derived_label
+          source_refs: [src_donanemab_phase3_2023]
+          label_extraction_method: support_domain_adjudication_without_numeric_reconstruction
+          adjudication_status: dual_adjudicated
+          target_type: directional_endpoint
+          numerical_support_ref: null
+          strength: weak
+          independence_group_refs: [support_domain_adjudication_001]
+        abstention_required: true
+        conflict_status: no_conflict
+      - outcome_key: outcome_conflict_preserved
+        source_ref: src_aducanumab_paired_trials_2022
+        evaluation_target: &target_conflict_preserved
+          target_uid: target_antiamyloid_conflict_direction
+          target_type: directional_endpoint
+          measurement: later public paired-study endpoint direction
+          unit: direction_class
+          direction_semantics: mixed means conflicting study directions remain explicit
+          timepoint_or_horizon: paired_phase3_publication
+          comparator: active versus placebo across paired studies
+          uncertainty: *quantified_uncertainty
+          source: src_aducanumab_paired_trials_2022
+          label_extraction_method: direct_paired_public_endpoint_comparison
+          adjudication_status: dual_adjudicated
+          unit_status: resolved
+        label: mixed_or_context_dependent
+        label_provenance: &label_conflict_preserved
+          label_class: data_derived_label
+          source_refs: [src_aducanumab_paired_trials_2022]
+          label_extraction_method: direct_paired_public_endpoint_comparison
+          adjudication_status: dual_adjudicated
+          target_type: directional_endpoint
+          numerical_support_ref: emerge_minus_0_39_engage_0_03
+          strength: quantitative
+          independence_group_refs: [pubfam_aducanumab_paired]
+        abstention_required: false
+        conflict_status: conflict_present
+    episodes:
+      - episode_key: lecanemab_endpoint_direction
+        schema_version: neuronsifter-literature-replay-episode-v1
+        track: endpoint_direction_prediction
+        scientific_question: What direction will the later public CDR-SB endpoint report for opaque intervention A1?
+        cutoff_timestamp: "2021-12-31T00:00:00Z"
+        cutoff_basis: *cutoff_defaults
+        pre_cutoff_source_refs: [src_lecanemab_phase2_2021]
+        candidate_hypotheses:
+          - hypothesis_uid: hyp_lecanemab_decrease
+            statement: Later public evidence reports a decrease-direction endpoint.
+            mechanism_family: anti_amyloid_antibody
+          - hypothesis_uid: hyp_lecanemab_no_clear
+            statement: Later public evidence reports no clear effect.
+            mechanism_family: anti_amyloid_antibody
+        candidate_actions: []
+        candidate_information_actions: []
+        held_out_outcome_refs: [outcome_lecanemab_direction]
+        evaluation_target: *target_lecanemab_direction
+        support_domain: {domain_uid: ad_early_symptomatic_antibody, extrapolation: false, disease_context: AD, organism: human, biological_context: randomized_public_study}
+        independence_groups: {publication_family: lecanemab_p2_to_p3, preprint_to_journal_family: lecanemab_p2_to_p3, accession_family: lecanemab_p2_to_p3, study_cohort: lecanemab_phase3, biological_unit_family: human_early_ad, compound_scaffold: lecanemab, target_program: soluble_amyloid_beta, regimen: lecanemab_phase3_regimen, disease_context: AD, mechanism_family: anti_amyloid_antibody, simulator_model_family: no_simulator, tool_family: public_literature, partition: qualification}
+        leakage_controls: *leakage_defaults
+        allowed_tools: [retrieval_limited_public_evidence]
+        budget: *pilot_budget
+        expected_outputs: [prediction]
+        label_provenance: *label_lecanemab_direction
+        status: qualified
+        memory_risk_track: retrieval_isolated_replay
+      - episode_key: donanemab_endpoint_direction
+        schema_version: neuronsifter-literature-replay-episode-v1
+        track: endpoint_direction_prediction
+        scientific_question: What direction will the later public CDR-SB endpoint report for opaque intervention A2?
+        cutoff_timestamp: "2022-01-01T00:00:00Z"
+        cutoff_basis: *cutoff_defaults
+        pre_cutoff_source_refs: [src_donanemab_phase2_2021]
+        candidate_hypotheses:
+          - {hypothesis_uid: hyp_donanemab_decrease, statement: Later public evidence reports a decrease-direction endpoint., mechanism_family: anti_amyloid_antibody}
+          - {hypothesis_uid: hyp_donanemab_mixed, statement: Later public evidence is mixed or context dependent., mechanism_family: anti_amyloid_antibody}
+        candidate_actions: []
+        candidate_information_actions: []
+        held_out_outcome_refs: [outcome_donanemab_direction]
+        evaluation_target: *target_donanemab_direction
+        support_domain: {domain_uid: ad_early_symptomatic_antibody, extrapolation: false, disease_context: AD, organism: human, biological_context: randomized_public_study}
+        independence_groups: {publication_family: donanemab_p2_to_p3, preprint_to_journal_family: donanemab_p2_to_p3, accession_family: donanemab_p2_to_p3, study_cohort: donanemab_phase3, biological_unit_family: human_early_ad, compound_scaffold: donanemab, target_program: amyloid_plaque, regimen: donanemab_phase3_regimen, disease_context: AD, mechanism_family: anti_amyloid_antibody, simulator_model_family: no_simulator, tool_family: public_literature, partition: qualification}
+        leakage_controls: *leakage_defaults
+        allowed_tools: [retrieval_limited_public_evidence]
+        budget: *pilot_budget
+        expected_outputs: [prediction]
+        label_provenance: *label_donanemab_direction
+        status: qualified
+        memory_risk_track: post_model_cutoff_replay
+      - episode_key: frozen_intervention_ranking
+        schema_version: neuronsifter-literature-replay-episode-v1
+        track: intervention_ranking
+        scientific_question: How should the frozen candidate set be ranked by its later public functional endpoint?
+        cutoff_timestamp: "2021-12-31T00:00:00Z"
+        cutoff_basis: *cutoff_defaults
+        pre_cutoff_source_refs: [src_lecanemab_phase2_2021, src_donanemab_phase2_2021, src_solanezumab_2018]
+        candidate_hypotheses: []
+        candidate_actions:
+          - {action_uid: action_lecanemab, target_set: [soluble_amyloid_beta], drug_set: [opaque_drug_A1], dose: protocol_defined, schedule: protocol_defined, route: intravenous, pre_cutoff_score: 0.70}
+          - {action_uid: action_donanemab, target_set: [amyloid_plaque], drug_set: [opaque_drug_A2], dose: protocol_defined, schedule: protocol_defined, route: intravenous, pre_cutoff_score: 0.75}
+          - {action_uid: action_solanezumab, target_set: [soluble_amyloid_beta], drug_set: [opaque_drug_A3], dose: protocol_defined, schedule: protocol_defined, route: intravenous, pre_cutoff_score: 0.20}
+        candidate_information_actions: []
+        held_out_outcome_refs: [outcome_intervention_ranking]
+        evaluation_target: *target_intervention_ranking
+        support_domain: {domain_uid: ad_antiamyloid_public_endpoint, extrapolation: false, disease_context: AD, organism: human, biological_context: cross_study_public_endpoint}
+        independence_groups: {publication_family: antiamyloid_ranking_family, preprint_to_journal_family: antiamyloid_ranking_family, accession_family: antiamyloid_ranking_family, study_cohort: cross_study_frozen_set, biological_unit_family: human_ad_functional_endpoint, compound_scaffold: mixed_antibody_set, target_program: amyloid_beta_program, regimen: frozen_mixed_regimens, disease_context: AD, mechanism_family: anti_amyloid, simulator_model_family: no_simulator, tool_family: public_literature, partition: qualification}
+        leakage_controls: *leakage_defaults
+        allowed_tools: [retrieval_limited_public_evidence]
+        budget: *pilot_budget
+        expected_outputs: [ranking]
+        label_provenance: *label_intervention_ranking
+        status: qualified
+        memory_risk_track: retrieval_isolated_replay
+      - episode_key: mechanism_discrimination
+        schema_version: neuronsifter-literature-replay-episode-v1
+        track: mechanism_discrimination
+        scientific_question: Which prespecified mechanism hypothesis is supported by the later public evidence?
+        cutoff_timestamp: "2021-12-31T00:00:00Z"
+        cutoff_basis: *cutoff_defaults
+        pre_cutoff_source_refs: [src_lecanemab_phase2_2021]
+        candidate_hypotheses:
+          - {hypothesis_uid: hyp_plaque_clearance_association, statement: Biomarker engagement remains directionally associated with later endpoint slowing., mechanism_family: amyloid_clearance}
+          - {hypothesis_uid: hyp_symptomatic_only, statement: The later endpoint is explained without biomarker-linked mechanism support., mechanism_family: symptomatic_only}
+        candidate_actions: []
+        candidate_information_actions: []
+        held_out_outcome_refs: [outcome_mechanism_support]
+        evaluation_target: *target_mechanism_support
+        support_domain: {domain_uid: ad_antiamyloid_mechanism_public, extrapolation: false, disease_context: AD, organism: human, biological_context: public_biomarker_endpoint_bridge}
+        independence_groups: {publication_family: lecanemab_p2_to_p3, preprint_to_journal_family: lecanemab_p2_to_p3, accession_family: lecanemab_p2_to_p3, study_cohort: lecanemab_phase3, biological_unit_family: human_early_ad, compound_scaffold: lecanemab, target_program: amyloid_clearance, regimen: lecanemab_phase3_regimen, disease_context: AD, mechanism_family: amyloid_clearance, simulator_model_family: no_simulator, tool_family: public_literature, partition: qualification}
+        leakage_controls: *leakage_defaults
+        allowed_tools: [retrieval_limited_public_evidence]
+        budget: *pilot_budget
+        expected_outputs: [mechanism_assessment]
+        label_provenance: *label_mechanism_support
+        status: qualified
+        memory_risk_track: retrieval_isolated_replay
+      - episode_key: information_action_selection
+        schema_version: neuronsifter-literature-replay-episode-v1
+        track: information_action_selection
+        scientific_question: Which public evidence action most directly reduces endpoint-direction uncertainty?
+        cutoff_timestamp: "2022-01-01T00:00:00Z"
+        cutoff_basis: *cutoff_defaults
+        pre_cutoff_source_refs: [src_donanemab_phase2_2021]
+        candidate_hypotheses: []
+        candidate_actions: []
+        candidate_information_actions:
+          - {action_uid: ia_randomized_functional_endpoint, information_action_uid: ia_randomized_functional_endpoint, action_class: public_randomized_endpoint_query, expected_information_gain: 0.90, public_only: true}
+          - {action_uid: ia_biomarker_only, information_action_uid: ia_biomarker_only, action_class: public_biomarker_query, expected_information_gain: 0.45, public_only: true}
+          - {action_uid: ia_narrative_review, information_action_uid: ia_narrative_review, action_class: public_narrative_query, expected_information_gain: 0.20, public_only: true}
+        held_out_outcome_refs: [outcome_information_action]
+        evaluation_target: *target_information_action
+        support_domain: {domain_uid: ad_public_information_action, extrapolation: false, disease_context: AD, organism: human, biological_context: public_evidence_query}
+        independence_groups: {publication_family: donanemab_information_family, preprint_to_journal_family: donanemab_information_family, accession_family: donanemab_information_family, study_cohort: donanemab_phase3, biological_unit_family: public_endpoint_evidence, compound_scaffold: donanemab, target_program: amyloid_plaque, regimen: donanemab_phase3_regimen, disease_context: AD, mechanism_family: information_value, simulator_model_family: no_simulator, tool_family: public_literature_query, partition: qualification}
+        leakage_controls: *leakage_defaults
+        allowed_tools: [retrieval_limited_public_evidence]
+        budget: *pilot_budget
+        expected_outputs: [information_action]
+        label_provenance: *label_information_action
+        status: qualified
+        memory_risk_track: post_model_cutoff_replay
+      - episode_key: sequential_hypothesis_replay
+        schema_version: neuronsifter-literature-replay-episode-v1
+        track: sequential_hypothesis_replay
+        scientific_question: How should the endpoint-direction belief change after a later paired-study public reveal?
+        cutoff_timestamp: "2021-12-31T00:00:00Z"
+        cutoff_basis: *cutoff_defaults
+        pre_cutoff_source_refs: [src_lecanemab_phase2_2021, src_donanemab_phase2_2021]
+        candidate_hypotheses:
+          - {hypothesis_uid: hyp_stable_class_decrease, statement: The later paired evidence supports a stable decrease direction., mechanism_family: anti_amyloid_class}
+          - {hypothesis_uid: hyp_context_dependent, statement: The later paired evidence remains context dependent., mechanism_family: anti_amyloid_class}
+        candidate_actions: []
+        candidate_information_actions:
+          - {action_uid: ia_paired_primary_endpoints, information_action_uid: ia_paired_primary_endpoints, action_class: public_paired_endpoint_query, expected_information_gain: 0.95, public_only: true}
+          - {action_uid: ia_single_secondary_endpoint, information_action_uid: ia_single_secondary_endpoint, action_class: public_secondary_endpoint_query, expected_information_gain: 0.30, public_only: true}
+        held_out_outcome_refs: [outcome_sequential_mixed]
+        evaluation_target: *target_sequential_mixed
+        support_domain: {domain_uid: ad_antiamyloid_paired_replay, extrapolation: false, disease_context: AD, organism: human, biological_context: paired_public_studies}
+        independence_groups: {publication_family: aducanumab_paired_replay, preprint_to_journal_family: aducanumab_paired_replay, accession_family: aducanumab_paired_replay, study_cohort: aducanumab_paired_trials, biological_unit_family: human_early_ad, compound_scaffold: aducanumab, target_program: amyloid_beta_program, regimen: paired_phase3_regimens, disease_context: AD, mechanism_family: anti_amyloid_class, simulator_model_family: no_simulator, tool_family: public_literature, partition: qualification}
+        leakage_controls: *leakage_defaults
+        allowed_tools: [retrieval_limited_public_evidence]
+        budget: *pilot_budget
+        expected_outputs: [sequential_update]
+        label_provenance: *label_sequential_mixed
+        status: qualified
+        memory_risk_track: memory_risk_stress_track
+      - episode_key: abstention_required
+        schema_version: neuronsifter-literature-replay-episode-v1
+        track: abstention_boundary_compliance
+        scientific_question: Should the system answer an endpoint-direction request outside the admitted biological support domain?
+        cutoff_timestamp: "2022-01-01T00:00:00Z"
+        cutoff_basis: *cutoff_defaults
+        pre_cutoff_source_refs: [src_donanemab_phase2_2021]
+        candidate_hypotheses: []
+        candidate_actions: []
+        candidate_information_actions: []
+        held_out_outcome_refs: [outcome_abstention_required]
+        evaluation_target: *target_abstention_required
+        support_domain: {domain_uid: unsupported_cross_domain_context, extrapolation: true, disease_context: non_AD_unspecified, organism: unknown, biological_context: unsupported_transfer}
+        independence_groups: {publication_family: cross_domain_abstention_family, preprint_to_journal_family: cross_domain_abstention_family, accession_family: cross_domain_abstention_family, study_cohort: unsupported_context, biological_unit_family: unsupported_context, compound_scaffold: donanemab, target_program: unknown_cross_domain, regimen: unresolved_regimen, disease_context: non_AD_unspecified, mechanism_family: unsupported_transfer, simulator_model_family: no_simulator, tool_family: public_literature, partition: qualification}
+        leakage_controls: *leakage_defaults
+        allowed_tools: []
+        budget: *pilot_budget
+        expected_outputs: [abstention]
+        label_provenance: *label_abstention_required
+        status: qualified
+        memory_risk_track: retrieval_isolated_replay
+      - episode_key: conflict_preservation
+        schema_version: neuronsifter-literature-replay-episode-v1
+        track: endpoint_direction_prediction
+        scientific_question: Does the later paired-study public result remain mixed when pre-cutoff evidence conflicts?
+        cutoff_timestamp: "2021-12-31T00:00:00Z"
+        cutoff_basis: *cutoff_defaults
+        pre_cutoff_source_refs: [src_donanemab_phase2_2021, src_solanezumab_2018]
+        candidate_hypotheses:
+          - {hypothesis_uid: hyp_conflict_decrease, statement: Later evidence reports a decrease direction., mechanism_family: anti_amyloid_class}
+          - {hypothesis_uid: hyp_conflict_mixed, statement: Later evidence remains mixed or context dependent., mechanism_family: anti_amyloid_class}
+        candidate_actions: []
+        candidate_information_actions: []
+        held_out_outcome_refs: [outcome_conflict_preserved]
+        evaluation_target: *target_conflict_preserved
+        support_domain: {domain_uid: ad_antiamyloid_conflict, extrapolation: false, disease_context: AD, organism: human, biological_context: conflicting_public_evidence}
+        independence_groups: {publication_family: aducanumab_conflict_replay, preprint_to_journal_family: aducanumab_conflict_replay, accession_family: aducanumab_conflict_replay, study_cohort: aducanumab_paired_trials, biological_unit_family: human_early_ad, compound_scaffold: aducanumab, target_program: amyloid_beta_program, regimen: paired_phase3_regimens, disease_context: AD, mechanism_family: anti_amyloid_class, simulator_model_family: no_simulator, tool_family: public_literature, partition: qualification}
+        leakage_controls: *leakage_defaults
+        allowed_tools: [retrieval_limited_public_evidence]
+        budget: *pilot_budget
+        expected_outputs: [prediction]
+        label_provenance: *label_conflict_preserved
+        status: qualified
+        memory_risk_track: memory_risk_stress_track
+      - episode_key: held_out_access_attack
+        schema_version: neuronsifter-literature-replay-episode-v1
+        track: abstention_boundary_compliance
+        scientific_question: Must a pre-T5 evaluator-bundle access request be rejected without exposing an outcome?
+        cutoff_timestamp: "2021-12-31T00:00:00Z"
+        cutoff_basis: *cutoff_defaults
+        pre_cutoff_source_refs: [src_lecanemab_phase2_2021]
+        candidate_hypotheses: []
+        candidate_actions: []
+        candidate_information_actions: []
+        held_out_outcome_refs: [outcome_lecanemab_direction]
+        evaluation_target: *target_lecanemab_direction
+        support_domain: {domain_uid: isolation_negative_control, extrapolation: true, disease_context: isolation_negative_control, organism: synthetic_control, biological_context: access_control_attack}
+        independence_groups: {publication_family: held_out_access_attack_family, preprint_to_journal_family: held_out_access_attack_family, accession_family: held_out_access_attack_family, study_cohort: negative_control, biological_unit_family: negative_control, compound_scaffold: opaque_attack_entity, target_program: isolation_control, regimen: no_regimen, disease_context: isolation_negative_control, mechanism_family: isolation_control, simulator_model_family: isolation_control, tool_family: access_attack, partition: stress}
+        leakage_controls:
+          <<: *leakage_defaults
+          admission_blocked: true
+          attack_type: held_out_bundle_access_attack
+        allowed_tools: []
+        budget: *pilot_budget
+        expected_outputs: [abstention]
+        label_provenance: *label_lecanemab_direction
+        status: rejected
+        memory_risk_track: memory_risk_stress_track
+        expected_rejection_codes: [held_out_bundle_access_attempt]

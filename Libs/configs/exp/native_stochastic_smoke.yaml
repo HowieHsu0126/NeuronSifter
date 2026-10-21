@@ -1,0 +1,28 @@
+config_includes:
+- manuscript_native_protocol.yaml
+
+screening_pipeline:
+  screening_benchmark:
+    training:
+      gpu_stochastic_smoke:
+        mode: native_full_runtime
+        use_smoke_dimensions: false
+        output_path: Output/audits/native_stochastic_smoke.json
+        native:
+          checkpoint_scale: neuronsifter_large
+          inference_profile: native_stochastic_smoke
+          role: development
+          group_uids: []
+          complete_particles: 32
+          conditional_draws_per_particle: 2
+          denoising_steps: 100
+
+neuronsifter_scale_registry:
+  inference_profiles:
+    native_stochastic_smoke:
+      checkpoint_scale: neuronsifter_large
+      route_priority: engineering_runtime_only
+      sampler_budget:
+        sample_count: 2
+        denoising_step_count: 100
+        sample_chunk_size: 1

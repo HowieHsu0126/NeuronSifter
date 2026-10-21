@@ -1,0 +1,410 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/mechanistic_belief_prior_reliability_authority.schema.json",
+  "title": "Mechanistic Belief Prior Reliability Authority",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "authority_uid",
+    "authority_sha256",
+    "method_uid",
+    "contract",
+    "schemas",
+    "round24_inputs",
+    "code_identity",
+    "semantic_hashes",
+    "method_identity",
+    "prior_roles",
+    "parameter_domain_distribution_families",
+    "latent_state_factors",
+    "observable_families",
+    "observable_requirements",
+    "prior_predictive_semantics",
+    "comparison_forms",
+    "uncertainty_components",
+    "support_contract",
+    "abstention_contract",
+    "pairwise_distributions",
+    "claim_closures",
+    "terminal_decision_table_binding",
+    "access_counters",
+    "downstream_authorization",
+    "artifacts_created",
+    "limitations",
+    "blockers"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-mechanistic-belief-prior-reliability-authority-v1"},
+    "status": {"const": "MECHANISTIC_BELIEF_PRIOR_RELIABILITY_SEMANTICS_FROZEN"},
+    "authority_uid": {"const": "mechanistic_belief_prior_reliability_authority"},
+    "authority_sha256": {"$ref": "#/$defs/sha256"},
+    "method_uid": {"const": "mechanistic_belief_twin_v1"},
+    "contract": {"$ref": "#/$defs/fileBinding"},
+    "schemas": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["prior_reliability_authority", "terminal_decision_table"],
+      "properties": {
+        "prior_reliability_authority": {"$ref": "#/$defs/fileBinding"},
+        "terminal_decision_table": {"$ref": "#/$defs/fileBinding"}
+      }
+    },
+    "round24_inputs": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {"$ref": "#/$defs/round24Binding"}
+    },
+    "code_identity": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {"$ref": "#/$defs/fileBinding"}
+    },
+    "semantic_hashes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method_identity",
+        "prior_roles",
+        "parameter_domain_distribution_families",
+        "latent_state_factors",
+        "observable_families",
+        "observable_requirements",
+        "prior_predictive_semantics",
+        "comparison_forms",
+        "uncertainty_components",
+        "support_contract",
+        "abstention_contract",
+        "pairwise_distributions",
+        "claim_closures",
+        "terminal_decisions"
+      ],
+      "properties": {
+        "method_identity": {"$ref": "#/$defs/sha256"},
+        "prior_roles": {"$ref": "#/$defs/sha256"},
+        "parameter_domain_distribution_families": {"$ref": "#/$defs/sha256"},
+        "latent_state_factors": {"$ref": "#/$defs/sha256"},
+        "observable_families": {"$ref": "#/$defs/sha256"},
+        "observable_requirements": {"$ref": "#/$defs/sha256"},
+        "prior_predictive_semantics": {"$ref": "#/$defs/sha256"},
+        "comparison_forms": {"$ref": "#/$defs/sha256"},
+        "uncertainty_components": {"$ref": "#/$defs/sha256"},
+        "support_contract": {"$ref": "#/$defs/sha256"},
+        "abstention_contract": {"$ref": "#/$defs/sha256"},
+        "pairwise_distributions": {"$ref": "#/$defs/sha256"},
+        "claim_closures": {"$ref": "#/$defs/sha256"},
+        "terminal_decisions": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "method_identity": {"$ref": "#/$defs/methodIdentity"},
+    "prior_roles": {"$ref": "#/$defs/priorRoles"},
+    "parameter_domain_distribution_families": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "items": {"$ref": "#/$defs/domainFamily"}
+    },
+    "latent_state_factors": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {"$ref": "#/$defs/latentFactor"}
+    },
+    "observable_families": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {"$ref": "#/$defs/observableFamily"}
+    },
+    "observable_requirements": {"$ref": "#/$defs/observableRequirements"},
+    "prior_predictive_semantics": {"$ref": "#/$defs/priorPredictive"},
+    "comparison_forms": {"$ref": "#/$defs/comparisonForms"},
+    "uncertainty_components": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {"$ref": "#/$defs/uncertaintyComponent"}
+    },
+    "support_contract": {"$ref": "#/$defs/supportContract"},
+    "abstention_contract": {"$ref": "#/$defs/abstentionContract"},
+    "pairwise_distributions": {"$ref": "#/$defs/pairwiseDistributions"},
+    "claim_closures": {"$ref": "#/$defs/claimClosures"},
+    "terminal_decision_table_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "schema_path", "schema_sha256", "terminal_semantics_sha256", "row_count", "terminal_issued_in_this_round"],
+      "properties": {
+        "path": {"const": "Output/audits/mechanistic_belief_terminal_decision_table.json"},
+        "schema_path": {"const": "Libs/configs/schema/mechanistic_belief_terminal_decision_table.schema.json"},
+        "schema_sha256": {"$ref": "#/$defs/sha256"},
+        "terminal_semantics_sha256": {"$ref": "#/$defs/sha256"},
+        "row_count": {"const": 6},
+        "terminal_issued_in_this_round": {"const": false}
+      }
+    },
+    "access_counters": {"$ref": "#/$defs/accessCounters"},
+    "downstream_authorization": {"$ref": "#/$defs/downstreamAuthorization"},
+    "artifacts_created": {"$ref": "#/$defs/artifactsCreated"},
+    "limitations": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "string", "minLength": 1}},
+    "blockers": {"type": "array", "maxItems": 0}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fileBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "round24Binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "file_sha256", "required_status", "semantic_identity_field", "semantic_identity"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "file_sha256": {"$ref": "#/$defs/sha256"},
+        "required_status": {"type": "string", "minLength": 1},
+        "semantic_identity_field": {"type": "string", "minLength": 1},
+        "semantic_identity": {"type": "string", "minLength": 1}
+      }
+    },
+    "methodIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method_uid", "method_family", "task_specific_fitting", "prior_predictive", "candidate_search_allowed", "preferred_method_allowed"],
+      "properties": {
+        "method_uid": {"const": "mechanistic_belief_twin_v1"},
+        "method_family": {"const": "prospective_mechanistic_belief_twin"},
+        "task_specific_fitting": {"const": false},
+        "prior_predictive": {"const": true},
+        "candidate_search_allowed": {"const": false},
+        "preferred_method_allowed": {"const": false}
+      }
+    },
+    "priorRole": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role_uid", "role_class", "required", "population_source", "selection_allowed", "reporting_rule"],
+      "properties": {
+        "role_uid": {"enum": ["canonical_mechanism_prior", "conservative_support_sensitivity", "broad_parameter_sensitivity"]},
+        "role_class": {"enum": ["canonical", "sensitivity"]},
+        "required": {"type": "boolean"},
+        "population_source": {"type": "string", "minLength": 1},
+        "selection_allowed": {"const": false},
+        "reporting_rule": {"type": "string", "minLength": 1}
+      }
+    },
+    "priorRoles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ordered_roles", "maximum_sensitivity_roles", "numerical_priors_populated", "preferred_sensitivity_role"],
+      "properties": {
+        "ordered_roles": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"$ref": "#/$defs/priorRole"}},
+        "maximum_sensitivity_roles": {"const": 2},
+        "numerical_priors_populated": {"const": false},
+        "preferred_sensitivity_role": {"type": "null"}
+      }
+    },
+    "domainFamily": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["parameter_domain", "distribution_family"],
+      "properties": {
+        "parameter_domain": {"enum": ["signed_real", "positive_real", "nonnegative_real", "unit_interval", "bounded_interval", "simplex", "finite_categorical"]},
+        "distribution_family": {"enum": ["normal", "lognormal", "zero_inflated_gamma", "beta", "scaled_beta", "dirichlet", "categorical"]}
+      }
+    },
+    "latentFactor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["factor_uid", "factor_class", "scientific_meaning", "forbidden_interpretation"],
+      "properties": {
+        "factor_uid": {"enum": ["sample_treatment_action", "exposure_occupancy", "cns_microenvironment", "electrophysiology", "structural_morphology"]},
+        "factor_class": {"enum": ["known_exogenous_conditioning", "uncertain_latent_state"]},
+        "scientific_meaning": {"type": "string", "minLength": 1},
+        "forbidden_interpretation": {"type": "string", "minLength": 1}
+      }
+    },
+    "observableFamily": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["observable_family_uid", "linked_latent_factor", "scientific_meaning"],
+      "properties": {
+        "observable_family_uid": {"enum": ["exposure_occupancy_observable", "microenvironment_species_flux_observable", "electrophysiology_observable", "structural_morphology_observable"]},
+        "linked_latent_factor": {"enum": ["exposure_occupancy", "cns_microenvironment", "electrophysiology", "structural_morphology"]},
+        "scientific_meaning": {"type": "string", "minLength": 1}
+      }
+    },
+    "observableRequirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required_fields", "prohibited_semantics"],
+      "properties": {
+        "required_fields": {"type": "array", "minItems": 5, "maxItems": 5, "items": {"enum": ["units", "source_role", "missingness", "projection_identity", "linked_latent_factor"]}},
+        "prohibited_semantics": {"type": "array", "minItems": 5, "maxItems": 5, "items": {"enum": ["target_task_outcome", "clinical_endpoint_bridge", "author_conclusion", "intervention_ranking_truth", "six_context_truth"]}}
+      }
+    },
+    "priorPredictive": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["conditional_object", "target_task_posterior", "target_task_label_fit", "clinical_effect_probability"],
+      "properties": {
+        "conditional_object": {"const": "distribution_over_latent_state_and_observable_trajectories_given_future_valid_action_program"},
+        "target_task_posterior": {"const": false},
+        "target_task_label_fit": {"const": false},
+        "clinical_effect_probability": {"const": false}
+      }
+    },
+    "comparisonForm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["form_uid", "method_uid", "semantic_role", "distributional_spread", "abstention_behavior", "diagnostic_only"],
+      "properties": {
+        "form_uid": {"enum": ["static", "point_estimate", "forced_decision", "full_belief_twin"]},
+        "method_uid": {"const": "mechanistic_belief_twin_v1"},
+        "semantic_role": {"type": "string", "minLength": 1},
+        "distributional_spread": {"type": "string", "minLength": 1},
+        "abstention_behavior": {"type": "string", "minLength": 1},
+        "diagnostic_only": {"type": "boolean"}
+      }
+    },
+    "comparisonForms": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ordered_forms", "shared_identity_required", "preferred_form", "winner_selection_allowed"],
+      "properties": {
+        "ordered_forms": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"$ref": "#/$defs/comparisonForm"}},
+        "shared_identity_required": {"const": true},
+        "preferred_form": {"type": "null"},
+        "winner_selection_allowed": {"const": false}
+      }
+    },
+    "uncertaintyComponent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["component_uid", "scientific_meaning"],
+      "properties": {
+        "component_uid": {"enum": ["mechanism_uncertainty", "parameter_uncertainty", "support_uncertainty", "context_model_form_uncertainty"]},
+        "scientific_meaning": {"type": "string", "minLength": 1}
+      }
+    },
+    "supportState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["support_state", "scientific_meaning", "execution_disposition", "distribution_reporting", "mandatory_abstention", "abstention_reason_code", "binary_decision_authorized"],
+      "properties": {
+        "support_state": {"enum": ["UNSUPPORTED", "OOD", "PARTIAL_SUPPORT", "SUPPORTED"]},
+        "scientific_meaning": {"type": "string", "minLength": 1},
+        "execution_disposition": {"enum": ["prohibited", "diagnostic_only", "distribution_with_explicit_missingness", "distribution_reporting_permitted"]},
+        "distribution_reporting": {"enum": ["unavailable", "diagnostic_only", "continuous_only"]},
+        "mandatory_abstention": {"type": "boolean"},
+        "abstention_reason_code": {"type": ["string", "null"]},
+        "binary_decision_authorized": {"const": false}
+      }
+    },
+    "supportContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["precedence", "states"],
+      "properties": {
+        "precedence": {"const": ["UNSUPPORTED", "OOD", "PARTIAL_SUPPORT", "SUPPORTED"]},
+        "states": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"$ref": "#/$defs/supportState"}}
+      }
+    },
+    "abstentionContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["default_mode", "binary_rule_frozen", "target_task_threshold_allowed", "learned_threshold_allowed", "validation_quantile_allowed", "performance_cutoff_allowed", "unsupported_reason_code", "ood_reason_code", "forced_decision_tie_rule", "forced_decision_diagnostic_only"],
+      "properties": {
+        "default_mode": {"const": "continuous_only"},
+        "binary_rule_frozen": {"const": false},
+        "target_task_threshold_allowed": {"const": false},
+        "learned_threshold_allowed": {"const": false},
+        "validation_quantile_allowed": {"const": false},
+        "performance_cutoff_allowed": {"const": false},
+        "unsupported_reason_code": {"const": "REQUIRED_SEMANTICS_UNSUPPORTED"},
+        "ood_reason_code": {"const": "OUTSIDE_FROZEN_SUPPORT_DOMAIN"},
+        "forced_decision_tie_rule": {"const": "stable_world_action_uid_lexicographic_order"},
+        "forced_decision_diagnostic_only": {"const": true}
+      }
+    },
+    "pairwiseDistributions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["effect_direction_categories", "objective_orientation", "rank_distribution", "unsupported_pair_disposition", "ood_pair_disposition", "sensitivity_identity_preserved", "cross_sensitivity_averaging_allowed", "point_score_sort_allowed", "clinical_direction_interpretation_allowed", "forced_decision_preserves_original_distribution"],
+      "properties": {
+        "effect_direction_categories": {"const": ["mechanistic_goal_aligned", "indeterminate_or_tied", "mechanistic_goal_opposed"]},
+        "objective_orientation": {"const": "future_prespecified_mechanistic_objective_only"},
+        "rank_distribution": {"const": "joint_prior_predictive_rank_positions_with_ties_and_support_preserved"},
+        "unsupported_pair_disposition": {"const": "unavailable"},
+        "ood_pair_disposition": {"const": "diagnostic_only_with_mandatory_abstention"},
+        "sensitivity_identity_preserved": {"const": true},
+        "cross_sensitivity_averaging_allowed": {"const": false},
+        "point_score_sort_allowed": {"const": false},
+        "clinical_direction_interpretation_allowed": {"const": false},
+        "forced_decision_preserves_original_distribution": {"const": true}
+      }
+    },
+    "claimClosures": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["learned_confidence_claim", "tri_claim", "clinical_reliability_claim", "efficacy_claim", "treatment_recommendation_claim", "performance_claim"],
+      "properties": {
+        "learned_confidence_claim": {"const": false},
+        "tri_claim": {"const": false},
+        "clinical_reliability_claim": {"const": false},
+        "efficacy_claim": {"const": false},
+        "treatment_recommendation_claim": {"const": false},
+        "performance_claim": {"const": false}
+      }
+    },
+    "accessCounters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["six_context_outcome_access", "protected_holdout_access", "source_content_access"],
+      "properties": {
+        "six_context_outcome_access": {"const": 0},
+        "protected_holdout_access": {"const": 0},
+        "source_content_access": {"const": 0}
+      }
+    },
+    "downstreamAuthorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_queue_creation_authorized", "source_content_intake_authorized", "prior_distribution_population_authorized", "world_action_compiler_authorized", "runtime_implementation_authorized", "inference_authorized", "training_authorized", "gpu_authorized", "formal_evaluation_authorized", "six_context_evaluation_authorized"],
+      "properties": {
+        "source_queue_creation_authorized": {"const": false},
+        "source_content_intake_authorized": {"const": false},
+        "prior_distribution_population_authorized": {"const": false},
+        "world_action_compiler_authorized": {"const": false},
+        "runtime_implementation_authorized": {"const": false},
+        "inference_authorized": {"const": false},
+        "training_authorized": {"const": false},
+        "gpu_authorized": {"const": false},
+        "formal_evaluation_authorized": {"const": false},
+        "six_context_evaluation_authorized": {"const": false}
+      }
+    },
+    "artifactsCreated": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_queue", "source_content", "numerical_prior_distribution", "world_action_compiler", "belief_runtime", "scientific_inference", "training_run", "evaluation_result"],
+      "properties": {
+        "source_queue": {"const": false},
+        "source_content": {"const": false},
+        "numerical_prior_distribution": {"const": false},
+        "world_action_compiler": {"const": false},
+        "belief_runtime": {"const": false},
+        "scientific_inference": {"const": false},
+        "training_run": {"const": false},
+        "evaluation_result": {"const": false}
+      }
+    }
+  }
+}

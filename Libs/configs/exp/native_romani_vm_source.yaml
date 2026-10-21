@@ -1,0 +1,87 @@
+native_romani_source:
+  schema_version: native_romani_vm_source.v1
+  source_model_id: modeldb_romani_2013_ca3_ca1
+  source_uid: manuscript_native_romani_vm_source_v1
+  snapshot_ref: manuscript_native_romani_vm_source_v1_definition
+  family_uid: electrophysiology_conductance_world
+  coupling:
+    voltage_reference_mV: -65.0
+    voltage_scale_mV: 20.0
+    activity_rate_per_hour: 0.05
+    law: positive_depolarization_drives_dimensionless_CNS_membrane_activity
+    direction: physical_to_cns_only
+    interpolation: left_hold
+  source_dependency_directories: [experiment, template, lib, morphology/n123]
+  source_license: unknown
+  source_provenance_ref: Libs/external/electrophysiology/modeldb_romani_2013_ca3_ca1/source/RomaniEtAl2013/readme.html
+  source_boundary: maintained_ModelDB_HOC_and_MOD_in_task_owned_node_local_copy
+  observable_names: [membrane_voltage]
+  observable_units: [mV]
+  unsupported_auxiliary_observables: [calcium_concentration, spike_rate]
+  site:
+    section_name: soma[0]
+    segment_x: 0.5
+  somatic_sections: ["soma[0]", "soma[1]", "soma[2]", "soma[3]", "soma[4]"]
+  prior_particle_count: 32
+  parameter_scope: all_five_somatic_sections_global_initial_voltage_and_temperature
+  passive_reversal: recompute_with_original_current_balance_after_each_complete_tuple
+  initialization: explicit_v_init_then_original_current_balance_at_t_zero
+  solver:
+    dt_ms: [0.1, 0.05, 0.025]
+    cvode_active: false
+    secondorder: 0
+    threads: 1
+  parameters:
+    somatic_sodium_conductance:
+      value: 0.035
+      unit: S/cm2
+      seed_jitter: 0.0035
+      factor_binding: [z_ephys, 0]
+    somatic_delayed_rectifier_conductance:
+      value: 0.015
+      unit: S/cm2
+      seed_jitter: 0.0015
+      factor_binding: [z_ephys, 1]
+    somatic_membrane_resistance:
+      value: 20000.0
+      unit: ohm*cm2
+      seed_jitter: 2000.0
+      factor_binding: [z_ephys, 2]
+    somatic_axial_resistivity:
+      value: 150.0
+      unit: ohm*cm
+      seed_jitter: 15.0
+      factor_binding: [z_morph, 0]
+    somatic_membrane_capacitance:
+      value: 1.0
+      unit: uF/cm2
+      seed_jitter: 0.1
+      factor_binding: [z_morph, 1]
+    initial_membrane_voltage:
+      value: -65.0
+      unit: mV
+      seed_jitter: 1.0
+      factor_binding: [z_ephys, 3]
+    temperature:
+      value: 34.0
+      unit: degC
+      seed_jitter: 0.0
+      factor_binding: [z_env, 0]
+  common_current:
+    base_amplitude_uA: 0.00015
+    reference_amplitude_nA: 0.15
+    action_variants:
+    - intensity_multiplier: 0.8
+      duration_ms: 6.0
+      delay_ms: 2.0
+    - intensity_multiplier: 1.2
+      duration_ms: 6.0
+      delay_ms: 2.0
+    - intensity_multiplier: 0.8
+      duration_ms: 6.0
+      delay_ms: 4.0
+  evidence_status:
+    parameter_interface: prospective
+    numerical_refinement: NOT_RUN
+    source_admission: NOT_RUN
+    physical_and_cns_trajectories: NOT_RUN

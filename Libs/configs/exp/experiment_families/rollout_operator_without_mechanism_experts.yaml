@@ -1,0 +1,20 @@
+family_name: rollout_operator_without_mechanism_experts
+paper_track: research_hardening
+disease_program: ad_control
+model_profile: dynamics_twin
+
+experiment_family:
+  family_id: rollout_operator_without_mechanism_experts
+  description: AD-only paper-grade experiment family declaration for rollout_operator_without_mechanism_experts.
+  disease_program: ad_control
+  kind: project_architecture_ablation
+  profile_name: rollout_operator_without_mechanism_experts
+  adapter_name: ''
+  runnable: true
+  reference_only: false
+  reason_if_not_runnable: ''
+  matched_seed_policy: fixed_suite_seeds
+  claim_guardrails:
+  - ad_only
+  - no_g5_upgrade
+  - no_clinical_endpoint_prediction

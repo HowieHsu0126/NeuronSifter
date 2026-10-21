@@ -1,0 +1,423 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/operational_twin_process_receipt.schema.json",
+  "title": "NeuronSifter Operational Twin process receipt",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/producerIdentityReceipt"
+    },
+    {
+      "$ref": "#/$defs/commandExecutionReceipt"
+    }
+  ],
+  "$defs": {
+    "commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40,64}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "repositorySource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "logSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "size_bytes"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "producerIdentityReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "receipt_uid",
+        "receipt_kind",
+        "receipt_group",
+        "process_receipt_kind",
+        "code_commit",
+        "producer_source",
+        "classification"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "neuronsifter-operational-twin-process-receipt-v1"
+        },
+        "receipt_uid": {
+          "const": "operational_twin_aggregation_producer_identity"
+        },
+        "receipt_kind": {
+          "const": "process"
+        },
+        "receipt_group": {
+          "const": "aggregation"
+        },
+        "process_receipt_kind": {
+          "const": "producer_identity"
+        },
+        "code_commit": {
+          "$ref": "#/$defs/commit"
+        },
+        "producer_source": {
+          "$ref": "#/$defs/repositorySource"
+        },
+        "classification": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "scope",
+            "output_artifact_hashes",
+            "execution_success_claim"
+          ],
+          "properties": {
+            "scope": {
+              "const": "producer_identity_only"
+            },
+            "output_artifact_hashes": {
+              "const": "not_included"
+            },
+            "execution_success_claim": {
+              "const": "not_made"
+            }
+          }
+        }
+      }
+    },
+    "gitSourceScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "git_object_id", "git_object_type"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "git_object_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40,64}$"
+        },
+        "git_object_type": {
+          "enum": ["blob", "tree"]
+        }
+      }
+    },
+    "sourceState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identity_method", "required_clean_scopes"],
+      "properties": {
+        "identity_method": {
+          "const": "git_object_at_code_commit_v1"
+        },
+        "required_clean_scopes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/gitSourceScope"
+          }
+        }
+      }
+    },
+    "commandIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["argv", "algorithm", "normalization", "sha256"],
+      "properties": {
+        "argv": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "algorithm": {
+          "const": "sha256"
+        },
+        "normalization": {
+          "const": "json_argv_utf8_compact_v1"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "commandExecution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scheduler",
+        "slurm_job_id",
+        "job_name",
+        "partition",
+        "node",
+        "exit_code",
+        "process_status"
+      ],
+      "properties": {
+        "scheduler": {
+          "const": "slurm"
+        },
+        "slurm_job_id": {
+          "type": "string",
+          "pattern": "^[0-9]+(?:_[0-9]+)?$"
+        },
+        "job_name": {
+          "type": "string",
+          "pattern": "^NrnSift_[A-Za-z0-9_-]+$"
+        },
+        "partition": {
+          "const": "cpu"
+        },
+        "node": {
+          "const": "cpu04"
+        },
+        "exit_code": {
+          "type": "integer"
+        },
+        "process_status": {
+          "enum": ["COMPLETED", "FAILED"]
+        }
+      }
+    },
+    "commandExecutionReceiptBase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "receipt_uid",
+        "receipt_kind",
+        "receipt_group",
+        "process_receipt_kind",
+        "receipt_path",
+        "code_commit",
+        "producer_source",
+        "command_identity",
+        "source_state",
+        "execution",
+        "log_source"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "neuronsifter-operational-twin-process-receipt-v1"
+        },
+        "receipt_uid": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_]*$"
+        },
+        "receipt_kind": {
+          "const": "process"
+        },
+        "receipt_group": {
+          "const": "focused_validation"
+        },
+        "process_receipt_kind": {
+          "const": "command_execution"
+        },
+        "receipt_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "code_commit": {
+          "$ref": "#/$defs/commit"
+        },
+        "producer_source": {
+          "$ref": "#/$defs/repositorySource"
+        },
+        "command_identity": {
+          "$ref": "#/$defs/commandIdentity"
+        },
+        "source_state": {
+          "$ref": "#/$defs/sourceState"
+        },
+        "execution": {
+          "$ref": "#/$defs/commandExecution"
+        },
+        "log_source": {
+          "$ref": "#/$defs/logSource"
+        }
+      }
+    },
+    "focusedValidationTestsReceipt": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/commandExecutionReceiptBase"
+        },
+        {
+          "properties": {
+            "receipt_uid": {
+              "const": "operational_twin_training_evidence_tests"
+            },
+            "receipt_path": {
+              "const": "Output/results/operational_twin/development_training/resource_receipts/training_evidence_tests_command_execution.json"
+            },
+            "producer_source": {
+              "properties": {
+                "path": {
+                  "const": "Libs/scripts/builders/build_operational_twin_process_receipt.py"
+                }
+              }
+            },
+            "command_identity": {
+              "properties": {
+                "argv": {
+                  "const": [
+                    "python",
+                    "-m",
+                    "pytest",
+                    "Libs/tests/test_build_operational_twin_process_receipt.py",
+                    "Libs/tests/test_operational_twin_training_evidence_ledger.py",
+                    "-q"
+                  ]
+                }
+              }
+            },
+            "source_state": {
+              "properties": {
+                "required_clean_scopes": {
+                  "type": "array",
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "prefixItems": [
+                    {
+                      "properties": {
+                        "path": {
+                          "const": "Libs"
+                        },
+                        "git_object_type": {
+                          "const": "tree"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "path": {
+                          "const": "pytest.ini"
+                        },
+                        "git_object_type": {
+                          "const": "blob"
+                        }
+                      }
+                    }
+                  ],
+                  "items": false
+                }
+              }
+            },
+            "log_source": {
+              "properties": {
+                "path": {
+                  "const": "Output/results/operational_twin/development_training/logs/training_evidence_tests_command_execution.log"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "focusedValidationRuffReceipt": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/commandExecutionReceiptBase"
+        },
+        {
+          "properties": {
+            "receipt_uid": {
+              "const": "operational_twin_training_evidence_ruff"
+            },
+            "receipt_path": {
+              "const": "Output/results/operational_twin/development_training/resource_receipts/training_evidence_ruff_command_execution.json"
+            },
+            "producer_source": {
+              "properties": {
+                "path": {
+                  "const": "Libs/scripts/builders/build_operational_twin_process_receipt.py"
+                }
+              }
+            },
+            "command_identity": {
+              "properties": {
+                "argv": {
+                  "const": [
+                    "python",
+                    "-m",
+                    "ruff",
+                    "check",
+                    "Libs/scripts/builders/build_operational_twin_process_receipt.py",
+                    "Libs/scripts/builders/build_operational_twin_sufficient_training_candidate.py",
+                    "Libs/tests/test_build_operational_twin_process_receipt.py",
+                    "Libs/tests/test_operational_twin_training_evidence_ledger.py"
+                  ]
+                }
+              }
+            },
+            "source_state": {
+              "properties": {
+                "required_clean_scopes": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 1,
+                  "prefixItems": [
+                    {
+                      "properties": {
+                        "path": {
+                          "const": "Libs"
+                        },
+                        "git_object_type": {
+                          "const": "tree"
+                        }
+                      }
+                    }
+                  ],
+                  "items": false
+                }
+              }
+            },
+            "log_source": {
+              "properties": {
+                "path": {
+                  "const": "Output/results/operational_twin/development_training/logs/training_evidence_ruff_command_execution.log"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "commandExecutionReceipt": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/focusedValidationTestsReceipt"
+        },
+        {
+          "$ref": "#/$defs/focusedValidationRuffReceipt"
+        }
+      ]
+    }
+  }
+}

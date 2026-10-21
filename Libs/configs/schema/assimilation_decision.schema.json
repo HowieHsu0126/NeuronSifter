@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/assimilation_decision.schema.json",
+  "title": "NeuronSifter AssimilationDecision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "decision_uid", "proposal_uid", "controller_uid", "validator_uid", "prior_state_hash", "input_observation_hashes", "decision", "reason_codes", "approved_update_scope", "conflict_handling", "resulting_state_ref", "provenance_ref"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-assimilation-decision-v1"},
+    "decision_uid": {"type": "string", "minLength": 1},
+    "proposal_uid": {"type": "string", "minLength": 1},
+    "controller_uid": {"const": "neuronsifter_orchestration_controller"},
+    "validator_uid": {"type": "string", "minLength": 1},
+    "prior_state_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "input_observation_hashes": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "string", "pattern": "^[a-f0-9]{64}$"}},
+    "decision": {"enum": ["approved", "approved_uncertainty_only", "approved_conflict_register_only", "revise_required", "insufficient_evidence", "unsupported_domain", "rejected_qc", "rejected_provenance", "rejected_conflict"]},
+    "reason_codes": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "approved_update_scope": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "conflict_handling": {"type": "object", "additionalProperties": {"enum": ["unresolved", "context_explained", "version_resolved", "superseded", "retained_for_stress", "invalidated"]}},
+    "resulting_state_ref": {"type": ["string", "null"]},
+    "provenance_ref": {"type": "string", "minLength": 1}
+  }
+}

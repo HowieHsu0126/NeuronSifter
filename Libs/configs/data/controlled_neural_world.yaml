@@ -1,0 +1,475 @@
+controlled_neural_world:
+  schema_version: neuronsifter-controlled-neural-world-config-v2
+  evidence_class: controlled_world_non_empirical
+  benchmark_qualified: false
+  real_world_formal_agent_evaluation: false
+  source_policy:
+    strict_public_only_flag: true
+    controlled_access_required: false
+  authorities:
+    hidden_state_loader_roles: [benchmark_harness]
+    runtime_reader_roles: [operational_twin, agent]
+    six_context_outcome_access: 0
+    protected_holdout_access: 0
+  family_manifest:
+    schema_version: neuronsifter-controlled-world-family-manifest-v1
+    expected_family_uids:
+    - electrophysiology_conductance_world
+    - calcium_synaptic_world
+    - molecular_pharmacological_causal_world
+    output_path: Input/processed/controlled_neural_world/controlled_world_family_manifest.json
+    benchmark_split_assignment: not_created
+    sealed_test_partitions: not_created
+    information_headroom_qualification: not_run
+    benchmark_qualification: not_issued
+  validation_audit_path: Output/audits/controlled_neural_world_contract.json
+  claim_boundary:
+    implementation_level_contract_only: true
+    benchmark_qualification_claim: false
+    empirical_evidence: false
+    therapeutic_efficacy_claim: false
+    clinical_validation_claim: false
+  families:
+  - family_uid: electrophysiology_conductance_world
+    generator:
+      implementation_uid: electrophysiology_conductance_generator
+      implementation_version: neuronsifter-electrophysiology-conductance-generator-v1
+      implementation_path: Libs/utils/data/controlled_world_runtime.py
+      deterministic: true
+      seed: 7301
+      seed_policy: fixed_per_world_identity
+      subseeds: {parameter_jitter: 730101, observation_noise: 730102}
+      latent_generator_lineage_uid: electrophysiology_conductance_lineage_primary
+      parameters:
+        resting_membrane_voltage: {value: -68.0, unit: mV}
+        initial_membrane_voltage: {value: -67.0, unit: mV}
+        initial_calcium_concentration: {value: 0.12, unit: umol/L}
+        membrane_leak_rate: {value: 0.05, unit: per_ms, seed_jitter: 0.004}
+        stimulation_gain: {value: 0.40, unit: mV_per_uA_ms, seed_jitter: 0.02}
+        calcium_decay_rate: {value: 0.08, unit: per_ms, seed_jitter: 0.005}
+        spike_threshold: {value: -61.0, unit: mV, seed_jitter: 0.25}
+        spike_rate_gain: {value: 18.0, unit: Hz_per_mV}
+        spike_calcium_gain: {value: 0.0008, unit: umol_L_per_Hz_ms}
+    world:
+      world_family_uid: electrophysiology_conductance_world
+      world_uid: electrophysiology_conductance_world_seed_7301
+      biological_context: &electrophysiology_context
+        organism: synthetic_neural_system
+        region: hippocampus_ca1
+        compartment: neuronal_membrane
+        cell_type: pyramidal_neuron
+      time_grid: {values: [0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0], unit: ms}
+      observable_variables:
+      - {variable: membrane_voltage, unit: mV}
+      - {variable: calcium_concentration, unit: umol/L}
+      - {variable: spike_rate, unit: Hz}
+      hidden_variables:
+      - {variable: membrane_leak_rate, unit: per_ms}
+      - {variable: stimulation_gain, unit: mV_per_uA_ms}
+      - {variable: spike_threshold, unit: mV}
+      - {variable: true_action_utility, unit: utility_unit}
+      observation_policy:
+        observed_indices:
+          membrane_voltage: [0, 1, 2, 3, 4, 6]
+          calcium_concentration: [0, 2, 4, 6]
+          spike_rate: [1, 3, 5]
+        noise_scale:
+          membrane_voltage: {value: 0.03, unit: mV}
+          calcium_concentration: {value: 0.0005, unit: umol/L}
+          spike_rate: {value: 0.05, unit: Hz}
+    world_action:
+      canonical: &electrophysiology_action
+        schema_version: neuronsifter-world-action-v1
+        action_uid: electrophysiology_stimulation_action
+        intervention_type: electrical_stimulation
+        target_set: [hippocampus_ca1_pyramidal_neurons]
+        agent_set: [controlled_current_stimulator]
+        dose: null
+        dose_unit: null
+        schedule: {kind: program, program_ref: delayed_square_pulse}
+        route: null
+        duration: {value: 6.0, unit: ms}
+        stimulation_or_environment: {modality: electrical_stimulation, waveform: square_pulse}
+        state_scope: {region: [hippocampus_ca1], compartment: [neuronal_membrane]}
+        support_domain_ref: electrophysiology_conductance_support
+        source_evidence_refs: [controlled_world_generator_specification]
+        action_provenance_ref: controlled_world_config
+        conflicts: []
+        status: controlled_world_only
+      extension:
+        modality: electrical_stimulation
+        dose_or_intensity: {value: 4.0, unit: uA}
+        duration: {value: 6.0, unit: ms}
+        combination: []
+        biological_context: *electrophysiology_context
+        action_semantics:
+          target_set: [hippocampus_ca1_pyramidal_neurons]
+          agent_set: [controlled_current_stimulator]
+          schedule: {kind: program, program_ref: delayed_square_pulse}
+          route: null
+          support_domain_ref: electrophysiology_conductance_support
+          provenance_ref: controlled_world_config
+      response_delay_steps: 2
+    information_actions:
+    - canonical:
+        schema_version: neuronsifter-information-action-v1
+        information_action_uid: partial_membrane_patch_measurement
+        candidate_uids: [electrophysiology_stimulation_action]
+        requested_observables: [membrane_voltage, calcium_concentration]
+        tool_or_source_uid: controlled_patch_sensor
+        fidelity: controlled_noisy_measurement
+        measurement_context: {region: hippocampus_ca1, compartment: neuronal_membrane, time_index: 4}
+        budget_class: costly_controlled_measurement
+        expected_cost: {value: 2.5, unit: cost_unit}
+        expected_runtime: {value: 3.0, unit: ms}
+        failure_policy: preserve_partial_result
+        support_domain_ref: electrophysiology_conductance_support
+        provenance_ref: controlled_world_config
+        conflicts: []
+        status: controlled_world_only
+      outcome_policy:
+        status: partial
+        measured_observables: [membrane_voltage]
+        missing_observables: [calcium_concentration]
+        noise_offsets: {membrane_voltage: 0.17}
+        failure_code: null
+    - canonical:
+        schema_version: neuronsifter-information-action-v1
+        information_action_uid: failed_calcium_microassay
+        candidate_uids: [electrophysiology_stimulation_action]
+        requested_observables: [calcium_concentration]
+        tool_or_source_uid: controlled_calcium_sensor
+        fidelity: controlled_noisy_measurement
+        measurement_context: {region: hippocampus_ca1, compartment: neuronal_membrane, time_index: 5}
+        budget_class: costly_controlled_measurement
+        expected_cost: {value: 1.0, unit: cost_unit}
+        expected_runtime: {value: 2.0, unit: ms}
+        failure_policy: preserve_failure_without_imputation
+        support_domain_ref: electrophysiology_conductance_support
+        provenance_ref: controlled_world_config
+        conflicts: []
+        status: controlled_world_only
+      outcome_policy:
+        status: failed
+        measured_observables: []
+        missing_observables: [calcium_concentration]
+        noise_offsets: {}
+        failure_code: deterministic_sensor_failure
+    support_domain:
+      support_domain_uid: electrophysiology_conductance_support
+      supported_intervention_types: [electrical_stimulation]
+      supported_modalities: [electrical_stimulation]
+      supported_routes: [null]
+      supported_schedule_kinds: [program]
+      supported_intensity: {minimum: 0.5, maximum: 8.0, unit: uA}
+      supported_duration: {minimum: 2.0, maximum: 10.0, unit: ms}
+      supported_information_observables: [membrane_voltage, calcium_concentration, spike_rate]
+      ood_taxonomy: &ood_taxonomy
+        intensity_outside_support: action_intensity_ood
+        duration_outside_support: action_duration_ood
+        biological_context_mismatch: structural_context_ood
+        combination_not_supported: combination_ood
+    output_paths:
+      world_instance: Input/processed/controlled_neural_world/electrophysiology_world_instance.json
+      replay_manifest: Input/processed/controlled_neural_world/electrophysiology_world_replay_manifest.json
+
+  - family_uid: calcium_synaptic_world
+    generator:
+      implementation_uid: calcium_synaptic_generator
+      implementation_version: neuronsifter-calcium-synaptic-generator-v1
+      implementation_path: Libs/utils/data/controlled_world_runtime.py
+      deterministic: true
+      seed: 7302
+      seed_policy: fixed_per_world_identity
+      subseeds: {parameter_jitter: 730201, observation_noise: 730202}
+      latent_generator_lineage_uid: calcium_synaptic_lineage_primary
+      parameters:
+        baseline_intracellular_calcium: {value: 0.06, unit: umol/L}
+        initial_intracellular_calcium: {value: 0.08, unit: umol/L}
+        initial_release_probability: {value: 0.05, unit: probability}
+        initial_releasable_vesicle_fraction: {value: 0.90, unit: fraction}
+        initial_postsynaptic_current: {value: 0.0, unit: pA}
+        calcium_clearance_rate: {value: 0.12, unit: per_ms, seed_jitter: 0.008}
+        presynaptic_calcium_gain: {value: 0.025, unit: umol_L_per_mW_ms, seed_jitter: 0.002}
+        release_coupling: {value: 4.5, unit: per_umol_L, seed_jitter: 0.15}
+        vesicle_release_rate: {value: 0.08, unit: per_ms}
+        vesicle_recovery_rate: {value: 0.045, unit: per_ms, seed_jitter: 0.004}
+        postsynaptic_current_gain: {value: 120.0, unit: pA_per_fraction}
+        postsynaptic_decay_rate: {value: 0.16, unit: per_ms, seed_jitter: 0.01}
+    world:
+      world_family_uid: calcium_synaptic_world
+      world_uid: calcium_synaptic_world_seed_7302
+      biological_context: &calcium_synaptic_context
+        organism: synthetic_neural_system
+        region: hippocampus_ca3_ca1_synapse
+        compartment: glutamatergic_synapse
+        cell_type: excitatory_synaptic_pair
+      time_grid: {values: [0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0], unit: ms}
+      observable_variables:
+      - {variable: intracellular_calcium, unit: umol/L}
+      - {variable: release_probability, unit: probability}
+      - {variable: releasable_vesicle_fraction, unit: fraction}
+      - {variable: postsynaptic_current, unit: pA}
+      hidden_variables:
+      - {variable: calcium_clearance_rate, unit: per_ms}
+      - {variable: release_coupling, unit: per_umol_L}
+      - {variable: vesicle_recovery_rate, unit: per_ms}
+      - {variable: postsynaptic_decay_rate, unit: per_ms}
+      - {variable: true_action_utility, unit: utility_unit}
+      observation_policy:
+        observed_indices:
+          intracellular_calcium: [0, 1, 2, 4, 6]
+          release_probability: [1, 3, 5, 7]
+          releasable_vesicle_fraction: [0, 2, 5, 7]
+          postsynaptic_current: [2, 3, 4, 6]
+        noise_scale:
+          intracellular_calcium: {value: 0.0008, unit: umol/L}
+          release_probability: {value: 0.003, unit: probability}
+          releasable_vesicle_fraction: {value: 0.002, unit: fraction}
+          postsynaptic_current: {value: 0.08, unit: pA}
+    world_action:
+      canonical:
+        schema_version: neuronsifter-world-action-v1
+        action_uid: presynaptic_optical_pulse_action
+        intervention_type: optical_stimulation
+        target_set: [hippocampus_ca3_presynaptic_terminal]
+        agent_set: [controlled_optical_stimulator]
+        dose: null
+        dose_unit: null
+        schedule: {kind: program, program_ref: delayed_presynaptic_pulse_train}
+        route: null
+        duration: {value: 3.0, unit: ms}
+        stimulation_or_environment: {modality: optical_stimulation, waveform: pulse_train}
+        state_scope: {region: [hippocampus_ca3_ca1_synapse], compartment: [glutamatergic_synapse]}
+        support_domain_ref: calcium_synaptic_support
+        source_evidence_refs: [controlled_world_generator_specification]
+        action_provenance_ref: controlled_world_config
+        conflicts: []
+        status: controlled_world_only
+      extension:
+        modality: optical_stimulation
+        dose_or_intensity: {value: 2.5, unit: mW}
+        duration: {value: 3.0, unit: ms}
+        combination: []
+        biological_context: *calcium_synaptic_context
+        action_semantics:
+          target_set: [hippocampus_ca3_presynaptic_terminal]
+          agent_set: [controlled_optical_stimulator]
+          schedule: {kind: program, program_ref: delayed_presynaptic_pulse_train}
+          route: null
+          support_domain_ref: calcium_synaptic_support
+          provenance_ref: controlled_world_config
+      response_delay_steps: 2
+    information_actions:
+    - canonical:
+        schema_version: neuronsifter-information-action-v1
+        information_action_uid: partial_synaptic_imaging_measurement
+        candidate_uids: [presynaptic_optical_pulse_action]
+        requested_observables: [intracellular_calcium, releasable_vesicle_fraction]
+        tool_or_source_uid: controlled_synaptic_imaging_sensor
+        fidelity: controlled_noisy_measurement
+        measurement_context: {region: hippocampus_ca3_ca1_synapse, compartment: glutamatergic_synapse, time_index: 5}
+        budget_class: costly_controlled_measurement
+        expected_cost: {value: 3.0, unit: cost_unit}
+        expected_runtime: {value: 4.0, unit: ms}
+        failure_policy: preserve_partial_result
+        support_domain_ref: calcium_synaptic_support
+        provenance_ref: controlled_world_config
+        conflicts: []
+        status: controlled_world_only
+      outcome_policy:
+        status: partial
+        measured_observables: [intracellular_calcium]
+        missing_observables: [releasable_vesicle_fraction]
+        noise_offsets: {intracellular_calcium: -0.0012}
+        failure_code: null
+    - canonical:
+        schema_version: neuronsifter-information-action-v1
+        information_action_uid: failed_postsynaptic_clamp_measurement
+        candidate_uids: [presynaptic_optical_pulse_action]
+        requested_observables: [postsynaptic_current]
+        tool_or_source_uid: controlled_postsynaptic_clamp_sensor
+        fidelity: controlled_noisy_measurement
+        measurement_context: {region: hippocampus_ca3_ca1_synapse, compartment: glutamatergic_synapse, time_index: 6}
+        budget_class: costly_controlled_measurement
+        expected_cost: {value: 2.0, unit: cost_unit}
+        expected_runtime: {value: 5.0, unit: ms}
+        failure_policy: preserve_failure_without_imputation
+        support_domain_ref: calcium_synaptic_support
+        provenance_ref: controlled_world_config
+        conflicts: []
+        status: controlled_world_only
+      outcome_policy:
+        status: failed
+        measured_observables: []
+        missing_observables: [postsynaptic_current]
+        noise_offsets: {}
+        failure_code: deterministic_voltage_clamp_failure
+    support_domain:
+      support_domain_uid: calcium_synaptic_support
+      supported_intervention_types: [optical_stimulation]
+      supported_modalities: [optical_stimulation]
+      supported_routes: [null]
+      supported_schedule_kinds: [program]
+      supported_intensity: {minimum: 0.5, maximum: 5.0, unit: mW}
+      supported_duration: {minimum: 1.0, maximum: 5.0, unit: ms}
+      supported_information_observables:
+      - intracellular_calcium
+      - release_probability
+      - releasable_vesicle_fraction
+      - postsynaptic_current
+      ood_taxonomy: *ood_taxonomy
+    output_paths:
+      world_instance: Input/processed/controlled_neural_world/calcium_synaptic_world_instance.json
+      replay_manifest: Input/processed/controlled_neural_world/calcium_synaptic_world_replay_manifest.json
+
+  - family_uid: molecular_pharmacological_causal_world
+    generator:
+      implementation_uid: molecular_pharmacological_causal_generator
+      implementation_version: neuronsifter-molecular-pharmacological-causal-generator-v1
+      implementation_path: Libs/utils/data/controlled_world_runtime.py
+      deterministic: true
+      seed: 7303
+      seed_policy: fixed_per_world_identity
+      subseeds: {parameter_jitter: 730301, observation_noise: 730302}
+      latent_generator_lineage_uid: molecular_pharmacological_causal_lineage_primary
+      parameters:
+        initial_free_agent_exposure: {value: 0.0, unit: nmol/L}
+        initial_target_occupancy: {value: 0.0, unit: fraction}
+        initial_downstream_signal: {value: 0.05, unit: normalized_signal}
+        initial_biologic_response: {value: 0.02, unit: normalized_response}
+        dose_to_exposure_gain: {value: 18.0, unit: nmol_L_per_mg_kg_hour, seed_jitter: 0.8}
+        exposure_clearance_rate: {value: 0.30, unit: per_hour, seed_jitter: 0.02}
+        binding_affinity: {value: 24.0, unit: nmol/L, seed_jitter: 1.5}
+        occupancy_relaxation_rate: {value: 0.55, unit: per_hour}
+        signal_activation_rate: {value: 0.70, unit: per_hour, seed_jitter: 0.04}
+        signal_decay_rate: {value: 0.22, unit: per_hour}
+        biologic_response_rate: {value: 0.45, unit: per_hour, seed_jitter: 0.03}
+        biologic_clearance_rate: {value: 0.18, unit: per_hour}
+        feedback_rate: {value: 0.06, unit: per_hour, seed_jitter: 0.005}
+    world:
+      world_family_uid: molecular_pharmacological_causal_world
+      world_uid: molecular_pharmacological_causal_world_seed_7303
+      biological_context: &pharmacological_context
+        organism: synthetic_neural_system
+        region: hippocampus_ca1
+        compartment: interstitial_fluid
+        cell_type: microglial_neuronal_microenvironment
+      time_grid: {values: [0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0], unit: hour}
+      observable_variables:
+      - {variable: free_agent_exposure, unit: nmol/L}
+      - {variable: target_occupancy, unit: fraction}
+      - {variable: downstream_signal, unit: normalized_signal}
+      - {variable: biologic_response, unit: normalized_response}
+      hidden_variables:
+      - {variable: binding_affinity, unit: nmol/L}
+      - {variable: exposure_clearance_rate, unit: per_hour}
+      - {variable: signal_activation_rate, unit: per_hour}
+      - {variable: feedback_rate, unit: per_hour}
+      - {variable: true_action_utility, unit: utility_unit}
+      observation_policy:
+        observed_indices:
+          free_agent_exposure: [0, 1, 2, 4, 6]
+          target_occupancy: [1, 3, 5, 6]
+          downstream_signal: [0, 2, 4, 6]
+          biologic_response: [2, 3, 5]
+        noise_scale:
+          free_agent_exposure: {value: 0.08, unit: nmol/L}
+          target_occupancy: {value: 0.002, unit: fraction}
+          downstream_signal: {value: 0.003, unit: normalized_signal}
+          biologic_response: {value: 0.003, unit: normalized_response}
+    world_action:
+      canonical:
+        schema_version: neuronsifter-world-action-v1
+        action_uid: target_occupancy_pharmacological_action
+        intervention_type: pharmacological
+        target_set: [synthetic_receptor_alpha]
+        agent_set: [controlled_ligand_alpha]
+        dose: 2.0
+        dose_unit: mg/kg
+        schedule: {kind: interval, interval: 4.0, unit: hour}
+        route: intrathecal
+        duration: {value: 4.0, unit: hour}
+        stimulation_or_environment: {modality: pharmacological, exposure_model: one_compartment_target_occupancy}
+        state_scope: {region: [hippocampus_ca1], compartment: [interstitial_fluid]}
+        support_domain_ref: molecular_pharmacological_causal_support
+        source_evidence_refs: [controlled_world_generator_specification]
+        action_provenance_ref: controlled_world_config
+        conflicts: []
+        status: controlled_world_only
+      extension:
+        modality: pharmacological
+        dose_or_intensity: {value: 2.0, unit: mg/kg}
+        duration: {value: 4.0, unit: hour}
+        combination: []
+        biological_context: *pharmacological_context
+        action_semantics:
+          target_set: [synthetic_receptor_alpha]
+          agent_set: [controlled_ligand_alpha]
+          schedule: {kind: interval, interval: 4.0, unit: hour}
+          route: intrathecal
+          support_domain_ref: molecular_pharmacological_causal_support
+          provenance_ref: controlled_world_config
+      response_delay_steps: 1
+    information_actions:
+    - canonical:
+        schema_version: neuronsifter-information-action-v1
+        information_action_uid: partial_exposure_occupancy_assay
+        candidate_uids: [target_occupancy_pharmacological_action]
+        requested_observables: [free_agent_exposure, target_occupancy]
+        tool_or_source_uid: controlled_exposure_occupancy_assay
+        fidelity: controlled_noisy_measurement
+        measurement_context: {region: hippocampus_ca1, compartment: interstitial_fluid, time_index: 4}
+        budget_class: costly_controlled_measurement
+        expected_cost: {value: 4.0, unit: cost_unit}
+        expected_runtime: {value: 1.5, unit: hour}
+        failure_policy: preserve_partial_result
+        support_domain_ref: molecular_pharmacological_causal_support
+        provenance_ref: controlled_world_config
+        conflicts: []
+        status: controlled_world_only
+      outcome_policy:
+        status: partial
+        measured_observables: [target_occupancy]
+        missing_observables: [free_agent_exposure]
+        noise_offsets: {target_occupancy: 0.006}
+        failure_code: null
+    - canonical:
+        schema_version: neuronsifter-information-action-v1
+        information_action_uid: failed_downstream_biomarker_assay
+        candidate_uids: [target_occupancy_pharmacological_action]
+        requested_observables: [downstream_signal, biologic_response]
+        tool_or_source_uid: controlled_biomarker_assay
+        fidelity: controlled_noisy_measurement
+        measurement_context: {region: hippocampus_ca1, compartment: interstitial_fluid, time_index: 5}
+        budget_class: costly_controlled_measurement
+        expected_cost: {value: 3.5, unit: cost_unit}
+        expected_runtime: {value: 2.0, unit: hour}
+        failure_policy: preserve_failure_without_imputation
+        support_domain_ref: molecular_pharmacological_causal_support
+        provenance_ref: controlled_world_config
+        conflicts: []
+        status: controlled_world_only
+      outcome_policy:
+        status: failed
+        measured_observables: []
+        missing_observables: [downstream_signal, biologic_response]
+        noise_offsets: {}
+        failure_code: deterministic_biomarker_assay_failure
+    support_domain:
+      support_domain_uid: molecular_pharmacological_causal_support
+      supported_intervention_types: [pharmacological]
+      supported_modalities: [pharmacological]
+      supported_routes: [intrathecal]
+      supported_schedule_kinds: [interval]
+      supported_intensity: {minimum: 0.5, maximum: 4.0, unit: mg/kg}
+      supported_duration: {minimum: 1.0, maximum: 8.0, unit: hour}
+      supported_information_observables:
+      - free_agent_exposure
+      - target_occupancy
+      - downstream_signal
+      - biologic_response
+      ood_taxonomy: *ood_taxonomy
+    output_paths:
+      world_instance: Input/processed/controlled_neural_world/molecular_pharmacological_causal_world_instance.json
+      replay_manifest: Input/processed/controlled_neural_world/molecular_pharmacological_causal_world_replay_manifest.json

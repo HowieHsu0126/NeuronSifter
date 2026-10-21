@@ -1,0 +1,1936 @@
+iclr_design_contract_union:
+  schema_version: iclr-design-contract-union-v1
+  contract_version: iclr-2027-design-contract-v2
+  contract_installation_status: installed
+  downstream_implementation_status: not_started
+  runtime_owner:
+    config_entrypoint: Libs/configs/config_stack.yaml
+    owner_file: Libs/configs/validation/iclr_design_contract_union.yaml
+    owned_path_prefixes:
+    - iclr_design_contract_union
+    - public_mainline_isolation
+    - validation.design_contract_coverage
+    forbidden_runtime_include_roots:
+    - Docs/design/iclr/config
+    - Docs/design/iclr/schemas
+  design_root: Docs/design/iclr
+  active_lineage:
+    roadmap_id: 2026-07-13-00-iclr-2027-design-contract
+    roadmap_revision: rev-003
+    roadmap_dir: orchestrator/roadmaps/2026-07-13-00-iclr-2027-design-contract/rev-003
+    milestone_id: contract-naming-freeze
+    direction_id: recover-historical-lineage-evidence
+    next_eligible_direction_id: recover-historical-lineage-evidence
+  # Admission policy; state.json remains the source of the live revision.
+  controller_lineage_policy:
+    roadmap_id: 2026-09-01-00-trace-grounded-neural-world
+    minimum_roadmap_revision: rev-015
+  inactive_roadmap_ownership_registry:
+  - owning_milestone_id: foundation-transfer
+    owning_direction_id: implement-foundation-objectives
+    ownership_status: inactive_future_roadmap
+  - owning_milestone_id: public-corpus-splits
+    owning_direction_id: canonicalize-and-freeze-splits
+    ownership_status: inactive_future_roadmap
+  - owning_milestone_id: public-corpus-splits
+    owning_direction_id: govern-materialize-public-sources
+    ownership_status: inactive_future_roadmap
+  - owning_milestone_id: publication-integrity-release
+    owning_direction_id: audit-and-package-release
+    ownership_status: inactive_future_roadmap
+  - owning_milestone_id: publication-integrity-release
+    owning_direction_id: build-iclr-reports-and-claim-gates
+    ownership_status: inactive_future_roadmap
+  - owning_milestone_id: tool-acquisition-evidence
+    owning_direction_id: build-typed-tool-environment
+    ownership_status: inactive_future_roadmap
+  - owning_milestone_id: tool-acquisition-evidence
+    owning_direction_id: execute-c3-offline-and-real
+    ownership_status: inactive_future_roadmap
+  phase0_evidence:
+    repository_inventory_path: Output/audits/iclr_repo_inventory.json
+    repository_inventory_sha256: 640743f1859429c87e5da5edadb1d589723dd49204a0c7503d5a178e57f97455
+    claim_migration_path: Output/audits/iclr_claim_migration.json
+    claim_migration_sha256: 8727633cbbc8ab5538d4a6688dcf9f4afbb5674f0c353d567a28e62b066bcc58
+  public_identity:
+    external_model_name: NeuronSifter
+    canonical_scales:
+    - NeuronSifter-Debug
+    - NeuronSifter-Student
+    - NeuronSifter-Large
+    - NeuronSifter-XL
+    - NeuronSifter-Foundation
+    canonical_component_names:
+    - NeuronSifterFoundationStateModel
+    - NeuronSifterWorldActionOperator
+    - NeuronSifterToolAcquisitionPolicy
+    - NeuronSifterReliabilityGate
+    canonical_identifiers:
+    - neuronsifter
+    - neuronsifter_foundation_state
+    - neuronsifter_world_action
+    - neuronsifter_tool_acquisition
+    - neuronsifter_reliability
+    - neuronsifter_student
+    - neuronsifter_large
+    - neuronsifter_xl
+  legacy_compatibility:
+    status: deprecated_migration_only
+    allowed_contexts:
+    - migration_map
+    - deprecated_alias
+    - changelog
+    - historical_note
+    identifiers:
+    - MIND-DiNO
+    - mind_dino
+  g0_naming_audit:
+    owner: ccf-integrity-auditor
+    baseline_revision: 3d95758e068de584e66fb06ea9d6fa609d5263d9
+    scan_paths:
+    - Libs
+    - README.md
+    - AGENTS.md
+    - route-map.md
+    - TODO.md
+    - world_model.md
+    - Docs/design/iclr
+    - orchestrator/project-contract.md
+    text_suffixes: [.py, .yaml, .yml, .md, .sh, .json, .tsv, .tex]
+    excluded_path_prefixes:
+    - Libs/external
+    allowed_path_categories:
+    - path_prefix: Libs/migrations
+      category: allowed_deprecated_alias
+    - path_prefix: Libs/compat
+      category: allowed_deprecated_alias
+    - path_prefix: TODO.md
+      category: allowed_historical_record
+    - path_prefix: Docs/design/iclr/00_MASTER_ORCHESTRATION.md
+      category: allowed_historical_record
+    - path_prefix: Docs/design/iclr/02_CONTRIBUTION_BOUNDARIES.md
+      category: allowed_historical_record
+    - path_prefix: Docs/design/iclr/11_CODEX_IMPLEMENTATION_PLAYBOOK.md
+      category: allowed_historical_record
+    - path_prefix: Docs/design/iclr/12_REPOSITORY_NAMING_MIGRATION.md
+      category: allowed_historical_record
+    - path_prefix: Docs/design/iclr/16_INTEGRITY_AUDIT.md
+      category: allowed_historical_record
+    - path_prefix: Docs/design/iclr/17_RISK_REGISTER_AND_REBUTTAL_BANK.md
+      category: allowed_historical_record
+    - path_prefix: Docs/design/iclr/codex/CODEX_MASTER_PROMPT.md
+      category: allowed_historical_record
+    - path_prefix: Docs/design/iclr/config/naming_migration_contract.yaml
+      category: allowed_historical_record
+    - path_prefix: Libs/tests/test_g0_naming_migration.py
+      category: allowed_test_fixture
+    - path_prefix: Libs/tests/test_iclr_design_contract_union.py
+      category: allowed_test_fixture
+    - path_prefix: Libs/tests/test_public_mainline_isolation.py
+      category: allowed_test_fixture
+    legacy_import_shim_modules:
+    - package_parts: [Libs, models, modules]
+      module_stem_parts: [mind, dino, operator]
+      category: allowed_deprecated_alias
+    - package_parts: [Libs, utils, model]
+      module_stem_parts: [mind, dino, scale, registry]
+      category: allowed_deprecated_alias
+    compatibility_contract:
+      required_metadata_tokens:
+      - DEPRECATION_VERSION
+      - REMOVAL_GATE
+      - CANONICAL_REPLACEMENT
+      - WARNING_BEHAVIOR
+      - TEST_COVERAGE
+      required_warning_token: warn_legacy_use
+      required_test_path: Libs/tests/test_g0_naming_migration.py
+  g0_numeric_lineage_audit:
+    owner: ccf-integrity-auditor
+    schema_version: neuronsifter-trajectory-numeric-lineage-audit-v1
+    producer_command: python Libs/scripts/validators/validate_trajectory_numeric_lineage.py --config Libs/configs/config_stack.yaml
+    config_entrypoint: Libs/configs/config_stack.yaml
+    source_artifacts:
+      qc_summary: Input/processed/simulation_audit/simulation_qc_summary.json
+      qc_catalog: Input/processed/simulation_audit/simulation_qc_catalog.tsv
+      pair_alignment: Input/processed/simulation_audit/simulation_pair_alignment_audit.tsv
+      numeric_audit: Input/processed/simulation_audit/simulation_numeric_audit.tsv
+      full_store_metadata: Input/processed/full_microenvironment_teacher_ready/trajectory_store.zarr/trajectories/.zarray
+      mesoscopic_catalog: Input/processed/dynamics_ready/public_ad_meso/simulation_catalog.tsv
+      full_teacher_catalog: Input/processed/full_microenvironment_teacher_ready/full_microenvironment_teacher_catalog.tsv
+      osp_pbpk_catalog: Input/processed/full_microenvironment_teacher_ready/pbpk_rollout_catalog.tsv
+      neuron_rxd_catalog: Input/processed/full_microenvironment_teacher_ready/neuron_rxd_protocol_catalog.tsv
+      governance_snapshot: Output/audits/iclr_repo_inventory.json
+    hash_required_artifact_keys:
+    - qc_summary
+    - qc_catalog
+    - pair_alignment
+    - numeric_audit
+    - full_store_metadata
+    - mesoscopic_catalog
+    - osp_pbpk_catalog
+    - neuron_rxd_catalog
+    - governance_snapshot
+    output_paths:
+      json: Output/audits/trajectory_numeric_lineage_audit.json
+      tsv: Output/audits/trajectory_numeric_lineage_audit.tsv
+      markdown: Output/audits/trajectory_numeric_lineage_audit.md
+    current_metric_readers:
+    - Libs/scripts/reports/build_paper_results.py
+    - Libs/scripts/validators/validate_formal_experiment_freeze.py
+    - Libs/scripts/validators/validate_formal_experiment_readiness.py
+    - Libs/scripts/validators/validate_supplemental_milestone_contracts.py
+    forbidden_active_numeric_literals:
+    - '111171'
+    - '111217'
+    historical_value_markers:
+    - historical snapshot
+    - not current runtime truth
+    - superseded by trajectory_numeric_lineage_audit.json
+    historical_snapshot:
+      snapshot_id: governance_snapshot_111171_3
+      required_full_count: 111171
+      required_rejected_count: 3
+      required_paired_count: 111168
+      required_train_eligible_count: 222336
+      provenance_level: reconstructed_historical_projection_not_original_manifest
+      original_manifest_recovered: false
+      requires_independent_manifest_hash: true
+      independent_manifest:
+        availability: unavailable
+        unresolved_id: historical_source_manifest_hash_missing
+        source_artifact: ''
+        source_artifact_hash: ''
+        producer_command: ''
+        git_commit: ''
+        config_hash: ''
+        snapshot_or_release: ''
+        required_fields:
+        - trajectory_index
+        - trajectory_uid
+        - content_hash
+        - paired_status
+        - teacher_family
+        - qc_grade
+        - qc_use
+      governance_records:
+      - source_commit: c0ef09ad242978ef4e9a56d7009b98bf4472c9da
+        source_path: TODO.md
+        expected_git_blob_id: a2e0adfcfbc1ed9ab38605878c4478ff15e8ae25
+        expected_sha256: 157231003404bd9f9bb2cb651bb9b59d600eac7eaebcc7829e4724c1a347c966
+        required_fragments:
+        - 2026-04-25 Trustworthy screening and 100k readiness implementation completed
+        - 111,171 full trajectories
+        - 3 Grade D rejects
+      - source_commit: c0ef09ad242978ef4e9a56d7009b98bf4472c9da
+        source_path: AGENTS.md
+        expected_git_blob_id: e9f2c9146e830eb5fe873c156d5d43e482d82340
+        expected_sha256: a01c09e1e036b5b7bcb3ce763e73d3325cb1a1a7cff462699ba4c383406f0cae
+        required_fragments:
+        - 'Full microenvironment trajectories: 111,171.'
+        - 'Paired full / mesoscopic trajectories: 111,168.'
+        - 'Full-only rejects: 3 Grade D.'
+      projection:
+        source_collection: full_microenvironment_teacher
+        trajectory_index_field: trajectory_index
+        projection_fields:
+        - trajectory_index
+        - trajectory_uid
+        - content_hash
+        - paired_status
+        - teacher_family
+        - qc_grade
+        - qc_use
+        prefix_start_index: 0
+        required_prefix_pair_status_counts:
+          paired: 111168
+          full_only: 3
+        required_prefix_qc_grade_counts:
+          A: 111168
+          D: 3
+        required_prefix_qc_use_counts:
+          main_pretraining: 111168
+          reject: 3
+        required_prefix_teacher_family_counts:
+          ad_full_microenvironment_main_dynamics: 111168
+          osp_pksim_pbpk: 3
+        required_suffix_pair_status_counts:
+          full_only: 46
+        required_suffix_qc_grade_counts:
+          D: 46
+        required_suffix_qc_use_counts:
+          reject: 46
+        required_suffix_teacher_family_counts:
+          neuron_rxd_microenvironment: 1
+          osp_pksim_pbpk: 45
+    canonical_metrics:
+    - raw_materialized_full_microenvironment_trajectory_count
+    - raw_materialized_mesoscopic_trajectory_count
+    - unique_content_trajectory_count
+    - qc_eligible_trajectory_count
+    - qc_grade_a_b_count
+    - paired_full_mesoscopic_count
+    - rejected_trajectory_count
+    - quarantined_trajectory_count
+    - source_snapshot_count
+  g0_claim_wording_audit:
+    owner: ccf-integrity-auditor
+    schema_version: neuronsifter-claim-gated-wording-audit-v1
+    producer_command: python Libs/scripts/validators/validate_claim_gated_wording.py --config Libs/configs/config_stack.yaml
+    output_paths:
+      tsv: Output/audits/claim_gated_wording_audit.tsv
+      json: Output/audits/g0_claim_wording_remediation_report.json
+    public_paths:
+    - path: README.md
+      document_role: current_public
+    - path: Docs/design/iclr
+      document_role: design_contract
+    - path: route-map.md
+      document_role: current_public
+    - path: world_model.md
+      document_role: current_public
+    historical_path_prefixes:
+    - Docs/design/iclr/CHANGELOG.md
+    - Docs/design/iclr/literature-search-
+    allowed_qualification_terms:
+    - target
+    - targets
+    - roadmap
+    - architecture
+    - readiness
+    - planned
+    - plan
+    - objective
+    - vision
+    - designed
+    - developing
+    - pending
+    - gate
+    - contract
+    - criteria
+    - requirement
+    - must
+    - cannot
+    - not
+    - no c1-c5 empirical gate has passed
+    - 目标
+    - 愿景
+    - 路线
+    - 架构
+    - 设计
+    - 计划
+    - 门槛
+    - 验收
+    - 未通过
+    - 不能
+    - 不得
+    prohibited_completion_terms:
+    - is a validated
+    - has learned
+    - demonstrates
+    - generalizes
+    - reduces screening cost
+    - reduces wet-lab cost
+    - is a reliable
+    - reliable digital twin
+    - validated digital twin
+    - clinical prediction
+    - causal effect
+    gated_terms:
+    - term: foundation model
+      claim_id: C1
+    - term: foundation digital twin
+      claim_id: C1
+    - term: reliable screening
+      claim_id: C4
+    - term: generalizes
+      claim_id: C1
+    - term: reduces screening cost
+      claim_id: C4
+    - term: reduces wet-lab cost
+      claim_id: C4
+    - term: causal effect
+      claim_id: C2
+    - term: clinical prediction
+      claim_id: C4
+  claims:
+  - claim_id: C1
+    meaning: public_foundation_state_transfer
+    result_status: requires_experiment_result
+    claim_gate_status: contract_frozen
+  - claim_id: C2
+    meaning: structured_stochastic_world_action
+    result_status: requires_experiment_result
+    claim_gate_status: contract_frozen
+  - claim_id: C3
+    meaning: cost_aware_multi_tool_acquisition
+    result_status: requires_experiment_result
+    claim_gate_status: contract_frozen
+  - claim_id: C4
+    meaning: tri_gated_reliable_screening
+    result_status: requires_experiment_result
+    claim_gate_status: contract_frozen
+  - claim_id: C5
+    meaning: scale_aware_throughput_support
+    result_status: requires_experiment_result
+    claim_gate_status: contract_frozen
+  enums:
+    document_status:
+    - canonical
+    - extends
+    - superseded
+    - historical
+    - reference-only
+    source_status:
+    - active_contract
+    - evidence_reference
+    - historical_reference
+    - generated_manifest
+    task_status:
+    - not_started
+    - blocked
+    - in_progress
+    - implemented
+    - empirically_validated
+    - accepted
+    result_status:
+    - completed_empirical
+    - failed_empirical
+    - blocked_preflight
+    - requires_experiment_result
+    claim_gate_status:
+    - proposed
+    - contract_frozen
+    - implementation_complete
+    - empirical_results_available
+    - statistical_gate_passed
+    - integrity_gate_passed
+    - manuscript_allowed
+    - blocked_preflight
+    - failed_empirical
+    - failed_statistics
+    - failed_integrity
+    precedence:
+    - canonical_design
+    - execution_guidance
+    - evidence_basis
+    - generated_manifest
+    - historical_only
+  policies:
+    public_mainline_only: true
+    controlled_access_allowed: false
+    excluded_controlled_sources:
+    - ADNI
+    - ROSMAP_controlled
+    - AMP_AD_controlled
+    - dbGaP
+    - UK_Biobank
+    calibration_source_role: validation
+    threshold_selection_source_role: validation
+    evaluation_only_roles:
+    - test
+    - source_holdout
+    - tool_family_holdout
+    - ood_holdout
+    full_acceptance_forbidden_evidence:
+    - mock
+    - unit_fixture
+    - cached_standin
+    - synthetic_substitute
+    - silent_fallback
+    mandatory_missing_input_policy: fail_closed
+    empirical_claim_promotion_allowed: false
+    checkpoint_job_classes_allowed_during_contract_installation: []
+  audit_contract:
+    pass_status: pass
+    output_paths:
+      config_stack: Output/audits/config_stack_contract.json
+      contract_union: Output/audits/iclr_contract_union_consistency.json
+      design_coverage: Output/audits/design_contract_coverage.json
+      design_coverage_summary: Output/audits/design_contract_coverage_summary.tsv
+      orchestrator_state: Output/audits/orchestrator_state_contract.json
+      public_mainline_config_graph: Output/audits/public_mainline_config_graph.json
+      public_mainline_isolation: Output/audits/public_mainline_isolation_audit.json
+      g0_public_mainline_remediation: Output/audits/g0_public_mainline_remediation_report.json
+      g0_legacy_naming_inventory: Output/audits/g0_legacy_naming_inventory.tsv
+      naming_residual: Output/audits/naming_residual_audit.tsv
+      g0_naming_remediation: Output/audits/g0_naming_remediation_report.json
+      trajectory_numeric_lineage: Output/audits/trajectory_numeric_lineage_audit.json
+      g0_claim_wording_remediation: Output/audits/g0_claim_wording_remediation_report.json
+      g0_integrity: Output/audits/iclr_phase0_g0_integrity_audit.json
+    schema_versions:
+      config_stack: iclr-config-stack-contract-audit-v1
+      contract_union: iclr-contract-union-consistency-audit-v1
+      design_coverage: iclr-design-contract-coverage-audit-v2
+      orchestrator_state: iclr-orchestrator-state-contract-audit-v1
+      public_mainline_config_graph: neuronsifter-public-mainline-config-graph-v1
+      public_mainline_isolation: neuronsifter-public-mainline-isolation-audit-v1
+      g0_public_mainline_remediation: neuronsifter-g0-public-mainline-remediation-v1
+      g0_naming_remediation: neuronsifter-g0-naming-remediation-v1
+      trajectory_numeric_lineage: neuronsifter-trajectory-numeric-lineage-audit-v1
+      g0_claim_wording_remediation: neuronsifter-claim-gated-wording-audit-v1
+      g0_integrity: neuronsifter-phase0-g0-integrity-audit-v1
+    mandatory_input_resolutions:
+      contract_union_integrity_audit:
+        required_input_path: Output/audits/contract_union_integrity_audit.json
+        canonical_replacement_path: Output/audits/iclr_contract_union_consistency.json
+        expected_schema_version: iclr-contract-union-consistency-audit-v1
+        owner_validator_id: contract-union-validator
+        legacy_artifact_policy: must_be_absent
+        supersession_reason: The v2 contract union validator owns the canonical JSON consistency audit; the former input name is not a parallel fact source.
+  g0_read_only_artifact_linkage:
+    linkage_id: parent_checkout_generated_audits
+    environment_variable: NRNSIFTER_AUDIT_ARTIFACT_ROOT
+    artifacts:
+      formal_experiment_readiness_audit:
+        logical_path: Output/audits/formal_experiment_readiness_audit.json
+        sha256: abb9e84c44b0e54c3412c9b641ec3114f03e15d75917106960453d59fcd77c05
+        logical_role: formal_experiment_readiness_parent_audit
+        producer_uid: validate_formal_experiment_readiness
+        producer_path: Libs/scripts/validators/validate_formal_experiment_readiness.py
+        source_stage: formal_readiness_validation
+        version: frozen-parent-audit-v1
+        testcase_scope: round11e_formal_freeze
+      g5_effective_sample_audit:
+        logical_path: Output/paper_reports/g5_effective_sample_audit.json
+        sha256: e34f7c1791a881042d64d9a4937f8ba0f6c605619eafee692372774185f38724
+        logical_role: g5_effective_sample_parent_audit
+        producer_uid: build_paper_results
+        producer_path: Libs/scripts/reports/build_paper_results.py
+        source_stage: publication_report_generation
+        version: frozen-parent-audit-v1
+        testcase_scope: round11e_g5_freeze
+      round11d_full_suite_execution:
+        logical_path: Output/audits/dt_round11d_full_suite_execution.json
+        sha256: 0e844262659235b524bf84d55e4ce9d46ccf45960430a80409a4e1d986faf76f
+        logical_role: round11d_full_suite_execution
+        producer_uid: round11d_full_suite_job_490754
+        producer_path: slurm://job/490754
+        source_stage: Round-11D full-suite execution
+        version: job-490754
+        testcase_scope: round11f_controller
+      round11d_full_suite_junit:
+        logical_path: Output/audits/dt_round11d_full_suite_results.xml
+        sha256: 0b7b1da68a8c11e545cc1c626276614db306ce9908cf9a59f94cfc5e85f729e1
+        logical_role: round11d_full_suite_junit
+        producer_uid: round11d_full_suite_job_490754
+        producer_path: slurm://job/490754
+        source_stage: Round-11D full-suite execution
+        version: job-490754
+        testcase_scope: round11f_controller
+      round11d_failure_triage:
+        logical_path: Output/audits/dt_round11d_full_suite_failure_triage.json
+        sha256: e41d1364a245d027b1d4c875ffa722c097871d8c6bf7770b19d10649d9d5c82f
+        logical_role: round11d_failure_triage
+        producer_uid: round11d_full_suite_forensic_capture
+        producer_path: Output/audits/dt_round11d_full_suite_execution.json
+        source_stage: Round-11D failure triage
+        version: job-490754
+        testcase_scope: round11f_controller
+      round11_closure_decision:
+        logical_path: Output/audits/dt_round11_closure_decision.json
+        sha256: 4fcfebc5f0c9847d9da57315c8efd8328c6731427b0e1f54f9d0f6ca8433666c
+        logical_role: round11_closure_decision
+        producer_uid: round11g_closure_controller
+        producer_path: Libs/utils/exp/round11g_closure.py
+        source_stage: Round-11G closure preparation
+        version: blocked-full-suite-current
+        testcase_scope: round11f_controller
+      round11e_targeted_gate:
+        logical_path: Output/audits/dt_round11e_targeted_gate.json
+        sha256: f440176eac5e3d4fa42a5587bc0d9f1f5b806407b0580e87186395da7be6e37e
+        logical_role: round11e_targeted_gate
+        producer_uid: build_dt_round11e_failure_triage
+        producer_path: Libs/scripts/builders/build_dt_round11e_failure_triage.py
+        source_stage: Round-11E failure triage
+        version: dt-round11e-targeted-gate-v1
+        testcase_scope: round11f_controller
+      round11e_repair_wave_record:
+        logical_path: Output/audits/dt_round11e_repair_wave_record.json
+        sha256: 1a8d609f852a4023c742758e67ba205edb98d11fd8f6bcd1555d2490aeafe188
+        logical_role: round11e_repair_wave_record
+        producer_uid: build_dt_round11e_failure_triage
+        producer_path: Libs/scripts/builders/build_dt_round11e_failure_triage.py
+        source_stage: Round-11E failure triage
+        version: dt-round11e-repair-wave-record-v1
+        testcase_scope: round11f_controller
+      round11e_testcase_failure_ledger:
+        logical_path: Output/audits/dt_round11e_testcase_failure_ledger.tsv
+        sha256: 4d100a193d487ed8917e3fc1858942fa8c1e24b271888f41d60de9dbe0ec088f
+        logical_role: round11e_testcase_failure_ledger
+        producer_uid: build_dt_round11e_failure_triage
+        producer_path: Libs/scripts/builders/build_dt_round11e_failure_triage.py
+        source_stage: Round-11E failure triage
+        version: dt-round11e-testcase-ledger-v1
+        testcase_scope: round11f_controller
+      round11e_failure_dependency_graph:
+        logical_path: Output/audits/dt_round11e_failure_dependency_graph.json
+        sha256: 03371f70d6b04d8308959cb4c480399c9f2e44792c7538d94a65fc603449cc48
+        logical_role: round11e_failure_dependency_graph
+        producer_uid: build_dt_round11e_failure_triage
+        producer_path: Libs/scripts/builders/build_dt_round11e_failure_triage.py
+        source_stage: Round-11E failure triage
+        version: dt-round11e-failure-dependency-graph-v1
+        testcase_scope: round11f_controller
+      round11e_full_suite_execution:
+        logical_path: Output/audits/dt_round11e_full_suite_execution.json
+        sha256: 80e82fa01d61ce1b792a803971f20d39fbc1258c39635aae0c8638de22eaec42
+        logical_role: round11e_full_suite_execution
+        producer_uid: build_dt_round11e_full_suite_deferral
+        producer_path: Libs/scripts/builders/build_dt_round11e_full_suite_deferral.py
+        source_stage: Round-11E full-suite deferral
+        version: dt-round11e-full-suite-execution-v1
+        testcase_scope: round11f_controller
+  design_inputs:
+  - path: Docs/design/iclr/config/artifact_contracts.yaml
+    sha256: 14a267528e22a3aa6fa4f4b4129df2fd9c7fcc5fb8c5b3c25dba8de5fe040c73
+    canonical_contract_ids: [artifact-schema, source-traceability]
+    runtime_role: reference-only
+  - path: Docs/design/iclr/config/ccfa.proposed.yaml
+    sha256: cecd9e57177869488ba52654fd9ff37d63dfec68bca48e0a584d6b33dcf5e617
+    canonical_contract_ids: [orchestration-gates, scope-claims, claim-registry]
+    runtime_role: reference-only
+  - path: Docs/design/iclr/config/full_deployment_gate.yaml
+    sha256: 7866e07800243f34bc4d1809a3098d0f3e5bb64a96681aaee0c03695220cac86
+    canonical_contract_ids: [publication-gates, validation-acceptance]
+    runtime_role: reference-only
+  - path: Docs/design/iclr/config/iclr_experiment_contract.yaml
+    sha256: 513f337f3e00e391cd58a4a8548008e296e49b9de88f071bf3d279bfb9b7aa8e
+    canonical_contract_ids: [claim-registry, experiment-statistics]
+    runtime_role: reference-only
+  - path: Docs/design/iclr/config/naming_migration_contract.yaml
+    sha256: 665a607f96bbd52f3aca41e5cbabf2a9b47206bc7d8c28931133263841aed215
+    canonical_contract_ids: [naming-migration]
+    runtime_role: reference-only
+  - path: Docs/design/iclr/config/public_data_source_contract.yaml
+    sha256: 2dd04aa944d1bfc066c7fc427a91e1d18493d8bd62cc760b6a8d87576248c519
+    canonical_contract_ids: [public-data-governance, source-governance]
+    runtime_role: reference-only
+  - path: Docs/design/iclr/config/tool_acquisition_contract.yaml
+    sha256: 160275d3cb53ecaa7a9bc5840ebf8b45f85c747161e3123fb2012e5a9984ee86
+    canonical_contract_ids: [tool-acquisition, tool-adapter-security]
+    runtime_role: reference-only
+  precedence_registry:
+  - precedence_id: canonical_design
+    can_define_normative_detail: true
+    can_extend: true
+    can_supersede_canonical: false
+    can_own_runtime_fields: false
+  - precedence_id: execution_guidance
+    can_define_normative_detail: true
+    can_extend: true
+    can_supersede_canonical: false
+    can_own_runtime_fields: false
+  - precedence_id: evidence_basis
+    can_define_normative_detail: false
+    can_extend: false
+    can_supersede_canonical: false
+    can_own_runtime_fields: false
+  - precedence_id: generated_manifest
+    can_define_normative_detail: false
+    can_extend: false
+    can_supersede_canonical: false
+    can_own_runtime_fields: false
+  - precedence_id: historical_only
+    can_define_normative_detail: false
+    can_extend: false
+    can_supersede_canonical: false
+    can_own_runtime_fields: false
+  conflict_registry:
+  - conflict_id: N
+    resolution_class: resolved
+    rule: Declared canonical or supporting relationship applies without conflict.
+  - conflict_id: L
+    resolution_class: resolved_contract_migration
+    rule: Public and active internal identity is NeuronSifter; legacy names are confined to validated migration-only contexts.
+  - conflict_id: C
+    resolution_class: resolved
+    rule: Frozen v2 claim meanings override the legacy claim namespace without promoting results.
+  - conflict_id: P
+    resolution_class: resolved_policy_isolation
+    rule: The dedicated public-mainline validator proves zero controlled reachability while the explicit controlled branch remains non-default, guarded, and non-evidentiary.
+  - conflict_id: D
+    resolution_class: pending_numeric_lineage
+    rule: Generated audits own current counts until lineage is reconciled.
+  - conflict_id: R
+    resolution_class: resolved
+    rule: Design-preview config and schemas are reference-only; the installed union owns runtime fields.
+  - conflict_id: H
+    resolution_class: resolved
+    rule: Historical, evidence, and generated records cannot override active contracts.
+  - conflict_id: V
+    resolution_class: pending_external_verification
+    rule: Source, literature, and venue currency must be verified from official sources at use time.
+  - conflict_id: T
+    resolution_class: resolved
+    rule: Target paths map into the inspected Libs architecture without parallel pipelines.
+  - conflict_id: E
+    resolution_class: resolved_empirical_work_pending
+    rule: Design-package validation does not satisfy empirical or deployment acceptance.
+  validator_registry:
+  - validator_id: config-stack-validator
+    entrypoint: Libs/scripts/validators/validate_config_stack_contract.py
+    output_path: Output/audits/config_stack_contract.json
+    scope: recursive composition, include provenance, and canonical ownership
+  - validator_id: contract-union-validator
+    entrypoint: Libs/scripts/validators/validate_iclr_design_contract_union.py
+    output_path: Output/audits/iclr_contract_union_consistency.json
+    scope: union structure, claims, schemas, ownership, conflicts, and pending boundaries
+  - validator_id: public-mainline-validator
+    entrypoint: Libs/scripts/validators/validate_public_mainline_isolation.py
+    output_path: Output/audits/public_mainline_isolation_audit.json
+    scope: recursive public config and executable-route isolation from controlled sources
+  - validator_id: g0-naming-validator
+    entrypoint: Libs/scripts/validators/validate_g0_legacy_naming.py
+    output_path: Output/audits/g0_naming_remediation_report.json
+    scope: canonical identity, active residuals, compatibility metadata, and migration containment
+  - validator_id: numeric-lineage-validator
+    entrypoint: Libs/scripts/validators/validate_trajectory_numeric_lineage.py
+    output_path: Output/audits/trajectory_numeric_lineage_audit.json
+    scope: generated current numeric facts, provenance, reconciliation, and historical-snapshot closure
+  - validator_id: claim-wording-validator
+    entrypoint: Libs/scripts/validators/validate_claim_gated_wording.py
+    output_path: Output/audits/g0_claim_wording_remediation_report.json
+    scope: current public claim wording and gate-derived evidence status
+  - validator_id: g0-integrity-validator
+    entrypoint: Libs/scripts/validators/validate_g0_integrity.py
+    output_path: Output/audits/iclr_phase0_g0_integrity_audit.json
+    scope: immutable G0 blocker dispositions and aggregate freeze eligibility
+  - validator_id: design-coverage-validator
+    entrypoint: Libs/scripts/validators/validate_design_contract_coverage.py
+    output_path: Output/audits/design_contract_coverage.json
+    scope: exact document discovery and declaration metadata
+  - validator_id: orchestrator-state-validator
+    entrypoint: Libs/scripts/validators/validate_orchestrator_state_contract.py
+    output_path: Output/audits/orchestrator_state_contract.json
+    scope: read-only controller state and active roadmap lineage
+  - validator_id: publication-validator
+    entrypoint: Libs/scripts/validators/validate_publication_readiness_contracts.py
+    output_path: Output/audits/publication_readiness_contracts.json
+    scope: publication and claim boundaries
+  - validator_id: supplemental-contract-validator
+    entrypoint: Libs/scripts/validators/validate_supplemental_milestone_contracts.py
+    output_path: Output/audits/supplemental_milestone_contracts.json
+    scope: current state, action, operator, uncertainty, TRI, and report compatibility
+  consumer_registry:
+  - {consumer_id: controller, role: orchestrator controller}
+  - {consumer_id: all-later-gates, role: G0-G8 dependency consumers}
+  - {consumer_id: report-builder, role: publication report generation}
+  - {consumer_id: naming-migration, role: public identity migration}
+  - {consumer_id: config-loader, role: canonical YAML composition}
+  - {consumer_id: all-model-tool-consumers, role: model and tool implementations}
+  - {consumer_id: public-data, role: public source governance and materialization}
+  - {consumer_id: strict-splits, role: canonical split construction}
+  - {consumer_id: foundation, role: C1 foundation implementation and evaluation}
+  - {consumer_id: world-action, role: C2 world-action implementation and evaluation}
+  - {consumer_id: tool-acquisition, role: C3 acquisition implementation and evaluation}
+  - {consumer_id: all-c1-c5-runners, role: claim experiment runners}
+  - {consumer_id: all-experiment-runners, role: experiment execution surfaces}
+  - {consumer_id: c1-c5-evaluators, role: claim evaluators}
+  - {consumer_id: implementers, role: repository implementers}
+  - {consumer_id: all-artifact-producers, role: artifact builders and writers}
+  - {consumer_id: all-validators, role: contract validators}
+  - {consumer_id: reviewer, role: independent round review}
+  - {consumer_id: slurm-validation-later-runners, role: Slurm validation and later execution}
+  - {consumer_id: release-audit, role: integrity and reproducibility release audit}
+  - {consumer_id: state-validator, role: controller state validation}
+  - {consumer_id: tool-runtime, role: typed scientific tool runtime}
+  - {consumer_id: tri-scale, role: C4 and C5 implementation and evaluation}
+  - {consumer_id: union-validator, role: union consistency validation}
+  source_of_truth_registry:
+  - domain_id: round_scope_and_lineage
+    canonical_source: orchestrator/rounds/round-03-recover-historical-lineage-evidence/selection-record.json
+    authority: controller_dispatched_selection_record_after_round_creation
+  - domain_id: normalized_runtime_contract_fields
+    canonical_source: Libs/configs/validation/iclr_design_contract_union.yaml
+    authority: installed_contract_union
+  - domain_id: normative_design_detail
+    canonical_source: Docs/design/iclr
+    authority: primary_iclr_design_documents
+  - domain_id: empirical_counts_and_runtime_state
+    canonical_source: current_generated_audits_manifests_and_scheduler_readbacks
+    authority: generated_evidence
+  - domain_id: claim_migration
+    canonical_source: Output/audits/iclr_claim_migration.json
+    authority: frozen_phase0_migration_artifact
+  - domain_id: controller_state
+    canonical_source: orchestrator/state.json
+    authority: controller_only
+  contract_registry:
+  - contract_id: orchestration-gates
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/00_MASTER_ORCHESTRATION.md
+    mandatory_requirement_ids: [req_orchestration_gates, req_contract_round_no_jobs]
+    downstream_consumer_ids: [controller, all-later-gates]
+    validator_ids: [contract-union-validator, design-coverage-validator, orchestrator-state-validator]
+    owning_milestone_id: contract-naming-freeze
+    owning_direction_id: recover-historical-lineage-evidence
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: scope-claims
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/01_SCIENTIFIC_THESIS_AND_SCOPE.md
+    mandatory_requirement_ids: [req_scope_claims]
+    downstream_consumer_ids: [controller, report-builder]
+    validator_ids: [contract-union-validator, publication-validator]
+    owning_milestone_id: contract-naming-freeze
+    owning_direction_id: recover-historical-lineage-evidence
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: naming-migration
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/12_REPOSITORY_NAMING_MIGRATION.md
+    mandatory_requirement_ids: [req_naming_migration, req_public_neuronsifter_identity]
+    downstream_consumer_ids: [naming-migration, report-builder]
+    validator_ids: [contract-union-validator, design-coverage-validator, g0-naming-validator]
+    owning_milestone_id: contract-naming-freeze
+    owning_direction_id: recover-historical-lineage-evidence
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: system-architecture
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/03_SYSTEM_ARCHITECTURE.md
+    mandatory_requirement_ids: [req_system_architecture]
+    downstream_consumer_ids: [config-loader, all-model-tool-consumers]
+    validator_ids: [contract-union-validator, supplemental-contract-validator]
+    owning_milestone_id: contract-naming-freeze
+    owning_direction_id: recover-historical-lineage-evidence
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: public-data-governance
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/04_PUBLIC_DATA_FOUNDATION.md
+    mandatory_requirement_ids: [req_public_data_governance, req_controlled_access_exclusion]
+    downstream_consumer_ids: [public-data, strict-splits]
+    validator_ids: [contract-union-validator, design-coverage-validator]
+    owning_milestone_id: public-corpus-splits
+    owning_direction_id: canonicalize-and-freeze-splits
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: source-governance
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/05_PUBLIC_DATA_SOURCE_CATALOG.md
+    mandatory_requirement_ids: [req_source_governance]
+    downstream_consumer_ids: [public-data]
+    validator_ids: [contract-union-validator, design-coverage-validator]
+    owning_milestone_id: public-corpus-splits
+    owning_direction_id: govern-materialize-public-sources
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: literature-positioning
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/06_LITERATURE_NEIGHBOR_AUDIT.md
+    mandatory_requirement_ids: [req_literature_positioning]
+    downstream_consumer_ids: [foundation, world-action, tool-acquisition, report-builder]
+    validator_ids: [contract-union-validator, design-coverage-validator]
+    owning_milestone_id: publication-integrity-release
+    owning_direction_id: build-iclr-reports-and-claim-gates
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: claim-registry
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/07_REVISED_CLAIM_EXPERIMENT_MATRIX.md
+    mandatory_requirement_ids: [req_claim_registry, req_claim_results_pending]
+    downstream_consumer_ids: [all-c1-c5-runners, report-builder]
+    validator_ids: [contract-union-validator, publication-validator]
+    owning_milestone_id: contract-naming-freeze
+    owning_direction_id: recover-historical-lineage-evidence
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: experiment-statistics
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/09_METRIC_ACCEPTANCE_CONTRACT.md
+    mandatory_requirement_ids: [req_experiment_statistics, req_validation_only_calibration]
+    downstream_consumer_ids: [c1-c5-evaluators, report-builder]
+    validator_ids: [contract-union-validator, publication-validator]
+    owning_milestone_id: contract-naming-freeze
+    owning_direction_id: recover-historical-lineage-evidence
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: experiment-execution
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/08_EXPERIMENT_EXECUTION_PLAN.md
+    mandatory_requirement_ids: [req_experiment_execution]
+    downstream_consumer_ids: [all-experiment-runners]
+    validator_ids: [contract-union-validator, orchestrator-state-validator]
+    owning_milestone_id: contract-naming-freeze
+    owning_direction_id: recover-historical-lineage-evidence
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: roadmap-gates
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/19_ROADMAP_AND_STAGE_GATES.md
+    mandatory_requirement_ids: [req_roadmap_gates]
+    downstream_consumer_ids: [controller, state-validator]
+    validator_ids: [contract-union-validator, orchestrator-state-validator]
+    owning_milestone_id: contract-naming-freeze
+    owning_direction_id: recover-historical-lineage-evidence
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: tool-acquisition
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/10_TOOL_ACQUISITION_BENCHMARK.md
+    mandatory_requirement_ids: [req_tool_acquisition]
+    downstream_consumer_ids: [tool-acquisition]
+    validator_ids: [contract-union-validator, design-coverage-validator]
+    owning_milestone_id: tool-acquisition-evidence
+    owning_direction_id: execute-c3-offline-and-real
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: repository-implementation
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/11_CODEX_IMPLEMENTATION_PLAYBOOK.md
+    mandatory_requirement_ids: [req_repository_implementation]
+    downstream_consumer_ids: [implementers, controller]
+    validator_ids: [contract-union-validator, design-coverage-validator]
+    owning_milestone_id: contract-naming-freeze
+    owning_direction_id: recover-historical-lineage-evidence
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: command-acceptance
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/26_COMMAND_AND_ACCEPTANCE_RUNBOOK.md
+    mandatory_requirement_ids: [req_command_acceptance]
+    downstream_consumer_ids: [implementers, all-validators]
+    validator_ids: [contract-union-validator, design-coverage-validator]
+    owning_milestone_id: contract-naming-freeze
+    owning_direction_id: recover-historical-lineage-evidence
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: artifact-schema
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/13_ARTIFACT_AND_SCHEMA_CONTRACTS.md
+    mandatory_requirement_ids: [req_artifact_schema]
+    downstream_consumer_ids: [config-loader, all-artifact-producers]
+    validator_ids: [config-stack-validator, contract-union-validator, design-coverage-validator]
+    owning_milestone_id: contract-naming-freeze
+    owning_direction_id: recover-historical-lineage-evidence
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: validation-acceptance
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/14_TEST_AND_VALIDATION_PLAN.md
+    mandatory_requirement_ids: [req_validation_acceptance, req_no_acceptance_standins, req_no_silent_fallback]
+    downstream_consumer_ids: [all-validators, reviewer]
+    validator_ids: [contract-union-validator, design-coverage-validator]
+    owning_milestone_id: contract-naming-freeze
+    owning_direction_id: recover-historical-lineage-evidence
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: hpc-observability
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/15_HPC_EXECUTION_AND_OBSERVABILITY.md
+    mandatory_requirement_ids: [req_hpc_observability]
+    downstream_consumer_ids: [slurm-validation-later-runners]
+    validator_ids: [contract-union-validator, design-coverage-validator]
+    owning_milestone_id: contract-naming-freeze
+    owning_direction_id: recover-historical-lineage-evidence
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: integrity-claim-discipline
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/16_INTEGRITY_AUDIT.md
+    mandatory_requirement_ids: [req_integrity_claim_discipline]
+    downstream_consumer_ids: [report-builder, release-audit]
+    validator_ids: [contract-union-validator, publication-validator]
+    owning_milestone_id: publication-integrity-release
+    owning_direction_id: audit-and-package-release
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: publication-gates
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/27_PUBLICATION_REPORT_AND_CLAIM_GATE.md
+    mandatory_requirement_ids: [req_publication_gates]
+    downstream_consumer_ids: [report-builder, release-audit]
+    validator_ids: [contract-union-validator, publication-validator]
+    owning_milestone_id: publication-integrity-release
+    owning_direction_id: build-iclr-reports-and-claim-gates
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: reproducibility-release
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/18_REPRODUCIBILITY_AND_RELEASE_PLAN.md
+    mandatory_requirement_ids: [req_reproducibility_release]
+    downstream_consumer_ids: [release-audit]
+    validator_ids: [contract-union-validator, design-coverage-validator]
+    owning_milestone_id: publication-integrity-release
+    owning_direction_id: audit-and-package-release
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: repository-ownership
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/21_REPOSITORY_TARGET_TREE.md
+    mandatory_requirement_ids: [req_repository_ownership]
+    downstream_consumer_ids: [config-loader, implementers]
+    validator_ids: [contract-union-validator, design-coverage-validator]
+    owning_milestone_id: contract-naming-freeze
+    owning_direction_id: recover-historical-lineage-evidence
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: implementation-ledger
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/22_IMPLEMENTATION_TASK_LEDGER.md
+    mandatory_requirement_ids: [req_implementation_ledger]
+    downstream_consumer_ids: [controller, implementers, reviewer]
+    validator_ids: [contract-union-validator, orchestrator-state-validator]
+    owning_milestone_id: contract-naming-freeze
+    owning_direction_id: recover-historical-lineage-evidence
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: data-materialization
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/23_DATA_MATERIALIZATION_RUNBOOK.md
+    mandatory_requirement_ids: [req_data_materialization]
+    downstream_consumer_ids: [public-data, strict-splits]
+    validator_ids: [contract-union-validator, design-coverage-validator]
+    owning_milestone_id: public-corpus-splits
+    owning_direction_id: govern-materialize-public-sources
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: tool-adapter-security
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/24_TOOL_ADAPTER_AND_SECURITY_CONTRACT.md
+    mandatory_requirement_ids: [req_tool_adapter_security]
+    downstream_consumer_ids: [tool-runtime]
+    validator_ids: [contract-union-validator, design-coverage-validator]
+    owning_milestone_id: tool-acquisition-evidence
+    owning_direction_id: build-typed-tool-environment
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: model-training-evaluation
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/25_MODEL_TRAINING_EVALUATION_RUNBOOK.md
+    mandatory_requirement_ids: [req_model_training_evaluation]
+    downstream_consumer_ids: [foundation, world-action, tri-scale]
+    validator_ids: [contract-union-validator, supplemental-contract-validator]
+    owning_milestone_id: foundation-transfer
+    owning_direction_id: implement-foundation-objectives
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: source-traceability
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/28_SOURCE_BASIS_AND_TRACEABILITY.md
+    mandatory_requirement_ids: [req_source_traceability]
+    downstream_consumer_ids: [union-validator, report-builder]
+    validator_ids: [contract-union-validator, design-coverage-validator]
+    owning_milestone_id: contract-naming-freeze
+    owning_direction_id: recover-historical-lineage-evidence
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: package-quality
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/29_DELIVERABLE_QUALITY_AUDIT.md
+    mandatory_requirement_ids: [req_package_quality]
+    downstream_consumer_ids: [union-validator, release-audit]
+    validator_ids: [contract-union-validator, design-coverage-validator]
+    owning_milestone_id: publication-integrity-release
+    owning_direction_id: audit-and-package-release
+    downstream_implementation_status: not_started
+    supersedes: []
+  - contract_id: package-metadata
+    config_owner: Libs/configs/validation/iclr_design_contract_union.yaml
+    primary_design_source: Docs/design/iclr/README.md
+    mandatory_requirement_ids: [req_package_metadata]
+    downstream_consumer_ids: [controller, release-audit]
+    validator_ids: [contract-union-validator, design-coverage-validator]
+    owning_milestone_id: contract-naming-freeze
+    owning_direction_id: recover-historical-lineage-evidence
+    downstream_implementation_status: not_started
+    supersedes: []
+  mandatory_requirements:
+  - {requirement_id: req_orchestration_gates, owning_contract_id: orchestration-gates, statement: Preserve G0-G8 order and fail-closed handoffs.}
+  - {requirement_id: req_contract_round_no_jobs, owning_contract_id: orchestration-gates, statement: Start no implementation, data, training, tool, active-learning, or GPU jobs in this round.}
+  - {requirement_id: req_scope_claims, owning_contract_id: scope-claims, statement: Keep foundation, digital-twin, reliability, and cost claims gate-controlled.}
+  - {requirement_id: req_naming_migration, owning_contract_id: naming-migration, statement: Preserve an explicit bounded compatibility migration contract.}
+  - {requirement_id: req_public_neuronsifter_identity, owning_contract_id: naming-migration, statement: Use NeuronSifter as the only external model identity.}
+  - {requirement_id: req_system_architecture, owning_contract_id: system-architecture, statement: Preserve structured state, world action, tool acquisition, uncertainty, and TRI interfaces.}
+  - {requirement_id: req_public_data_governance, owning_contract_id: public-data-governance, statement: Admit only provenance-complete public sources to the public mainline.}
+  - {requirement_id: req_controlled_access_exclusion, owning_contract_id: public-data-governance, statement: Exclude controlled-access sources from public manifests, runs, reports, and release.}
+  - {requirement_id: req_source_governance, owning_contract_id: source-governance, statement: Require official URL, terms, version, checksums, parser, and train-eval role.}
+  - {requirement_id: req_literature_positioning, owning_contract_id: literature-positioning, statement: Keep neighbor evidence versioned and do not copy reported values as results.}
+  - {requirement_id: req_claim_registry, owning_contract_id: claim-registry, statement: Freeze exact v2 C1-C5 identifiers and meanings.}
+  - {requirement_id: req_claim_results_pending, owning_contract_id: claim-registry, statement: Keep every C1-C5 result status requires_experiment_result.}
+  - {requirement_id: req_experiment_statistics, owning_contract_id: experiment-statistics, statement: Preserve paired intervals, declared directions, and visible failures.}
+  - {requirement_id: req_validation_only_calibration, owning_contract_id: experiment-statistics, statement: Use validation only for calibration, thresholds, checkpoints, and tuning.}
+  - {requirement_id: req_experiment_execution, owning_contract_id: experiment-execution, statement: Bind future runs to frozen configs, manifests, splits, checkpoints, and environments.}
+  - {requirement_id: req_roadmap_gates, owning_contract_id: roadmap-gates, statement: Active roadmap lineage owns sequencing and gate transitions.}
+  - {requirement_id: req_tool_acquisition, owning_contract_id: tool-acquisition, statement: Evaluate learned acquisition under fixed budgets and fixed targets with real rounds.}
+  - {requirement_id: req_repository_implementation, owning_contract_id: repository-implementation, statement: Reuse existing repository components and avoid parallel official pipelines.}
+  - {requirement_id: req_command_acceptance, owning_contract_id: command-acceptance, statement: Map target commands to maintained repository entrypoints and visible acceptance.}
+  - {requirement_id: req_artifact_schema, owning_contract_id: artifact-schema, statement: Preserve schema-valid provenance and immutable result identities.}
+  - {requirement_id: req_validation_acceptance, owning_contract_id: validation-acceptance, statement: Exercise real loaders, schemas, validators, and output contracts.}
+  - {requirement_id: req_no_acceptance_standins, owning_contract_id: validation-acceptance, statement: Forbid mocks, fixtures, caches, and synthetic substitutes from full acceptance.}
+  - {requirement_id: req_no_silent_fallback, owning_contract_id: validation-acceptance, statement: Fail visibly on missing or invalid mandatory inputs.}
+  - {requirement_id: req_hpc_observability, owning_contract_id: hpc-observability, statement: Record Slurm jobs, terminal states, resource use, and failures.}
+  - {requirement_id: req_integrity_claim_discipline, owning_contract_id: integrity-claim-discipline, statement: Preserve naming, scope, numeric, path, citation, and claim boundaries.}
+  - {requirement_id: req_publication_gates, owning_contract_id: publication-gates, statement: Generate publication wording only from frozen schema-valid result catalogs.}
+  - {requirement_id: req_reproducibility_release, owning_contract_id: reproducibility-release, statement: Exclude controlled data, secrets, personal paths, and nonredistributable artifacts.}
+  - {requirement_id: req_repository_ownership, owning_contract_id: repository-ownership, statement: Extend the inspected Libs architecture without duplicate directory trees.}
+  - {requirement_id: req_implementation_ledger, owning_contract_id: implementation-ledger, statement: Separate implemented, empirically validated, and accepted task states.}
+  - {requirement_id: req_data_materialization, owning_contract_id: data-materialization, statement: Require real public materialization and frozen zero-overlap splits.}
+  - {requirement_id: req_tool_adapter_security, owning_contract_id: tool-adapter-security, statement: Restrict tool execution to typed registered commands with complete provenance.}
+  - {requirement_id: req_model_training_evaluation, owning_contract_id: model-training-evaluation, statement: Preserve strict holdouts, stochastic UQ, constraints, and validation-only selection.}
+  - {requirement_id: req_source_traceability, owning_contract_id: source-traceability, statement: Resolve precedence by fact domain and preserve source lineage.}
+  - {requirement_id: req_package_quality, owning_contract_id: package-quality, statement: Distinguish design validation from implementation and empirical deployment.}
+  - {requirement_id: req_package_metadata, owning_contract_id: package-metadata, statement: Treat generated indexes and history as package evidence rather than runtime authority.}
+  schema_families:
+  - schema_family: acquisition_request
+    design_source: Docs/design/iclr/schemas/acquisition_request.schema.json
+    design_source_sha256: cacc672022d10eadfd531b636eca7463da1a024f94ac41015bc8c4268bc4ef5e
+    field_union_key: iclr_acquisition_request_fields
+    required_fields: [request_uid, round_uid, candidate_uid, state_uid, action_uid, tool_uid, fidelity, requested_outputs, budget_class]
+    enums: {}
+    canonical_runtime_owner: Libs/configs/schema/schemas.yaml
+    current_compatibility_binding: schemas.active_learning_acquisition_fields
+    validator_id: contract-union-validator
+    downstream_consumer_ids: [tool-acquisition, tool-runtime]
+  - schema_family: checkpoint_manifest
+    design_source: Docs/design/iclr/schemas/checkpoint_manifest.schema.json
+    design_source_sha256: 4c71b3f72bd4e3e196fcb6136b7141af698b1b18fd4840ac936e70bb81cf46b8
+    field_union_key: iclr_checkpoint_manifest_fields
+    required_fields: [schema_version, checkpoint_uid, public_model_name, architecture_version, scale, checkpoint_uri, checkpoint_hash, training_run_uid, config_hash, data_manifest_hash, split_manifest_hash, selection_rule, status]
+    enums:
+      scale: [debug, student, large, xl, foundation]
+      status: [candidate, validated, deprecated, rejected]
+    canonical_runtime_owner: Libs/configs/schema/schemas.yaml
+    current_compatibility_binding: schemas.screening_result_fields
+    validator_id: contract-union-validator
+    downstream_consumer_ids: [naming-migration, foundation, world-action, tri-scale]
+  - schema_family: claim_metric
+    design_source: Docs/design/iclr/schemas/claim_metric.schema.json
+    design_source_sha256: b07631741d9461803811171d0e474a99509d26a6c66d015857ed7e4bc5410aaf
+    field_union_key: iclr_claim_metric_fields
+    required_fields: [claim_id, experiment_id, model_id, checkpoint_hash, data_manifest_hash, split_manifest_hash, seed, metric_name, metric_value, direction, status]
+    enums:
+      claim_id: [C1, C2, C3, C4, C5]
+      direction: [higher, lower, target]
+      status: [completed_empirical, failed_empirical, blocked_preflight, requires_experiment_result]
+    canonical_runtime_owner: Libs/configs/schema/schemas.yaml
+    current_compatibility_binding: schemas.publication_claim_metric_fields
+    validator_id: contract-union-validator
+    downstream_consumer_ids: [c1-c5-evaluators, report-builder]
+  - schema_family: cost_estimate
+    design_source: Docs/design/iclr/schemas/cost_estimate.schema.json
+    design_source_sha256: 5130e1632c3aeaea1b071b7e8ee2089945c1de81caaf904d9c794e8b85a890a9
+    field_union_key: iclr_cost_estimate_fields
+    required_fields: [schema_version, estimate_uid, tool_uid, request_payload_hash, scenario, components, total_normalized_cost, estimator_version]
+    nested_required_fields:
+      components: [cpu_seconds, gpu_seconds, wall_seconds, memory_gb_seconds, monetary_cost, retry_expected_cost]
+    enums: {}
+    canonical_runtime_owner: Libs/configs/schema/schemas.yaml
+    current_compatibility_binding: schemas.active_learning_priority_fields
+    validator_id: contract-union-validator
+    downstream_consumer_ids: [tool-acquisition, tool-runtime]
+  - schema_family: observation
+    design_source: Docs/design/iclr/schemas/observation.schema.json
+    design_source_sha256: f29a2955c249552cfccfa7be50a5a43fa9e5a875864b8a04480ec3e566c7b3ce
+    field_union_key: iclr_observation_fields
+    required_fields: [schema_version, observation_uid, biological_unit_uid, source_uids, modality_blocks, ontology_version, qc_grade, train_eval_role, content_hash]
+    enums:
+      qc_grade: [A, B, C, D, S]
+      train_eval_role: [main_pretraining, weak_teacher_calibration, validation, test, source_holdout, stress_test_only, reject]
+    canonical_runtime_owner: Libs/configs/schema/schemas.yaml
+    current_compatibility_binding: schemas.sample_observation_fields
+    validator_id: contract-union-validator
+    downstream_consumer_ids: [public-data, foundation]
+  - schema_family: public_source_manifest
+    design_source: Docs/design/iclr/schemas/public_source_manifest.schema.json
+    design_source_sha256: 98dd60a16093773e169aa46e589f4cb0cbf8ed7cc2935f54f34675d1bdb8ae32
+    field_union_key: iclr_public_source_manifest_fields
+    required_fields: [source_uid, official_name, official_url, access_class, license_or_terms_url, license_snapshot_hash, retrieval_date, version_or_release, source_holdout_group, raw_checksum, parser_version, qc_status]
+    enums:
+      access_class: [public_open_download, public_api, public_registration_no_DUA, public_metadata_only, controlled_excluded, license_unresolved_excluded]
+      qc_status: [A, B, C, D, S]
+    canonical_runtime_owner: Libs/configs/schema/schemas.yaml
+    current_compatibility_binding: schemas.source_manifest_fields
+    validator_id: contract-union-validator
+    downstream_consumer_ids: [public-data, strict-splits]
+  - schema_family: run_manifest
+    design_source: Docs/design/iclr/schemas/run_manifest.schema.json
+    design_source_sha256: 3363201ec42e44289cac60a248e827c96f6f357b1e381a401f618ca09468f54c
+    field_union_key: iclr_run_manifest_fields
+    required_fields: [schema_version, run_uid, claim_id, run_type, status, git_commit, config_hash, data_manifest_hash, split_manifest_hash, seed, command, started_at, artifact_uris]
+    enums:
+      claim_id: [C1, C2, C3, C4, C5, SYSTEM]
+      status: [planned, running, completed, failed, blocked, cancelled]
+    canonical_runtime_owner: Libs/configs/schema/schemas.yaml
+    current_compatibility_binding: schemas.benchmark_result_fields
+    validator_id: contract-union-validator
+    downstream_consumer_ids: [all-experiment-runners, report-builder]
+  - schema_family: split_manifest
+    design_source: Docs/design/iclr/schemas/split_manifest.schema.json
+    design_source_sha256: c76de8750fc32acedf3b87e5d30c8feb3a2a4339f3b91e8b83ebf8b72545eb61
+    field_union_key: iclr_split_manifest_fields
+    required_fields: [schema_version, split_uid, split_type, corpus_hash, group_axes, train_uids_uri, validation_uids_uri, test_uids_uri, manifest_hash, leakage_audit_uri, frozen]
+    enums: {}
+    canonical_runtime_owner: Libs/configs/schema/schemas.yaml
+    current_compatibility_binding: schemas.benchmark_sample_split_fields
+    validator_id: contract-union-validator
+    downstream_consumer_ids: [strict-splits, all-c1-c5-runners]
+  - schema_family: structured_action
+    design_source: Docs/design/iclr/schemas/structured_action.schema.json
+    design_source_sha256: 7a98c0362563ad1834c9cd94a685f16d497eff4a68f619edc6ab474e84da9835
+    field_union_key: iclr_structured_action_fields
+    required_fields: [action_uid, intervention_type, target_set, agent_set, schedule, route, state_scope, source_publication]
+    enums: {}
+    canonical_runtime_owner: Libs/configs/schema/schemas.yaml
+    current_compatibility_binding: schemas.intervention_program_fields
+    validator_id: contract-union-validator
+    downstream_consumer_ids: [world-action, tool-acquisition]
+  - schema_family: tool_request
+    design_source: Docs/design/iclr/schemas/tool_request.schema.json
+    design_source_sha256: 440db06f7dc635485eeebbda3f083bc5207a7db208e32b299c03c88abfe79edc
+    field_union_key: iclr_tool_request_fields
+    required_fields: [schema_version, request_uid, round_uid, tool_uid, tool_version, state_uid, action_uid, requested_outputs, budget_class, seed, payload_hash]
+    enums: {}
+    canonical_runtime_owner: Libs/configs/schema/schemas.yaml
+    current_compatibility_binding: schemas.active_learning_simulation_request_fields
+    validator_id: contract-union-validator
+    downstream_consumer_ids: [tool-runtime, tool-acquisition]
+  - schema_family: tool_result
+    design_source: Docs/design/iclr/schemas/tool_result.schema.json
+    design_source_sha256: 531afbc9a35807bd0e9c0e1fe6b79603681c2b86b3003ac64e612793df925a85
+    field_union_key: iclr_tool_result_fields
+    required_fields: [tool_result_uid, request_uid, tool_uid, tool_version, input_hash, output_hash, runtime_seconds, failure_status, qc_grade]
+    enums:
+      qc_grade: [A, B, C, D, S]
+    canonical_runtime_owner: Libs/configs/schema/schemas.yaml
+    current_compatibility_binding: schemas.active_learning_simulation_result_fields
+    validator_id: contract-union-validator
+    downstream_consumer_ids: [tool-runtime, tool-acquisition, foundation]
+  - schema_family: trajectory
+    design_source: Docs/design/iclr/schemas/trajectory.schema.json
+    design_source_sha256: 49495cf175fc34b220ac2d6de76c1bd33df8774bd2beb7c7a0bdaf45cb4abef7
+    field_union_key: iclr_trajectory_fields
+    required_fields: [schema_version, trajectory_uid, family_uid, initial_observation_uid, action_uid, axes, artifact_uri, artifact_hash, teacher_family, uncertainty_policy, qc_grade, train_eval_role]
+    nested_required_fields:
+      axes: [time, region, compartment, species]
+    enums:
+      qc_grade: [A, B, C, D, S]
+    canonical_runtime_owner: Libs/configs/schema/schemas.yaml
+    current_compatibility_binding: schemas.simulation_teacher_fields
+    validator_id: contract-union-validator
+    downstream_consumer_ids: [foundation, world-action, c1-c5-evaluators]
+  pending_work:
+    naming_migration: []
+    controlled_branch_isolation: []
+    numeric_lineage:
+    - historical_source_manifest_hash_missing
+    source_currency:
+    - pending_official_source_terms_release_and_tool_version_verification
+    venue_policy:
+    - pending_official_iclr_2027_rules_verification
+    empirical_claims:
+    - C1_requires_experiment_result
+    - C2_requires_experiment_result
+    - C3_requires_experiment_result
+    - C4_requires_experiment_result
+    - C5_requires_experiment_result
+  g0_blocker_posture:
+  - blocker_id: G0-NAMING-LEGACY-RESIDUALS
+    status: blocked_unchanged
+  - blocker_id: G0-PUBLIC-MAINLINE-CONTROLLED-INCLUDE
+    status: dedicated_validator_passed
+  - blocker_id: G0-NUMERIC-LINEAGE-DRIFT
+    status: blocked_unchanged
+  - blocker_id: G0-CLAIM-GATED-WORDING
+    status: blocked_unchanged
+  phase1_open: false
+  implementation_enabled: false
+public_mainline_isolation:
+  schema_version: neuronsifter-public-mainline-isolation-contract-v1
+  public_entrypoint: Libs/configs/config_stack.yaml
+  controlled_overlays:
+  - overlay_id: adni_controlled_research
+    entrypoint: Libs/configs/config_stack_controlled_research.yaml
+    controlled_config: Libs/configs/data/adni_controlled_access.yaml
+    section_key: adni_controlled_access
+    invocation_mode: explicit_only
+    non_default: true
+  controlled_source_identifiers:
+  - ADNI
+  - adni_controlled_access
+  - ROSMAP_controlled
+  - AMP_AD_controlled
+  - dbGaP
+  - UK_Biobank
+  - controlled_Synapse
+  - DUA_bound_participant_level
+  controlled_section_keys:
+  - adni_controlled_access
+  controlled_config_paths:
+  - Libs/configs/data/adni_controlled_access.yaml
+  controlled_path_roots:
+  - Input/private/adni
+  - Input/processed/adni
+  controlled_source_classes:
+  - controlled_access_participant_data
+  - controlled_synapse_asset
+  - DUA_bound_participant_level_source
+  controlled_boolean_keys:
+  - controlled_access
+  - controlled_access_required
+  - requires_controlled_access
+  - dua_required
+  - data_use_agreement_required
+  - participant_level_controlled
+  - non_public_source
+  public_routes:
+  - route_id: public_source_registry
+    route_class: config
+    dotted_path: sources
+  - route_id: public_download_registry
+    route_class: config
+    dotted_path: public_downloads
+  - route_id: public_data_path_registry
+    route_class: config
+    dotted_path: data
+  - route_id: public_experiment_registry
+    route_class: experiment
+    dotted_path: paper_experiments
+  - route_id: public_suite_experiment_families
+    route_class: experiment
+    dotted_path: paper_grade_full_suite.experiment_families
+  - route_id: public_suite_task_registry
+    route_class: experiment
+    dotted_path: paper_grade_full_suite.tasks
+  - route_id: public_tool_routes
+    route_class: tool
+    dotted_path: screening_pipeline.screening_benchmark.active_learning
+  - route_id: public_baseline_tool_adapters
+    route_class: tool
+    dotted_path: baseline_adapter_registry
+  - route_id: public_external_tool_environment
+    route_class: tool
+    dotted_path: execution_environment
+  - route_id: public_osp_tool_environment
+    route_class: tool
+    dotted_path: osp_pksim_environment
+  - route_id: public_report_release_commands
+    route_class: report_release
+    dotted_path: paper.publication_claim_suite.final_report_commands
+  - route_id: public_required_report_outputs
+    route_class: report_release
+    dotted_path: paper.publication_readiness.report_outputs.required_artifacts
+  - route_id: public_release_materialization_policy
+    route_class: report_release
+    dotted_path: paper.publication_readiness.submission_policy.formal_result_materialization_policy
+  - route_id: anonymous_package_contents
+    route_class: anonymous_package
+    dotted_path: paper.publication_readiness.submission_policy.anonymous_package_contents
+  governance_only_contexts:
+  - dotted_path: public_mainline_isolation
+    context_role: isolation_contract
+    executable: false
+    public_evidence_allowed: false
+  - dotted_path: iclr_design_contract_union.policies.excluded_controlled_sources
+    context_role: controlled_exclusion_policy
+    executable: false
+    public_evidence_allowed: false
+  - dotted_path: iclr_design_contract_union.g0_blocker_posture
+    context_role: g0_blocker_record
+    executable: false
+    public_evidence_allowed: false
+  - dotted_path: paper_grade_full_suite.controlled_access_policy
+    context_role: controlled_exclusion_policy
+    executable: false
+    public_evidence_allowed: false
+  - dotted_path: paper.publication_readiness.report_outputs.controlled_access_optional_artifacts
+    context_role: controlled_optional_report_contract
+    executable: false
+    public_evidence_allowed: false
+  - dotted_path: supplemental_milestone_contracts.publication_readiness.controlled_access_optional_report_artifacts
+    context_role: controlled_optional_report_contract
+    executable: false
+    public_evidence_allowed: false
+  - dotted_path: round18_literature_replay.policies.public_source.rejected_routes
+    context_role: controlled_exclusion_policy
+    executable: false
+    public_evidence_allowed: false
+  - dotted_path: round18_literature_replay.policies.public_source.negative_routes
+    context_role: controlled_exclusion_policy
+    executable: false
+    public_evidence_allowed: false
+  controlled_entrypoints:
+  - Libs/scripts/data_acquisition/sync_adni_controlled_access.py
+  - Libs/scripts/builders/build_adni_controlled_registry.py
+  - Libs/scripts/validators/validate_adni_controlled_access.py
+  - Libs/exp/evaluation/run_adni_controlled_state_inference_benchmark.py
+  governance_only_static_entrypoints:
+  - Libs/scripts/validators/validate_publication_readiness_contracts.py
+  - Libs/scripts/validators/validate_formal_experiment_readiness.py
+  - Libs/scripts/validators/validate_paper_grade_full_suite.py
+  - Libs/utils/data/iclr_contract_union.py
+  static_scan_roots:
+  - Libs
+  static_route_class_prefixes:
+    config:
+    - Libs/configs
+    - Libs/data
+    - Libs/models
+    - Libs/utils
+    experiment:
+    - Libs/exp/training
+    - Libs/exp/evaluation
+    tool:
+    - Libs/scripts/builders
+    - Libs/scripts/data_acquisition
+    - Libs/scripts/services
+    report_release:
+    - Libs/exp/export
+    - Libs/exp/submission
+    - Libs/scripts/reports
+    anonymous_package:
+    - Libs/scripts/package
+    - Libs/scripts/release
+  output_paths:
+    config_graph: Output/audits/public_mainline_config_graph.json
+    isolation_audit: Output/audits/public_mainline_isolation_audit.json
+    remediation_report: Output/audits/g0_public_mainline_remediation_report.json
+validation:
+  design_contract_coverage:
+    schema_version: iclr-design-contract-coverage-v2
+    docs_root: Docs/design/iclr
+    expected_document_count: 39
+    output_json: Output/audits/design_contract_coverage.json
+    output_summary_tsv: Output/audits/design_contract_coverage_summary.tsv
+    allowed_document_statuses: [canonical, extends, superseded, historical, reference-only]
+    allowed_source_statuses: [active_contract, evidence_reference, historical_reference, generated_manifest]
+    documents:
+    - path: Docs/design/iclr/00_MASTER_ORCHESTRATION.md
+      document_status: canonical
+      source_status: active_contract
+      precedence_id: canonical_design
+      canonical_contract_ids: [orchestration-gates]
+      owning_milestone_id: contract-naming-freeze
+      owning_direction_id: recover-historical-lineage-evidence
+      downstream_consumer_ids: [controller, all-later-gates]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator, orchestrator-state-validator]
+      mandatory_requirement_ids: [req_orchestration_gates, req_contract_round_no_jobs]
+      conflicts:
+      - {conflict_id: L, resolution: Canonical public identity is frozen while migration remains pending.}
+      - {conflict_id: C, resolution: Exact v2 claims override legacy claim meanings without result promotion.}
+      - {conflict_id: D, resolution: Generated audits own counts until lineage reconciliation.}
+      supersedes: []
+    - path: Docs/design/iclr/01_SCIENTIFIC_THESIS_AND_SCOPE.md
+      document_status: canonical
+      source_status: active_contract
+      precedence_id: canonical_design
+      canonical_contract_ids: [scope-claims]
+      owning_milestone_id: contract-naming-freeze
+      owning_direction_id: recover-historical-lineage-evidence
+      downstream_consumer_ids: [controller, report-builder]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator, publication-validator]
+      mandatory_requirement_ids: [req_scope_claims]
+      conflicts:
+      - {conflict_id: C, resolution: Frozen v2 claim meanings govern all downstream evidence.}
+      - {conflict_id: E, resolution: All claim wording remains conditional on empirical gates.}
+      supersedes: []
+    - path: Docs/design/iclr/02_CONTRIBUTION_BOUNDARIES.md
+      document_status: canonical
+      source_status: active_contract
+      precedence_id: canonical_design
+      canonical_contract_ids: [scope-claims, naming-migration]
+      owning_milestone_id: contract-naming-freeze
+      owning_direction_id: recover-historical-lineage-evidence
+      downstream_consumer_ids: [naming-migration, report-builder]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator, publication-validator]
+      mandatory_requirement_ids: [req_scope_claims, req_naming_migration, req_public_neuronsifter_identity]
+      conflicts:
+      - {conflict_id: L, resolution: NeuronSifter is canonical and legacy names are migration-only.}
+      - {conflict_id: C, resolution: Legacy claims cannot redefine or satisfy C1-C5.}
+      - {conflict_id: P, resolution: Controlled sources cannot enter the public mainline.}
+      supersedes: []
+    - path: Docs/design/iclr/03_SYSTEM_ARCHITECTURE.md
+      document_status: canonical
+      source_status: active_contract
+      precedence_id: canonical_design
+      canonical_contract_ids: [system-architecture]
+      owning_milestone_id: contract-naming-freeze
+      owning_direction_id: recover-historical-lineage-evidence
+      downstream_consumer_ids: [config-loader, all-model-tool-consumers]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator, supplemental-contract-validator]
+      mandatory_requirement_ids: [req_system_architecture]
+      conflicts:
+      - {conflict_id: L, resolution: Canonical interfaces use NeuronSifter identity.}
+      - {conflict_id: P, resolution: Public-only scope is part of every architecture consumer contract.}
+      supersedes: []
+    - path: Docs/design/iclr/04_PUBLIC_DATA_FOUNDATION.md
+      document_status: canonical
+      source_status: active_contract
+      precedence_id: canonical_design
+      canonical_contract_ids: [public-data-governance]
+      owning_milestone_id: public-corpus-splits
+      owning_direction_id: canonicalize-and-freeze-splits
+      downstream_consumer_ids: [public-data, strict-splits]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator]
+      mandatory_requirement_ids: [req_public_data_governance, req_controlled_access_exclusion]
+      conflicts:
+      - {conflict_id: P, resolution: Controlled and license-unresolved sources are excluded.}
+      - {conflict_id: D, resolution: Current generated audits own numeric facts.}
+      supersedes: []
+    - path: Docs/design/iclr/05_PUBLIC_DATA_SOURCE_CATALOG.md
+      document_status: canonical
+      source_status: active_contract
+      precedence_id: canonical_design
+      canonical_contract_ids: [source-governance]
+      owning_milestone_id: public-corpus-splits
+      owning_direction_id: govern-materialize-public-sources
+      downstream_consumer_ids: [public-data]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator]
+      mandatory_requirement_ids: [req_source_governance]
+      conflicts:
+      - {conflict_id: P, resolution: Candidate listing does not admit controlled sources.}
+      - {conflict_id: V, resolution: Official terms and releases remain pending live verification.}
+      supersedes: []
+    - path: Docs/design/iclr/06_LITERATURE_NEIGHBOR_AUDIT.md
+      document_status: canonical
+      source_status: active_contract
+      precedence_id: canonical_design
+      canonical_contract_ids: [literature-positioning]
+      owning_milestone_id: publication-integrity-release
+      owning_direction_id: build-iclr-reports-and-claim-gates
+      downstream_consumer_ids: [foundation, world-action, tool-acquisition, report-builder]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator]
+      mandatory_requirement_ids: [req_literature_positioning]
+      conflicts:
+      - {conflict_id: V, resolution: Version and publication status require refresh before manuscript freeze.}
+      supersedes: []
+    - path: Docs/design/iclr/07_REVISED_CLAIM_EXPERIMENT_MATRIX.md
+      document_status: canonical
+      source_status: active_contract
+      precedence_id: canonical_design
+      canonical_contract_ids: [claim-registry, experiment-statistics]
+      owning_milestone_id: contract-naming-freeze
+      owning_direction_id: recover-historical-lineage-evidence
+      downstream_consumer_ids: [all-c1-c5-runners, report-builder]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator, publication-validator]
+      mandatory_requirement_ids: [req_claim_registry, req_claim_results_pending, req_experiment_statistics]
+      conflicts:
+      - {conflict_id: C, resolution: Exact C1-C5 ids and meanings are frozen by this union.}
+      supersedes: []
+    - path: Docs/design/iclr/08_EXPERIMENT_EXECUTION_PLAN.md
+      document_status: extends
+      source_status: active_contract
+      precedence_id: execution_guidance
+      canonical_contract_ids: [experiment-execution, roadmap-gates]
+      owning_milestone_id: contract-naming-freeze
+      owning_direction_id: recover-historical-lineage-evidence
+      downstream_consumer_ids: [controller, all-experiment-runners]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator, orchestrator-state-validator]
+      mandatory_requirement_ids: [req_experiment_execution, req_roadmap_gates]
+      conflicts:
+      - {conflict_id: C, resolution: Execution consumes the frozen v2 claim namespace.}
+      - {conflict_id: P, resolution: Execution cannot resolve controlled sources into public runs.}
+      - {conflict_id: R, resolution: Runtime values come from the installed YAML stack.}
+      supersedes: []
+    - path: Docs/design/iclr/09_METRIC_ACCEPTANCE_CONTRACT.md
+      document_status: canonical
+      source_status: active_contract
+      precedence_id: canonical_design
+      canonical_contract_ids: [experiment-statistics]
+      owning_milestone_id: contract-naming-freeze
+      owning_direction_id: recover-historical-lineage-evidence
+      downstream_consumer_ids: [c1-c5-evaluators, report-builder]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator, publication-validator]
+      mandatory_requirement_ids: [req_experiment_statistics, req_validation_only_calibration]
+      conflicts:
+      - {conflict_id: C, resolution: Metrics bind to exact v2 claims and pending result statuses.}
+      supersedes: []
+    - path: Docs/design/iclr/10_TOOL_ACQUISITION_BENCHMARK.md
+      document_status: canonical
+      source_status: active_contract
+      precedence_id: canonical_design
+      canonical_contract_ids: [tool-acquisition]
+      owning_milestone_id: tool-acquisition-evidence
+      owning_direction_id: execute-c3-offline-and-real
+      downstream_consumer_ids: [tool-acquisition]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator]
+      mandatory_requirement_ids: [req_tool_acquisition]
+      conflicts:
+      - {conflict_id: N, resolution: This is the canonical C3 benchmark contract.}
+      supersedes: []
+    - path: Docs/design/iclr/11_CODEX_IMPLEMENTATION_PLAYBOOK.md
+      document_status: extends
+      source_status: active_contract
+      precedence_id: execution_guidance
+      canonical_contract_ids: [repository-implementation, command-acceptance]
+      owning_milestone_id: contract-naming-freeze
+      owning_direction_id: recover-historical-lineage-evidence
+      downstream_consumer_ids: [implementers, controller]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator]
+      mandatory_requirement_ids: [req_repository_implementation, req_command_acceptance]
+      conflicts:
+      - {conflict_id: L, resolution: Naming work remains a later bounded direction.}
+      - {conflict_id: P, resolution: Public-only policy constrains every implementation phase.}
+      - {conflict_id: T, resolution: Target paths map into the existing Libs tree.}
+      supersedes: []
+    - path: Docs/design/iclr/12_REPOSITORY_NAMING_MIGRATION.md
+      document_status: canonical
+      source_status: active_contract
+      precedence_id: canonical_design
+      canonical_contract_ids: [naming-migration]
+      owning_milestone_id: contract-naming-freeze
+      owning_direction_id: recover-historical-lineage-evidence
+      downstream_consumer_ids: [naming-migration]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator]
+      mandatory_requirement_ids: [req_naming_migration, req_public_neuronsifter_identity]
+      conflicts:
+      - {conflict_id: L, resolution: Canonical names and allowlisted migration-only legacy locations are explicit.}
+      supersedes: []
+    - path: Docs/design/iclr/13_ARTIFACT_AND_SCHEMA_CONTRACTS.md
+      document_status: canonical
+      source_status: active_contract
+      precedence_id: canonical_design
+      canonical_contract_ids: [artifact-schema]
+      owning_milestone_id: contract-naming-freeze
+      owning_direction_id: recover-historical-lineage-evidence
+      downstream_consumer_ids: [config-loader, all-artifact-producers]
+      responsible_validator_ids: [config-stack-validator, contract-union-validator, design-coverage-validator]
+      mandatory_requirement_ids: [req_artifact_schema]
+      conflicts:
+      - {conflict_id: R, resolution: Preview schemas are normalized into runtime field unions without becoming includes.}
+      supersedes: []
+    - path: Docs/design/iclr/14_TEST_AND_VALIDATION_PLAN.md
+      document_status: canonical
+      source_status: active_contract
+      precedence_id: canonical_design
+      canonical_contract_ids: [validation-acceptance]
+      owning_milestone_id: contract-naming-freeze
+      owning_direction_id: recover-historical-lineage-evidence
+      downstream_consumer_ids: [all-validators, reviewer]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator]
+      mandatory_requirement_ids: [req_validation_acceptance, req_no_acceptance_standins, req_no_silent_fallback]
+      conflicts:
+      - {conflict_id: N, resolution: This is the canonical validation acceptance contract.}
+      supersedes: []
+    - path: Docs/design/iclr/15_HPC_EXECUTION_AND_OBSERVABILITY.md
+      document_status: canonical
+      source_status: active_contract
+      precedence_id: canonical_design
+      canonical_contract_ids: [hpc-observability]
+      owning_milestone_id: contract-naming-freeze
+      owning_direction_id: recover-historical-lineage-evidence
+      downstream_consumer_ids: [slurm-validation-later-runners]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator]
+      mandatory_requirement_ids: [req_hpc_observability]
+      conflicts:
+      - {conflict_id: N, resolution: YAML resources and visible terminal failures govern HPC work.}
+      supersedes: []
+    - path: Docs/design/iclr/16_INTEGRITY_AUDIT.md
+      document_status: canonical
+      source_status: active_contract
+      precedence_id: canonical_design
+      canonical_contract_ids: [integrity-claim-discipline]
+      owning_milestone_id: publication-integrity-release
+      owning_direction_id: audit-and-package-release
+      downstream_consumer_ids: [report-builder, release-audit]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator, publication-validator]
+      mandatory_requirement_ids: [req_integrity_claim_discipline]
+      conflicts:
+      - {conflict_id: L, resolution: Public legacy naming remains a visible migration task.}
+      - {conflict_id: C, resolution: Legacy claim assets cannot promote v2 evidence.}
+      - {conflict_id: P, resolution: Controlled branches cannot satisfy public gates.}
+      - {conflict_id: D, resolution: Numeric drift remains pending under generated-audit precedence.}
+      - {conflict_id: E, resolution: Design consistency is distinct from empirical deployment.}
+      supersedes: []
+    - path: Docs/design/iclr/17_RISK_REGISTER_AND_REBUTTAL_BANK.md
+      document_status: extends
+      source_status: active_contract
+      precedence_id: execution_guidance
+      canonical_contract_ids: [integrity-claim-discipline, publication-gates]
+      owning_milestone_id: publication-integrity-release
+      owning_direction_id: build-iclr-reports-and-claim-gates
+      downstream_consumer_ids: [report-builder, release-audit]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator, publication-validator]
+      mandatory_requirement_ids: [req_integrity_claim_discipline, req_publication_gates]
+      conflicts:
+      - {conflict_id: L, resolution: Naming risk stays visible until migration audit passes.}
+      - {conflict_id: C, resolution: Rebuttal wording follows exact frozen claim meanings.}
+      - {conflict_id: D, resolution: Numeric claims require generated evidence.}
+      - {conflict_id: E, resolution: Rebuttal cannot promote pending empirical work.}
+      supersedes: []
+    - path: Docs/design/iclr/18_REPRODUCIBILITY_AND_RELEASE_PLAN.md
+      document_status: canonical
+      source_status: active_contract
+      precedence_id: canonical_design
+      canonical_contract_ids: [reproducibility-release]
+      owning_milestone_id: publication-integrity-release
+      owning_direction_id: audit-and-package-release
+      downstream_consumer_ids: [release-audit]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator]
+      mandatory_requirement_ids: [req_reproducibility_release]
+      conflicts:
+      - {conflict_id: P, resolution: Controlled and nonredistributable artifacts are excluded from release.}
+      - {conflict_id: V, resolution: Official policy and source terms require current verification.}
+      supersedes: []
+    - path: Docs/design/iclr/19_ROADMAP_AND_STAGE_GATES.md
+      document_status: canonical
+      source_status: active_contract
+      precedence_id: canonical_design
+      canonical_contract_ids: [roadmap-gates]
+      owning_milestone_id: contract-naming-freeze
+      owning_direction_id: recover-historical-lineage-evidence
+      downstream_consumer_ids: [controller, state-validator]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator, orchestrator-state-validator]
+      mandatory_requirement_ids: [req_roadmap_gates]
+      conflicts:
+      - {conflict_id: N, resolution: Active roadmap lineage owns current sequencing.}
+      supersedes: []
+    - path: Docs/design/iclr/20_CCFA_HANDOFFS.md
+      document_status: extends
+      source_status: active_contract
+      precedence_id: execution_guidance
+      canonical_contract_ids: [orchestration-gates]
+      owning_milestone_id: contract-naming-freeze
+      owning_direction_id: recover-historical-lineage-evidence
+      downstream_consumer_ids: [controller, implementers]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator]
+      mandatory_requirement_ids: [req_orchestration_gates]
+      conflicts:
+      - {conflict_id: H, resolution: Handoff evidence cannot override active roadmap or machine lineage.}
+      supersedes: []
+    - path: Docs/design/iclr/21_REPOSITORY_TARGET_TREE.md
+      document_status: extends
+      source_status: active_contract
+      precedence_id: execution_guidance
+      canonical_contract_ids: [repository-ownership, system-architecture]
+      owning_milestone_id: contract-naming-freeze
+      owning_direction_id: recover-historical-lineage-evidence
+      downstream_consumer_ids: [config-loader, implementers]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator]
+      mandatory_requirement_ids: [req_repository_ownership, req_system_architecture]
+      conflicts:
+      - {conflict_id: T, resolution: Semantic targets map into the inspected Libs tree without duplication.}
+      supersedes: []
+    - path: Docs/design/iclr/22_IMPLEMENTATION_TASK_LEDGER.md
+      document_status: canonical
+      source_status: active_contract
+      precedence_id: canonical_design
+      canonical_contract_ids: [implementation-ledger, roadmap-gates]
+      owning_milestone_id: contract-naming-freeze
+      owning_direction_id: recover-historical-lineage-evidence
+      downstream_consumer_ids: [controller, implementers, reviewer]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator, orchestrator-state-validator]
+      mandatory_requirement_ids: [req_implementation_ledger, req_roadmap_gates]
+      conflicts:
+      - {conflict_id: N, resolution: Task status and dependency vocabulary are frozen.}
+      supersedes: []
+    - path: Docs/design/iclr/23_DATA_MATERIALIZATION_RUNBOOK.md
+      document_status: extends
+      source_status: active_contract
+      precedence_id: execution_guidance
+      canonical_contract_ids: [data-materialization, source-governance]
+      owning_milestone_id: public-corpus-splits
+      owning_direction_id: govern-materialize-public-sources
+      downstream_consumer_ids: [public-data, strict-splits]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator]
+      mandatory_requirement_ids: [req_data_materialization, req_source_governance]
+      conflicts:
+      - {conflict_id: P, resolution: Public-only admission and controlled exclusion remain mandatory.}
+      - {conflict_id: V, resolution: Live official terms verification is deferred to materialization.}
+      supersedes: []
+    - path: Docs/design/iclr/24_TOOL_ADAPTER_AND_SECURITY_CONTRACT.md
+      document_status: canonical
+      source_status: active_contract
+      precedence_id: canonical_design
+      canonical_contract_ids: [tool-adapter-security, tool-acquisition]
+      owning_milestone_id: tool-acquisition-evidence
+      owning_direction_id: build-typed-tool-environment
+      downstream_consumer_ids: [tool-runtime]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator]
+      mandatory_requirement_ids: [req_tool_adapter_security, req_tool_acquisition]
+      conflicts:
+      - {conflict_id: N, resolution: Typed registry-only execution is canonical.}
+      supersedes: []
+    - path: Docs/design/iclr/25_MODEL_TRAINING_EVALUATION_RUNBOOK.md
+      document_status: extends
+      source_status: active_contract
+      precedence_id: execution_guidance
+      canonical_contract_ids: [model-training-evaluation, experiment-execution]
+      owning_milestone_id: foundation-transfer
+      owning_direction_id: implement-foundation-objectives
+      downstream_consumer_ids: [foundation, world-action, tri-scale]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator, supplemental-contract-validator]
+      mandatory_requirement_ids: [req_model_training_evaluation, req_experiment_execution]
+      conflicts:
+      - {conflict_id: L, resolution: Future training uses canonical model identity after migration.}
+      - {conflict_id: C, resolution: Training outputs cannot promote pending v2 claims.}
+      supersedes: []
+    - path: Docs/design/iclr/26_COMMAND_AND_ACCEPTANCE_RUNBOOK.md
+      document_status: extends
+      source_status: active_contract
+      precedence_id: execution_guidance
+      canonical_contract_ids: [command-acceptance, validation-acceptance]
+      owning_milestone_id: contract-naming-freeze
+      owning_direction_id: recover-historical-lineage-evidence
+      downstream_consumer_ids: [implementers, all-validators]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator]
+      mandatory_requirement_ids: [req_command_acceptance, req_validation_acceptance]
+      conflicts:
+      - {conflict_id: R, resolution: Preview commands map to maintained runtime entrypoints.}
+      - {conflict_id: T, resolution: Current repository paths win over target examples.}
+      supersedes: []
+    - path: Docs/design/iclr/27_PUBLICATION_REPORT_AND_CLAIM_GATE.md
+      document_status: canonical
+      source_status: active_contract
+      precedence_id: canonical_design
+      canonical_contract_ids: [publication-gates, experiment-statistics]
+      owning_milestone_id: publication-integrity-release
+      owning_direction_id: build-iclr-reports-and-claim-gates
+      downstream_consumer_ids: [report-builder, release-audit]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator, publication-validator]
+      mandatory_requirement_ids: [req_publication_gates, req_experiment_statistics, req_claim_results_pending]
+      conflicts:
+      - {conflict_id: C, resolution: Publication gates consume frozen v2 claims only.}
+      - {conflict_id: E, resolution: No claim is promoted by contract installation.}
+      supersedes: []
+    - path: Docs/design/iclr/28_SOURCE_BASIS_AND_TRACEABILITY.md
+      document_status: canonical
+      source_status: active_contract
+      precedence_id: canonical_design
+      canonical_contract_ids: [source-traceability]
+      owning_milestone_id: contract-naming-freeze
+      owning_direction_id: recover-historical-lineage-evidence
+      downstream_consumer_ids: [union-validator, report-builder]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator]
+      mandatory_requirement_ids: [req_source_traceability]
+      conflicts:
+      - {conflict_id: D, resolution: Generated evidence owns numeric facts by domain.}
+      - {conflict_id: H, resolution: Historical records cannot override current contracts.}
+      - {conflict_id: V, resolution: External source and policy currency remains pending.}
+      supersedes: []
+    - path: Docs/design/iclr/29_DELIVERABLE_QUALITY_AUDIT.md
+      document_status: canonical
+      source_status: active_contract
+      precedence_id: canonical_design
+      canonical_contract_ids: [package-quality, integrity-claim-discipline]
+      owning_milestone_id: publication-integrity-release
+      owning_direction_id: audit-and-package-release
+      downstream_consumer_ids: [union-validator, release-audit]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator]
+      mandatory_requirement_ids: [req_package_quality, req_integrity_claim_discipline]
+      conflicts:
+      - {conflict_id: E, resolution: Design-package pass remains distinct from deployment and empirical acceptance.}
+      supersedes: []
+    - path: Docs/design/iclr/CHANGELOG.md
+      document_status: historical
+      source_status: historical_reference
+      precedence_id: historical_only
+      canonical_contract_ids: [package-metadata]
+      owning_milestone_id: contract-naming-freeze
+      owning_direction_id: recover-historical-lineage-evidence
+      downstream_consumer_ids: [release-audit]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator]
+      mandatory_requirement_ids: [req_package_metadata]
+      conflicts:
+      - {conflict_id: H, resolution: History records changes but cannot own or supersede canonical fields.}
+      supersedes: []
+    - path: Docs/design/iclr/FILE_MANIFEST.md
+      document_status: reference-only
+      source_status: generated_manifest
+      precedence_id: generated_manifest
+      canonical_contract_ids: [package-metadata, reproducibility-release]
+      owning_milestone_id: publication-integrity-release
+      owning_direction_id: audit-and-package-release
+      downstream_consumer_ids: [union-validator, release-audit]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator]
+      mandatory_requirement_ids: [req_package_metadata, req_reproducibility_release]
+      conflicts:
+      - {conflict_id: H, resolution: Hashes prove package identity but cannot define semantics.}
+      supersedes: []
+    - path: Docs/design/iclr/README.md
+      document_status: canonical
+      source_status: active_contract
+      precedence_id: canonical_design
+      canonical_contract_ids: [package-metadata, orchestration-gates, scope-claims]
+      owning_milestone_id: contract-naming-freeze
+      owning_direction_id: recover-historical-lineage-evidence
+      downstream_consumer_ids: [controller, implementers]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator]
+      mandatory_requirement_ids: [req_package_metadata, req_orchestration_gates, req_scope_claims]
+      conflicts:
+      - {conflict_id: C, resolution: Claims remain bound to the frozen v2 registry.}
+      - {conflict_id: E, resolution: Design entrypoint wording remains conditional on empirical gates.}
+      supersedes: []
+    - path: Docs/design/iclr/codex/CODEX_DEFINITION_OF_DONE.md
+      document_status: extends
+      source_status: active_contract
+      precedence_id: execution_guidance
+      canonical_contract_ids: [validation-acceptance, command-acceptance]
+      owning_milestone_id: contract-naming-freeze
+      owning_direction_id: recover-historical-lineage-evidence
+      downstream_consumer_ids: [implementers, reviewer]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator]
+      mandatory_requirement_ids: [req_validation_acceptance, req_command_acceptance]
+      conflicts:
+      - {conflict_id: E, resolution: Zero union blockers does not imply full deployment.}
+      supersedes: []
+    - path: Docs/design/iclr/codex/CODEX_MASTER_PROMPT.md
+      document_status: extends
+      source_status: active_contract
+      precedence_id: execution_guidance
+      canonical_contract_ids: [repository-implementation, orchestration-gates]
+      owning_milestone_id: contract-naming-freeze
+      owning_direction_id: recover-historical-lineage-evidence
+      downstream_consumer_ids: [implementers, controller]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator]
+      mandatory_requirement_ids: [req_repository_implementation, req_orchestration_gates]
+      conflicts:
+      - {conflict_id: L, resolution: Public identity migration remains a later bounded round.}
+      - {conflict_id: P, resolution: Public-only policy is mandatory.}
+      - {conflict_id: T, resolution: The active roadmap extraction constrains target path guidance.}
+      supersedes: []
+    - path: Docs/design/iclr/codex/CODEX_PHASE_PROMPTS.md
+      document_status: extends
+      source_status: active_contract
+      precedence_id: execution_guidance
+      canonical_contract_ids: [implementation-ledger, roadmap-gates]
+      owning_milestone_id: contract-naming-freeze
+      owning_direction_id: recover-historical-lineage-evidence
+      downstream_consumer_ids: [controller, implementers]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator, orchestrator-state-validator]
+      mandatory_requirement_ids: [req_implementation_ledger, req_roadmap_gates]
+      conflicts:
+      - {conflict_id: H, resolution: Active roadmap direction sequencing overrides broad historical phase wording.}
+      supersedes: []
+    - path: Docs/design/iclr/codex/CODEX_REVIEW_CHECKLIST.md
+      document_status: extends
+      source_status: active_contract
+      precedence_id: execution_guidance
+      canonical_contract_ids: [validation-acceptance, integrity-claim-discipline]
+      owning_milestone_id: publication-integrity-release
+      owning_direction_id: audit-and-package-release
+      downstream_consumer_ids: [reviewer, release-audit]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator]
+      mandatory_requirement_ids: [req_validation_acceptance, req_integrity_claim_discipline]
+      conflicts:
+      - {conflict_id: E, resolution: Empirical and release checks remain pending after contract installation.}
+      supersedes: []
+    - path: Docs/design/iclr/literature-search-20260713-neuronsifter-neighbor-audit/papers.md
+      document_status: reference-only
+      source_status: evidence_reference
+      precedence_id: evidence_basis
+      canonical_contract_ids: [literature-positioning]
+      owning_milestone_id: publication-integrity-release
+      owning_direction_id: build-iclr-reports-and-claim-gates
+      downstream_consumer_ids: [foundation, world-action, tool-acquisition, report-builder]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator]
+      mandatory_requirement_ids: [req_literature_positioning]
+      conflicts:
+      - {conflict_id: H, resolution: Literature evidence cannot override the contract union.}
+      - {conflict_id: V, resolution: Version and venue status require refresh before use.}
+      supersedes: []
+    - path: Docs/design/iclr/literature-search-20260713-neuronsifter-neighbor-audit/search-notes.md
+      document_status: reference-only
+      source_status: evidence_reference
+      precedence_id: evidence_basis
+      canonical_contract_ids: [literature-positioning, source-traceability]
+      owning_milestone_id: publication-integrity-release
+      owning_direction_id: build-iclr-reports-and-claim-gates
+      downstream_consumer_ids: [report-builder, release-audit]
+      responsible_validator_ids: [contract-union-validator, design-coverage-validator]
+      mandatory_requirement_ids: [req_literature_positioning, req_source_traceability]
+      conflicts:
+      - {conflict_id: H, resolution: Search method records cannot override canonical semantics.}
+      - {conflict_id: V, resolution: Search currency remains pending before publication.}
+      supersedes: []

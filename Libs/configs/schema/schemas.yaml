@@ -1,0 +1,3819 @@
+schemas:
+  native_stochastic_smoke:
+    schema_version: native_stochastic_smoke.v1
+    weights_status: randomly_initialized
+    scientific_quality: NOT_EVALUATED
+    required_fields: [schema_version, smoke_status, weights_status, scientific_quality, publication_eligible, model_parameters, native_backbone_parameters, normalization_id, groups, actual_calls, resources]
+    input_scope: original_public_initial_support_observations_and_programs_only
+    target_arrays: forbidden
+    completion_scope: full_native_runtime_only_not_training_or_scientific_qualification
+  native_public_cns_reference:
+    schema_version: native_public_cns_reference.v1
+    required_fields: [schema_version, policy, fit_role, training_records, training_group_uids, endpoints, endpoint_units, status, scientific_twin, formal_qualification, reference_id]
+    fit_roles: [train]
+    unavailable_scale: constant_or_unsupported_endpoint
+  native_adaptive_scale_policy:
+    schema_version: native_adaptive_scale_policy.v1
+    status_variants:
+      insufficient_data:
+        required_fields: [schema_version, method, command, status, denominator, reason, model_calls, additional_optimizer_updates, source_provider_calls, calibration_outcome_access, scientific_twin, formal_qualification]
+        zero_fields: [model_calls, additional_optimizer_updates, source_provider_calls]
+        false_fields: [calibration_outcome_access, formal_qualification]
+        forbidden_fields: [binding, policy_id, thresholds, calibration_id, fit_calibration_id, quantiles]
+    required_fields: [schema_version, status, definition_status, binding, policy_id, thresholds, fit_role, fit_group_uids, denominator, development_collection, mean_selected_controlled_oracle_regret, mean_resident_cost_seconds, large_only_mean_resident_cost_seconds]
+    fit_role: development
+    additional_optimizer_updates: 0
+  native_scale_selected_calibration:
+    schema_version: native_scale_selected_calibration.v1
+    status_variants:
+      insufficient_data:
+        required_fields: [schema_version, method, command, status, denominator, reason, model_calls, additional_optimizer_updates, source_provider_calls, calibration_outcome_access, scientific_twin, formal_qualification]
+        zero_fields: [model_calls, additional_optimizer_updates, source_provider_calls]
+        false_fields: [calibration_outcome_access, formal_qualification]
+        forbidden_fields: [binding, policy_id, thresholds, calibration_id, fit_calibration_id, quantiles]
+    required_fields: [schema_version, status, binding, policy_id, calibration_id, fit_calibration_id, fit_group_uids, check_group_uids, quantiles, independent_check_complete, check_coverage]
+    fit_reservation: fit
+    check_reservation: check
+    threshold_reservation_used: false
+  native_scale_evaluation:
+    schema_version: native_scale_evaluation.v1
+    status_variants:
+      insufficient_data:
+        required_fields: [schema_version, method, command, status, denominator, reason, model_calls, additional_optimizer_updates, source_provider_calls, calibration_outcome_access, scientific_twin, formal_qualification]
+        zero_fields: [model_calls, additional_optimizer_updates, source_provider_calls]
+        false_fields: [calibration_outcome_access, formal_qualification]
+        forbidden_fields: [binding, policy_id, thresholds, calibration_id, fit_calibration_id, quantiles]
+    required_fields: [schema_version, method, routing_policy, conditioning, reference_id, upstream_checkpoints, declared_group_count, groups, status, scientific_twin, formal_qualification]
+    decision_input: initial_support_retained_observations_compiled_actions_only
+    cost: actual_requested_stage_calls_and_measured_execution
+  native_intervention_evaluation:
+    schema_version: native_intervention_evaluation.v1
+    required_fields: [schema_version, method, binding, reference_id, groups, declared_group_count, status, scientific_twin, formal_qualification]
+  controlled_neural_observable_source:
+    required_fields: [source_identity, definition, groups, cases, operations, resource_limit, source_status]
+    production_groups: 18
+    production_cases: 36
+    production_operations: 390
+    operation_replay: forbidden
+  physical_target_site_domain:
+    required_fields: [mask, semantics, excluded_site_meaning, evidence_ref]
+    semantics: target_program_support_not_concentration_absence
+    excluded_site_meaning: outside_declared_target_program
+    legacy_default: complete_grid_coverage
+  native_numerical_stimulation_program:
+    schema_version: native_numerical_stimulation_program.v1
+    required_fields: [program_uid, action_uid, action_field, time_grid, quantity_profile_sha256, arrays]
+    forcing_arrays: [electrical_current_uA, electrical_applicability, optical_power_mW, optical_applicability]
+  native_diffusion_family_index:
+    schema_version: native_diffusion_family_index.v1
+    required_fields: [schema_version, quantity_profile_sha256, family_registries]
+    selection: explicit_source_family_uid
+  native_observable_field_normalization:
+    schema_version: native_field_normalization.v2
+    rule: qc_weighted_supported_cells_with_complete_particle_haar_support
+    required_fields: [domain, registered_grids, training_records, supported_cell_count, weighted_supported_cell_count]
+    fit_role: train
+  native_observable_quantity_profile:
+    schema_version: native_observable_quantity_profile.v1
+    required_fields: [profile_uid, quantities, region_id, compartment_id, families]
+    core_quantity_count: 15
+    auxiliary_quantity_count: 11
+    family_grid_lengths: [7, 8, 7]
+  native_exact_zero_uncertainty:
+    required_fields: [status, derivation_kind, derivation_ref, serialization_error, source_snapshot_ref, quantity]
+  native_transolver_residual:
+    schema_version: native_transolver_residual.v1
+    required_fields: [schema_version, status, law, reference_time_hours, scales, binding, numerical, partition, admission, fit_target_records, counts, diagnostics, cost, scientific_twin_status]
+  native_causal_prefix:
+    schema_version: native_causal_prefix.v1
+    contrast_fields:
+    - contrast_uid
+    - sample_uid
+    - episode_uid
+    - regimen_uids
+    - future_knot_hours
+    required_fields:
+    - schema_version
+    - operation
+    - status
+    - diagnostic_status
+    - causal_decision_rule_status
+    - protocol
+    - contrasts
+    - episodes
+    - provenance
+    - metrics
+    - counts
+    row_required_fields:
+    - declared_index
+    - declaration
+    - contrast_uid
+    - sample_uid
+    - episode_uid
+    - regimen_uids
+    - future_knot_hours
+    - source_uid
+    - family_uid
+    - episode_identity
+    - status
+    - reason
+    - configured_draw_count
+    - realized_draw_count
+    - prefix_time_count
+    - valid_coordinate_count
+    - prepared_binding
+    - energy_u_statistic
+    - mc_standard_error
+    - mc_uncertainty_status
+    - paired_path_rms
+    - prediction_provenance
+    defined_statuses:
+    - defined
+    - undefined
+    - failed
+    decision_rule_status: unbound
+  native_rollout_metrics:
+    schema_version: native_rollout_metrics.v1
+    protocol_required_fields: [draw_semantics, crps_estimator, quantile_interpolation, quantile_levels, nominal_coverage, normalization_id]
+    draw_semantics: [emitted_whole_particle_mixture_draws, deterministic_point_mass, mean_only]
+    required_fields: [schema_version, status, source_status, metrics, episodes, protocol, provenance, counts]
+    episode_required_fields: [episode_uid, sample_uid, family_uid, group_kind, source_uid, regimen_uids, action_uids, trajectory_uids, posterior_uids, status, draw_count, total_cell_count, valid_cell_count, metrics]
+  native_direct_mean_checkpoint:
+    required_fields: [prediction_kind, residual_likelihood_status, model_identity, effective_config, conditioning_identity, training_source_registry, training_sources]
+  native_linear_dynamics:
+    schema_version: native_linear_dynamics.v1
+    definition:
+      equation: dx_dtau=A*x+B*p_left+C*z+b
+      state_coordinates: fixed_r60_normalized
+      program_hold: left_endpoint
+      transition: augmented_matrix_exponential
+      transition_dtype: float64
+      time_unit: hour
+      initialization: zero_predictor
+    state_axes:
+    - region
+    - compartment
+    - species
+    program_axes:
+    - region
+    - compartment
+    - occupancy_support
+    context_axes:
+    - region
+    - compartment
+    - context
+    parameters:
+    - A
+    - B
+    - C
+    - b
+    prediction_kind: mean_only
+    residual_likelihood_status: unbound
+    predictive_law_draw_count: 0
+    router_status: not_applicable
+  native_transolver_mean_checkpoint:
+    required_fields: [prediction_kind, residual_likelihood_status, model_identity, effective_config, conditioning_identity, training_source_registry, training_sources]
+  native_predictive_source_units:
+    required_fields: [episode_field, group_field, group_kind, independent_episode_units, evidence_ref]
+  native_training_seed_binding:
+    schema_version: native_training_seed_binding.v1
+    required_fields: [schema_version, seed_policy, allowed_training_seeds, selected_formal_seed, base_training_seed, model_seed, scope]
+  download_receipt_fields:
+  - source_accession
+  - asset_name
+  - asset_url
+  - local_path
+  - download_date
+  - status
+  - size_bytes
+  - note
+  source_manifest_fields:
+  - source_name
+  - source_url
+  - release_label
+  - release_date
+  - download_date
+  - access_mode
+  - license_or_terms
+  - disease_scope
+  - modality_scope
+  - query_scope
+  - local_root
+  - checksum_file
+  - notes
+  accession_fields:
+  - source_accession
+  - title
+  - species
+  - tissue_or_biofluid
+  - modality
+  - sample_context
+  - diagnosis_label
+  - case_count
+  - control_count
+  - public_url
+  - include_flag
+  - exclusion_reason
+  - source_repository
+  - release_type
+  - data_granularity
+  - subject_linkable_flag
+  - provenance_level
+  - world_model_role
+  - cohort_or_atlas_family
+  literature_parameter_fields:
+  - parameter_name
+  - unit
+  - compartment
+  - species
+  - disease_context
+  - lower_bound
+  - upper_bound
+  - distribution_family
+  - central_value_if_reported
+  - citation
+  - source_url
+  - access_date
+  - license_status
+  - extraction_note
+  oasis_tabular_inventory_fields:
+  - asset_family
+  - source_release
+  - modality
+  - priority
+  - public_url
+  - local_target
+  - status
+  - notes
+  oasis_imaging_inventory_fields:
+  - session_id
+  - subject_id
+  - modality
+  - public_url
+  - include_flag
+  - gating_reason
+  - notes
+  processed_asset_fields:
+  - asset_uid
+  - source_key
+  - source_name
+  - asset_group
+  - source_accession
+  - asset_name
+  - asset_url
+  - local_path
+  - status
+  - size_bytes
+  - download_date
+  - access_mode
+  - license_or_terms
+  - redistributable_flag
+  - note
+  processed_study_fields:
+  - study_uid
+  - source_key
+  - source_accession
+  - title
+  - species
+  - tissue_or_biofluid
+  - modality
+  - sample_context
+  - diagnosis_label
+  - case_count
+  - control_count
+  - include_flag
+  - exclusion_reason
+  - source_repository
+  - release_type
+  - data_granularity
+  - subject_linkable_flag
+  - provenance_level
+  - world_model_role
+  - cohort_or_atlas_family
+  - public_url
+  - raw_accession_table
+  - raw_receipt_table
+  - receipt_row_count
+  - downloaded_asset_count
+  - reused_cached_asset_count
+  - blocked_asset_count
+  - prepared_asset_count
+  - not_available_asset_count
+  - initial_batch_selected_flag
+  - model_ready_flag
+  - primary_local_path
+  processed_manual_access_fields:
+  - manual_uid
+  - source_key
+  - source_name
+  - source_accession
+  - asset_name
+  - status
+  - resolution_status
+  - access_mode
+  - asset_url
+  - local_path
+  - manual_action_required_flag
+  - manual_drop_expected_root
+  - required_artifact_pattern
+  - last_reprobe_date
+  - note
+  manual_drop_manifest_fields:
+  - source_accession
+  - asset_name
+  - relative_path
+  - asset_url
+  - license_or_terms_acknowledged_flag
+  - note
+  nemo_discovered_collection_fields:
+  - collection_id
+  - short_name
+  - name
+  - description
+  - access
+  - taxa
+  - keywords
+  - modalities
+  - anatomical_regions
+  - collection_type
+  - publication_title
+  - publication_doi
+  - manifest_count
+  - manifest_urls
+  - manifest_types
+  - manifest_protocols
+  - manifest_file_count_total
+  - manifest_size_bytes_total
+  - processed_manifest_count
+  - raw_manifest_count
+  nemo_ad_aging_collection_fields:
+  - collection_id
+  - short_name
+  - name
+  - description
+  - access
+  - taxa
+  - keywords
+  - modalities
+  - anatomical_regions
+  - collection_type
+  - publication_title
+  - publication_doi
+  - manifest_count
+  - manifest_urls
+  - manifest_types
+  - manifest_protocols
+  - processed_manifest_count
+  - raw_manifest_count
+  - human_flag
+  - access_bucket
+  - match_scope
+  - match_fields
+  - keyword_match_terms
+  - eligibility_bucket
+  - note
+  nemo_candidate_queue_fields:
+  - collection_id
+  - short_name
+  - name
+  - description
+  - access
+  - taxa
+  - keywords
+  - modalities
+  - anatomical_regions
+  - collection_type
+  - publication_title
+  - publication_doi
+  - manifest_count
+  - manifest_urls
+  - manifest_types
+  - manifest_protocol_types
+  - processed_manifest_count
+  - raw_manifest_count
+  - match_scope
+  - match_fields
+  - keyword_match_terms
+  - eligibility_bucket
+  - local_candidate_root
+  - note
+  nemo_candidate_sync_audit_fields:
+  - collection_id
+  - match_scope
+  - access
+  - eligibility_bucket
+  - processed_manifest_count
+  - raw_manifest_count
+  - allowed_manifest_url_count
+  - rejected_raw_manifest_url_count
+  - downloaded_asset_count
+  - reused_cached_asset_count
+  - materialized_asset_count
+  - discovery_evidence_count
+  - local_candidate_root
+  - note
+  processed_registry_summary_fields:
+  - source_key
+  - asset_group
+  - receipt_row_count
+  - downloaded_asset_count
+  - reused_cached_asset_count
+  - blocked_asset_count
+  - prepared_asset_count
+  - not_available_asset_count
+  - study_row_count
+  - included_study_count
+  - model_ready_study_count
+  - patient_cohort_study_count
+  - mechanistic_study_count
+  - nemo_public_discovery_complete_flag
+  - nemo_primary_open_candidate_count
+  - nemo_primary_materialized_asset_count
+  - nemo_reference_materialized_asset_count
+  atlas_prior_program_fields:
+  - atlas_entity_uid
+  - atlas_name
+  - species
+  - brain_region_id
+  - brain_region_label
+  - cell_type_id
+  - cell_type_label
+  - program_id
+  - program_label
+  - feature_namespace
+  - feature_ids
+  - provenance_level
+  - public_url
+  - release_type
+  - source_file
+  atlas_prior_source_fields:
+  - atlas_name
+  - source_key
+  - release_label
+  - public_url
+  - source_file
+  - program_count
+  - note
+  world_model_ready_study_fields:
+  - study_uid
+  - source_key
+  - source_accession
+  - modality
+  - target_label_space
+  - benchmark_backbone_flag
+  - world_model_role
+  - subject_linkable_flag
+  - atlas_prior_ready_flag
+  - public_only_flag
+  - model_input_bundle_path
+  - field_alignment_uid
+  - field_alignment_bundle_path
+  - structural_prior_uid
+  - structural_prior_bundle_path
+  - observed_region_set
+  - note
+  measurement_semantics_fields:
+  - semantics_uid
+  - study_uid
+  - source_key
+  - source_accession
+  - selected_matrix_uid
+  - modality
+  - raw_measurement_label
+  - measurement_semantics_label
+  - matrix_semantics
+  - biological_quantity
+  - measurement_entity_namespace
+  - raw_unit
+  - canonical_unit
+  - unit_conversion_chain
+  - training_transform
+  - standardization_statistics_path
+  - standardization_summary
+  - inverse_transform_artifact_path
+  - inverse_transform
+  - uncertainty_policy
+  - uncertainty_semantics
+  - valid_min
+  - valid_max
+  - raw_matrix_path
+  - norm_matrix_path
+  - sample_index_path
+  - feature_index_path
+  - scaler_artifact_path
+  - provenance_level
+  - public_only_flag
+  - proxy_unit_flag
+  - physical_interpretation_policy
+  - note
+  sample_observation_fields:
+  - observation_uid
+  - study_uid
+  - sample_uid
+  - source_key
+  - source_accession
+  - disease_program
+  - modality
+  - tissue_or_biofluid
+  - region_scope
+  - region_mapping_confidence
+  - semantics_uid
+  - measurement_semantics_label
+  - public_only_flag
+  - observation_role
+  - compatibility_alias_flag
+  - note
+  world_state_fields:
+  - world_state_uid
+  - observation_uid
+  - study_uid
+  - sample_uid
+  - source_accession
+  - disease_program
+  - disease_family
+  - semantics_uid
+  - measurement_semantics_label
+  - observed_modality_set
+  - missing_modality_set
+  - world_state_version
+  - hidden_state_support_flag
+  - cross_scene_compatibility_flag
+  - factor_slice_manifest
+  - factor_target_payload
+  - factor_supervision_mask_payload
+  - factor_teacher_source_manifest
+  - factor_uncertainty_payload
+  - factor_evidence_payload
+  - unit_context_payload
+  - posterior_slice_manifest
+  - state_store_path
+  - rollout_ready_flag
+  - note
+  crossmodal_anchor_fields:
+  - crossmodal_anchor_uid
+  - disease_family
+  - anchor_source
+  - anchor_scope
+  - source_sample_or_cell_id
+  - available_modality_set
+  - data_path
+  - anchor_type
+  - split_role
+  - confidence_provenance
+  - alignment_target
+  - metric_artifact_path
+  - transcriptomic_anchor_id
+  - morphology_anchor_id
+  - electrophysiology_anchor_id
+  - supervision_role
+  - anchor_status
+  - confidence_score
+  - note
+  simulation_teacher_fields:
+  - simulation_teacher_uid
+  - disease_program
+  - disease_family
+  - teacher_family
+  - teacher_role
+  - source_model_id
+  - source_repository
+  - provenance_level
+  - teacher_evidence_level
+  - calibration_role
+  - calibration_status
+  - observed_or_synthetic
+  - source_simulation_uid
+  - regimen_uid
+  - factor_scope
+  - route
+  - schedule
+  - dose_level_id
+  - trajectory_store_path
+  - supervision_role
+  - consistency_targets
+  - uncertainty_policy
+  - teacher_loss_weight
+  - main_pretraining_eligibility
+  - note
+  full_microenvironment_teacher_fields:
+  - teacher_uid
+  - contract_version
+  - disease_program
+  - disease_family
+  - teacher_family
+  - teacher_role
+  - calibration_role
+  - observed_or_synthetic
+  - source_model_id
+  - source_repository
+  - provenance_level
+  - teacher_evidence_level
+  - calibration_status
+  - main_pretraining_eligibility
+  - source_simulation_uid
+  - source_protocol_uid
+  - source_parameter_uid
+  - regimen_uid
+  - compound_uid
+  - route
+  - schedule
+  - dose_level_id
+  - field_species_set
+  - trajectory_index
+  - trajectory_store_path
+  - uncertainty_mean
+  - uncertainty_payload
+  - teacher_loss_weight
+  - note
+  simulation_qc_catalog_fields:
+  - trajectory_uid
+  - trajectory_family_uid
+  - paired_uid
+  - source_collection
+  - source_uid
+  - teacher_level
+  - teacher_family
+  - teacher_role
+  - disease_program
+  - regimen_uid
+  - route
+  - schedule
+  - dose_level_id
+  - parameter_profile_uid
+  - trajectory_store_path
+  - trajectory_index
+  - split_name
+  - source_holdout_split
+  - teacher_confidence
+  - schema_pass_flag
+  - numeric_pass_flag
+  - mechanism_pass_flag
+  - uncertainty_pass_flag
+  - leakage_pass_flag
+  - paired_status
+  - content_hash
+  - qc_grade
+  - qc_use
+  - sample_weight
+  - failure_flags
+  - warning_flags
+  simulation_pair_alignment_fields:
+  - paired_uid
+  - paired_status
+  - mesoscopic_source_uid
+  - full_source_uid
+  - mesoscopic_trajectory_index
+  - full_trajectory_index
+  - pair_action_consistency
+  - pair_parameter_consistency
+  - pair_projection_error
+  - pair_terminal_error
+  - pair_trend_agreement
+  simulation_teacher_uncertainty_audit_fields:
+  - source_collection
+  - teacher_family
+  - finite_rate
+  - positive_rate
+  - mean_uncertainty
+  - max_uncertainty
+  - high_confidence_count
+  - medium_confidence_count
+  - low_confidence_count
+  simulation_numeric_audit_fields:
+  - source_collection
+  - trajectory_index
+  - finite_flag
+  - min_value
+  - max_value
+  - standard_deviation
+  - max_abs_jump
+  - terminal_abs_max
+  - content_hash
+  pbpk_rollout_fields:
+  - pbpk_rollout_uid
+  - contract_version
+  - compound_uid
+  - canonical_compound_id
+  - regimen_uid
+  - route
+  - schedule
+  - dose_multiplier
+  - source_model_id
+  - source_repository
+  - provenance_level
+  - observed_or_synthetic
+  - teacher_role
+  - calibration_role
+  - trajectory_store_path
+  - trajectory_index
+  - plasma_auc
+  - plasma_cmax
+  - plasma_tmax
+  - csf_auc
+  - isf_auc
+  - brain_plasma_auc_ratio
+  - uncertainty_payload
+  - note
+  chembl_pbpk_parameter_fields:
+  - parameter_prediction_uid
+  - contract_version
+  - compound_uid
+  - canonical_compound_id
+  - parameter_name
+  - predicted_value
+  - lower_bound
+  - upper_bound
+  - uncertainty
+  - unit
+  - feature_payload
+  - source_repository
+  - provenance_level
+  - teacher_role
+  - observed_or_synthetic
+  - calibration_role
+  - note
+  source_membrane_charge_registration:
+    step_ledger:
+      sample_columns:
+      - end_time_ms
+      - voltage_mV
+      - left_voltage_mV
+      - right_voltage_mV
+      - membrane_current_nA
+      - capacitive_current_mA_cm2
+      - electrode_current_nA
+      - assembled_ionic_current_mA_cm2
+      units:
+        end_time_ms: ms
+        voltage_mV: mV
+        left_voltage_mV: mV
+        right_voltage_mV: mV
+        membrane_current_nA: nA
+        capacitive_current_mA_cm2: mA/cm2
+        electrode_current_nA: nA
+        assembled_ionic_current_mA_cm2: mA/cm2
+    optional_sample_columns: [interval_electrode_nA]
+    declaration_required_fields:
+    - schema_version
+    - declaration_uid
+    - policy
+    - units
+    - schema
+    - source
+    - build
+    - site
+    - state_variables
+    - source_parameters
+    - implementation
+    - execution
+    trace_required_fields:
+    - schema_version
+    - declaration_uid
+    - condition
+    - site
+    - units
+    - build_identity
+    - status
+    # attempt_started is a strict boolean or null (unknown), never numeric 0/1.
+    - attempt_started
+    - samples
+    - observed_mask
+    # Known advances are nonnegative integers within the declared interval budget;
+    # bools/floats are invalid. Null means unknown; COMPLETE requires the full count.
+    - source_time_advanced_count
+    - error
+    - cost
+    units:
+      time: ms
+      voltage: mV
+      electrode_current: nA
+      ionic_current_density: mA/cm2
+      axial_resistance: MOhm
+      area: um2
+      specific_capacitance: uF/cm2
+      capacitance: nF
+      charge: pC
+      state_gates: dimensionless
+      state_ca_cad_and_cai: mM
+  neuron_rxd_protocol_fields:
+  - neuron_rxd_protocol_uid
+  - contract_version
+  - disease_program
+  - source_model_id
+  - source_repository
+  - provenance_level
+  - teacher_role
+  - observed_or_synthetic
+  - protocol_name
+  - protocol_parameter_payload
+  - trajectory_store_path
+  - trajectory_index
+  - resting_voltage_millivolt
+  - spike_count
+  - calcium_peak
+  - amyloid_beta_final
+  - tau_final
+  - inflammatory_mediator_final
+  - circuit_instability_final
+  - uncertainty_payload
+  - note
+  teacher_source_model_fields:
+  - source_model_id
+  - source_repository
+  - source_url
+  - local_path
+  - model_family
+  - disease_scope
+  - license_or_terms
+  - provenance_level
+  - materialization_status
+  - note
+  counterfactual_benchmark_fields:
+  - counterfactual_benchmark_uid
+  - disease_program
+  - disease_family
+  - benchmark_name
+  - intervention_family
+  - baseline_regimen_uid
+  - counterfactual_regimen_uid
+  - objective_name
+  - target_metric
+  - validity_contract
+  - note
+  feedback_event_fields:
+  - feedback_event_uid
+  - disease_program
+  - disease_family
+  - sample_uid
+  - intervention_program_uid
+  - regimen_uid
+  - predicted_rollout_summary
+  - realized_outcome_summary
+  - discrepancy_summary
+  - calibration_impact_score
+  - update_eligibility_flag
+  - update_decision
+  - event_timestamp
+  - note
+  foundation_capability_fields:
+  - benchmark_name
+  - disease_program
+  - disease_family
+  - fold_name
+  - modality
+  - capability_family
+  - capability_name
+  - metric_name
+  - metric_value
+  - threshold_value
+  - comparator
+  - pass_flag
+  - artifact_path
+  - note
+  structural_prior_region_fields:
+  - structural_prior_uid
+  - disease_program
+  - region_id
+  - region_label
+  - program_support_score
+  - disease_vulnerability_score
+  - transport_centrality_score
+  - clearance_constraint_score
+  - inflammation_propensity_score
+  - neurotransmitter_relevance_score
+  - source_evidence
+  - note
+  structural_prior_local_response_head_fields:
+  - local_response_head_uid
+  - disease_program
+  - region_id
+  - response_head_label
+  - response_role
+  - source_reference_url
+  - note
+  spatial_region_fields:
+  - region_id
+  - region_label
+  - region_role
+  - atlas_source
+  - source_region_id
+  - note
+  spatial_region_edge_fields:
+  - edge_uid
+  - source_region_id
+  - target_region_id
+  - edge_type
+  - transport_scale
+  - note
+  spatial_region_compartment_fields:
+  - region_compartment_uid
+  - region_id
+  - compartment_id
+  - compartment_role
+  - note
+  spatial_observation_mapping_fields:
+  - mapping_uid
+  - modality
+  - tissue_keyword
+  - observed_region_id
+  - observed_compartment_id
+  - aggregation_rule
+  - note
+  dynamics_species_fields:
+  - species_id
+  - species_label
+  - species_role
+  - unit
+  - observable_flag
+  - note
+  dynamics_parameter_fields:
+  - parameter_uid
+  - parameter_name
+  - region_id
+  - compartment_id
+  - species_id
+  - central_value
+  - lower_bound
+  - upper_bound
+  - source_repository
+  - note
+  dynamics_simulation_fields:
+  - simulation_uid
+  - disease_program
+  - simulation_condition
+  - heterogeneity_replicate_id
+  - parameter_draw_uid
+  - parameter_evidence_status
+  - regimen_uid
+  - route
+  - schedule
+  - dose_level_id
+  - dose_multiplier
+  - observed_region_set
+  - structural_prior_uid
+  - local_response_head_uid
+  - trajectory_index
+  - trajectory_store_path
+  - time_step_count
+  - region_count
+  - compartment_count
+  - species_count
+  - note
+  dynamics_sample_alignment_fields:
+  - field_alignment_uid
+  - study_uid
+  - source_key
+  - source_accession
+  - sample_uid
+  - modality
+  - observed_region_set
+  - baseline_severity_score
+  - simulation_condition
+  - field_alignment_bundle_path
+  - note
+  dynamics_case_validation_fields:
+  - validation_uid
+  - case_study_name
+  - disease_program
+  - intervention_label
+  - endpoint_family
+  - endpoint_source_url
+  - evidence_source_type
+  - biomarker_endpoint_summary
+  - clinical_endpoint_summary
+  - clinical_endpoint_source_url
+  - clinical_endpoint_alignment_policy
+  - expected_effect_direction
+  - expected_standardized_effect
+  - evaluation_metric
+  - holdout_from_calibration_flag
+  - note
+  drug_target_target_fields:
+  - target_uid
+  - canonical_entity_id
+  - canonical_entity_label
+  - target_symbol
+  - target_name
+  - target_class
+  - tractability_bucket
+  - source_repository
+  - mapping_method
+  - mapping_confidence
+  - source_count
+  - public_url
+  - note
+  drug_target_compound_fields:
+  - compound_uid
+  - canonical_compound_id
+  - canonical_id_namespace
+  - preferred_name
+  - canonical_smiles
+  - inchi_key
+  - murcko_scaffold
+  - source_count
+  - source_names
+  - chembl_id
+  - drugcentral_struct_id
+  - bindingdb_ligand_id
+  - note
+  drug_target_edge_fields:
+  - edge_uid
+  - compound_uid
+  - target_uid
+  - source_repository
+  - disease_context
+  - relation_type
+  - affinity_type
+  - affinity_value
+  - affinity_unit
+  - evidence_score
+  - action_type
+  - public_url
+  - note
+  drug_target_evidence_fields:
+  - evidence_uid
+  - target_uid
+  - source_repository
+  - disease_context
+  - evidence_score
+  - evidence_count
+  - public_url
+  - note
+  drug_target_compound_feature_fields:
+  - compound_uid
+  - feature_name
+  - feature_value
+  - feature_type
+  - source_repository
+  - note
+  drug_target_exclusion_fields:
+  - exclusion_uid
+  - exclusion_scope
+  - source_repository
+  - source_record_id
+  - exclusion_reason
+  - note
+  pkpd_compartment_fields:
+  - compartment_id
+  - compartment_label
+  - compartment_role
+  - upstream_compartment_id
+  - note
+  pkpd_parameter_prior_fields:
+  - parameter_uid
+  - parameter_name
+  - compartment_id
+  - unit
+  - lower_bound
+  - upper_bound
+  - distribution_family
+  - central_value
+  - source_repository
+  - provenance_level
+  - note
+  pkpd_compound_prior_fields:
+  - compound_uid
+  - canonical_compound_id
+  - route
+  - permeability_score
+  - exposure_scale
+  - clearance_scale
+  - source_repository
+  - note
+  pkpd_route_fields:
+  - route
+  - absorption_scale
+  - bbb_scale
+  - csf_scale
+  - note
+  pkpd_schedule_fields:
+  - schedule
+  - frequency_per_day
+  - exposure_scale
+  - note
+  pkpd_dose_grid_fields:
+  - dose_level_id
+  - dose_multiplier
+  - note
+  action_ready_atlas_mapping_fields:
+  - atlas_entity_uid
+  - atlas_name
+  - program_id
+  - canonical_entity_id
+  - canonical_entity_label
+  - feature_hit_count
+  - feature_total_count
+  - coverage_fraction
+  - inclusion_flag
+  - exclusion_reason
+  - note
+  action_ready_target_program_fields:
+  - target_program_uid
+  - canonical_entity_id
+  - canonical_entity_label
+  - atlas_entity_uid
+  - atlas_name
+  - program_id
+  - mapped_feature_ids
+  - mapped_feature_count
+  - coverage_fraction
+  - target_evidence_score
+  - target_class
+  - source_repository
+  - note
+  action_ready_drug_program_fields:
+  - drug_program_uid
+  - compound_uid
+  - target_uid_set
+  - target_symbol_set
+  - target_count
+  - aggregate_target_evidence_score
+  - aggregate_affinity_score
+  - clue_reversal_proxy_score
+  - pk_prior_ready_flag
+  - murcko_scaffold
+  - selection_reason
+  - note
+  action_ready_regimen_fields:
+  - regimen_uid
+  - drug_program_uid_set
+  - compound_uid_set
+  - target_uid_set
+  - target_symbol_set
+  - regimen_scaffold_set
+  - route
+  - schedule
+  - dose_level_id
+  - dose_multiplier
+  - aggregate_target_evidence_score
+  - aggregate_affinity_score
+  - clue_reversal_proxy_score
+  - pk_feasibility_score
+  - regimen_size
+  - selection_reason
+  - note
+  action_ready_exclusion_fields:
+  - exclusion_uid
+  - exclusion_scope
+  - source_record_id
+  - exclusion_reason
+  - note
+  intervention_program_fields:
+  - intervention_program_uid
+  - regimen_uid
+  - drug_program_uid_set
+  - target_program_set
+  - target_program_label_set
+  - compound_set
+  - route
+  - schedule
+  - dose_level_id
+  - dose_multiplier
+  - occupancy_constraints
+  - pkpd_feasibility_score
+  - evidence_summary
+  - selection_reason
+  - note
+  candidate_validation_fields:
+  - candidate_validation_uid
+  - intervention_program_uid
+  - regimen_uid
+  - target_program_set
+  - compound_set
+  - structure_confidence
+  - docking_score
+  - rescoring_score
+  - affinity_evidence
+  - affinity_evidence_score
+  - admet_summary
+  - admet_readiness_score
+  - pbpk_summary
+  - pbpk_readiness_score
+  - validation_stage
+  - note
+  screening_candidate_priority_fields:
+  - benchmark_name
+  - fold_name
+  - modality
+  - regimen_uid
+  - predicted_score_mean
+  - tri_score_mean
+  - pkpd_consistency_mean
+  - predictive_entropy_mean
+  - mutual_information_mean
+  - epistemic_std_mean
+  - active_learning_uncertainty
+  - artifact_path
+  - note
+  candidate_validation_execution_fields:
+  - execution_uid
+  - intervention_program_uid
+  - regimen_uid
+  - target_program_set
+  - compound_set
+  - structure_source
+  - receptor_asset_path
+  - ligand_asset_path
+  - structure_confidence
+  - docking_score
+  - docking_artifact_path
+  - rescoring_score
+  - rescoring_artifact_path
+  - pbpk_summary
+  - pbpk_readiness_score
+  - pbpk_artifact_path
+  - execution_status
+  - docking_command
+  - rescoring_command
+  - note
+  active_learning_candidate_pool_fields:
+  - round_uid
+  - candidate_uid
+  - sample_state_uid
+  - intervention_program_uid
+  - regimen_uid
+  - target_program_set
+  - target_program_label_set
+  - compound_set
+  - route
+  - schedule
+  - dose_level_id
+  - predicted_score
+  - tri_score
+  - pkpd_consistency
+  - ranking_stability
+  - rollout_uncertainty
+  - ood_score
+  - mechanism_uncertainty
+  - counterfactual_disagreement
+  - rank_flip_risk
+  - expected_information_gain
+  - validation_readiness
+  - risk_penalty
+  - decision_label
+  - source_holdout_role
+  - evidence_vector
+  - candidate_status
+  active_learning_priority_fields:
+  - priority_uid
+  - regimen_uid
+  - predicted_score_mean
+  - tri_score_mean
+  - pkpd_consistency_mean
+  - predictive_entropy_mean
+  - mutual_information_mean
+  - epistemic_std_mean
+  - active_learning_uncertainty
+  - source_holdout_role
+  - selection_reason
+  - evidence_summary
+  - artifact_path
+  - note
+  active_learning_acquisition_fields:
+  - round_uid
+  - request_uid
+  - candidate_uid
+  - batch_role
+  - simulator_family
+  - fidelity_level
+  - request_role
+  - training_label_policy
+  - acquisition_score
+  - exploitation_score
+  - exploration_score
+  - sentinel_score
+  - expected_information_gain
+  - rank_flip_risk
+  - tri_uncertainty
+  - counterfactual_disagreement
+  - ood_gap
+  - mechanism_expert_disagreement
+  - diversity_bonus
+  - simulator_cost
+  - risk_penalty
+  - decision_label
+  - route
+  - schedule
+  - target_program_set
+  - artifact_path
+  active_learning_simulation_request_fields:
+  - request_uid
+  - round_uid
+  - candidate_uid
+  - intervention_program_uid
+  - sample_state_uid
+  - regimen_uid
+  - target_program_set
+  - compound_set
+  - route
+  - schedule
+  - dose_level_id
+  - simulator_family
+  - fidelity_level
+  - request_role
+  - training_label_policy
+  - requested_outputs
+  - time_grid
+  - region_grid
+  - compartment_grid
+  - species_list
+  - parameter_prior_uid
+  - uncertainty_policy
+  - seed
+  - budget_class
+  - source_holdout_role
+  - execution_status
+  - artifact_path
+  active_learning_simulation_result_fields:
+  - result_uid
+  - request_uid
+  - round_uid
+  - candidate_uid
+  - simulator_family
+  - trajectory_artifact_path
+  - trajectory_hash
+  - time_axis_hash
+  - region_axis_hash
+  - compartment_axis_hash
+  - species_axis_hash
+  - teacher_uncertainty_path
+  - solver_metadata_path
+  - runtime_seconds
+  - failure_status
+  - qc_grade
+  - qc_use
+  - sample_weight
+  - provenance_level
+  - note
+  active_learning_teacher_update_fields:
+  - update_uid
+  - round_uid
+  - result_uid
+  - request_uid
+  - teacher_family
+  - simulator_family
+  - trajectory_artifact_path
+  - teacher_uncertainty_path
+  - qc_grade
+  - qc_use
+  - sample_weight
+  - training_label_policy
+  - manifest_action
+  - note
+  active_learning_round_report_fields:
+  - round_uid
+  - status
+  - candidate_count
+  - acquisition_task_count
+  - request_count
+  - result_count
+  - grade_a_b_count
+  - grade_c_count
+  - grade_d_count
+  - grade_s_count
+  - source_holdout_rollout_error_delta
+  - top_k_rank_stability_delta
+  - tri_selective_risk_delta
+  - counterfactual_direction_hit_delta
+  - ood_false_accept_delta
+  - publication_artifact_status
+  - artifact_path
+  screening_result_fields:
+  - benchmark_name
+  - disease_program
+  - baseline_family
+  - split_name
+  - evaluation_scope
+  - task_name
+  - task_family
+  - model_name
+  - modality
+  - sample_count
+  - metric_name
+  - metric_value
+  - artifact_path
+  - case_study_name
+  - scale_classification
+  - is_case_study_anchor
+  - note
+  cohort_ready_sample_fields:
+  - sample_uid
+  - study_uid
+  - source_key
+  - source_accession
+  - source_sample_id
+  - subject_id
+  - sample_title
+  - species
+  - tissue_or_biofluid
+  - modality
+  - sample_context
+  - study_diagnosis_label
+  - sample_diagnosis_label
+  - diagnosis_detail
+  - disease_stage
+  - case_control_label
+  - sex
+  - age
+  - clinical_score
+  - analysis_or_platform
+  - primary_quantitative_asset_id
+  - supplementary_file_url
+  - raw_metadata_path
+  - note
+  cohort_ready_asset_fields:
+  - quantitative_asset_uid
+  - study_uid
+  - source_key
+  - source_accession
+  - asset_name
+  - asset_role
+  - local_availability_flag
+  - local_path
+  - asset_url
+  - modality
+  - matrix_format
+  - sample_count
+  - feature_count
+  - sample_identifier_field
+  - feature_identifier_field
+  - value_field
+  - raw_metadata_path
+  - note
+  cohort_ready_study_fields:
+  - study_uid
+  - source_key
+  - source_accession
+  - title
+  - modality
+  - sample_context
+  - standardized_sample_count
+  - quantitative_asset_count
+  - local_quantitative_asset_count
+  - remote_only_quantitative_asset_count
+  - primary_quantitative_asset_id
+  - primary_quantitative_asset_path
+  feature_ready_matrix_fields:
+  - matrix_uid
+  - study_uid
+  - source_key
+  - source_accession
+  - quantitative_asset_uid
+  - asset_name
+  - matrix_name
+  - matrix_origin
+  - measurement_label
+  - matrix_semantics
+  - local_path
+  - member_path
+  - matrix_reference
+  - file_format
+  - sample_axis_count
+  - feature_axis_count
+  - mapped_sample_count
+  - unmapped_sample_count
+  - sample_identifier_field
+  - feature_identifier_field
+  - feature_label_field
+  - value_identifier
+  - raw_metadata_path
+  - note
+  feature_ready_member_fields:
+  - member_uid
+  - matrix_uid
+  - study_uid
+  - source_key
+  - source_accession
+  - quantitative_asset_uid
+  - asset_name
+  - local_path
+  - member_path
+  - source_sample_id_hint
+  - sample_uid
+  - source_sample_id
+  - sample_match_status
+  - member_feature_count
+  - note
+  feature_ready_sample_axis_fields:
+  - matrix_uid
+  - study_uid
+  - source_key
+  - source_accession
+  - matrix_sample_id
+  - column_index
+  - sample_uid
+  - source_sample_id
+  - sample_match_status
+  - note
+  feature_ready_feature_axis_fields:
+  - matrix_uid
+  - study_uid
+  - source_key
+  - source_accession
+  - feature_id
+  - feature_label
+  - row_index
+  - feature_type
+  - note
+  feature_ready_non_matrix_fields:
+  - quantitative_asset_uid
+  - study_uid
+  - source_key
+  - source_accession
+  - asset_name
+  - local_path
+  - exclusion_reason
+  - note
+  feature_ready_study_fields:
+  - study_uid
+  - source_key
+  - source_accession
+  - standardized_sample_count
+  - matrix_ready_flag
+  - matrix_count
+  - matrix_asset_count
+  - non_matrix_asset_count
+  - mapped_sample_uid_count
+  - unmapped_matrix_sample_count
+  - feature_axis_row_count
+  - primary_matrix_uid
+  - primary_matrix_path
+  analysis_ready_study_fields:
+  - study_uid
+  - source_key
+  - source_accession
+  - standardized_sample_count
+  - local_quantitative_asset_count
+  - candidate_matrix_count
+  - eligible_matrix_count
+  - selected_matrix_uid
+  - selected_matrix_reference
+  - selected_measurement_label
+  - selected_matrix_semantics
+  - mapped_sample_uid_count
+  - mapped_fraction
+  - loader_kind
+  - analysis_ready_flag
+  - exclusion_reason
+  - note
+  analysis_ready_loader_fields:
+  - selected_matrix_uid
+  - study_uid
+  - source_key
+  - source_accession
+  - loader_kind
+  - matrix_origin
+  - local_path
+  - member_path
+  - matrix_reference
+  - file_format
+  - sample_identifier_field
+  - feature_identifier_field
+  - feature_label_field
+  - value_identifier
+  - selected_measurement_label
+  - selected_matrix_semantics
+  - raw_metadata_path
+  - note
+  analysis_ready_sample_fields:
+  - study_uid
+  - source_key
+  - source_accession
+  - selected_matrix_uid
+  - column_index
+  - matrix_sample_id
+  - sample_uid
+  - source_sample_id
+  - subject_id
+  - sample_title
+  - sample_diagnosis_label
+  - case_control_label
+  - tissue_or_biofluid
+  - modality
+  - sample_match_status
+  - note
+  analysis_ready_feature_fields:
+  - study_uid
+  - source_key
+  - source_accession
+  - selected_matrix_uid
+  - feature_id
+  - feature_label
+  - row_index
+  - feature_type
+  - note
+  analysis_ready_exclusion_fields:
+  - study_uid
+  - source_key
+  - source_accession
+  - local_quantitative_asset_count
+  - candidate_matrix_count
+  - exclusion_reason
+  - note
+  model_input_bundle_fields:
+  - study_uid
+  - source_key
+  - source_accession
+  - world_model_role
+  - subject_linkable_flag
+  - atlas_prior_ready_flag
+  - public_only_flag
+  - selected_matrix_uid
+  - loader_kind
+  - selected_measurement_label
+  - semantics_uid
+  - measurement_semantics_label
+  - matrix_semantics
+  - normalization_method
+  - scaler_fit_policy
+  - sample_count
+  - feature_count
+  - bundle_root
+  - bundle_manifest_path
+  - sample_index_path
+  - feature_index_path
+  - matrix_raw_path
+  - matrix_norm_path
+  - scaler_artifact_path
+  - source_matrix_reference
+  model_input_feature_scaler_fields:
+  - study_uid
+  - source_key
+  - source_accession
+  - selected_matrix_uid
+  - semantics_uid
+  - feature_key
+  - feature_id
+  - matrix_semantics
+  - normalization_method
+  - scaler_fit_policy
+  - fit_sample_count
+  - finite_count
+  - mean
+  - std
+  - zero_variance_flag
+  - raw_unit
+  - canonical_unit
+  - proxy_unit_flag
+  - transform_before_zscore
+  - inverse_transform
+  - valid_min
+  - valid_max
+  - leakage_guard
+  model_input_exclusion_fields:
+  - study_uid
+  - source_key
+  - source_accession
+  - analysis_ready_flag
+  - exclusion_reason
+  - bundle_materialization_flag
+  - note
+  model_input_sample_index_fields:
+  - column_index
+  - matrix_sample_id
+  - sample_uid
+  - source_sample_id
+  - subject_id
+  - sample_title
+  - sample_diagnosis_label
+  - case_control_label
+  - tissue_or_biofluid
+  - modality
+  - sample_match_status
+  - note
+  model_input_feature_index_fields:
+  - row_index
+  - feature_key
+  - feature_id
+  - feature_label
+  - feature_type
+  - note
+  alignment_entity_fields:
+  - canonical_entity_id
+  - canonical_entity_label
+  - entity_type
+  - namespace
+  - source_count
+  alignment_feature_mapping_fields:
+  - study_uid
+  - source_accession
+  - original_feature_id
+  - canonical_entity_id
+  - mapping_method
+  - mapping_confidence
+  - aggregation_rule
+  alignment_matrix_fields:
+  - study_uid
+  - source_key
+  - source_accession
+  - modality
+  - tissue_or_biofluid
+  - aligned_entity_namespace
+  - aligned_entity_type
+  - original_feature_count
+  - mapped_feature_count
+  - aligned_entity_count
+  - sample_count
+  - alignment_status
+  - alignment_note
+  - bundle_root
+  - manifest_path
+  - sample_index_path
+  - entity_index_path
+  - matrix_raw_path
+  - matrix_norm_path
+  alignment_exclusion_fields:
+  - study_uid
+  - source_key
+  - source_accession
+  - exclusion_scope
+  - original_feature_id
+  - exclusion_reason
+  - note
+  alignment_entity_index_fields:
+  - row_index
+  - canonical_entity_id
+  - canonical_entity_label
+  - entity_type
+  - namespace
+  - source_feature_ids
+  - source_feature_count
+  - mapping_method
+  - aggregation_rule
+  benchmark_cohort_fields:
+  - benchmark_name
+  - disease_program
+  - study_uid
+  - source_key
+  - source_accession
+  - world_model_role
+  - subject_linkable_flag
+  - atlas_prior_ready_flag
+  - public_only_flag
+  - modality
+  - tissue_or_biofluid
+  - cohort_role
+  - target_label_space
+  - positive_sample_count
+  - negative_sample_count
+  - total_sample_count
+  - headline_fold_eligible_flag
+  - inclusion_flag
+  - exclusion_reason
+  benchmark_fold_fields:
+  - benchmark_name
+  - disease_program
+  - fold_name
+  - held_out_study_uid
+  - train_study_uids
+  - validation_grouping_key
+  - target_label_space
+  - included_modalities
+  - headline_metric_flag
+  - test_sample_count
+  benchmark_training_dataset_fields:
+  - benchmark_name
+  - disease_program
+  - fold_name
+  - dataset_role
+  - modality
+  - sample_split_path
+  - entity_index_path
+  - sample_count
+  - feature_count
+  - included_study_uids
+  - note
+  benchmark_sample_split_fields:
+  - benchmark_name
+  - disease_program
+  - fold_name
+  - study_uid
+  - source_key
+  - source_accession
+  - modality
+  - sample_uid
+  - group_id
+  - normalized_diagnosis_label
+  - binary_label
+  - split_role
+  - headline_fold_flag
+  benchmark_result_fields:
+  - benchmark_name
+  - disease_program
+  - baseline_family
+  - fold_name
+  - model_name
+  - held_out_study_uid
+  - evaluation_scope
+  - modality
+  - sample_count
+  - auroc
+  - auprc
+  - balanced_accuracy
+  - macro_f1
+  - brier_score
+  - headline_metric_flag
+  - artifact_path
+  - case_study_name
+  - scale_classification
+  - is_case_study_anchor
+  - note
+  runnable_baseline_result_fields:
+  - baseline_name
+  - adapter_name
+  - adapter_mode
+  - disease_program
+  - fold_name
+  - sample_count
+  - auroc
+  - auprc
+  - balanced_accuracy
+  - macro_f1
+  - brier_score
+  - transition_mse
+  - status
+  - artifact_path
+  kg_graph_baseline_ranked_fields:
+  - regimen_uid
+  - disease_program
+  - seed
+  - graph_prior_score
+  - target_evidence_score
+  - edge_evidence_score
+  - edge_affinity_score
+  - regimen_graph_aggregate_score
+  - compound_count
+  - target_count
+  - source_evidence
+  molecular_property_baseline_fields:
+  - baseline_uid
+  - source_key
+  - source_release
+  - materialization_date
+  - compound_uid
+  - feature_count
+  - molecular_weight
+  - alogp
+  - tpsa
+  - hba
+  - hbd
+  - rotatable_bonds
+  - ring_count
+  - lipinski_violation_count
+  - cns_rule_pass_count
+  - cns_rule_total_count
+  - cns_property_score
+  - lipophilicity_window_score
+  - polar_surface_penalty
+  - deepchem_dataset_class
+  - deepchem_version
+  - provenance_level
+  - source_holdout_role
+  - train_flag
+  - eval_flag
+  - public_url
+  - note
+  publication_claim_metric_fields:
+  - claim_id
+  - metric_family
+  - metric_name
+  - holdout_name
+  - baseline_id
+  - comparator_id
+  - bootstrap_interval
+  - bootstrap_sample_count
+  - acceptance_delta_policy
+  - result_status
+  - artifact_path
+  publication_baseline_result_fields:
+  - baseline_id
+  - baseline_family
+  - conditioning
+  - disease_program
+  - holdout_name
+  - primary_metric
+  - bootstrap_interval
+  - result_status
+  - artifact_path
+  publication_ablation_result_fields:
+  - ablation_id
+  - ablation_family
+  - shared_backbone
+  - replacement_axis
+  - disease_program
+  - holdout_name
+  - primary_metric
+  - bootstrap_interval
+  - result_status
+  - artifact_path
+  publication_selective_risk_fields:
+  - gate_name
+  - threshold_source_split
+  - evaluation_split
+  - metric_name
+  - calibration_policy
+  - result_status
+  - artifact_path
+  publication_figure_manifest_fields:
+  - figure_id
+  - output_name
+  - claim_link
+  - required_inputs
+  - result_status
+  - artifact_path
+  dynamics_calibration_audit_fields:
+  - audit_uid
+  - teacher_family
+  - calibration_source
+  - metric_name
+  - metric_value
+  - threshold_value
+  - unit
+  - pass_flag
+  - calibration_status
+  - main_pretraining_eligibility
+  - artifact_path
+  - note
+  crossscale_alignment_audit_fields:
+  - audit_uid
+  - disease_family
+  - anchor_source
+  - anchor_type
+  - available_modality_set
+  - metric_name
+  - metric_value
+  - threshold_value
+  - pass_flag
+  - alignment_claim_status
+  - artifact_path
+  - note
+  external_adapter_fields:
+  - adapter_uid
+  - source_key
+  - source_name
+  - adapter_role
+  - method_contribution_flag
+  - raw_root
+  - processed_artifact_path
+  - required_processed_artifact_flag
+  - provenance_level
+  - validation_policy
+  - public_url
+  - note
+  dgidb_drug_gene_interaction_fields:
+  - interaction_uid
+  - source_key
+  - source_release
+  - retrieval_date
+  - query_scope
+  - query_gene_symbol
+  - query_drug_name
+  - gene_name
+  - gene_concept_id
+  - drug_name
+  - drug_concept_id
+  - matched_target_uid
+  - matched_compound_uid
+  - drug_in_neuronsifter_universe
+  - interaction_id
+  - interaction_score
+  - interaction_type_set
+  - directionality_set
+  - source_db_set
+  - publication_pmid_set
+  - publication_citation_set
+  - provenance_level
+  - source_holdout_role
+  - train_flag
+  - eval_flag
+  - public_url
+  - note
+  drugcomb_combination_prior_fields:
+  - combination_uid
+  - source_key
+  - source_release
+  - block_id
+  - drug_row
+  - drug_col
+  - drug_row_cid
+  - drug_col_cid
+  - cell_line_name
+  - study_name
+  - tissue_name
+  - conc_row_unit
+  - conc_col_unit
+  - css_ri
+  - s_sum
+  - s_mean
+  - s_max
+  - synergy_zip
+  - synergy_loewe
+  - synergy_hsa
+  - synergy_bliss
+  - drug_row_clinical_phase
+  - drug_col_clinical_phase
+  - drug_row_target_name
+  - drug_col_target_name
+  - primary_synergy_metric
+  - primary_synergy_value
+  - dose_response_part_path
+  - dose_response_row_count
+  - provenance_level
+  - source_holdout_role
+  - train_flag
+  - eval_flag
+  - public_url
+  - note
+  drugcomb_dose_response_matrix_fields:
+  - dose_response_uid
+  - source_key
+  - source_release
+  - block_id
+  - drug_row
+  - drug_col
+  - drug_row_cid
+  - drug_col_cid
+  - conc_r
+  - conc_c
+  - inhibition
+  - conc_r_unit
+  - conc_c_unit
+  - cell_line_name
+  - cellosaurus_accession
+  - study_name
+  - provenance_level
+  - source_holdout_role
+  - train_flag
+  - eval_flag
+  iclr_acquisition_request_fields:
+  - request_uid
+  - round_uid
+  - candidate_uid
+  - state_uid
+  - action_uid
+  - tool_uid
+  - fidelity
+  - requested_outputs
+  - budget_class
+  - seed
+  iclr_checkpoint_manifest_fields:
+  - schema_version
+  - checkpoint_uid
+  - public_model_name
+  - architecture_version
+  - scale
+  - checkpoint_uri
+  - checkpoint_hash
+  - training_run_uid
+  - config_hash
+  - data_manifest_hash
+  - split_manifest_hash
+  - selection_rule
+  - validation_metrics_uri
+  - legacy_key_mapping_uri
+  - status
+  iclr_claim_metric_fields:
+  - claim_id
+  - experiment_id
+  - model_id
+  - checkpoint_hash
+  - data_manifest_hash
+  - split_manifest_hash
+  - seed
+  - metric_name
+  - metric_value
+  - direction
+  - ci_low
+  - ci_high
+  - status
+  iclr_cost_estimate_fields:
+  - schema_version
+  - estimate_uid
+  - tool_uid
+  - request_payload_hash
+  - scenario
+  - components
+  - total_normalized_cost
+  - estimator_version
+  - calibration_artifact_uri
+  iclr_cost_estimate_component_fields:
+  - cpu_seconds
+  - gpu_seconds
+  - wall_seconds
+  - memory_gb_seconds
+  - monetary_cost
+  - retry_expected_cost
+  iclr_observation_fields:
+  - schema_version
+  - observation_uid
+  - biological_unit_uid
+  - source_uids
+  - publication_uids
+  - accession_uids
+  - species
+  - disease_state
+  - region_uids
+  - modality_blocks
+  - ontology_version
+  - qc_grade
+  - train_eval_role
+  - holdout_groups
+  - content_hash
+  iclr_public_source_manifest_fields:
+  - source_uid
+  - official_name
+  - official_url
+  - access_class
+  - license_or_terms_url
+  - license_snapshot_hash
+  - retrieval_date
+  - version_or_release
+  - source_holdout_group
+  - raw_checksum
+  - parser_version
+  - qc_status
+  - controlled_access_flag
+  - participant_level_flag
+  iclr_run_manifest_fields:
+  - schema_version
+  - run_uid
+  - claim_id
+  - run_type
+  - status
+  - git_commit
+  - git_dirty
+  - config_hash
+  - data_manifest_hash
+  - split_manifest_hash
+  - checkpoint_input_hash
+  - seed
+  - command
+  - environment_hash
+  - resource_profile
+  - started_at
+  - finished_at
+  - artifact_uris
+  - failure_artifact_uri
+  iclr_split_manifest_fields:
+  - schema_version
+  - split_uid
+  - split_type
+  - corpus_hash
+  - group_axes
+  - train_uids_uri
+  - validation_uids_uri
+  - test_uids_uri
+  - holdout_uids_uri
+  - manifest_hash
+  - leakage_audit_uri
+  - frozen
+  iclr_structured_action_fields:
+  - action_uid
+  - intervention_type
+  - target_set
+  - agent_set
+  - dose_value
+  - dose_unit
+  - schedule
+  - route
+  - state_scope
+  - source_publication
+  - exposure_program_ref
+  - occupancy_program_ref
+  iclr_tool_request_fields:
+  - schema_version
+  - request_uid
+  - round_uid
+  - tool_uid
+  - tool_version
+  - state_uid
+  - action_uid
+  - requested_outputs
+  - fidelity
+  - time_grid
+  - region_grid
+  - compartment_grid
+  - species_list
+  - parameter_prior_uid
+  - uncertainty_policy
+  - budget_class
+  - seed
+  - source_holdout_role
+  - payload_hash
+  iclr_tool_result_fields:
+  - tool_result_uid
+  - request_uid
+  - tool_uid
+  - tool_version
+  - input_hash
+  - output_hash
+  - runtime_seconds
+  - cpu_hours
+  - gpu_hours
+  - api_or_license_cost
+  - failure_status
+  - qc_grade
+  - result_artifact_ref
+  iclr_trajectory_fields:
+  - schema_version
+  - trajectory_uid
+  - family_uid
+  - initial_observation_uid
+  - action_uid
+  - axes
+  - artifact_uri
+  - artifact_hash
+  - teacher_family
+  - teacher_version
+  - seed
+  - uncertainty_policy
+  - constraint_report_uri
+  - qc_grade
+  - train_eval_role
+  - source_holdout_group
+  iclr_trajectory_axis_fields:
+  - time
+  - region
+  - compartment
+  - species
+  iclr_controller_lineage_policy_fields:
+  - roadmap_id
+  - minimum_roadmap_revision
+  # Absent in historical configs, which retain installed-lineage admission.
+  iclr_contract_union_optional_fields:
+  - controller_lineage_policy
+  iclr_contract_union_record_fields:
+  - schema_version
+  - contract_version
+  - runtime_owner
+  - public_identity
+  - claims
+  - enums
+  - policies
+  - precedence_registry
+  - conflict_registry
+  - validator_registry
+  - consumer_registry
+  - source_of_truth_registry
+  - contract_registry
+  - mandatory_requirements
+  - schema_families
+  - pending_work
+  - audit_contract
+  - g0_blocker_posture
+  - phase1_open
+  - implementation_enabled
+  public_mainline_isolation_contract_fields:
+  - schema_version
+  - public_entrypoint
+  - controlled_overlays
+  - controlled_source_identifiers
+  - controlled_section_keys
+  - controlled_config_paths
+  - controlled_path_roots
+  - controlled_source_classes
+  - public_routes
+  - governance_only_contexts
+  - controlled_entrypoints
+  - governance_only_static_entrypoints
+  - static_scan_roots
+  - static_route_class_prefixes
+  - controlled_boolean_keys
+  - output_paths
+  controlled_research_stack_fields:
+  - schema_version
+  - stack_role
+  - entrypoint
+  - public_entrypoint
+  - controlled_config
+  - non_public
+  - non_paper
+  - paper_evidence_allowed
+  - c1_c5_evidence_allowed
+  - explicit_invocation_required
+  - governance_approval_required
+  - approval_evidence_required
+  - network_credentials_required_for_sync
+  - fail_closed_without_approval
+  - fail_closed_without_credentials
+  - silent_fallback_allowed
+  - public_fallback_allowed
+  - synthetic_fallback_allowed
+  iclr_document_declaration_fields:
+  - path
+  - document_status
+  - source_status
+  - precedence_id
+  - canonical_contract_ids
+  - owning_milestone_id
+  - owning_direction_id
+  - downstream_consumer_ids
+  - responsible_validator_ids
+  - mandatory_requirement_ids
+  - conflicts
+  - supersedes
+  iclr_validator_registry_fields:
+  - validator_id
+  - entrypoint
+  - output_path
+  - scope
+  iclr_config_stack_audit_fields:
+  - schema_version
+  - status
+  - config_path
+  - config_sha256
+  - include_order
+  - include_graph
+  - union_owner
+  - leaf_owner_count
+  - blockers
+  - blocker_count
+  iclr_contract_union_consistency_audit_fields:
+  - schema_version
+  - status
+  - contract_version
+  - config_sha256
+  - claim_migration_sha256
+  - blocker_count
+  - blockers
+  - resolved_conflicts
+  - pending_conflicts
+  - pending_work
+  - bound_audits
+  iclr_design_contract_coverage_audit_fields:
+  - schema_version
+  - status
+  - docs_root
+  - discovered_document_count
+  - declared_document_count
+  - duplicate_declarations
+  - missing_declarations
+  - stale_declarations
+  - documents
+  - blocker_count
+  - blockers
+  iclr_orchestrator_state_contract_audit_fields:
+  - schema_version
+  - status
+  - state_path
+  - state_sha256_before
+  - state_sha256_after
+  - state_mutated
+  - roadmap_id
+  - roadmap_revision
+  - selected_milestone_id
+  - selected_direction_id
+  - blocker_count
+  - blockers
+  public_mainline_config_graph_fields:
+  - schema_version
+  - status
+  - public_root
+  - actual_root
+  - nodes
+  - edges
+  - controlled_nodes_reachable
+  - controlled_nodes_reachable_count
+  - loaded_controlled_sections
+  - isolated_controlled_overlays
+  - blockers
+  - blocker_count
+  public_mainline_isolation_audit_fields:
+  - schema_version
+  - status
+  - config_path
+  - config_sha256
+  - config_graph_sha256
+  - route_class_counts
+  - route_findings
+  - unregistered_config_findings
+  - governance_context_findings
+  - controlled_entrypoint_findings
+  - static_route_findings
+  - controlled_reachability_count
+  - blockers
+  - blocker_count
+  g0_public_mainline_remediation_report_fields:
+  - schema_version
+  - blocker_id
+  - original_status
+  - candidate_status
+  - dedicated_g0_rerun_required
+  - aggregate_g0_rerun_required
+  - dedicated_validator_passed
+  - original_blocker_closed
+  - phase1_open
+  - implementation_enabled
+  - isolation_audit_sha256
+  - controlled_reachability_count
+  - route_class_counts
+  - blockers
+  - blocker_count
+  - status
+  digital_twin_evidence_record_fields:
+  - evidence_uid
+  - evidence_type
+  - source_uid
+  - publication_accession
+  - biological_unit_uid
+  - state_uid
+  - action_uid
+  - trajectory_uid
+  - tool_result_uid
+  - model_family_uid
+  - time_semantics
+  - pairing_semantics
+  - fidelity
+  - qc_grade
+  - uncertainty
+  - provenance
+  - allowed_train_roles
+  - allowed_eval_roles
+  - claim_eligibility
+  digital_twin_evidence_relationship_fields:
+  - edge_uid
+  - source_evidence_uid
+  - target_uid
+  - target_kind
+  - relationship_type
+  - pairing_semantics
+  - provenance
+  digital_twin_evidence_role_matrix_fields:
+  - fabric_identity
+  - evidence_uid
+  - evidence_type
+  - source_uid
+  - fidelity
+  - qc_grade
+  - allowed_train_roles
+  - allowed_eval_roles
+  - claim_eligibility
+  evidence_relationship_schema_registry:
+    evidence_node:
+      schema_version: neuronsifter-evidence-node-v1
+      path: Libs/configs/schema/evidence_node.schema.json
+    evidence_relation:
+      schema_version: neuronsifter-evidence-relation-v1
+      path: Libs/configs/schema/evidence_relation.schema.json
+    evidence_pairing_decision:
+      schema_version: neuronsifter-evidence-pairing-decision-v1
+      path: Libs/configs/schema/evidence_pairing_decision.schema.json
+    evidence_support_domain:
+      schema_version: neuronsifter-evidence-support-domain-v1
+      path: Libs/configs/schema/evidence_support_domain.schema.json
+    evidence_eligibility:
+      schema_version: neuronsifter-evidence-eligibility-v1
+      path: Libs/configs/schema/evidence_eligibility.schema.json
+    evidence_conflict:
+      schema_version: neuronsifter-evidence-conflict-v1
+      path: Libs/configs/schema/evidence_conflict.schema.json
+    evidence_relationship_graph:
+      schema_version: neuronsifter-evidence-relationship-graph-v1
+      path: Libs/configs/schema/evidence_relationship_graph.schema.json
+  evidence_node_fields:
+  - schema_version
+  - node_uid
+  - node_type
+  - evidence_class
+  - qc_grade
+  - identity_axes
+  - provenance_ref
+  - train_eval_role
+  - status
+  evidence_relation_fields:
+  - schema_version
+  - relation_uid
+  - relation_type
+  - source_node_uid
+  - target_node_uid
+  - directionality
+  - biological_unit_relation
+  - temporal_relation
+  - action_relation
+  - context_relation
+  - support_domain_ref
+  - eligibility_ref
+  - provenance_ref
+  - confidence
+  - status
+  evidence_pairing_decision_fields:
+  - schema_version
+  - pairing_uid
+  - source_node_uid
+  - target_node_uid
+  - decision
+  - identity_axis_results
+  - required_identity_axes
+  - pairing_evidence
+  - blockers
+  - status
+  evidence_support_domain_fields:
+  - schema_version
+  - support_domain_uid
+  - organism_scope
+  - disease_scope
+  - region_scope
+  - compartment_scope
+  - cell_type_scope
+  - modality_scope
+  - assay_scope
+  - action_scope
+  - dose_scope
+  - route_scope
+  - time_scope
+  - model_family_scope
+  - tool_family_scope
+  - source_scope
+  - generalization_status
+  - provenance_ref
+  - status
+  evidence_eligibility_fields:
+  - schema_version
+  - eligibility_uid
+  - subject_uid
+  - eligible_for_state_pretraining
+  - eligible_for_action_endpoint_training
+  - eligible_for_trajectory_training
+  - eligible_for_calibration
+  - eligible_for_validation
+  - eligible_for_stress_test
+  - eligible_for_claim_support
+  - eligible_for_hypothesis_generation
+  - reasons
+  - status
+  evidence_conflict_fields:
+  - schema_version
+  - conflict_uid
+  - conflict_type
+  - member_uids
+  - state
+  - typed_context_difference
+  - provenance_ref
+  - status
+  round13_action_observation_schema_registry:
+    world_action:
+      schema_version: neuronsifter-world-action-v1
+      path: Libs/configs/schema/world_action.schema.json
+    information_action:
+      schema_version: neuronsifter-information-action-v1
+      path: Libs/configs/schema/information_action.schema.json
+    observation_request:
+      schema_version: neuronsifter-observation-request-v1
+      path: Libs/configs/schema/observation_request.schema.json
+    exposure_occupancy_program:
+      schema_version: neuronsifter-exposure-occupancy-program-v1
+      path: Libs/configs/schema/exposure_occupancy_program.schema.json
+    tool_capability_match:
+      schema_version: neuronsifter-tool-capability-match-v1
+      path: Libs/configs/schema/tool_capability_match.schema.json
+    raw_tool_result:
+      schema_version: neuronsifter-raw-tool-result-v1
+      path: Libs/configs/schema/raw_tool_result.schema.json
+    canonical_observation:
+      schema_version: neuronsifter-canonical-observation-v1
+      path: Libs/configs/schema/canonical_observation.schema.json
+    observation_qc:
+      schema_version: neuronsifter-observation-qc-v1
+      path: Libs/configs/schema/observation_qc.schema.json
+    assimilation_proposal:
+      schema_version: neuronsifter-assimilation-proposal-v1
+      path: Libs/configs/schema/assimilation_proposal.schema.json
+    assimilation_decision:
+      schema_version: neuronsifter-assimilation-decision-v1
+      path: Libs/configs/schema/assimilation_decision.schema.json
+    hypothetical_action_scenario:
+      schema_version: neuronsifter-hypothetical-action-scenario-v1
+      path: Libs/configs/schema/hypothetical_action_scenario.schema.json
+    round13_action_observation_graph:
+      schema_version: neuronsifter-round13-action-observation-graph-v1
+      path: Libs/configs/schema/round13_action_observation_graph.schema.json
+  controlled_world_open_action_schema_registry:
+    open_action_manifest:
+      schema_version: neuronsifter-controlled-world-open-action-manifest-v1
+      path: Libs/configs/schema/controlled_world_open_manifest.schema.yaml
+    open_package_receipt:
+      schema_version: neuronsifter-controlled-world-open-package-receipt-v1
+      path: Libs/configs/schema/controlled_world_open_package_receipt.schema.yaml
+    open_data_qualification:
+      schema_version: neuronsifter-controlled-world-open-data-qualification-v1
+      path: Libs/configs/schema/controlled_world_open_data_qualification.schema.yaml
+  round14_evidence_fabric_schema_registry:
+    evidence_fabric_admission_record:
+      schema_version: neuronsifter-evidence-fabric-admission-record-v1
+      path: Libs/configs/schema/evidence_fabric_admission_record.schema.json
+    evidence_fabric_release_manifest:
+      schema_version: neuronsifter-evidence-fabric-release-manifest-v1
+      path: Libs/configs/schema/evidence_fabric_release_manifest.schema.json
+  round15_trajectory_schema_registry:
+    clean_action_complete_trajectory:
+      schema_version: neuronsifter-clean-action-complete-trajectory-v1
+      path: Libs/configs/schema/clean_action_complete_trajectory.schema.json
+    trajectory_producer:
+      schema_version: neuronsifter-trajectory-producer-v1
+      path: Libs/configs/schema/trajectory_producer.schema.json
+    trajectory_producer_qualification:
+      schema_version: neuronsifter-trajectory-producer-qualification-v1
+      path: Libs/configs/schema/trajectory_producer_qualification.schema.json
+    trajectory_initial_state:
+      schema_version: neuronsifter-trajectory-initial-state-v1
+      path: Libs/configs/schema/trajectory_initial_state.schema.json
+    trajectory_action_binding:
+      schema_version: neuronsifter-trajectory-action-binding-v1
+      path: Libs/configs/schema/trajectory_action_binding.schema.json
+    trajectory_numerical_qc:
+      schema_version: neuronsifter-trajectory-numerical-qc-v1
+      path: Libs/configs/schema/trajectory_numerical_qc.schema.json
+    trajectory_constraint_qc:
+      schema_version: neuronsifter-trajectory-constraint-qc-v1
+      path: Libs/configs/schema/trajectory_constraint_qc.schema.json
+    trajectory_control_pair:
+      schema_version: neuronsifter-trajectory-control-pair-v1
+      path: Libs/configs/schema/trajectory_control_pair.schema.json
+    trajectory_failure:
+      schema_version: neuronsifter-trajectory-failure-v1
+      path: Libs/configs/schema/trajectory_failure.schema.json
+    trajectory_admission_decision:
+      schema_version: neuronsifter-trajectory-admission-decision-v1
+      path: Libs/configs/schema/trajectory_admission_decision.schema.json
+    trajectory_family_manifest:
+      schema_version: neuronsifter-trajectory-family-manifest-v1
+      path: Libs/configs/schema/trajectory_family_manifest.schema.json
+    round15_e4_release_candidate:
+      schema_version: neuronsifter-round15-e4-release-candidate-v1
+      path: Libs/configs/schema/round15_e4_release_candidate.schema.json
+  round16_what_if_schema_registry:
+    what_if_request:
+      schema_version: neuronsifter-what-if-request-v1
+      path: Libs/configs/schema/what_if_request.schema.json
+    what_if_baseline:
+      schema_version: neuronsifter-what-if-baseline-v1
+      path: Libs/configs/schema/what_if_baseline.schema.json
+    what_if_action_binding:
+      schema_version: neuronsifter-what-if-action-binding-v1
+      path: Libs/configs/schema/what_if_action_binding.schema.json
+    rollout_engine:
+      schema_version: neuronsifter-rollout-engine-v1
+      path: Libs/configs/schema/rollout_engine.schema.json
+    rollout_request:
+      schema_version: neuronsifter-rollout-request-v1
+      path: Libs/configs/schema/rollout_request.schema.json
+    rollout_attempt:
+      schema_version: neuronsifter-rollout-attempt-v1
+      path: Libs/configs/schema/rollout_attempt.schema.json
+    rollout_trajectory:
+      schema_version: neuronsifter-rollout-trajectory-v1
+      path: Libs/configs/schema/rollout_trajectory.schema.json
+    rollout_control_pair:
+      schema_version: neuronsifter-rollout-control-pair-v1
+      path: Libs/configs/schema/rollout_control_pair.schema.json
+    counterfactual_contrast:
+      schema_version: neuronsifter-counterfactual-contrast-v1
+      path: Libs/configs/schema/counterfactual_contrast.schema.json
+    rollout_uncertainty:
+      schema_version: neuronsifter-rollout-uncertainty-v1
+      path: Libs/configs/schema/rollout_uncertainty.schema.json
+    rollout_constraint_report:
+      schema_version: neuronsifter-rollout-constraint-report-v1
+      path: Libs/configs/schema/rollout_constraint_report.schema.json
+    rollout_reliability_report:
+      schema_version: neuronsifter-rollout-reliability-report-v1
+      path: Libs/configs/schema/rollout_reliability_report.schema.json
+    what_if_eligibility_decision:
+      schema_version: neuronsifter-what-if-eligibility-decision-v1
+      path: Libs/configs/schema/what_if_eligibility_decision.schema.json
+    what_if_result:
+      schema_version: neuronsifter-what-if-result-v1
+      path: Libs/configs/schema/what_if_result.schema.json
+    round16_what_if_release_candidate:
+      schema_version: neuronsifter-round16-what-if-release-candidate-v1
+      path: Libs/configs/schema/round16_what_if_release_candidate.schema.json
+  round17_scitil_schema_registry:
+    twin_belief_state:
+      schema_version: neuronsifter-twin-belief-state-v1
+      path: Libs/configs/schema/twin_belief_state.schema.json
+    agent_identity:
+      schema_version: neuronsifter-agent-identity-v1
+      path: Libs/configs/schema/agent_identity.schema.json
+    agent_proposal:
+      schema_version: neuronsifter-agent-proposal-v1
+      path: Libs/configs/schema/agent_proposal.schema.json
+    scientific_hypothesis:
+      schema_version: neuronsifter-scientific-hypothesis-v1
+      path: Libs/configs/schema/scientific_hypothesis.schema.json
+    hypothesis_gate_decision:
+      schema_version: neuronsifter-hypothesis-gate-decision-v1
+      path: Libs/configs/schema/hypothesis_gate_decision.schema.json
+    world_action_gate_decision:
+      schema_version: neuronsifter-world-action-gate-decision-v1
+      path: Libs/configs/schema/world_action_gate_decision.schema.json
+    information_action_gate_decision:
+      schema_version: neuronsifter-information-action-gate-decision-v1
+      path: Libs/configs/schema/information_action_gate_decision.schema.json
+    observation_gate_decision:
+      schema_version: neuronsifter-observation-gate-decision-v1
+      path: Libs/configs/schema/observation_gate_decision.schema.json
+    dual_action_decision:
+      schema_version: neuronsifter-dual-action-decision-v1
+      path: Libs/configs/schema/dual_action_decision.schema.json
+    twin_debt:
+      schema_version: neuronsifter-twin-debt-v1
+      path: Libs/configs/schema/twin_debt.schema.json
+    scientific_budget:
+      schema_version: neuronsifter-scientific-budget-v1
+      path: Libs/configs/schema/scientific_budget.schema.json
+    risk_budget:
+      schema_version: neuronsifter-risk-budget-v1
+      path: Libs/configs/schema/risk_budget.schema.json
+    agent_loop_event:
+      schema_version: neuronsifter-agent-loop-event-v1
+      path: Libs/configs/schema/agent_loop_event.schema.json
+    agent_loop_episode:
+      schema_version: neuronsifter-agent-loop-episode-v1
+      path: Libs/configs/schema/agent_loop_episode.schema.json
+    hypothesis_ledger_entry:
+      schema_version: neuronsifter-hypothesis-ledger-entry-v1
+      path: Libs/configs/schema/hypothesis_ledger_entry.schema.json
+    agent_explanation:
+      schema_version: neuronsifter-agent-explanation-v1
+      path: Libs/configs/schema/agent_explanation.schema.json
+    round17_scitil_release_candidate:
+      schema_version: neuronsifter-round17-scitil-release-candidate-v1
+      path: Libs/configs/schema/round17_scitil_release_candidate.schema.json
+  round18_literature_replay_schema_registry:
+    literature_replay_episode:
+      schema_version: neuronsifter-literature-replay-episode-v1
+      path: Libs/configs/schema/literature_replay_episode.schema.json
+    literature_cutoff:
+      schema_version: neuronsifter-literature-cutoff-v1
+      path: Libs/configs/schema/literature_cutoff.schema.json
+    pre_cutoff_evidence_bundle:
+      schema_version: neuronsifter-pre-cutoff-evidence-bundle-v1
+      path: Libs/configs/schema/pre_cutoff_evidence_bundle.schema.json
+    held_out_outcome:
+      schema_version: neuronsifter-held-out-outcome-v1
+      path: Libs/configs/schema/held_out_outcome.schema.json
+    benchmark_label:
+      schema_version: neuronsifter-benchmark-label-v1
+      path: Libs/configs/schema/benchmark_label.schema.json
+    sequential_reveal_event:
+      schema_version: neuronsifter-sequential-reveal-event-v1
+      path: Libs/configs/schema/sequential_reveal_event.schema.json
+    benchmark_prediction:
+      schema_version: neuronsifter-benchmark-prediction-v1
+      path: Libs/configs/schema/benchmark_prediction.schema.json
+    benchmark_ranking:
+      schema_version: neuronsifter-benchmark-ranking-v1
+      path: Libs/configs/schema/benchmark_ranking.schema.json
+    benchmark_abstention:
+      schema_version: neuronsifter-benchmark-abstention-v1
+      path: Libs/configs/schema/benchmark_abstention.schema.json
+    benchmark_metric_result:
+      schema_version: neuronsifter-benchmark-metric-result-v1
+      path: Libs/configs/schema/benchmark_metric_result.schema.json
+    memory_leakage_risk:
+      schema_version: neuronsifter-memory-leakage-risk-v1
+      path: Libs/configs/schema/memory_leakage_risk.schema.json
+    public_source_boundary:
+      schema_version: neuronsifter-public-source-boundary-v1
+      path: Libs/configs/schema/public_source_boundary.schema.json
+    literature_replay_run:
+      schema_version: neuronsifter-literature-replay-run-v1
+      path: Libs/configs/schema/literature_replay_run.schema.json
+    round18_benchmark_release:
+      schema_version: neuronsifter-round18-benchmark-release-v1
+      path: Libs/configs/schema/round18_benchmark_release.schema.json
+  round19_public_e2_e4_schema_registry:
+    scientific_contract:
+      schema_version: neuronsifter-round19-scientific-contract-v1
+      path: Libs/configs/schema/round19_scientific_contract.schema.json
+    training_readiness_contract:
+      schema_version: neuronsifter-round19-training-readiness-contract-v1
+      path: Libs/configs/schema/round19_training_readiness_contract.schema.json
+    e2_endpoint:
+      schema_version: neuronsifter-round19-e2-endpoint-v1
+      path: Libs/configs/schema/round19_e2_endpoint.schema.json
+    e2_admission:
+      schema_version: neuronsifter-round19-e2-admission-v1
+      path: Libs/configs/schema/round19_e2_admission.schema.json
+    e4_producer_qualification:
+      schema_version: neuronsifter-round19-e4-producer-qualification-v1
+      path: Libs/configs/schema/round19_e4_producer_qualification.schema.json
+    e4_trajectory:
+      schema_version: neuronsifter-round19-e4-intervention-trajectory-v1
+      path: Libs/configs/schema/round19_e4_intervention_trajectory.schema.json
+    e4_control_pair:
+      schema_version: neuronsifter-round19-e4-control-pair-v1
+      path: Libs/configs/schema/round19_e4_control_pair.schema.json
+    e2_e4_alignment:
+      schema_version: neuronsifter-round19-e2-e4-alignment-v1
+      path: Libs/configs/schema/round19_e2_e4_alignment.schema.json
+    frozen_gap_resolution:
+      schema_version: neuronsifter-round19-frozen-gap-resolution-v1
+      path: Libs/configs/schema/round19_frozen_gap_resolution.schema.json
+    training_eligibility:
+      schema_version: neuronsifter-round19-training-eligibility-v1
+      path: Libs/configs/schema/round19_training_eligibility.schema.json
+  round20_shared_schema_registry:
+    cell_taxonomy_crosswalk:
+      schema_version: neuronsifter-round20-cell-taxonomy-crosswalk-v1
+      path: Libs/configs/schema/round20_cell_taxonomy_crosswalk.schema.json
+    biological_unit:
+      schema_version: neuronsifter-round20-biological-unit-v1
+      path: Libs/configs/schema/round20_biological_unit.schema.json
+    allen_rights_release_repair_contract:
+      schema_version: neuronsifter-round20-allen-rights-release-repair-contract-v1
+      path: Libs/configs/schema/round20_allen_rights_release_repair_contract.schema.json
+  clean_action_complete_trajectory_fields:
+  - schema_version
+  - trajectory_uid
+  - trajectory_family_uid
+  - episode_uid
+  - producer_uid
+  - producer_version
+  - producer_type
+  - initial_state_ref
+  - initial_state_hash
+  - world_action_ref
+  - action_program_hash
+  - no_action_control_ref
+  - support_domain_ref
+  - state_namespace
+  - region_axis
+  - compartment_axis
+  - species_or_feature_axis
+  - channel_units
+  - start_time
+  - end_time
+  - time_unit
+  - time_grid
+  - native_solver_time_grid
+  - canonical_export_time_grid
+  - sampling_interval
+  - adaptive_step_metadata
+  - interpolation
+  - state_values_ref
+  - state_values_hash
+  - uncertainty_ref
+  - constraint_diagnostics_ref
+  - numerical_qc_ref
+  - physical_qc_ref
+  - producer_inputs_hash
+  - producer_parameters_hash
+  - random_seed
+  - code_commit
+  - environment_hash
+  - runtime_identity
+  - status
+  - eligibility
+  - provenance
+  - derived_from_legacy_trajectory_ref
+  - promotion_method
+  - promotion_validation
+  - fidelity_uid
+  - conflicts
+  evidence_fabric_admission_record_fields:
+  - schema_version
+  - candidate_uid
+  - layer
+  - item_type
+  - source_uid
+  - official_source_or_internal_producer
+  - source_version
+  - publication_or_accession
+  - license_or_access_status
+  - retrieval_or_generation_date
+  - raw_hash
+  - processed_hash
+  - parser_version
+  - canonicalization_version
+  - producer_uid
+  - producer_command
+  - train_eval_role
+  - holdout_group
+  - support_domain_ref
+  - qc_grade
+  - relationship_refs
+  - conflict_refs
+  - pairing_decision
+  - legacy_role
+  - empirical_truth
+  - eligibility
+  - identity
+  - payload
+  - state_history
+  - terminal_state
+  - blockers
+  - content_hash
+  evidence_fabric_release_manifest_fields:
+  - schema_version
+  - release_uid
+  - release_version
+  - parent_release
+  - created_at
+  - code_commit
+  - config_hash
+  - schema_registry_hash
+  - input_bundle_hash
+  - environment_hash
+  - source_manifest_hash
+  - node_catalog_hash
+  - relation_catalog_hash
+  - action_catalog_hash
+  - observation_catalog_hash
+  - conflict_catalog_hash
+  - gap_ledger_hash
+  - admission_summary
+  - status
+  - sealed
+  world_action_fields:
+  - schema_version
+  - action_uid
+  - intervention_type
+  - target_set
+  - agent_set
+  - dose
+  - dose_unit
+  - schedule
+  - route
+  - duration
+  - stimulation_or_environment
+  - state_scope
+  - support_domain_ref
+  - source_evidence_refs
+  - action_provenance_ref
+  - conflicts
+  - status
+  information_action_fields:
+  - schema_version
+  - information_action_uid
+  - candidate_uids
+  - requested_observables
+  - tool_or_source_uid
+  - fidelity
+  - measurement_context
+  - budget_class
+  - expected_cost
+  - expected_runtime
+  - failure_policy
+  - support_domain_ref
+  - provenance_ref
+  - conflicts
+  - status
+  observation_request_fields:
+  - schema_version
+  - request_uid
+  - research_question_ref
+  - requested_variable_namespace
+  - requested_feature_ids
+  - region
+  - compartment
+  - cell_type
+  - biological_unit_scope
+  - timepoint_or_time_window
+  - assay_or_measurement_type
+  - required_units
+  - minimum_quality
+  - minimum_fidelity
+  - uncertainty_requirement
+  - budget
+  - tool_availability_constraints
+  - support_domain_ref
+  - provenance_ref
+  - status
+  exposure_occupancy_program_fields:
+  - schema_version
+  - program_uid
+  - action_uid
+  - time_grid
+  - exposure_fields
+  - occupancy_fields
+  - target_program
+  - off_target_context
+  - parameter_provenance
+  - uncertainty
+  - support_domain
+  - compiler_version
+  - status
+  - blockers
+  - conflicts
+  tool_capability_match_fields:
+  - schema_version
+  - match_uid
+  - tool_request_uid
+  - tool_uid
+  - tool_version
+  - observable_supported
+  - organism_context_supported
+  - state_action_type_supported
+  - input_schema_compatible
+  - output_schema_compatible
+  - fidelity_available
+  - budget_sufficient
+  - license_access_resolved
+  - state
+  - restrictions
+  - support_domain_ref
+  - provenance_ref
+  - conflicts
+  raw_tool_result_fields:
+  - schema_version
+  - tool_result_uid
+  - tool_uid
+  - tool_version
+  - request_uid
+  - raw_artifact_hashes
+  - exit_status
+  - runtime
+  - resource_usage
+  - raw_schema
+  - failure_class
+  - stdout_ref
+  - stderr_ref
+  - support_domain_ref
+  - provenance_ref
+  - conflicts
+  - state_effect
+  canonical_observation_fields:
+  - schema_version
+  - observation_uid
+  - source_result_uid
+  - biological_unit_uid
+  - state_time
+  - region
+  - compartment
+  - cell_type
+  - modality
+  - feature_namespace
+  - feature_id
+  - value
+  - unit
+  - uncertainty
+  - missingness
+  - qc_grade
+  - support_domain_ref
+  - provenance_ref
+  - train_eval_role
+  - conflicts
+  - empirical_observation
+  observation_qc_fields:
+  - schema_version
+  - qc_uid
+  - source_result_uid
+  - schema_validity
+  - entity_mapping_quality
+  - unit_validity
+  - biological_unit_identity
+  - time_alignment
+  - action_alignment
+  - assay_quality
+  - missingness
+  - outlier_status
+  - source_reliability
+  - tool_reliability
+  - qc_grade
+  - predecessor_qc_grade
+  - verification_artifact_ref
+  - reason_codes
+  - provenance_ref
+  assimilation_proposal_fields:
+  - schema_version
+  - proposal_uid
+  - observation_uids
+  - target_state_components
+  - prior_state_ref
+  - proposed_update_type
+  - likelihood_or_update_model_ref
+  - uncertainty_change
+  - support_domain
+  - conflicts
+  - constraint_effects
+  - expected_twin_debt_change
+  - provenance_ref
+  - train_eval_roles
+  - source_kinds
+  - state_write_authorized
+  - validation_status
+  - blockers
+  assimilation_decision_fields:
+  - schema_version
+  - decision_uid
+  - proposal_uid
+  - controller_uid
+  - validator_uid
+  - prior_state_hash
+  - input_observation_hashes
+  - decision
+  - reason_codes
+  - approved_update_scope
+  - conflict_handling
+  - resulting_state_ref
+  - provenance_ref
+  hypothetical_action_scenario_fields:
+  - schema_version
+  - scenario_uid
+  - baseline_state_ref
+  - candidate_world_action
+  - assumptions
+  - scenario_context
+  - requested_outputs
+  - support_warnings
+  - support_domain_ref
+  - provenance_ref
+  - model_based_counterfactual
+  - causal_effect_claim
+  - clinical_recommendation
+  - empirical_observation
+  digital_twin_canonical_state_block_fields:
+  - schema_version
+  - state_block_uid
+  - evidence_uid
+  - evidence_type
+  - source_uid
+  - publication_accession
+  - biological_unit_uid
+  - state_uid
+  - state_time
+  - time_semantics
+  - organism
+  - axis_metadata
+  - feature_namespace
+  - feature_ids
+  - value_storage
+  - units
+  - biological_context
+  - uncertainty
+  - qc_grade
+  - pairing_semantics
+  - aggregation_semantics
+  - element_masks
+  - provenance
+  - allowed_train_roles
+  - allowed_eval_roles
+  - claim_eligibility
+  - loss_eligibility
+  - content_hash
+  digital_twin_canonical_state_axis_metadata_fields:
+  - axis_status
+  - axis_present
+  - axis_values
+  - axis_mapping_version
+  - axis_uncertainty
+  - axis_mask
+  digital_twin_canonical_state_element_mask_fields:
+  - observed
+  - missing
+  - unavailable
+  - not_applicable
+  - quarantined
+  digital_twin_canonical_state_value_storage_fields:
+  - format
+  - source_axis_order
+  - shape
+  - dense_values
+  - sparse_entries
+  - ragged_entries
+  - reference
+  digital_twin_canonical_state_aggregation_semantics_fields:
+  - aggregation_level
+  - aggregation_method
+  - source_record_count
+  - independent_unit_count
+  - aggregation_weights
+  - aggregation_provenance
+  - headline_eligible
+  digital_twin_canonical_state_eligibility_fields:
+  - eligible_for_state_reconstruction
+  - eligible_for_temporal_dynamics
+  - eligible_for_action_endpoint
+  - eligible_for_uncertainty_calibration
+  - eligible_for_constraint_evaluation
+  - eligible_for_what_if_initialization
+  operational_twin_training_sufficiency_schema: Libs/configs/schema/operational_twin_training_sufficiency.schema.json
+
+  osp_native_physical_program:
+    mode: osp_source_bound_equilibrium.v1
+    invocation: explicit_native_physical_input_and_native_output
+    source_input: completed_osp_csv_and_bound_run_parameter_readback
+    design_required: [design_id, source_posterior_uid, support, observations, region_ids, compartment_ids, time_grid_hours, graph_ref, organism_context, actions, exports]
+    export_required: [sample_uid, particle_uid, regimen_uid, csv_path, run_snapshot_path, binding]
+    run_required: [source_model_id, source_run_id, source_snapshot_ref, model_path, model_sha256, export_sha256, settings_origin, particle_basis, particle_parameter_paths, quantities]
+    action_setting_paths: [dose, dose_unit, route, schedule, duration, agent_set]
+    quantity_required: [site_uid, ligand_uid, target_uid, quantity_kind, concentration_unit, time_unit]
+    binding_required: [source_uid, source_snapshot_ref, source_posterior_uid, support_uid, sample_uid, particle_uid, regimen_uid, particle_basis, particle_parameters, action_setting_paths, site_mappings, interpolation, binding_law, requested_readout]
+    site_mapping_required: [region_id, compartment_id, site_uid, source_output_path, kd_source_path, kd_binding]
+    kd_binding_kinds: [particle_parameter, fixed_source_affinity]
+    particle_kd_binding: exact_named_particle_parameter_source_path_and_value
+    fixed_kd_binding: exact_named_fixed_affinity_paths_source_path
+    kd_record_required: [value, unit, source_ref, quantity_kind, binding_scope, source_uid, source_snapshot_ref, site_uid, ligand_uid, target_uid]
+    kd_quantity_kind: equilibrium_dissociation_constant
+    particle_kd_required: [particle_uid]
+    fixed_kd_policy: identical_named_source_affinity_across_whole_particles_no_particle_override
+    total_concentration_requires: [unbound_fraction_source_path, site_uid, particle_uid, free_over_total_same_site, source_ref]
+    supported_binding_law: single_ligand_equilibrium
+    supported_readout: fractional_occupancy
+    interpolation: [exact, linear_inside_coverage]
+    output_location: native_joint_observation_source.particle_programs.records.physical_program
+    retained_arrays: [free_concentration_mol_per_l, target_occupancy_fraction, occupancy, support, physical_time]
+    retained_metadata: [inputs, target_parameters]
+    admission: rederive_from_retained_source_and_match_compiler_and_outer_arrays
+    biological_calibration: unverified
+    teacher_confidence: not_produced
+
+  native_joint_observation_source:
+    schema_version: native_joint_observation_source.v1
+    required_fields: [schema_version, source_posterior_uid, support, observations, particle_programs]
+    source_input_kind: source_declared_prior_support_and_retained_readouts
+    forbidden_source_fields: [joint_posterior, particle_context, weights, log_weights, generating_indices, generating_fields]
+    factors: [z_tx, z_pk, z_env, z_ephys, z_morph]
+    support_axes: [sample, particle, region, compartment, species]
+    prior_weight_axes: [sample, particle]
+    program_axes: [sample, particle, action, time, region, compartment, scalar]
+    likelihoods: [negative_binomial, log_normal, gaussian, categorical]
+    missingness: marginalize_unobserved
+    censoring: log_normal_detection_limit_event
+    informative_admission: require_explicit_event_likelihood
+    admission_log_probability_encoding: finite_number_or_negative_infinity_token
+    negative_infinity_token: "-inf"
+    missing_measurement_encoding: null
+    occupancy: explicitly_registered_assay_only
+    source_nuisance: separate_per_channel
+    compiler_lineage: preserve_source_posterior_uid_and_complete_particle_basis
+    model_output_lineage: live_posterior_uid_binds_normalized_log_weights_and_context
+    cache_policy: cache_source_inputs_reinfer_model_outputs
+    calibrated: false
+    local_membrane:
+      optional_support_field: local_membrane
+      snapshot_schema_version: local_membrane_snapshot.v1
+      snapshot_fields: [schema_version, coordinate_uid, source_uid, source_snapshot_ref, support_uid, role, sample_uids, particle_uids, region_ids, compartment_ids, sites, voltage_convention, voltage_unit, time_unit, clock_uid, time_origin_uid, hour_origin, current_time_ms, acquisition_cutoff_ms, voltage, axes]
+      site_fields: [site_uid, membrane_ref, anatomy_ref, region_id, adjacent_compartment_id, voltage_reference_uid, intracellular_ref, extracellular_ref]
+      axes: [sample, particle, site]
+      voltage_unit: mV
+      voltage_convention: intracellular_minus_extracellular
+      incidence: named_membrane_to_cns_grid_not_state_alias
+      local_time_unit: ms
+      clock_dtype: float64
+      hour_origin: separate_scalar_with_clock_and_origin_identity
+      observation_field: physical_acquisition
+      acquisition_fields: [coordinate_uid, support_uid, site_uids, voltage_reference_uids, voltage_convention, clock_uid, time_origin_uid, hour_origin, time_unit, mode, measurement_time_ms, acquired_time_ms]
+      acquisition_mode: exact_snapshot
+      acquisition_constraint: measurement_equals_current_and_measurement_le_acquired_le_cutoff
+      readout_metadata_fields: [kind, coordinate_uid, site_uids, voltage_reference_uids]
+      readout: physical_H_equals_same_particle_V
+      free_readout_mean: forbidden
+      error_model_fields: [error_model_uid, source_ref, evidence_kind, source_uid, source_snapshot_ref, support_uid, channel_uid, calibration_status]
+      error_law: explicitly_source_declared_existing_continuous_law
+      error_parameters: explicitly_supplied_no_defaults_or_fitting
+      missing_error_binding: unbound_channel_cannot_condition
+      controlled_error_evidence_kind: synthetic_fixture
+      calibration_status: unverified
+      electrical_evolution_status: unbound
+      identity: consumed_posterior_and_whole_physical_program_basis
+
+  native_diffusion_training_batch:
+    joint_family_required_fields: [split_name, teacher_trajectory, teacher_confidence, sample_uids, regimen_uids, joint_source]
+    joint_family_derived_fields: [joint_posterior, particle_programs]
+    point_fields_scope: deterministic_compatibility
+    axes: [sample, action, time, region, compartment, species]
+    required_fields: [split_name, teacher_trajectory, teacher_confidence, initial_state, posterior_context, occupancy, support, physical_time, sample_uids, regimen_uids]
+    initial_state_axes: [sample, action, region, compartment, species]
+    teacher_confidence_axes: [sample, action]
+    program_axes: [sample, action, time, region, compartment, scalar]
+    physical_time_unit: hour
+    teacher_source: independent_qc_admitted_registry
+    generated_rollout_is_teacher: false
+    confidence_policy: nonnegative_finite_per_trajectory
+    missing_context_policy: reject_training
+    native_action_policies: [occupancy_program, drug_id, target_id, scalar_exposure]
+    drug_id_required_fields: [action_identity, action_identity_schema, action_policy]
+    target_id_required_fields: [action_identity, action_identity_schema, action_policy]
+    target_id_identity_schema: canonical_target_set_sha256_float4.v1
+    target_id_identity_source: program.action.target_set
+    joint_identity_fields: [action_identity_schema, action_policy]
+    action_identity_axes: [sample, action, digest_component]
+    action_identity_schema: canonical_agent_set_sha256_float4.v1
+    action_identity_source: program.action.agent_set
+    drug_id_predictor_excludes: [occupancy, support, legacy_regimen_features, dose, schedule, route, provenance, case_flags]
+
+  native_diffusion_serving_context:
+    joint_family_required_fields: [joint_source, regimen_uids]
+    joint_sequential_policy: whole_particle_across_all_actions_and_steps
+    required_fields: [regimen_uids, occupancy, support, physical_time]
+    program_axes: [sample, action, time, region, compartment, scalar]
+    physical_time_unit: hour
+    missing_context_policy: explicit_request_error
+    teacher_payload_allowed: false
+    drug_id_required_fields: [programs]
+    target_id_required_fields: [programs]
+    programs_alignment: one_canonical_compiled_program_per_declared_regimen_uid
+    program_validation: canonical_compiler_and_explicit_grid_bindings
+    sequential_initial_state: preceding_final_field
+    sequential_posterior_policy: same_observation_anchor
+    action_identity_source: program.action.agent_set
+    explicit_observation_pair: [initial_state, posterior_context]
+    target_id_identity_source: program.action.target_set
+    target_id_identity_schema: canonical_target_set_sha256_float4.v1
+    target_id_predictor_excludes: [agent_set, occupancy_waveform, support_waveform, dose, schedule, route, legacy_regimen_features]
+    target_id_missing_target_policy: canonical_pharmacological_admission_rejects_before_arrays
+    target_id_checkpoint_identity: explicit_policy_and_target_schema_required
+    native_unimplemented_policies: []
+    scalar_exposure_required_source: validated_physical_program_per_sample_particle_action
+    scalar_exposure_definition: source_site_free_concentration_trapezoidal_auc.v1
+    scalar_exposure_unit: nmol*h/L
+    scalar_exposure_interval: original_declared_program
+    scalar_exposure_cache_fields: [definition, records]
+    scalar_exposure_record_fields: [values, interval_hours, region_ids, compartment_ids, site_uids, program_uid, source_binding, physical_input_sha256]
+    scalar_exposure_predictor_excludes: [occupancy_waveform, support_waveform, action_identity, legacy_regimen_features]
+    scalar_exposure_neural_fields: [scalar_exposure_auc, scalar_exposure_interval]
+    scalar_exposure_site_axes: [region, compartment, scalar]
+    scalar_exposure_source_mutated: false
+
+  native_field_normalization:
+    schema_version: native_field_normalization.v1
+    binding: grid.normalization.artifact_ref_and_sha256
+    fit_role: train
+    fit_grades: [A, B]
+    fit_weights: QC_sample_weight_uniform_over_time_region_compartment
+    fit_rule: qc_weighted_population_sd_with_complete_particle_haar_support
+    range_basis: all_declared_source_particles_per_selected_teacher_action
+    constant_channel_policy: unit_scale_1_if_sd_and_haar_support_are_zero
+    required_fields: [schema_version, fit_role, rule, domain, representation, training_records, trajectory_count, weight_sum, entries_per_trajectory, weighted_sum, weighted_m2, mean, population_sd, scale, constant_channels, source_min, source_max, haar_positive_max, haar_negative_max, support_scale, stored_field_coordinates, model_field_coordinates, output_field_coordinates]
+    stored_field_coordinates: source
+    model_field_coordinates: affine_native
+    output_field_coordinates: source
+    source_arrays_mutated: false
+    source_likelihoods_and_physical_programs_normalized: false
+    diagnostics: preclamp_counts_and_quantization_saturation_sums_with_denominators
+    missing_teacher_diagnostics: absent
+    calibrated_ood_score: not_produced
+
+  joint_physical_parameter_hypotheses:
+    schema_version: named_physical_parameter_candidates.v1
+    support_field: physical_parameter_hypotheses
+    required_fields: [schema_version, source_uid, source_snapshot_ref, source_family_uid, support_uid, sample_uids, group_uids, particle_uids, declarations, scaling_rule, values, source_record_refs, producer_commit]
+    value_axes: [sample, particle, parameter_name]
+    value_dtype: float64
+    declaration_fields: [name, unit, reference_scale]
+    scaling_rule: absolute_source_nominal_or_unit_for_zero
+    parameter_conditioning: source_scaled_values_and_presence_mask
+    identity_consumers: [joint_source_digest, posterior_uid, checkpoint_schema_identity]
+    producer_only_fields_excluded: [hidden_index, generating_indices, selected_truth, future_targets]
+    retained_program_policy: unchanged_with_named_PK_subset_consistency
+
+  native_diffusion_registry:
+    joint_family_required_fields: [schema_version, posterior_family, sources, teachers, grid]
+    joint_source_storage: inline_or_complete_group_gzip_json
+    joint_source_collections: [joint_sources, joint_source_references]
+    joint_source_identity_policy: exactly_one_authority_per_source_posterior_uid
+    joint_family_teacher_arrays: [trajectory, uncertainty, teacher_confidence]
+    schema_version: native_diffusion_registry.v1
+    required_fields: [schema_version, sources, teachers, observations, programs, grid]
+    teacher_identity_fields: [trajectory_uid, source_uid, sample_uid, regimen_uid, action_uid, target_program_uid, program_uid, posterior_uid, family_uid, content_hash]
+    source_index_policy: explicit_and_distinct_from_derived_index
+    uncertainty_origin: independent_supplied
+    observation_origin: observation_derived
+    program_representation: explicit_grid
+    source_policy: public_nonprotected
+    physical_time_unit: hour
+
+  native_joint_source_reference:
+    required_fields: [source_posterior_uid, path, compression, sha256, size_bytes, uncompressed_size_bytes]
+    compression: gzip
+    read_unit: complete_group_all_particles_and_actions
+    integrity_consumers: [native_join_registry, native_descriptor_bindings, native_cache_binding]
+    missing_or_changed_payload: reject
+
+  native_molecular_administration:
+    schema_version: native_molecular_constant_reference_rate.v1
+    public_actuation_fields: [law_uid, numerical_source_uid, numerical_source_snapshot_ref, maximum_supported_total_mg_per_kg, reference_time_hours, route]
+    rate_unit: mg/kg/hour
+    cumulative_mass_unit: mg/kg
+    cumulative_mass: exact_forward_sum_of_consumed_public_source_intervals
+    identity: explicit_prospective_law_with_original_numerical_source_mapping
+    old_nominal_dose_costs: not_valid_for_this_opt_in_law
+    scientific_qualification: false
+
+  native_future_controls:
+    schema_version: native_future_controls.v1
+    required_fields: [schema_version, library, decision_phase, horizon, prefix, stimulation_budget, long_cns_budget, molecular_budget, rhs_budget, activation]
+    control_identity: model_owned_content_with_original_library_and_parent_prefix
+    rebranch: selected_current_model_column_and_same_original_library
+    observation_activation: requires_verified_public_execution_and_admitted_actual_switch_history
+    molecular_delivered_dose_mapping: unbound
+
+  native_residual_control:
+    schema_version: native_residual_control.v1
+    required_fields: [schema_version, predictor, decision_phase, selection, tie_break, loss_history, burden, initial_execution, initial_selection_mode, optimized_initial_selection, readout_mode, forecast_law]
+    truth_boundary: original_producer_truth_and_conditioning_only_inside_evaluator
+    hypothetical_forecasts: unexecuted_and_observation_filter_ineligible
+    initial_selection_modes: [explicit_fixed_index, public_open_loop_plan, public_joint_query_control]
+    readout_modes: [sensor_only, original_action_adaptive_unqualified]
+    adaptive_scale_authority: inherited_fixed_action_starting_model_not_adaptive_calibration
+    independent_adaptive_fit_check: required_for_scientific_qualification
+    initial_planning_boundary: all_public_actions_and_complete_plan_leaves_before_private_plant
+    joint_initial_selection: minimum_expected_terminal_query_cost_and_latency_complete_depth_two
+    scientific_status: initial_open_loop_and_postzero_components_only_full_MPC_and_calibration_open
+
+  native_residual_calibration_collection:
+    schema_version: native_residual_calibration_collection.v1
+    required_fields: [schema_version, purpose, reservation, collection_binding, collection_binding_id, denominator, groups, declared_group_count, completed_group_count, production_collection_complete, calibration_eligible, selected_decision_calibration_complete, statistical_independence_claimed, scientific_twin, formal_qualification]
+    purpose: frozen_policy_actual_episode_history_collection
+    reservations: [fit, check]
+    complete_statuses: [collection_complete, software_collection_complete]
+    unavailable_status: incomplete
+    production_groups_per_family: 512
+    threshold_use: excluded
+    history_origin: episode_authenticated_actual_acceptance
+    calibration_eligible: false
+    statistical_independence_claimed: false
+    scientific_readiness: NOT_ADMITTED
+    private_measurement_seed_and_rng: excluded
+    selected_loss_record: STOP_predicted_risk_and_committed_plan_before_terminal_private_outcome
+    incomplete_or_blocked_groups: retain_in_declared_denominator
+
+  native_residual_control_history:
+    schema_version: native_residual_control_history.v1
+    report_field: groups.actual_adaptive_readout_history
+    required_fields: [schema_version, origin, status, episode_status, scientific_readiness, adaptive_scientific_qualification, calibration_eligible, likelihood_data_available, report_context, reference_binding, initial_log_weights, records, record_count]
+    actual_origin: episode_authenticated_actual_acceptance
+    statuses: [empty, partial, failed, complete]
+    unavailable_statuses: [not_applicable, unavailable, error]
+    complete_scope: accepted_record_export_only
+    reload_authority: structural_validation_against_expected_report_context
+    scientific_readiness: NOT_ADMITTED
+    calibration_eligible: false
+    zero_logweight_representation: '-inf'
+    records: [query_index, filtering_revision, observation_uid, coordinates, mean, values, original_action_uid, executed_regimen_uid, switches, predictor_binding]
+    private_evaluator_state: forbidden
+    public_training_and_integration_seeds: preserve_existing_binding
+
+  native_temporal_query:
+    schema_version: native_temporal_query.v1
+    required_fields: [schema_version, query_library, stop_support, belief_update, stop_execution, numerical_choices, integration, measurement_cost, cost_penalty, latency_unit, latency_penalty_per_hour, lookahead_depth, integration_noise_replicates, integration_seed, budget]
+    truth_boundary: observations_only_no_private_world_input
+    hypothetical_updates: biological_weights_only_no_admission_or_optimizer
+    stop_control_support: identical_complete_world_plan_leaves
+    scientific_status: temporal_component_only_no_qualification_inferred
+
+  native_mechanistic_residual_online:
+    schema_version: native_mechanistic_residual_online.v1
+    required_fields: [schema_version, recipe_authority, authored_choices, horizon_transitions, warmup_transitions, buffer_transitions, updates_per_observation, window_selection, objective, prior, update_scope, network_mode, failure_policy, optimizer]
+    observation_boundary: only_actual_admitted_public_acquisition_packets
+    state_boundary: fixed_window_start_and_unchanged_live_carry_and_filter_history
+    parameter_boundary: episode_owned_copy_of_offline_residual_model
+    scientific_status: component_only_full_MPC_and_qualification_open
+
+  native_controlled_comparators:
+    schema_version: native_controlled_comparators.v1
+    required_fields: [input_representation, packing, interpolation_allowed, unsupported_fields, references]
+    reference_required_fields: [hyperparameters]
+    external_reference_required_fields: [source_repo_path, source_files, license, license_status]
+    maintained_reference_required_fields: [implementation_kind, source_modules]
+    native_mainline_reference_required_fields: [implementation_kind, source_modules, action_policy, composition, predictive_law]
+    native_mainline_hyperparameter_authority: materialized_native_scientific_profile
+    source_identity_consumer: reject_changed_algorithm_before_reference_import
+    native_axes: [particle_action_row, time, region, compartment, quantity]
+    wavelet_band_order: [LL, HL, LH, HH]
+    fit_coordinates: shared_training_only_normalization
+    missing_guidance: reject_diffusion_pde_sampling
+    unsupported_fields: masked_not_measured
+    surrogate_bridges_supply_native_authority: false
+
+  native_comparator_inputs:
+    required_blocks: [initial_field, z_tx, z_pk, z_env, z_ephys, z_morph, named_parameters_and_presence, observation_values, observation_mask, readout_mean, readout_variance, source_nuisance, occupancy, support, physical_time, electrical_current_uA, electrical_applicability, optical_power_mW, optical_applicability, real_time_mask, quantity_support, physical_domain]
+    row_axes: [sample, complete_particle, supported_action]
+    target_access: prohibited_during_conditioning_and_sampling
+    missing_observations: masked_before_arithmetic
+    source_role_and_producer_seed_features: prohibited
+    forecast_axes: [conditional_draw, sample, complete_particle, supported_action, time, region, compartment, quantity]
+    path_weights: posterior_particle_weight_divided_by_conditional_draw_count
+    guidance_equation_authority: frozen_primary_training_law
+    held_source_equation_selection: prohibited
+    mean_only_predictor: requires_explicit_residual_fit_for_predictive_law_metrics
+
+  native_comparator_checkpoint:
+    schema_version: native_comparator_checkpoint.v1
+    identity_location: native_comparator
+    identity_required_fields: [schema_version, method, reference, conditioning_layout, guidance, quantity_profile, conditioning, seed_binding, training_data_scope]
+    checkpoint_required_fields: [model_state_dict, optimizer_state_dict, epoch, executed_steps, training_seed_binding, native_comparator]
+    identity_consumers: [native_comparator_training, native_comparator_evaluation]
+    selection_role: development
+    mismatched_reference_conditioning_normalization_or_seed: reject
+
+  native_comparator_training:
+    schema_version: native_comparator_training.v1
+    required_fields: [schema_version, method, identity, training_seed_binding, selection, executed_steps, train_group_count, development_group_count, train_family_group_counts, development_family_group_counts, wall_seconds, failure, development_metric, scientific_twin, formal_qualification]
+    group_selection: predeclared_complete_group_allowlist
+    optimizer_accounting_fields: [effective_group_batch_size, executed_group_visits, executed_steps]
+    partial_tail: normalize_by_actual_group_count
+    validation_cadence: optimizer_updates_when_declared_otherwise_legacy_epochs
+    missing_duplicate_or_role_mismatched_group: reject
+    checkpoint_retention: immutable_selected_best_and_last
+    failure_status: FAILED
+    scientific_twin: NOT_RUN
+    formal_qualification: false
+
+  native_comparator_residual:
+    schema_version: native_comparator_residual.v1
+    required_fields: [schema_version, law, binding, fit_group_uids, check_group_uids, reference_time_hours, numerical, status, scales, counts, diagnostics, cost, checks, scientific_twin, formal_qualification]
+    law: native_controlled_teacher_readout_brownian.v1
+    species_count: 26
+    fit_role: calibration
+    fit_reservation: fit
+    check_role: calibration
+    check_reservation: check
+    overlapping_fit_check_groups: reject
+    evaluation_requires: [FIT_COMPLETE, exact_predictor_binding, calibration_check_complete]
+    scientific_check_pass: unqualified_diagnostic_only
+    collapsed_residual_policy: reject_without_positive_floor
+    scientific_twin: NOT_RUN
+    formal_qualification: false
+
+  native_comparator_evaluation:
+    schema_version: native_comparator_evaluation.v1
+    required_fields: [schema_version, method, binding, declared_group_count, groups, scientific_twin, formal_qualification]
+    terminal_required_fields: [status, defined_group_count, failed_or_unavailable_group_count]
+    group_statuses: [started, defined, failed, residual_unbound]
+    failed_or_unavailable_groups: retained_in_declared_denominator
+    mean_only_crps_without_bound_residual: null
+    predictive_law_scores: posterior_weighted_stratified_crps_and_weighted_quantiles
+    scientific_twin: NOT_RUN
+    formal_qualification: false
+
+  native_state_comparison:
+    methods: [state_joint, state_unimodal, state_late_fusion, state_pca, state_linear, state_scratch, state_single_source]
+    input_boundary: retained_observations_and_complete_source_prior
+    training_targets: observed_readouts_only
+    retained_and_held_features: disjoint_before_encoding_and_likelihood
+    pca_fit_role: train
+    late_fusion: arithmetic_mixture_of_separate_unimodal_posteriors
+    scratch_scope: same_native_inference_architecture
+    linear_scope: linear_observation_map_with_bilinear_candidate_score
+    single_source_checkpoint: state_joint_selected_probe
+    multisource_benefit_requires: two_scientifically_distinct_admitted_training_source_contracts
+
+  native_state_evaluation:
+    schema_version: native_state_evaluation.v1
+    required_fields: [schema_version, method, binding, declared_group_count, groups, truth_access, factor_semantics, status, defined_group_count, scientific_twin, formal_qualification]
+    truth_access: evaluator_only_after_observation_inference
+    factor_semantics: controlled_physical_prior_coordinates_not_empirical_subtypes
+    missing_or_failed_groups: retain_denominator
+    missing_modality: remove_values_and_both_retention_masks_before_inference
+    source_holdout: evaluation_only_without_refitting
+    scientific_twin: NOT_RUN
+    formal_qualification: false
+
+  native_sequence_mean:
+    methods: [gru, flattened_parameter_matched]
+    gru_time_semantics: previous_interval_typed_forcing_and_current_physical_clock
+    flattened_time_semantics: current_query_program_with_causal_temporal_attention
+    initial_state: exact_complete_particle_snapshot
+    unsupported_fields: mask_before_recurrence_and_output
+    parameter_match_authority: selected_mainline_total_minus_shared_frozen_inference
+    parameter_match_policy: functional_feedforward_width_without_padding
+    predictive_law: requires_bound_residual
+
+  native_deterministic_mean:
+    backbone: shared_native_world_action_constructor
+    transform: haar_pack_native_forward_inverse_haar
+    conditioning: frozen_complete_particle_contexts_and_original_physical_clock
+    predictive_law: requires_bound_residual
+
+  native_fno_mean:
+    input_lattice: reversible_native_field_packing_with_support_channels
+    constructor_metadata: exact_bound_reference_match_before_strict_weight_load
+    missing_or_changed_metadata: reject
+    predictive_law: requires_bound_residual
+
+  native_structured_field_comparator:
+    required_inputs: [complete_initial_particles, five_factors, named_parameters_and_presence, retained_likelihood_and_nuisance, typed_programs, original_time, quantity_support]
+    static_condition_excludes: future_action_programs
+    program_channels: [occupancy, support, electrical_current_uA, electrical_applicability, optical_power_mW, optical_applicability]
+    normalization: exact_shared_training_only_registered_native_grid
+    transolver_implementation: maintained_project_transolver_plus_with_mechanism_moe
+    linear_transition: exact_full_field_augmented_matrix_exponential
+    linear_unavailable_coordinates: excluded_from_state_matrix_and_forcing
+    linear_interval_reuse: equal_intervals_within_one_forward_graph_only
+    mean_prediction_law: residual_unbound_until_independent_fit_and_check
+    persistence_law: exact_whole_initial_posterior_with_identity_transition
+    persistence_transition_parameter_count: 0
+
+  paper_based_mamba_native:
+    implementation: independent_published_algorithm_and_licensed_torch_primitives
+    core: [four_direction_selective_zoh_scan, local_convolution, gated_residual_integration, four_level_u_topology, filtered_activation]
+    numerical_realization: explicit_finite_periodic_kaiser_sinc_and_diagonal_negative_evolution
+    upstream_source_equivalence: not_asserted
+    exact_finite_filter_continuous_discrete_equivalence: not_asserted
+    original_clocks_and_target_arrays_interpolated: false
+    predictive_law: requires_bound_residual_fit_and_check
+
+  native_paired_seed_group_statistics:
+    schema_version: native_paired_seed_group_statistics.v1
+    required_fields: [schema_version, metric, policy, declared_group_count, defined_group_count, unavailable_seed_group_pairs, groups, status, mean_difference, paired_group_interval, scientific_twin, formal_qualification]
+    seed_order: average41_to43_within_group_before_resampling
+    bootstrap_replicates: 2000
+    bootstrap_seed: 41
+    paired_identity: same_group_conditioning_normalization_and_seed
+    method_bundle: one_method_for_all_three_seeds
+    unavailable_policy: retain_denominator_and_withhold_interval
+
+  native_comparator_pairwise_summary:
+    schema_version: native_comparator_pairwise_summary.v1
+    required_fields: [schema_version, role, metric, declared_group_count, input_reports, partitions, status, scientific_twin, formal_qualification]
+    partition_policy: every_predeclared_partition_without_outcome_selection
+    required_input_denominator: every_declared_group_before_partitioning
+
+  native_mainline_comparator:
+    conditioning: identical_seed_and_training_normalization_selected_mainline
+    checkpoint_required_fields: [native_scientific_profile, training_seed_binding, model_state_dict]
+    ablation_checkpoint_required_fields: [native_frozen_conditioning]
+    profile_fields: [backbone, action_representation, world_state_posterior, normalization_id, training_data_scope]
+    inference_components_frozen: [observation_encoder, retained_mask_projection, world_state_posterior]
+    native_wam_checkpoint: same_as_common_conditioning_checkpoint
+    evaluation_target_access: shape_carrier_only
+    forecast_axes: [conditional_draw, sample, complete_particle, supported_action, time, region, compartment, quantity]
+    id_projection: original_occupancy_support_time_diffusion_columns
+    sparse_scalar_view: [target_site_domain, site_support, nullable_excluded_site_uids]
+    scalar_excluded_site_meaning: outside_declared_target_program_not_concentration_absence
+    legacy_full_grid_scalar_view: unchanged
+    sparse_site_diagnostic: preserved_through_prediction_and_evaluation
+
+  manuscript_native_training_budget:
+    matched_clock: optimizer_updates
+    maximum_updates: 12600
+    minimum_updates: 10000
+    group_batch_size: 64
+    training_fractions: [10, 25, 50, 100]
+    validation_interval_optimizer_steps: 63
+    warmup_updates: 1000
+    group_visits: separately_computed_and_recorded_not_assumed_equal
+    budget_counts: prospective_caps_not_executed_training
+
+  manuscript_native_protocol:
+    rssm_prediction_required_fields:
+    - fitted_methods
+    - scope
+    - target_boundary
+    - shared_conditioning
+    - native_adaptations
+    - observation_measurement_law
+    - gaussian_prediction_law
+    - dreamerv3_prediction_law
+    - dreamerv3_observation_residual
+    - evaluation_metrics
+    learned_distillation_required_fields:
+    - enabled
+    - loss
+    - weight
+    - teacher_config
+    - teacher_manifest
+    - development_selection
+    - target
+    - reduction
+    - uncertainty_rank_tri_distillation
+    schema_version: manuscript_native_protocol.v1
+    required_method_ids:
+    - native_chemical_reference
+    - native_wam
+    - native_action_id
+    - native_target_id
+    - native_parallel
+    - native_reversed
+    - native_interleaved
+    - native_scalar_exposure
+    - transolver
+    - linear
+    - wdno
+    - diffusion_pde
+    - codano
+    - mamba_no
+    - persistence
+    - native_deterministic
+    - flattened_parameter_matched
+    - gru
+    - planet
+    - dreamer
+    - dreamerv3
+    - fno
+    - same_compiler_solver
+    - residual_mpc
+    - tau_transport
+    - treatment_history
+    - cpa
+    - cellot
+    - gears
+    - state_joint
+    - state_unimodal
+    - state_late_fusion
+    - state_pca
+    - state_linear
+    - state_scratch
+    - state_single_source
+    - state_mixed_source
+    - native_single_source_wam
+    - native_mixed_source_wam
+    - scvi
+    - geneformer
+    - scgpt
+    - uce
+    - scfoundation
+    - posterior_joint
+    - posterior_point
+    - posterior_dependence_ablated
+    - biological_multi_arm_ranking
+    - decision_directed
+    - uncertainty_acquisition
+    - random_acquisition
+    - external_posterior_interface
+    - eig
+    - regime_bald
+    - bax
+    - ps_bax
+    - mf_mes
+    - dad
+    - idad
+    - step_dad
+    - numerical_decision_bed
+    - amortized_decision_bed
+    - cost_aware_bo
+    - bamcp
+    - cheapest
+    - highest_fidelity
+    - fixed_cascade
+    - llm_primary_backend
+    - llm_alternate_backend
+    - tri
+    - conformal_risk_control
+    - selectivenet
+    - score_only
+    - uncertainty_only
+    - calibration_only
+    - ood_only
+    - student
+    - student_no_distillation
+    - large
+    - xl
+    - fixed_threshold
+    - fixed_route
+    - adaptive_scale
+    scientific_qualification_by_definition: prohibited
+    required_calibration_reservations: [fit, check, threshold]
+    source_role_reservation_identity: assigned_before_outcome_draw
+    threshold_groups_excluded_from: [training, normalization, development, selection, residual_fit, residual_check]
+    method_statuses: [software_interface_bound, controlled_adapter_missing, empirical_prerequisite, downstream_gate]
+    prospective_source_counts: {groups: 22144, cases: 63232, operations: 3341824}
+    source_and_code_identity: committed_exact_files_and_effective_config_hash
+    publication_does_not_authorize_dispatch: true
+  native_predose_episode:
+    schema_version: native_predose_episode.v1
+    required_fields:
+    - schema_version
+    - status
+    - policy
+    - support_uid
+    - particle_uids
+    - regimen_uids
+    - origin_posterior_uid
+    - particle_count
+    - maximum_measurement_units
+    - measurement_units_spent
+    - initial_selected_regimen_uid
+    - initial_log_weights
+    - final_log_weights
+    - steps
+    - stop_reason
+    - selected_regimen_uid
+    - accepted_query_count
+    - total_measurement_loss_penalty
+    - completed_coordinate_queries
+    - physical_time_advanced
+    - final_program_origin
+    - initial_encoder_packet_changed
+    - resampled
+    - completion_model
+    - scientific_twin
+    - formal_qualification
+    - scope
+
+  native_adaptive_residual_calibration:
+    schema_version: native_adaptive_residual_calibration.v1
+    reservations: {adaptive_fit: fit, final_policy_check: check, final_selected_loss: threshold}
+    groups_per_family: 512
+    scale_scope: observable_species_only_other_full26_scales_inherited
+    whole26_adaptive_qualification: UNQUALIFIED
+  native_adaptive_residual_fit:
+    schema_version: native_adaptive_residual_fit.v1
+    required_fields: [artifact_id, status, observable_fit_valid, fit_collection, binding, scales, fitted_species_indices, inherited_species_indices, whole_26_field_adaptive_qualification]
+    status: [FIT_COMPLETE, FIT_FAILED]
+    scale_count: 26
+    source_authority: actual_collection_and_immutable_original_source_bindings
+  native_adaptive_residual_check:
+    schema_version: native_adaptive_residual_check.v1
+    required_fields: [artifact_id, status, observable_check_complete, adaptive_artifact_id, final_policy_id, check_collection, diagnostics]
+    status: [CHECK_OBSERVED]
+    scientific_distribution_pass: null
+  native_residual_selected_loss_calibration:
+    schema_version: native_residual_selected_loss_calibration.v1
+    required_fields: [artifact_id, status, threshold_collection, adaptive_artifact_id, check_artifact_id, final_policy_id, independent_group_count, quantiles]
+    status: [CALIBRATION_COMPLETE]
+    error: realized_original_full_grid_public_loss_minus_frozen_STOP_predicted_risk
+    quantile: ceil_n_plus1_times_nominal_with_explicit_positive_infinity

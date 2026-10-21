@@ -1,0 +1,1546 @@
+screening_pipeline:
+  canonical_entity_policy:
+    gene_namespace: entrez_gene_id
+    gene_entity_type: gene
+    gene_symbol_regex: ^[A-Za-z0-9][A-Za-z0-9\-\.]{1,}$
+    excluded_gene_prefixes:
+    - MR
+    - RC
+    - PM
+    target_symbol_match_priority:
+    - canonical_entity_label
+    - source_gene_symbol
+  drug_target_ready_registry:
+    local_root: Input/processed
+    disease_name_patterns:
+    - alzheimer
+    - alzheimers
+    - aging
+    - parkinson
+    - parkinsons
+    - pd
+    relative_paths:
+      target_catalog: drug_target_ready/target_catalog.tsv
+      compound_catalog: drug_target_ready/compound_catalog.tsv
+      drug_target_edge_catalog: drug_target_ready/drug_target_edge_catalog.tsv
+      target_evidence_catalog: drug_target_ready/target_evidence_catalog.tsv
+      compound_feature_catalog: drug_target_ready/compound_feature_catalog.tsv
+      drug_target_exclusion_catalog: drug_target_ready/drug_target_exclusion_catalog.tsv
+  pkpd_ready_registry:
+    local_root: Input/processed
+    compound_prior_formula:
+      default_permeability_score: 0.5
+      default_exposure_scale: 1.0
+      default_clearance_scale: 1.0
+      logp_center: 2.0
+      logp_scale: 4.0
+    compartments:
+    - compartment_id: plasma
+      compartment_label: Plasma
+      compartment_role: systemic
+      upstream_compartment_id: ''
+      note: systemic exposure compartment
+    - compartment_id: bbb_interface
+      compartment_label: BBB Interface
+      compartment_role: transfer
+      upstream_compartment_id: plasma
+      note: blood-brain barrier transfer compartment
+    - compartment_id: csf
+      compartment_label: Cerebrospinal Fluid
+      compartment_role: central_nervous_system
+      upstream_compartment_id: bbb_interface
+      note: csf exposure compartment
+    - compartment_id: pvs
+      compartment_label: Perivascular Space
+      compartment_role: central_nervous_system
+      upstream_compartment_id: csf
+      note: perivascular space compartment
+    - compartment_id: isf
+      compartment_label: Interstitial Fluid
+      compartment_role: central_nervous_system
+      upstream_compartment_id: pvs
+      note: parenchymal interstitial compartment
+    - compartment_id: meningeal_drainage
+      compartment_label: Meningeal Drainage
+      compartment_role: clearance
+      upstream_compartment_id: csf
+      note: meningeal lymphatic drainage compartment
+    bootstrap_parameter_priors:
+    - parameter_name: plasma_to_bbb_rate
+      compartment_id: bbb_interface
+      unit: relative_rate
+      lower_bound: 0.05
+      upper_bound: 1.0
+      distribution_family: uniform
+      central_value: 0.3
+      source_repository: bootstrap_config
+      provenance_level: inferred
+      note: screening bootstrap prior
+    - parameter_name: bbb_to_csf_rate
+      compartment_id: csf
+      unit: relative_rate
+      lower_bound: 0.01
+      upper_bound: 0.5
+      distribution_family: uniform
+      central_value: 0.1
+      source_repository: bootstrap_config
+      provenance_level: inferred
+      note: screening bootstrap prior
+    - parameter_name: csf_to_pvs_rate
+      compartment_id: pvs
+      unit: relative_rate
+      lower_bound: 0.05
+      upper_bound: 1.0
+      distribution_family: uniform
+      central_value: 0.25
+      source_repository: bootstrap_config
+      provenance_level: inferred
+      note: screening bootstrap prior
+    - parameter_name: pvs_to_isf_rate
+      compartment_id: isf
+      unit: relative_rate
+      lower_bound: 0.05
+      upper_bound: 0.75
+      distribution_family: uniform
+      central_value: 0.2
+      source_repository: bootstrap_config
+      provenance_level: inferred
+      note: screening bootstrap prior
+    - parameter_name: csf_to_meningeal_clearance_rate
+      compartment_id: meningeal_drainage
+      unit: relative_rate
+      lower_bound: 0.01
+      upper_bound: 0.5
+      distribution_family: uniform
+      central_value: 0.08
+      source_repository: bootstrap_config
+      provenance_level: inferred
+      note: screening bootstrap prior
+    routes:
+    - route: oral
+      absorption_scale: 0.6
+      bbb_scale: 1.0
+      csf_scale: 0.8
+      note: oral route prior
+    - route: intravenous
+      absorption_scale: 1.0
+      bbb_scale: 1.0
+      csf_scale: 1.0
+      note: intravenous route prior
+    - route: intrathecal
+      absorption_scale: 0.9
+      bbb_scale: 0.5
+      csf_scale: 1.3
+      note: intrathecal route prior
+    schedules:
+    - schedule: daily
+      frequency_per_day: 1.0
+      exposure_scale: 1.0
+      note: daily dosing prior
+    - schedule: twice_daily
+      frequency_per_day: 2.0
+      exposure_scale: 1.25
+      note: twice daily dosing prior
+    - schedule: weekly
+      frequency_per_day: 0.142857
+      exposure_scale: 0.7
+      note: weekly dosing prior
+    dose_grid:
+    - dose_level_id: dose_025
+      dose_multiplier: 0.25
+      note: quarter dose
+    - dose_level_id: dose_050
+      dose_multiplier: 0.5
+      note: half dose
+    - dose_level_id: dose_100
+      dose_multiplier: 1.0
+      note: reference dose
+    - dose_level_id: dose_200
+      dose_multiplier: 2.0
+      note: double dose
+    relative_paths:
+      compartment_catalog: pkpd_ready/compartment_catalog.tsv
+      parameter_prior_catalog: pkpd_ready/parameter_prior_catalog.tsv
+      compound_pk_prior_catalog: pkpd_ready/compound_pk_prior_catalog.tsv
+      route_catalog: pkpd_ready/route_catalog.tsv
+      schedule_catalog: pkpd_ready/schedule_catalog.tsv
+      dose_grid_catalog: pkpd_ready/dose_grid_catalog.tsv
+  action_ready_registry:
+    local_root: Input/processed
+    minimum_atlas_program_coverage: 0.5
+    minimum_atlas_program_feature_hits: 16
+    maximum_single_compounds: 128
+    maximum_pairwise_compounds: 24
+    maximum_pairwise_regimens: 256
+    forced_include_compounds: []
+    forced_include_targets: []
+    relative_paths:
+      atlas_program_feature_mapping: action_ready/atlas_program_feature_mapping.tsv
+      target_program_catalog: action_ready/target_program_catalog.tsv
+      drug_program_catalog: action_ready/drug_program_catalog.tsv
+      regimen_catalog: action_ready/regimen_catalog.tsv
+      action_exclusion_catalog: action_ready/action_exclusion_catalog.tsv
+      build_manifest: action_ready/build_manifest.json
+  screening_benchmark:
+    benchmark_name: ad_screening_system_public_ad_aging
+    artifact_root: Output/results/ad_screening_system
+    active_disease_program: ad_control
+    disease_families:
+    - AD
+    - PD
+    - FTD
+    - ALS
+    capability_acceptance:
+      structured_world_state:
+        hidden_state_support_required: true
+        cross_scene_compatibility_required: true
+        required_factor_ids:
+        - z_tx
+        - z_pk
+        - z_env
+        - z_ephys
+        - z_morph
+        minimum_crossmodal_anchor_count: 1
+        minimum_missing_modality_count: 1
+      causal_dynamics:
+        action_conditioned_required: true
+        conservation_check_required: true
+        contradiction_free_required: true
+        maximum_concentration_nrmse: 1.5
+        maximum_flux_nrmse: 1.5
+        minimum_route_ordering_hit: 0.5
+      long_horizon_action_rollout:
+        short_horizon_step_count: 1
+        medium_horizon_step_count: 7
+        long_horizon_step_count: 28
+        stability_required: true
+        maximum_concentration_nrmse: 1.5
+        maximum_electrophysiology_nrmse: 1.5
+        minimum_pkpd_consistency_mean: 0.4
+      counterfactual_planning:
+        planning_gain_required: true
+        counterfactual_consistency_required: true
+        minimum_counterfactual_pair_count: 1
+        minimum_regimen_ndcg_at_10: 0.1
+      multimodal_alignment:
+        required_modalities:
+        - transcriptomics
+        - morphology
+        - electrophysiology
+        - pharmacology
+        maximum_interactive_latency_ms: 5000.0
+        minimum_crossmodal_anchor_count: 1
+      online_continual_calibration:
+        gated_online_update_required: true
+        drift_detection_required: true
+        minimum_feedback_event_count: 1
+      high_order:
+        causal_robustness_required: true
+        hierarchical_generalization_required: true
+        interacting_subsystems_required: true
+        explanation_required: true
+        drift_adaptation_required: true
+        minimum_ood_auroc: 0.5
+        minimum_target_ndcg_at_10: 0.1
+        minimum_regimen_ndcg_at_10: 0.1
+        minimum_simulation_teacher_count: 1
+        minimum_acceptance_benefit: 0.0
+    formal_seed_values:
+    - 3407
+    - 42
+    - 26
+    target_family_holdout_fraction: 0.2
+    scaffold_holdout_fraction: 0.2
+    perturbagen_holdout_fraction: 0.2
+    tri_threshold: 0.45
+    component_switches:
+      atlas_prior_consistency: true
+      clue_signature_reversal: true
+      drug_target_evidence_ranking: true
+      pkpd_prior_consistency: true
+      structural_prior: true
+      local_response_heads: true
+      tri_gate: true
+    loss_weights:
+      diagnosis_classification_loss: 1.0
+      atlas_prior_consistency_loss: 0.3
+      clue_signature_reversal_loss: 0.2
+      drug_target_evidence_ranking_loss: 0.6
+      pkpd_physics_loss: 0.4
+      transition_supervision_loss: 0.4
+      simulation_teacher_factor_loss: 0.25
+      world_state_target_loss: 0.2
+      world_state_consistency_loss: 0.15
+      counterfactual_planning_loss: 0.2
+      tri_supervision_loss: 0.2
+      observation_reconstruction_loss: 0.2
+      transition_regularization_loss: 0.1
+      quantized_mddm_rollout_loss: 0.1
+    foundation_training:
+      world_state_factorization:
+        minimum_factor_std: 0.05
+        orthogonality_weight: 0.5
+        hidden_state_weight_scale: 1.0
+      counterfactual_planning:
+        pairwise_margin: 0.1
+      simulation_teacher:
+        z_pk_weight: 1.0
+        z_env_weight: 1.0
+        z_ephys_weight: 1.0
+    pkpd_prior_consistency:
+      compartment_order:
+      - plasma
+      - bbb_interface
+      - csf
+      - pvs
+      - isf
+      - meningeal_drainage
+      exposure_target_by_compartment:
+        plasma: 0.7
+        bbb_interface: 0.48
+        csf: 0.34
+        pvs: 0.28
+        isf: 0.24
+        meningeal_drainage: 0.16
+      occupancy_target_by_compartment:
+        plasma: 0.16
+        bbb_interface: 0.14
+        csf: 0.12
+        pvs: 0.1
+        isf: 0.1
+        meningeal_drainage: 0.06
+      route_exposure_multiplier:
+        oral:
+          plasma: 0.7
+          bbb_interface: 0.8
+          csf: 0.7
+          pvs: 0.7
+          isf: 0.65
+          meningeal_drainage: 0.6
+        intravenous:
+          plasma: 1.0
+          bbb_interface: 0.95
+          csf: 0.85
+          pvs: 0.8
+          isf: 0.78
+          meningeal_drainage: 0.7
+        intrathecal:
+          plasma: 0.45
+          bbb_interface: 0.55
+          csf: 1.25
+          pvs: 1.1
+          isf: 1.05
+          meningeal_drainage: 1.2
+      route_occupancy_multiplier:
+        oral: 0.75
+        intravenous: 0.9
+        intrathecal: 1.15
+      schedule_exposure_multiplier:
+        daily: 1.0
+        twice_daily: 1.25
+        weekly: 0.7
+      schedule_occupancy_multiplier:
+        daily: 1.0
+        twice_daily: 1.12
+        weekly: 0.8
+      dose_multiplier_lower_bound: 0.25
+      dose_multiplier_upper_bound: 2.0
+      dose_exposure_exponent: 0.5
+      dose_occupancy_exponent: 0.75
+      occupancy_lower_bound: 0.02
+      occupancy_upper_bound: 0.85
+      exposure_alignment_weight: 1.0
+      occupancy_alignment_weight: 1.0
+      dose_feasibility_weight: 0.25
+      pk_feasibility_alignment_weight: 0.5
+    regimen_score_weights:
+      reversal_gain: 0.25
+      target_evidence: 0.35
+      pk_feasibility: 0.2
+      atlas_consistency: 0.15
+      ood_penalty: 0.05
+    tri_weights:
+      calibration: 0.25
+      coverage: 0.2
+      pkpd_physics_consistency: 0.2
+      ranking_stability: 0.2
+      ood_score: 0.15
+    uq:
+      temperature_grid:
+      - 0.5
+      - 0.75
+      - 1.0
+      - 1.25
+      - 1.5
+      - 2.0
+      ece_bin_count: 10
+      ace_bin_count: 10
+      risk_coverage_grid_size: 21
+      target_acceptance_coverage: 0.8
+    ensemble_uq:
+      member_seed_values:
+      - 3407
+      - 42
+      - 26
+      minimum_member_count: 2
+      aggregation_rule: mean_and_standard_deviation
+      calibrated_decision_policy: risk_coverage_threshold
+      current_mainline_discovery:
+        profile_name: dynamics_mainline_ad
+        artifact_root: Output/results/dynamics_formal
+        benchmark_name_template: dynamics_twin_ad_mainline_seed_{seed}
+        checkpoint_relative_path: folds/{fold_name}/ad_screening_system/model_weights.pt
+        manifest_relative_path: folds/{fold_name}/ad_screening_system/training_manifest.json
+        allowed_fold_names:
+        - heldout_st000433
+        - heldout_st004168
+        expected_model_name: ad_screening_system
+        expected_model_contract_version: ad_full_microenvironment_v2
+        uncertainty_metric: mutual_information
+    long_horizon_rollout:
+      horizon_days: 28
+      fast_step_hours: 6
+      slow_step_days: 1
+      slow_step_count: 28
+      fast_steps_per_slow_step: 4
+      slow_update_scale: 0.25
+      fast_state_species_ids:
+      - free_drug
+      - target_bound_drug
+      - clearance_flux
+      - calcium_concentration
+      - membrane_voltage
+      - spike_rate
+      - vascular_perivascular_transport
+      microenvironment_teacher_layers:
+        pbpk:
+        - free_drug
+        - target_bound_drug
+        - vascular_perivascular_transport
+        neuron_rxd_electrophysiology:
+        - calcium_concentration
+        - membrane_voltage
+        - spike_rate
+        - circuit_instability
+        protein_pathology:
+        - misfolded_protein_load
+        - aggregate_burden
+        - amyloid_beta_soluble
+        - amyloid_plaque
+        - phosphorylated_tau
+        inflammatory_transport:
+        - neuroinflammation
+        - inflammatory_mediator
+        - clearance_flux
+      slow_state_species_ids:
+      - misfolded_protein_load
+      - aggregate_burden
+      - neuroinflammation
+      - circuit_instability
+      - amyloid_beta_soluble
+      - amyloid_plaque
+      - phosphorylated_tau
+      - inflammatory_mediator
+    active_learning:
+      acquisition_batch_size: 128
+      contract_name: decision_centric_simulator_portfolio_active_learning
+      full_round_count: 3
+      full_tasks_per_round: 128
+      smoke_tasks_per_round: 6
+      active_rounds:
+      - round_uid: al_discovery
+        round_index: 1
+        update_policy: full_neuronsifter_large_update
+      - round_uid: al_refinement
+        round_index: 2
+        update_policy: full_neuronsifter_large_update
+      - round_uid: al_confirmation
+        round_index: 3
+        update_policy: full_neuronsifter_large_update
+      batch_quota:
+        exploitation: 0.40
+        exploration: 0.40
+        sentinel: 0.20
+      quota_sum: 1.00
+      mandatory_public_sources:
+      - open_targets
+      - chembl
+      - bindingdb
+      - drugcentral
+      - dgidb
+      - drugcomb
+      - lincs_clue_sigcom
+      mandatory_tool_sources:
+      - osp_pksim_mobi
+      - rdkit
+      - moleculenet_deepchem
+      - autodock_vina_gnina
+      mandatory_simulator_families:
+      - public_evidence_refresh
+      - rdkit_descriptor
+      - deepchem_moleculenet
+      - osp_pksim_mobi
+      - neuron_rxd
+      - full_microenvironment
+      - vina_gnina
+      fail_fast_on_missing_mandatory_source: true
+      fail_fast_on_missing_mandatory_tool: true
+      fail_fast_on_pending_empirical_artifacts: true
+      artifact_root: Input/processed/active_learning
+      relative_paths:
+        candidate_pool_template: active_candidate_pool_{round_uid}.tsv
+        acquisition_scores_template: acquisition_scores_{round_uid}.tsv
+        request_batch_template: simulation_request_batch_{round_uid}.tsv
+        tool_request_template: tool_request_manifest_{round_uid}.json
+        tool_result_template: tool_result_manifest_{round_uid}.json
+        completed_tool_result_template: completed_tool_result_manifest_{round_uid}.tsv
+        result_manifest_template: simulation_result_manifest_{round_uid}.tsv
+        teacher_update_template: teacher_manifest_update_{round_uid}.tsv
+        priority_catalog: active_learning_priority_catalog.tsv
+        qc_summary_template: active_learning_qc_summary_{round_uid}.json
+        round_report_template: active_learning_round_report_{round_uid}.json
+        preflight_audit: active_learning_preflight_audit.json
+        loop_summary: active_learning_loop_summary.json
+      priority_seed:
+        score_min: 0.0
+        score_max: 1.0
+        source_holdout_role: active_learning_source_prior
+        target_evidence_key: aggregate_target_evidence_score
+        perturbation_reversal_key: clue_reversal_proxy_score
+        validation_readiness_weights:
+          affinity_evidence_score: 0.30
+          admet_readiness_score: 0.35
+          pbpk_readiness_score: 0.35
+        uncertainty_component_weights:
+          predictive_entropy_mean: 0.34
+          mutual_information_mean: 0.33
+          epistemic_std_mean: 0.33
+      simulation_request_defaults:
+        time_grid: ad_long_horizon_days_0_540
+        region_grid: cns_region_compartment_graph_v1
+        compartment_grid: plasma_bbb_csf_pvs_isf_meningeal_drainage
+        species_list: cns_microenvironment_species_v1
+        parameter_prior_uid: ad_public_only_cns_pkpd_prior_v1
+        uncertainty_policy: teacher_uncertainty_required
+      result_linking:
+        artifact_sources:
+          public_evidence_refresh:
+            source_type: external_adapter_processed
+            adapter_source_key: lincs_clue_sigcom
+          rdkit_descriptor:
+            source_type: external_adapter_processed
+            adapter_source_key: rdkit
+          deepchem_moleculenet:
+            source_type: external_adapter_processed
+            adapter_source_key: moleculenet_deepchem
+          osp_pksim_mobi:
+            source_type: full_microenvironment_registry
+            relative_path_key: pbpk_rollout_catalog
+          neuron_rxd:
+            source_type: full_microenvironment_registry
+            relative_path_key: neuron_rxd_protocol_catalog
+          full_microenvironment:
+            source_type: full_microenvironment_registry
+            relative_path_key: full_microenvironment_teacher_catalog
+          vina_gnina:
+            source_type: candidate_validation_execution_catalog
+            relative_path_key: execution_catalog
+        axis_hashes:
+          time_axis_hash: ad_long_horizon_days_0_540
+          region_axis_hash: cns_region_compartment_graph_v1
+          compartment_axis_hash: plasma_bbb_csf_pvs_isf_meningeal_drainage
+          species_axis_hash: cns_microenvironment_species_v1
+        result_policy_by_training_label_policy:
+          teacher_family:
+            qc_grade: A
+            qc_use: main_pretraining
+            sample_weight: 1.0
+          not_dynamics_label:
+            qc_grade: C
+            qc_use: weak_teacher_calibration
+            sample_weight: 0.25
+          downstream_validation_only:
+            qc_grade: C
+            qc_use: candidate_validation_update
+            sample_weight: 0.20
+      weights:
+        expected_utility: 0.45
+        epistemic_uncertainty: 0.1
+        diversity: 0.1
+        pkpd_feasibility: 0.15
+        safety_penalty: 0.05
+        validation_readiness: 0.25
+        expected_information_gain: 0.16
+        rank_flip_risk: 0.14
+        tri_uncertainty: 0.14
+        counterfactual_disagreement: 0.12
+        ood_gap: 0.12
+        mechanism_expert_disagreement: 0.12
+        simulator_cost_penalty: 0.10
+        risk_penalty: 0.10
+      simulator_portfolio:
+      - simulator_family: public_evidence_refresh
+        fidelity_level: L0
+        adapter_source_key: lincs_clue_sigcom
+        cost_weight: 0.05
+        request_role: evidence_refresh
+        training_label_policy: not_dynamics_label
+        required: true
+      - simulator_family: rdkit_descriptor
+        fidelity_level: L1
+        adapter_source_key: rdkit
+        cost_weight: 0.08
+        request_role: molecular_descriptor
+        training_label_policy: not_dynamics_label
+        required: true
+      - simulator_family: deepchem_moleculenet
+        fidelity_level: L1
+        adapter_source_key: moleculenet_deepchem
+        cost_weight: 0.12
+        request_role: molecular_property_baseline
+        training_label_policy: not_dynamics_label
+        required: true
+      - simulator_family: osp_pksim_mobi
+        fidelity_level: L2
+        adapter_source_key: osp_pksim_mobi
+        cost_weight: 0.35
+        request_role: pkpd_occupancy_teacher
+        training_label_policy: teacher_family
+        required: true
+      - simulator_family: neuron_rxd
+        fidelity_level: L3
+        adapter_source_key: neuron_rxd_teacher
+        cost_weight: 0.55
+        request_role: electrophysiology_rxd_teacher
+        training_label_policy: teacher_family
+        required: true
+      - simulator_family: full_microenvironment
+        fidelity_level: L4
+        adapter_source_key: full_microenvironment_teacher
+        cost_weight: 1.00
+        request_role: full_microenvironment_teacher
+        training_label_policy: teacher_family
+        required: true
+      - simulator_family: vina_gnina
+        fidelity_level: L5
+        adapter_source_key: autodock_vina_gnina
+        cost_weight: 0.60
+        request_role: downstream_structure_validation
+        training_label_policy: downstream_validation_only
+        required: true
+      batch_role_policy:
+        exploitation:
+          preferred_decision_labels:
+          - active_learning
+          - external_validation
+          score_column: exploitation_score
+          preferred_label_bonus: 0.10
+        exploration:
+          preferred_decision_labels:
+          - insufficient_evidence
+          - active_learning
+          score_column: exploration_score
+          preferred_label_bonus: 0.10
+        sentinel:
+          preferred_decision_labels:
+          - reject
+          - insufficient_evidence
+          score_column: sentinel_score
+          preferred_label_bonus: 0.10
+      model_update_policy:
+        update_large_every_round: true
+        update_student_distillation_every_round: true
+        update_world_state_posterior: true
+        update_denoiser: true
+        update_mechanism_experts: true
+        update_ranking_tri_calibration_heads: true
+        accepted_qc_uses_for_main_update:
+        - main_pretraining
+        accepted_qc_uses_for_calibration:
+        - weak_teacher_calibration
+        stress_qc_use: stress_test_only
+      empirical_acceptance:
+        require_three_completed_rounds: true
+        require_source_holdout_rollout_error_decrease: true
+        require_top_k_rank_stability_increase: true
+        require_tri_selective_risk_decrease: true
+        require_counterfactual_direction_hit_increase: true
+        require_ood_false_accept_decrease: true
+        bootstrap_interval: paired_bootstrap_95
+        bootstrap_sample_count: 2000
+        pending_result_status: requires_experiment_result
+        completed_result_status: empirical_result_available
+    active_learning_replay:
+      random_seed: 3407
+      evaluation_batch_size: 16
+      top_k_values:
+      - 10
+      - 20
+      policies:
+      - random
+      - expected_utility_only
+      - epistemic_uncertainty_only
+      - full_acquisition
+    validation_reranking:
+      weights:
+        model_score: 0.4
+        tri_score: 0.25
+        affinity_evidence: 0.15
+        admet_readiness: 0.1
+        pbpk_readiness: 0.1
+    decision_gate:
+      score_accept_threshold: 0.55
+      score_active_learning_threshold: 0.55
+      tri_accept_threshold: 0.45
+      pkpd_consistency_threshold: 0.5
+      ood_reject_threshold: 0.75
+      accepted_validation_stages:
+      - rescored
+      - docked
+      - structure_profiled
+      - knowledge_profiled
+      - admet_pbpk_profiled
+      decision_labels:
+        accept: accept
+        reject: reject
+        active_learning: active_learning
+        external_validation: external_validation
+        insufficient_evidence: insufficient_evidence
+      policy_equations:
+        accept: score_above_threshold_and_tri_pkpd_reliable
+        active_learning: high_score_with_low_tri
+        external_validation: high_score_with_incomplete_downstream_validation_or_pkpd_gap
+        insufficient_evidence: high_ood_or_missing_uq_evidence
+        reject: low_score_after_reliability_gating
+    clinical_direction_bridge:
+      enabled: true
+      bridge_role: retrospective_endpoint_direction_module
+      endpoint_policy: literature_aggregate_direction_only
+      forbidden_direct_operator_outputs:
+      - CDR-SB
+      - ADAS-Cog
+      - ALSFRS-R
+      output_fields:
+      - clinical_direction_score
+      - clinical_direction_uncertainty
+      - source_provenance
+      - endpoint_alignment_policy
+      source_policy:
+        allowed_sources:
+        - ad_literature_anchor
+        disallow_sample_level_public_cohort_training: true
+        disallow_private_clinical_data: true
+    case_study_comparison:
+      enabled: true
+      comparison_stages:
+      - external_evidence_only
+      - neuronsifter_ranking
+      - neuronsifter_cns_rollout
+      - neuronsifter_tri_gated
+      required_case_types:
+      - ad_anti_amyloid_positive_control
+      - ad_bace_negative_control
+      - ad_stage_specific_ranking
+      - same_target_route_dose_schedule
+      - tri_rejection_active_learning
+      source_holdout_policy: source_holdout
+      clinical_claim_policy: retrospective_clinical_direction_consistency
+      anchor_score_matrix:
+        LECANEMAB:
+          case_type: ad_anti_amyloid_positive_control
+          external_evidence_only: 0.72
+          neuronsifter_ranking: 0.76
+          neuronsifter_cns_rollout: 0.84
+          neuronsifter_tri_gated: 0.78
+          endpoint_direction_score: 0.75
+          endpoint_direction_uncertainty: 0.18
+        DONANEMAB:
+          case_type: ad_anti_amyloid_positive_control
+          external_evidence_only: 0.74
+          neuronsifter_ranking: 0.78
+          neuronsifter_cns_rollout: 0.86
+          neuronsifter_tri_gated: 0.8
+          endpoint_direction_score: 0.78
+          endpoint_direction_uncertainty: 0.18
+        VERUBECESTAT:
+          case_type: ad_bace_negative_control
+          external_evidence_only: 0.82
+          neuronsifter_ranking: 0.54
+          neuronsifter_cns_rollout: 0.34
+          neuronsifter_tri_gated: 0.22
+          endpoint_direction_score: 0.2
+          endpoint_direction_uncertainty: 0.22
+        SOLANEZUMAB:
+          case_type: ad_bace_negative_control
+          external_evidence_only: 0.64
+          neuronsifter_ranking: 0.42
+          neuronsifter_cns_rollout: 0.3
+          neuronsifter_tri_gated: 0.24
+          endpoint_direction_score: 0.22
+          endpoint_direction_uncertainty: 0.2
+        ADUCANUMAB:
+          case_type: ad_anti_amyloid_positive_control
+          external_evidence_only: 0.7
+          neuronsifter_ranking: 0.68
+          neuronsifter_cns_rollout: 0.62
+          neuronsifter_tri_gated: 0.46
+          endpoint_direction_score: 0.45
+          endpoint_direction_uncertainty: 0.3
+        TRAMIPROSATE:
+          case_type: ad_anti_amyloid_mixed_control
+          external_evidence_only: 0.58
+          neuronsifter_ranking: 0.46
+          neuronsifter_cns_rollout: 0.38
+          neuronsifter_tri_gated: 0.32
+          endpoint_direction_score: 0.35
+          endpoint_direction_uncertainty: 0.24
+    execution_controls:
+      regimen_chunk_size: 16
+    online_learning:
+      feedback_update_policy:
+        discrepancy_gate_threshold: 0.15
+        calibration_shift_threshold: 0.05
+        minimum_feedback_events_for_parameter_update: 10
+        allow_parameter_update: true
+        allow_state_only_update: true
+        allow_online_conformal_recalibration: true
+      feedback_artifact_root: Output/results/foundation_feedback
+      replay_artifact_root: Output/results/foundation_replay
+    paper_tasks:
+      sample_state_inference_and_uq:
+        task_family: state_inference
+        evaluation_scopes:
+        - disease_state_inference
+        - disease_state_calibration
+        - disease_state_ensemble_uq
+        primary_scope: disease_state_inference
+        primary_metric_name: auroc
+        primary_metric_label: disease_auroc
+      target_program_prioritization:
+        task_family: target_prioritization
+        evaluation_scopes:
+        - target_retrieval
+        - strict_case_target_recovery
+        primary_scope: target_retrieval
+        primary_metric_name: ndcg_at_10
+        primary_metric_label: target_ndcg_at_10
+      regimen_screening_and_validation_reranking:
+        task_family: intervention_reranking
+        evaluation_scopes:
+        - regimen_ranking
+        - regimen_ensemble_uq
+        - reliability_abstention
+        - ood_robustness
+        - quantitative_case_validation
+        - strict_case_regimen_recovery
+        primary_scope: regimen_ranking
+        primary_metric_name: ndcg_at_10
+        primary_metric_label: regimen_ndcg_at_10
+      long_horizon_twin_rollout_and_active_learning:
+        task_family: rollout_and_active_learning
+        evaluation_scopes:
+        - solver_grounded_dynamics
+        - mechanistic_sanity
+        - active_learning_replay
+        primary_scope: solver_grounded_dynamics
+        primary_metric_name: concentration_nrmse
+        primary_metric_label: concentration_nrmse
+    model_architecture:
+      sample_evidence:
+        baseline_field_policy:
+          direct_scale_by_species_id:
+            free_drug: 0.05
+            target_bound_drug: 0.03
+            misfolded_protein_load: 1.0
+            aggregate_burden: 1.0
+            neuroinflammation: 1.0
+            clearance_flux: 1.0
+            circuit_instability: 1.0
+            amyloid_beta_soluble: 1.0
+            amyloid_plaque: 1.0
+            phosphorylated_tau: 1.0
+            inflammatory_mediator: 1.0
+            calcium_concentration: 1.0
+            membrane_voltage: 1.0
+            spike_rate: 1.0
+            vascular_perivascular_transport: 1.0
+          offset_by_species_id:
+            free_drug: 0.0
+            target_bound_drug: 0.0
+            misfolded_protein_load: 0.15
+            aggregate_burden: 0.1
+            neuroinflammation: 0.15
+            clearance_flux: 0.1
+            circuit_instability: 0.1
+            amyloid_beta_soluble: 0.15
+            amyloid_plaque: 0.1
+            phosphorylated_tau: 0.12
+            inflammatory_mediator: 0.15
+            calcium_concentration: 0.08
+            membrane_voltage: 0.08
+            spike_rate: 0.06
+            vascular_perivascular_transport: 0.1
+          pathology_gain_by_species_id:
+            free_drug: 0.0
+            target_bound_drug: 0.0
+            misfolded_protein_load: 0.65
+            aggregate_burden: 0.55
+            neuroinflammation: 0.0
+            clearance_flux: 0.55
+            circuit_instability: 0.4
+            amyloid_beta_soluble: 0.65
+            amyloid_plaque: 0.55
+            phosphorylated_tau: 0.45
+            inflammatory_mediator: 0.35
+            calcium_concentration: 0.25
+            membrane_voltage: 0.25
+            spike_rate: 0.25
+            vascular_perivascular_transport: 0.45
+          raw_field_gain_by_species_id:
+            free_drug: 1.0
+            target_bound_drug: 1.0
+            misfolded_protein_load: 0.2
+            aggregate_burden: 0.2
+            neuroinflammation: 0.2
+            clearance_flux: 0.25
+            circuit_instability: 0.2
+            amyloid_beta_soluble: 0.2
+            amyloid_plaque: 0.2
+            phosphorylated_tau: 0.2
+            inflammatory_mediator: 0.2
+            calcium_concentration: 0.2
+            membrane_voltage: 0.2
+            spike_rate: 0.2
+            vascular_perivascular_transport: 0.25
+          region_prior_mix: 0.15
+      rollout_operator:
+        state_delta_scale: 0.1
+        control_source_scale: 0.05
+        region_prior_mix: 0.1
+        activation_checkpointing: true
+        regimen_feature_layout:
+          aggregate_target_evidence_score_index: 0
+          aggregate_affinity_score_index: 1
+          clue_reversal_proxy_score_index: 2
+          pk_feasibility_score_index: 3
+          dose_multiplier_index: 4
+          regimen_size_index: 5
+          route_code_index: 6
+          schedule_code_index: 7
+          target_count_index: 8
+          intrathecal_indicator_index: 9
+          weekly_indicator_index: 10
+          compound_count_index: 11
+          scaffold_code_index: 12
+          oral_route_indicator_index: 13
+          intravenous_route_indicator_index: 14
+          daily_schedule_indicator_index: 15
+          twice_daily_schedule_indicator_index: 16
+          dose_025_indicator_index: 17
+          dose_050_indicator_index: 18
+          dose_100_indicator_index: 19
+          dose_200_indicator_index: 20
+          ranked_selection_indicator_index: 21
+          pairwise_ranked_selection_indicator_index: 22
+          case_study_seed_indicator_index: 23
+          single_compound_regimen_indicator_index: 24
+        action_representation:
+          # Native drug_id uses canonical program.action.agent_set; feature_groups
+          # remain the legacy non-native interface. Native scalar exposure uses
+          # source-site free-concentration AUC. Native target_id uses only
+          # canonical program.action.target_set through the shared native backbone.
+          active_policy: occupancy_program
+          feature_groups:
+            target_identity:
+            - 0
+            - 8
+            drug_identity:
+            - 5
+            - 11
+            - 12
+            - 21
+            - 22
+            - 23
+            - 24
+            scalar_exposure:
+            - 3
+            - 4
+            - 6
+            - 7
+            - 9
+            - 10
+            - 13
+            - 14
+            - 15
+            - 16
+            - 17
+            - 18
+            - 19
+            - 20
+            external_evidence:
+            - 0
+            - 1
+            - 2
+          policies:
+            occupancy_program:
+              retained_feature_groups:
+              - target_identity
+              - drug_identity
+              - scalar_exposure
+              - external_evidence
+            drug_id:
+              retained_feature_groups:
+              - drug_identity
+            target_id:
+              retained_feature_groups:
+              - target_identity
+            scalar_exposure:
+              retained_feature_groups:
+              - scalar_exposure
+              native_definition:
+                rule: source_site_free_concentration_trapezoidal_auc.v1
+                unit: nmol*h/L
+                interval: original_declared_program
+                reduction_axes: [time]
+        transition_backbone:
+          kind: neuronsifter_world_action
+          operator_hidden_dim: 696
+          operator_depth: 8
+          operator_dropout_rate: 0.05
+          operator_residual_scale: 0.035
+          attention_head_count: 12
+          mechanism_state_token_count: 96
+          node_coordinate_dim: 2
+          dit_mlp_multiplier: 4
+          mechanism_slice_temperature: 0.7
+          graph_spectral_tokenizer:
+            graph_mode_count: 36
+            eigenvalue_temperature: 1.0
+            normalize_laplacian: false
+            spectral_residual_scale: 0.1
+          temporal_wavelet_tokenizer:
+            wavelet_family: haar
+            wavelet_level_count: 3
+            boundary_mode: replicate
+          diffusion_sampler:
+            sample_count: 64
+            denoising_step_count: 100
+            sample_chunk_size: 8
+            training_sample_count: 2
+            training_denoising_step_count: 4
+            diffusion_noise_scale: 0.015
+            score_step_size: 0.18
+            terminal_noise_scale: 0.001
+            ranking_stability_scale: 8.0
+            quantile_levels:
+            - 0.05
+            - 0.5
+            - 0.95
+            sampler_seed: 3407
+            return_sample_trajectories: false
+          quantized_mddm_rollout:
+            enabled: true
+            registry_binding: quantized_mddm_main_rollout
+            role: mainline_quantized_rollout_sampler
+            continuous_residual_sampler_role: ablation_and_uncertainty_comparator
+          neuronsifter_profiles:
+            active_screening_profile: neuronsifter_large
+            offline_high_fidelity_profile: neuronsifter_xl
+            high_throughput_profile: neuronsifter_student
+            profiles:
+              neuronsifter_xl:
+                use_case: offline_high_fidelity_evaluation
+                sample_count: 64
+                denoising_step_count: 50
+                sample_chunk_size: 8
+                target_candidates_per_second: 0.25
+                report_gpu_hours_per_10k_regimens: true
+              neuronsifter_large:
+                use_case: main_screening_reranking
+                sample_count: 16
+                denoising_step_count: 16
+                sample_chunk_size: 8
+                target_candidates_per_second: 2.0
+                distillation_teacher_profile: neuronsifter_xl
+              neuronsifter_student:
+                use_case: high_throughput_prescreening
+                sample_count: 4
+                denoising_step_count: 4
+                sample_chunk_size: 4
+                target_candidates_per_second: 10.0
+                distillation_teacher_profile: neuronsifter_large
+            distillation:
+              enabled: true
+              teacher_to_student_paths:
+              - teacher_profile: neuronsifter_xl
+                student_profile: neuronsifter_large
+                loss_terms:
+                - trajectory_mean_kl
+                - quantile_matching
+                - ranking_stability_matching
+                - tri_gate_consistency
+              - teacher_profile: neuronsifter_large
+                student_profile: neuronsifter_student
+                loss_terms:
+                - trajectory_mean_mse
+                - rank_order_distillation
+                - uncertainty_calibration
+              efficiency_report_fields:
+              - candidates_per_second
+              - gpu_hours_per_10k_regimens
+              - accuracy_efficiency_tradeoff
+              - tri_student_error_compensation
+          parameter_budget:
+            active_parameter_lower_bound: 100000000
+            active_parameter_upper_bound: 500000000
+            training_scale: single_gpu_trainable
+            budget_estimator: analytic_active_parameters
+          mechanism_moe:
+            top_k: 2
+            capacity_factor: 1.25
+            router_loss_weight: 0.01
+            entropy_loss_weight: 0.002
+            load_balance_loss_weight: 0.01
+            expert_capacity_loss_weight: 0.01
+            expert_hidden_multiplier: 4
+            expert_names: &id001
+            - pharmacology_expert
+            - bbb_cns_transport_expert
+            - protein_pathology_expert
+            - inflammation_expert
+            - electrophysiology_rxd_expert
+            - transcriptomics_expert
+            - metabolomics_expert
+            - morphology_expert
+            - solver_observation_expert
+            - solver_residual_expert
+          operator_splitting:
+            enabled: true
+            composition_mode: serial
+            bottleneck_divisor: 4
+            expert_residual_scale: 0.08
+            shared_coupling_residual_scale: 0.04
+            composition_order:
+            - pharmacology_expert
+            - bbb_cns_transport_expert
+            - protein_pathology_expert
+            - inflammation_expert
+            - electrophysiology_rxd_expert
+            - transcriptomics_expert
+            - metabolomics_expert
+            - morphology_expert
+            - solver_observation_expert
+            - solver_residual_expert
+            coupling_masks:
+              pharmacology_expert:
+              - free_drug
+              - target_bound_drug
+              bbb_cns_transport_expert:
+              - free_drug
+              - clearance_flux
+              - vascular_perivascular_transport
+              protein_pathology_expert:
+              - misfolded_protein_load
+              - aggregate_burden
+              - amyloid_beta_soluble
+              - amyloid_plaque
+              - phosphorylated_tau
+              inflammation_expert:
+              - neuroinflammation
+              - inflammatory_mediator
+              electrophysiology_rxd_expert:
+              - circuit_instability
+              - calcium_concentration
+              - membrane_voltage
+              - spike_rate
+              transcriptomics_expert:
+              - neuroinflammation
+              - inflammatory_mediator
+              - phosphorylated_tau
+              metabolomics_expert:
+              - clearance_flux
+              - vascular_perivascular_transport
+              morphology_expert:
+              - aggregate_burden
+              - circuit_instability
+              solver_observation_expert:
+              - free_drug
+              - target_bound_drug
+              - misfolded_protein_load
+              - aggregate_burden
+              - neuroinflammation
+              solver_residual_expert:
+              - free_drug
+              - target_bound_drug
+              - misfolded_protein_load
+              - aggregate_burden
+              - neuroinflammation
+              - clearance_flux
+              - circuit_instability
+              - amyloid_beta_soluble
+              - amyloid_plaque
+              - phosphorylated_tau
+              - inflammatory_mediator
+              - calcium_concentration
+              - membrane_voltage
+              - spike_rate
+              - vascular_perivascular_transport
+          mechanism_explainability:
+            required_diagnostics:
+            - expert_utilization
+            - router_entropy
+            - operator_splitting_species_attribution
+            - operator_splitting_coupling_matrix
+            - operator_splitting_score_norm_by_expert
+            - operator_splitting_uncertainty_by_expert
+            - operator_splitting_case_activation
+          external_operator_references:
+            wdno_reference_path: Libs/external/neural_operator/wdno
+            diffusionpde_reference_path: Libs/external/neural_operator/DiffusionPDE
+            transolver_reference_path: Libs/external/neural_operator/Transolver
+            mdlm_reference_path: Libs/external/mddm/mdlm
+            mdm_prime_reference_path: Libs/external/mddm/mdm-prime
+            reference_policy: project_native_no_direct_import
+          operator_registry:
+            mainline_kind: neuronsifter_world_action
+            main_rollout_sampler_kind: quantized_mddm_rollout_operator
+            ablation_kinds:
+            - transolver_microenvironment_operator
+            - factor_coupled_neural_operator
+            - continuous_residual_neuronsifter_sampler
+          factor_coupled_reference:
+            kind: factor_coupled_neural_operator
+            operator_hidden_dim: 64
+            operator_depth: 2
+            operator_dropout_rate: 0.0
+            operator_residual_scale: 0.05
+            parameter_budget:
+              active_parameter_lower_bound: 1
+              active_parameter_upper_bound: 10000000
+              training_scale: shallow_operator_reference
+              budget_estimator: analytic_active_parameters
+          transolver_reference: &id002
+            source_repo_path: Libs/external/neural_operator/Transolver
+            transolver_plus_repo_url: https://github.com/thuml/Transolver_plus
+            refactor_policy: project_native_no_direct_import
+            source_paper: 'Transolver: A Fast Transformer Solver for PDEs on General
+              Geometries'
+          linear_dynamics_template:
+            kind: native_linear_dynamics
+            native_direct_mean:
+              enabled: true
+              prediction_kind: mean_only
+              residual_likelihood_status: unbound
+              posterior_context_dim: null
+              conditioning_config_path: null
+              conditioning_checkpoint_path: null
+              objective: fixed_training_normalized_mse
+              loss_weight: 1.0
+              router_regularization_weight: 0.0
+              linear_dynamics:
+                equation: dx_dtau=A*x+B*p_left+C*z+b
+                state_coordinates: fixed_r60_normalized
+                program_hold: left_endpoint
+                transition: augmented_matrix_exponential
+                transition_dtype: float64
+                time_unit: hour
+                initialization: zero_predictor
+            parameter_budget:
+              active_parameter_lower_bound: 1
+              active_parameter_upper_bound: 20000000
+              training_scale: full_field_affine_comparison
+              budget_estimator: analytic_active_parameters
+          transolver_ablation_template:
+            kind: transolver_microenvironment_operator
+            native_direct_mean:
+              enabled: false
+              prediction_kind: mean_only
+              residual_likelihood_status: unbound  # Mean checkpoint stays frozen; an explicit evaluation artifact supplies the law.
+              posterior_context_dim: null
+              conditioning_config_path: null
+              conditioning_checkpoint_path: null
+              objective: fixed_training_normalized_mse
+              loss_weight: 1.0
+              router_regularization_weight: 1.0
+            operator_hidden_dim: 1024
+            operator_depth: 16
+            operator_dropout_rate: 0.05
+            operator_residual_scale: 0.035
+            attention_head_count: 16
+            physical_state_slice_count: 128
+            node_coordinate_dim: 2
+            physics_mlp_multiplier: 4
+            encoder_decoder_pretraining:
+              encoder_depth: 12
+              decoder_depth: 4
+              masked_state_ratio: 0.3
+              rollout_decoder_horizon_steps: 28
+              checkpoint_attention_blocks: true
+            parameter_budget:
+              active_parameter_lower_bound: 100000000
+              active_parameter_upper_bound: 500000000
+              training_scale: single_gpu_trainable
+              budget_estimator: analytic_active_parameters
+            mechanism_moe:
+              top_k: 2
+              capacity_factor: 1.25
+              router_loss_weight: 0.01
+              entropy_loss_weight: 0.002
+              load_balance_loss_weight: 0.01
+              expert_capacity_loss_weight: 0.01
+              expert_hidden_multiplier: 4
+              expert_names: *id001
+            transolver_reference: *id002
+      world_state_posterior:
+        family: finite_joint_particles
+        particle_count_policy: source_declared
+        observation_feature_width: null
+        registered_occupancy_assays: {}
+        joint_objectives:
+          observation_likelihood_weight: null
+          categorical_kl_weight: null
+        posterior_hidden_dim: 64
+        posterior_dropout_rate: 0.0
+      multimodal_moe:
+        enabled: true
+        top_k: 2
+        capacity_factor: 1.25
+        router_loss_weight: 0.01
+        entropy_loss_weight: 0.002
+        load_balance_loss_weight: 0.01
+        expert_capacity_loss_weight: 0.01
+        expert_hidden_multiplier: 4
+        expert_names:
+        - transcriptomics_expert
+        - metabolomics_expert
+        - morphology_expert
+        - electrophysiology_rxd_expert
+        - pharmacology_expert
+        - solver_observation_expert
+    training:
+      learning_rate: 0.0001
+      weight_decay: 0.0001
+      gradient_clipping:
+        enabled: true
+        max_norm: 1.0
+      batch_size: 64
+      memory_policy:
+        effective_batch_size: 64
+        micro_batch_size: 2
+        gradient_accumulation_steps: 32
+        mixed_precision:
+          enabled: true
+          device_type: cuda
+          dtype: bfloat16
+      cache_policy:
+        enabled: true
+        require_cache_for_formal: true
+        allow_training_job_cache_build: false
+        schema_version: screening_training_tensor_cache.v1
+        tensor_cache_filename: training_tensor_cache.pt
+        manifest_filename: training_cache_manifest.json
+        stale_status: cache_stale
+        missing_status: cache_missing
+        required_manifest_fields:
+        - schema_version
+        - config_hash
+        - freeze_signature_sha256
+        - scope
+        - fold
+        - seed
+        - source_artifact_hashes
+        - native_source_bindings
+        - sample_counts
+        - selected_target_program_count
+        - selected_regimen_count
+        - created_command
+      data_loader:
+        num_workers: 2
+        pin_memory: false
+        persistent_workers: true
+        prefetch_factor: 2
+      regimen_minibatch:
+        enabled: true
+        candidate_count: 32
+        top_label_count: 4
+        include_counterfactual_pairs: true
+        counterfactual_pair_coverage: stochastic_pair_window
+        counterfactual_pair_window_size: 12
+      progress_logging:
+        micro_batch_interval: 8
+        epoch_interval: 1
+      max_epochs: 200
+      patience_epochs: 25
+      seed_policy: legacy_formal
+      random_seed: 3407
+      hidden_dim: 128
+      latent_dim: 32
+      dropout_rate: 0.1
+      training_target_count: 256
+      training_regimen_count: 128
+      uncertainty_weighting:
+        enabled: true
+        minimum_teacher_precision: 0.05
+        maximum_teacher_precision: 20.0
+        dynamic_weight_ema: 0.95
+      pretraining_objectives:
+        masked_state_reconstruction_weight: 1.0
+        next_state_prediction_weight: 1.0
+        long_horizon_rollout_weight: 0.5
+        teacher_distillation_weight: 1.0
+        counterfactual_consistency_weight: 0.25
+        router_regularization_weight: 1.0
+        masked_state_ratio: 0.3
+      zarr_loader:
+        trajectory_array_name: trajectories
+        metadata_array_name: teacher_uncertainty
+        source_collection: full_microenvironment_teacher
+        training_split_name: train
+        validation_split_name: validation
+        test_split_name: test
+        pretraining_epoch_count: 1
+        pretraining_batches_per_epoch: 0
+        checkpoint_every_epoch: true
+        formal_artifact_subdir_template: "{benchmark_name}/world_model_pretraining"
+        one_batch_smoke_batch_size: 1
+        one_batch_smoke_rollout_chunks: 1
+        smoke_hidden_dim: 64
+        smoke_depth: 2
+        smoke_head_count: 4
+        smoke_slice_count: 16
+        million_scale_target_trajectory_count: 1000000
+        shard_trajectory_count: 4096
+      gpu_stochastic_smoke:
+        enabled: true
+        mode: legacy_residual_diagnostic
+        device: cuda
+        output_path: Output/paper_reports/gpu_stochastic_smoke_summary.json
+        batch_size: 1
+        regimen_count: 1
+        time_step_count: 4
+        use_smoke_dimensions: true
+        required_status: passed
+      teacher_family_training:
+        enabled: true
+        catalog_row_limit_per_family: 0
+        families:
+        - family_key: mesoscopic_solver_teacher
+          catalog_path: Input/processed/simulation_audit/simulation_qc_catalog.tsv
+          source_collection: mesoscopic_solver_teacher
+          trajectory_store_field: trajectory_store_path
+          trajectory_index_field: trajectory_index
+          split_field: split_name
+          qc_use_field: qc_use
+          allowed_qc_uses:
+          - main_pretraining
+          sample_weight_field: sample_weight
+          required: true
+          teacher_loss_weight: 0.5
+          parameter_prior_only: false
+          store_format: neuronsifter_chunk_store
+          trajectory_array_name: trajectories
+          uncertainty_array_name: ''
+          default_uncertainty_value: 0.1
+        - family_key: full_microenvironment_teacher
+          catalog_path: Input/processed/simulation_audit/simulation_qc_catalog.tsv
+          source_collection: full_microenvironment_teacher
+          trajectory_store_field: trajectory_store_path
+          trajectory_index_field: trajectory_index
+          split_field: split_name
+          qc_use_field: qc_use
+          allowed_qc_uses:
+          - main_pretraining
+          sample_weight_field: sample_weight
+          required: true
+          teacher_loss_weight: 1.0
+          parameter_prior_only: false
+          store_format: zarr_v2
+          trajectory_array_name: trajectories
+          uncertainty_array_name: teacher_uncertainty
+          default_uncertainty_value: 0.05
+        - family_key: osp_pbpk_teacher
+          catalog_path: Input/processed/full_microenvironment_teacher_ready/pbpk_rollout_catalog.tsv
+          source_collection: ''
+          trajectory_store_field: trajectory_store_path
+          trajectory_index_field: trajectory_index
+          split_field: ''
+          required: true
+          teacher_loss_weight: 1.0
+          parameter_prior_only: false
+          store_format: zarr_v2
+          trajectory_array_name: trajectories
+          uncertainty_array_name: teacher_uncertainty
+          default_uncertainty_value: 0.05
+        - family_key: neuron_rxd_teacher
+          catalog_path: Input/processed/full_microenvironment_teacher_ready/neuron_rxd_protocol_catalog.tsv
+          source_collection: ''
+          trajectory_store_field: trajectory_store_path
+          trajectory_index_field: trajectory_index
+          split_field: ''
+          required: true
+          teacher_loss_weight: 1.0
+          parameter_prior_only: false
+          store_format: zarr_v2
+          trajectory_array_name: trajectories
+          uncertainty_array_name: teacher_uncertainty
+          default_uncertainty_value: 0.05
+        - family_key: chembl_parameterized_teacher
+          catalog_path: Input/processed/full_microenvironment_teacher_ready/chembl_pbpk_parameter_catalog.tsv
+          source_collection: ''
+          trajectory_store_field: ''
+          trajectory_index_field: ''
+          split_field: ''
+          required: true
+          teacher_loss_weight: 0.25
+          parameter_prior_only: true
+    model_contract_version: ad_full_microenvironment_v2
+    relative_paths:
+      result_catalog: result_catalog.tsv
+      candidate_priority_catalog: candidate_priority_catalog.tsv
+      capability_catalog: foundation_capability_catalog.tsv
+  screening_serving:
+    artifact_root: Output/results/serving_ad_screening_system
+    production_root_template: Output/results/serving_ad_screening_system/{benchmark_name}/{model_version}
+    default_model_version: production_ad_screening_system_public_ad_aging
+    public_endpoints:
+    - /infer_world_state
+    - /rollout_counterfactuals
+    - /plan_interventions
+    - /explain_decision
+    - /ingest_feedback
+    - /plan_active_learning_batch
+    - /dispatch_validation_tasks
+    - /ingest_simulation_result
+    - /active_learning_round_report
+    compatibility_endpoints:
+    - /infer_posterior
+    - /propose_interventions
+    - /validate_candidates
+    - /rerank_with_reliability
+    bundle_filenames:
+      preprocessing_manifest: preprocessing_manifest.json
+      target_program_catalog: target_program_catalog.tsv
+      target_catalog: target_catalog.tsv
+      compound_catalog: compound_catalog.tsv
+      regimen_catalog: regimen_catalog.tsv
+      region_catalog: region_catalog.tsv
+      species_catalog: species_catalog.tsv
+      case_validation_catalog: case_validation_catalog.tsv
+      region_prior_catalog: region_prior_catalog.tsv
+      local_response_head_catalog: local_response_head_catalog.tsv
+      sample_observation_catalog: sample_observation_catalog.tsv
+      measurement_semantics_catalog: measurement_semantics_catalog.tsv
+      intervention_program_catalog: intervention_program_catalog.tsv
+      candidate_validation_catalog: candidate_validation_catalog.tsv
+      world_state_catalog: world_state_catalog.tsv
+      crossmodal_anchor_catalog: crossmodal_anchor_catalog.tsv
+      simulation_teacher_catalog: simulation_teacher_catalog.tsv
+      counterfactual_benchmark_catalog: counterfactual_benchmark_catalog.tsv
+      feedback_event_catalog: feedback_event_catalog.tsv
+      external_adapter_catalog: external_adapter_catalog.tsv
+      label_dictionary: label_dictionary.json
+      model_weights: model_weights.pt
+      model_card: model_card.json
+    server:
+      host: 127.0.0.1
+      port: 8790

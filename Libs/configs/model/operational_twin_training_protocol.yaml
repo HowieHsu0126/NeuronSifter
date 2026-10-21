@@ -1,0 +1,199 @@
+operational_twin_training_protocol:
+  schema_version: neuronsifter-operational-twin-training-protocol-v1
+  protocol_uid: operational_twin_development_training_protocol_2026_09_05
+  authoritative_date: '2026-09-05'
+  evidence_class: controlled_world_non_empirical
+  required_open_data_terminal: OPEN_TWIN_DEVELOPMENT_DATA_QUALIFIED
+  open_data_authority: Output/audits/controlled_world_open_data_qualification.json
+  open_data_authority_training_authorized: true
+  manifests:
+    training: Input/processed/controlled_neural_world/open_action_identification/training_manifest.json
+    development: Input/processed/controlled_neural_world/open_action_identification/development_manifest.json
+    calibration: Input/processed/controlled_neural_world/open_action_identification/calibration_manifest.json
+  output_roots:
+    assignment_root: Output/results/operational_twin/development_training
+    catalog_root: Output/results/operational_twin/development_training/catalog
+    protocol_root: Output/results/operational_twin/training_protocol
+    assignment_manifest: Output/results/operational_twin/training_protocol/assignment_manifest.json
+    resource_receipt: Output/results/operational_twin/training_protocol/resource_receipt.json
+    preflight_authority: Output/audits/operational_twin_training_protocol_preflight.json
+    preflight_report: Output/reports/operational_twin_training_protocol_preflight.md
+  methods:
+    - method_id: persistence_no_action
+      execution_contract: no_fit_persistence
+      runtime_family: nontrainable_baseline
+      action_conditioning: no_action_only
+      loss_contract: masked_mse_no_fit
+      calibration_eligible: false
+      checkpoint_creation_allowed: false
+      metrics_contract: registered_retained_failure_metrics
+      capacity:
+        trainable_parameters_expected: 0
+        model_family: persistence_baseline
+      budget:
+        epochs: 0
+        max_steps: 0
+        optimizer: none
+        learning_rate: 0.0
+        weight_decay: 0.0
+        gradient_clip_norm: 0.0
+        batch_size: 64
+    - method_id: linear_or_delta
+      execution_contract: trainable_linear_delta
+      runtime_family: linear_delta_baseline
+      action_conditioning: structured_action_delta_features
+      loss_contract: masked_mse_linear_delta
+      calibration_eligible: false
+      checkpoint_creation_allowed: true
+      metrics_contract: registered_retained_failure_metrics
+      capacity:
+        trainable_parameters_expected_min: 512
+        model_family: linear_delta_baseline
+      budget:
+        epochs: 200
+        max_steps: 20000
+        optimizer: adamw
+        learning_rate: 0.0005
+        weight_decay: 0.0001
+        gradient_clip_norm: 1.0
+        batch_size: 64
+    - method_id: same_backbone_no_action
+      execution_contract: trainable_operational_twin_backbone_no_action
+      runtime_family: operational_twin_backbone_no_action_ablation
+      action_conditioning: no_action_ablation
+      loss_contract: masked_mse_no_action_backbone
+      calibration_eligible: false
+      checkpoint_creation_allowed: true
+      metrics_contract: registered_retained_failure_metrics
+      capacity:
+        hidden_dim: 96
+        posterior_dim: 24
+        depth: 4
+        head_count: 4
+        mechanism_token_count: 8
+        trainable_parameters_expected_min: 100000
+      budget:
+        epochs: 300
+        max_steps: 50000
+        optimizer: adamw
+        learning_rate: 0.0003
+        weight_decay: 0.0001
+        gradient_clip_norm: 1.0
+        batch_size: 48
+    - method_id: deterministic_action_conditioned
+      execution_contract: trainable_action_conditioned_mean
+      runtime_family: operational_twin_deterministic_action_conditioned
+      action_conditioning: structured_world_action_mean_only
+      loss_contract: masked_mse_deterministic
+      calibration_eligible: false
+      checkpoint_creation_allowed: true
+      metrics_contract: registered_retained_failure_metrics
+      capacity:
+        hidden_dim: 128
+        posterior_dim: 32
+        depth: 5
+        head_count: 4
+        mechanism_token_count: 8
+        trainable_parameters_expected_min: 150000
+      budget:
+        epochs: 350
+        max_steps: 65000
+        optimizer: adamw
+        learning_rate: 0.0003
+        weight_decay: 0.0001
+        gradient_clip_norm: 1.0
+        batch_size: 48
+    - method_id: full_uncertainty_aware_action_conditioned
+      execution_contract: trainable_action_conditioned_distributional
+      runtime_family: operational_twin_uncertainty_aware_action_conditioned
+      action_conditioning: structured_world_action_distributional
+      loss_contract: masked_gaussian_nll
+      calibration_eligible: true
+      checkpoint_creation_allowed: true
+      metrics_contract: registered_uq_and_retained_failure_metrics
+      capacity:
+        hidden_dim: 160
+        posterior_dim: 40
+        depth: 6
+        head_count: 8
+        mechanism_token_count: 10
+        trainable_parameters_expected_min: 250000
+      budget:
+        epochs: 400
+        max_steps: 80000
+        optimizer: adamw
+        learning_rate: 0.00025
+        weight_decay: 0.0001
+        gradient_clip_norm: 1.0
+        batch_size: 40
+  seeds:
+    - 360101
+    - 360211
+    - 360307
+  seed_policy:
+    exactly_three_fixed_seeds: true
+    hidden_extra_seed_lists_allowed: false
+    replacement_seed_allowed: false
+    favorable_rerun_seed_allowed: false
+    infrastructure_recovery_policy: identical_assignment_only_retain_all_attempts
+  runtime:
+    deterministic_kernels: true
+    early_stop_rule: no_early_stop_full_budget_with_best_dev_checkpoint_recorded
+    micro_batch_policy: no_gradient_accumulation_unless_future_protocol_amendment
+  selection_and_calibration:
+    checkpoint_selection_role: development_only
+    uncertainty_calibration_role: calibration_worlds_only
+    calibration_fitting_allowed_in_this_round: false
+    sealed_or_test_selection_allowed: false
+  statistics:
+    independent_unit: world
+    metrics:
+      - action_contrast_error
+      - intervention_ranking_regret
+      - effect_direction
+      - trajectory_error
+      - calibration_coverage
+      - proper_scores
+      - ood_support_behavior
+    paired_analysis: world_level
+    stratification: world_family
+    bootstrap:
+      enabled: true
+      strata: world_family
+      resamples: 10000
+      confidence_level: 0.95
+    conditional_permutation:
+      enabled: true
+      strata: world_family
+      permutations: 10000
+    multiplicity:
+      correction: holm
+      preregistered: true
+  failure_policy:
+    retain_all_failures: true
+    non_finite_loss_class: divergence_non_finite
+    interrupted_class: infrastructure_interruption
+    recovery_rerun_scope: identical_assignment_uid_only
+    undefined_result_retention: retained_in_catalog
+    minimum_completed_budget_fraction: 0.95
+  access_counters:
+    sealed_material_access: 0
+    test_outcome_access: 0
+    protected_holdout_access: 0
+    six_context_outcome_access: 0
+    tool_access: 0
+    mcp_access: 0
+    agent_trace_access: 0
+    agent_access: 0
+    memory_access: 0
+    coevolution_access: 0
+  closed_flags:
+    sufficient_training: false
+    twin_qualification_pass: false
+    formal_qualification: false
+    tool_gate_open: false
+    mcp_gate_open: false
+    agent_trace_gate_open: false
+    agent_work_open: false
+    memory_gate_open: false
+    coevolution_gate_open: false

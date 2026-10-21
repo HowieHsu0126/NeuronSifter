@@ -1,0 +1,15 @@
+experiment_family:
+  family_id: factor_coupled_operator_baseline
+  description: AD-only paper-grade experiment family declaration for factor_coupled_operator_baseline.
+  disease_program: ad_control
+  kind: neural_operator_reference
+  profile_name: rollout_operator_factor_coupled
+  adapter_name: ''
+  runnable: true
+  reference_only: false
+  reason_if_not_runnable: ''
+  matched_seed_policy: fixed_suite_seeds
+  claim_guardrails:
+  - ad_only
+  - no_g5_upgrade
+  - no_clinical_endpoint_prediction

@@ -1,0 +1,346 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/no_task_fit_route_arbitration.schema.json",
+  "title": "NeuronSifter no-task-fit route arbitration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "arbitration_uid",
+    "status",
+    "contract",
+    "parent_authority",
+    "asset_lineage",
+    "rubric",
+    "route_count",
+    "routes",
+    "admissible_route_ids",
+    "admissible_route_count",
+    "all_admissible_routes_retained",
+    "candidate_selection_performed",
+    "task_specific_fitting_performed",
+    "performance_evidence_used",
+    "access_boundary",
+    "authorization_closure",
+    "decision_reasons",
+    "next_action"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-no-task-fit-route-arbitration-v1"},
+    "arbitration_uid": {"const": "no_task_fit_candidate_route_arbitration"},
+    "status": {
+      "enum": ["NO_TASK_FIT_ROUTES_ARBITRATED", "NO_ADMISSIBLE_NO_TASK_FIT_TWIN_ROUTE"]
+    },
+    "contract": {"$ref": "#/$defs/contentBinding"},
+    "parent_authority": {"$ref": "#/$defs/parentBinding"},
+    "asset_lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "status", "asset_count"],
+      "properties": {
+        "path": {"const": "Output/audits/no_task_fit_reusable_asset_lineage.json"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "status": {"const": "NO_TASK_FIT_REUSABLE_ASSET_LINEAGE_BOUND"},
+        "asset_count": {"const": 24}
+      }
+    },
+    "rubric": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {"$ref": "#/$defs/rubricCriterion"}
+    },
+    "route_count": {"const": 4},
+    "routes": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {"$ref": "#/$defs/routeRecord"}
+    },
+    "admissible_route_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"enum": ["route_a", "route_b", "route_c", "route_d"]}
+    },
+    "admissible_route_count": {"type": "integer", "minimum": 0, "maximum": 4},
+    "all_admissible_routes_retained": {"const": true},
+    "candidate_selection_performed": {"const": false},
+    "task_specific_fitting_performed": {"const": false},
+    "performance_evidence_used": {"const": false},
+    "access_boundary": {"$ref": "#/$defs/accessBoundary"},
+    "authorization_closure": {"$ref": "#/$defs/authorizationClosure"},
+    "decision_reasons": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "next_action": {
+      "enum": ["freeze_admissible_no_task_fit_candidates", "stop_no_admissible_no_task_fit_twin_route"]
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "NO_ADMISSIBLE_NO_TASK_FIT_TWIN_ROUTE"}}},
+      "then": {
+        "properties": {
+          "admissible_route_ids": {"maxItems": 0},
+          "admissible_route_count": {"const": 0},
+          "next_action": {"const": "stop_no_admissible_no_task_fit_twin_route"}
+        }
+      },
+      "else": {
+        "properties": {
+          "admissible_route_ids": {"minItems": 1},
+          "admissible_route_count": {"minimum": 1},
+          "next_action": {"const": "freeze_admissible_no_task_fit_candidates"}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "repositoryPath": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*[?*\\[\\]])[^\\u0000]+$"
+    },
+    "contentBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"const": "Libs/configs/validation/no_task_fit_route_arbitration.yaml"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "parentBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "status"],
+      "properties": {
+        "path": {"const": "Output/audits/no_task_fit_parent_authority.json"},
+        "sha256": {"const": "56eea3c26d292d2c2e5575cf89021bdeea4055bd6c66dfadcbcb3c1a3e86f554"},
+        "status": {"const": "NO_TASK_FIT_PARENT_AUTHORITIES_BOUND"}
+      }
+    },
+    "criterionId": {
+      "enum": [
+        "provenance_license_clarity",
+        "complete_method_identity",
+        "no_task_fit_feasibility",
+        "interface_compatibility",
+        "modality_control_coverage",
+        "deterministic_or_seed_controlled_execution",
+        "uncertainty_semantics",
+        "execution_resource_feasibility",
+        "scientific_limitations_bound"
+      ]
+    },
+    "rubricCriterion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["criterion_id", "mandatory", "description"],
+      "properties": {
+        "criterion_id": {"$ref": "#/$defs/criterionId"},
+        "mandatory": {"const": true},
+        "description": {"type": "string", "minLength": 1}
+      }
+    },
+    "criterionResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["criterion_id", "mandatory", "result", "evidence_paths", "reason"],
+      "properties": {
+        "criterion_id": {"$ref": "#/$defs/criterionId"},
+        "mandatory": {"const": true},
+        "result": {"enum": ["satisfied", "unsatisfied", "not_applicable"]},
+        "evidence_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/repositoryPath"}
+        },
+        "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "routeRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route_id",
+        "route_uid",
+        "route_name",
+        "scientific_label",
+        "availability_state",
+        "availability_reason",
+        "required_asset_paths",
+        "missing_required_asset_paths",
+        "depends_on_route_ids",
+        "combination_rule_status",
+        "capability_support_summary",
+        "assumptions",
+        "criteria",
+        "mandatory_criterion_count",
+        "satisfied_mandatory_count",
+        "unsatisfied_mandatory_count",
+        "not_applicable_mandatory_count",
+        "task_specific_fitting_performed",
+        "performance_evidence_used",
+        "limitations",
+        "prohibited_claims",
+        "disposition_reason",
+        "disposition"
+      ],
+      "properties": {
+        "route_id": {"enum": ["route_a", "route_b", "route_c", "route_d"]},
+        "route_uid": {"type": "string", "pattern": "^no_task_fit_route_[a-d]_[0-9a-f]{16}$"},
+        "route_name": {"type": "string", "minLength": 1},
+        "scientific_label": {
+          "enum": [
+            "synthetic_mechanistic_prior",
+            "frozen_foundation_transfer",
+            "prior_predictive",
+            "hybrid_disagreement_preserving"
+          ]
+        },
+        "availability_state": {"enum": ["available", "not_available"]},
+        "availability_reason": {"type": "string", "minLength": 1},
+        "required_asset_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/repositoryPath"}
+        },
+        "missing_required_asset_paths": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/repositoryPath"}
+        },
+        "depends_on_route_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"enum": ["route_a", "route_b", "route_c", "route_d"]}
+        },
+        "combination_rule_status": {"enum": ["not_applicable", "frozen", "absent_not_predeclared"]},
+        "capability_support_summary": {"$ref": "#/$defs/capabilitySupportSummary"},
+        "assumptions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "criteria": {
+          "type": "array",
+          "minItems": 9,
+          "maxItems": 9,
+          "items": {"$ref": "#/$defs/criterionResult"}
+        },
+        "mandatory_criterion_count": {"const": 9},
+        "satisfied_mandatory_count": {"type": "integer", "minimum": 0, "maximum": 9},
+        "unsatisfied_mandatory_count": {"type": "integer", "minimum": 0, "maximum": 9},
+        "not_applicable_mandatory_count": {"type": "integer", "minimum": 0, "maximum": 9},
+        "task_specific_fitting_performed": {"const": false},
+        "performance_evidence_used": {"const": false},
+        "limitations": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "prohibited_claims": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "disposition_reason": {"type": "string", "minLength": 1},
+        "disposition": {"enum": ["admissible", "inadmissible", "not_available"]}
+      }
+    },
+    "capabilitySupportSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_family",
+        "action_modalities",
+        "control_modes",
+        "input_interface_status",
+        "output_interface_status",
+        "parameter_identity_status",
+        "solver_environment_status",
+        "execution_policy",
+        "uncertainty_hook_status"
+      ],
+      "properties": {
+        "model_family": {"type": "string", "minLength": 1},
+        "action_modalities": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "control_modes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "input_interface_status": {"type": "string", "minLength": 1},
+        "output_interface_status": {"type": "string", "minLength": 1},
+        "parameter_identity_status": {"type": "string", "minLength": 1},
+        "solver_environment_status": {"type": "string", "minLength": 1},
+        "execution_policy": {"type": "string", "minLength": 1},
+        "uncertainty_hook_status": {"type": "string", "minLength": 1}
+      }
+    },
+    "accessBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "six_context_outcome_access",
+        "protected_holdout_access",
+        "new_intake_performed",
+        "task_specific_fitting_performed",
+        "simulator_execution_performed",
+        "candidate_inference_performed",
+        "six_context_files_opened",
+        "protected_files_opened"
+      ],
+      "properties": {
+        "six_context_outcome_access": {"const": 0},
+        "protected_holdout_access": {"const": 0},
+        "new_intake_performed": {"const": false},
+        "task_specific_fitting_performed": {"const": false},
+        "simulator_execution_performed": {"const": false},
+        "candidate_inference_performed": {"const": false},
+        "six_context_files_opened": {"const": false},
+        "protected_files_opened": {"const": false}
+      }
+    },
+    "authorizationClosure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "new_public_data_intake_authorized",
+        "training_authorized",
+        "gpu_authorized",
+        "world_action_compiler_authorized",
+        "uncertainty_implementation_authorized",
+        "formal_evaluation_authorized",
+        "six_context_evaluation_authorized",
+        "tool_calling_authorized",
+        "memory_adaptation_authorized",
+        "agent_in_twin_authorized",
+        "coevolution_authorized"
+      ],
+      "properties": {
+        "new_public_data_intake_authorized": {"const": false},
+        "training_authorized": {"const": false},
+        "gpu_authorized": {"const": false},
+        "world_action_compiler_authorized": {"const": false},
+        "uncertainty_implementation_authorized": {"const": false},
+        "formal_evaluation_authorized": {"const": false},
+        "six_context_evaluation_authorized": {"const": false},
+        "tool_calling_authorized": {"const": false},
+        "memory_adaptation_authorized": {"const": false},
+        "agent_in_twin_authorized": {"const": false},
+        "coevolution_authorized": {"const": false}
+      }
+    }
+  }
+}

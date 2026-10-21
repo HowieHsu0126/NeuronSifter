@@ -1,0 +1,265 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/mechanism_source_preregistration.schema.json",
+  "title": "NeuronSifter mechanism-source preregistration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "preregistration_uid",
+    "contract",
+    "schemas",
+    "upstream_authorities",
+    "code_policy_sha256",
+    "source_inputs",
+    "context_action_projections",
+    "source_families",
+    "expanded_requests",
+    "request_policy",
+    "field_policy",
+    "queue_policy",
+    "cutoff",
+    "access_counters",
+    "network_requests_performed",
+    "source_content_accessed",
+    "preregistered_at",
+    "preregistration_sha256",
+    "blockers"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-mechanism-source-preregistration-v1"},
+    "status": {"const": "MECHANISM_SOURCE_QUEUE_PREREGISTERED"},
+    "preregistration_uid": {"const": "mechanism_source_preregistration"},
+    "contract": {"$ref": "#/$defs/fileBinding"},
+    "schemas": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["preregistration", "queue", "chronology", "content_authorization"],
+      "properties": {
+        "preregistration": {"$ref": "#/$defs/fileBinding"},
+        "queue": {"$ref": "#/$defs/fileBinding"},
+        "chronology": {"$ref": "#/$defs/fileBinding"},
+        "content_authorization": {"$ref": "#/$defs/fileBinding"}
+      }
+    },
+    "upstream_authorities": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256", "validation_status"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"$ref": "#/$defs/sha256"},
+          "validation_status": {"const": "validated"}
+        }
+      }
+    },
+    "code_policy_sha256": {"$ref": "#/$defs/sha256"},
+    "source_inputs": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source_uid", "path", "sha256", "resolved_from"],
+        "properties": {
+          "source_uid": {"type": "string", "minLength": 1},
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"$ref": "#/$defs/sha256"},
+          "resolved_from": {"enum": ["round_worktree", "primary_worktree_generated_input"]}
+        }
+      }
+    },
+    "context_action_projections": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {"$ref": "#/$defs/contextAction"}
+    },
+    "source_families": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {"$ref": "#/$defs/family"}
+    },
+    "expanded_requests": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["query_uid", "family_uid", "canonical_intervention_uid", "query_string", "search_url", "summary_url_template", "maximum_records"],
+        "properties": {
+          "query_uid": {"type": "string", "pattern": "^publication-query-[0-9a-f]{16}$"},
+          "family_uid": {"const": "publication_metadata"},
+          "canonical_intervention_uid": {"type": "string", "minLength": 1},
+          "query_string": {"type": "string", "minLength": 1},
+          "search_url": {"type": "string", "pattern": "^https://eutils\\.ncbi\\.nlm\\.nih\\.gov/"},
+          "summary_url_template": {"const": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=json&version=2.0&id={pmid_csv}"},
+          "maximum_records": {"const": 4}
+        }
+      }
+    },
+    "request_policy": {"$ref": "#/$defs/requestPolicy"},
+    "field_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed_projection_fields", "forbidden_fields", "allowed_by_family", "forbidden_for_every_family", "raw_response_persistence_allowed", "response_value_logging_allowed"],
+      "properties": {
+        "allowed_projection_fields": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "forbidden_fields": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "allowed_by_family": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["publication_metadata", "open_targets_target_metadata", "chembl_compound_target_metadata", "bindingdb_record_metadata", "drugcentral_drug_moa_metadata", "dgidb_drug_gene_metadata"],
+          "properties": {
+            "publication_metadata": {"type": "array", "minItems": 6, "maxItems": 6, "uniqueItems": true, "items": {"type": "string"}},
+            "open_targets_target_metadata": {"type": "array", "maxItems": 0},
+            "chembl_compound_target_metadata": {"type": "array", "maxItems": 0},
+            "bindingdb_record_metadata": {"type": "array", "maxItems": 0},
+            "drugcentral_drug_moa_metadata": {"type": "array", "maxItems": 0},
+            "dgidb_drug_gene_metadata": {"type": "array", "maxItems": 0}
+          }
+        },
+        "forbidden_for_every_family": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "raw_response_persistence_allowed": {"const": false},
+        "response_value_logging_allowed": {"const": false}
+      }
+    },
+    "queue_policy": {"$ref": "#/$defs/queuePolicy"},
+    "cutoff": {"const": "2021-03-02T23:59:59Z"},
+    "access_counters": {"$ref": "#/$defs/zeroCounters"},
+    "network_requests_performed": {"const": 0},
+    "source_content_accessed": {"const": false},
+    "preregistered_at": {"type": "string", "format": "date-time"},
+    "preregistration_sha256": {"$ref": "#/$defs/sha256"},
+    "blockers": {"type": "array", "maxItems": 0}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fileBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "zeroCounters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["six_context_outcome_access", "protected_holdout_access", "source_content_access"],
+      "properties": {
+        "six_context_outcome_access": {"const": 0},
+        "protected_holdout_access": {"const": 0},
+        "source_content_access": {"const": 0}
+      }
+    },
+    "identifier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["namespace", "value"],
+      "properties": {
+        "namespace": {"type": "string", "minLength": 1},
+        "value": {"type": "string", "minLength": 1}
+      }
+    },
+    "contextAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["validation_uid", "case_study_name", "disease_program", "intervention_label", "endpoint_family", "intervention_program_uid", "regimen_uid", "compound_identifiers", "target_identifiers", "modality", "dose", "dose_unit", "route", "schedule", "source_provenance", "access_counters"],
+      "properties": {
+        "validation_uid": {"type": "string", "pattern": "^[0-9a-f]{12}$"},
+        "case_study_name": {"type": "string", "minLength": 1},
+        "disease_program": {"const": "ad_control"},
+        "intervention_label": {"type": "string", "minLength": 1},
+        "endpoint_family": {"type": "string", "minLength": 1},
+        "intervention_program_uid": {"type": "string", "minLength": 1},
+        "regimen_uid": {"type": "string", "minLength": 1},
+        "compound_identifiers": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"$ref": "#/$defs/identifier"}},
+        "target_identifiers": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"$ref": "#/$defs/identifier"}},
+        "modality": {"enum": ["small_molecule", "protein_or_biologic"]},
+        "dose": {"const": 1.0},
+        "dose_unit": {"const": "relative_reference_dose"},
+        "route": {"enum": ["oral", "intravenous"]},
+        "schedule": {"enum": ["daily", "weekly"]},
+        "source_provenance": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "source_file_sha256", "projected_fields", "projection_sha256", "projector_version"],
+            "properties": {
+              "path": {"type": "string", "minLength": 1},
+              "source_file_sha256": {"$ref": "#/$defs/sha256"},
+              "projected_fields": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+              "projection_sha256": {"$ref": "#/$defs/sha256"},
+              "projector_version": {"const": "mechanism-source-action-projector-v1"}
+            }
+          }
+        },
+        "access_counters": {"$ref": "#/$defs/zeroCounters"}
+      }
+    },
+    "family": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["priority", "family_uid", "source_type", "slot_quota_per_intervention", "network_mode", "endpoint", "configured_release", "preregistered_disposition"],
+      "properties": {
+        "priority": {"type": "integer", "minimum": 1, "maximum": 6},
+        "family_uid": {"type": "string", "minLength": 1},
+        "source_type": {"type": "string", "minLength": 1},
+        "slot_quota_per_intervention": {"type": "integer", "minimum": 1, "maximum": 4},
+        "network_mode": {"type": "string", "minLength": 1},
+        "endpoint": {"type": "string", "pattern": "^https://"},
+        "summary_endpoint": {"type": "string", "pattern": "^https://"},
+        "configured_release": {"type": "string", "minLength": 1},
+        "preregistered_disposition": {"enum": ["unavailable", "source_date_ambiguous", "cutoff_ineligible_release"]}
+      }
+    },
+    "requestPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["maximum_requests", "concurrency", "timeout_seconds", "retries", "maximum_response_bytes", "maximum_total_response_bytes", "maximum_redirects", "minimum_request_interval_ms", "allowed_host_suffixes", "raw_response_persistence_allowed", "response_value_logging_allowed"],
+      "properties": {
+        "maximum_requests": {"const": 48},
+        "concurrency": {"const": 1},
+        "timeout_seconds": {"const": 30},
+        "retries": {"const": 0},
+        "maximum_response_bytes": {"const": 2097152},
+        "maximum_total_response_bytes": {"const": 33554432},
+        "maximum_redirects": {"const": 3},
+        "minimum_request_interval_ms": {"const": 400},
+        "allowed_host_suffixes": {"const": ["ncbi.nlm.nih.gov"]},
+        "raw_response_persistence_allowed": {"const": false},
+        "response_value_logging_allowed": {"const": false}
+      }
+    },
+    "queuePolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family_cap", "global_slot_cap", "per_intervention_slot_cap", "exact_slots_per_intervention", "identity_normalization", "deduplication_key", "disposition_precedence", "ordering", "no_refill_after_exclusion", "no_replacement_after_preregistration"],
+      "properties": {
+        "family_cap": {"const": 6},
+        "global_slot_cap": {"const": 160},
+        "per_intervention_slot_cap": {"const": 12},
+        "exact_slots_per_intervention": {"const": 12},
+        "identity_normalization": {"type": "object"},
+        "deduplication_key": {"const": ["canonical_intervention_uid", "canonical_source_identity"]},
+        "disposition_precedence": {"type": "array", "minItems": 8, "maxItems": 8, "uniqueItems": true, "items": {"type": "string"}},
+        "ordering": {"type": "array", "minItems": 7, "maxItems": 7, "uniqueItems": true, "items": {"type": "string"}},
+        "no_refill_after_exclusion": {"const": true},
+        "no_replacement_after_preregistration": {"const": true}
+      }
+    }
+  }
+}

@@ -1,0 +1,250 @@
+operational_twin_successor_lineage_protocol:
+  schema_version: neuronsifter-operational-twin-successor-lineage-protocol-v1
+  authoritative_date: '2026-09-13'
+  evidence_class: controlled_world_non_empirical_successor_lineage
+  identity:
+    candidate_lineage_uid: operational_twin_successor_lineage_19c2cadb43baa7e2a7b4e2dc
+    protocol_uid: operational_twin_successor_protocol_ba115767572b1ae7fe097cf3
+    preflight_uid: operational_twin_successor_preflight_727187aa330e1ab4a3666e49
+    config_contract_uid: operational_twin_successor_config_cb9b61e76453e5918d65bd04
+    schema_contract_uid: operational_twin_successor_schema_2c485cb4e462ea79bd924909
+    source_contract_uid: operational_twin_successor_source_9030c838efb4a59e6f18b614
+    environment_contract_uid: operational_twin_successor_environment_904b2aed797e635124c0e141
+    resource_contract_uid: operational_twin_successor_resources_d6c4aa6083790e5116b73be9
+  identity_policy:
+    candidate_lineage_uid_prefix: operational_twin_successor_lineage
+    protocol_uid_prefix: operational_twin_successor_protocol
+    preflight_uid_prefix: operational_twin_successor_preflight
+    assignment_uid_prefix: operational_twin_successor_assignment
+    attempt_uid_template: '{assignment_uid}__{attempt_kind}'
+    config_contract_uid_prefix: operational_twin_successor_config
+    schema_contract_uid_prefix: operational_twin_successor_schema
+    source_contract_uid_prefix: operational_twin_successor_source
+    environment_contract_uid_prefix: operational_twin_successor_environment
+    resource_contract_uid_prefix: operational_twin_successor_resources
+  initialization:
+    initialization_mode: fresh_random
+    resume_allowed: false
+    resume_input: null
+    history_input: null
+    checkpoint_input: null
+    optimizer_state_input: null
+    model_state_input: null
+    calibration_state_input: null
+    historical_state_use_allowed: false
+  predecessor_authority:
+    planner_commit: bb02a4849994fd22ff1de6b2932fcb6d22c06351
+    baseline_commit: 7c11b603726122a2064a6acb6946446efe339454
+    predecessor_candidate_lineage_uid: operational_twin_candidate_lineage_ef80556d38c9e1b50c28353a
+    predecessor_protocol_uid: operational_twin_candidate_protocol_d2a92a44cbb4a23b6fc91645
+    predecessor_preflight_uid: operational_twin_candidate_lineage_preflight_1b0203b9807dd9f83876397b
+    predecessor_scientific_contract_hash: 36ba40826b432170096191c8361931fe82c01b24c3d517939a541fa20a8d15b2
+    predecessor_source_identity_hash: c9bfb5e38b70ef579f4a6cbccc5ea0fcd456d297bc845a5ac7b5ea71b96de29a
+    round_48:
+      evidence_commit: 1dd069f5fce337f35bc352f1077b829c08d19c31
+      source_commit: b1f3ee152c3dd405dcc392f8ecd3b6ced3ab5dc3
+      squash_merge_commit: ca64b6266c7c121e887ed167195de619309db874
+      controller_completion_commit: 7c11b603726122a2064a6acb6946446efe339454
+      review_record:
+        path: orchestrator/rounds/round-48-freeze-operational-twin-candidate-retry-authority/review-record.json
+        git_object_id: cc2c94b499c06a2c080e3abf3e0a6bd20f474bda
+      closeout_record:
+        path: orchestrator/rounds/round-48-freeze-operational-twin-candidate-retry-authority/closeout-record.json
+        git_object_id: d983e89381ce9cde03b49a00e26a3f0016bf689e
+      decision_audit:
+        path: Output/audits/operational_twin_candidate_retry_authority.json
+        git_object_id: 36351d996c96f3d61f8cb787e620d2846e3bca8e
+      decision_report:
+        path: Output/reports/operational_twin_candidate_retry_authority.md
+        git_object_id: d219f20952ce2f281779a66774b7247b21b9e497
+      decision_uid: operational_twin_candidate_retry_authority_05015fd1c0941e7e931cb47d
+      terminal_decision: OPERATIONAL_TWIN_SUCCESSOR_LINEAGE_PROTOCOL_REQUIRED
+      authorized_row_count: 0
+      successor_required_row_count: 15
+    round_47:
+      merged_commit: 536b0d28e05b7c36f5797f2c98c8a5b79b7d7490
+      evidence_commit: f55ad19dde9c07effb1538f18eb32b6c81a9da6e
+      source_commit: 62a2160af0be4de79d7b6f03688e7d22b624974e
+      review_record:
+        path: orchestrator/rounds/round-47-repair-operational-twin-candidate-execution-interfaces/review-record.json
+        git_object_id: 1bc7d6212ffa82d6910ed94bf2c78a25c184acaa
+      closeout_record:
+        path: orchestrator/rounds/round-47-repair-operational-twin-candidate-execution-interfaces/closeout-record.json
+        git_object_id: 854f19400e5e75a9bb4d0e3102e54700ace75e86
+      audit:
+        path: Output/audits/operational_twin_candidate_execution_interfaces.json
+        git_object_id: adb0653027d64cd3df78a134df5b9468cda8ed57
+      report:
+        path: Output/reports/operational_twin_candidate_execution_interfaces.md
+        git_object_id: e81eac04109a063251ed746c6ea1355bab2bacb7
+    round_46:
+      merged_commit: d2d57c9f5a08b5933b66e395f6128de68aacf16f
+      execution_source_commit: a3c4bb054617d9c7a84e19d86003eeddd668bdb0
+      candidate_tree_path: Output/results/operational_twin/candidate_lineages/operational_twin_candidate_lineage_ef80556d38c9e1b50c28353a
+      candidate_tree_id: 7bfdaf818be78dad28358529b27afbef987241fc
+      audit_tree_path: Output/audits/operational_twin
+      audit_tree_id: 01bdee5e51a360336c469864ce97043441f17c8f
+    round_43_review:
+      path: orchestrator/rounds/round-43-freeze-operational-twin-candidate-lineage-protocol/review-record.json
+      git_object_id: 442e1f69c8565f6e79276591644274f52915fa09
+    round_34:
+      audit:
+        path: Output/audits/controlled_world_open_data_qualification.json
+        git_object_id: 43eb74206d81ffe5563e035f33a5abdde506f6a8
+      terminal_decision: OPEN_TWIN_DEVELOPMENT_DATA_QUALIFIED
+      training_authorized: true
+      manifests:
+        training:
+          path: Input/processed/controlled_neural_world/open_action_identification/training_manifest.json
+          sha256: 53865e8ff14e5450335f3407249603ee8150894ca886d334e009ea12850747bf
+          content_identity: 10b07ff1cffb5bdfc09c200371f548deac4315b529cb520cb7ee72e5d7d6bef0
+        development:
+          path: Input/processed/controlled_neural_world/open_action_identification/development_manifest.json
+          sha256: 4681dd59904c7ce3adbf9d2fae31617b64c2dc1164f8c06822ceece83050f117
+          content_identity: 894b2ab7316f7fd0571e381c7535e04454f859f4840b6b4929aed5d6a909aba2
+        calibration:
+          path: Input/processed/controlled_neural_world/open_action_identification/calibration_manifest.json
+          sha256: 05f28604283b1577b45149a01e01b9f6ebaeb2bfa7053963637b943626b176ee
+          content_identity: 6d03907613b687deb0cbb2d81d209fa030d3eae7f3e2353413868795e7d6da78
+  supersession_contract:
+    relationship: provenance_only_predecessor
+    reason: existing_lineage_has_zero_lawfully_authorized_retry_slots
+    predecessor_state_admissible: false
+    predecessor_outputs_admissible_as_successor_evidence: false
+    predecessor_identity_reuse_allowed: false
+    predecessor_path_reuse_allowed: false
+    predecessor_overwrite_allowed: false
+    successor_outputs_must_be_physically_disjoint: true
+  invariant_contract:
+    inherited_protocol_config_key: operational_twin_candidate_lineage_protocol
+    required_method_ids:
+    - persistence_no_action
+    - linear_or_delta
+    - same_backbone_no_action
+    - deterministic_action_conditioned
+    - full_uncertainty_aware_action_conditioned
+    required_seeds: [360101, 360211, 360307]
+    scientific_contract_hash: 36ba40826b432170096191c8361931fe82c01b24c3d517939a541fa20a8d15b2
+    execution_contract_hash: 9c40d84fabad230d6ed39403b221e7af0a4139f9d00a4398e1e1d5d864b78cb0
+    scheduler_evidence_contract_hash: b0216796f954a404168df408d5b5a217d2d023941cbf32fe5083c4fb0f17c0f5
+    snapshot_invariant: complete_best_development_payload_deepcopied_before_later_model_optimizer_or_nested_metadata_mutation_and_reused_for_save_restore_calibration_attachment_and_final_serialization
+    snapshot_repair_prospective_only: true
+    attempt_kinds: [initial, infrastructure_recovery_01]
+    maximum_attempts_per_assignment: 2
+    maximum_infrastructure_recovery_attempts_per_assignment: 1
+    recovery_eligible_after_failure_class: infrastructure_interruption
+    development_checkpoint_selection_only: true
+    calibration_world_only_uq: true
+  environment_contract:
+    environment_contract_uid: operational_twin_successor_environment_904b2aed797e635124c0e141
+    config_stack_path: Libs/configs/config_stack.yaml
+    config_loader: Libs.utils.exp_utils.load_config_stack
+    training_entrypoint: Libs/exp/training/train_operational_twin_devcal.py
+    command_runner: Libs/exp/training/run_operational_twin_assignment_command.py
+    runtime_protocol_scope: candidate-lineage
+    deterministic_kernels: true
+    clean_source_commit_required: true
+    source_identity_binding_required: true
+    live_environment_receipt_created: false
+  resource_contract:
+    resource_contract_uid: operational_twin_successor_resources_d6c4aa6083790e5116b73be9
+    scheduler_evidence_contract_version: slurm-22.05.9-execution-interface-v3
+    slurm_version: 22.05.9
+    profiles:
+      cpu_light:
+        partition: cpu
+        nodelist: cpu04
+        cpus_per_task: 2
+        memory: 8G
+        gres: null
+        exclusive: false
+      gpu_single:
+        partition: gpu1
+        nodelist: gpu03
+        cpus_per_task: 6
+        memory: 32G
+        gres: gpu:1
+        exclusive: false
+    wall_time_by_method:
+      persistence_no_action: '00:20:00'
+      linear_or_delta: '02:00:00'
+      same_backbone_no_action: '06:00:00'
+      deterministic_action_conditioned: '08:00:00'
+      full_uncertainty_aware_action_conditioned: '12:00:00'
+    fresh_sinfo_required_before_execution: true
+    fresh_per_attempt_resource_receipt_required: true
+    independent_execution_authority_required: true
+    non_exclusive_required: true
+    live_resource_receipt_created: false
+    live_execution_authority_created: false
+  output_namespace:
+    protocol_root: Output/results/operational_twin/successor_lineage_protocol
+    candidate_lineage_manifest: Output/results/operational_twin/successor_lineage_protocol/candidate_lineage_manifest.json
+    assignment_manifest: Output/results/operational_twin/successor_lineage_protocol/assignment_manifest.json
+    assignment_commands: Output/results/operational_twin/successor_lineage_protocol/assignment_commands.json
+    preflight_authority: Output/audits/operational_twin_candidate_lineage_successor_guarded_preflight.json
+    preflight_report: Output/reports/operational_twin_candidate_lineage_successor_guarded_preflight.md
+    protocol_audit: Output/audits/operational_twin_successor_lineage_protocol.json
+    protocol_report: Output/reports/operational_twin_successor_lineage_protocol.md
+    candidate_root_template: Output/results/operational_twin/candidate_lineages/{candidate_lineage_uid}
+    attempt_root_template: Output/results/operational_twin/candidate_lineages/{candidate_lineage_uid}/assignments/{assignment_uid}/attempts/{attempt_uid}
+    calibration_execution_authority_template: Output/audits/operational_twin/successor_calibration_execution_authorities/{candidate_lineage_uid}.json
+    execution_authority_template: Output/audits/operational_twin/candidate_execution_authorities/{candidate_lineage_uid}/{assignment_uid}/{attempt_uid}.json
+    resource_receipt_template: Output/audits/operational_twin/candidate_resource_environment_receipts/{candidate_lineage_uid}/{assignment_uid}/{attempt_uid}.json
+    execution_root_template: Output/results/operational_twin/candidate_lineages/{candidate_lineage_uid}/execution
+    dispatch_manifest_template: Output/results/operational_twin/candidate_lineages/{candidate_lineage_uid}/execution/dispatch_manifest.json
+    recovery_eligibility_template: Output/results/operational_twin/candidate_lineages/{candidate_lineage_uid}/execution/recovery_eligibility.json
+    scheduler_receipts_root_template: Output/results/operational_twin/candidate_lineages/{candidate_lineage_uid}/execution/scheduler_receipts
+    logs_root_template: Output/results/operational_twin/candidate_lineages/{candidate_lineage_uid}/execution/logs
+    aggregation_root_template: Output/results/operational_twin/candidate_lineages/{candidate_lineage_uid}/execution/aggregation
+    candidate_execution_catalog_template: Output/results/operational_twin/candidate_lineages/{candidate_lineage_uid}/execution/candidate_execution_catalog.json
+  review_contract:
+    path: orchestrator/rounds/round-49-freeze-operational-twin-successor-lineage-protocol/review-record.json
+    schema_version: review-record-v4
+    round_id: round-49-freeze-operational-twin-successor-lineage-protocol
+    roadmap_id: 2026-09-01-00-trace-grounded-neural-world
+    roadmap_revision: rev-008
+    roadmap_dir: orchestrator/roadmaps/2026-09-01-00-trace-grounded-neural-world/rev-008
+    milestone_id: operational-twin-qualification
+    direction_id: freeze-operational-twin-successor-lineage-protocol
+    extracted_item_id: operational-twin-disjoint-successor-lineage-protocol-freeze
+    decision: approved
+  evidence_inputs:
+    pre_change_identity_manifest: orchestrator/rounds/round-49-freeze-operational-twin-successor-lineage-protocol/pre_change_identity_manifest.json
+    validation_evidence: orchestrator/rounds/round-49-freeze-operational-twin-successor-lineage-protocol/validation_logs/successor_lineage_source_gate.json
+  source_bindings:
+  - Libs/configs/config_stack.yaml
+  - Libs/utils/evaluation/operational_twin_training_protocol.py
+  - Libs/scripts/builders/build_operational_twin_development_training_commands.py
+  - Libs/utils/evaluation/operational_twin_successor_lineage_protocol.py
+  - Libs/scripts/builders/build_operational_twin_training_protocol.py
+  - Libs/scripts/validators/validate_operational_twin_successor_lineage_protocol.py
+  - Libs/scripts/builders/submit_operational_twin_candidate_execution.py
+  - Libs/tests/test_operational_twin_successor_lineage_protocol.py
+  - Libs/tests/test_operational_twin_training_protocol.py
+  - Libs/tests/test_operational_twin_candidate_retry_authority.py
+  - Libs/tests/test_operational_twin_candidate_execution.py
+  access_counters:
+    sealed_material_access: 0
+    test_outcome_access: 0
+    protected_holdout_access: 0
+    six_context_outcome_access: 0
+    tool_access: 0
+    mcp_access: 0
+    agent_trace_access: 0
+    agent_access: 0
+    memory_access: 0
+    coevolution_access: 0
+  closed_flags:
+    candidate_dispatch: false
+    training_execution: false
+    calibration_fitting: false
+    checkpoint_creation: false
+    sufficient_training: false
+    twin_qualification: false
+  terminal_policy:
+    positive: OPERATIONAL_TWIN_SUCCESSOR_LINEAGE_PROTOCOL_FROZEN
+    invalid: OPERATIONAL_TWIN_SUCCESSOR_LINEAGE_PROTOCOL_INVALID
+    scientific_twin_result: NOT_RUN
+    execution_handoff_required: true
+    success_artifact_on_failure: false

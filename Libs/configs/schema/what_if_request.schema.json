@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/what_if_request.schema.json",
+  "title": "NeuronSifter WhatIfRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "request_uid", "research_question_uid", "baseline_state_ref", "candidate_world_action_ref", "control_action_ref", "requested_outcomes", "requested_time_horizon", "requested_time_grid", "requested_regions", "requested_compartments", "requested_feature_namespace", "rollout_engine_policy", "ensemble_policy", "fidelity_policy", "uncertainty_requirements", "constraint_requirements", "support_domain_ref", "budget", "provenance", "model_based_counterfactual", "causal_effect_claim", "clinical_recommendation", "empirical_observation"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-what-if-request-v1"},
+    "request_uid": {"$ref": "#/$defs/text"}, "research_question_uid": {"$ref": "#/$defs/text"},
+    "baseline_state_ref": {"$ref": "#/$defs/text"}, "candidate_world_action_ref": {"$ref": "#/$defs/text"},
+    "control_action_ref": {"$ref": "#/$defs/text"}, "requested_outcomes": {"$ref": "#/$defs/texts"},
+    "requested_time_horizon": {"$ref": "#/$defs/object"}, "requested_time_grid": {"$ref": "#/$defs/numbers"},
+    "requested_regions": {"$ref": "#/$defs/texts"}, "requested_compartments": {"$ref": "#/$defs/texts"},
+    "requested_feature_namespace": {"$ref": "#/$defs/text"}, "rollout_engine_policy": {"$ref": "#/$defs/object"},
+    "ensemble_policy": {"$ref": "#/$defs/object"}, "fidelity_policy": {"$ref": "#/$defs/object"},
+    "uncertainty_requirements": {"$ref": "#/$defs/texts"}, "constraint_requirements": {"$ref": "#/$defs/texts"},
+    "support_domain_ref": {"$ref": "#/$defs/text"}, "budget": {"$ref": "#/$defs/object"}, "provenance": {"$ref": "#/$defs/object"},
+    "model_based_counterfactual": {"const": true}, "causal_effect_claim": {"const": false},
+    "clinical_recommendation": {"const": false}, "empirical_observation": {"const": false}
+  },
+  "$defs": {"text": {"type": "string", "minLength": 1}, "texts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/text"}}, "numbers": {"type": "array", "minItems": 2, "items": {"type": "number"}}, "object": {"type": "object", "minProperties": 1}}
+}

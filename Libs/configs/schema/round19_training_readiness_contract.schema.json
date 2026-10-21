@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/round19_training_readiness_contract.schema.json",
+  "title": "Round19TrainingReadinessContract",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["contract_uid", "schema_version", "frozen_at", "restricted_min_strong_e2", "restricted_min_weighted_e2", "restricted_min_e4_families", "restricted_min_control_pairs", "restricted_min_validation_units", "formal_min_strong_e2", "formal_min_weighted_e2", "formal_min_e4_families", "formal_min_control_pairs", "formal_min_validation_units", "required_holdouts", "training_authorized", "training_started"],
+  "properties": {
+    "contract_uid": {"type": "string", "minLength": 1},
+    "schema_version": {"const": "neuronsifter-round19-training-readiness-contract-v1"},
+    "frozen_at": {"type": "string", "format": "date-time"},
+    "restricted_min_strong_e2": {"type": "integer", "minimum": 1},
+    "restricted_min_weighted_e2": {"type": "integer", "minimum": 1},
+    "restricted_min_e4_families": {"type": "integer", "minimum": 1},
+    "restricted_min_control_pairs": {"type": "integer", "minimum": 1},
+    "restricted_min_validation_units": {"type": "integer", "minimum": 1},
+    "formal_min_strong_e2": {"type": "integer", "minimum": 1},
+    "formal_min_weighted_e2": {"type": "integer", "minimum": 1},
+    "formal_min_e4_families": {"type": "integer", "minimum": 1},
+    "formal_min_control_pairs": {"type": "integer", "minimum": 1},
+    "formal_min_validation_units": {"type": "integer", "minimum": 1},
+    "required_holdouts": {"type": "array", "minItems": 8, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "training_authorized": {"const": false},
+    "training_started": {"const": false}
+  }
+}

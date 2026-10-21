@@ -1,0 +1,226 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: controlled_world_open_manifest.schema.yaml
+title: Controlled World Open Action Manifest
+type: object
+required:
+- schema_version
+- manifest_uid
+- role
+- evidence_class
+- independent_unit
+- family_uids
+- latent_world_count
+- supported_execution_count
+- support_case_count
+- family_counts
+- pairing_authority
+- counterfactual_pairs
+- worlds
+- development_support_cases
+- access_counters
+- closed_downstream_flags
+- content_identity
+properties:
+  schema_version: {const: neuronsifter-controlled-world-open-action-manifest-v1}
+  manifest_uid: {type: string, minLength: 1}
+  role: {enum: [training, development, calibration]}
+  evidence_class: {const: controlled_world_non_empirical}
+  independent_unit: {const: latent_world}
+  family_uids: {type: array, items: {type: string}, minItems: 3, maxItems: 3}
+  latent_world_count: {type: integer, minimum: 1}
+  supported_execution_count: {type: integer, minimum: 2}
+  support_case_count: {type: integer, minimum: 0}
+  family_counts: {type: object}
+  pairing_authority: {$ref: '#/$defs/pairing_authority'}
+  counterfactual_pairs: {type: array, items: {$ref: '#/$defs/pair'}, minItems: 1}
+  worlds: {type: array, items: {$ref: '#/$defs/world'}, minItems: 2}
+  development_support_cases: {type: array, items: {$ref: '#/$defs/support_case'}}
+  access_counters: {$ref: '#/$defs/access'}
+  closed_downstream_flags: {$ref: '#/$defs/closed_flags'}
+  content_identity: {type: string, pattern: '^[0-9a-f]{64}$'}
+additionalProperties: false
+$defs:
+  access:
+    type: object
+    required:
+    - six_context_outcome_access
+    - protected_holdout_access
+    - test_outcome_access
+    - tool_access
+    - mcp_access
+    - agent_trace_access
+    - agent_access
+    - memory_access
+    - coevolution_access
+    properties:
+      six_context_outcome_access: {const: 0}
+      protected_holdout_access: {const: 0}
+      test_outcome_access: {const: 0}
+      tool_access: {const: 0}
+      mcp_access: {const: 0}
+      agent_trace_access: {const: 0}
+      agent_access: {const: 0}
+      memory_access: {const: 0}
+      coevolution_access: {const: 0}
+    additionalProperties: false
+  closed_flags:
+    type: object
+    required:
+    - training_authorized
+    - sufficient_training
+    - twin_qualification_pass
+    - formal_qualification
+    - agent_work_open
+    - test_manifest_open
+    - tool_gate_open
+    - mcp_gate_open
+    - agent_trace_gate_open
+    - memory_gate_open
+    - coevolution_gate_open
+    properties:
+      training_authorized: {const: false}
+      sufficient_training: {const: false}
+      twin_qualification_pass: {const: false}
+      formal_qualification: {const: false}
+      agent_work_open: {const: false}
+      test_manifest_open: {const: false}
+      tool_gate_open: {const: false}
+      mcp_gate_open: {const: false}
+      agent_trace_gate_open: {const: false}
+      memory_gate_open: {const: false}
+      coevolution_gate_open: {const: false}
+    additionalProperties: false
+  pairing_authority:
+    type: object
+    required:
+    - authority_uid
+    - pair_key_field
+    - supported_members_per_pair
+    - independent_unit
+    - require_same_fields
+    - require_distinct_fields
+    properties:
+      authority_uid: {type: string, minLength: 1}
+      pair_key_field: {const: counterfactual_pair_uid}
+      supported_members_per_pair: {const: 2}
+      independent_unit: {const: latent_world}
+      require_same_fields: {type: array, items: {type: string}, minItems: 1}
+      require_distinct_fields: {type: array, items: {type: string}, minItems: 1}
+    additionalProperties: false
+  pair:
+    type: object
+    required:
+    - counterfactual_pair_uid
+    - role
+    - family_uid
+    - latent_world_uid
+    - latent_generator_lineage_uid
+    - seed_identity
+    - member_world_uids
+    - action_program_uids
+    - approved_pair
+    properties:
+      counterfactual_pair_uid: {type: string, minLength: 1}
+      role: {enum: [training, development, calibration]}
+      family_uid: {type: string, minLength: 1}
+      latent_world_uid: {type: string, minLength: 1}
+      latent_generator_lineage_uid: {type: string, minLength: 1}
+      seed_identity: {type: string, pattern: '^[0-9a-f]{64}$'}
+      member_world_uids: {type: array, items: {type: string}, minItems: 2, maxItems: 2}
+      action_program_uids: {type: array, items: {type: string}, minItems: 2, maxItems: 2}
+      approved_pair: {const: true}
+    additionalProperties: true
+  world:
+    type: object
+    required:
+    - world_uid
+    - latent_world_uid
+    - family_uid
+    - role
+    - latent_generator_lineage_uid
+    - seed
+    - seed_identity
+    - counterfactual_pair_uid
+    - action_program_uid
+    - action_binding
+    - action_binding_identity
+    - action_sequence_identity
+    - action_definition_identity
+    - generator_implementation_uid
+    - generator_implementation_version
+    - generator_code_identity
+    - config_content_identity
+    - config_file_identity
+    - shared_latent_config_identity
+    - biological_context_identity
+    - observation_policy_identity
+    - generator_subseeds
+    - replay_identity
+    - observable_output_identity
+    - protocol_state_identity
+    - information_sequence_identity
+    - support_status
+    - execution_status
+    - failure_status
+    - access_counters
+    properties:
+      world_uid: {type: string, minLength: 1}
+      latent_world_uid: {type: string, minLength: 1}
+      family_uid: {type: string, minLength: 1}
+      role: {enum: [training, development, calibration]}
+      latent_generator_lineage_uid: {type: string, minLength: 1}
+      seed: {type: integer}
+      seed_identity: {type: string, pattern: '^[0-9a-f]{64}$'}
+      counterfactual_pair_uid: {type: string, minLength: 1}
+      action_program_uid: {type: string, minLength: 1}
+      action_binding: {type: object}
+      action_binding_identity: {type: string, minLength: 1}
+      action_sequence_identity: {type: string, pattern: '^[0-9a-f]{64}$'}
+      action_definition_identity: {type: string, pattern: '^[0-9a-f]{64}$'}
+      generator_implementation_uid: {type: string}
+      generator_implementation_version: {type: string}
+      generator_code_identity: {type: string, pattern: '^[0-9a-f]{64}$'}
+      config_content_identity: {type: string, pattern: '^[0-9a-f]{64}$'}
+      config_file_identity: {type: string, pattern: '^[0-9a-f]{64}$'}
+      shared_latent_config_identity: {type: string, pattern: '^[0-9a-f]{64}$'}
+      biological_context_identity: {type: string, pattern: '^[0-9a-f]{64}$'}
+      observation_policy_identity: {type: string, pattern: '^[0-9a-f]{64}$'}
+      generator_subseeds: {type: object}
+      replay_identity: {type: string, minLength: 1}
+      observable_output_identity: {type: string, pattern: '^[0-9a-f]{64}$'}
+      protocol_state_identity: {type: string, minLength: 1}
+      information_sequence_identity: {type: string, pattern: '^[0-9a-f]{64}$'}
+      support_status: {type: object}
+      execution_status: {const: executed_supported}
+      failure_status: {type: ['object', 'null']}
+      access_counters: {$ref: '#/$defs/access'}
+    additionalProperties: false
+  support_case:
+    type: object
+    required:
+    - support_case_uid
+    - family_uid
+    - support_case_kind
+    - support_status
+    - execution_status
+    - attempted_action
+    - action_binding
+    - action_binding_identity
+    - reason_codes
+    - provenance
+    - failure_record
+    - access_counters
+    properties:
+      support_case_uid: {type: string, minLength: 1}
+      family_uid: {type: string, minLength: 1}
+      support_case_kind: {enum: [supported, out_of_distribution, unsupported]}
+      support_status: {type: object}
+      execution_status: {const: retained_not_executed}
+      attempted_action: {type: object}
+      action_binding: {type: ['object', 'null']}
+      action_binding_identity: {type: ['string', 'null']}
+      reason_codes: {type: array, items: {type: string}}
+      provenance: {type: object}
+      failure_record: {type: ['object', 'null']}
+      access_counters: {$ref: '#/$defs/access'}
+    additionalProperties: false

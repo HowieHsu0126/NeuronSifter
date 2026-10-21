@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://neuronsifter.org/schemas/rollout_reliability_report.schema.json",
+  "title": "NeuronSifter RolloutReliabilityReport", "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "reliability_uid", "engine_uid", "support_domain_ref", "action_class", "diagnostics", "qualified_horizon", "maximum_tested_horizon", "horizon_decision", "support_domain_decision", "disagreement_outcome", "status", "restrictions"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-rollout-reliability-report-v1"}, "reliability_uid": {"$ref": "#/$defs/text"}, "engine_uid": {"$ref": "#/$defs/text"},
+    "support_domain_ref": {"$ref": "#/$defs/text"}, "action_class": {"$ref": "#/$defs/text"}, "diagnostics": {"type": "object", "minProperties": 10},
+    "qualified_horizon": {"type": "object", "minProperties": 3}, "maximum_tested_horizon": {"type": "object", "minProperties": 3},
+    "horizon_decision": {"enum": ["within_qualified_horizon", "restricted_extrapolation", "outside_qualified_horizon", "unknown"]},
+    "support_domain_decision": {"enum": ["in_domain", "restricted_in_domain", "extrapolative_stress_only", "unsupported", "unknown"]},
+    "disagreement_outcome": {"enum": ["consistent", "context_explained", "retained_disagreement", "insufficient_comparison"]},
+    "status": {"enum": ["qualified", "qualified_with_restrictions", "uncertain", "unreliable", "unsupported"]}, "restrictions": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {"text": {"type": "string", "minLength": 1}}
+}

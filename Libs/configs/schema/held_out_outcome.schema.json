@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/held_out_outcome.schema.json",
+  "title": "NeuronSifter Round-18 evaluator-only held-out outcome bundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "bundle_uid",
+    "bundle_role",
+    "outcomes",
+    "mount_path",
+    "read_permissions",
+    "process_identities",
+    "access_attempts",
+    "reveal_not_before",
+    "content_hash",
+    "retrospective_replay",
+    "prospective_real_world_validation",
+    "causal_effect_claim",
+    "clinical_recommendation",
+    "autonomous_discovery_claim",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-held-out-outcome-v1"},
+    "bundle_uid": {"$ref": "#/$defs/text"},
+    "bundle_role": {"const": "evaluator_only_held_out_bundle"},
+    "outcomes": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/outcome"}},
+    "mount_path": {"type": "string", "pattern": "^/"},
+    "read_permissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["agent", "evaluator"],
+      "properties": {
+        "agent": {"type": "boolean"},
+        "evaluator": {"const": true}
+      }
+    },
+    "process_identities": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/process_identity"}},
+    "access_attempts": {"type": "array", "items": {"$ref": "#/$defs/access_attempt"}},
+    "reveal_not_before": {"const": "T5"},
+    "content_hash": {"$ref": "#/$defs/hash"},
+    "retrospective_replay": {"const": true},
+    "prospective_real_world_validation": {"const": false},
+    "causal_effect_claim": {"const": false},
+    "clinical_recommendation": {"const": false},
+    "autonomous_discovery_claim": {"const": false},
+    "status": {"enum": ["held_out", "revealed", "invalidated", "blocked"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"read_permissions": {"properties": {"agent": {"const": true}}}}},
+      "then": {"properties": {"status": {"const": "invalidated"}}}
+    }
+  ],
+  "$defs": {
+    "text": {"type": "string", "minLength": 1},
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "outcome": {
+      "type": "object",
+      "required": ["outcome_uid", "content_hash"],
+      "properties": {
+        "outcome_uid": {"$ref": "#/$defs/text"},
+        "content_hash": {"$ref": "#/$defs/hash"}
+      }
+    },
+    "process_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["process_uid", "role"],
+      "properties": {
+        "process_uid": {"$ref": "#/$defs/text"},
+        "role": {"enum": ["agent", "twin", "controller", "evaluator"]},
+        "os_uid": {"type": "integer", "minimum": 0},
+        "os_gid": {"type": "integer", "minimum": 0}
+      }
+    },
+    "access_attempt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["attempt_uid", "process_identity", "step", "access_granted", "outcome_exposed", "preserved"],
+      "properties": {
+        "attempt_uid": {"$ref": "#/$defs/text"},
+        "process_identity": {"$ref": "#/$defs/text"},
+        "step": {"enum": ["T0", "T1", "T2", "T3", "T4", "T5", "T6", "T7"]},
+        "access_granted": {"type": "boolean"},
+        "outcome_exposed": {"type": "boolean"},
+        "preserved": {"const": true}
+      }
+    }
+  }
+}

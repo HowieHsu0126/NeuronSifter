@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/trajectory_numerical_qc.schema.json",
+  "title": "NeuronSifter TrajectoryNumericalQC",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "qc_uid", "trajectory_uid", "policy_version", "solver_status", "convergence_status", "step_count", "rejected_steps", "runtime_seconds", "memory", "nan_inf_count", "overflow_underflow_indicators", "state_bound_violations", "negative_concentration_violations", "discontinuities", "interpolation_error", "repeatability_diagnostics", "status", "blockers"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-trajectory-numerical-qc-v1"},
+    "qc_uid": {"type": "string", "minLength": 1},
+    "trajectory_uid": {"type": "string", "minLength": 1},
+    "policy_version": {"type": "string", "minLength": 1},
+    "solver_status": {"enum": ["completed", "failed", "not_run"]},
+    "convergence_status": {"enum": ["passed", "not_applicable_explicit_recurrence", "failed", "unknown"]},
+    "step_count": {"type": "integer", "minimum": 0},
+    "rejected_steps": {"type": "integer", "minimum": 0},
+    "runtime_seconds": {"type": "number", "minimum": 0},
+    "memory": {"type": "object", "minProperties": 1},
+    "nan_inf_count": {"type": "integer", "minimum": 0},
+    "overflow_underflow_indicators": {"type": "object", "minProperties": 1},
+    "state_bound_violations": {"type": "integer", "minimum": 0},
+    "negative_concentration_violations": {"type": "integer", "minimum": 0},
+    "discontinuities": {"type": "integer", "minimum": 0},
+    "interpolation_error": {"type": "number", "minimum": 0},
+    "repeatability_diagnostics": {"type": "object", "minProperties": 1},
+    "status": {"enum": ["passed", "failed"]},
+    "blockers": {"type": "array", "items": {"type": "object"}}
+  }
+}

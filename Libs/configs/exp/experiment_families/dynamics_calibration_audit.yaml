@@ -1,0 +1,12 @@
+family_name: dynamics_calibration_audit
+paper_track: research_hardening
+cluster_profile: publication
+execution:
+  audit_commands:
+  - '{python_executable} -u Libs/scripts/builders/build_full_microenvironment_teacher_registry.py --config {config_path}'
+  - '{python_executable} -u Libs/scripts/validators/validate_full_microenvironment_teacher_registry.py --config {config_path}'
+  - '{python_executable} -u Libs/scripts/builders/build_simulation_teacher_ready_registry.py --config {config_path}'
+  - '{python_executable} -u Libs/scripts/validators/validate_simulation_teacher_ready_registry.py --config {config_path}'
+  - '{python_executable} -u Libs/scripts/builders/build_simulation_readiness_audit.py --config {config_path}'
+  - '{python_executable} -u Libs/scripts/validators/validate_simulation_readiness_audit.py --config {config_path}'
+  - '{python_executable} -u Libs/scripts/reports/build_framework_hardening_audits.py --config {config_path}'

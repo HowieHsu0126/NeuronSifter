@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/world_action.schema.json",
+  "title": "NeuronSifter WorldAction",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "action_uid", "intervention_type", "target_set", "agent_set", "dose", "dose_unit", "schedule", "route", "duration", "stimulation_or_environment", "state_scope", "support_domain_ref", "source_evidence_refs", "action_provenance_ref", "conflicts", "status"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-world-action-v1"},
+    "action_uid": {"type": "string", "minLength": 1},
+    "intervention_type": {"enum": ["pharmacological", "genetic", "electrical_stimulation", "optical_stimulation", "environmental", "state_initialization", "no_action_control", "combination"]},
+    "target_set": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "agent_set": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "dose": {"type": ["number", "null"], "exclusiveMinimum": 0},
+    "dose_unit": {"type": ["string", "null"]},
+    "schedule": {"type": "object"},
+    "route": {"type": ["string", "null"]},
+    "duration": {"type": "object"},
+    "stimulation_or_environment": {"type": "object"},
+    "state_scope": {"type": "object", "minProperties": 1},
+    "support_domain_ref": {"type": "string", "minLength": 1},
+    "source_evidence_refs": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1, "uniqueItems": true},
+    "action_provenance_ref": {"type": "string", "minLength": 1},
+    "conflicts": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "status": {"enum": ["contract_valid", "pilot_only", "stress_only", "hypothesis_only", "unsupported", "invalid"]}
+  }
+}

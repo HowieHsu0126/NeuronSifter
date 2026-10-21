@@ -1,0 +1,28 @@
+round19_authorized_paths:
+  version: neuronsifter-round19-authorized-paths-v1
+  accepted_base_commit: dba20fb554c18d18ba53b0f1cd713dbe9279d743
+  allowed_exact_paths:
+    - TODO.md
+    - Libs/configs/config_stack.yaml
+    - Libs/configs/data/round19_public_e2_e4.yaml
+    - Libs/configs/data/round19_public_e2_candidates.yaml
+    - Libs/configs/schema/schemas.yaml
+    - Libs/configs/validation/round11f_controller_authority.yaml
+    - Libs/configs/validation/round19_authorized_paths.yaml
+    - Libs/scripts/builders/build_dt_round19_contracts.py
+    - Libs/scripts/builders/build_dt_round19_public_e2_e4.py
+    - Libs/scripts/builders/retrieve_dt_round19_public_e2.py
+    - Libs/scripts/validators/validate_dt_round19_public_e2_e4.py
+    - Libs/tests/test_dt_round19_public_e2_e4.py
+    - Libs/utils/data/round19_contracts.py
+  allowed_schema_glob: Libs/configs/schema/round19_*.schema.json
+  prohibited_git_content:
+    - generated_evidence
+    - generated_trajectories
+    - retrieval_bundles
+    - runtime_logs
+    - pytest_caches
+    - controlled_source_adapters
+    - ADNI_or_AIBL_paths
+    - training_outputs
+    - evidence_fabric_bulk_data

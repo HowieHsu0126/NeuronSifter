@@ -1,0 +1,43 @@
+name: research_hardening
+canonical_dynamics:
+  ad_mainline_profile: dynamics_mainline_ad
+  ad_ablation_profiles:
+    - action_conditioning_drug_identity
+    - action_conditioning_target_identity
+    - action_conditioning_scalar_exposure
+    - occupancy_shallow_reference
+    - rollout_operator_deterministic_neuronsifter
+    - rollout_operator_transolver
+    - rollout_operator_factor_coupled
+    - ad_screening_without_atlas_prior
+    - ad_screening_without_pkpd_prior
+    - ad_screening_without_tri_gate
+    - dynamics_without_local_response_heads
+  context_formal_profiles: []
+primary_dynamics_profiles:
+  - dynamics_mainline_ad
+  - action_conditioning_drug_identity
+  - action_conditioning_target_identity
+  - action_conditioning_scalar_exposure
+  - occupancy_shallow_reference
+  - rollout_operator_deterministic_neuronsifter
+  - rollout_operator_transolver
+  - rollout_operator_factor_coupled
+  - ad_screening_without_atlas_prior
+  - ad_screening_without_pkpd_prior
+  - ad_screening_without_tri_gate
+  - dynamics_without_local_response_heads
+shared_context_profiles:
+  - shared_latent_formal
+secondary_benchmark_profiles:
+  - shared_latent_formal
+  - dynamics_mainline_pd
+analysis_families:
+  - mainline
+  - ablations
+  - parameter_sensitivity
+  - interpretability
+  - complexity
+  - case_study
+  - robustness_negative_controls
+  - baseline_wrappers

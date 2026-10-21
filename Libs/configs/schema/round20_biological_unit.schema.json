@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/round20_biological_unit.schema.json",
+  "title": "NeuronSifter Round-20 biological unit identity",
+  "description": "A typed biological unit record that preserves donor, specimen, sample, cell, session, sweep, reconstruction, projection, atlas, and voxel identity without flattening.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "biological_unit_uid",
+    "unit_type",
+    "source",
+    "native_identity",
+    "lineage",
+    "identity_axes",
+    "identity_status",
+    "independence",
+    "context",
+    "mapping",
+    "qc",
+    "provenance",
+    "train_eval_role",
+    "status",
+    "flattening_prohibited"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "neuronsifter-round20-biological-unit-v1"
+    },
+    "biological_unit_uid": {
+      "type": "string",
+      "minLength": 1
+    },
+    "unit_type": {
+      "enum": [
+        "donor",
+        "specimen",
+        "tissue_block",
+        "sample",
+        "cell",
+        "session",
+        "sweep",
+        "morphology_reconstruction",
+        "projection_experiment",
+        "atlas_structure",
+        "voxel_object"
+      ]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_family_uid", "release_uid", "source_record_uid", "access_class"],
+      "properties": {
+        "source_family_uid": {"type": "string", "minLength": 1},
+        "release_uid": {"type": "string", "minLength": 1},
+        "source_record_uid": {"type": "string", "minLength": 1},
+        "access_class": {"enum": ["public_open", "public_registered", "public_manual_release"]}
+      }
+    },
+    "native_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["namespace", "native_id", "id_version"],
+      "properties": {
+        "namespace": {"type": "string", "minLength": 1},
+        "native_id": {"type": "string", "minLength": 1},
+        "id_version": {"type": "string", "minLength": 1}
+      }
+    },
+    "lineage": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["relation", "unit_uid", "unit_type"],
+        "properties": {
+          "relation": {"enum": ["derived_from", "contains", "part_of", "measured_in", "registered_as"]},
+          "unit_uid": {"type": "string", "minLength": 1},
+          "unit_type": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "identity_axes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "donor_uid",
+        "specimen_uid",
+        "tissue_block_uid",
+        "sample_uid",
+        "cell_uid",
+        "session_uid",
+        "sweep_uid",
+        "morphology_reconstruction_uid",
+        "projection_experiment_uid",
+        "atlas_structure_uid",
+        "voxel_object_uid"
+      ],
+      "properties": {
+        "donor_uid": {"type": ["string", "null"]},
+        "specimen_uid": {"type": ["string", "null"]},
+        "tissue_block_uid": {"type": ["string", "null"]},
+        "sample_uid": {"type": ["string", "null"]},
+        "cell_uid": {"type": ["string", "null"]},
+        "session_uid": {"type": ["string", "null"]},
+        "sweep_uid": {"type": ["string", "null"]},
+        "morphology_reconstruction_uid": {"type": ["string", "null"]},
+        "projection_experiment_uid": {"type": ["string", "null"]},
+        "atlas_structure_uid": {"type": ["string", "null"]},
+        "voxel_object_uid": {"type": ["string", "null"]}
+      }
+    },
+    "identity_status": {
+      "enum": ["exact", "scoped_composite", "ambiguous_blocked"]
+    },
+    "independence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["independent_unit_uid", "split_identity_uid", "effective_sample_size_contribution"],
+      "properties": {
+        "independent_unit_uid": {"type": "string", "minLength": 1},
+        "split_identity_uid": {"type": "string", "minLength": 1},
+        "effective_sample_size_contribution": {"type": "number", "minimum": 0}
+      }
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["organism", "disease_context", "tissue", "brain_region", "modality"],
+      "properties": {
+        "organism": {"enum": ["human", "mouse", "rat", "other", "unspecified"]},
+        "disease_context": {"type": "string", "minLength": 1},
+        "tissue": {"type": "string", "minLength": 1},
+        "brain_region": {"type": ["string", "null"]},
+        "modality": {"type": "string", "minLength": 1}
+      }
+    },
+    "mapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["region_ref", "cell_type_ref", "coordinate_frame", "ambiguity"],
+      "properties": {
+        "region_ref": {"type": ["string", "null"]},
+        "cell_type_ref": {"type": ["string", "null"]},
+        "coordinate_frame": {"type": ["string", "null"]},
+        "ambiguity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["explicit", "candidate_refs", "reason", "review_status"],
+          "properties": {
+            "explicit": {"type": "boolean"},
+            "candidate_refs": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+            "reason": {"type": "string", "minLength": 1},
+            "review_status": {"enum": ["not_needed", "pending", "resolved", "blocked"]}
+          }
+        }
+      }
+    },
+    "qc": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["grade", "missingness_fraction", "reject_reasons"],
+      "properties": {
+        "grade": {"enum": ["A", "B", "C", "D", "S", "ungraded"]},
+        "missingness_fraction": {"type": "number", "minimum": 0, "maximum": 1},
+        "reject_reasons": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provenance_ref", "content_hash", "parser_version"],
+      "properties": {
+        "provenance_ref": {"type": "string", "minLength": 1},
+        "content_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "parser_version": {"type": "string", "minLength": 1}
+      }
+    },
+    "train_eval_role": {
+      "enum": ["public_state_observation", "ontology_prior", "holdout_identity", "missing_modality_source", "excluded_ambiguous", "contract_validation_only"]
+    },
+    "status": {
+      "enum": ["active", "blocked", "rejected", "superseded", "stress_only"]
+    },
+    "flattening_prohibited": {
+      "const": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"identity_status": {"const": "ambiguous_blocked"}}},
+      "then": {
+        "properties": {
+          "mapping": {"properties": {"ambiguity": {"properties": {"explicit": {"const": true}, "review_status": {"const": "blocked"}}}}},
+          "train_eval_role": {"const": "excluded_ambiguous"},
+          "status": {"const": "blocked"}
+        }
+      }
+    }
+  ]
+}

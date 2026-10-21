@@ -1,0 +1,1732 @@
+config_includes:
+- ../config_stack.yaml
+controlled_cns_source:
+  source_uid: controlled_cns_compartmental_source_v1
+  snapshot_ref: controlled_cns_compartmental_source_v1_definition
+  interpretation: prospective simulated slow CNS hypothesis; not empirical or frozen-family
+    evidence
+  seed: 3407
+  replicates:
+  - 0
+  - 1
+  - 2
+  - 3
+  grid:
+    time_hours:
+    - 0.0
+    - 24.88888931274414
+    - 49.77777862548828
+    - 74.66666412353516
+    - 99.55555725097656
+    - 124.44444274902344
+    - 149.3333282470703
+    - 174.22222900390625
+    - 199.11111450195312
+    - 224.0
+    - 248.88888549804688
+    - 273.77777099609375
+    - 298.6666564941406
+    - 323.5555419921875
+    - 348.4444580078125
+    - 373.3333435058594
+    - 398.22222900390625
+    - 423.1111145019531
+    - 448.0
+    - 472.8888854980469
+    - 497.77777099609375
+    - 522.6666870117188
+    - 547.5555419921875
+    - 572.4444580078125
+    - 597.3333129882812
+    - 622.2222290039062
+    - 647.111083984375
+    - 672.0
+    region_id:
+    - systemic_circulation
+    - middle_temporal_gyrus
+    - entorhinal_cortex
+    - hippocampus_ca1
+    - hippocampus_ca3
+    - prefrontal_cortex
+    compartment_id:
+    - plasma
+    - bbb_interface
+    - csf
+    - pvs
+    - isf
+    - meningeal_drainage
+    species_id:
+    - free_drug
+    - target_bound_drug
+    - misfolded_protein_load
+    - aggregate_burden
+    - neuroinflammation
+    - clearance_flux
+    - circuit_instability
+    - amyloid_beta_soluble
+    - amyloid_plaque
+    - phosphorylated_tau
+    - inflammatory_mediator
+    - calcium_concentration
+    - membrane_voltage
+    - spike_rate
+    - vascular_perivascular_transport
+  output_root: Output/results/controlled_native_source/controlled_cns_compartmental_source_v1
+  baseline_intervention_history: []
+  event_convention:
+    initial_output: pre_dose
+    later_events: post_dose
+    integration: split_at_dose_and_output
+  budget:
+    cases: 16
+    integrations: 48
+    primary_pk_grids: 64
+    precision_pk_grids: 64
+    seconds: 1800
+  numerics:
+    rk4_steps_hours:
+    - 1.0
+    - 0.5
+    reference_method: DOP853
+    reference_max_step_hours: 0.25
+    reference_rtol: 1.0e-10
+    reference_atol_scale: 1.0e-12
+    normalized_tolerance: 0.001
+    balance_tolerance: 1.0e-09
+    decimal_precision: 50
+  coefficient_levels:
+  - 0.8
+  - 1.2
+  atoms:
+  - - 0
+    - 0
+    - 0
+    - 0
+    - 0
+  - - 0
+    - 1
+    - 1
+    - 0
+    - 1
+  - - 1
+    - 0
+    - 1
+    - 1
+    - 0
+  - - 1
+    - 1
+    - 0
+    - 1
+    - 1
+  prior_weights:
+  - 0.1
+  - 0.2
+  - 0.3
+  - 0.4
+  initial_jitter:
+  - 0.95
+  - 1.05
+  source_precision:
+    initial_fields_and_factors: float32_defined_source_inputs
+    integration: float64
+    pk_reference: decimal_50_digits
+  pk:
+    total_dose_mg_per_kg: 0.01
+    body_mass_kg: 0.025
+    molecular_weight_g_per_mol: 500.0
+    ligand_uid: controlled_ligand_v1
+    target_uid: controlled_amyloid_production_target_v1
+    kernel: sum F*q/V*exp(-k*(t-event)) for t>=event; initial output uses t=0-
+    bound_quantity: Bmax_mol_per_l*occupancy; distinct from occupancy fraction
+  actions:
+  - regimen_uid: controlled_single_dose_v1
+    dose_times_hours:
+    - 0.0
+    fractions:
+    - 1.0
+  - regimen_uid: controlled_split_dose_v1
+    dose_times_hours:
+    - 0.0
+    - 336.0
+    fractions:
+    - 0.5
+    - 0.5
+  factor_basis:
+    z_tx:
+    - coordinate: 0
+      meaning: occupancy_susceptibility
+      sites:
+      - 0
+      - 32
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 1
+      meaning: occupancy_susceptibility
+      sites:
+      - 1
+      - 33
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 2
+      meaning: occupancy_susceptibility
+      sites:
+      - 2
+      - 34
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 3
+      meaning: occupancy_susceptibility
+      sites:
+      - 3
+      - 35
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 4
+      meaning: occupancy_susceptibility
+      sites:
+      - 4
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 5
+      meaning: occupancy_susceptibility
+      sites:
+      - 5
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 6
+      meaning: occupancy_susceptibility
+      sites:
+      - 6
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 7
+      meaning: occupancy_susceptibility
+      sites:
+      - 7
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 8
+      meaning: occupancy_susceptibility
+      sites:
+      - 8
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 9
+      meaning: occupancy_susceptibility
+      sites:
+      - 9
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 10
+      meaning: occupancy_susceptibility
+      sites:
+      - 10
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 11
+      meaning: occupancy_susceptibility
+      sites:
+      - 11
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 12
+      meaning: occupancy_susceptibility
+      sites:
+      - 12
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 13
+      meaning: occupancy_susceptibility
+      sites:
+      - 13
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 14
+      meaning: occupancy_susceptibility
+      sites:
+      - 14
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 15
+      meaning: occupancy_susceptibility
+      sites:
+      - 15
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 16
+      meaning: occupancy_susceptibility
+      sites:
+      - 16
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 17
+      meaning: occupancy_susceptibility
+      sites:
+      - 17
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 18
+      meaning: occupancy_susceptibility
+      sites:
+      - 18
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 19
+      meaning: occupancy_susceptibility
+      sites:
+      - 19
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 20
+      meaning: occupancy_susceptibility
+      sites:
+      - 20
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 21
+      meaning: occupancy_susceptibility
+      sites:
+      - 21
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 22
+      meaning: occupancy_susceptibility
+      sites:
+      - 22
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 23
+      meaning: occupancy_susceptibility
+      sites:
+      - 23
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 24
+      meaning: occupancy_susceptibility
+      sites:
+      - 24
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 25
+      meaning: occupancy_susceptibility
+      sites:
+      - 25
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 26
+      meaning: occupancy_susceptibility
+      sites:
+      - 26
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 27
+      meaning: occupancy_susceptibility
+      sites:
+      - 27
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 28
+      meaning: occupancy_susceptibility
+      sites:
+      - 28
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 29
+      meaning: occupancy_susceptibility
+      sites:
+      - 29
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 30
+      meaning: occupancy_susceptibility
+      sites:
+      - 30
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 31
+      meaning: occupancy_susceptibility
+      sites:
+      - 31
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    z_pk:
+    - coordinate: 0
+      meaning: delivery_volume_elimination_affinity_density
+      sites:
+      - 0
+      - 2
+      - 4
+      - 6
+      - 8
+      - 10
+      - 12
+      - 14
+      - 16
+      - 18
+      - 20
+      - 22
+      - 24
+      - 26
+      - 28
+      - 30
+      - 32
+      - 34
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 1
+      meaning: delivery_volume_elimination_affinity_density
+      sites:
+      - 1
+      - 3
+      - 5
+      - 7
+      - 9
+      - 11
+      - 13
+      - 15
+      - 17
+      - 19
+      - 21
+      - 23
+      - 25
+      - 27
+      - 29
+      - 31
+      - 33
+      - 35
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    z_env:
+    - coordinate: 0
+      meaning: production_clearance_initial_burden
+      sites:
+      - 0
+      - 9
+      - 18
+      - 27
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 1
+      meaning: production_clearance_initial_burden
+      sites:
+      - 1
+      - 10
+      - 19
+      - 28
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 2
+      meaning: production_clearance_initial_burden
+      sites:
+      - 2
+      - 11
+      - 20
+      - 29
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 3
+      meaning: production_clearance_initial_burden
+      sites:
+      - 3
+      - 12
+      - 21
+      - 30
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 4
+      meaning: production_clearance_initial_burden
+      sites:
+      - 4
+      - 13
+      - 22
+      - 31
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 5
+      meaning: production_clearance_initial_burden
+      sites:
+      - 5
+      - 14
+      - 23
+      - 32
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 6
+      meaning: production_clearance_initial_burden
+      sites:
+      - 6
+      - 15
+      - 24
+      - 33
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 7
+      meaning: production_clearance_initial_burden
+      sites:
+      - 7
+      - 16
+      - 25
+      - 34
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 8
+      meaning: production_clearance_initial_burden
+      sites:
+      - 8
+      - 17
+      - 26
+      - 35
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    z_ephys:
+    - coordinate: 0
+      meaning: bounded_population_response_gain
+      sites:
+      - 0
+      - 4
+      - 8
+      - 12
+      - 16
+      - 20
+      - 24
+      - 28
+      - 32
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 1
+      meaning: bounded_population_response_gain
+      sites:
+      - 1
+      - 5
+      - 9
+      - 13
+      - 17
+      - 21
+      - 25
+      - 29
+      - 33
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 2
+      meaning: bounded_population_response_gain
+      sites:
+      - 2
+      - 6
+      - 10
+      - 14
+      - 18
+      - 22
+      - 26
+      - 30
+      - 34
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 3
+      meaning: bounded_population_response_gain
+      sites:
+      - 3
+      - 7
+      - 11
+      - 15
+      - 19
+      - 23
+      - 27
+      - 31
+      - 35
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    z_morph:
+    - coordinate: 0
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 0
+      - 32
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 1
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 1
+      - 33
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 2
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 2
+      - 34
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 3
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 3
+      - 35
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 4
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 4
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 5
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 5
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 6
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 6
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 7
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 7
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 8
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 8
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 9
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 9
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 10
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 10
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 11
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 11
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 12
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 12
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 13
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 13
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 14
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 14
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 15
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 15
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 16
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 16
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 17
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 17
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 18
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 18
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 19
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 19
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 20
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 20
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 21
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 21
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 22
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 22
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 23
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 23
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 24
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 24
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 25
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 25
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 26
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 26
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 27
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 27
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 28
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 28
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 29
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 29
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 30
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 30
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+    - coordinate: 31
+      meaning: site_volume_symmetric_conductance
+      sites:
+      - 31
+      unit: dimensionless_two_level_multiplier
+      rule: site coordinate modulo width; z_pk shifted coordinate controls elimination/Kd
+  sites:
+  - site_uid: systemic_circulation:plasma
+    region_id: systemic_circulation
+    compartment_id: plasma
+    volume_l: 0.001
+    delivery_fraction: 0.005
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 5.0e-09
+    bmax_mol_per_l: 2.0e-08
+  - site_uid: systemic_circulation:bbb_interface
+    region_id: systemic_circulation
+    compartment_id: bbb_interface
+    volume_l: 0.00102
+    delivery_fraction: 0.00505
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 5.1e-09
+    bmax_mol_per_l: 2.0200000000000002e-08
+  - site_uid: systemic_circulation:csf
+    region_id: systemic_circulation
+    compartment_id: csf
+    volume_l: 0.0010400000000000001
+    delivery_fraction: 0.0051
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 5.2e-09
+    bmax_mol_per_l: 2.04e-08
+  - site_uid: systemic_circulation:pvs
+    region_id: systemic_circulation
+    compartment_id: pvs
+    volume_l: 0.0010600000000000002
+    delivery_fraction: 0.00515
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 5.3e-09
+    bmax_mol_per_l: 2.0600000000000002e-08
+  - site_uid: systemic_circulation:isf
+    region_id: systemic_circulation
+    compartment_id: isf
+    volume_l: 0.00108
+    delivery_fraction: 0.005200000000000001
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 5.4e-09
+    bmax_mol_per_l: 2.08e-08
+  - site_uid: systemic_circulation:meningeal_drainage
+    region_id: systemic_circulation
+    compartment_id: meningeal_drainage
+    volume_l: 0.0011
+    delivery_fraction: 0.00525
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 5.5000000000000004e-09
+    bmax_mol_per_l: 2.1000000000000003e-08
+  - site_uid: middle_temporal_gyrus:plasma
+    region_id: middle_temporal_gyrus
+    compartment_id: plasma
+    volume_l: 0.0010500000000000002
+    delivery_fraction: 0.0053
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 5.6000000000000005e-09
+    bmax_mol_per_l: 2.12e-08
+  - site_uid: middle_temporal_gyrus:bbb_interface
+    region_id: middle_temporal_gyrus
+    compartment_id: bbb_interface
+    volume_l: 0.00107
+    delivery_fraction: 0.005350000000000001
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 5.7000000000000006e-09
+    bmax_mol_per_l: 2.1400000000000003e-08
+  - site_uid: middle_temporal_gyrus:csf
+    region_id: middle_temporal_gyrus
+    compartment_id: csf
+    volume_l: 0.00109
+    delivery_fraction: 0.0054
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 5.8e-09
+    bmax_mol_per_l: 2.16e-08
+  - site_uid: middle_temporal_gyrus:pvs
+    region_id: middle_temporal_gyrus
+    compartment_id: pvs
+    volume_l: 0.00111
+    delivery_fraction: 0.005450000000000001
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 5.9e-09
+    bmax_mol_per_l: 2.1800000000000003e-08
+  - site_uid: middle_temporal_gyrus:isf
+    region_id: middle_temporal_gyrus
+    compartment_id: isf
+    volume_l: 0.0011300000000000001
+    delivery_fraction: 0.0055000000000000005
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 6.0e-09
+    bmax_mol_per_l: 2.2000000000000002e-08
+  - site_uid: middle_temporal_gyrus:meningeal_drainage
+    region_id: middle_temporal_gyrus
+    compartment_id: meningeal_drainage
+    volume_l: 0.0011500000000000002
+    delivery_fraction: 0.00555
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 6.1e-09
+    bmax_mol_per_l: 2.2200000000000004e-08
+  - site_uid: entorhinal_cortex:plasma
+    region_id: entorhinal_cortex
+    compartment_id: plasma
+    volume_l: 0.0011
+    delivery_fraction: 0.005600000000000001
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 6.2e-09
+    bmax_mol_per_l: 2.2400000000000002e-08
+  - site_uid: entorhinal_cortex:bbb_interface
+    region_id: entorhinal_cortex
+    compartment_id: bbb_interface
+    volume_l: 0.0011200000000000001
+    delivery_fraction: 0.00565
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 6.3e-09
+    bmax_mol_per_l: 2.2599999999999997e-08
+  - site_uid: entorhinal_cortex:csf
+    region_id: entorhinal_cortex
+    compartment_id: csf
+    volume_l: 0.0011400000000000002
+    delivery_fraction: 0.005700000000000001
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 6.4e-09
+    bmax_mol_per_l: 2.2800000000000002e-08
+  - site_uid: entorhinal_cortex:pvs
+    region_id: entorhinal_cortex
+    compartment_id: pvs
+    volume_l: 0.0011600000000000002
+    delivery_fraction: 0.00575
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 6.5e-09
+    bmax_mol_per_l: 2.2999999999999998e-08
+  - site_uid: entorhinal_cortex:isf
+    region_id: entorhinal_cortex
+    compartment_id: isf
+    volume_l: 0.0011800000000000003
+    delivery_fraction: 0.0058
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 6.6e-09
+    bmax_mol_per_l: 2.32e-08
+  - site_uid: entorhinal_cortex:meningeal_drainage
+    region_id: entorhinal_cortex
+    compartment_id: meningeal_drainage
+    volume_l: 0.0012000000000000001
+    delivery_fraction: 0.00585
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 6.7000000000000004e-09
+    bmax_mol_per_l: 2.3399999999999998e-08
+  - site_uid: hippocampus_ca1:plasma
+    region_id: hippocampus_ca1
+    compartment_id: plasma
+    volume_l: 0.00115
+    delivery_fraction: 0.0059
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 6.8e-09
+    bmax_mol_per_l: 2.36e-08
+  - site_uid: hippocampus_ca1:bbb_interface
+    region_id: hippocampus_ca1
+    compartment_id: bbb_interface
+    volume_l: 0.00117
+    delivery_fraction: 0.0059499999999999996
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 6.9e-09
+    bmax_mol_per_l: 2.3799999999999998e-08
+  - site_uid: hippocampus_ca1:csf
+    region_id: hippocampus_ca1
+    compartment_id: csf
+    volume_l: 0.0011899999999999999
+    delivery_fraction: 0.006
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 7.0e-09
+    bmax_mol_per_l: 2.4e-08
+  - site_uid: hippocampus_ca1:pvs
+    region_id: hippocampus_ca1
+    compartment_id: pvs
+    volume_l: 0.00121
+    delivery_fraction: 0.00605
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 7.1e-09
+    bmax_mol_per_l: 2.4199999999999998e-08
+  - site_uid: hippocampus_ca1:isf
+    region_id: hippocampus_ca1
+    compartment_id: isf
+    volume_l: 0.00123
+    delivery_fraction: 0.0061
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 7.2e-09
+    bmax_mol_per_l: 2.44e-08
+  - site_uid: hippocampus_ca1:meningeal_drainage
+    region_id: hippocampus_ca1
+    compartment_id: meningeal_drainage
+    volume_l: 0.00125
+    delivery_fraction: 0.00615
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 7.3e-09
+    bmax_mol_per_l: 2.46e-08
+  - site_uid: hippocampus_ca3:plasma
+    region_id: hippocampus_ca3
+    compartment_id: plasma
+    volume_l: 0.0012
+    delivery_fraction: 0.0062
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 7.4e-09
+    bmax_mol_per_l: 2.48e-08
+  - site_uid: hippocampus_ca3:bbb_interface
+    region_id: hippocampus_ca3
+    compartment_id: bbb_interface
+    volume_l: 0.00122
+    delivery_fraction: 0.00625
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 7.500000000000001e-09
+    bmax_mol_per_l: 2.5e-08
+  - site_uid: hippocampus_ca3:csf
+    region_id: hippocampus_ca3
+    compartment_id: csf
+    volume_l: 0.00124
+    delivery_fraction: 0.0063
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 7.6e-09
+    bmax_mol_per_l: 2.52e-08
+  - site_uid: hippocampus_ca3:pvs
+    region_id: hippocampus_ca3
+    compartment_id: pvs
+    volume_l: 0.00126
+    delivery_fraction: 0.006350000000000001
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 7.700000000000001e-09
+    bmax_mol_per_l: 2.5400000000000002e-08
+  - site_uid: hippocampus_ca3:isf
+    region_id: hippocampus_ca3
+    compartment_id: isf
+    volume_l: 0.00128
+    delivery_fraction: 0.0064
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 7.8e-09
+    bmax_mol_per_l: 2.56e-08
+  - site_uid: hippocampus_ca3:meningeal_drainage
+    region_id: hippocampus_ca3
+    compartment_id: meningeal_drainage
+    volume_l: 0.0013000000000000002
+    delivery_fraction: 0.00645
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 7.900000000000001e-09
+    bmax_mol_per_l: 2.5800000000000003e-08
+  - site_uid: prefrontal_cortex:plasma
+    region_id: prefrontal_cortex
+    compartment_id: plasma
+    volume_l: 0.00125
+    delivery_fraction: 0.006500000000000001
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 8.0e-09
+    bmax_mol_per_l: 2.6e-08
+  - site_uid: prefrontal_cortex:bbb_interface
+    region_id: prefrontal_cortex
+    compartment_id: bbb_interface
+    volume_l: 0.00127
+    delivery_fraction: 0.00655
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 8.100000000000001e-09
+    bmax_mol_per_l: 2.6200000000000003e-08
+  - site_uid: prefrontal_cortex:csf
+    region_id: prefrontal_cortex
+    compartment_id: csf
+    volume_l: 0.0012900000000000001
+    delivery_fraction: 0.006600000000000001
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 8.2e-09
+    bmax_mol_per_l: 2.64e-08
+  - site_uid: prefrontal_cortex:pvs
+    region_id: prefrontal_cortex
+    compartment_id: pvs
+    volume_l: 0.0013100000000000002
+    delivery_fraction: 0.0066500000000000005
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 8.300000000000002e-09
+    bmax_mol_per_l: 2.6600000000000003e-08
+  - site_uid: prefrontal_cortex:isf
+    region_id: prefrontal_cortex
+    compartment_id: isf
+    volume_l: 0.00133
+    delivery_fraction: 0.0067
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 8.4e-09
+    bmax_mol_per_l: 2.6800000000000002e-08
+  - site_uid: prefrontal_cortex:meningeal_drainage
+    region_id: prefrontal_cortex
+    compartment_id: meningeal_drainage
+    volume_l: 0.00135
+    delivery_fraction: 0.006750000000000001
+    pk_half_life_hours: 72.0
+    kd_mol_per_l: 8.500000000000002e-09
+    bmax_mol_per_l: 2.7000000000000004e-08
+  edges:
+  - left: 0
+    right: 1
+    source_edge_ids:
+    - compartment:plasma:bbb_interface
+    conductance_l_per_hour: 1.0e-06
+  - left: 0
+    right: 6
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_middle_temporal_gyrus_vascular_exchange_7a103932c86d
+    conductance_l_per_hour: 1.0e-06
+  - left: 0
+    right: 12
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_entorhinal_cortex_vascular_exchange_ed90f3d15254
+    conductance_l_per_hour: 1.0e-06
+  - left: 0
+    right: 18
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_hippocampus_ca1_vascular_exchange_9ee49cd59ceb
+    conductance_l_per_hour: 1.0e-06
+  - left: 0
+    right: 24
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_hippocampus_ca3_vascular_exchange_ef2cdae7d246
+    conductance_l_per_hour: 1.0e-06
+  - left: 0
+    right: 30
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_prefrontal_cortex_vascular_exchange_d3b2bbf74bcb
+    conductance_l_per_hour: 1.0e-06
+  - left: 1
+    right: 2
+    source_edge_ids:
+    - compartment:bbb_interface:csf
+    conductance_l_per_hour: 1.0e-06
+  - left: 1
+    right: 7
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_middle_temporal_gyrus_vascular_exchange_7a103932c86d
+    conductance_l_per_hour: 1.0e-06
+  - left: 1
+    right: 13
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_entorhinal_cortex_vascular_exchange_ed90f3d15254
+    conductance_l_per_hour: 1.0e-06
+  - left: 1
+    right: 19
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_hippocampus_ca1_vascular_exchange_9ee49cd59ceb
+    conductance_l_per_hour: 1.0e-06
+  - left: 1
+    right: 25
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_hippocampus_ca3_vascular_exchange_ef2cdae7d246
+    conductance_l_per_hour: 1.0e-06
+  - left: 1
+    right: 31
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_prefrontal_cortex_vascular_exchange_d3b2bbf74bcb
+    conductance_l_per_hour: 1.0e-06
+  - left: 2
+    right: 3
+    source_edge_ids:
+    - compartment:csf:pvs
+    conductance_l_per_hour: 1.0e-06
+  - left: 2
+    right: 5
+    source_edge_ids:
+    - compartment:csf:meningeal_drainage
+    conductance_l_per_hour: 1.0e-06
+  - left: 2
+    right: 8
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_middle_temporal_gyrus_vascular_exchange_7a103932c86d
+    conductance_l_per_hour: 1.0e-06
+  - left: 2
+    right: 14
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_entorhinal_cortex_vascular_exchange_ed90f3d15254
+    conductance_l_per_hour: 1.0e-06
+  - left: 2
+    right: 20
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_hippocampus_ca1_vascular_exchange_9ee49cd59ceb
+    conductance_l_per_hour: 1.0e-06
+  - left: 2
+    right: 26
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_hippocampus_ca3_vascular_exchange_ef2cdae7d246
+    conductance_l_per_hour: 1.0e-06
+  - left: 2
+    right: 32
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_prefrontal_cortex_vascular_exchange_d3b2bbf74bcb
+    conductance_l_per_hour: 1.0e-06
+  - left: 3
+    right: 4
+    source_edge_ids:
+    - compartment:pvs:isf
+    conductance_l_per_hour: 1.0e-06
+  - left: 3
+    right: 9
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_middle_temporal_gyrus_vascular_exchange_7a103932c86d
+    conductance_l_per_hour: 1.0e-06
+  - left: 3
+    right: 15
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_entorhinal_cortex_vascular_exchange_ed90f3d15254
+    conductance_l_per_hour: 1.0e-06
+  - left: 3
+    right: 21
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_hippocampus_ca1_vascular_exchange_9ee49cd59ceb
+    conductance_l_per_hour: 1.0e-06
+  - left: 3
+    right: 27
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_hippocampus_ca3_vascular_exchange_ef2cdae7d246
+    conductance_l_per_hour: 1.0e-06
+  - left: 3
+    right: 33
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_prefrontal_cortex_vascular_exchange_d3b2bbf74bcb
+    conductance_l_per_hour: 1.0e-06
+  - left: 4
+    right: 10
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_middle_temporal_gyrus_vascular_exchange_7a103932c86d
+    conductance_l_per_hour: 1.0e-06
+  - left: 4
+    right: 16
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_entorhinal_cortex_vascular_exchange_ed90f3d15254
+    conductance_l_per_hour: 1.0e-06
+  - left: 4
+    right: 22
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_hippocampus_ca1_vascular_exchange_9ee49cd59ceb
+    conductance_l_per_hour: 1.0e-06
+  - left: 4
+    right: 28
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_hippocampus_ca3_vascular_exchange_ef2cdae7d246
+    conductance_l_per_hour: 1.0e-06
+  - left: 4
+    right: 34
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_prefrontal_cortex_vascular_exchange_d3b2bbf74bcb
+    conductance_l_per_hour: 1.0e-06
+  - left: 5
+    right: 11
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_middle_temporal_gyrus_vascular_exchange_7a103932c86d
+    conductance_l_per_hour: 1.0e-06
+  - left: 5
+    right: 17
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_entorhinal_cortex_vascular_exchange_ed90f3d15254
+    conductance_l_per_hour: 1.0e-06
+  - left: 5
+    right: 23
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_hippocampus_ca1_vascular_exchange_9ee49cd59ceb
+    conductance_l_per_hour: 1.0e-06
+  - left: 5
+    right: 29
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_hippocampus_ca3_vascular_exchange_ef2cdae7d246
+    conductance_l_per_hour: 1.0e-06
+  - left: 5
+    right: 35
+    source_edge_ids:
+    - spatial_edge_systemic_circulation_prefrontal_cortex_vascular_exchange_d3b2bbf74bcb
+    conductance_l_per_hour: 1.0e-06
+  - left: 6
+    right: 7
+    source_edge_ids:
+    - compartment:plasma:bbb_interface
+    conductance_l_per_hour: 1.0e-06
+  - left: 6
+    right: 12
+    source_edge_ids:
+    - spatial_edge_middle_temporal_gyrus_entorhinal_cortex_cortical_association_d877f2e66a9b
+    conductance_l_per_hour: 1.0e-06
+  - left: 6
+    right: 30
+    source_edge_ids:
+    - spatial_edge_middle_temporal_gyrus_prefrontal_cortex_cortical_association_6840e48d3a55
+    conductance_l_per_hour: 1.0e-06
+  - left: 7
+    right: 8
+    source_edge_ids:
+    - compartment:bbb_interface:csf
+    conductance_l_per_hour: 1.0e-06
+  - left: 7
+    right: 13
+    source_edge_ids:
+    - spatial_edge_middle_temporal_gyrus_entorhinal_cortex_cortical_association_d877f2e66a9b
+    conductance_l_per_hour: 1.0e-06
+  - left: 7
+    right: 31
+    source_edge_ids:
+    - spatial_edge_middle_temporal_gyrus_prefrontal_cortex_cortical_association_6840e48d3a55
+    conductance_l_per_hour: 1.0e-06
+  - left: 8
+    right: 9
+    source_edge_ids:
+    - compartment:csf:pvs
+    conductance_l_per_hour: 1.0e-06
+  - left: 8
+    right: 11
+    source_edge_ids:
+    - compartment:csf:meningeal_drainage
+    conductance_l_per_hour: 1.0e-06
+  - left: 8
+    right: 14
+    source_edge_ids:
+    - spatial_edge_middle_temporal_gyrus_entorhinal_cortex_cortical_association_d877f2e66a9b
+    conductance_l_per_hour: 1.0e-06
+  - left: 8
+    right: 32
+    source_edge_ids:
+    - spatial_edge_middle_temporal_gyrus_prefrontal_cortex_cortical_association_6840e48d3a55
+    conductance_l_per_hour: 1.0e-06
+  - left: 9
+    right: 10
+    source_edge_ids:
+    - compartment:pvs:isf
+    conductance_l_per_hour: 1.0e-06
+  - left: 9
+    right: 15
+    source_edge_ids:
+    - spatial_edge_middle_temporal_gyrus_entorhinal_cortex_cortical_association_d877f2e66a9b
+    conductance_l_per_hour: 1.0e-06
+  - left: 9
+    right: 33
+    source_edge_ids:
+    - spatial_edge_middle_temporal_gyrus_prefrontal_cortex_cortical_association_6840e48d3a55
+    conductance_l_per_hour: 1.0e-06
+  - left: 10
+    right: 16
+    source_edge_ids:
+    - spatial_edge_middle_temporal_gyrus_entorhinal_cortex_cortical_association_d877f2e66a9b
+    conductance_l_per_hour: 1.0e-06
+  - left: 10
+    right: 34
+    source_edge_ids:
+    - spatial_edge_middle_temporal_gyrus_prefrontal_cortex_cortical_association_6840e48d3a55
+    conductance_l_per_hour: 1.0e-06
+  - left: 11
+    right: 17
+    source_edge_ids:
+    - spatial_edge_middle_temporal_gyrus_entorhinal_cortex_cortical_association_d877f2e66a9b
+    conductance_l_per_hour: 1.0e-06
+  - left: 11
+    right: 35
+    source_edge_ids:
+    - spatial_edge_middle_temporal_gyrus_prefrontal_cortex_cortical_association_6840e48d3a55
+    conductance_l_per_hour: 1.0e-06
+  - left: 12
+    right: 13
+    source_edge_ids:
+    - compartment:plasma:bbb_interface
+    conductance_l_per_hour: 1.0e-06
+  - left: 12
+    right: 18
+    source_edge_ids:
+    - spatial_edge_entorhinal_cortex_hippocampus_ca1_cortico_limbic_relay_bd4b82aa08a6
+    conductance_l_per_hour: 1.0e-06
+  - left: 13
+    right: 14
+    source_edge_ids:
+    - compartment:bbb_interface:csf
+    conductance_l_per_hour: 1.0e-06
+  - left: 13
+    right: 19
+    source_edge_ids:
+    - spatial_edge_entorhinal_cortex_hippocampus_ca1_cortico_limbic_relay_bd4b82aa08a6
+    conductance_l_per_hour: 1.0e-06
+  - left: 14
+    right: 15
+    source_edge_ids:
+    - compartment:csf:pvs
+    conductance_l_per_hour: 1.0e-06
+  - left: 14
+    right: 17
+    source_edge_ids:
+    - compartment:csf:meningeal_drainage
+    conductance_l_per_hour: 1.0e-06
+  - left: 14
+    right: 20
+    source_edge_ids:
+    - spatial_edge_entorhinal_cortex_hippocampus_ca1_cortico_limbic_relay_bd4b82aa08a6
+    conductance_l_per_hour: 1.0e-06
+  - left: 15
+    right: 16
+    source_edge_ids:
+    - compartment:pvs:isf
+    conductance_l_per_hour: 1.0e-06
+  - left: 15
+    right: 21
+    source_edge_ids:
+    - spatial_edge_entorhinal_cortex_hippocampus_ca1_cortico_limbic_relay_bd4b82aa08a6
+    conductance_l_per_hour: 1.0e-06
+  - left: 16
+    right: 22
+    source_edge_ids:
+    - spatial_edge_entorhinal_cortex_hippocampus_ca1_cortico_limbic_relay_bd4b82aa08a6
+    conductance_l_per_hour: 1.0e-06
+  - left: 17
+    right: 23
+    source_edge_ids:
+    - spatial_edge_entorhinal_cortex_hippocampus_ca1_cortico_limbic_relay_bd4b82aa08a6
+    conductance_l_per_hour: 1.0e-06
+  - left: 18
+    right: 19
+    source_edge_ids:
+    - compartment:plasma:bbb_interface
+    conductance_l_per_hour: 1.0e-06
+  - left: 18
+    right: 24
+    source_edge_ids:
+    - spatial_edge_hippocampus_ca3_hippocampus_ca1_hippocampal_relay_a4d2ba4fd1e5
+    conductance_l_per_hour: 1.0e-06
+  - left: 19
+    right: 20
+    source_edge_ids:
+    - compartment:bbb_interface:csf
+    conductance_l_per_hour: 1.0e-06
+  - left: 19
+    right: 25
+    source_edge_ids:
+    - spatial_edge_hippocampus_ca3_hippocampus_ca1_hippocampal_relay_a4d2ba4fd1e5
+    conductance_l_per_hour: 1.0e-06
+  - left: 20
+    right: 21
+    source_edge_ids:
+    - compartment:csf:pvs
+    conductance_l_per_hour: 1.0e-06
+  - left: 20
+    right: 23
+    source_edge_ids:
+    - compartment:csf:meningeal_drainage
+    conductance_l_per_hour: 1.0e-06
+  - left: 20
+    right: 26
+    source_edge_ids:
+    - spatial_edge_hippocampus_ca3_hippocampus_ca1_hippocampal_relay_a4d2ba4fd1e5
+    conductance_l_per_hour: 1.0e-06
+  - left: 21
+    right: 22
+    source_edge_ids:
+    - compartment:pvs:isf
+    conductance_l_per_hour: 1.0e-06
+  - left: 21
+    right: 27
+    source_edge_ids:
+    - spatial_edge_hippocampus_ca3_hippocampus_ca1_hippocampal_relay_a4d2ba4fd1e5
+    conductance_l_per_hour: 1.0e-06
+  - left: 22
+    right: 28
+    source_edge_ids:
+    - spatial_edge_hippocampus_ca3_hippocampus_ca1_hippocampal_relay_a4d2ba4fd1e5
+    conductance_l_per_hour: 1.0e-06
+  - left: 23
+    right: 29
+    source_edge_ids:
+    - spatial_edge_hippocampus_ca3_hippocampus_ca1_hippocampal_relay_a4d2ba4fd1e5
+    conductance_l_per_hour: 1.0e-06
+  - left: 24
+    right: 25
+    source_edge_ids:
+    - compartment:plasma:bbb_interface
+    conductance_l_per_hour: 1.0e-06
+  - left: 25
+    right: 26
+    source_edge_ids:
+    - compartment:bbb_interface:csf
+    conductance_l_per_hour: 1.0e-06
+  - left: 26
+    right: 27
+    source_edge_ids:
+    - compartment:csf:pvs
+    conductance_l_per_hour: 1.0e-06
+  - left: 26
+    right: 29
+    source_edge_ids:
+    - compartment:csf:meningeal_drainage
+    conductance_l_per_hour: 1.0e-06
+  - left: 27
+    right: 28
+    source_edge_ids:
+    - compartment:pvs:isf
+    conductance_l_per_hour: 1.0e-06
+  - left: 30
+    right: 31
+    source_edge_ids:
+    - compartment:plasma:bbb_interface
+    conductance_l_per_hour: 1.0e-06
+  - left: 31
+    right: 32
+    source_edge_ids:
+    - compartment:bbb_interface:csf
+    conductance_l_per_hour: 1.0e-06
+  - left: 32
+    right: 33
+    source_edge_ids:
+    - compartment:csf:pvs
+    conductance_l_per_hour: 1.0e-06
+  - left: 32
+    right: 35
+    source_edge_ids:
+    - compartment:csf:meningeal_drainage
+    conductance_l_per_hour: 1.0e-06
+  - left: 33
+    right: 34
+    source_edge_ids:
+    - compartment:pvs:isf
+    conductance_l_per_hour: 1.0e-06
+  inflammatory_feedback: 0.3
+  occupancy_production_inhibition: 0.5
+  occupancy_clearance_gain: 0.5
+  saturation_constants:
+    inflammation: 0.5
+    pathology: 0.5
+    response: 0.5
+  base_rates_per_hour:
+    misfolded_production: 0.0016666666666666666
+    misfolded_clearance: 0.013888888888888888
+    amyloid_production: 0.001388888888888889
+    amyloid_clearance: 0.013888888888888888
+    aggregation: 0.005952380952380952
+    dissociation: 0.005952380952380952
+    aggregate_clearance: 0.005952380952380952
+    tau_production: 0.00029761904761904765
+    tau_clearance: 0.005952380952380952
+    mediator_production: 0.0033333333333333335
+    mediator_clearance: 0.041666666666666664
+    neuroinflammation_relaxation: 0.013888888888888888
+    circuit_instability_relaxation: 0.013888888888888888
+    calcium_concentration_relaxation: 0.041666666666666664
+    membrane_voltage_relaxation: 0.041666666666666664
+    spike_rate_relaxation: 0.041666666666666664
+  coefficient_units:
+    production: source_reference_unit/hour
+    linear: 1/hour
+    aggregation: 1/(source_reference_unit*hour)
+    transport: L/hour
+  response_baselines:
+    neuroinflammation: 0.02
+    circuit_instability: 0.02
+    calcium_concentration: 0.15
+    membrane_voltage: 0.08
+    spike_rate: 0.05
+  transfer_definition: one soluble source-burden unit per paired quadratic transfer
+    into aggregate/plaque
+  transport_multipliers:
+    misfolded_protein_load: 1.0
+    aggregate_burden: 1.0
+    neuroinflammation: 1.0
+    circuit_instability: 1.0
+    amyloid_beta_soluble: 1.0
+    amyloid_plaque: 1.0
+    phosphorylated_tau: 1.0
+    inflammatory_mediator: 1.0
+    calcium_concentration: 1.0
+    membrane_voltage: 1.0
+    spike_rate: 1.0
+  initial_conditions:
+    control:
+      misfolded_protein_load: 0.12
+      aggregate_burden: 0.03
+      neuroinflammation: 0.08
+      circuit_instability: 0.08
+      amyloid_beta_soluble: 0.1
+      amyloid_plaque: 0.02
+      phosphorylated_tau: 0.03
+      inflammatory_mediator: 0.08
+      calcium_concentration: 0.2
+      membrane_voltage: 0.1
+      spike_rate: 0.1
+    ad_positive:
+      misfolded_protein_load: 0.6
+      aggregate_burden: 0.25
+      neuroinflammation: 0.4
+      circuit_instability: 0.35
+      amyloid_beta_soluble: 0.65
+      amyloid_plaque: 0.4
+      phosphorylated_tau: 0.4
+      inflammatory_mediator: 0.5
+      calcium_concentration: 0.45
+      membrane_voltage: 0.4
+      spike_rate: 0.4
+  reference_scales:
+    free_drug: 1.0e-08
+    target_bound_drug: 1.0e-08
+    misfolded_protein_load: 1.0
+    aggregate_burden: 1.0
+    neuroinflammation: 1.0
+    clearance_flux: 0.0001
+    circuit_instability: 1.0
+    amyloid_beta_soluble: 1.0
+    amyloid_plaque: 1.0
+    phosphorylated_tau: 1.0
+    inflammatory_mediator: 1.0
+    calcium_concentration: 1.0
+    membrane_voltage: 1.0
+    spike_rate: 1.0
+    vascular_perivascular_transport: 0.0001
+  species_units: &id001
+    free_drug: mol/L
+    target_bound_drug: mol/L
+    misfolded_protein_load: controlled_relative
+    aggregate_burden: controlled_relative
+    neuroinflammation: controlled_relative
+    clearance_flux: controlled_amount/hour
+    circuit_instability: controlled_relative
+    amyloid_beta_soluble: controlled_relative
+    amyloid_plaque: controlled_relative
+    phosphorylated_tau: controlled_relative
+    inflammatory_mediator: controlled_relative
+    calcium_concentration: controlled_relative
+    membrane_voltage: controlled_relative
+    spike_rate: controlled_relative
+    vascular_perivascular_transport: controlled_amount/hour
+  channel_definitions:
+    free_drug:
+      kind: derived
+      definition: controlled molar causal PK
+    target_bound_drug:
+      kind: derived
+      definition: source Bmax times occupancy
+    misfolded_protein_load:
+      kind: state
+      definition: controlled source-burden reaction/transport state
+    aggregate_burden:
+      kind: state
+      definition: controlled source-burden reaction/transport state
+    neuroinflammation:
+      kind: state
+      definition: controlled source-burden reaction/transport state
+    clearance_flux:
+      kind: derived
+      definition: sum of same reaction-removal ledger weighted by site volume
+    circuit_instability:
+      kind: state
+      definition: controlled relative population response; not measured membrane voltage/spikes/calcium
+    amyloid_beta_soluble:
+      kind: state
+      definition: controlled source-burden reaction/transport state
+    amyloid_plaque:
+      kind: state
+      definition: controlled source-burden reaction/transport state
+    phosphorylated_tau:
+      kind: state
+      definition: controlled source-burden reaction/transport state
+    inflammatory_mediator:
+      kind: state
+      definition: controlled source-burden reaction/transport state
+    calcium_concentration:
+      kind: state
+      definition: controlled relative population response; not measured membrane voltage/spikes/calcium
+    membrane_voltage:
+      kind: state
+      definition: controlled relative population response; not measured membrane voltage/spikes/calcium
+    spike_rate:
+      kind: state
+      definition: controlled relative population response; not measured membrane voltage/spikes/calcium
+    vascular_perivascular_transport:
+      kind: derived
+      definition: half absolute incident flux from the same symmetric transport ledger
+  observation:
+    standard_deviation: 0.03
+    law: gaussian
+    noise_role: designed assay noise, separate from numerical discrepancy
+    mask:
+    - true
+    - true
+    - true
+    - false
+    - true
+    - false
+    selector:
+    - region_index: 3
+      compartment_index: 4
+      species: amyloid_beta_soluble
+    - region_index: 2
+      compartment_index: 4
+      species: amyloid_plaque
+    - region_index: 3
+      compartment_index: 4
+      species: neuroinflammation
+    - region_index: 4
+      compartment_index: 4
+      species: phosphorylated_tau
+    - region_index: 3
+      compartment_index: 4
+      species: calcium_concentration
+    - region_index: 5
+      compartment_index: 4
+      species: spike_rate
+  quality_rule: 1/(1+max(uncertainty/(reference_scale*normalized_tolerance))); numerical
+    weight, not a probability
+  qc_rule:
+    pass_grade: B
+    pass_use: main_pretraining
+    pass_weight: 0.5
+    failure_grade: D
+    failure_use: reject
+    failure_weight: 0.0
+  source_license: repository-defined controlled simulation; no third-party data
+  exact_zero_quantities: {}
+native_diffusion_data:
+  registry_path: Output/results/controlled_native_source/controlled_cns_compartmental_source_v1/native_registry.json
+  species_units: *id001
+dynamics_ready_registry:
+  species:
+  - species_id: free_drug
+    species_label: Free Drug
+    species_role: exposure
+    unit: mol/L
+    observable_flag: 'yes'
+    note: controlled molar causal PK
+  - species_id: target_bound_drug
+    species_label: Target-Bound Drug
+    species_role: occupancy
+    unit: mol/L
+    observable_flag: 'yes'
+    note: source Bmax times occupancy
+  - species_id: misfolded_protein_load
+    species_label: Misfolded Protein Load
+    species_role: pathology
+    unit: controlled_relative
+    observable_flag: 'yes'
+    note: controlled source-burden reaction/transport state
+  - species_id: aggregate_burden
+    species_label: Aggregate Burden
+    species_role: pathology
+    unit: controlled_relative
+    observable_flag: 'yes'
+    note: controlled source-burden reaction/transport state
+  - species_id: neuroinflammation
+    species_label: Neuroinflammation
+    species_role: inflammation
+    unit: controlled_relative
+    observable_flag: 'yes'
+    note: controlled source-burden reaction/transport state
+  - species_id: clearance_flux
+    species_label: Clearance Flux
+    species_role: transport
+    unit: controlled_amount/hour
+    observable_flag: 'yes'
+    note: sum of same reaction-removal ledger weighted by site volume
+  - species_id: circuit_instability
+    species_label: Circuit Instability
+    species_role: local_response
+    unit: controlled_relative
+    observable_flag: 'yes'
+    note: controlled relative population response; not measured membrane voltage/spikes/calcium
+  - species_id: amyloid_beta_soluble
+    species_label: Soluble Amyloid Beta
+    species_role: protein_pathology
+    unit: controlled_relative
+    observable_flag: 'yes'
+    note: controlled source-burden reaction/transport state
+  - species_id: amyloid_plaque
+    species_label: Amyloid Plaque
+    species_role: protein_pathology
+    unit: controlled_relative
+    observable_flag: 'yes'
+    note: controlled source-burden reaction/transport state
+  - species_id: phosphorylated_tau
+    species_label: Phosphorylated Tau
+    species_role: protein_pathology
+    unit: controlled_relative
+    observable_flag: 'yes'
+    note: controlled source-burden reaction/transport state
+  - species_id: inflammatory_mediator
+    species_label: Inflammatory Mediator
+    species_role: inflammation
+    unit: controlled_relative
+    observable_flag: 'yes'
+    note: controlled source-burden reaction/transport state
+  - species_id: calcium_concentration
+    species_label: Calcium Concentration
+    species_role: rxd_electrophysiology
+    unit: controlled_relative
+    observable_flag: 'yes'
+    note: controlled relative population response; not measured membrane voltage/spikes/calcium
+  - species_id: membrane_voltage
+    species_label: Membrane Voltage
+    species_role: rxd_electrophysiology
+    unit: controlled_relative
+    observable_flag: 'yes'
+    note: controlled relative population response; not measured membrane voltage/spikes/calcium
+  - species_id: spike_rate
+    species_label: Spike Rate
+    species_role: rxd_electrophysiology
+    unit: controlled_relative
+    observable_flag: 'yes'
+    note: controlled relative population response; not measured membrane voltage/spikes/calcium
+  - species_id: vascular_perivascular_transport
+    species_label: Vascular Perivascular Transport
+    species_role: transport
+    unit: controlled_amount/hour
+    observable_flag: 'yes'
+    note: half absolute incident flux from the same symmetric transport ledger

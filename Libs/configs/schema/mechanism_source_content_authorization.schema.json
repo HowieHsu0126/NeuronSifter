@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/mechanism_source_content_authorization.schema.json",
+  "title": "NeuronSifter mechanism-source content authorization closure",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "authorization_uid",
+    "preregistration",
+    "queue",
+    "chronology",
+    "schema",
+    "content_access_authorized",
+    "access_counters",
+    "downstream_authorization",
+    "authorization_sha256",
+    "blockers"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-mechanism-source-content-authorization-v1"},
+    "status": {"const": "MECHANISM_SOURCE_CONTENT_NOT_AUTHORIZED"},
+    "authorization_uid": {"const": "mechanism_source_content_authorization"},
+    "preregistration": {"$ref": "#/$defs/artifactBinding"},
+    "queue": {"$ref": "#/$defs/artifactBinding"},
+    "chronology": {"$ref": "#/$defs/artifactBinding"},
+    "schema": {"$ref": "#/$defs/fileBinding"},
+    "content_access_authorized": {"const": false},
+    "access_counters": {"$ref": "#/$defs/zeroCounters"},
+    "downstream_authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mechanism_basis_sufficiency_authorized", "numerical_prior_population_authorized", "world_action_compiler_authorized", "runtime_implementation_authorized", "agent_trace_authorized", "inference_authorized", "training_authorized", "gpu_authorized", "evaluation_authorized"],
+      "properties": {
+        "mechanism_basis_sufficiency_authorized": {"const": false},
+        "numerical_prior_population_authorized": {"const": false},
+        "world_action_compiler_authorized": {"const": false},
+        "runtime_implementation_authorized": {"const": false},
+        "agent_trace_authorized": {"const": false},
+        "inference_authorized": {"const": false},
+        "training_authorized": {"const": false},
+        "gpu_authorized": {"const": false},
+        "evaluation_authorized": {"const": false}
+      }
+    },
+    "authorization_sha256": {"$ref": "#/$defs/sha256"},
+    "blockers": {"type": "array", "maxItems": 0}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fileBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "artifactBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "file_sha256", "semantic_sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "file_sha256": {"$ref": "#/$defs/sha256"},
+        "semantic_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "zeroCounters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["six_context_outcome_access", "protected_holdout_access", "source_content_access"],
+      "properties": {
+        "six_context_outcome_access": {"const": 0},
+        "protected_holdout_access": {"const": 0},
+        "source_content_access": {"const": 0}
+      }
+    }
+  }
+}

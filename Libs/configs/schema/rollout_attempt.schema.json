@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://neuronsifter.org/schemas/rollout_attempt.schema.json",
+  "title": "NeuronSifter RolloutAttempt", "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "attempt_uid", "parent_request_uid", "submission_command", "runtime_identity", "job_identity", "stdout_ref", "stderr_ref", "terminal_state", "exit_code", "raw_output_hashes", "failure_class", "supersedes_attempt_uid", "preserved", "status"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-rollout-attempt-v1"}, "attempt_uid": {"$ref": "#/$defs/text"}, "parent_request_uid": {"$ref": "#/$defs/text"},
+    "submission_command": {"$ref": "#/$defs/text"}, "runtime_identity": {"type": "object", "minProperties": 1}, "job_identity": {"type": "object", "minProperties": 1},
+    "stdout_ref": {"$ref": "#/$defs/text"}, "stderr_ref": {"$ref": "#/$defs/text"}, "terminal_state": {"$ref": "#/$defs/text"}, "exit_code": {"$ref": "#/$defs/text"},
+    "raw_output_hashes": {"type": "object", "additionalProperties": {"$ref": "#/$defs/hash"}}, "failure_class": {"type": ["string", "null"]},
+    "supersedes_attempt_uid": {"type": ["string", "null"]}, "preserved": {"const": true}, "status": {"enum": ["completed", "retained_failure", "quarantined"]}
+  },
+  "$defs": {"text": {"type": "string", "minLength": 1}, "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

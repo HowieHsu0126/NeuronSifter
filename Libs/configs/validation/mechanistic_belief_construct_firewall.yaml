@@ -1,0 +1,251 @@
+schema_version: neuronsifter-mechanistic-belief-construct-firewall-contract-v1
+contract_uid: mechanistic_belief_construct_firewall
+status: frozen_before_mechanism_source_content
+outputs:
+  cutoff_receipt:
+    path: Output/audits/mechanistic_belief_cutoff_receipt.json
+    schema_path: Libs/configs/schema/mechanistic_belief_cutoff_receipt.schema.json
+    schema_version: neuronsifter-mechanistic-belief-cutoff-receipt-v1
+  construct_authority:
+    path: Output/audits/mechanistic_belief_construct_authority.json
+    schema_path: Libs/configs/schema/mechanistic_belief_construct_authority.schema.json
+    schema_version: neuronsifter-mechanistic-belief-construct-authority-v1
+method:
+  uid: mechanistic_belief_twin_v1
+  candidate_search_allowed: false
+  preferred_method_allowed: false
+construct:
+  state_factors:
+    - sample_treatment_action
+    - exposure_occupancy
+    - cns_microenvironment
+    - electrophysiology
+    - structural_morphology
+  state_semantics: sample_level_belief_factors_where_supported
+  forbidden_state_semantics:
+    - patient_level_longitudinal_state
+    - direct_clinical_endpoint_state
+  action_input:
+    type: WorldAction
+    fields: [target_set, agent_set, dose, schedule, route, context]
+  action_output:
+    type: MechanismActionProgram
+    deterministic_future_contract: true
+    compilation_authorized: false
+  mechanism_supports:
+    - equations
+    - dependencies
+    - parameter_ranges
+    - assumptions
+    - uncertainty
+    - support_boundaries
+  mechanism_never_supports:
+    - efficacy_probability
+    - treatment_benefit
+    - clinical_direction
+    - ranking
+    - recommendation
+  prior_predictive_supports:
+    - action_conditioned_state_propagation
+    - observation_projection
+  prior_predictive_forbidden:
+    - posterior_fitting
+    - neural_head
+    - optimizer
+    - empirical_bayes_update
+    - retrospective_endpoint_bridge
+    - target_task_loss
+    - six_context_calibration
+prior_roles:
+  required:
+    - canonical_mechanism_prior
+  optional_sensitivity:
+    - conservative_support_sensitivity
+    - broad_parameter_sensitivity
+  maximum_sensitivity_roles: 2
+  numerical_priors_populated: false
+  preferred_sensitivity_role: null
+diagnostic_forms:
+  - static
+  - point_estimate
+  - forced_decision
+  - full_belief_twin
+evidence_policy:
+  grades:
+    - DIRECT_MECHANISM
+    - PARAMETER_ANCHOR
+    - BOUNDARY_CONSTRAINT
+    - CONTEXT_ONLY
+    - INADMISSIBLE
+  structure_or_prior_support_grades:
+    - DIRECT_MECHANISM
+    - PARAMETER_ANCHOR
+    - BOUNDARY_CONSTRAINT
+  metadata_projection_fields:
+    - publication_identity
+    - identifier_type
+    - identifier_value
+    - official_date
+    - official_metadata_authority
+    - requested_url
+    - final_url
+    - retrieved_at
+    - http_status
+    - raw_response_sha256
+    - raw_response_bytes
+    - projected_metadata_sha256
+    - validation_status
+  forbidden_persisted_fields:
+    - title
+    - abstract
+    - result
+    - results
+    - result_prose
+    - figure
+    - figures
+    - outcome
+    - outcomes
+    - rank
+    - ranking
+    - label
+    - labels
+    - citation_context
+    - references
+    - raw_body
+    - raw_response
+source_limits:
+  maximum_source_families: 6
+  maximum_total_sources: 160
+  maximum_sources_per_intervention: 12
+  future_metadata_only_queue_keys:
+    - canonical_source_identity
+    - source_family_identity
+    - intervention_identity
+    - official_release_or_publication_date
+    - source_type
+    - mechanism_relevance_tags
+    - queue_order
+  queue_rows_created: 0
+terminal_vocabulary:
+  - PROSPECTIVE_MECHANISTIC_BELIEF_TWIN_READY_FOR_EVALUATION
+  - MECHANISM_BASIS_INSUFFICIENT
+  - MECHANISM_COMPILER_NOT_GENERALIZABLE
+  - PRIOR_PREDICTIVE_TWIN_NOT_SCIENTIFICALLY_IDENTIFIABLE
+  - NO_FIT_UNCERTAINTY_NOT_DEFENSIBLE
+  - ACTION_DOMAIN_COVERAGE_INSUFFICIENT
+cutoff:
+  derivation_rule: one_second_before_earliest_official_publication_date_utc
+  earliest_official_date: '2021-03-03'
+  strictly_before_cutoff: '2021-03-02T23:59:59Z'
+publications:
+  - publication_identity: pubmed:42334452
+    identifier_type: pubmed
+    identifier_value: '42334452'
+    official_date: '2026-06-23'
+    official_metadata_authority: NCBI PubMed
+    requested_url: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=42334452&retmode=json
+    projection_kind: pubmed_esummary_sortpubdate
+  - publication_identity: pubmed:42028031
+    identifier_type: pubmed
+    identifier_value: '42028031'
+    official_date: '2026-03-30'
+    official_metadata_authority: NCBI PubMed
+    requested_url: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=42028031&retmode=json
+    projection_kind: pubmed_esummary_sortpubdate
+  - publication_identity: doi:10.7554/eLife.69795
+    identifier_type: doi
+    identifier_value: 10.7554/eLife.69795
+    official_date: '2021-09-22'
+    official_metadata_authority: eLife official publisher/DOI metadata
+    requested_url: https://api.elifesciences.org/articles/69795
+    projection_kind: elife_article_published
+  - publication_identity: doi:10.1038/s43587-026-01166-3
+    identifier_type: doi
+    identifier_value: 10.1038/s43587-026-01166-3
+    official_date: '2026-07-03'
+    official_metadata_authority: Nature Aging official publisher/DOI metadata
+    requested_url: https://api.crossref.org/works/10.1038%2Fs43587-026-01166-3
+    projection_kind: crossref_published_date
+  - publication_identity: pubmed:40140393
+    identifier_type: pubmed
+    identifier_value: '40140393'
+    official_date: '2025-03-26'
+    official_metadata_authority: NCBI PubMed
+    requested_url: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=40140393&retmode=json
+    projection_kind: pubmed_esummary_sortpubdate
+  - publication_identity: pubmed:33658519
+    identifier_type: pubmed
+    identifier_value: '33658519'
+    official_date: '2021-03-03'
+    official_metadata_authority: NCBI PubMed
+    requested_url: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=33658519&retmode=json
+    projection_kind: pubmed_esummary_sortpubdate
+retrieval_policy:
+  metadata_source: official
+  exact_request_count: 6
+  maximum_concurrent_requests: 1
+  request_timeout_seconds: 30
+  maximum_response_bytes: 2097152
+  maximum_total_response_bytes: 12582912
+  maximum_redirects: 3
+  allowed_host_suffixes:
+    - ncbi.nlm.nih.gov
+    - elifesciences.org
+    - nature.com
+    - crossref.org
+  discovery_queries_allowed: false
+  raw_response_persistence_allowed: false
+  response_value_logging_allowed: false
+access_policy:
+  gate_access_kind: mechanism_source_content
+  metadata_retrieval_authorizes_source_content: false
+  six_context_outcome_access: 0
+  protected_holdout_access: 0
+  source_content_access: 0
+historical_authorities:
+  - path: Output/audits/no_task_fit_parent_authority.json
+    sha256: 56eea3c26d292d2c2e5575cf89021bdeea4055bd6c66dfadcbcb3c1a3e86f554
+    required_meaning: parent_negative_authorities_bound_with_zero_access
+  - path: Output/audits/no_task_fit_reusable_asset_lineage.json
+    sha256: d89e9da8616cfadd7a989a4b9473afe1538f3c70bb71b27d14a754ba777519ff
+    required_meaning: twenty_four_asset_structural_lineage_is_historical_only
+  - path: Output/audits/no_task_fit_route_arbitration.json
+    sha256: 27701a356794d7ffb79cb20d66a3a2a97f5649327e821716041dca6428a7e7c3
+    required_meaning: no_admissible_route_four_routes_zero_admissible
+  - path: Output/audits/no_task_fit_candidate_registry.json
+    sha256: f84de1577eae1d80ed0016fe5ea9a4cd28882e83133488c978f8abbf35562738
+    required_meaning: zero_candidates_and_no_preferred_candidate
+  - path: orchestrator/roadmaps/2026-07-13-00-iclr-2027-design-contract/rev-007/roadmap.md
+    sha256: cc4b180eee6a055a9dcb5168d3db66d26a5801601b1e494255da9a8cf005fd92
+    required_meaning: rev_007_terminal_no_continuation
+  - path: orchestrator/roadmaps/2026-07-13-00-iclr-2027-design-contract/rev-007/verification.md
+    sha256: 9839c477555f5d993aa1c554ae58535f16896adce635c1aebbdd927317f62ccf
+    required_meaning: rev_007_verification_unchanged
+starting_authority:
+  branch: main
+  commit: 9fbc6afc74a527dbbe2b086d08bccc64c85f66bf
+downstream_authorization:
+  mechanism_source_content_read_performed: false
+  source_queue_creation_authorized: false
+  source_content_intake_authorized: false
+  prior_distribution_population_authorized: false
+  reliability_policy_implementation_authorized: false
+  world_action_compiler_authorized: false
+  runtime_implementation_authorized: false
+  inference_authorized: false
+  training_authorized: false
+  gpu_authorized: false
+  formal_evaluation_authorized: false
+  six_context_evaluation_authorized: false
+  protected_holdout_authorized: false
+non_goals:
+  - source_queue_rows
+  - mechanism_source_content
+  - numerical_prior_distributions
+  - reliability_or_abstention_policy
+  - world_action_compiler
+  - belief_runtime
+  - scientific_inference
+  - training
+  - six_context_evaluation
+  - protected_data_access

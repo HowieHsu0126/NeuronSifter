@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/benchmark_metric_result.schema.json",
+  "title": "NeuronSifter Round-18 benchmark metric result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "metric_result_uid",
+    "run_uid",
+    "system_uid",
+    "metric_name",
+    "metric_family",
+    "scope",
+    "aggregation_unit",
+    "value",
+    "uncertainty",
+    "effective_episode_count",
+    "valid",
+    "retrospective_replay",
+    "prospective_real_world_validation",
+    "causal_effect_claim",
+    "clinical_recommendation",
+    "autonomous_discovery_claim",
+    "content_hash",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-benchmark-metric-result-v1"},
+    "metric_result_uid": {"$ref": "#/$defs/text"},
+    "run_uid": {"$ref": "#/$defs/text"},
+    "system_uid": {"$ref": "#/$defs/text"},
+    "metric_name": {"$ref": "#/$defs/metric_name"},
+    "metric_family": {"enum": ["prediction", "ranking", "sequential_decision", "reliability_abstention", "governance", "falsifier", "calibration"]},
+    "scope": {"$ref": "#/$defs/scope"},
+    "aggregation_unit": {"enum": ["episode", "publication", "publication_family", "independence_family", "track", "global"]},
+    "value": {"type": ["number", "null"]},
+    "uncertainty": {"$ref": "#/$defs/uncertainty"},
+    "effective_episode_count": {"type": "integer", "minimum": 0},
+    "valid": {"type": "boolean"},
+    "retrospective_replay": {"const": true},
+    "prospective_real_world_validation": {"const": false},
+    "causal_effect_claim": {"const": false},
+    "clinical_recommendation": {"const": false},
+    "autonomous_discovery_claim": {"const": false},
+    "content_hash": {"$ref": "#/$defs/hash"},
+    "status": {"enum": ["reported", "not_estimable", "blocked", "invalidated"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"valid": {"const": false}}},
+      "then": {
+        "properties": {
+          "value": {"type": "null"},
+          "status": {"enum": ["not_estimable", "blocked", "invalidated"]}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "text": {"type": "string", "minLength": 1},
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "metric_name": {
+      "enum": [
+        "publication_macro_direction_accuracy",
+        "balanced_accuracy",
+        "macro_f1",
+        "brier_score",
+        "log_loss",
+        "calibration_intercept",
+        "calibration_slope",
+        "ndcg_at_k",
+        "mrr",
+        "top_k_recall",
+        "pairwise_ranking_accuracy",
+        "cost_to_identification",
+        "steps_to_falsification",
+        "budget_adjusted_utility",
+        "information_gain_per_action",
+        "candidate_space_reduction",
+        "coverage",
+        "selective_risk",
+        "aurc",
+        "false_confidence_rate",
+        "unsupported_answer_rate",
+        "abstention_accuracy",
+        "gate_violation_count",
+        "held_out_access_attempt_count",
+        "evidence_upgrade_violation_count",
+        "conflict_loss_count",
+        "empirical_gap_fabrication_count",
+        "causal_language_violation_count",
+        "clinical_language_violation_count",
+        "falsifier_invocation_rate",
+        "valid_challenge_rate",
+        "hypothesis_reversal_rate",
+        "unsupported_positive_reduction",
+        "additional_information_cost"
+      ]
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["track", "episode_family", "source_quality", "label_class", "support_domain", "time_horizon", "conflict_status", "abstention_status"],
+      "properties": {
+        "track": {"$ref": "#/$defs/text"},
+        "episode_family": {"$ref": "#/$defs/text"},
+        "source_quality": {"$ref": "#/$defs/text"},
+        "label_class": {"enum": ["data_derived_label", "author_claim_label", "cross_study_consensus_label", "mixed", "not_applicable"]},
+        "support_domain": {"$ref": "#/$defs/text"},
+        "time_horizon": {"$ref": "#/$defs/text"},
+        "conflict_status": {"enum": ["no_conflict", "conflict_present", "mixed", "not_applicable"]},
+        "abstention_status": {"enum": ["answered", "abstained", "mixed", "not_applicable"]}
+      }
+    },
+    "uncertainty": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "lower", "upper", "unknown_components"],
+      "properties": {
+        "status": {"enum": ["quantified", "unknown", "not_applicable"]},
+        "lower": {"type": ["number", "null"]},
+        "upper": {"type": ["number", "null"]},
+        "unknown_components": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/text"}}
+      },
+      "allOf": [
+        {"if": {"properties": {"status": {"const": "unknown"}}}, "then": {"properties": {"lower": {"type": "null"}, "upper": {"type": "null"}, "unknown_components": {"minItems": 1}}}},
+        {"if": {"properties": {"status": {"const": "quantified"}}}, "then": {"properties": {"lower": {"type": "number"}, "upper": {"type": "number"}, "unknown_components": {"maxItems": 0}}}}
+      ]
+    }
+  }
+}

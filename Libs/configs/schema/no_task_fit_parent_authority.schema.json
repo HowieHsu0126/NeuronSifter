@@ -1,0 +1,497 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/no_task_fit_parent_authority.schema.json",
+  "title": "NeuronSifter no-task-fit parent authority binding",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "manifest_uid",
+    "status",
+    "contract",
+    "source_checkout",
+    "destination_checkout",
+    "artifact_count",
+    "artifacts",
+    "terminal_decisions",
+    "aggregate_access",
+    "authorization_closure",
+    "artifact_read_scope",
+    "transitive_bindings_revalidated",
+    "source_artifacts_regenerated",
+    "scientific_conclusion_produced",
+    "performance_conclusion_produced",
+    "limitations",
+    "blockers",
+    "next_action"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "neuronsifter-no-task-fit-parent-authority-v1"
+    },
+    "manifest_uid": {
+      "const": "no_task_fit_parent_authority_binding"
+    },
+    "status": {
+      "const": "NO_TASK_FIT_PARENT_AUTHORITIES_BOUND"
+    },
+    "contract": {
+      "$ref": "#/$defs/contractIdentity"
+    },
+    "source_checkout": {
+      "$ref": "#/$defs/sourceCheckout"
+    },
+    "destination_checkout": {
+      "$ref": "#/$defs/destinationCheckout"
+    },
+    "artifact_count": {
+      "const": 9
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {
+        "$ref": "#/$defs/artifactRecord"
+      }
+    },
+    "terminal_decisions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "formal_zero_shot_checkpoint",
+        "prospective_training_domain",
+        "public_development_data"
+      ],
+      "properties": {
+        "formal_zero_shot_checkpoint": {
+          "const": "NO_FORMAL_ZERO_SHOT_CHECKPOINT"
+        },
+        "prospective_training_domain": {
+          "const": "NO_INDEPENDENT_PROSPECTIVE_TRAINING_DOMAIN"
+        },
+        "public_development_data": {
+          "const": "PUBLIC_PROSPECTIVE_DEVELOPMENT_DATA_INSUFFICIENT"
+        }
+      }
+    },
+    "aggregate_access": {
+      "$ref": "#/$defs/aggregateAccess"
+    },
+    "authorization_closure": {
+      "$ref": "#/$defs/authorizationClosure"
+    },
+    "artifact_read_scope": {
+      "$ref": "#/$defs/artifactReadScope"
+    },
+    "transitive_bindings_revalidated": {
+      "const": false
+    },
+    "source_artifacts_regenerated": {
+      "const": false
+    },
+    "scientific_conclusion_produced": {
+      "const": false
+    },
+    "performance_conclusion_produced": {
+      "const": false
+    },
+    "limitations": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "const": "Historical embedded transitive artifact bindings were not revalidated in this round."
+        },
+        {
+          "const": "This manifest binds negative parent authorities and produces no scientific or performance conclusion."
+        },
+        {
+          "const": "Live-root Git state is recorded only as a provenance observation and is not a clean or reconstructible lineage claim."
+        }
+      ],
+      "items": false,
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "blockers": {
+      "type": "array",
+      "maxItems": 0
+    },
+    "next_action": {
+      "const": "arbitrate_no_task_fit_candidate_routes"
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "gitObjectId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "repositoryPath": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*[?*\\[\\]])[^\\u0000]+$"
+    },
+    "contractIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "schema_path",
+        "schema_sha256",
+        "artifact_count"
+      ],
+      "properties": {
+        "path": {
+          "const": "Libs/configs/validation/no_task_fit_parent_authority.yaml"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "schema_path": {
+          "const": "Libs/configs/schema/no_task_fit_parent_authority.schema.json"
+        },
+        "schema_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "artifact_count": {
+          "const": 9
+        }
+      }
+    },
+    "sourceCheckout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "branch",
+        "head",
+        "branch_matches_contract",
+        "head_matches_contract",
+        "allowlisted_tracking_state_matches_contract",
+        "tracked_artifact_count",
+        "untracked_artifact_count",
+        "provenance_observation_only",
+        "clean_reconstructible_lineage_claimed"
+      ],
+      "properties": {
+        "role": {
+          "const": "live_root_read_only_negative_authority_source"
+        },
+        "branch": {
+          "const": "round17i-dirty-root-preservation"
+        },
+        "head": {
+          "const": "b78a7e924971ac1a07905e9f18b6405b084bb7e6"
+        },
+        "branch_matches_contract": {
+          "const": true
+        },
+        "head_matches_contract": {
+          "const": true
+        },
+        "allowlisted_tracking_state_matches_contract": {
+          "const": true
+        },
+        "tracked_artifact_count": {
+          "const": 0
+        },
+        "untracked_artifact_count": {
+          "const": 9
+        },
+        "provenance_observation_only": {
+          "const": true
+        },
+        "clean_reconstructible_lineage_claimed": {
+          "const": false
+        }
+      }
+    },
+    "destinationCheckout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "branch",
+        "head_at_build",
+        "candidate_commit",
+        "candidate_commit_status",
+        "source_and_destination_checkout_distinct"
+      ],
+      "properties": {
+        "branch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "head_at_build": {
+          "$ref": "#/$defs/gitObjectId"
+        },
+        "candidate_commit": {
+          "type": "null"
+        },
+        "candidate_commit_status": {
+          "const": "uncommitted_round_candidate"
+        },
+        "source_and_destination_checkout_distinct": {
+          "const": true
+        }
+      }
+    },
+    "factResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pointer",
+        "expected",
+        "observed",
+        "passed"
+      ],
+      "properties": {
+        "pointer": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "expected": true,
+        "observed": true,
+        "passed": {
+          "const": true
+        }
+      }
+    },
+    "artifactRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority_uid",
+        "category",
+        "source_path",
+        "destination_path",
+        "schema_version",
+        "status",
+        "expected_sha256",
+        "source_sha256",
+        "destination_sha256",
+        "expected_bytes",
+        "source_bytes",
+        "destination_bytes",
+        "source_tracking_state",
+        "source_matches_contract",
+        "destination_matches_source",
+        "required_fact_results"
+      ],
+      "properties": {
+        "authority_uid": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$"
+        },
+        "category": {
+          "enum": [
+            "method_checkpoint_negative",
+            "development_domain_negative",
+            "development_data_negative",
+            "protocol_negative",
+            "protocol_exclusion_negative"
+          ]
+        },
+        "source_path": {
+          "$ref": "#/$defs/repositoryPath"
+        },
+        "destination_path": {
+          "$ref": "#/$defs/repositoryPath"
+        },
+        "schema_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expected_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "source_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "destination_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "expected_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "source_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "destination_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "source_tracking_state": {
+          "enum": [
+            "untracked",
+            "tracked_clean",
+            "tracked_modified",
+            "tracked_staged",
+            "tracked_conflicted"
+          ]
+        },
+        "source_matches_contract": {
+          "const": true
+        },
+        "destination_matches_source": {
+          "const": true
+        },
+        "required_fact_results": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/factResult"
+          }
+        }
+      }
+    },
+    "aggregateAccess": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "development_outcome_access",
+        "evaluation_outcome_access",
+        "six_context_outcome_access",
+        "protected_holdout_access",
+        "protected_test_access",
+        "numeric_outcome_retrieval_observed",
+        "six_context_files_opened",
+        "protected_files_opened"
+      ],
+      "properties": {
+        "development_outcome_access": {
+          "const": 0
+        },
+        "evaluation_outcome_access": {
+          "const": 0
+        },
+        "six_context_outcome_access": {
+          "const": 0
+        },
+        "protected_holdout_access": {
+          "const": 0
+        },
+        "protected_test_access": {
+          "const": 0
+        },
+        "numeric_outcome_retrieval_observed": {
+          "const": false
+        },
+        "six_context_files_opened": {
+          "const": false
+        },
+        "protected_files_opened": {
+          "const": false
+        }
+      }
+    },
+    "authorizationClosure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "automatic_second_intake_allowed",
+        "new_public_data_intake_authorized",
+        "training_authorized",
+        "gpu_authorized",
+        "world_action_compiler_authorized",
+        "tri_authorized",
+        "tool_calling_authorized",
+        "memory_adaptation_authorized",
+        "agent_in_twin_authorized",
+        "coevolution_authorized",
+        "formal_evaluation_authorized",
+        "six_context_evaluation_authorized"
+      ],
+      "properties": {
+        "automatic_second_intake_allowed": {
+          "const": false
+        },
+        "new_public_data_intake_authorized": {
+          "const": false
+        },
+        "training_authorized": {
+          "const": false
+        },
+        "gpu_authorized": {
+          "const": false
+        },
+        "world_action_compiler_authorized": {
+          "const": false
+        },
+        "tri_authorized": {
+          "const": false
+        },
+        "tool_calling_authorized": {
+          "const": false
+        },
+        "memory_adaptation_authorized": {
+          "const": false
+        },
+        "agent_in_twin_authorized": {
+          "const": false
+        },
+        "coevolution_authorized": {
+          "const": false
+        },
+        "formal_evaluation_authorized": {
+          "const": false
+        },
+        "six_context_evaluation_authorized": {
+          "const": false
+        }
+      }
+    },
+    "artifactReadScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allowed_source_artifact_count",
+        "source_artifact_paths_opened",
+        "non_allowlisted_source_artifact_paths_opened",
+        "six_context_files_opened",
+        "protected_files_opened"
+      ],
+      "properties": {
+        "allowed_source_artifact_count": {
+          "const": 9
+        },
+        "source_artifact_paths_opened": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "Output/audits/frozen_zero_shot_method_authority.json"},
+            {"const": "Output/audits/frozen_zero_shot_method_manifest.json"},
+            {"const": "Output/audits/zero_shot_protocol_executability_decision.json"},
+            {"const": "Output/audits/prospective_development_data_authority.json"},
+            {"const": "Output/audits/prospective_twin_reconstruction_decision.json"},
+            {"const": "Output/audits/prospective_development_data_intake.json"},
+            {"const": "Output/audits/prospective_development_foundation_decision.json"},
+            {"const": "Output/audits/prospective_protocol_scientific_review.json"},
+            {"const": "Output/audits/six_context_semantic_exclusion_audit.json"}
+          ],
+          "items": false,
+          "minItems": 9,
+          "maxItems": 9
+        },
+        "non_allowlisted_source_artifact_paths_opened": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "six_context_files_opened": {
+          "const": false
+        },
+        "protected_files_opened": {
+          "const": false
+        }
+      }
+    }
+  }
+}

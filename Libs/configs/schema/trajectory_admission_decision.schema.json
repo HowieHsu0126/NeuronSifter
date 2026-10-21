@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/trajectory_admission_decision.schema.json",
+  "title": "NeuronSifter TrajectoryAdmissionDecision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "admission_uid", "trajectory_uid", "producer_qualification_ref", "initial_state_ref", "action_binding_ref", "support_domain_ref", "numerical_qc_ref", "constraint_qc_ref", "artifact_hash", "blocking_conflicts", "decision", "eligibility", "reason_codes", "provenance", "status"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-trajectory-admission-decision-v1"},
+    "admission_uid": {"type": "string", "minLength": 1},
+    "trajectory_uid": {"type": "string", "minLength": 1},
+    "producer_qualification_ref": {"type": "string", "minLength": 1},
+    "initial_state_ref": {"type": "string", "minLength": 1},
+    "action_binding_ref": {"type": "string", "minLength": 1},
+    "support_domain_ref": {"type": "string", "minLength": 1},
+    "numerical_qc_ref": {"type": "string", "minLength": 1},
+    "constraint_qc_ref": {"type": "string", "minLength": 1},
+    "artifact_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "blocking_conflicts": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "decision": {"enum": ["admitted_e4_strong", "admitted_e4_restricted", "admitted_stress", "quarantined_numerical", "quarantined_constraint", "rejected_action_incomplete", "rejected_initial_state", "rejected_provenance", "rejected_support_domain", "rejected_hash"]},
+    "eligibility": {"enum": ["qualification_numerical_dynamics_only", "restricted_clean_dynamics", "strong_clean_dynamics", "stress_only", "ineligible"]},
+    "reason_codes": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "provenance": {"type": "object", "minProperties": 1},
+    "status": {"const": "decided"}
+  }
+}

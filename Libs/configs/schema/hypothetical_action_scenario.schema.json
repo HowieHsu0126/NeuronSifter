@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/hypothetical_action_scenario.schema.json",
+  "title": "NeuronSifter HypotheticalActionScenario",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "scenario_uid", "baseline_state_ref", "candidate_world_action", "assumptions", "scenario_context", "requested_outputs", "support_warnings", "support_domain_ref", "provenance_ref", "model_based_counterfactual", "causal_effect_claim", "clinical_recommendation", "empirical_observation"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-hypothetical-action-scenario-v1"},
+    "scenario_uid": {"type": "string", "minLength": 1},
+    "baseline_state_ref": {"type": "string", "minLength": 1},
+    "candidate_world_action": {"type": "object"},
+    "assumptions": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "scenario_context": {"type": "object", "minProperties": 1},
+    "requested_outputs": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "support_warnings": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "support_domain_ref": {"type": "string", "minLength": 1},
+    "provenance_ref": {"type": "string", "minLength": 1},
+    "model_based_counterfactual": {"const": true},
+    "causal_effect_claim": {"const": false},
+    "clinical_recommendation": {"const": false},
+    "empirical_observation": {"const": false}
+  }
+}

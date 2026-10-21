@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/benchmark_prediction.schema.json",
+  "title": "NeuronSifter Round-18 benchmark prediction",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "prediction_uid",
+    "episode_uid",
+    "system_uid",
+    "track",
+    "predicted_label",
+    "class_probabilities",
+    "confidence",
+    "uncertainty",
+    "support_domain_status",
+    "evidence_bundle_hash",
+    "decision_artifact_hash",
+    "abstained",
+    "retrospective_replay",
+    "prospective_real_world_validation",
+    "causal_effect_claim",
+    "clinical_recommendation",
+    "autonomous_discovery_claim",
+    "content_hash",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-benchmark-prediction-v1"},
+    "prediction_uid": {"$ref": "#/$defs/text"},
+    "episode_uid": {"$ref": "#/$defs/text"},
+    "system_uid": {"$ref": "#/$defs/text"},
+    "track": {"enum": ["endpoint_direction_prediction", "mechanism_discrimination", "sequential_hypothesis_replay"]},
+    "predicted_label": {"$ref": "#/$defs/prediction_label"},
+    "class_probabilities": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}
+    },
+    "confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "uncertainty": {"$ref": "#/$defs/uncertainty"},
+    "support_domain_status": {"enum": ["in_domain", "extrapolative", "unsupported", "unknown"]},
+    "evidence_bundle_hash": {"$ref": "#/$defs/hash"},
+    "decision_artifact_hash": {"$ref": "#/$defs/hash"},
+    "abstained": {"type": "boolean"},
+    "retrospective_replay": {"const": true},
+    "prospective_real_world_validation": {"const": false},
+    "causal_effect_claim": {"const": false},
+    "clinical_recommendation": {"const": false},
+    "autonomous_discovery_claim": {"const": false},
+    "content_hash": {"$ref": "#/$defs/hash"},
+    "status": {"enum": ["predicted", "abstained", "blocked", "invalidated"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"abstained": {"const": true}}},
+      "then": {
+        "properties": {
+          "predicted_label": {"const": "insufficient_information"},
+          "confidence": {"type": "null"},
+          "status": {"const": "abstained"}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "text": {"type": "string", "minLength": 1},
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "prediction_label": {
+      "enum": [
+        "increase",
+        "decrease",
+        "no_clear_effect",
+        "mixed_or_context_dependent",
+        "insufficient_information",
+        "supported",
+        "refuted",
+        "unresolved"
+      ]
+    },
+    "uncertainty": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence", "model", "retrieval", "mechanism_disagreement", "support_domain_extrapolation", "unknown_components"],
+      "properties": {
+        "evidence": {"$ref": "#/$defs/uncertainty_component"},
+        "model": {"$ref": "#/$defs/uncertainty_component"},
+        "retrieval": {"$ref": "#/$defs/uncertainty_component"},
+        "mechanism_disagreement": {"$ref": "#/$defs/uncertainty_component"},
+        "support_domain_extrapolation": {"$ref": "#/$defs/uncertainty_component"},
+        "unknown_components": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/text"}}
+      }
+    },
+    "uncertainty_component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "value"],
+      "properties": {
+        "status": {"enum": ["quantified", "unknown", "not_applicable"]},
+        "value": {"type": ["number", "null"], "minimum": 0}
+      },
+      "allOf": [
+        {"if": {"properties": {"status": {"const": "unknown"}}}, "then": {"properties": {"value": {"type": "null"}}}},
+        {"if": {"properties": {"status": {"const": "quantified"}}}, "then": {"properties": {"value": {"type": "number", "minimum": 0}}}}
+      ]
+    }
+  }
+}

@@ -1,0 +1,768 @@
+paper_grade_full_suite:
+  suite_name: Paper-Grade Full Suite v1
+  suite_id: ad_paper_grade_full_formal_suite
+  suite_version: v1
+  suite_release: v1
+  suite_config_materialized: false
+  disease_programs:
+  - ad_control
+  forbidden_disease_programs:
+  - pd_control
+  - ftd_control
+  - als_control
+  controlled_access_policy:
+    adni_role: audit_only
+    allow_adni_in_formal_training: false
+    allow_adni_in_main_tables: false
+    allowed_outputs:
+    - registry_governance_audit
+    - aggregate_validation_bridge
+  formal_seed_values:
+  - 40
+  - 41
+  - 42
+  - 43
+  - 44
+  seeds:
+  - 40
+  - 41
+  - 42
+  - 43
+  - 44
+  cluster:
+    suite_config_output: Output/paper_configs/paper_grade_full_suite/materialized_config.yaml
+    print_only_root: Output/logs/print_only/paper_grade_full_suite
+    cpu_gate:
+      partition: cpu
+      nodelist: cpu04
+      cpus_per_task: 4
+      mem: 16G
+      gres: ''
+    cpu_large:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: ''
+    gpu_train:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: gpu:1
+  runtime_protocol:
+    checkpointable_split_enabled: true
+    submission_throttle_seconds: 0.05
+    profiling:
+      enabled: true
+      runtime_profile_schema_version: paper_grade_runtime_profile.v1
+      record_wall_time_seconds: true
+      record_micro_batch_per_second: true
+      record_regimen_per_second: true
+      record_gpu_memory_mb: true
+      record_max_rss_mb: true
+      record_checkpoint_io_seconds: true
+      record_data_materialization_seconds: true
+      parameter_scan_policy:
+        status: profiler_proposal_only
+        scope: one_fold_one_window_one_seed
+        write_to_formal_yaml_only_after_validation: true
+        scanned_fields:
+        - screening_benchmark.training.memory_policy.micro_batch_size
+        - screening_benchmark.training.regimen_minibatch.candidate_count
+        - screening_benchmark.execution_controls.regimen_chunk_size
+        - screening_benchmark.model_architecture.rollout_operator.activation_checkpointing
+    cpu_precompute:
+      enabled: true
+      materialize_training_tensor_cache: true
+      resource_profile: cpu_large
+      output_manifest_name: training_cache_manifest.json
+      stale_cache_status: cache_stale
+      allow_gpu_job_cache_rebuild: false
+    gpu_concurrency_policy:
+      serialized_gpu_training_windows: true
+      allow_cpu_jobs_parallel_with_gpu_training: true
+      exact_prefix_queue_scan_required_before_live: true
+      prefix_scan_pattern: NrnSift_
+    screening_training:
+      scope_plan: fold_and_production
+      max_epochs: 40
+      patience_epochs: 6
+      epoch_window_count: 8
+      epoch_window_labels:
+      - warmup_curve
+      - early_discrimination_curve
+      - counterfactual_alignment_curve
+      - pkpd_consistency_curve
+      - tri_stability_curve
+      - calibration_curve
+      - convergence_curve
+      - terminal_patience_probe
+    commands:
+      cache_precompute: '{python_executable} -u Libs/exp/training/precompute_screening_training_cache.py --config {config_path} --training-scope {training_scope} --fold-name {fold_name} --disease-program {disease_program}'
+      pretraining: '{python_executable} -u Libs/exp/training/pretrain_microenvironment_world_model.py --config {config_path} --device {device}'
+      screening_window: '{python_executable} -u Libs/exp/training/train_screening_system.py --config {config_path} --training-scope {training_scope} --fold-name {fold_name} --device {device} --max-epochs-override {max_epochs} --patience-epochs-override {patience_epochs} --training-window-ordinal {training_window_ordinal} --training-window-count {training_window_count}'
+      evaluation: '{python_executable} -u Libs/exp/evaluation/evaluate_screening_system.py --config {config_path}'
+      active_learning_replay: '{python_executable} -u Libs/exp/evaluation/evaluate_active_learning_replay.py --config {config_path}'
+      export: '{python_executable} -u Libs/exp/export/export_screening_bundle.py --config {config_path}'
+  user_entrypoint: Libs/scripts/experiments/run_paper_grade_full_suite.sh
+  developer_entrypoint: Libs/exp/submission/submit_paper_grade_full_suite.sh
+  freeze_binding_policy:
+    live_requires_current_freeze_manifest: true
+    refreeze_required_after_code_or_config_change: true
+    formal_replay_gate: Libs/scripts/validators/validate_formal_experiment_freeze.py --no-write
+    freeze_manifest_path: Output/audits/formal_experiment_freeze_manifest.json
+  freeze_policy:
+    live_requires_current_freeze_manifest: true
+    refreeze_required_after_code_or_config_change: true
+    formal_replay_gate: Libs/scripts/validators/validate_formal_experiment_freeze.py --no-write
+    freeze_manifest_path: Output/audits/formal_experiment_freeze_manifest.json
+  resource_profiles:
+    config_path: Libs/configs/exp/resource_profiles.yaml
+    profile_ids:
+    - cpu_light
+    - cpu_heavy
+    - gpu_single
+    - gpu_diffusion
+    - gpu_multiseed
+    - aggregation_cpu
+    - report_cpu
+  output_specs:
+    config_path: Libs/configs/exp/output_specs.yaml
+    standard_run_artifacts:
+    - metrics.json
+    - run_metadata.json
+    - artifact_hashes.json
+    - status.json
+    - artifact_manifest.json
+  claim_guardrails:
+    config_path: Libs/configs/exp/claim_guardrails.yaml
+    enforce_in_public_reports: true
+    preserve_statuses:
+      g2_status: G2_pass_with_warnings
+      g5_status: G5_not_passed
+  task_block_paths:
+    world_model_pretraining: Libs/configs/exp/task_blocks/world_model_pretraining.yaml
+    screening_supervised: Libs/configs/exp/task_blocks/screening_supervised.yaml
+    rollout_prediction: Libs/configs/exp/task_blocks/rollout_prediction.yaml
+    counterfactual_evaluation: Libs/configs/exp/task_blocks/counterfactual_evaluation.yaml
+    published_ad_sift_reproduction: Libs/configs/exp/task_blocks/published_ad_sift_reproduction.yaml
+    architecture_ablation: Libs/configs/exp/task_blocks/architecture_ablation.yaml
+    action_ablation: Libs/configs/exp/task_blocks/action_ablation.yaml
+    operator_baselines: Libs/configs/exp/task_blocks/operator_baselines.yaml
+    screening_baselines: Libs/configs/exp/task_blocks/screening_baselines.yaml
+    ood_generalization: Libs/configs/exp/task_blocks/ood_generalization.yaml
+    tri_selective_risk: Libs/configs/exp/task_blocks/tri_selective_risk.yaml
+    serving_decision_eval: Libs/configs/exp/task_blocks/serving_decision_eval.yaml
+    efficiency_profile: Libs/configs/exp/task_blocks/efficiency_profile.yaml
+    paper_report_generation: Libs/configs/exp/task_blocks/paper_report_generation.yaml
+  task_blocks:
+    world_model_pretraining: Libs/configs/exp/task_blocks/world_model_pretraining.yaml
+    screening_supervised: Libs/configs/exp/task_blocks/screening_supervised.yaml
+    rollout_prediction: Libs/configs/exp/task_blocks/rollout_prediction.yaml
+    counterfactual_evaluation: Libs/configs/exp/task_blocks/counterfactual_evaluation.yaml
+    published_ad_sift_reproduction: Libs/configs/exp/task_blocks/published_ad_sift_reproduction.yaml
+    architecture_ablation: Libs/configs/exp/task_blocks/architecture_ablation.yaml
+    action_ablation: Libs/configs/exp/task_blocks/action_ablation.yaml
+    operator_baselines: Libs/configs/exp/task_blocks/operator_baselines.yaml
+    screening_baselines: Libs/configs/exp/task_blocks/screening_baselines.yaml
+    ood_generalization: Libs/configs/exp/task_blocks/ood_generalization.yaml
+    tri_selective_risk: Libs/configs/exp/task_blocks/tri_selective_risk.yaml
+    serving_decision_eval: Libs/configs/exp/task_blocks/serving_decision_eval.yaml
+    efficiency_profile: Libs/configs/exp/task_blocks/efficiency_profile.yaml
+    paper_report_generation: Libs/configs/exp/task_blocks/paper_report_generation.yaml
+  experiment_families:
+  - neuronsifter_full
+  - neuronsifter_scratch
+  - rollout_operator_without_mechanism_experts
+  - rollout_operator_without_diffusion
+  - rollout_operator_without_graph_wavelet
+  - rollout_operator_without_stochastic_uq
+  - screening_without_tri_gate
+  - action_occupancy_conditioned
+  - action_drug_id_conditioned
+  - action_target_only
+  - action_pk_only
+  - transolver_operator_baseline
+  - factor_coupled_operator_baseline
+  - external_evidence_only
+  - shared_latent_logistic
+  - shared_latent_mlp
+  - descriptor_ml_baseline
+  - kg_gnn_drug_repurposing_baseline
+  baseline_families:
+  - project_mainline
+  - project_ablation
+  - project_action_ablation
+  - project_rollout_ablation
+  - project_mechanism_ablation
+  - neural_operator_reference
+  - shared_latent_screening
+  - evidence_adapter
+  - tabular_jepa
+  - transcriptome_world_model
+  - sequence_operator
+  - attention_operator
+  - diffusion_neural_operator
+  - knowledge_graph_screening
+  prelaunch_gates:
+  - Libs/scripts/validators/validate_simulation_readiness_audit.py
+  - Libs/scripts/validators/validate_supplemental_milestone_contracts.py
+  - Libs/scripts/validators/validate_formal_experiment_readiness.py
+  - Libs/scripts/validators/validate_formal_experiment_freeze.py --no-write
+  - Libs/scripts/validators/validate_multimodal_twin_data_alignment.py
+  - Libs/scripts/validators/validate_world_foundation_model_claims.py
+  - Libs/scripts/validators/validate_paper_grade_full_suite.py
+  postrun_gates:
+  - Libs/exp/evaluation/evaluate_published_ad_sift_reproduction.py --allow-pending
+  - Libs/exp/aggregation/aggregate_multiseed_results.py --dry-run
+  - Libs/exp/aggregation/build_paper_grade_tables.py --dry-run
+  - Libs/exp/aggregation/build_completion_audit.py --dry-run
+  - Libs/scripts/validators/validate_paper_grade_full_suite.py --mode postrun
+  entrypoint_registry:
+    world_model_pretraining:
+      shell_path: Libs/scripts/experiments/run_world_model_pretraining.sh
+      python_path: Libs/exp/training/train_world_model_pretraining.py
+      config_path: Libs/configs/exp/task_blocks/world_model_pretraining.yaml
+      output_template: Output/results/paper_grade_full_suite/manifests/world_model_pretraining/{model_family}/seed_{seed}
+      resource_profile: gpu_train
+      required_gates:
+      - Libs/scripts/validators/validate_simulation_readiness_audit.py
+      - Libs/scripts/validators/validate_formal_experiment_freeze.py --no-write
+      postrun_validator: Libs/scripts/validators/validate_paper_grade_full_suite.py --mode postrun
+      status: ready
+    screening_supervised:
+      shell_path: Libs/scripts/experiments/run_screening_supervised.sh
+      python_path: Libs/exp/training/train_screening_supervised.py
+      config_path: Libs/configs/exp/task_blocks/screening_supervised.yaml
+      output_template: Output/results/paper_grade_full_suite/manifests/screening_supervised/{model_family}/seed_{seed}
+      resource_profile: gpu_train
+      required_gates:
+      - Libs/scripts/validators/validate_formal_experiment_readiness.py
+      - Libs/scripts/validators/validate_formal_experiment_freeze.py --no-write
+      postrun_validator: Libs/scripts/validators/validate_paper_grade_full_suite.py --mode postrun
+      status: ready
+    rollout_prediction:
+      shell_path: Libs/scripts/experiments/run_rollout_prediction.sh
+      python_path: Libs/exp/evaluation/evaluate_rollout_prediction.py
+      config_path: Libs/configs/exp/task_blocks/rollout_prediction.yaml
+      output_template: Output/results/paper_grade_full_suite/manifests/rollout_prediction/{model_family}/seed_{seed}
+      resource_profile: cpu_large
+      required_gates:
+      - Libs/scripts/validators/validate_formal_experiment_freeze.py --no-write
+      - Libs/scripts/validators/validate_multimodal_twin_data_alignment.py
+      postrun_validator: Libs/scripts/validators/validate_paper_grade_full_suite.py --mode postrun
+      status: ready
+    counterfactual_evaluation:
+      shell_path: Libs/scripts/experiments/run_counterfactual_evaluation.sh
+      python_path: Libs/exp/evaluation/evaluate_counterfactuals.py
+      config_path: Libs/configs/exp/task_blocks/counterfactual_evaluation.yaml
+      output_template: Output/results/paper_grade_full_suite/manifests/counterfactual_evaluation/{model_family}/seed_{seed}
+      resource_profile: cpu_large
+      required_gates:
+      - Libs/scripts/validators/validate_formal_experiment_freeze.py --no-write
+      - Libs/scripts/validators/validate_paper_grade_full_suite.py
+      postrun_validator: Libs/scripts/validators/validate_paper_grade_full_suite.py --mode postrun
+      status: ready
+    published_ad_sift_reproduction:
+      shell_path: Libs/scripts/experiments/run_published_ad_sift_reproduction.sh
+      python_path: Libs/exp/evaluation/evaluate_published_ad_sift_reproduction.py
+      config_path: Libs/configs/exp/task_blocks/published_ad_sift_reproduction.yaml
+      output_template: Output/results/paper_grade_full_suite/manifests/published_ad_sift_reproduction/{model_family}/seed_{seed}
+      resource_profile: cpu_gate
+      required_gates:
+      - Libs/scripts/validators/validate_formal_experiment_freeze.py --no-write
+      - Libs/scripts/validators/validate_world_foundation_model_claims.py
+      postrun_validator: Libs/scripts/validators/validate_paper_grade_full_suite.py --mode postrun
+      status: ready
+    architecture_ablation:
+      shell_path: Libs/scripts/experiments/run_architecture_ablation.sh
+      python_path: Libs/exp/ablations/run_architecture_ablation.py
+      config_path: Libs/configs/exp/task_blocks/architecture_ablation.yaml
+      output_template: Output/results/paper_grade_full_suite/manifests/architecture_ablation/{model_family}/seed_{seed}
+      resource_profile: gpu_train
+      required_gates:
+      - Libs/scripts/validators/validate_formal_experiment_freeze.py --no-write
+      - Libs/scripts/validators/validate_paper_grade_full_suite.py
+      postrun_validator: Libs/scripts/validators/validate_paper_grade_full_suite.py --mode postrun
+      status: ready
+    action_ablation:
+      shell_path: Libs/scripts/experiments/run_action_ablation.sh
+      python_path: Libs/exp/ablations/run_action_ablation.py
+      config_path: Libs/configs/exp/task_blocks/action_ablation.yaml
+      output_template: Output/results/paper_grade_full_suite/manifests/action_ablation/{model_family}/seed_{seed}
+      resource_profile: gpu_train
+      required_gates:
+      - Libs/scripts/validators/validate_formal_experiment_freeze.py --no-write
+      - Libs/scripts/validators/validate_paper_grade_full_suite.py
+      postrun_validator: Libs/scripts/validators/validate_paper_grade_full_suite.py --mode postrun
+      status: ready
+    operator_baselines:
+      shell_path: Libs/scripts/experiments/run_operator_baselines.sh
+      python_path: Libs/exp/baselines/run_operator_baselines.py
+      config_path: Libs/configs/exp/task_blocks/operator_baselines.yaml
+      output_template: Output/results/paper_grade_full_suite/manifests/operator_baselines/{model_family}/seed_{seed}
+      resource_profile: gpu_train
+      required_gates:
+      - Libs/scripts/validators/validate_formal_experiment_freeze.py --no-write
+      - Libs/scripts/validators/validate_paper_grade_full_suite.py
+      postrun_validator: Libs/scripts/validators/validate_paper_grade_full_suite.py --mode postrun
+      status: partial
+    screening_baselines:
+      shell_path: Libs/scripts/experiments/run_screening_baselines.sh
+      python_path: Libs/exp/baselines/run_screening_baselines.py
+      config_path: Libs/configs/exp/task_blocks/screening_baselines.yaml
+      output_template: Output/results/paper_grade_full_suite/manifests/screening_baselines/{model_family}/seed_{seed}
+      resource_profile: cpu_large
+      required_gates:
+      - Libs/scripts/validators/validate_formal_experiment_freeze.py --no-write
+      - Libs/scripts/validators/validate_paper_grade_full_suite.py
+      postrun_validator: Libs/scripts/validators/validate_paper_grade_full_suite.py --mode postrun
+      status: partial
+    ood_generalization:
+      shell_path: Libs/scripts/experiments/run_ood_generalization.sh
+      python_path: Libs/exp/evaluation/evaluate_ood_generalization.py
+      config_path: Libs/configs/exp/task_blocks/ood_generalization.yaml
+      output_template: Output/results/paper_grade_full_suite/manifests/ood_generalization/{model_family}/seed_{seed}
+      resource_profile: cpu_large
+      required_gates:
+      - Libs/scripts/validators/validate_formal_experiment_freeze.py --no-write
+      - Libs/scripts/validators/validate_multimodal_twin_data_alignment.py
+      postrun_validator: Libs/scripts/validators/validate_paper_grade_full_suite.py --mode postrun
+      status: ready
+    tri_selective_risk:
+      shell_path: Libs/scripts/experiments/run_tri_selective_risk.sh
+      python_path: Libs/exp/evaluation/evaluate_tri_selective_risk.py
+      config_path: Libs/configs/exp/task_blocks/tri_selective_risk.yaml
+      output_template: Output/results/paper_grade_full_suite/manifests/tri_selective_risk/{model_family}/seed_{seed}
+      resource_profile: cpu_large
+      required_gates:
+      - Libs/scripts/validators/validate_formal_experiment_freeze.py --no-write
+      - Libs/scripts/validators/validate_paper_grade_full_suite.py
+      postrun_validator: Libs/scripts/validators/validate_paper_grade_full_suite.py --mode postrun
+      status: ready
+    serving_decision_eval:
+      shell_path: Libs/scripts/experiments/run_serving_decision_eval.sh
+      python_path: Libs/exp/evaluation/evaluate_serving_decisions.py
+      config_path: Libs/configs/exp/task_blocks/serving_decision_eval.yaml
+      output_template: Output/results/paper_grade_full_suite/manifests/serving_decision_eval/{model_family}/seed_{seed}
+      resource_profile: cpu_gate
+      required_gates:
+      - Libs/scripts/validators/validate_formal_experiment_freeze.py --no-write
+      - Libs/scripts/validators/validate_paper_grade_full_suite.py
+      postrun_validator: Libs/scripts/validators/validate_paper_grade_full_suite.py --mode postrun
+      status: ready
+    efficiency_profile:
+      shell_path: Libs/scripts/experiments/run_efficiency_profile.sh
+      python_path: Libs/exp/evaluation/evaluate_efficiency_profile.py
+      config_path: Libs/configs/exp/task_blocks/efficiency_profile.yaml
+      output_template: Output/results/paper_grade_full_suite/manifests/efficiency_profile/{model_family}/seed_{seed}
+      resource_profile: cpu_large
+      required_gates:
+      - Libs/scripts/validators/validate_formal_experiment_freeze.py --no-write
+      - Libs/scripts/validators/validate_paper_grade_full_suite.py
+      postrun_validator: Libs/scripts/validators/validate_paper_grade_full_suite.py --mode postrun
+      status: ready
+    paper_report_generation:
+      shell_path: Libs/scripts/experiments/run_paper_report_generation.sh
+      python_path: Libs/exp/aggregation/build_paper_grade_tables.py
+      completion_audit_python_path: Libs/exp/aggregation/build_completion_audit.py
+      config_path: Libs/configs/exp/task_blocks/paper_report_generation.yaml
+      output_template: Output/results/paper_grade_full_suite/manifests/paper_report_generation/{model_family}/seed_{seed}
+      resource_profile: cpu_gate
+      required_gates:
+      - Libs/scripts/validators/validate_formal_experiment_freeze.py --no-write
+      - Libs/scripts/validators/validate_paper_grade_full_suite.py
+      postrun_validator: Libs/scripts/validators/validate_paper_grade_full_suite.py --mode postrun
+      status: ready
+  validators:
+    prelaunch_order:
+    - Libs/scripts/validators/validate_simulation_readiness_audit.py
+    - Libs/scripts/validators/validate_supplemental_milestone_contracts.py
+    - Libs/scripts/validators/validate_formal_experiment_readiness.py
+    - Libs/scripts/validators/validate_formal_experiment_freeze.py --no-write
+    - Libs/scripts/validators/validate_multimodal_twin_data_alignment.py
+    - Libs/scripts/validators/validate_world_foundation_model_claims.py
+    - Libs/scripts/validators/validate_paper_grade_full_suite.py
+  tasks:
+  - task_name: world_model_pretraining
+    task_family: foundation_pretraining
+    required_models:
+    - neuronsifter_mainline
+    - neuronsifter_scratch
+    required_holdouts:
+    - trajectory_random
+    - family_holdout
+  - task_name: screening_supervised
+    task_family: supervised_screening
+    required_models:
+    - neuronsifter_mainline
+    - shared_latent_dual_encoder
+    - external_evidence_only
+    required_holdouts:
+    - source_holdout
+    - target_program_holdout
+  - task_name: rollout_prediction
+    task_family: dynamics_rollout
+    required_models:
+    - neuronsifter_mainline
+    - deterministic_neuronsifter
+    - transolver_microenvironment_operator
+    - factor_coupled_neural_operator
+    required_holdouts:
+    - trajectory_random
+    - family_holdout
+  - task_name: counterfactual_evaluation
+    task_family: intervention_counterfactual
+    required_models:
+    - neuronsifter_mainline
+    - action_without_occupancy_conditioning
+    required_holdouts:
+    - regimen_holdout
+    - target_program_holdout
+  - task_name: published_ad_sift_reproduction
+    task_family: retrospective_literature_direction_recovery
+    required_models:
+    - neuronsifter_mainline
+    required_holdouts:
+    - source_holdout
+  - task_name: architecture_ablation
+    task_family: model_ablation
+    required_models:
+    - neuronsifter_mainline
+    - neuronsifter_scratch
+    - deterministic_neuronsifter
+    - neuronsifter_without_mechanism_experts
+    required_holdouts:
+    - family_holdout
+  - task_name: action_ablation
+    task_family: structured_action_ablation
+    required_models:
+    - neuronsifter_mainline
+    - action_without_occupancy_conditioning
+    required_holdouts:
+    - regimen_holdout
+    - target_program_holdout
+  - task_name: operator_baselines
+    task_family: neural_operator_baseline
+    required_models:
+    - neuronsifter_mainline
+    - transolver_microenvironment_operator
+    - factor_coupled_neural_operator
+    required_holdouts:
+    - trajectory_random
+    - family_holdout
+  - task_name: screening_baselines
+    task_family: screening_baseline
+    required_models:
+    - shared_latent_dual_encoder
+    - external_evidence_only
+    - t_jepa_adapter
+    - gene_jepa_adapter
+    - mamba_neural_operator_adapter
+    - coda_no_adapter
+    - diffusion_pde_adapter
+    - wdno_adapter
+    - pdediff_adapter
+    - kg_graph_drug_repurposing_baseline
+    required_holdouts:
+    - source_holdout
+  - task_name: ood_generalization
+    task_family: ad_only_generalization
+    required_models:
+    - neuronsifter_mainline
+    required_holdouts:
+    - source_holdout
+    - family_holdout
+    - regimen_holdout
+    - target_program_holdout
+  - task_name: tri_selective_risk
+    task_family: reliability_gate
+    required_models:
+    - neuronsifter_mainline
+    - screening_without_tri_gate
+    required_holdouts:
+    - source_holdout
+    - target_program_holdout
+  - task_name: serving_decision_eval
+    task_family: serving_contract
+    required_models:
+    - neuronsifter_mainline
+    required_holdouts:
+    - source_holdout
+  - task_name: efficiency_profile
+    task_family: runtime_profile
+    required_models:
+    - neuronsifter_mainline
+    - deterministic_neuronsifter
+    - shared_latent_dual_encoder
+    required_holdouts:
+    - trajectory_random
+  - task_name: paper_report_generation
+    task_family: aggregation_and_completion_audit
+    required_models:
+    - neuronsifter_mainline
+    required_holdouts:
+    - source_holdout
+  model_families:
+  - neuronsifter_mainline
+  - neuronsifter_scratch
+  - action_without_occupancy_conditioning
+  - deterministic_neuronsifter
+  - neuronsifter_without_mechanism_experts
+  - screening_without_tri_gate
+  - transolver_microenvironment_operator
+  - factor_coupled_neural_operator
+  - shared_latent_dual_encoder
+  - external_evidence_only
+  - t_jepa_adapter
+  - gene_jepa_adapter
+  - mamba_neural_operator_adapter
+  - coda_no_adapter
+  - diffusion_pde_adapter
+  - wdno_adapter
+  - pdediff_adapter
+  - kg_graph_drug_repurposing_baseline
+  models:
+    neuronsifter_mainline:
+      profile_name: dynamics_mainline_ad
+      result_catalog_template: Output/results/dynamics_formal/dynamics_twin_ad_mainline_seed_{seed}/result_catalog.tsv
+      main_table: true
+    neuronsifter_scratch:
+      profile_name: neuronsifter_scratch_ad
+      result_catalog_template: Output/results/dynamics_ablations/dynamics_twin_ad_neuronsifter_scratch_seed_{seed}/result_catalog.tsv
+      main_table: true
+    action_without_occupancy_conditioning:
+      profile_name: action_conditioning_drug_identity
+      active_action_policy: drug_id
+      result_catalog_template: Output/results/dynamics_ablations/dynamics_twin_ad_action_drug_identity_seed_{seed}/result_catalog.tsv
+      main_table: true
+    deterministic_neuronsifter:
+      profile_name: rollout_operator_deterministic_neuronsifter
+      result_catalog_template: Output/results/dynamics_ablations/dynamics_twin_ad_deterministic_neuronsifter_seed_{seed}/result_catalog.tsv
+      main_table: true
+    neuronsifter_without_mechanism_experts:
+      profile_name: rollout_operator_without_mechanism_experts
+      result_catalog_template: Output/results/dynamics_ablations/dynamics_twin_ad_without_mechanism_experts_seed_{seed}/result_catalog.tsv
+      main_table: true
+    screening_without_tri_gate:
+      profile_name: ad_screening_without_tri_gate
+      result_catalog_template: Output/results/dynamics_ablations/ad_screening_system_public_ad_aging_without_tri_seed_{seed}/result_catalog.tsv
+      main_table: true
+    transolver_microenvironment_operator:
+      profile_name: rollout_operator_transolver
+      native_direct_mean_readiness:
+        main_table_runnable: false
+        appendix_runnable: false
+        reference_only: false
+        reason: residual_likelihood_unbound
+      result_catalog_template: Output/results/dynamics_ablations/dynamics_twin_ad_rollout_operator_transolver_seed_{seed}/result_catalog.tsv
+      main_table: true
+    factor_coupled_neural_operator:
+      profile_name: rollout_operator_factor_coupled
+      result_catalog_template: Output/results/dynamics_ablations/dynamics_twin_ad_rollout_operator_factor_coupled_seed_{seed}/result_catalog.tsv
+      main_table: true
+    shared_latent_dual_encoder:
+      profile_name: shared_latent_formal
+      result_catalog_template: Input/processed/benchmark_ready/seeded_results/ad_control_shared_latent_seed_{seed}.tsv
+      main_table: true
+    external_evidence_only:
+      adapter_name: external_evidence_only
+      result_catalog_template: Output/results/paper_grade_full_suite/external_evidence_only/seed_{seed}/result_catalog.tsv
+      main_table: true
+    t_jepa_adapter:
+      adapter_name: t_jepa_adapter
+      result_catalog_template: Output/results/runnable_baselines/ad_control/t_jepa_adapter/seed_{seed}/result_catalog.tsv
+      main_table: true
+    gene_jepa_adapter:
+      adapter_name: gene_jepa_adapter
+      result_catalog_template: Output/results/runnable_baselines/ad_control/gene_jepa_adapter/seed_{seed}/result_catalog.tsv
+      main_table: true
+    mamba_neural_operator_adapter:
+      adapter_name: mamba_neural_operator_adapter
+      result_catalog_template: Output/results/runnable_baselines/ad_control/mamba_neural_operator_adapter/seed_{seed}/result_catalog.tsv
+      main_table: true
+    coda_no_adapter:
+      adapter_name: coda_no_adapter
+      result_catalog_template: Output/results/runnable_baselines/ad_control/coda_no_adapter/seed_{seed}/result_catalog.tsv
+      main_table: true
+    diffusion_pde_adapter:
+      adapter_name: diffusion_pde_adapter
+      result_catalog_template: Output/results/runnable_baselines/ad_control/diffusion_pde_adapter/seed_{seed}/result_catalog.tsv
+      main_table: true
+    wdno_adapter:
+      adapter_name: wdno_adapter
+      result_catalog_template: Output/results/runnable_baselines/ad_control/wdno_adapter/seed_{seed}/result_catalog.tsv
+      main_table: true
+    pdediff_adapter:
+      adapter_name: pdediff_adapter
+      result_catalog_template: Output/results/runnable_baselines/ad_control/pdediff_adapter/seed_{seed}/result_catalog.tsv
+      main_table: true
+    kg_graph_drug_repurposing_baseline:
+      adapter_name: kg_graph_drug_repurposing_baseline
+      result_catalog_template: Output/results/runnable_baselines/ad_control/kg_graph_drug_repurposing_baseline/seed_{seed}/result_catalog.tsv
+      main_table: true
+  submission_order:
+    dynamics_profiles:
+    - dynamics_mainline_ad
+    - neuronsifter_scratch_ad
+    - action_conditioning_drug_identity
+    - rollout_operator_deterministic_neuronsifter
+    - rollout_operator_without_mechanism_experts
+    - ad_screening_without_tri_gate
+    - rollout_operator_transolver
+    - rollout_operator_factor_coupled
+    shared_context_profiles:
+    - shared_latent_formal
+    baseline_adapters:
+    - external_evidence_only
+    - t_jepa_adapter
+    - gene_jepa_adapter
+    - mamba_neural_operator_adapter
+    - coda_no_adapter
+    - diffusion_pde_adapter
+    - wdno_adapter
+    - pdediff_adapter
+    - kg_graph_drug_repurposing_baseline
+  aggregation:
+    interval: paired_bootstrap_95
+    bootstrap_sample_count: 2000
+    metrics:
+    - direction_hit_rate
+    - pairwise_anchor_accuracy
+    - rank_ndcg
+    - mixed_case_calibration
+    - tri_consistency
+    - pkpd_consistency
+    - expert_activation
+    require_per_seed_values: true
+    fail_on_missing_main_table_metric: true
+  manifest_contract:
+    required_fields:
+    - task_name
+    - model_key
+    - seed
+    - config_hash
+    - split_hash
+    - checkpoint_hash
+    - metrics_json
+    - stdout_path
+    - stderr_path
+    - artifact_hash
+    - runtime_metadata
+    - postrun_status
+    manifest_template: Output/results/paper_grade_full_suite/manifests/{task_name}/{model_key}/seed_{seed}/artifact_manifest.json
+  published_ad_sift_reproduction:
+    anchor_boundary: retrospective_literature_direction_recovery
+    output_root: Output/results/published_ad_sift_reproduction
+    audit_json: Output/audits/published_ad_sift_reproduction_audit.json
+    audit_md: Output/audits/published_ad_sift_reproduction_audit.md
+    claim_language:
+      allowed:
+      - retrospective literature-direction recovery
+      - intervention-prioritization consistency
+      forbidden:
+      - direct clinical endpoint prediction
+      - prospective efficacy prediction
+      - patient-level longitudinal supervision
+  external_evidence_only_baseline:
+    direction_threshold: 0.5
+  output_paths:
+    multimodal_alignment_json: Output/audits/multimodal_twin_data_alignment_audit.json
+    multimodal_alignment_md: Output/audits/multimodal_twin_data_alignment_audit.md
+    world_foundation_json: Output/audits/world_foundation_model_claims_audit.json
+    world_foundation_md: Output/audits/world_foundation_model_claims_audit.md
+    baseline_readiness_json: Output/audits/baseline_readiness_audit.json
+    baseline_readiness_md: Output/audits/baseline_readiness_audit.md
+    manifest_json: Output/audits/paper_grade_full_suite_manifest.json
+    manifest_md: Output/audits/paper_grade_full_suite_manifest.md
+    entrypoint_inventory_json: Output/audits/experiment_entrypoint_inventory.json
+    entrypoint_inventory_md: Output/audits/experiment_entrypoint_inventory.md
+    prelive_summary_json: Output/audits/paper_grade_full_suite_prelive_summary.json
+    prelive_summary_md: Output/audits/paper_grade_full_suite_prelive_summary.md
+    execution_summary_json: Output/audits/paper_grade_full_suite_execution_summary.json
+    execution_summary_md: Output/audits/paper_grade_full_suite_execution_summary.md
+    runtime_efficiency_profile_json: Output/audits/runtime_efficiency_profile.json
+    runtime_efficiency_profile_md: Output/audits/runtime_efficiency_profile.md
+    data_io_bottleneck_audit_json: Output/audits/data_io_bottleneck_audit.json
+    data_io_bottleneck_audit_md: Output/audits/data_io_bottleneck_audit.md
+    training_window_runtime_audit_json: Output/audits/training_window_runtime_audit.json
+    training_window_runtime_audit_md: Output/audits/training_window_runtime_audit.md
+    paper_grade_result_summary_json: Output/paper_reports/paper_grade_result_summary.json
+    table_root: Output/paper_tables
+  claim_prohibition_rules:
+  - claim_id: no_g5_upgrade_without_gate
+    forbidden_fragments:
+    - G5 passed
+    - 1M trajectory readiness passed
+    - materialized 1M trajectory gate passed
+  - claim_id: no_general_drug_screening
+    forbidden_fragments:
+    - general drug screening
+    - pan-disease readiness
+  - claim_id: no_clinical_endpoint_prediction
+    forbidden_fragments:
+    - direct clinical endpoint prediction
+    - prospective efficacy prediction
+  - claim_id: no_private_training_claim
+    forbidden_fragments:
+    - private clinical data training
+    - patient-level longitudinal supervision
+  - claim_id: no_secondary_disease_readiness
+    forbidden_fragments:
+    - PD readiness
+    - FTD readiness
+    - ALS readiness
+
+  native_rollout_evaluation:
+    predictor_kind: native_diffusion
+    regimen_chunk_size: 0
+    source_role: development
+    sample_uids: []
+    regimen_uids: []
+    checkpoint_scope: folds
+    checkpoint_split_name: ''
+    crps_estimator: off_diagonal_finite_ensemble
+    quantile_interpolation: linear
+    cell_reduction: equal_valid_cells
+    episode_reduction: equal_episode
+    episode_field: sample_uid
+    group_field: family_uid
+    group_kind: action_family
+
+  native_causal_prefix_evaluation:
+    estimator: off_diagonal_paired_energy_u
+    distance: joint_prefix_l2_over_sqrt_valid_coordinates
+    prefix: strictly_before_future_knot_exclude_initial
+    mask: exact_common_declared_prefix
+    monte_carlo_uncertainty: delete_one_paired_draw_jackknife
+    aggregation: contrasts_within_episode_then_equal_episode
+    dtype: float64
+    causal_decision_rule_status: unbound
+    contrasts: []
+
+  native_transolver_residual:
+    law: native_transolver_teacher_readout_brownian.v1
+    reference_time_hours: 672.0
+    source_role: calibration
+    group_field: family_uid
+    readout_kind: independent_mechanistic_teacher_readout
+    missingness: ignorable_given_conditions_and_mask
+    fit_groups: []
+    check_groups: []
+    frozen_artifact_path: ''
+    frozen_artifact_sha256: ''
+    residual_seed: 73407
+    diagnostics: [adjacent_retained_times, native_graph_edges, cross_species_pairs]
+    numerical:
+      dtype: float64
+      eta_initialization: 0.0
+      optimizer: torch_lbfgs
+      line_search: strong_wolfe
+      history_size: 10
+      max_iterations: 200
+      max_closure_evaluations: 400
+      gradient_tolerance: 1.0e-7
+      change_tolerance: 1.0e-12
+      hessian_absolute_threshold: 1.0e-10
+      hessian_relative_threshold: 1.0e-8

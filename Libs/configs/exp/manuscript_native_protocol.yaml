@@ -1,0 +1,2749 @@
+config_includes:
+- native_observable_bridge.yaml
+- native_romani_vm_source.yaml
+native_diffusion_data:
+  group_storage:
+    kind: gzip_json_complete_groups
+    maximum_groups_per_invocation: 32
+    compressed_group_max_bytes:
+      electrophysiology_conductance_world: 3145728
+      calcium_synaptic_world: 3145728
+      molecular_pharmacological_causal_world: 3145728
+      cns_long_horizon_world: 12582912
+    read_groups_per_item: 1
+    maximum_group_write_bytes: 268435456
+    maximum_terminal_receipt_bytes: 2147483648
+    normalization: one_pass_qc_weighted_supported_cell_moments
+    retained_max_bytes: 549755813888
+    scratch_max_bytes: 274877906944
+    sizing_evidence: four_atom_two_action_fixture_only_full_prior_unmeasured
+  registry_path: Output/results/manuscript_native_corpus/physical_parameter_conditioning/model_registry.json
+  source_family_uid: null
+screening_pipeline:
+  screening_benchmark:
+    model_architecture:
+      world_state_posterior:
+        physical_parameter_conditioning: source_declared_named_candidates
+        joint_objectives:
+          observation_likelihood_weight: 1.0
+          categorical_kl_weight: 0.01
+          reduction: retained_features_mean
+    training:
+      learning_rate: 0.0001
+      weight_decay: 0.0001
+      gradient_clipping:
+        enabled: true
+        max_norm: 1.0
+      zarr_loader:
+        pretraining_epoch_count: 200
+        pretraining_batches_per_epoch: 0
+        checkpoint_every_epoch: true
+      data_loader:
+        num_workers: 0
+        pin_memory: false
+      batch_size: 64
+      memory_policy:
+        effective_batch_size: 64
+        micro_batch_size: 1
+        gradient_accumulation_steps: 64
+native_rssm_prediction:
+  fitted_methods: [planet, dreamerv3]
+  scope: partial_observation_world_model_prediction_component
+  target_boundary: future_teacher_filtering_only_during_fit_prior_only_forecasts
+  shared_conditioning: same_selected_native_posterior_all_particles_and_actions
+  native_adaptations:
+  - vector_encoder_decoder_for_complete_masked_native_fields
+  - initial_state_and_complete_particle_context_conditioning
+  - declared_native_clock_and_program_scales_without_actor_action_clipping
+  - mean_supported_coordinate_loss_then_time_and_independent_group_reduction
+  - shared_native_AdamW_learning_rate_schedule_and_gradient_clipping
+  - pytorch_layer_initialization_and_explicit_native_RMS_epsilon
+  dreamerv3_optimizer_difference: native_AdamW_and_norm_clipping_instead_of_LaProp_and_AGC
+  observation_measurement_law: source_declared_readout_law_in_common_frozen_belief_separate_from_RSSM_decoder
+  gaussian_prediction_law: stochastic_Gaussian_latents_and_unit_Gaussian_normalized_field_decoder
+  dreamerv3_prediction_law: categorical_latent_point_decoder_pushforward_uncalibrated
+  dreamerv3_observation_residual: not_fitted_or_claimed
+  evaluation_metrics: [sample_CRPS, empirical_sample_coverage, normalized_RMSE]
+  gaussian_reuse: Dreamer_and_PlaNet_identical_matched_RSSM_predictor_one_fit
+native_learned_distillation:
+  enabled: false
+  loss: masked_categorical_kl
+  weight: 0.1
+  teacher_config: null
+  teacher_manifest: null
+  development_selection: unchanged_native_objective
+  target: frozen_selected_mainline_same_mask_time_complete_particle_and_action
+  reduction: confidence_weighted_supported_mask_then_actions_then_posterior_then_groups
+  uncertainty_rank_tri_distillation: unavailable_no_native_targets
+native_scientific_training:
+  source_scope: all
+  enabled: true
+  objective_scope: controlled_sensing_and_native_trajectories
+  held_sensing_encoder_indices:
+  - - 0
+    - 1
+  - - 2
+    - 3
+  - - 4
+    - 5
+  source_nuisance_shift: 0.25
+  objectives:
+    masked_diffusion: 1.0
+    crps: 0.1
+    paired_action_contrast: 0.2
+    physical_constraint: 0.05
+    teacher_distillation: 0.1
+    held_sensing: 0.2
+    source_nuisance_invariance: 0.1
+    router: 0.01
+  units: shared_training_reference_scale
+  reduction: supported_coordinates_then_actions_then_independent_groups
+  teacher_weighting: confidence_times_numerical_precision_once_per_teacher_term
+  crps_estimator: stratified_mixture_u_statistic_with_categorical_path_score_gradient
+  contrast_estimator: same_particle_target_free_paired_draw_squared_contrast
+  ontology_supervision: unavailable_no_empirical_mapping
+  biological_source_transfer: unavailable_no_admitted_empirical_sources
+  selection:
+    role: development
+    max_epochs: 200
+    minimum_epochs: 80
+    minimum_steps: 10000
+    patience: 25
+    min_delta: 0.001
+    max_steps: 12600
+    max_seconds: 864000
+  validation:
+    sample_count: 2
+    denoising_step_count: 32
+    interval_epochs: 1
+  learning_rate_schedule:
+    kind: cosine
+    warmup_steps: 1000
+    minimum_ratio: 0.01
+  output_root: Output/results/manuscript_native_training
+  particle_stream_stride: 15485863
+  epoch_stream_stride: 32452843
+  validation_stream_offset: 49979687
+  checkpoint_storage:
+    retained_payloads: 2
+    maximum_live_payloads: 3
+    maximum_payload_bytes: 8589934592
+    maximum_retained_bytes: 17179869184
+    maximum_live_bytes: 25769803776
+    history: all_scalar_and_selection_records
+  predictive_budget:
+    complete_particles: 32
+    conditional_draws_per_particle: 2
+    weighted_forecast_paths_per_action: 64
+    categorical_reverse_steps: 100
+    gpu_smoke: separate64sample100step_software_workload
+    training_memory_status: unqualified_full_capacity_score_function_path
+  training_subset_percentage: 100
+  budget_design:
+    training_groups_full_fraction: 4000
+    effective_group_batch_size: 64
+    full_fraction_updates_per_epoch: 63
+    full_fraction_maximum_epochs: 200
+    full_fraction_maximum_steps: 12600
+    minimum_optimizer_steps: 10000
+    subset_epochs: ceil(maximum_updates/ceil(selected_groups/effective_group_batch_size))
+    subset_steps: common_maximum_updates_with_partial_final_epoch
+    matching: identical_optimizer_update_cap_and_explicit_unequal_group_visits
+    wall_budget_sufficiency: unmeasured_finite_cap_retains_incomplete_status
+    reported_manuscript_48hour_cost: not_used_as_measured_budget
+native_observable_bridge:
+  bind_source_update_intervals: true
+  source_interval_contract: right_endpoint_source_updates_bound_to_actual_preceding_intervals
+  source_support_overrides:
+    manuscript_native_romani_vm_source_v1:
+      family_uid: electrophysiology_conductance_world
+      auxiliary_quantity_ids: [electrical_membrane_voltage]
+      incidence:
+        electrical_membrane_voltage:
+          physical_site_uid: modeldb_romani_n123_soma_0_midpoint
+          physical_compartment: soma[0](0.5)
+          anchor_region_id: hippocampus_ca1
+          anchor_compartment_id: isf
+  scientific_profile: true
+  source_contract_status: frozen
+  source_uid: manuscript_native_scientific_source_v1
+  snapshot_ref: manuscript_native_scientific_source_v1_definition
+  output_root: Output/results/manuscript_native_corpus
+  freeze_paths:
+  - Libs/utils/data/native_joint_source_storage.py
+  - Libs/configs/exp/native_observable_bridge.yaml
+  - Libs/configs/exp/controlled_native_source.yaml
+  - Libs/configs/schema/schemas.yaml
+  - Libs/utils/model/native_observable_source.py
+  - Libs/utils/model/controlled_cns_source.py
+  - Libs/utils/data/controlled_world_runtime.py
+  - Libs/utils/data/native_stimulation.py
+  - Libs/utils/data/physical_occupancy.py
+  - Libs/utils/data/native_observable_profile.py
+  - Libs/utils/data/native_diffusion_data.py
+  - Libs/utils/data/native_field_normalization.py
+  - Libs/utils/model/microenvironment_teacher.py
+  - Libs/scripts/builders/build_controlled_native_source.py
+  - Libs/scripts/builders/build_native_diffusion_training_data.py
+  - Libs/models/modules/quantized_mddm_rollout_operator.py
+  - Libs/models/modules/world_state.py
+  - Libs/models/modules/field_rollout.py
+  - Libs/exp/training/pretrain_microenvironment_world_model.py
+  - Libs/exp/training/train_screening_system.py
+  - Libs/tests/test_native_observable_source.py
+  - Libs/tests/test_native_observable_bridge.py
+  - Libs/models/networks/screening_system.py
+  - Libs/utils/model/joint_rollout.py
+  - Libs/scripts/services/serve_screening_api.py
+  - Libs/exp/evaluation/evaluate_screening_system.py
+  - Libs/utils/evaluation/native_rollout_metrics.py
+  - Libs/utils/evaluation/native_causal_prefix.py
+  - Libs/exp/evaluation/evaluate_operational_twin_development.py
+  - Libs/configs/exp/manuscript_native_protocol.yaml
+  - Libs/configs/exp/manuscript_native_source.yaml
+  - Libs/utils/model/native_scientific_source.py
+  - Libs/utils/model/native_held_source.py
+  - Libs/configs/exp/native_romani_vm_source.yaml
+  - Libs/utils/model/native_romani_source.py
+  - Libs/scripts/teacher_generation/run_neuron_rxd_microenvironment_teacher.py
+  - Libs/utils/data/joint_physical_parameters.py
+  producer_freeze_paths:
+  - Libs/utils/data/native_joint_source_storage.py
+  - Libs/configs/exp/native_observable_bridge.yaml
+  - Libs/configs/exp/controlled_native_source.yaml
+  - Libs/utils/model/native_observable_source.py
+  - Libs/utils/model/controlled_cns_source.py
+  - Libs/utils/data/controlled_world_runtime.py
+  - Libs/utils/data/native_stimulation.py
+  - Libs/utils/data/physical_occupancy.py
+  - Libs/configs/exp/manuscript_native_protocol.yaml
+  - Libs/utils/model/native_scientific_source.py
+  - Libs/utils/model/native_held_source.py
+  - Libs/configs/exp/native_romani_vm_source.yaml
+  - Libs/utils/model/native_romani_source.py
+  - Libs/scripts/teacher_generation/run_neuron_rxd_microenvironment_teacher.py
+  - Libs/utils/data/joint_physical_parameters.py
+  long_cns_family:
+    family_uid: cns_long_horizon_world
+    parameter_mapping: all_five_site_resolved_cns_pk_vectors_from_complete_factors
+    actions:
+    - dose_times_hours:
+      - 0.0
+      fractions:
+      - 1.0
+      total_dose_multiplier: 0.8
+    - dose_times_hours:
+      - 0.0
+      fractions:
+      - 1.0
+      total_dose_multiplier: 1.2
+    - dose_times_hours:
+      - 0.0
+      - 336.0
+      fractions:
+      - 0.5
+      - 0.5
+      total_dose_multiplier: 0.8
+    - dose_times_hours:
+      - 0.0
+      - 336.0
+      fractions:
+      - 0.5
+      - 0.5
+      total_dose_multiplier: 1.2
+    - dose_times_hours:
+      - 0.0
+      - 168.0
+      - 336.0
+      - 504.0
+      fractions:
+      - 0.25
+      - 0.25
+      - 0.25
+      - 0.25
+      total_dose_multiplier: 1.6
+    - dose_times_hours:
+      - 0.0
+      - 224.0
+      - 448.0
+      fractions:
+      - 0.3333333333333333
+      - 0.3333333333333333
+      - 0.3333333333333333
+      total_dose_multiplier: 1.8
+  quantity_profile:
+    families:
+      cns_long_horizon_world:
+        time_values:
+        - 0.0
+        - 24.88888931274414
+        - 49.77777862548828
+        - 74.66666412353516
+        - 99.55555725097656
+        - 124.44444274902344
+        - 149.3333282470703
+        - 174.22222900390625
+        - 199.11111450195312
+        - 224.0
+        - 248.88888549804688
+        - 273.77777099609375
+        - 298.6666564941406
+        - 323.5555419921875
+        - 348.4444580078125
+        - 373.3333435058594
+        - 398.22222900390625
+        - 423.1111145019531
+        - 448.0
+        - 472.8888854980469
+        - 497.77777099609375
+        - 522.6666870117188
+        - 547.5555419921875
+        - 572.4444580078125
+        - 597.3333129882812
+        - 622.2222290039062
+        - 647.111083984375
+        - 672.0
+        time_unit: hour
+        observable_names: []
+        readout_kind: cns_field
+        readout_quantity_ids:
+        - free_drug
+        - target_bound_drug
+        - misfolded_protein_load
+        - aggregate_burden
+        - neuroinflammation
+        - clearance_flux
+        - circuit_instability
+        - amyloid_beta_soluble
+        - amyloid_plaque
+        - phosphorylated_tau
+        - inflammatory_mediator
+        - calcium_concentration
+        - membrane_voltage
+        - spike_rate
+        - vascular_perivascular_transport
+  seed: 873407
+  atoms:
+  - - 0
+    - 0
+    - 0
+    - 0
+    - 0
+  - - 0
+    - 0
+    - 0
+    - 0
+    - 1
+  - - 0
+    - 0
+    - 0
+    - 1
+    - 0
+  - - 0
+    - 0
+    - 0
+    - 1
+    - 1
+  - - 0
+    - 0
+    - 1
+    - 0
+    - 0
+  - - 0
+    - 0
+    - 1
+    - 0
+    - 1
+  - - 0
+    - 0
+    - 1
+    - 1
+    - 0
+  - - 0
+    - 0
+    - 1
+    - 1
+    - 1
+  - - 0
+    - 1
+    - 0
+    - 0
+    - 0
+  - - 0
+    - 1
+    - 0
+    - 0
+    - 1
+  - - 0
+    - 1
+    - 0
+    - 1
+    - 0
+  - - 0
+    - 1
+    - 0
+    - 1
+    - 1
+  - - 0
+    - 1
+    - 1
+    - 0
+    - 0
+  - - 0
+    - 1
+    - 1
+    - 0
+    - 1
+  - - 0
+    - 1
+    - 1
+    - 1
+    - 0
+  - - 0
+    - 1
+    - 1
+    - 1
+    - 1
+  - - 1
+    - 0
+    - 0
+    - 0
+    - 0
+  - - 1
+    - 0
+    - 0
+    - 0
+    - 1
+  - - 1
+    - 0
+    - 0
+    - 1
+    - 0
+  - - 1
+    - 0
+    - 0
+    - 1
+    - 1
+  - - 1
+    - 0
+    - 1
+    - 0
+    - 0
+  - - 1
+    - 0
+    - 1
+    - 0
+    - 1
+  - - 1
+    - 0
+    - 1
+    - 1
+    - 0
+  - - 1
+    - 0
+    - 1
+    - 1
+    - 1
+  - - 1
+    - 1
+    - 0
+    - 0
+    - 0
+  - - 1
+    - 1
+    - 0
+    - 0
+    - 1
+  - - 1
+    - 1
+    - 0
+    - 1
+    - 0
+  - - 1
+    - 1
+    - 0
+    - 1
+    - 1
+  - - 1
+    - 1
+    - 1
+    - 0
+    - 0
+  - - 1
+    - 1
+    - 1
+    - 0
+    - 1
+  - - 1
+    - 1
+    - 1
+    - 1
+    - 0
+  - - 1
+    - 1
+    - 1
+    - 1
+    - 1
+  prior_weights:
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  - 0.03125
+  nested_training_percentages:
+  - 10
+  - 25
+  - 50
+  - 100
+  coefficient_levels:
+  - 0.8
+  - 1.2
+  held_source_law:
+    calcium_reference_umol_per_l: 0.1
+    voltage_saturation_mv: 20.0
+    occupancy_half: 0.5
+    physical_solver: piecewise_exponential_nonlinear_update
+    physical_reference: same_law_decimal50
+    cns_reference: RK45
+    measurement: declared_linear_mixture_of_source_standardized_predose_readouts
+  training_source_strata:
+    family_uid: electrophysiology_conductance_world
+    cycle: [original_primary, original_primary, shared_primary, romani]
+    replicate_pair_size: 2
+    strata:
+      original_primary: {source_variant: primary, action_stratum: original}
+      shared_primary: {source_variant: primary, action_stratum: shared_current}
+      romani: {source_variant: romani, action_stratum: shared_current}
+  source_variants:
+    romani:
+      source_uid: manuscript_native_romani_vm_source_v1
+      snapshot_ref: manuscript_native_romani_vm_source_v1_definition
+      law: romani_vm_source
+      family_uids: [electrophysiology_conductance_world]
+      parameter_definition_ref: native_romani_source
+      roles: [train]
+      observation_standard_deviation: 0.03
+    primary:
+      source_uid: manuscript_native_scientific_source_v1
+      snapshot_ref: manuscript_native_scientific_source_v1_definition
+      law: original_discrete_source
+      roles:
+      - train
+      - development
+      - calibration
+      - validation
+      observation_standard_deviation: 0.03
+      observation_matrix:
+      - - 1.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+      - - 0.0
+        - 1.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+      - - 0.0
+        - 0.0
+        - 1.0
+        - 0.0
+        - 0.0
+        - 0.0
+      - - 0.0
+        - 0.0
+        - 0.0
+        - 1.0
+        - 0.0
+        - 0.0
+      - - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 1.0
+        - 0.0
+      - - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 1.0
+    held:
+      source_uid: manuscript_native_held_cooperative_source_v1
+      snapshot_ref: manuscript_native_held_cooperative_source_v1_definition
+      law: cooperative_exponential_source
+      roles:
+      - validation
+      observation_standard_deviation: 0.06
+      observation_matrix:
+      - - 0.9
+        - 0.1
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+      - - 0.0
+        - 0.9
+        - 0.1
+        - 0.0
+        - 0.0
+        - 0.0
+      - - 0.0
+        - 0.0
+        - 0.9
+        - 0.1
+        - 0.0
+        - 0.0
+      - - 0.0
+        - 0.0
+        - 0.0
+        - 0.9
+        - 0.1
+        - 0.0
+      - - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.9
+        - 0.1
+      - - 0.1
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.0
+        - 0.9
+  action_variants:
+  - intensity_multiplier: 0.8
+    duration_multiplier: 1.0
+    response_delay_steps: 1
+  - intensity_multiplier: 1.2
+    duration_multiplier: 1.0
+    response_delay_steps: 1
+  - intensity_multiplier: 0.8
+    duration_multiplier: 1.0
+    response_delay_steps: 2
+  - intensity_multiplier: 1.2
+    duration_multiplier: 1.0
+    response_delay_steps: 2
+  - intensity_multiplier: 1.6
+    duration_multiplier: 0.5
+    response_delay_steps: 3
+  - intensity_multiplier: 1.8
+    duration_multiplier: 0.5
+    response_delay_steps: 3
+  group_partitions:
+  - partition_uid: train
+    role: train
+    groups_per_family: 1000
+    action_indices:
+    - 0
+    - 1
+    - 2
+    ood_class: in_distribution
+    source_variant: primary
+    conditions:
+    - control
+    - ad_positive
+  - partition_uid: development
+    role: development
+    groups_per_family: 200
+    action_indices:
+    - 0
+    - 1
+    - 2
+    ood_class: in_distribution
+    source_variant: primary
+    conditions:
+    - control
+    - ad_positive
+  - partition_uid: calibration_fit
+    role: calibration
+    groups_per_family: 512
+    action_indices:
+    - 0
+    - 1
+    - 2
+    ood_class: in_distribution
+    source_variant: primary
+    conditions:
+    - control
+    - ad_positive
+    calibration_reservation: fit
+  - partition_uid: calibration_check
+    role: calibration
+    groups_per_family: 512
+    action_indices:
+    - 0
+    - 1
+    - 2
+    ood_class: in_distribution
+    source_variant: primary
+    conditions:
+    - control
+    - ad_positive
+    calibration_reservation: check
+  - partition_uid: calibration_threshold
+    role: calibration
+    groups_per_family: 512
+    action_indices:
+    - 0
+    - 1
+    - 2
+    ood_class: in_distribution
+    source_variant: primary
+    conditions:
+    - control
+    - ad_positive
+    calibration_reservation: threshold
+  - partition_uid: evaluation_id
+    role: validation
+    groups_per_family: 400
+    action_indices:
+    - 0
+    - 1
+    - 2
+    ood_class: in_distribution
+    source_variant: primary
+    conditions:
+    - control
+    - ad_positive
+  - partition_uid: parametric_ood
+    role: validation
+    groups_per_family: 400
+    action_indices:
+    - 0
+    - 1
+    - 2
+    ood_class: parametric
+    source_variant: primary
+    conditions:
+    - control
+    - ad_positive
+    coefficient_levels:
+    - 0.6
+    - 1.4
+    physical_parameter_jitter_multiplier: 3.0
+  - partition_uid: intervention_ood
+    role: validation
+    groups_per_family: 400
+    action_indices:
+    - 4
+    - 5
+    ood_class: intervention
+    source_variant: primary
+    conditions:
+    - control
+    - ad_positive
+  - partition_uid: combination_ood
+    role: validation
+    groups_per_family: 400
+    action_indices:
+    - 0
+    - 3
+    ood_class: combination
+    source_variant: primary
+    conditions:
+    - control
+    - ad_positive
+  - partition_uid: observation_ood
+    role: validation
+    groups_per_family: 400
+    action_indices:
+    - 0
+    - 1
+    - 2
+    ood_class: observation_shift
+    source_variant: primary
+    conditions:
+    - control
+    - ad_positive
+    observation_noise_multiplier: 1.4142135623730951
+    observation_mask:
+    - true
+    - false
+    - false
+    - true
+    - false
+    - true
+  - partition_uid: structural_ood
+    role: validation
+    groups_per_family: 400
+    action_indices:
+    - 0
+    - 1
+    - 2
+    ood_class: structural
+    source_variant: primary
+    conditions:
+    - control
+    - ad_positive
+    removed_edge_indices:
+    - 0
+    - 10
+    - 20
+    - 30
+    - 40
+  - partition_uid: held_source
+    role: validation
+    groups_per_family: 400
+    action_indices:
+    - 0
+    - 1
+    - 2
+    ood_class: source_holdout
+    source_variant: held
+    conditions:
+    - control
+    - ad_positive
+  budget:
+    groups: 22144
+    cases: 63232
+    physical: 47424
+    physical_precision: 47424
+    cns_integrations: 189696
+    programs: 2023424
+    chemical_precision: 1011712
+    source_prepare: 1
+    parameter_binding: 8000
+    physical_refinement: 750
+    operations: 3350575
+    seconds: 5184000
+    cpus: 1
+    memory_gib: 64
+  resource_basis:
+    status: prospective_caps_not_measured_scientific_cost
+    source_wall_cap_hours: 1440
+    source_cpu_hour_cap: 1440
+    node_local_capacity_gib: 256
+    retained_capacity_gib: 512
+    execution_path_status: bounded_continuation_verified_full_corpus_admission_pending
+    evidence: tiny32atom3actionfixture65.94s_and_separate4atom_long_reference_fixture56.44s
+    inference_limit: fixture_times_do_not_establish_full_corpus_cost
+  design_rationale:
+    manuscript_basis: 'apps/06_experimental_details: separate source/regimen/simulator
+      roles; apps/11_statistical_analysis: independent groups and seed-before-bootstrap'
+    constructed_64_blocks: not reused as empirical sample size
+    training_groups_per_family: 1000
+    training_fraction_group_counts:
+    - 100
+    - 250
+    - 500
+    - 1000
+    calibration_fit_groups_per_family: 512
+    calibration_check_groups_per_family: 512
+    calibration_threshold_groups_per_family: 512
+    calibration_planning: At p=0.80, normal-approximation95percent halfwidth1.96*sqrt(0.8*0.2/512)=0.03465
+      before selective subgrouping; report actual denominators and intervals.
+    evaluation_groups_per_family_domain: 400
+    paired_effect_planning: 400independent pairs target approximately0.18SD contrast
+      at80percent power under normal differences and six-comparison Bonferroni planning;
+      no claim of achieved power.
+    biological_scope: controlled AD/control source hypotheses; no gene-count, atlas-transfer
+      or biological-outcome supervision
+neuronsifter_scale_registry:
+  quantized_mddm_main_rollout:
+    partial_mask_schedule:
+      training_sample_count: 2
+      training_denoising_step_count: 16
+      inference_sample_count: 2
+      inference_denoising_step_count: 100
+native_controlled_comparators:
+  schema_version: native_controlled_comparators.v1
+  conditional_mean_methods: [transolver, linear, codano, mamba_no, native_deterministic, flattened_parameter_matched, gru, fno, tau_transport, mechanistic_residual]
+  input_representation: complete_particle_action_native_field_and_retained_observations
+  packing: time_by_region_compartment_with_quantity_channels_reversible_zero_padding
+  interpolation_allowed: false
+  unsupported_fields: masked_not_measured
+  references:
+    mechanistic_residual:
+      implementation_kind: maintained_paper_method_native_graph_adaptation
+      paper: arxiv:2607.13877v1
+      source_modules: [Libs/models/modules/native_mechanistic_residual.py, Libs/models/modules/native_frozen_rhs_solver.py]
+      native_mapping: additive_independent_state_correction_fed_into_next_frozen_mechanical_step
+      original_recipe: one_step_RD_state_residual_equations10_to15
+      adaptations: [unpooled_36_node_source_graph_not_3D_voxels, public32_parameter_hypotheses, uniform_train_normalized_residual_MSE, zero_output_head, native_typed_domain_rejection]
+      untransferred_claims: [tumor_density_weighting_threshold, tumor_clipping, full_state_online_H3_observations, random_shooting_physical_MPC, clinical_toxicity]
+      predictive_law: conditional_mean_requires_independent_residual_calibration
+      vm_only_romani: unsupported_missing_model_side_gating_state_and_transition
+      hyperparameters:
+        architecture: unpooled_source_graph_channel_unet
+        encoder_widths: [24, 48, 96]
+        bottleneck_width: 192
+        normalization_epsilon: 0.00001
+        negative_slope: 0.01
+        dropout: 0.1
+        initial_residual_scale: 0.1
+        initialization: zero_residual_head
+        loss: uniform_normalized_one_step_residual_mse
+        state_correction: independent_CNS_and_neural_only
+        molecular_auxiliary: mechanistic_only_no_residual_correction
+        action_conditioning: public_planned_program_at_both_original_interval_boundaries
+        online_adaptation: unbound
+    treatment_history:
+      implementation_kind: maintained_paper_method_adaptation
+      paper: arxiv:2605.29932v1
+      source_modules: [Libs/models/modules/native_treatment_diffusion.py]
+      predictive_law: conditional_native_query_diffusion_with_ema
+      source_default_inference_steps: 250
+      inference_budget_mapping: source_default250/native_matched_budget100
+      native_mapping: chronological_program_prefix_to_original_native_field_query
+      untransferred_claims: [striatal_roi_loss_weights, LEDD_milligram_semantics, anatomical_image_geometry, learned_temporal_covariance, empirical_12month_prediction_accuracy]
+      hyperparameters:
+        encoder_hidden_dim: 256
+        history_latent_dim: 128
+        encoder_heads: 8
+        conditioning_dim: 256
+        unet_widths: [128, 256, 512, 512]
+        group_norm_groups: 8
+        training_diffusion_steps: 1000
+        schedule: zero_terminal_squared_cosine
+        ema_decay: 0.999
+        loss: supported_native_velocity_mae
+        temporal_law: independent_query_noise_given_tuple_and_prefix
+        autoencoder_loss_weight: 1.0
+        autoencoder_view_drop_probability: 0.1
+        query_batch_size: 128
+    tau_transport:
+      implementation_kind: maintained_paper_equation_adaptation
+      paper: arxiv:2603.08108v2
+      source_modules: [Libs/models/modules/native_tau_transport.py]
+      predictive_law: conditional_mean_only_requires_independent_residual_calibration
+      native_mapping: complete_program_and_parameter_conditioning_with_compartment_quantity_channels_on_declared_region_index
+      untransferred_claims: [source_426_region_accuracy, anatomical_distance_of_native_index, original_16_independent_spatial_modes]
+      hyperparameters:
+        operator_layers: [2, 2, 2]
+        hidden_dim: 64
+        fourier_modes: 16
+        activation: gelu
+        spatial_axis: declared_region_index
+        loss: relative_l2_train_normalized_native_fields
+    same_compiler_solver:
+      implementation_kind: maintained_project_native
+      source_modules: [Libs/models/modules/native_frozen_rhs_solver.py, Libs/utils/model/native_comparator_physics.py]
+      predictive_law: deterministic_conditional_complete_tuple_posterior_pushforward
+      conditional_paths_per_particle: 1
+      transition_fit: none
+      numerical_accuracy_qualified: false
+      hyperparameters:
+        equation_authority: frozen_primary_training_law
+        maximum_step_hours: 0.25
+        maximum_rhs_particle_action_evaluations: 4000000
+      budget_basis: 32_particles_times_6_actions_times_4_RK_stages_over_672h_original_clock_and_dose_event_union
+      integration: continuous_CNS_RK4_with_original_discrete_auxiliary_clock_and_left_held_coupling
+    state_joint:
+      implementation_kind: maintained_project_native
+      source_modules: [Libs/models/modules/native_state_probe.py]
+      hyperparameters: {authority: native_state_comparison}
+      predictive_law: complete_prior_native_observation_mixture
+    state_single_source:
+      implementation_kind: maintained_project_native
+      source_modules: [Libs/models/modules/native_state_probe.py]
+      hyperparameters: {authority: native_state_comparison}
+      predictive_law: complete_prior_native_observation_mixture
+    state_mixed_source:
+      implementation_kind: maintained_project_native
+      source_modules: [Libs/models/modules/native_state_probe.py]
+      hyperparameters: {authority: native_state_comparison}
+      predictive_law: complete_prior_native_observation_mixture
+    state_unimodal:
+      implementation_kind: maintained_project_native
+      source_modules: [Libs/models/modules/native_state_probe.py]
+      hyperparameters: {authority: native_state_comparison}
+      predictive_law: complete_prior_native_observation_mixture
+    state_late_fusion:
+      implementation_kind: maintained_project_native
+      source_modules: [Libs/models/modules/native_state_probe.py]
+      hyperparameters: {authority: native_state_comparison}
+      predictive_law: complete_prior_native_observation_mixture
+    state_pca:
+      implementation_kind: maintained_project_native
+      source_modules: [Libs/models/modules/native_state_probe.py]
+      hyperparameters: {authority: native_state_comparison}
+      predictive_law: complete_prior_native_observation_mixture
+    state_linear:
+      implementation_kind: maintained_project_native
+      source_modules: [Libs/models/modules/native_state_probe.py]
+      hyperparameters: {authority: native_state_comparison}
+      predictive_law: complete_prior_native_observation_mixture
+    state_scratch:
+      implementation_kind: maintained_project_native
+      source_modules: [Libs/models/modules/native_state_probe.py]
+      hyperparameters: {authority: native_state_comparison}
+      predictive_law: complete_prior_native_observation_mixture
+    gru:
+      implementation_kind: maintained_project_native
+      source_modules:
+      - Libs/models/modules/native_sequence_comparators.py
+      hyperparameters:
+        hidden_dim: 696
+      predictive_law: conditional_mean_pending_shared_residual_calibration
+    flattened_parameter_matched:
+      implementation_kind: maintained_project_native
+      source_modules:
+      - Libs/models/modules/native_sequence_comparators.py
+      hyperparameters:
+        hidden_dim: 696
+        head_count: 12
+        depth: 8
+        dropout_rate: 0.0
+        parameter_match_relative_tolerance: 0.001
+      parameter_match: selected_mainline_total_minus_shared_frozen_inference_with_functional_FF_width
+      predictive_law: conditional_mean_pending_shared_residual_calibration
+    native_deterministic:
+      implementation_kind: maintained_project_native
+      source_modules:
+      - Libs/models/modules/native_field_comparators.py
+      - Libs/models/modules/neuronsifter_world_action.py
+      hyperparameters:
+        backbone: materialized_reference_native_backbone
+        posterior_context: same_frozen_selected_belief
+      predictive_law: conditional_mean_pending_shared_residual_calibration
+    fno:
+      source_repo_path: /share/home/hwxu/miniconda3/lib/python3.13/site-packages
+      upstream_url: https://github.com/neuraloperator/neuraloperator
+      package: neuraloperator
+      package_version: 2.0.0
+      implementation: neuralop.models.fno.FNO
+      version_authority: installed_distribution_metadata_and_exact_source_files
+      license: MIT
+      license_status: declared
+      source_files:
+        neuralop/models/base_model.py: 932330db61794daea256076013679048c6f986f75838694c10ba0ae7630bf069
+        neuralop/models/fno.py: 32fbecfbd11ca733212c75ce8c728c1a4ba74c17eebb91d1e701b50c1788b4d8
+        neuralop/layers/fno_block.py: d4ac2fd46f0a8c1a3ae89464cfc21c15e5f8741ea155b54b4f5b42b2c1485812
+        neuralop/layers/spectral_convolution.py: efd032b332833746f6021c3850ee1c1ad04420e95fdcbd676082b028fc9dc3b9
+        neuralop/layers/channel_mlp.py: 28ef669dadc50d388f6e07756ebfea43f476c4536318faafa5fa1e4e5eadd3b3
+        neuralop/layers/resample.py: f81f549e5eb6236629dc06aa04e23a8a00c584bdd35abc9949cdaf68e3544569
+        neuraloperator-2.0.0.dist-info/licenses/LICENSE: 5f335b0603acfb1d180bf3117492e2076562075cc9b6353a3b94d5d5bc03ef33
+      hyperparameters:
+        hidden_channels: 64
+        n_layers: 4
+        n_modes:
+        - 16
+        - 16
+        conditioning_channels: 32
+        dropout_rate: 0.0
+      predictive_law: conditional_mean_pending_shared_residual_calibration
+    native_chemical_reference:
+      implementation_kind: maintained_project_native
+      source_modules:
+      - Libs/exp/training/pretrain_microenvironment_world_model.py
+      - Libs/models/modules/quantized_mddm_rollout_operator.py
+      - Libs/models/modules/neuronsifter_world_action.py
+      action_policy: occupancy_program
+      composition: serial
+      predictive_law: weighted_whole_particle_conditional_categorical_diffusion
+    native_wam:
+      implementation_kind: maintained_project_native
+      source_modules:
+      - Libs/exp/training/pretrain_microenvironment_world_model.py
+      - Libs/models/modules/quantized_mddm_rollout_operator.py
+      - Libs/models/modules/neuronsifter_world_action.py
+      action_policy: occupancy_program
+      composition: serial
+      predictive_law: weighted_whole_particle_conditional_categorical_diffusion
+    native_single_source_wam:
+      implementation_kind: maintained_project_native
+      source_modules:
+      - Libs/exp/training/pretrain_microenvironment_world_model.py
+      - Libs/models/modules/quantized_mddm_rollout_operator.py
+      - Libs/models/modules/neuronsifter_world_action.py
+      action_policy: occupancy_program
+      composition: serial
+      predictive_law: weighted_whole_particle_conditional_categorical_diffusion
+    native_mixed_source_wam:
+      implementation_kind: maintained_project_native
+      source_modules:
+      - Libs/exp/training/pretrain_microenvironment_world_model.py
+      - Libs/models/modules/quantized_mddm_rollout_operator.py
+      - Libs/models/modules/neuronsifter_world_action.py
+      action_policy: occupancy_program
+      composition: serial
+      predictive_law: weighted_whole_particle_conditional_categorical_diffusion
+    native_action_id:
+      implementation_kind: maintained_project_native
+      source_modules:
+      - Libs/exp/training/pretrain_microenvironment_world_model.py
+      - Libs/models/modules/quantized_mddm_rollout_operator.py
+      - Libs/models/modules/neuronsifter_world_action.py
+      action_policy: drug_id
+      composition: serial
+      predictive_law: weighted_whole_particle_conditional_categorical_diffusion
+    native_target_id:
+      implementation_kind: maintained_project_native
+      source_modules:
+      - Libs/exp/training/pretrain_microenvironment_world_model.py
+      - Libs/models/modules/quantized_mddm_rollout_operator.py
+      - Libs/models/modules/neuronsifter_world_action.py
+      action_policy: target_id
+      composition: serial
+      predictive_law: weighted_whole_particle_conditional_categorical_diffusion
+    native_scalar_exposure:
+      implementation_kind: maintained_project_native
+      source_modules:
+      - Libs/exp/training/pretrain_microenvironment_world_model.py
+      - Libs/models/modules/quantized_mddm_rollout_operator.py
+      - Libs/models/modules/neuronsifter_world_action.py
+      action_policy: scalar_exposure
+      composition: serial
+      predictive_law: weighted_whole_particle_conditional_categorical_diffusion
+    native_parallel:
+      implementation_kind: maintained_project_native
+      source_modules:
+      - Libs/exp/training/pretrain_microenvironment_world_model.py
+      - Libs/models/modules/quantized_mddm_rollout_operator.py
+      - Libs/models/modules/neuronsifter_world_action.py
+      action_policy: occupancy_program
+      composition: parallel
+      predictive_law: weighted_whole_particle_conditional_categorical_diffusion
+    native_reversed:
+      implementation_kind: maintained_project_native
+      source_modules:
+      - Libs/exp/training/pretrain_microenvironment_world_model.py
+      - Libs/models/modules/quantized_mddm_rollout_operator.py
+      - Libs/models/modules/neuronsifter_world_action.py
+      action_policy: occupancy_program
+      composition: reversed
+      predictive_law: weighted_whole_particle_conditional_categorical_diffusion
+    native_interleaved:
+      implementation_kind: maintained_project_native
+      source_modules:
+      - Libs/exp/training/pretrain_microenvironment_world_model.py
+      - Libs/models/modules/quantized_mddm_rollout_operator.py
+      - Libs/models/modules/neuronsifter_world_action.py
+      action_policy: occupancy_program
+      composition: interleaved
+      predictive_law: weighted_whole_particle_conditional_categorical_diffusion
+    student:
+      implementation_kind: maintained_project_native
+      source_modules:
+      - Libs/exp/training/pretrain_microenvironment_world_model.py
+      - Libs/models/modules/quantized_mddm_rollout_operator.py
+      - Libs/models/modules/neuronsifter_world_action.py
+      - Libs/utils/exp/native_learned_distillation.py
+      action_policy: occupancy_program
+      composition: serial
+      predictive_law: weighted_whole_particle_conditional_categorical_diffusion
+    student_no_distillation:
+      implementation_kind: maintained_project_native
+      source_modules:
+      - Libs/exp/training/pretrain_microenvironment_world_model.py
+      - Libs/models/modules/quantized_mddm_rollout_operator.py
+      - Libs/models/modules/neuronsifter_world_action.py
+      - Libs/utils/exp/native_learned_distillation.py
+      action_policy: occupancy_program
+      composition: serial
+      predictive_law: weighted_whole_particle_conditional_categorical_diffusion
+    large:
+      implementation_kind: maintained_project_native
+      source_modules:
+      - Libs/exp/training/pretrain_microenvironment_world_model.py
+      - Libs/models/modules/quantized_mddm_rollout_operator.py
+      - Libs/models/modules/neuronsifter_world_action.py
+      - Libs/utils/exp/native_learned_distillation.py
+      action_policy: occupancy_program
+      composition: serial
+      predictive_law: weighted_whole_particle_conditional_categorical_diffusion
+    xl:
+      implementation_kind: maintained_project_native
+      source_modules:
+      - Libs/exp/training/pretrain_microenvironment_world_model.py
+      - Libs/models/modules/quantized_mddm_rollout_operator.py
+      - Libs/models/modules/neuronsifter_world_action.py
+      - Libs/utils/exp/native_learned_distillation.py
+      action_policy: occupancy_program
+      composition: serial
+      predictive_law: weighted_whole_particle_conditional_categorical_diffusion
+    planet:
+      implementation_kind: paper_core_native_vector_adapter
+      source_modules: [Libs/models/modules/native_rssm.py]
+      paper: https://proceedings.mlr.press/v97/hafner19a.html
+      source_reference: https://github.com/google-research/planet/blob/master/planet/scripts/configs.py
+      predictive_law: Gaussian_RSSM_latents_and_unit_Gaussian_normalized_field_decoder
+      hyperparameters:
+        deterministic_size: 200
+        stochastic_size: 30
+        hidden_size: 200
+        min_stddev: 0.1
+        observation_stddev: 1.0
+        encoder_layers: 2
+        decoder_layers: 2
+        free_nats: 3.0
+        divergence_weight: 1.0
+        overshooting_distance: 0
+    dreamerv3:
+      implementation_kind: maintained_paper_core_native_vector_adapter
+      source_modules: [Libs/models/modules/native_rssm.py]
+      paper: https://doi.org/10.1038/s41586-025-08744-2
+      source_reference: https://github.com/danijar/dreamerv3/blob/e01491fad6434b2245a3b8ca201dd7faedcc458c/dreamerv3/rssm.py
+      source_commit: e01491fad6434b2245a3b8ca201dd7faedcc458c
+      license: MIT
+      copyright: Copyright (c) 2024 Danijar Hafner
+      predictive_law: categorical_latent_point_decoder_pushforward_uncalibrated
+      hyperparameters:
+        reference_agent_size_label: 50M_not_measured_native_parameter_count
+        deterministic_size: 4096
+        hidden_size: 512
+        stochastic_size: 32
+        classes: 32
+        blocks: 8
+        prior_layers: 2
+        posterior_layers: 1
+        dynamics_layers: 1
+        absolute_posterior: false
+        vector_layers: 3
+        vector_units: 512
+        rms_epsilon: 0.000001
+        unimix: 0.01
+        free_nats: 1.0
+        dynamics_weight: 1.0
+        representation_weight: 0.1
+    mamba_no:
+      implementation_kind: independent_paper_based_implementation
+      method: Alias-Free Mamba Neural Operator
+      source_modules:
+      - Libs/models/modules/native_mamba_operator.py
+      paper: https://proceedings.neurips.cc/paper_files/paper/2024/file/5ee553ec47c31e46a1209bb858b30aa5-Paper-Conference.pdf
+      defining_specification:
+      - Figure1
+      - Algorithm1
+      - equations3.13_to3.19
+      - AppendixA.3
+      - AppendixE
+      licensed_primitives: torch2.9.0_installed_license
+      upstream_source_imported: false
+      upstream_local_blob_matches_official: false
+      predictive_law: conditional_mean_pending_shared_residual_calibration
+      numerical_choices:
+        integration: exact_diagonal_zero_order_hold
+        evolution: negative_exponential_diagonal
+        delta: positive_softplus_low_rank_input_projection
+        directions:
+        - row_forward
+        - column_forward
+        - row_reverse
+        - column_reverse
+        fusion: align_sum_channel_normalize_bandlimited_gate_projection_residual
+        filter: finite_periodic_separable_kaiser_windowed_sinc
+        filter_scope: internal_hidden_lattice_only
+        original_observations_clocks_and_targets_interpolated: false
+        exact_continuous_discrete_equivalence: not_claimed_for_finite_filters
+        source_code_or_bitwise_reproduction: not_claimed
+      hyperparameters:
+        conditioning_channels: 32
+        width: 16
+        depth: 4
+        state_width: 16
+        expansion: 2
+        delta_rank_divisor: 16
+        encoder_convolutions:
+        - 2
+        - 2
+        - 2
+        - 2
+        encoder_integrations:
+        - 2
+        - 2
+        - 2
+        - 2
+        decoder_integrations:
+        - 2
+        - 2
+        - 2
+        - 2
+        local_kernel: 3
+        activation: silu
+        sinc_radius: 6
+        kaiser_beta: 8.6
+    linear:
+      implementation_kind: maintained_project_module
+      source_modules:
+      - Libs/models/modules/native_linear_dynamics.py
+      - Libs/models/modules/native_field_comparators.py
+      predictive_law: conditional_mean_pending_shared_residual_calibration
+      hyperparameters:
+        posterior_context_dim: 696
+    transolver:
+      implementation_kind: maintained_project_module
+      source_modules:
+      - Libs/models/modules/native_transolver_mean.py
+      - Libs/models/modules/transolver_operator.py
+      - Libs/models/layers/transolver_attention.py
+      - Libs/models/modules/native_field_comparators.py
+      predictive_law: conditional_mean_pending_shared_residual_calibration
+      implementation_difference: project_maintained_transolver_plus_with_explicit_mechanism_moe
+      hyperparameters:
+        posterior_context_dim: 696
+        hidden_dim: 1024
+        encoder_depth: 12
+        decoder_depth: 4
+        head_count: 16
+        slice_count: 128
+        dropout_rate: 0.05
+        expert_names:
+        - pharmacology_expert
+        - bbb_cns_transport_expert
+        - protein_pathology_expert
+        - inflammation_expert
+        - electrophysiology_rxd_expert
+        - transcriptomics_expert
+        - metabolomics_expert
+        - morphology_expert
+        - solver_observation_expert
+        - solver_residual_expert
+        top_k: 2
+        capacity_factor: 1.25
+        entropy_loss_weight: 0.002
+        load_balance_loss_weight: 0.01
+        expert_capacity_loss_weight: 0.01
+        expert_hidden_multiplier: 4
+        physics_mlp_multiplier: 4
+        checkpoint_attention_blocks: true
+    persistence:
+      implementation_kind: maintained_project_module
+      source_modules:
+      - Libs/utils/model/initial_state_persistence.py
+      predictive_law: exact_initial_posterior_identity_transition
+      hyperparameters: {}
+    wdno:
+      source_repo_path: /share/home/hwxu/Researches/NeuronSifter/Libs/external/neural_operator/wdno
+      upstream_url: https://github.com/AI4Science-WestlakeU/wdno
+      upstream_commit: 2d5c0ffbe11797e669efe0a34bd22f087eae51d7
+      license: MIT
+      license_status: declared
+      source_files:
+        burgers/ddpm_burgers/unet.py: 73f069846020df4f623c10a69fcc42cdc073e1378197ed5af1c4b36486be617e
+        burgers/ddpm_burgers/model_utils.py: 1739fb481feaba3223d94e5f2d816cf212b8c9485b0fb37c19e7870e8733875f
+        burgers/ddpm_burgers/diffusion_1d.py: 52febc17ff0481d28086851140763082588d6b8fd386a1f854708752b2c9fe60
+        burgers/wave_trans.py: 86a59c086b239499e17225d18f501a7c4975019dd14bd6dc12d5cc54c987a953
+        LICENSE: 01ea6d664b089be8686ed2d420b2d9efe3fa13ba9a25ca3e619fa79ff45e278f
+      hyperparameters:
+        wavelet: bior2.4
+        wavelet_mode: periodization
+        dim: 64
+        dim_mults:
+        - 1
+        - 2
+        - 4
+        - 8
+        resnet_block_groups: 8
+        conditioning_channels: 64
+        diffusion_steps: 1000
+        ddim_eta: 0
+      objective: cosine_schedule_coefficient_noise_prediction
+      sampling: conditional_native_wavelet_ddim
+      multi_resolution_superresolution: not_part_of_fixed_native_clock_comparison
+    diffusion_pde:
+      source_repo_path: /share/home/hwxu/Researches/NeuronSifter/Libs/external/neural_operator/DiffusionPDE
+      upstream_url: https://github.com/jhhuangchloe/DiffusionPDE
+      upstream_commit_status: not_recoverable_from_vendored_directory
+      license: CC-BY-NC-SA-4.0
+      license_status: declared
+      source_files:
+        training/networks.py: 5db27dcd96674b95c72d5e6491b879cdc35e24039ada3411b4b46a28ed1fe284
+        training/loss.py: b26f0937bc72b18cc5f9869c86035ca9b872138cdfae7994237e9733951e4415
+        scripts/generate_burgers.py: aecf61f821b68645a7f26d7932fe03b61333bada2df09adf80c3b5aa19661f94
+        LICENSE: 24da0be18c7e2323224a12438c1dd4d58318f2703f75759c860d70849a43f1f4
+      hyperparameters:
+        model_channels: 64
+        channel_mult:
+        - 1
+        - 2
+        - 2
+        - 2
+        num_blocks: 2
+        attention_resolutions:
+        - 16
+        P_mean: -1.2
+        P_std: 1.2
+        sigma_data: 0.5
+        sigma_min: 0.002
+        sigma_max: 80
+        rho: 7
+        observation_guidance: 0.1
+        equation_guidance: 0.01
+        guidance_switch_fraction: 0.8
+        late_observation_ratio: 0.1
+      objective: lognormal_sigma_edm_weighted_denoising
+      sampling: euler_heun_with_retained_observation_and_equation_gradient_guidance
+      guidance_status: native_equation_and_observation_binding_required
+    codano:
+      source_repo_path: /share/home/hwxu/miniconda3/lib/python3.13/site-packages
+      upstream_url: https://github.com/neuraloperator/neuraloperator
+      package: neuraloperator
+      package_version: 2.0.0
+      implementation: neuralop.models.codano.CODANO
+      version_authority: installed_distribution_metadata_and_exact_source_files
+      license: MIT
+      license_status: declared
+      source_files:
+        neuralop/models/codano.py: 1fb0ded75f9fc77ac31b9399680b9718e58fbec0939fbe6340b430fdc523e2fb
+        neuralop/layers/coda_layer.py: e28c09f5ea2506d6f7fafd4dd3d04894dc7cf1df9b6f29bbfeab5eecfa73e7f1
+        neuraloperator-2.0.0.dist-info/licenses/LICENSE: 5f335b0603acfb1d180bf3117492e2076562075cc9b6353a3b94d5d5bc03ef33
+      hyperparameters:
+        conditioning_channels: 32
+        n_layers: 4
+        lifting_channels: 64
+        hidden_variable_codimension: 32
+        projection_channels: 64
+        positional_encoding_dim: 8
+        positional_encoding_modes:
+        - 8
+        - 8
+        n_modes:
+        - 8
+        - 8
+        n_heads: 4
+      predictive_law: conditional_mean_pending_shared_residual_calibration
+      implementation_difference: maintained_author_supported_neuraloperator_release_instead_of_vendored_codano_rep_fork
+  conditioning:
+    maximum_observation_features: 540
+    maximum_times: 28
+    program_reference_scales:
+      occupancy: 1.0
+      support: 1.0
+      physical_time: 672.0
+      electrical_current_uA: 1.0
+      electrical_applicability: 1.0
+      optical_power_mW: 1.0
+      optical_applicability: 1.0
+    initial_block: all_normalized_native_sites_and_quantities
+    source_and_role_id_features: false
+  guidance:
+    equation_authority: frozen_primary_training_law
+    observation_authority: frozen_training_predose_selector
+    structural_graph: frozen_training_edges
+    source_variant_can_select_equation: false
+    teacher_oracle_access: false
+    residual_discretization: forward_difference_on_original_clock
+    numerical_discrepancy: coarse_residual_truncation_retained_no_precision_claim
+  nominal_levels:
+  - 0.8
+  - 0.85
+  - 0.9
+  - 0.95
+  residual_calibration:
+    law: native_controlled_teacher_readout_brownian.v1
+    species_count: 26
+    reference_time_hours: 672.0
+    fit_role: calibration
+    fit_reservation: fit
+    check_reservation: check
+    residual_seed: 41
+    collapse_policy: failed_no_positive_scale_floor
+    numerical:
+      dtype: float64
+      eta_initialization: 0.0
+      optimizer: torch_lbfgs
+      max_iterations: 200
+      max_closure_evaluations: 400
+      line_search: strong_wolfe
+      history_size: 10
+      gradient_tolerance: 1.0e-07
+      change_tolerance: 0.0
+      hessian_absolute_threshold: 1.0e-10
+      hessian_relative_threshold: 1.0e-08
+native_state_comparison:
+  schema_version: native_state_comparison.v1
+  fitted_methods: [state_joint, state_unimodal, state_late_fusion, state_pca, state_linear, state_scratch, state_single_source, state_mixed_source]
+  checkpoint_aliases: {}
+  readout_blocks: [[0, 1], [2, 3], [4, 5]]
+  unimodal_block: 0
+  pca_components: 6
+  objectives:
+    retained_readout: 1.0
+    held_readout: 1.0
+    categorical_kl: 0.01
+  initialization:
+    state_joint: selected_mainline_inference
+    state_single_source: selected_pure_shared_source_inference
+    state_mixed_source: selected_mixed_shared_source_inference
+    state_unimodal: selected_mainline_inference
+    state_late_fusion: independent_copies_of_selected_mainline_inference
+    state_pca: training_only_PCA_and_bilinear_candidate_readout
+    state_linear: linear_observation_map_and_bilinear_candidate_readout
+    state_scratch: same_native_inference_architecture_random_initialization
+  trainable_scope: observation_encoder_retention_projection_and_particle_score_only
+  input_boundary: admitted_retained_observations_and_source_declared_complete_prior
+  fitting_targets: retained_or_held_observations_only
+  factor_truth_access: evaluation_only
+  uncertainty_weighting: native_heteroscedastic_readout_likelihood
+  single_source:
+    training_source_contracts: [primary]
+    held_source_role: evaluation_only
+    checkpoint_reuse: null
+    multisource_benefit: requires_matched_pure_and_mixed_source_execution
+    matched_method: state_mixed_source
+    required_contrast_prerequisite: at_least_two_scientifically_distinct_defined_training_source_contracts_and_matched_source_isolated_control
+
+manuscript_native_statistics:
+  seed_policy: manuscript_native_three
+  training_seeds:
+  - 41
+  - 42
+  - 43
+  bootstrap_replicates: 2000
+  bootstrap_seed: 41
+  interval:
+  - 0.025
+  - 0.975
+  order: average_training_seeds_then_paired_independent_groups
+  independent_unit: source_declared_complete_group
+  unavailable_seed_group: retain_denominator_and_withhold_interval
+  action_rows_or_conditional_draws_are_independent: false
+  comparisons: predeclared_RQ_endpoint_and_partition
+  historical_bootstrap_scope: unchanged
+
+native_scale_routing:
+  schema_version: native_scale_routing.v1
+  methods: [fixed_threshold, fixed_route, adaptive_scale]
+  manuscript_reference: tabs/baseline_registry.tex:Scale_and_tabs/c5_scale_results.tex
+  definition_origin: prospective_explicit_control_definition_where_manuscript_omits_threshold_and_route_details
+  stage_order: [student, large, xl]
+  fixed_route: [student, large, xl]
+  fixed_threshold: 0.95
+  threshold_statistic: selected_action_optimal_posterior_mass
+  tie_break: declared_action_order
+  decision_rule: minimum_expected_shared_public_CNS_loss
+  threshold_selection: fixed_before_outcome_access_not_fitted_on_evaluation
+  acceptance_interpretation: computational_stopping_only_not_calibrated_acceptance
+  runtime_accounting: actual_requested_stage_calls_including_lazy_loads
+  checkpoints: {}
+  adaptive:
+    definition_status: prospective_operational_definition
+    fit_role: development
+    development_groups_per_family: 200
+    calibration_groups_per_family: 512
+    permitted_routing_inputs: [current_stage_optimal_action_mass, reached_stage_identity]
+    threshold_parameters: [student_stop_threshold, large_stop_threshold]
+    candidate_class: development_mass_breakpoints_with_always_stop0_and_always_escalate2
+    objective: minimum_mean_controlled_oracle_regret_under_large_only_mean_cost
+    cost_scope: shared_inputs_plus_resident_reached_stages_excluding_cold_loads
+    cold_cost_reporting: initialization_and_checkpoint_loads_separate_for_all_routes
+    tie_break: [lower_mean_regret, lower_mean_cost, student_threshold, large_threshold]
+    calibration: signed_selected_loss_residual_order_statistic_after_policy_freeze
+    nominal_levels: [0.8, 0.85, 0.9, 0.95]
+    exchangeability_unit: independent_source_group_within_native_family
+    threshold_reservation: retained_unread_not_needed_for_compute_routing
+    check_interpretation: empirical_coverage_without_an_invented_pass_cutoff
+    shift_policy: frozen_unretuned
+
+native_public_cns_loss:
+  schema_version: native_public_cns_loss.v1
+  manuscript_reference: secs/06_method.tex:equation_cns_decision_loss_and_apps/06_experimental_details.tex:loss_preferences
+  readout:
+    kind: fixed_compartment
+    compartment: isf
+    binding_origin: prospective_controlled_domain_readout_binding
+    interpretation: fixed_ISF_readout_per_region_without_changing_full_grid_training_or_prediction
+  endpoint_weights:
+    amyloid_plaque: 0.25
+    phosphorylated_tau: 0.25
+    neuroinflammation: 0.25
+    circuit_instability: 0.25
+  time_weighting: normalized_trapezoid
+  region_weighting: uniform
+  intervention_weight: 0.1
+  training_reference:
+    role: train
+    quantiles: [0.01, 0.99]
+    quantile_method: linear
+    weighting: retained_readout_coordinates
+    qc_grades: [A, B]
+    family_uids: [electrophysiology_conductance_world, calcium_synaptic_world, molecular_pharmacological_causal_world, cns_long_horizon_world]
+  intervention_burden:
+    electrical_and_optical: actual_compiled_integral_over_fixed_support_maximum_intensity_times_duration
+    chemical: actual_total_dose_over_fixed_supported_dose
+    chemical_family_uids: [molecular_pharmacological_causal_world, cns_long_horizon_world]
+    chemical_support_family_uid: molecular_pharmacological_causal_world
+    out_of_support: retain_raw_ratio_and_withhold_calibrated_decision
+    clinical_calibration: false
+native_intervention_evaluation:
+  posterior_methods: [posterior_joint, posterior_point, posterior_dependence_ablated]
+  reference_artifact: Output/results/manuscript_native_corpus/public_cns_loss_reference.json
+  reference_fit_percentage: 100
+  transition_method: native_wam
+  point_rule: maximum_posterior_mass_complete_tuple
+  dependence_rule: product_of_five_factor_marginals_on_complete_cartesian_valid_tuple_support
+  post_transform_calibration: unevaluated
+  tie_break: declared_action_order
+  conditional_draws: unchanged_from_shared_predictor
+manuscript_native_protocol:
+  schema_version: manuscript_native_protocol.v1
+  protocol_uid: manuscript_native_controlled_world_three_seed_v1
+  seed_policy: manuscript_native_three
+  training_seeds:
+  - 41
+  - 42
+  - 43
+  config_path: Libs/configs/exp/manuscript_native_protocol.yaml
+  source_config_path: Libs/configs/exp/manuscript_native_source.yaml
+  artifact_root: Output/audits/manuscript_native_three_seed_protocol
+  profile_root: Output/audits/manuscript_native_three_seed_protocol/profiles
+  execution_root: Output/results/manuscript_native_three_seed_training
+  source_definition_status: complete_awaiting_protocol_validation
+  source_production_status: NOT_RUN
+  training_status: NOT_RUN
+  training_evidence:
+    predictor_components:
+      residual_mpc_predictor:
+        owner_method: residual_mpc
+        predictor_method: mechanistic_residual
+        conditioning_method: native_wam
+        review_scope: residual_mpc_predictor_training
+        review_authority_config: Libs/configs/validation/native_predictor_training_reviews.yaml
+        required_review_findings:
+        - native_objective_learning_curves
+        - selected_state_stability_across_seeds
+        - full_domain_and_group_coverage
+        - architecture_and_uncertainty_objectives
+        - failures_and_limitations
+        - measured_resource_and_budget_evidence
+    historical_execution_profiles:
+      native_wam_fraction_100_seed_40:
+        execution_chain: Output/audits/native_source_admission/source_bound_consumer_execution/dependent_input_staging_612505/execution_chain.json
+        source_commit: c3104b7ce221f0c12e7d5c2d5a137a2530000c7b
+        profile_sha256: 1dc856a566f659a0484bb04d7a455e9634dec7c7198791e79b1b081d0853d615
+        effective_configuration_sha256: 9b4d434da5f874e389798096c691d69e390ca1e9c725a99d2f45ceeadda4fb3f
+    approved_execution_profiles: {}
+    execution_review_profiles:
+      native_wam_fraction_100_seed_41:
+        binding_kind: native_source_comparison_execution.v1
+        execution_chain: Output/audits/native_training_execution/native_three_seed_shared_stage/native_wam_fraction_100_seed_41/execution_chain.json
+        component_review: Output/audits/native_training_execution/native_three_seed_shared_stage/native_wam_fraction_100_seed_41/component_review.json
+      native_wam_fraction_100_seed_42:
+        binding_kind: native_source_comparison_execution.v1
+        execution_chain: Output/audits/native_training_execution/native_three_seed_shared_stage/native_wam_fraction_100_seed_42/execution_chain.json
+        component_review: Output/audits/native_training_execution/native_three_seed_shared_stage/native_wam_fraction_100_seed_42/component_review.json
+      native_wam_fraction_100_seed_43:
+        binding_kind: native_source_comparison_execution.v1
+        execution_chain: Output/audits/native_training_execution/native_three_seed_shared_stage/native_wam_fraction_100_seed_43/execution_chain.json
+        component_review: Output/audits/native_training_execution/native_three_seed_shared_stage/native_wam_fraction_100_seed_43/component_review.json
+    output_root: Output/audits/manuscript_native_three_seed_training_sufficiency
+    scope: full_fraction_three_seed_metadata_only
+    independent_review: PENDING
+    scientific_twin: NOT_RUN
+  scientific_twin: NOT_RUN
+  formal_qualification: false
+  checkpoint_reuse:
+    large: native_wam
+    dreamer: planet
+    posterior_joint: native_wam
+    posterior_point: native_wam
+    posterior_dependence_ablated: native_wam
+  reference_scale: neuronsifter_large
+  reference_inference_profile: large_main_screening
+  source_comparison:
+    electrical_groups_per_arm: 250
+    other_families: all_original_training_groups
+    normalization_root: Output/results/manuscript_native_corpus/physical_parameter_conditioning/source_scope_normalization
+    scope_methods:
+      native_single_source_wam: pure_shared
+      native_mixed_source_wam: mixed_shared
+      state_single_source: pure_shared
+      state_mixed_source: mixed_shared
+    conditioning_methods:
+      pure_shared: native_single_source_wam
+      mixed_shared: native_mixed_source_wam
+    training_source_isolation: normalizer_native_belief_backbone_teacher_selection_and_state_finetuning
+    shared_development: original_primary_development_only
+  native_method_profiles:
+    native_single_source_wam:
+      action_policy: occupancy_program
+      composition_mode: serial
+      composition_order: declared
+    native_mixed_source_wam:
+      action_policy: occupancy_program
+      composition_mode: serial
+      composition_order: declared
+    native_chemical_reference:
+      action_policy: occupancy_program
+      composition_mode: serial
+      composition_order: declared
+    native_wam:
+      action_policy: occupancy_program
+      composition_mode: serial
+      composition_order: declared
+    native_action_id:
+      action_policy: drug_id
+      composition_mode: serial
+      composition_order: declared
+    native_target_id:
+      action_policy: target_id
+      composition_mode: serial
+      composition_order: declared
+    native_scalar_exposure:
+      action_policy: scalar_exposure
+      composition_mode: serial
+      composition_order: declared
+    native_parallel:
+      action_policy: occupancy_program
+      composition_mode: parallel
+      composition_order: declared
+    native_reversed:
+      action_policy: occupancy_program
+      composition_mode: serial
+      composition_order: reversed
+    native_interleaved:
+      action_policy: occupancy_program
+      composition_mode: serial
+      composition_order: even_then_odd
+    student:
+      action_policy: occupancy_program
+      composition_mode: serial
+      composition_order: declared
+      checkpoint_scale: neuronsifter_student
+      inference_profile: student_prescreen
+    student_no_distillation:
+      action_policy: occupancy_program
+      composition_mode: serial
+      composition_order: declared
+      checkpoint_scale: neuronsifter_student
+      inference_profile: student_prescreen
+    large:
+      action_policy: occupancy_program
+      composition_mode: serial
+      composition_order: declared
+      checkpoint_scale: neuronsifter_large
+      inference_profile: large_main_screening
+    xl:
+      action_policy: occupancy_program
+      composition_mode: serial
+      composition_order: declared
+      checkpoint_scale: neuronsifter_xl
+      inference_profile: xl_audit
+  native_action_scope:
+    chemical: configured_occupancy_identity_target_or_site_AUC
+    nonchemical: chemical_ID_target_ID_and_scalar_reject_stimulation_aliases
+    scalar_exposure: requires_physical_chemical_exposure_evidence_no_electrical_optical_alias
+  chemical_comparison:
+    method_ids: [native_chemical_reference, native_action_id, native_target_id, native_scalar_exposure]
+    family_ids: [molecular_pharmacological_causal_world, cns_long_horizon_world]
+    common_belief: full_four_domain_mainline_selected_checkpoint_same_seed
+    reference: native_chemical_reference
+    fractions_are: within_eligible_chemical_pool
+  fraction_axis:
+    method_ids:
+    - native_wam
+    percentages:
+    - 10
+    - 25
+    - 50
+    - 100
+    matching: same_optimizer_update_cap_and_validation_cadence_with_separately_reported_group_visits
+  supporting_axes:
+    source_diversity:
+    - primary
+    - held_source_evaluation
+    posterior_draws:
+    - 8
+    - 16
+    - 32
+    - 64
+    horizon_hours:
+    - 24
+    - 168
+    - 336
+    - 672
+    denoising_steps:
+    - 16
+    - 32
+    - 64
+    - 100
+    forecast_paths_per_action:
+    - 16
+    - 32
+    - 64
+    - 128
+    cartesian_product: false
+    axis_execution_status: native_axis_specific_profile_and_evaluation_adapters_pending
+  metrics:
+    RQ1:
+    - held_readout_log_likelihood
+    - factor_recovery_probe
+    - missing_modality_robustness
+    - source_transfer
+    RQ2:
+    - normalized_rmse
+    - crps
+    - predictive_coverage
+    - paired_action_contrast
+    - physical_constraint_violations
+    RQ3:
+    - controlled_oracle_regret
+    - ranking_stability
+    - supported_action_coverage
+    - dependence_sensitivity
+    RQ4:
+    - decision_loss_reduction
+    - total_acquisition_cost
+    - stopping_regret
+    - amortization_cost
+    RQ5:
+    - accepted_fraction
+    - selected_decision_risk
+    - bound_coverage
+    - predictive_calibration
+  statistics:
+    primary_metric_by_rq:
+      RQ1: held_readout_log_likelihood
+      RQ2: crps
+      RQ3: controlled_oracle_regret
+      RQ4: stopping_regret
+      RQ5: selected_decision_risk
+    holm_families:
+    - RQ1_state
+    - RQ2_native_dynamics
+    - RQ3_controlled_ranking
+    - RQ4_acquisition
+    - RQ5_reliability
+    paired_group_bootstrap:
+      seed: 41
+      replicates: 2000
+      seed_average_first: true
+    missing_or_failed_cases: retained_in_predeclared_denominator_and_no_partial_primary_interval
+  posterior_comparison:
+    point: posterior_physical_mean_only_after_constraint_validation
+    dependence_intervention: permute_whole_physical_blocks_across_atoms_within_declared_feasible_strata_preserve_marginals_and_actions
+    feasibility: reject_unphysical_recombinations_no_silent_projection
+    status: intervention_adapter_missing_not_claimed_implemented
+  feedback_comparison:
+    shared_contract:
+    - channel
+    - outcome_likelihood
+    - action_support
+    - loss
+    - cost
+    - stopping
+    numerical_bed_controls:
+    - coupled_inner_outer_rng
+    - independent_inner_outer_rng
+    - adaptive_outer_allocation
+    - uniform_outer_allocation
+    - inner_minimum_respected
+    amortization: training_cost_separate_from_online_value_calls
+    llm_backends: explicit_model_versions_pending_no_subagent_model_substitution
+  reliability_comparison:
+    nominal_levels:
+    - 0.8
+    - 0.85
+    - 0.9
+    - 0.95
+    fit_groups: calibration_fit
+    check_groups: calibration_check
+    threshold_groups: calibration_threshold_512_groups_per_family_never_used_for_model_selection_or_residual_fit_check
+    retune_on_shifted_evaluation: false
+  attempts:
+    primary_slots_per_fit: 1
+    recovery_slots_per_fit: 1
+    recovery_trigger: only_failed_attempt_with_complete_terminal_accounting
+    wall_cap_seconds: 864000
+    automatic_retries: false
+    concurrent_fits: 1
+  resources:
+    source:
+      node: cpu03
+      partition: gpu
+      gpus: 0
+      cpus: 1
+      memory_gib: 64
+      wall_seconds: 5184000
+    training:
+      node: gpu03
+      partition: gpu1
+      gpus: 1
+      cpus: 8
+      memory_gib: 64
+      wall_seconds: 864000
+      exclusive: false
+    evaluation:
+      node: gpu03
+      partition: gpu1
+      gpus: 1
+      cpus: 8
+      memory_gib: 64
+      wall_seconds: 86400
+      exclusive: false
+    cpu:
+      node: cpu04
+      partition: cpu
+      gpus: 0
+      cpus: 2
+      memory_gib: 12
+      wall_seconds: 86400
+  execution_prerequisites:
+  - explicit_candidate_execution_authorization
+  - fresh_sinfo_and_node_local_capacity
+  - complete_full_prior_source_production
+  - zero_leakage_qc_registry_admission
+  - train_only_normalization
+  - all_required_controlled_adapters
+  - full_capacity_three_seed_training_sufficiency
+  - independent_calibration_checks
+  source_and_code_binding_paths:
+  - Libs/utils/evaluation/manuscript_native_protocol.py
+  - Libs/scripts/builders/build_operational_twin_training_protocol.py
+  - Libs/scripts/validators/validate_operational_twin_training_protocol.py
+  - Libs/utils/exp/native_comparator_training.py
+  - Libs/utils/evaluation/native_comparator_evaluation.py
+  - Libs/utils/evaluation/native_state_evaluation.py
+  - Libs/utils/evaluation/native_intervention_decisions.py
+  - Libs/utils/evaluation/native_intervention_evaluation.py
+  - Libs/utils/model/native_comparator_inputs.py
+  - Libs/utils/model/native_comparator_physics.py
+  - Libs/utils/exp/native_learned_distillation.py
+  - Libs/models/modules/native_field_comparators.py
+  - Libs/models/modules/native_mamba_operator.py
+  - Libs/models/modules/native_diffusion_comparators.py
+  methods:
+  - method_id: native_chemical_reference
+    rq: RQ2
+    role: matched_chemical_reference
+    implementation_kind: native_pretrainer
+    input_interface: complete_particle_native_field
+    domain_scope: chemical_program_domains_only
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: native_wam
+    rq: RQ2
+    role: comparison
+    implementation_kind: native_pretrainer
+    input_interface: complete_particle_native_field
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: native_action_id
+    rq: RQ2
+    role: comparison
+    implementation_kind: native_pretrainer
+    input_interface: complete_particle_native_field
+    domain_scope: chemical_program_domains_only
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: native_target_id
+    rq: RQ2
+    role: comparison
+    implementation_kind: native_pretrainer
+    input_interface: complete_particle_native_field
+    domain_scope: chemical_program_domains_only
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: native_parallel
+    rq: RQ2
+    role: comparison
+    implementation_kind: native_pretrainer
+    input_interface: complete_particle_native_field
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: native_reversed
+    rq: RQ2
+    role: comparison
+    implementation_kind: native_pretrainer
+    input_interface: complete_particle_native_field
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: native_interleaved
+    rq: RQ2
+    role: comparison
+    implementation_kind: native_pretrainer
+    input_interface: complete_particle_native_field
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: native_scalar_exposure
+    rq: RQ2
+    role: comparison
+    implementation_kind: native_pretrainer
+    input_interface: complete_particle_native_field
+    domain_scope: chemical_program_domains_only
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: transolver
+    rq: RQ2
+    role: comparison
+    implementation_kind: native_comparator
+    input_interface: complete_particle_native_field
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: linear
+    rq: RQ2
+    role: comparison
+    implementation_kind: native_comparator
+    input_interface: complete_particle_native_field
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: wdno
+    rq: RQ2
+    role: comparison
+    implementation_kind: native_comparator
+    input_interface: complete_particle_native_field
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: diffusion_pde
+    rq: RQ2
+    role: comparison
+    implementation_kind: native_comparator
+    input_interface: complete_particle_native_field
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: codano
+    rq: RQ2
+    role: comparison
+    implementation_kind: native_comparator
+    input_interface: complete_particle_native_field
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: mamba_no
+    rq: RQ2
+    role: comparison
+    implementation_kind: native_comparator
+    input_interface: complete_particle_native_field
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: persistence
+    rq: RQ2
+    role: comparison
+    implementation_kind: native_identity_law
+    input_interface: complete_initial_posterior
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: native_deterministic
+    rq: RQ2
+    role: comparison
+    implementation_kind: native_comparator
+    input_interface: complete_particle_native_field
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: flattened_parameter_matched
+    rq: RQ2
+    role: comparison
+    implementation_kind: native_comparator
+    input_interface: complete_particle_native_field
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: gru
+    rq: RQ2
+    role: comparison
+    implementation_kind: native_comparator
+    input_interface: complete_particle_native_field
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: planet
+    rq: RQ2
+    role: comparison
+    implementation_kind: native_comparator
+    input_interface: partial_observation_controlled_latent_dynamics
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+    implementation_scope: RQ2_predictive_world_model_component
+    later_gate_obligations:
+      status: NOT_IMPLEMENTED
+      required_for_full_method_comparison: true
+      scope: CEM_planning
+  - method_id: dreamer
+    rq: RQ2
+    role: comparison
+    implementation_kind: native_checkpoint_alias
+    input_interface: partial_observation_controlled_latent_dynamics
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+    implementation_scope: RQ2_predictive_world_model_component
+    later_gate_obligations:
+      status: NOT_IMPLEMENTED
+      required_for_full_method_comparison: true
+      scope: reward_continue_actor_critic_and_behavior_learning
+    matched_prediction_checkpoint: planet
+    method_reference: https://arxiv.org/abs/1912.01603
+  - method_id: dreamerv3
+    rq: RQ2
+    role: comparison
+    implementation_kind: native_comparator
+    input_interface: partial_observation_controlled_latent_dynamics
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+    implementation_scope: RQ2_predictive_world_model_component
+    later_gate_obligations:
+      status: NOT_IMPLEMENTED
+      required_for_full_method_comparison: true
+      scope: reward_continue_actor_critic_and_behavior_learning
+  - method_id: fno
+    rq: RQ2
+    role: comparison
+    implementation_kind: native_comparator
+    input_interface: complete_particle_native_field
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: same_compiler_solver
+    rq: RQ2
+    role: comparison
+    implementation_kind: native_comparator
+    input_interface: source_law_supported_programs_and_retained_observations
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: residual_mpc
+    rq: RQ2
+    role: comparison
+    implementation_kind: controlled_adapter_missing
+    input_interface: source_law_supported_programs_and_retained_observations
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: full_MPC_initial_planner_joint_measurement_calibration_and_molecular_dose_contract_pending
+  - method_id: tau_transport
+    rq: RQ2
+    role: comparison
+    implementation_kind: native_comparator
+    input_interface: source_law_supported_programs_and_retained_observations
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: treatment_history
+    rq: RQ2
+    role: comparison
+    implementation_kind: native_comparator
+    input_interface: source_law_supported_programs_and_retained_observations
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: cpa
+    rq: RQ2
+    role: comparison
+    implementation_kind: empirical_prerequisite
+    input_interface: gene_expression_or_genetic_perturbation_inputs
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: no_admitted_count_gene_vocabulary_perturbation_mapping_or_matched_empirical_checkpoint
+  - method_id: cellot
+    rq: RQ2
+    role: comparison
+    implementation_kind: empirical_prerequisite
+    input_interface: gene_expression_or_genetic_perturbation_inputs
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: no_admitted_count_gene_vocabulary_perturbation_mapping_or_matched_empirical_checkpoint
+  - method_id: gears
+    rq: RQ2
+    role: comparison
+    implementation_kind: empirical_prerequisite
+    input_interface: gene_expression_or_genetic_perturbation_inputs
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: no_admitted_count_gene_vocabulary_perturbation_mapping_or_matched_empirical_checkpoint
+  - method_id: state_joint
+    rq: RQ1
+    role: comparison
+    implementation_kind: native_state_probe
+    input_interface: controlled_readout_modalities_and_factors
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: state_unimodal
+    rq: RQ1
+    role: comparison
+    implementation_kind: native_state_probe
+    input_interface: controlled_readout_modalities_and_factors
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: state_late_fusion
+    rq: RQ1
+    role: comparison
+    implementation_kind: native_state_probe
+    input_interface: controlled_readout_modalities_and_factors
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: state_pca
+    rq: RQ1
+    role: comparison
+    implementation_kind: native_state_probe
+    input_interface: controlled_readout_modalities_and_factors
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: state_linear
+    rq: RQ1
+    role: comparison
+    implementation_kind: native_state_probe
+    input_interface: controlled_readout_modalities_and_factors
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: state_scratch
+    rq: RQ1
+    role: comparison
+    implementation_kind: native_state_probe
+    input_interface: controlled_readout_modalities_and_factors
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: native_single_source_wam
+    rq: RQ1
+    role: matched_source_comparison
+    implementation_kind: native_pretrainer
+    input_interface: controlled_readout_modalities_and_factors
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: native_mixed_source_wam
+    rq: RQ1
+    role: matched_source_comparison
+    implementation_kind: native_pretrainer
+    input_interface: controlled_readout_modalities_and_factors
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: state_mixed_source
+    rq: RQ1
+    role: matched_source_comparison
+    implementation_kind: native_state_probe
+    input_interface: controlled_readout_modalities_and_factors
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: state_single_source
+    rq: RQ1
+    role: matched_source_comparison
+    implementation_kind: native_state_probe
+    input_interface: controlled_readout_modalities_and_factors
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: scvi
+    rq: RQ1
+    role: comparison
+    implementation_kind: empirical_prerequisite
+    input_interface: gene_count_and_registered_gene_vocabulary
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: no_admitted_gene_count_source_vocabulary_checkpoint_or_atlas_holdout
+  - method_id: geneformer
+    rq: RQ1
+    role: comparison
+    implementation_kind: empirical_prerequisite
+    input_interface: gene_count_and_registered_gene_vocabulary
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: no_admitted_gene_count_source_vocabulary_checkpoint_or_atlas_holdout
+  - method_id: scgpt
+    rq: RQ1
+    role: comparison
+    implementation_kind: empirical_prerequisite
+    input_interface: gene_count_and_registered_gene_vocabulary
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: no_admitted_gene_count_source_vocabulary_checkpoint_or_atlas_holdout
+  - method_id: uce
+    rq: RQ1
+    role: comparison
+    implementation_kind: empirical_prerequisite
+    input_interface: gene_count_and_registered_gene_vocabulary
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: no_admitted_gene_count_source_vocabulary_checkpoint_or_atlas_holdout
+  - method_id: scfoundation
+    rq: RQ1
+    role: comparison
+    implementation_kind: empirical_prerequisite
+    input_interface: gene_count_and_registered_gene_vocabulary
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: no_admitted_gene_count_source_vocabulary_checkpoint_or_atlas_holdout
+  - method_id: posterior_joint
+    rq: RQ3
+    role: comparison
+    implementation_kind: native_posterior_decision
+    input_interface: matched_physical_posterior_and_supported_actions
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: posterior_point
+    rq: RQ3
+    role: comparison
+    implementation_kind: native_posterior_decision
+    input_interface: matched_physical_posterior_and_supported_actions
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: posterior_dependence_ablated
+    rq: RQ3
+    role: comparison
+    implementation_kind: native_posterior_decision
+    input_interface: matched_physical_posterior_and_supported_actions
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: biological_multi_arm_ranking
+    rq: RQ3
+    role: comparison
+    implementation_kind: empirical_prerequisite
+    input_interface: quantitative_replicate_level_multi_arm_functional_outcomes
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: no_admitted_independent_quantitative_biological_multi_arm_outcomes
+  - method_id: decision_directed
+    rq: RQ4
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: matched_acquisition_channel_loss_cost_and_stopping
+    domain_scope: all_four_native_domains
+    prerequisite_gate: AgentTrace_then_Agent
+    implementation_blocker: native_acquisition_value_and_interface_adapter_requires_qualified_Twin_and_AgentTrace
+  - method_id: uncertainty_acquisition
+    rq: RQ4
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: matched_acquisition_channel_loss_cost_and_stopping
+    domain_scope: all_four_native_domains
+    prerequisite_gate: AgentTrace_then_Agent
+    implementation_blocker: native_acquisition_value_and_interface_adapter_requires_qualified_Twin_and_AgentTrace
+  - method_id: random_acquisition
+    rq: RQ4
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: matched_acquisition_channel_loss_cost_and_stopping
+    domain_scope: all_four_native_domains
+    prerequisite_gate: AgentTrace_then_Agent
+    implementation_blocker: native_acquisition_value_and_interface_adapter_requires_qualified_Twin_and_AgentTrace
+  - method_id: external_posterior_interface
+    rq: RQ4
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: matched_acquisition_channel_loss_cost_and_stopping
+    domain_scope: all_four_native_domains
+    prerequisite_gate: AgentTrace_then_Agent
+    implementation_blocker: native_acquisition_value_and_interface_adapter_requires_qualified_Twin_and_AgentTrace
+  - method_id: eig
+    rq: RQ4
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: matched_acquisition_channel_loss_cost_and_stopping
+    domain_scope: all_four_native_domains
+    prerequisite_gate: AgentTrace_then_Agent
+    implementation_blocker: native_acquisition_value_and_interface_adapter_requires_qualified_Twin_and_AgentTrace
+  - method_id: regime_bald
+    rq: RQ4
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: matched_acquisition_channel_loss_cost_and_stopping
+    domain_scope: all_four_native_domains
+    prerequisite_gate: AgentTrace_then_Agent
+    implementation_blocker: native_acquisition_value_and_interface_adapter_requires_qualified_Twin_and_AgentTrace
+  - method_id: bax
+    rq: RQ4
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: matched_acquisition_channel_loss_cost_and_stopping
+    domain_scope: all_four_native_domains
+    prerequisite_gate: AgentTrace_then_Agent
+    implementation_blocker: native_acquisition_value_and_interface_adapter_requires_qualified_Twin_and_AgentTrace
+  - method_id: ps_bax
+    rq: RQ4
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: matched_acquisition_channel_loss_cost_and_stopping
+    domain_scope: all_four_native_domains
+    prerequisite_gate: AgentTrace_then_Agent
+    implementation_blocker: native_acquisition_value_and_interface_adapter_requires_qualified_Twin_and_AgentTrace
+  - method_id: mf_mes
+    rq: RQ4
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: matched_acquisition_channel_loss_cost_and_stopping
+    domain_scope: all_four_native_domains
+    prerequisite_gate: AgentTrace_then_Agent
+    implementation_blocker: native_acquisition_value_and_interface_adapter_requires_qualified_Twin_and_AgentTrace
+  - method_id: dad
+    rq: RQ4
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: matched_acquisition_channel_loss_cost_and_stopping
+    domain_scope: all_four_native_domains
+    prerequisite_gate: AgentTrace_then_Agent
+    implementation_blocker: native_acquisition_value_and_interface_adapter_requires_qualified_Twin_and_AgentTrace
+  - method_id: idad
+    rq: RQ4
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: matched_acquisition_channel_loss_cost_and_stopping
+    domain_scope: all_four_native_domains
+    prerequisite_gate: AgentTrace_then_Agent
+    implementation_blocker: native_acquisition_value_and_interface_adapter_requires_qualified_Twin_and_AgentTrace
+  - method_id: step_dad
+    rq: RQ4
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: matched_acquisition_channel_loss_cost_and_stopping
+    domain_scope: all_four_native_domains
+    prerequisite_gate: AgentTrace_then_Agent
+    implementation_blocker: native_acquisition_value_and_interface_adapter_requires_qualified_Twin_and_AgentTrace
+  - method_id: numerical_decision_bed
+    rq: RQ4
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: matched_acquisition_channel_loss_cost_and_stopping
+    domain_scope: all_four_native_domains
+    prerequisite_gate: AgentTrace_then_Agent
+    implementation_blocker: native_acquisition_value_and_interface_adapter_requires_qualified_Twin_and_AgentTrace
+  - method_id: amortized_decision_bed
+    rq: RQ4
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: matched_acquisition_channel_loss_cost_and_stopping
+    domain_scope: all_four_native_domains
+    prerequisite_gate: AgentTrace_then_Agent
+    implementation_blocker: native_acquisition_value_and_interface_adapter_requires_qualified_Twin_and_AgentTrace
+  - method_id: cost_aware_bo
+    rq: RQ4
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: matched_acquisition_channel_loss_cost_and_stopping
+    domain_scope: all_four_native_domains
+    prerequisite_gate: AgentTrace_then_Agent
+    implementation_blocker: native_acquisition_value_and_interface_adapter_requires_qualified_Twin_and_AgentTrace
+  - method_id: bamcp
+    rq: RQ4
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: matched_acquisition_channel_loss_cost_and_stopping
+    domain_scope: all_four_native_domains
+    prerequisite_gate: AgentTrace_then_Agent
+    implementation_blocker: native_acquisition_value_and_interface_adapter_requires_qualified_Twin_and_AgentTrace
+  - method_id: cheapest
+    rq: RQ4
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: matched_acquisition_channel_loss_cost_and_stopping
+    domain_scope: all_four_native_domains
+    prerequisite_gate: AgentTrace_then_Agent
+    implementation_blocker: native_acquisition_value_and_interface_adapter_requires_qualified_Twin_and_AgentTrace
+  - method_id: highest_fidelity
+    rq: RQ4
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: matched_acquisition_channel_loss_cost_and_stopping
+    domain_scope: all_four_native_domains
+    prerequisite_gate: AgentTrace_then_Agent
+    implementation_blocker: native_acquisition_value_and_interface_adapter_requires_qualified_Twin_and_AgentTrace
+  - method_id: fixed_cascade
+    rq: RQ4
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: matched_acquisition_channel_loss_cost_and_stopping
+    domain_scope: all_four_native_domains
+    prerequisite_gate: AgentTrace_then_Agent
+    implementation_blocker: native_acquisition_value_and_interface_adapter_requires_qualified_Twin_and_AgentTrace
+  - method_id: llm_primary_backend
+    rq: RQ4
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: same_tool_schema_trace_contract_and_external_model_backend
+    domain_scope: all_four_native_domains
+    prerequisite_gate: AgentTrace_then_Agent
+    implementation_blocker: required_backend_version_credentials_and_qualified_AgentTrace_not_bound
+  - method_id: llm_alternate_backend
+    rq: RQ4
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: same_tool_schema_trace_contract_and_external_model_backend
+    domain_scope: all_four_native_domains
+    prerequisite_gate: AgentTrace_then_Agent
+    implementation_blocker: required_backend_version_credentials_and_qualified_AgentTrace_not_bound
+  - method_id: tri
+    rq: RQ5
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: disjoint_selected_decision_calibration_and_frozen_thresholds
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin_then_intervention_prioritization
+    implementation_blocker: native_selected_decision_calibration_and_acceptance_adapter_requires_qualified_ranking
+  - method_id: conformal_risk_control
+    rq: RQ5
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: disjoint_selected_decision_calibration_and_frozen_thresholds
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin_then_intervention_prioritization
+    implementation_blocker: native_selected_decision_calibration_and_acceptance_adapter_requires_qualified_ranking
+  - method_id: selectivenet
+    rq: RQ5
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: disjoint_selected_decision_calibration_and_frozen_thresholds
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin_then_intervention_prioritization
+    implementation_blocker: native_selected_decision_calibration_and_acceptance_adapter_requires_qualified_ranking
+  - method_id: score_only
+    rq: RQ5
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: disjoint_selected_decision_calibration_and_frozen_thresholds
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin_then_intervention_prioritization
+    implementation_blocker: native_selected_decision_calibration_and_acceptance_adapter_requires_qualified_ranking
+  - method_id: uncertainty_only
+    rq: RQ5
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: disjoint_selected_decision_calibration_and_frozen_thresholds
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin_then_intervention_prioritization
+    implementation_blocker: native_selected_decision_calibration_and_acceptance_adapter_requires_qualified_ranking
+  - method_id: calibration_only
+    rq: RQ5
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: disjoint_selected_decision_calibration_and_frozen_thresholds
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin_then_intervention_prioritization
+    implementation_blocker: native_selected_decision_calibration_and_acceptance_adapter_requires_qualified_ranking
+  - method_id: ood_only
+    rq: RQ5
+    role: comparison
+    implementation_kind: downstream_gate
+    input_interface: disjoint_selected_decision_calibration_and_frozen_thresholds
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin_then_intervention_prioritization
+    implementation_blocker: native_selected_decision_calibration_and_acceptance_adapter_requires_qualified_ranking
+  - method_id: student
+    rq: SCALE
+    role: comparison
+    implementation_kind: native_pretrainer
+    input_interface: native_scale_and_same_upstream_selected_checkpoints
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+    learning_scope: selected_large_masked_categorical_KL_only_no_uncertainty_rank_TRI_targets
+  - method_id: student_no_distillation
+    rq: SCALE
+    role: comparison
+    implementation_kind: native_pretrainer
+    input_interface: native_scale_and_same_upstream_selected_checkpoints
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: large
+    rq: SCALE
+    role: comparison
+    implementation_kind: native_checkpoint_alias
+    input_interface: native_scale_and_same_upstream_selected_checkpoints
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+    checkpoint_source: native_wam_same_seed_full_fraction
+  - method_id: xl
+    rq: SCALE
+    role: comparison
+    implementation_kind: native_pretrainer
+    input_interface: native_scale_and_same_upstream_selected_checkpoints
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: adaptive_scale
+    rq: SCALE
+    role: prospective_main_cascade
+    implementation_kind: native_comparator
+    input_interface: frozen_development_thresholds_and_postselected_independent_calibration
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: fixed_threshold
+    rq: SCALE
+    role: comparison
+    implementation_kind: native_comparator
+    input_interface: native_scale_and_same_upstream_selected_checkpoints
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+  - method_id: fixed_route
+    rq: SCALE
+    role: comparison
+    implementation_kind: native_comparator
+    input_interface: native_scale_and_same_upstream_selected_checkpoints
+    domain_scope: all_four_native_domains
+    prerequisite_gate: ScientificTwin
+    implementation_blocker: null
+
+# Prospective model-side planning rules. Molecular drive is not delivered dose;
+# biological delivered-dose feasibility and complete optimized MPC stay open.
+native_future_controls:
+  schema_version: native_future_controls.v1
+  library: registered_current_input_programs_only
+  decision_phase: postzero_original_query_post_event
+  horizon: remaining_original_grid
+  prefix: actual_executed_action_column
+  stimulation_budget: library_maximum_absolute_input_integral
+  long_cns_budget: library_maximum_total_event_dose_mg_per_kg
+  molecular_budget: library_maximum_model_drive_integral_not_delivered_dose
+  rhs_budget: shared_actual_work_original_declared_ceiling
+  activation: requires_verified_public_execution_binding
+
+# Fixed-index comparisons remain the default. The prospective public t0 mode
+# compares complete open-loop terminal losses before private plant creation.
+# The separate joint mode compares the same complete depth-two query/control/STOP value.
+native_residual_control:
+  schema_version: native_residual_control.v1
+  predictor: mechanistic_residual
+  decision_phase: postzero_original_query_post_event
+  selection: posterior_expected_public_loss
+  tie_break: original_library_order
+  loss_history: recorded_model_past_original_full_grid
+  burden: composed_public_program_original_physical_support
+  initial_execution: explicit_prespecified_original_library_index
+  initial_selection_mode: explicit_fixed_index
+  optimized_initial_selection: minimum_posterior_terminal_public_loss_complete_open_loop_plans
+  joint_initial_selection: minimum_expected_terminal_query_cost_and_latency_complete_depth_two
+  readout_mode: sensor_only
+  forecast_law: one_deterministic_path_per_complete_tuple
+
+
+native_residual_calibration_collection:
+  schema_version: native_residual_calibration_collection.v1
+  purpose: frozen_policy_actual_episode_history_collection
+  roles: {fit: calibration, check: calibration}
+  groups_per_family: 512
+  threshold_use: excluded
+  calibration_eligible: false
+  scale_fitting: separate_explicit_adaptive_fit_command
+  selected_loss_calibration: separate_frozen_final_policy_threshold_command
+  statistical_independence: not_claimed_existing_residual_role_reuse_recorded
+  production_prerequisites: [complete_original_source_admissions, sufficiently_trained_development_selected_predictor_and_conditioning]
+  collection_outputs: [authenticated_actual_history, frozen_STOP_risk_and_plan, realized_full_grid_public_loss]
+
+# Prospective compound fit and independent final-policy calibration. Source pools
+# remain fixed at512 groups per family. Check and threshold outcomes never fit.
+native_adaptive_residual_calibration:
+  schema_version: native_adaptive_residual_calibration.v1
+  groups_per_family: 512
+  fit_pool_use: compound_offline_and_adaptive_fit_not_independent
+  check_pool_use: independent_of_all_fitting_final_policy
+  threshold_pool_use: untouched_until_final_policy_frozen
+  objective: mean_complete_history_mixture_nll_per_independent_group
+  scale_scope: unique_public_observable_species_full26_tensor_other_scales_inherited
+  numerical_source: native_controlled_comparators.residual_calibration.numerical
+  scientific_acceptance_criterion: not_declared
+  whole26_adaptive_qualification: UNQUALIFIED
+  selected_loss_nominal_levels: [0.8, 0.85, 0.9, 0.95]
+  final_policy_freeze: [adaptive_fit_artifact, H3_adaptation, arrived_filter, acquisition, public_risk, STOP, initial_selection]
+  production_prerequisites: [complete_original_source_admissions, reviewed_training_sufficiency_predictor_and_conditioning]
+
+# Observation-only adaptation of the retained paper's Section 4.3 recipe.
+# H3, warmup5, buffer60, updates10 and LR1e-5 are source-reported values.
+# Adam/betas/epsilon/no decay and eval-mode dropout are prospective project
+# choices, not source-reported or outcome-tuned settings. Full MPC stays open.
+native_mechanistic_residual_online:
+  schema_version: native_mechanistic_residual_online.v1
+  recipe_authority: retained_arxiv_2607_13877v1_sections_3_3_and_4_3
+  authored_choices: [Adam, Adam_betas_and_epsilon, zero_weight_decay, eval_mode_dropout_disabled, partial_readout_joint_H3_NLL]
+  horizon_transitions: 3
+  warmup_transitions: 5
+  buffer_transitions: 60
+  updates_per_observation: 10
+  window_selection: most_recent_consecutive_original_transitions
+  objective: joint_retained_gaussian_window_nll_sum
+  prior: frozen_window_start_log_weights
+  update_scope: episode_owned_residual_parameters_only
+  network_mode: eval_with_gradients_dropout_disabled
+  failure_policy: retain_partial_updates_and_fail_episode_no_retry
+  optimizer:
+    name: Adam
+    learning_rate: 0.00001
+    betas: [0.9, 0.999]
+    epsilon: 0.00000001
+    weight_decay: 0
+
+native_arrived_observation_filter:
+  schema_version: native_arrived_observation_filter.v1
+  query_policy: original_postzero_queries
+  event_phase: post_event
+  temporal_noise: independent_across_acquisitions_and_coordinates_after_mixing
+  update: current_log_weight_filter_only
+  measurement_kind: controlled_simulated
+  channel_uid: native_arrived_cns_selector
+  assay_uid: controlled_native_monitoring_gaussian
+
+# Prospective controlled information-only component. These numerical choices
+# were authored before evaluation; they are not manuscript-given or tuned values.
+# This does not change the frozen producer or the postzero monitoring channel.
+native_predose_query:
+  schema_version: native_predose_query.v1
+  timing: information_only_predose_no_physical_time_advance
+  query_library: one_independent_replicate_per_original_retained_coordinate
+  budget: original_available_coordinate_count
+  completion_admission: state_independent_success_or_stop_on_actual_failure
+  numerical_choices: prospective_authored_not_manuscript_numerics_not_tuned
+  measurement_cost: 1
+  cost_penalty: 0.01
+  logical_latency: 0
+  lookahead_depth: 2
+  integration: all_mixture_components_common_gaussian_noise
+  integration_noise_replicates: 2
+  integration_seed: 41
+
+# Evaluator-only RNG configuration; never passed to the decision policy or trace.
+native_predose_evaluator:
+  measurement_seed: 41
+
+# Prospective postzero choices, fixed before execution. Actual arrivals retain
+# the source H3 recipe; planning does not simulate future neural retraining.
+native_temporal_query:
+  schema_version: native_temporal_query.v1
+  query_library: one_available_mixed_coordinate_at_each_consecutive_original_clock
+  stop_support: same_complete_original_library_world_plans_as_query
+  belief_update: complete_biological_tuple_weights_only_frozen_current_residual
+  stop_execution: immutable_original_clock_schedule_without_observation_or_replanning
+  numerical_choices: prospective_authored_not_manuscript_numerics_not_tuned
+  integration: all_mixture_components_common_gaussian_noise
+  measurement_cost: 1
+  cost_penalty: 0.01
+  latency_unit: physical_hour
+  latency_penalty_per_hour: 0.01
+  lookahead_depth: 2
+  integration_noise_replicates: 2
+  integration_seed: 41
+  budget: original_postzero_opportunities

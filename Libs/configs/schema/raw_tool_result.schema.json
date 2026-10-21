@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/raw_tool_result.schema.json",
+  "title": "NeuronSifter RawToolResult",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "tool_result_uid", "tool_uid", "tool_version", "request_uid", "raw_artifact_hashes", "exit_status", "runtime", "resource_usage", "raw_schema", "failure_class", "stdout_ref", "stderr_ref", "support_domain_ref", "provenance_ref", "conflicts", "state_effect"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-raw-tool-result-v1"},
+    "tool_result_uid": {"type": "string", "minLength": 1},
+    "tool_uid": {"type": "string", "minLength": 1},
+    "tool_version": {"type": "string", "minLength": 1},
+    "request_uid": {"type": "string", "minLength": 1},
+    "raw_artifact_hashes": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "string", "pattern": "^[a-f0-9]{64}$"}},
+    "exit_status": {"type": "object", "minProperties": 1},
+    "runtime": {"type": "object", "minProperties": 1},
+    "resource_usage": {"type": "object", "minProperties": 1},
+    "raw_schema": {"type": "object", "minProperties": 1},
+    "failure_class": {"type": "string", "minLength": 1},
+    "stdout_ref": {"type": "string", "minLength": 1},
+    "stderr_ref": {"type": "string", "minLength": 1},
+    "support_domain_ref": {"type": "string", "minLength": 1},
+    "provenance_ref": {"type": "string", "minLength": 1},
+    "conflicts": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "state_effect": {"const": "none"}
+  }
+}

@@ -1,0 +1,1116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/operational_twin_training_evidence_ledger.schema.json",
+  "title": "NeuronSifter Operational Twin training evidence ledger",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "ledger_uid",
+    "status",
+    "protocol_identity",
+    "matrix",
+    "assignments",
+    "historical_provenance_exceptions",
+    "historical_provenance_exception_count",
+    "all_attempt_provenance_complete",
+    "terminal_contributing_provenance_complete",
+    "receipt_groups",
+    "access_flags",
+    "claim_flags",
+    "code_commits",
+    "dependencies",
+    "validation_blockers",
+    "ledger_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "neuronsifter-operational-twin-training-evidence-ledger-v2"
+    },
+    "ledger_uid": {
+      "const": "operational_twin_training_evidence_ledger"
+    },
+    "status": {
+      "enum": ["VALIDATION_READY", "BLOCKED"]
+    },
+    "protocol_identity": {
+      "$ref": "#/$defs/protocolIdentity"
+    },
+    "matrix": {
+      "$ref": "#/$defs/frozenMatrix"
+    },
+    "assignments": {
+      "type": "array",
+      "minItems": 15,
+      "maxItems": 15,
+      "items": {
+        "$ref": "#/$defs/assignmentEvidence"
+      }
+    },
+    "historical_provenance_exceptions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "historical_provenance_exception_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "all_attempt_provenance_complete": {
+      "type": "boolean"
+    },
+    "terminal_contributing_provenance_complete": {
+      "type": "boolean"
+    },
+    "receipt_groups": {
+      "$ref": "#/$defs/receiptGroups"
+    },
+    "access_flags": {
+      "$ref": "#/$defs/accessFlags"
+    },
+    "claim_flags": {
+      "$ref": "#/$defs/claimFlags"
+    },
+    "code_commits": {
+      "$ref": "#/$defs/codeCommitGroups"
+    },
+    "dependencies": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/sourceIdentity"
+      }
+    },
+    "validation_blockers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/validationBlocker"
+      }
+    },
+    "ledger_sha256": {
+      "$ref": "#/$defs/sha256"
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40,64}$"
+    },
+    "validationBlocker": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message"],
+      "properties": {
+        "code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "sourceIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "size_bytes", "tracked"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "tracked": {
+          "type": "boolean"
+        }
+      }
+    },
+    "protocolIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_uid",
+        "protocol_schema_version",
+        "protocol_semantic_sha256",
+        "sources"
+      ],
+      "properties": {
+        "protocol_uid": {
+          "type": "string",
+          "minLength": 1
+        },
+        "protocol_schema_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "protocol_semantic_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "sources": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["protocol", "assignment_manifest", "preflight_authority"],
+          "properties": {
+            "protocol": {
+              "$ref": "#/$defs/sourceIdentity"
+            },
+            "assignment_manifest": {
+              "$ref": "#/$defs/sourceIdentity"
+            },
+            "preflight_authority": {
+              "$ref": "#/$defs/sourceIdentity"
+            }
+          }
+        }
+      }
+    },
+    "frozenMatrix": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method_ids", "seeds", "assignment_count"],
+      "properties": {
+        "method_ids": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "prefixItems": [
+            {
+              "const": "persistence_no_action"
+            },
+            {
+              "const": "linear_or_delta"
+            },
+            {
+              "const": "same_backbone_no_action"
+            },
+            {
+              "const": "deterministic_action_conditioned"
+            },
+            {
+              "const": "full_uncertainty_aware_action_conditioned"
+            }
+          ],
+          "items": false
+        },
+        "seeds": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": {
+            "type": "integer"
+          }
+        },
+        "assignment_count": {
+          "const": 15
+        }
+      }
+    },
+    "checkpointIdentity": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["contract", "repository_storage", "path", "sha256", "size_bytes", "reason"],
+          "properties": {
+            "contract": {
+              "const": "checkpoint_identity"
+            },
+            "repository_storage": {
+              "const": "external_content_addressed"
+            },
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            },
+            "size_bytes": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "reason": {
+              "type": "null"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["contract", "repository_storage", "path", "sha256", "size_bytes", "reason"],
+          "properties": {
+            "contract": {
+              "const": "no_checkpoint"
+            },
+            "repository_storage": {
+              "const": "not_applicable"
+            },
+            "path": {
+              "type": "null"
+            },
+            "sha256": {
+              "type": "null"
+            },
+            "size_bytes": {
+              "const": 0
+            },
+            "reason": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    },
+    "schedulerResources": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cpus", "gpus", "memory", "elapsed", "allocation"],
+      "properties": {
+        "cpus": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "gpus": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "memory": {
+          "type": "string",
+          "minLength": 1
+        },
+        "elapsed": {
+          "type": "string",
+          "minLength": 1
+        },
+        "allocation": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "schedulerIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "job_id",
+        "task_id",
+        "job_name",
+        "node",
+        "partition",
+        "state",
+        "exit_code",
+        "resources"
+      ],
+      "properties": {
+        "job_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "task_id": {
+          "type": ["string", "null"],
+          "minLength": 1
+        },
+        "job_name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "node": {
+          "type": "string",
+          "minLength": 1
+        },
+        "partition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "state": {
+          "type": "string",
+          "minLength": 1
+        },
+        "exit_code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "resources": {
+          "$ref": "#/$defs/schedulerResources"
+        }
+      }
+    },
+    "commandIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "normalization", "source_field", "value"],
+      "properties": {
+        "algorithm": {
+          "const": "sha256"
+        },
+        "normalization": {
+          "const": "sacct SubmitLine with trailing newline removed"
+        },
+        "source_field": {
+          "const": "sacct.SubmitLine"
+        },
+        "value": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "commandReceipt": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["receipt_uid", "source"],
+          "properties": {
+            "receipt_uid": {
+              "type": "string",
+              "minLength": 1
+            },
+            "source": {
+              "$ref": "#/$defs/sourceIdentity"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "receipt_uid",
+            "source",
+            "source_classification",
+            "scheduler_job_id",
+            "command_identity"
+          ],
+          "properties": {
+            "receipt_uid": {
+              "type": "string",
+              "minLength": 1
+            },
+            "source": {
+              "$ref": "#/$defs/sourceIdentity"
+            },
+            "source_classification": {
+              "const": "scheduler_accounting_recovery"
+            },
+            "scheduler_job_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "command_identity": {
+              "$ref": "#/$defs/commandIdentity"
+            }
+          }
+        }
+      ]
+    },
+    "attemptEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assignment_uid",
+        "method_id",
+        "seed",
+        "attempt_uid",
+        "ordinal",
+        "status",
+        "terminal_reason",
+        "recovered_from_attempt_uid",
+        "identity_sha256",
+        "source",
+        "command_receipt",
+        "scheduler",
+        "code_commit",
+        "provenance_disposition",
+        "provenance_gaps",
+        "contributes_to_candidate",
+        "superseded_by_attempt_uid"
+      ],
+      "properties": {
+        "assignment_uid": {
+          "type": "string",
+          "minLength": 1
+        },
+        "method_id": {
+          "enum": [
+            "persistence_no_action",
+            "linear_or_delta",
+            "same_backbone_no_action",
+            "deterministic_action_conditioned",
+            "full_uncertainty_aware_action_conditioned"
+          ]
+        },
+        "seed": {
+          "type": "integer"
+        },
+        "attempt_uid": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ordinal": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "status": {
+          "enum": [
+            "COMPLETED",
+            "FAILED",
+            "CANCELLED",
+            "INTERRUPTED",
+            "RECOVERED",
+            "NON_CONVERGED",
+            "UNSTABLE",
+            "UNDEFINED"
+          ]
+        },
+        "terminal_reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recovered_from_attempt_uid": {
+          "type": ["string", "null"],
+          "minLength": 1
+        },
+        "identity_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "source": {
+          "$ref": "#/$defs/sourceIdentity"
+        },
+        "command_receipt": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/commandReceipt"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "scheduler": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/schedulerIdentity"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "code_commit": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/commit"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "provenance_disposition": {
+          "enum": [
+            "complete_contributing",
+            "complete_noncontributing",
+            "incomplete_noncontributing"
+          ]
+        },
+        "provenance_gaps": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": ["command_receipt", "scheduler", "code_commit"]
+          }
+        },
+        "contributes_to_candidate": {
+          "type": "boolean"
+        },
+        "superseded_by_attempt_uid": {
+          "type": ["string", "null"],
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "provenance_disposition": {
+                "const": "complete_contributing"
+              }
+            },
+            "required": ["provenance_disposition"]
+          },
+          "then": {
+            "properties": {
+              "provenance_gaps": {
+                "maxItems": 0
+              },
+              "contributes_to_candidate": {
+                "const": true
+              },
+              "superseded_by_attempt_uid": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "provenance_disposition": {
+                "const": "complete_noncontributing"
+              }
+            },
+            "required": ["provenance_disposition"]
+          },
+          "then": {
+            "properties": {
+              "provenance_gaps": {
+                "maxItems": 0
+              },
+              "contributes_to_candidate": {
+                "const": false
+              },
+              "superseded_by_attempt_uid": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "provenance_disposition": {
+                "const": "incomplete_noncontributing"
+              }
+            },
+            "required": ["provenance_disposition"]
+          },
+          "then": {
+            "properties": {
+              "provenance_gaps": {
+                "minItems": 1
+              },
+              "contributes_to_candidate": {
+                "const": false
+              },
+              "superseded_by_attempt_uid": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "provenance_gaps": {
+                "contains": {
+                  "const": "command_receipt"
+                }
+              }
+            },
+            "required": ["provenance_gaps"]
+          },
+          "then": {
+            "properties": {
+              "command_receipt": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "command_receipt": {
+                "$ref": "#/$defs/commandReceipt"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "provenance_gaps": {
+                "contains": {
+                  "const": "scheduler"
+                }
+              }
+            },
+            "required": ["provenance_gaps"]
+          },
+          "then": {
+            "properties": {
+              "scheduler": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "scheduler": {
+                "$ref": "#/$defs/schedulerIdentity"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "provenance_gaps": {
+                "contains": {
+                  "const": "code_commit"
+                }
+              }
+            },
+            "required": ["provenance_gaps"]
+          },
+          "then": {
+            "properties": {
+              "code_commit": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "code_commit": {
+                "$ref": "#/$defs/commit"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "attemptRetention": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_attempt_count",
+        "source_failed_count",
+        "source_cancelled_count",
+        "source_recovered_count",
+        "retention_complete"
+      ],
+      "properties": {
+        "source_attempt_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "source_failed_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "source_cancelled_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "source_recovered_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "retention_complete": {
+          "const": true
+        }
+      }
+    },
+    "finalEvidenceAttemptReferences": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "terminal",
+        "provenance",
+        "evaluation",
+        "reconciliation",
+        "checkpoint"
+      ],
+      "properties": {
+        "terminal": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "provenance": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "evaluation": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "reconciliation": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "checkpoint": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "assignmentEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assignment_uid",
+        "method_id",
+        "seed",
+        "terminal_status",
+        "terminal_attempt_uid",
+        "evidence",
+        "checkpoint",
+        "attempts",
+        "final_evidence_attempt_references",
+        "attempt_retention",
+        "access_flags",
+        "claim_flags",
+        "code_commits"
+      ],
+      "properties": {
+        "assignment_uid": {
+          "type": "string",
+          "minLength": 1
+        },
+        "method_id": {
+          "enum": [
+            "persistence_no_action",
+            "linear_or_delta",
+            "same_backbone_no_action",
+            "deterministic_action_conditioned",
+            "full_uncertainty_aware_action_conditioned"
+          ]
+        },
+        "seed": {
+          "type": "integer"
+        },
+        "terminal_status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "terminal_attempt_uid": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["terminal", "provenance", "evaluation", "reconciliation"],
+          "properties": {
+            "terminal": {
+              "$ref": "#/$defs/sourceIdentity"
+            },
+            "provenance": {
+              "$ref": "#/$defs/sourceIdentity"
+            },
+            "evaluation": {
+              "$ref": "#/$defs/sourceIdentity"
+            },
+            "reconciliation": {
+              "$ref": "#/$defs/sourceIdentity"
+            }
+          }
+        },
+        "checkpoint": {
+          "$ref": "#/$defs/checkpointIdentity"
+        },
+        "attempts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/attemptEvidence"
+          }
+        },
+        "final_evidence_attempt_references": {
+          "$ref": "#/$defs/finalEvidenceAttemptReferences"
+        },
+        "attempt_retention": {
+          "$ref": "#/$defs/attemptRetention"
+        },
+        "access_flags": {
+          "$ref": "#/$defs/accessFlags"
+        },
+        "claim_flags": {
+          "$ref": "#/$defs/claimFlags"
+        },
+        "code_commits": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["training", "evaluation", "reconciliation"],
+          "properties": {
+            "training": {
+              "$ref": "#/$defs/commit"
+            },
+            "evaluation": {
+              "$ref": "#/$defs/commit"
+            },
+            "reconciliation": {
+              "$ref": "#/$defs/commit"
+            }
+          }
+        }
+      }
+    },
+    "schedulerReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["receipt_uid", "receipt_kind", "source", "scheduler"],
+      "properties": {
+        "receipt_uid": {
+          "type": "string",
+          "minLength": 1
+        },
+        "receipt_kind": {
+          "const": "scheduler"
+        },
+        "source": {
+          "$ref": "#/$defs/sourceIdentity"
+        },
+        "scheduler": {
+          "$ref": "#/$defs/schedulerIdentity"
+        },
+        "command_identity": {
+          "$ref": "#/$defs/commandIdentity"
+        },
+        "code_commit": {
+          "$ref": "#/$defs/commit"
+        }
+      }
+    },
+    "processReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["receipt_uid", "receipt_kind", "source", "code_commit"],
+      "properties": {
+        "receipt_uid": {
+          "type": "string",
+          "minLength": 1
+        },
+        "receipt_kind": {
+          "const": "process"
+        },
+        "source": {
+          "$ref": "#/$defs/sourceIdentity"
+        },
+        "code_commit": {
+          "$ref": "#/$defs/commit"
+        }
+      }
+    },
+    "finalReceipt": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/schedulerReceipt"
+        },
+        {
+          "$ref": "#/$defs/processReceipt"
+        }
+      ]
+    },
+    "receiptGroups": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["training", "evaluation", "reconciliation", "aggregation", "focused_validation"],
+      "properties": {
+        "training": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/finalReceipt"
+          }
+        },
+        "evaluation": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/finalReceipt"
+          }
+        },
+        "reconciliation": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/finalReceipt"
+          }
+        },
+        "aggregation": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/finalReceipt"
+          }
+        },
+        "focused_validation": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/finalReceipt"
+          }
+        }
+      }
+    },
+    "accessFlags": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sealed_material_access",
+        "test_outcome_access",
+        "protected_holdout_access",
+        "six_context_outcome_access",
+        "tool_access",
+        "mcp_access",
+        "agent_trace_access",
+        "agent_access",
+        "memory_access",
+        "coevolution_access"
+      ],
+      "properties": {
+        "sealed_material_access": {
+          "const": 0
+        },
+        "test_outcome_access": {
+          "const": 0
+        },
+        "protected_holdout_access": {
+          "const": 0
+        },
+        "six_context_outcome_access": {
+          "const": 0
+        },
+        "tool_access": {
+          "const": 0
+        },
+        "mcp_access": {
+          "const": 0
+        },
+        "agent_trace_access": {
+          "const": 0
+        },
+        "agent_access": {
+          "const": 0
+        },
+        "memory_access": {
+          "const": 0
+        },
+        "coevolution_access": {
+          "const": 0
+        }
+      }
+    },
+    "claimFlags": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "training_authorized",
+        "sufficient_training",
+        "twin_qualification_pass",
+        "formal_qualification",
+        "test_manifest_open",
+        "tool_gate_open",
+        "mcp_gate_open",
+        "agent_trace_gate_open",
+        "agent_work_open",
+        "memory_gate_open",
+        "coevolution_gate_open"
+      ],
+      "properties": {
+        "training_authorized": {
+          "const": false
+        },
+        "sufficient_training": {
+          "const": false
+        },
+        "twin_qualification_pass": {
+          "const": false
+        },
+        "formal_qualification": {
+          "const": false
+        },
+        "test_manifest_open": {
+          "const": false
+        },
+        "tool_gate_open": {
+          "const": false
+        },
+        "mcp_gate_open": {
+          "const": false
+        },
+        "agent_trace_gate_open": {
+          "const": false
+        },
+        "agent_work_open": {
+          "const": false
+        },
+        "memory_gate_open": {
+          "const": false
+        },
+        "coevolution_gate_open": {
+          "const": false
+        }
+      }
+    },
+    "codeCommitGroups": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["training", "evaluation", "reconciliation", "aggregation", "focused_validation"],
+      "properties": {
+        "training": {
+          "$ref": "#/$defs/commitArray"
+        },
+        "evaluation": {
+          "$ref": "#/$defs/commitArray"
+        },
+        "reconciliation": {
+          "$ref": "#/$defs/commitArray"
+        },
+        "aggregation": {
+          "$ref": "#/$defs/commitArray"
+        },
+        "focused_validation": {
+          "$ref": "#/$defs/commitArray"
+        }
+      }
+    },
+    "commitArray": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/commit"
+      }
+    }
+  }
+}

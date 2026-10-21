@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://neuronsifter.org/schemas/what_if_action_binding.schema.json",
+  "title": "NeuronSifter WhatIfActionBinding", "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "binding_uid", "request_uid", "world_action", "action_program_hash", "parameter_provenance", "support_domain_ref", "spatial_scope", "temporal_scope", "combination_components", "interaction_assumptions", "completeness", "blockers", "status"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-what-if-action-binding-v1"}, "binding_uid": {"$ref": "#/$defs/text"}, "request_uid": {"$ref": "#/$defs/text"},
+    "world_action": {"$ref": "#/$defs/object"}, "action_program_hash": {"$ref": "#/$defs/hash"}, "parameter_provenance": {"$ref": "#/$defs/object"},
+    "support_domain_ref": {"$ref": "#/$defs/text"}, "spatial_scope": {"$ref": "#/$defs/object"}, "temporal_scope": {"$ref": "#/$defs/object"},
+    "combination_components": {"type": "array", "items": {"type": "object"}}, "interaction_assumptions": {"type": "array", "items": {"type": "string"}},
+    "completeness": {"enum": ["complete", "incomplete"]}, "blockers": {"type": "array", "items": {"type": "object"}}, "status": {"enum": ["validated", "blocked"]}
+  },
+  "$defs": {"text": {"type": "string", "minLength": 1}, "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}, "object": {"type": "object", "minProperties": 1}}
+}

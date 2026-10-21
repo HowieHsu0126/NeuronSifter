@@ -1,0 +1,114 @@
+operational_twin_successor_lineage_protocol_schema:
+  schema_version: neuronsifter-operational-twin-successor-lineage-protocol-schema-v1
+  protocol_schema_version: neuronsifter-operational-twin-successor-lineage-protocol-v1
+  required_authoritative_date: '2026-09-13'
+  required_evidence_class: controlled_world_non_empirical_successor_lineage
+  required_top_level_fields:
+  - schema_version
+  - authoritative_date
+  - evidence_class
+  - identity
+  - identity_policy
+  - initialization
+  - predecessor_authority
+  - supersession_contract
+  - invariant_contract
+  - environment_contract
+  - resource_contract
+  - output_namespace
+  - review_contract
+  - evidence_inputs
+  - source_bindings
+  - access_counters
+  - closed_flags
+  - terminal_policy
+  required_identity_fields:
+  - candidate_lineage_uid
+  - protocol_uid
+  - preflight_uid
+  - config_contract_uid
+  - schema_contract_uid
+  - source_contract_uid
+  - environment_contract_uid
+  - resource_contract_uid
+  required_method_ids:
+  - persistence_no_action
+  - linear_or_delta
+  - same_backbone_no_action
+  - deterministic_action_conditioned
+  - full_uncertainty_aware_action_conditioned
+  required_seeds: [360101, 360211, 360307]
+  required_attempt_kinds: [initial, infrastructure_recovery_01]
+  required_assignment_count: 15
+  required_attempt_count: 30
+  required_command_indices:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  - 13
+  - 14
+  - 15
+  - 16
+  - 17
+  - 18
+  - 19
+  - 20
+  - 21
+  - 22
+  - 23
+  - 24
+  - 25
+  - 26
+  - 27
+  - 28
+  - 29
+  required_publication_paths:
+  - Output/results/operational_twin/successor_lineage_protocol/candidate_lineage_manifest.json
+  - Output/results/operational_twin/successor_lineage_protocol/assignment_manifest.json
+  - Output/results/operational_twin/successor_lineage_protocol/assignment_commands.json
+  - Output/audits/operational_twin_candidate_lineage_successor_guarded_preflight.json
+  - Output/audits/operational_twin_successor_lineage_protocol.json
+  - Output/reports/operational_twin_candidate_lineage_successor_guarded_preflight.md
+  - Output/reports/operational_twin_successor_lineage_protocol.md
+  required_review_contract:
+    path: orchestrator/rounds/round-49-freeze-operational-twin-successor-lineage-protocol/review-record.json
+    schema_version: review-record-v4
+    round_id: round-49-freeze-operational-twin-successor-lineage-protocol
+    roadmap_id: 2026-09-01-00-trace-grounded-neural-world
+    roadmap_revision: rev-008
+    roadmap_dir: orchestrator/roadmaps/2026-09-01-00-trace-grounded-neural-world/rev-008
+    milestone_id: operational-twin-qualification
+    direction_id: freeze-operational-twin-successor-lineage-protocol
+    extracted_item_id: operational-twin-disjoint-successor-lineage-protocol-freeze
+    decision: approved
+  required_positive_terminal: OPERATIONAL_TWIN_SUCCESSOR_LINEAGE_PROTOCOL_FROZEN
+  required_invalid_terminal: OPERATIONAL_TWIN_SUCCESSOR_LINEAGE_PROTOCOL_INVALID
+  required_scientific_twin_result: NOT_RUN
+  required_access_counter_fields:
+  - sealed_material_access
+  - test_outcome_access
+  - protected_holdout_access
+  - six_context_outcome_access
+  - tool_access
+  - mcp_access
+  - agent_trace_access
+  - agent_access
+  - memory_access
+  - coevolution_access
+  required_closed_flag_fields:
+  - candidate_dispatch
+  - training_execution
+  - calibration_fitting
+  - checkpoint_creation
+  - sufficient_training
+  - twin_qualification

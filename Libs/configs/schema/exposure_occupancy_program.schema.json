@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/exposure_occupancy_program.schema.json",
+  "title": "NeuronSifter ExposureOccupancyProgram",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "program_uid", "action_uid", "time_grid", "exposure_fields", "occupancy_fields", "target_program", "off_target_context", "parameter_provenance", "uncertainty", "support_domain", "compiler_version", "status", "blockers", "conflicts"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-exposure-occupancy-program-v1"},
+    "program_uid": {"type": "string", "minLength": 1},
+    "action_uid": {"type": "string", "minLength": 1},
+    "time_grid": {"type": "array", "items": {"type": "number"}},
+    "exposure_fields": {"type": "object"},
+    "occupancy_fields": {"type": "object"},
+    "target_program": {"type": "object"},
+    "off_target_context": {"type": "object"},
+    "parameter_provenance": {"type": "object"},
+    "uncertainty": {"type": "object"},
+    "support_domain": {"type": "string", "minLength": 1},
+    "compiler_version": {"type": "string", "minLength": 1},
+    "status": {"enum": ["compiled", "compiled_with_explicit_uncertainty", "insufficient_parameters", "unsupported_action", "invalid_action"]},
+    "blockers": {"type": "array", "items": {"type": "object"}},
+    "conflicts": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+  }
+}

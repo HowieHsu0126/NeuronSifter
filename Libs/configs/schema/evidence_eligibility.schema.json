@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/evidence_eligibility.schema.json",
+  "title": "NeuronSifter role-specific EvidenceEligibility",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "eligibility_uid", "subject_uid", "eligible_for_state_pretraining", "eligible_for_action_endpoint_training", "eligible_for_trajectory_training", "eligible_for_calibration", "eligible_for_validation", "eligible_for_stress_test", "eligible_for_claim_support", "eligible_for_hypothesis_generation", "reasons", "status"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-evidence-eligibility-v1"},
+    "eligibility_uid": {"type": "string", "minLength": 1}, "subject_uid": {"type": "string", "minLength": 1},
+    "eligible_for_state_pretraining": {"type": "boolean"}, "eligible_for_action_endpoint_training": {"type": "boolean"},
+    "eligible_for_trajectory_training": {"type": "boolean"}, "eligible_for_calibration": {"type": "boolean"},
+    "eligible_for_validation": {"type": "boolean"}, "eligible_for_stress_test": {"type": "boolean"},
+    "eligible_for_claim_support": {"type": "boolean"}, "eligible_for_hypothesis_generation": {"type": "boolean"},
+    "reasons": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "status": {"enum": ["evaluated_fail_closed", "blocked", "pilot_only"]}
+  }
+}

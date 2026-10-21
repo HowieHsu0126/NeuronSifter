@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/trajectory_action_binding.schema.json",
+  "title": "NeuronSifter TrajectoryActionBinding",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "binding_uid", "world_action", "action_program_hash", "exposure_occupancy_program_ref", "exposure_occupancy_status", "producer_action_parameters", "parameter_provenance", "support_domain_ref", "completeness", "blockers", "status"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-trajectory-action-binding-v1"},
+    "binding_uid": {"type": "string", "minLength": 1},
+    "world_action": {"type": "object", "minProperties": 1},
+    "action_program_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "exposure_occupancy_program_ref": {"type": ["string", "null"]},
+    "exposure_occupancy_status": {"enum": ["compiled", "compiled_with_explicit_uncertainty", "unsupported_action", "not_applicable"]},
+    "producer_action_parameters": {"type": "object", "minProperties": 1},
+    "parameter_provenance": {"type": "object", "minProperties": 1},
+    "support_domain_ref": {"type": "string", "minLength": 1},
+    "completeness": {"enum": ["complete", "incomplete"]},
+    "blockers": {"type": "array", "items": {"type": "object"}},
+    "status": {"enum": ["validated", "blocked"]}
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/canonical_observation.schema.json",
+  "title": "NeuronSifter CanonicalObservation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "observation_uid", "source_result_uid", "biological_unit_uid", "state_time", "region", "compartment", "cell_type", "modality", "feature_namespace", "feature_id", "value", "unit", "uncertainty", "missingness", "qc_grade", "support_domain_ref", "provenance_ref", "train_eval_role", "conflicts", "empirical_observation"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-canonical-observation-v1"},
+    "observation_uid": {"type": "string", "minLength": 1},
+    "source_result_uid": {"type": "string", "minLength": 1},
+    "biological_unit_uid": {"type": "string", "minLength": 1},
+    "state_time": {"type": "object", "minProperties": 1},
+    "region": {"type": "string", "minLength": 1},
+    "compartment": {"type": "string", "minLength": 1},
+    "cell_type": {"type": "string", "minLength": 1},
+    "modality": {"type": "string", "minLength": 1},
+    "feature_namespace": {"type": "string", "minLength": 1},
+    "feature_id": {"type": "string", "minLength": 1},
+    "value": {},
+    "unit": {"type": "string", "minLength": 1},
+    "uncertainty": {"type": "object", "minProperties": 1},
+    "missingness": {"type": "object"},
+    "qc_grade": {"enum": ["A", "B", "C", "D", "S"]},
+    "support_domain_ref": {"type": "string", "minLength": 1},
+    "provenance_ref": {"type": "string", "minLength": 1},
+    "train_eval_role": {"enum": ["governed_evidence", "governed_incomplete", "directional_only", "stress_only", "rejected", "contract_validation_only"]},
+    "conflicts": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "empirical_observation": {"const": true}
+  }
+}

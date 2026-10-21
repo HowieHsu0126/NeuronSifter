@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/mechanistic_belief_construct_authority.schema.json",
+  "title": "NeuronSifter mechanistic belief construct authority",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "authority_uid", "method_uid", "contract", "schemas", "cutoff_receipt", "metadata_record_bindings", "starting_authority", "destination_checkout", "construct", "historical_authorities", "downstream_authorization", "artifacts_created", "limitations", "blockers", "authority_sha256"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-mechanistic-belief-construct-authority-v1"},
+    "status": {"const": "MECHANISTIC_BELIEF_CONSTRUCT_FIREWALL_FROZEN"},
+    "authority_uid": {"const": "mechanistic_belief_construct_authority"},
+    "method_uid": {"const": "mechanistic_belief_twin_v1"},
+    "contract": {"$ref": "#/$defs/fileIdentity"},
+    "schemas": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cutoff_receipt", "construct_authority"],
+      "properties": {
+        "cutoff_receipt": {"$ref": "#/$defs/fileIdentity"},
+        "construct_authority": {"$ref": "#/$defs/fileIdentity"}
+      }
+    },
+    "cutoff_receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "file_sha256", "receipt_sha256", "record_count", "strictly_before_cutoff"],
+      "properties": {
+        "path": {"const": "Output/audits/mechanistic_belief_cutoff_receipt.json"},
+        "file_sha256": {"$ref": "#/$defs/sha256"},
+        "receipt_sha256": {"$ref": "#/$defs/sha256"},
+        "record_count": {"const": 6},
+        "strictly_before_cutoff": {"const": "2021-03-02T23:59:59Z"}
+      }
+    },
+    "metadata_record_bindings": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["publication_identity", "raw_response_sha256", "raw_response_bytes", "projected_metadata_sha256"],
+        "properties": {
+          "publication_identity": {"type": "string", "minLength": 1},
+          "raw_response_sha256": {"$ref": "#/$defs/sha256"},
+          "raw_response_bytes": {"type": "integer", "minimum": 1, "maximum": 2097152},
+          "projected_metadata_sha256": {"$ref": "#/$defs/sha256"}
+        }
+      }
+    },
+    "starting_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["branch", "commit"],
+      "properties": {"branch": {"const": "main"}, "commit": {"const": "9fbc6afc74a527dbbe2b086d08bccc64c85f66bf"}}
+    },
+    "destination_checkout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["branch", "head"],
+      "properties": {"branch": {"type": "string", "minLength": 1}, "head": {"type": "string", "pattern": "^[0-9a-f]{40}$"}}
+    },
+    "construct": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state_factors", "state_semantics", "forbidden_state_semantics", "action_input", "action_output", "mechanism_supports", "mechanism_never_supports", "prior_predictive_supports", "prior_predictive_forbidden", "prior_roles", "diagnostic_forms", "evidence_policy", "source_limits", "terminal_vocabulary", "access_policy", "non_goals"],
+      "properties": {
+        "state_factors": {"type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true, "items": {"type": "string"}},
+        "state_semantics": {"const": "sample_level_belief_factors_where_supported"},
+        "forbidden_state_semantics": {"type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true, "items": {"type": "string"}},
+        "action_input": {"type": "object", "additionalProperties": false, "required": ["type", "fields"], "properties": {"type": {"const": "WorldAction"}, "fields": {"type": "array", "minItems": 6, "maxItems": 6, "uniqueItems": true, "items": {"type": "string"}}}},
+        "action_output": {"type": "object", "additionalProperties": false, "required": ["type", "deterministic_future_contract", "compilation_authorized"], "properties": {"type": {"const": "MechanismActionProgram"}, "deterministic_future_contract": {"const": true}, "compilation_authorized": {"const": false}}},
+        "mechanism_supports": {"type": "array", "minItems": 6, "maxItems": 6, "uniqueItems": true, "items": {"type": "string"}},
+        "mechanism_never_supports": {"type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true, "items": {"type": "string"}},
+        "prior_predictive_supports": {"type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true, "items": {"type": "string"}},
+        "prior_predictive_forbidden": {"type": "array", "minItems": 7, "maxItems": 7, "uniqueItems": true, "items": {"type": "string"}},
+        "prior_roles": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["required", "optional_sensitivity", "maximum_sensitivity_roles", "numerical_priors_populated", "preferred_sensitivity_role"],
+          "properties": {
+            "required": {"const": ["canonical_mechanism_prior"]},
+            "optional_sensitivity": {"const": ["conservative_support_sensitivity", "broad_parameter_sensitivity"]},
+            "maximum_sensitivity_roles": {"const": 2},
+            "numerical_priors_populated": {"const": false},
+            "preferred_sensitivity_role": {"const": null}
+          }
+        },
+        "diagnostic_forms": {"const": ["static", "point_estimate", "forced_decision", "full_belief_twin"]},
+        "evidence_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["grades", "structure_or_prior_support_grades"],
+          "properties": {
+            "grades": {"const": ["DIRECT_MECHANISM", "PARAMETER_ANCHOR", "BOUNDARY_CONSTRAINT", "CONTEXT_ONLY", "INADMISSIBLE"]},
+            "structure_or_prior_support_grades": {"const": ["DIRECT_MECHANISM", "PARAMETER_ANCHOR", "BOUNDARY_CONSTRAINT"]}
+          }
+        },
+        "source_limits": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["maximum_source_families", "maximum_total_sources", "maximum_sources_per_intervention", "future_metadata_only_queue_keys", "queue_rows_created"],
+          "properties": {
+            "maximum_source_families": {"const": 6},
+            "maximum_total_sources": {"const": 160},
+            "maximum_sources_per_intervention": {"const": 12},
+            "future_metadata_only_queue_keys": {"type": "array", "minItems": 7, "maxItems": 7, "uniqueItems": true, "items": {"type": "string"}},
+            "queue_rows_created": {"const": 0}
+          }
+        },
+        "terminal_vocabulary": {"type": "array", "minItems": 6, "maxItems": 6, "uniqueItems": true, "items": {"type": "string"}},
+        "access_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["gate_access_kind", "metadata_retrieval_authorizes_source_content", "six_context_outcome_access", "protected_holdout_access", "source_content_access"],
+          "properties": {
+            "gate_access_kind": {"const": "mechanism_source_content"},
+            "metadata_retrieval_authorizes_source_content": {"const": false},
+            "six_context_outcome_access": {"const": 0},
+            "protected_holdout_access": {"const": 0},
+            "source_content_access": {"const": 0}
+          }
+        },
+        "non_goals": {"type": "array", "minItems": 10, "maxItems": 10, "uniqueItems": true, "items": {"type": "string"}}
+      }
+    },
+    "historical_authorities": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256", "required_meaning"],
+        "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}, "required_meaning": {"type": "string", "minLength": 1}}
+      }
+    },
+    "downstream_authorization": {"type": "object", "minProperties": 12, "maxProperties": 12, "additionalProperties": {"const": false}},
+    "artifacts_created": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_queue", "source_content", "numerical_prior_distribution", "reliability_policy", "world_action_compiler", "belief_runtime", "scientific_inference"],
+      "properties": {
+        "source_queue": {"const": false}, "source_content": {"const": false}, "numerical_prior_distribution": {"const": false}, "reliability_policy": {"const": false}, "world_action_compiler": {"const": false}, "belief_runtime": {"const": false}, "scientific_inference": {"const": false}
+      }
+    },
+    "limitations": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "string", "minLength": 1}},
+    "blockers": {"type": "array", "maxItems": 0},
+    "authority_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fileIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}}
+    }
+  }
+}

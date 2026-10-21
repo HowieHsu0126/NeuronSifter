@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/risk_budget.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "risk_budget_uid", "allowed_risk_classes", "maximum_risk_class", "production_execution_allowed", "agent_may_increase_risk", "controller_uid", "version", "provenance"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-risk-budget-v1"}, "risk_budget_uid": {"$ref": "#/$defs/text"}, "allowed_risk_classes": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/risk"}, "uniqueItems": true}, "maximum_risk_class": {"$ref": "#/$defs/risk"}, "production_execution_allowed": {"const": false}, "agent_may_increase_risk": {"const": false}, "controller_uid": {"const": "neuronsifter_orchestration_controller"}, "version": {"$ref": "#/$defs/text"}, "provenance": {"type": "object", "minProperties": 1}
+  },
+  "$defs": {"text": {"type": "string", "minLength": 1}, "risk": {"enum": ["contract_only", "restricted_computational", "stress_only", "external_tool_read_only", "production_prohibited"]}}
+}

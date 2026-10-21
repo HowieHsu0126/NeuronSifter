@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/scientific_budget.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "budget_uid", "dimensions", "consumed", "remaining", "iteration_limit", "controller_uid", "version", "provenance"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-scientific-budget-v1"}, "budget_uid": {"$ref": "#/$defs/text"}, "dimensions": {"$ref": "#/$defs/numbers"}, "consumed": {"$ref": "#/$defs/numbers"}, "remaining": {"$ref": "#/$defs/numbers"}, "iteration_limit": {"type": "integer", "minimum": 1}, "controller_uid": {"const": "neuronsifter_orchestration_controller"}, "version": {"$ref": "#/$defs/text"}, "provenance": {"type": "object", "minProperties": 1}
+  },
+  "$defs": {"text": {"type": "string", "minLength": 1}, "numbers": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "number", "minimum": 0}}}
+}

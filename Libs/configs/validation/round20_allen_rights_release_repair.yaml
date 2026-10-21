@@ -1,0 +1,145 @@
+round20_allen_rights_release_repair:
+  version: neuronsifter-round20-allen-rights-release-repair-v1
+  status: frozen_before_repair_execution
+  base_main_commit: 5143f77fd9479f9f8357405f3545a234f54b7eb8
+  scope: Resolve dataset-specific Allen rights and immutable release identities family by family using official public metadata only
+  input_artifacts:
+    - artifact_uid: historical_migration
+      path: Output/audits/dt_round20_allen_historical_migration.json
+      sha256: 285472a2bab628dcdfb7f769fdbf9405e84a50af39ef37beb7c7824902c5fddb
+      source_commit: 575630df6f2576fd0264fecfeae430c8f6bdf927
+      role: accepted_historical_migration
+    - artifact_uid: rights_matrix_v1
+      path: Output/audits/dt_round20_allen_rights_matrix.json
+      sha256: a3b33ef3df2eefb56b20f7627faf1bd097073a3c8a393c53f1ec6cc5cfe5a517
+      source_commit: 575630df6f2576fd0264fecfeae430c8f6bdf927
+      role: blocked_rights_baseline
+    - artifact_uid: release_inventory_v1
+      path: Input/manifests/allen/allen_release_inventory.tsv
+      sha256: 1308f1d6f03ddd88156edc706edc9243fc4ea2b9eae41a3269cb3f3ebca221f2
+      source_commit: 575630df6f2576fd0264fecfeae430c8f6bdf927
+      role: zero_release_baseline
+    - artifact_uid: retrieval_manifest_v1
+      path: Input/manifests/allen/allen_retrieval_manifest.json
+      sha256: 0c99752cc6d8ae6d14f4c8b4eb3fc6b635feb6b0987acd2f570f041ac968dc5c
+      source_commit: 575630df6f2576fd0264fecfeae430c8f6bdf927
+      role: payload_prohibition_baseline
+    - artifact_uid: official_endpoint_probe_v1
+      path: Output/audits/dt_round20_allen_official_endpoint_probe.json
+      sha256: 9abff537f9bd4375e324e44f39309284636fc5d33032a29cd2245bf6753f74a4
+      source_commit: d4dfdbc59a3a751ff8ec384a8c8c459ad80a308c
+      role: endpoint_drift_baseline
+    - artifact_uid: exact_suite_execution_508462
+      path: Output/audits/round20/endpoint_probe_test/dt_round20_allen_endpoint_full_suite_execution_508462.json
+      sha256: 38cc350abdcd14d09ff65fc08caf40ed4352d8a6a2e20ece6f34a2306447a18f
+      source_commit: 9fc57788babb5572c4cf6e442641212ba5ab6c98
+      role: accepted_618_identity_execution
+    - artifact_uid: endpoint_main_promotion_v2
+      path: Output/audits/round20/endpoint_probe_test/dt_round20_allen_endpoint_main_promotion.json
+      sha256: b15420c9fd17b7665bde57d655e4ac1b0ffe26027ddd724d2bce172e9d4f48cf
+      source_commit: 5143f77fd9479f9f8357405f3545a234f54b7eb8
+      role: accepted_ff_only_promotion_chain
+    - artifact_uid: exact_suite_failed_attempt_ledger_v1
+      path: Output/audits/round20/endpoint_probe_test/dt_round20_allen_endpoint_full_suite_failed_attempt_ledger.json
+      sha256: 6303d65ad76d0ea47c6e8f613c67a34735e1acdb84c64242d6749836f2bf3cf3
+      source_commit: 9fc57788babb5572c4cf6e442641212ba5ab6c98
+      role: immutable_failed_attempt_history
+    - artifact_uid: duplicate_confirmation_508468
+      path: Output/audits/round20/endpoint_probe_test/r20_full_exact_r14_508468.json
+      sha256: 5c5a5fb023c417d2c622a5f83a5bdab3a6cf4931bd94942672f7070a22c7d55e
+      source_commit: 9fc57788babb5572c4cf6e442641212ba5ab6c98
+      role: duplicate_nonpromotion_confirmation
+  family_uids:
+    - allen_abc_mouse
+    - allen_abc_human
+    - allen_abc_human_ad
+    - allen_cell_types_transcriptomics
+    - allen_cell_types_morphology
+    - allen_cell_types_ephys
+    - allen_human_brain_microarray
+    - allen_human_brain_mri
+    - allen_mouse_connectivity
+    - allen_developing_mouse
+    - allen_brain_observatory
+    - allen_reference_atlas_ccf
+  source_policy:
+    access_class: public_uncontrolled
+    official_hosts_only: true
+    allowed_host_suffixes: [alleninstitute.org, brain-map.org]
+    general_terms_satisfy_dataset_specific_rights: false
+    historical_release_hint_promotable: false
+    mutable_latest_query_allowed: false
+    release_identity_requires_official_immutable_evidence: true
+    terms_and_release_snapshots_hash_required: true
+    checked_at_execution_time_required: true
+  schemas:
+    rights_matrix: neuronsifter-round20-allen-rights-release-v1
+    release_inventory: neuronsifter-round20-allen-release-inventory-v1
+    retrieval_manifest: neuronsifter-round20-allen-retrieval-manifest-v1
+    endpoint_probe: neuronsifter-round20-allen-official-endpoint-probe-v1
+    repair_contract_report: neuronsifter-round20-allen-rights-release-repair-contract-v1
+  configuration:
+    family_resolution_order: family_uid_ascending
+    maximum_requests: 48
+    max_concurrent_requests: 1
+    request_timeout_seconds: 20
+    retry_count: 0
+    maximum_snapshot_bytes_per_response: 1048576
+    maximum_total_snapshot_bytes: 25165824
+    accepted_metadata_content_types: [text/html, application/json, application/xml, text/xml, text/csv, text/tab-separated-values]
+    redirect_to_non_official_host_allowed: false
+  resource_budget:
+    management_node_role: bounded_control_and_official_metadata_only
+    allowed_cpu_nodes: [cpu03, cpu04]
+    large_io_node: cpu03
+    large_io_partition: gpu
+    node_local_scratch_required_for_full_suite: true
+    nfs_recursive_traversal_allowed: false
+  test_membership:
+    parent_identity_count: 618
+    expected_addition_count: 4
+    expected_identity_count: 622
+    mandatory_skips_allowed: false
+    identities:
+      - Libs.tests.test_dt_round20_allen_rights_release_repair::test_repair_contract_is_canonical_and_fail_closed
+      - Libs.tests.test_dt_round20_allen_rights_release_repair::test_repair_contract_rejects_authorization_and_identity_mutations
+      - Libs.tests.test_dt_round20_allen_rights_release_repair::test_repair_contract_verifies_all_frozen_input_hashes
+      - Libs.tests.test_dt_round20_allen_rights_release_repair::test_repair_contract_reports_missing_and_hash_mismatched_inputs
+  pass_conditions:
+    - contract_definition_valid
+    - nine_input_identities_verified
+    - twelve_family_uids_frozen
+    - bounded_official_metadata_policy_frozen
+    - payload_download_false
+    - training_false
+    - evidence_fabric_sealing_false
+    - dt_core_evaluation_false
+    - remote_push_false
+  block_conditions:
+    - input_identity_missing
+    - input_hash_mismatch
+    - family_inventory_drift
+    - non_official_source
+    - unresolved_dataset_specific_terms
+    - mutable_release_identity
+    - release_hint_only
+    - checksum_mismatch
+    - payload_retrieval_attempted
+    - controlled_source_detected
+    - mandatory_test_missing_or_skipped
+  artifact_names:
+    - Output/audits/dt_round20_allen_rights_release_repair_contract.json
+    - Output/audits/dt_round20_allen_rights_matrix_v2.json
+    - Input/manifests/allen/allen_release_inventory_v2.tsv
+    - Input/manifests/allen/allen_retrieval_manifest_v2.json
+    - Output/audits/dt_round20_allen_rights_release_resolution_v2.json
+  authorization:
+    bounded_official_metadata_probe: true
+    dataset_specific_terms_resolution: true
+    immutable_release_identity_resolution: true
+    payload_download: false
+    training: false
+    evidence_fabric_sealing: false
+    dt_core_evaluation: false
+    remote_push: false
+  handoff: execute_family_by_family_official_metadata_resolution_and_retain_explicit_blockers_without_payload_retrieval

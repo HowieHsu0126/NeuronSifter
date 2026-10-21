@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "neuronsifter-round20-allen-rights-release-repair-contract-v1",
+  "title": "NeuronSifter Round-20 Allen rights and release repair contract report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_uid",
+    "status",
+    "gate",
+    "candidate_commit",
+    "config_sha256",
+    "input_identities",
+    "family_count",
+    "blocker_count",
+    "blockers",
+    "scope",
+    "authorization",
+    "next_action"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-round20-allen-rights-release-repair-contract-v1"},
+    "artifact_uid": {"const": "dt_round20_allen_rights_release_repair_contract"},
+    "status": {"enum": ["passed", "blocked_contract_or_input_identity"]},
+    "gate": {"enum": ["allen_rights_release_repair_contract_frozen", "blocked_allen_rights_release_repair_contract"]},
+    "candidate_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "config_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "input_identities": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["artifact_uid", "path", "expected_sha256", "actual_sha256", "source_commit", "role", "status"],
+        "properties": {
+          "artifact_uid": {"type": "string", "minLength": 1},
+          "path": {"type": "string", "minLength": 1},
+          "expected_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "actual_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+          "source_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+          "role": {"type": "string", "minLength": 1},
+          "status": {"enum": ["verified", "missing", "hash_mismatch"]}
+        }
+      }
+    },
+    "family_count": {"const": 12},
+    "blocker_count": {"type": "integer", "minimum": 0},
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["code", "message"],
+        "properties": {
+          "code": {"type": "string", "minLength": 1},
+          "message": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["access_class", "official_hosts_only", "payload_download_authorized", "training_authorized", "evidence_fabric_sealing_authorized", "dt_core_evaluation_authorized", "remote_push_authorized"],
+      "properties": {
+        "access_class": {"const": "public_uncontrolled"},
+        "official_hosts_only": {"const": true},
+        "payload_download_authorized": {"const": false},
+        "training_authorized": {"const": false},
+        "evidence_fabric_sealing_authorized": {"const": false},
+        "dt_core_evaluation_authorized": {"const": false},
+        "remote_push_authorized": {"const": false}
+      }
+    },
+    "authorization": {"type": "object"},
+    "next_action": {"type": "string", "minLength": 1}
+  }
+}

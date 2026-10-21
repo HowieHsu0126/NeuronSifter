@@ -1,0 +1,156 @@
+config_includes:
+  - ../runtime/warnings.yaml
+
+round19_public_e2_e4:
+  version: neuronsifter-round19-public-e2-e4-v1
+  status: contract_frozen_before_discovery
+  base_commit: dba20fb554c18d18ba53b0f1cd713dbe9279d743
+  entry_gate: literature_replay_mainline_integrated
+  public_source_policy:
+    strict_public_only_flag: true
+    controlled_access_required: false
+    controlled_source_resolution_count: 0
+    final_held_out_access_count: 0
+    allowed_source_classes:
+      - open_access_article
+      - public_abstract
+      - public_supplement
+      - public_accession_data
+      - public_model_repository
+      - public_code_repository
+      - public_benchmark_database
+      - public_institutional_repository
+    rejected_routes:
+      - ADNI
+      - AIBL
+      - credentialed_source
+      - institutional_session_dependency
+      - controlled_clinical_repository
+      - unknown_access_status
+  scientific_contract:
+    contract_uid: round19_scientific_contract_v1
+    schema_version: neuronsifter-round19-scientific-contract-v1
+    created_before_discovery: true
+    frozen_at: "2026-07-31T13:48:30Z"
+    minimum_strong_e2_endpoint_blocks: 4
+    minimum_weighted_e2_endpoint_blocks: 6
+    minimum_independent_studies: 4
+    minimum_action_classes: 2
+    minimum_support_domains: 2
+    minimum_intervention_e4_families: 2
+    minimum_matched_control_pairs: 2
+    minimum_independent_validation_units: 2
+    publication_holdout_required: true
+    source_holdout_required: true
+    action_holdout_required: true
+    support_domain_holdout_required: true
+    final_held_out_frozen: true
+    strict_public_only_flag: true
+    controlled_source_resolution_count: 0
+    training_authorized: false
+    evidence_fabric_sealed: false
+    dt_core_status: not_evaluated
+  training_readiness_contract:
+    contract_uid: round19_training_readiness_contract_v1
+    schema_version: neuronsifter-round19-training-readiness-contract-v1
+    frozen_at: "2026-07-31T13:48:30Z"
+    restricted_min_strong_e2: 2
+    restricted_min_weighted_e2: 4
+    restricted_min_e4_families: 1
+    restricted_min_control_pairs: 1
+    restricted_min_validation_units: 2
+    formal_min_strong_e2: 4
+    formal_min_weighted_e2: 6
+    formal_min_e4_families: 2
+    formal_min_control_pairs: 2
+    formal_min_validation_units: 3
+    required_holdouts:
+      - publication_holdout
+      - source_holdout
+      - study_accession_holdout
+      - biological_unit_holdout
+      - action_holdout
+      - regimen_holdout
+      - producer_simulator_family_holdout
+      - support_domain_holdout
+    train_calibration_validation_partitions:
+      training:
+        allowed_roles: [state_pretraining, action_endpoint_training, trajectory_training]
+        final_held_out_allowed: false
+      calibration:
+        allowed_roles: [calibration]
+        final_held_out_allowed: false
+      validation:
+        allowed_roles: [validation]
+        training_allowed: false
+      stress:
+        allowed_roles: [stress_only, hypothesis_generation_only]
+        training_allowed: false
+    thresholds_mutable_after_source_observation: false
+    training_authorized: false
+    training_started: false
+  e2_independence_fields:
+    - publication_family
+    - preprint_to_journal_family
+    - accession_family
+    - study
+    - biological_unit
+    - compound
+    - target_program
+    - action_class
+    - dose_regimen
+    - endpoint
+    - timepoint
+    - source_collection
+  e4_domain_selection_dimensions:
+    - e2_alignment
+    - producer_maturity
+    - action_completeness
+    - initial_state_availability
+    - matched_control_feasibility
+    - parameter_provenance
+    - support_domain_clarity
+    - numerical_stability
+    - physical_biological_constraints
+    - public_calibration_evidence
+    - round18_failure_relevance
+    - frozen_gap_relevance
+  output_paths:
+    scientific_contract: Output/audits/dt_round19_scientific_contract.json
+    training_readiness_contract: Output/audits/dt_round19_training_readiness_contract.json
+    round18_diagnosis: Output/audits/dt_round19_round18_diagnosis.json
+    replay_failure_map: Output/audits/dt_round19_replay_failure_to_evidence_map.tsv
+    e2_candidate_catalog: Output/evidence_fabric/round19/e2_candidate_catalog.parquet
+    e2_admission_ledger: Output/evidence_fabric/round19/e2_admission_ledger.tsv
+    e2_independence_groups: Output/audits/dt_round19_e2_independence_groups.tsv
+    e2_coverage: Output/audits/dt_round19_e2_coverage.json
+    e2_independence_audit: Output/audits/dt_round19_e2_independence_audit.json
+    e2_duplicate_audit: Output/audits/dt_round19_e2_duplicate_and_version_audit.tsv
+    e2_leakage_audit: Output/audits/dt_round19_e2_leakage_audit.json
+    e4_domain_selection: Output/audits/dt_round19_e4_domain_selection.json
+    producer_qualification: Output/audits/dt_round19_intervention_producer_qualification.tsv
+    e4_pilot_manifest: Output/trajectories/round19_pilot/trajectory_manifest.json
+    e4_pilot_validation: Output/audits/dt_round19_e4_pilot_validation.json
+    e4_control_pair_audit: Output/audits/dt_round19_e4_control_pair_audit.json
+    e4_trajectory_catalog: Output/evidence_fabric/round19/e4_intervention_trajectory_catalog.parquet
+    e4_control_pair_catalog: Output/evidence_fabric/round19/e4_control_pair_catalog.parquet
+    e4_admission_ledger: Output/audits/dt_round19_e4_admission_ledger.tsv
+    e2_e4_alignment: Output/audits/dt_round19_e2_e4_alignment.tsv
+    e4_coverage: Output/audits/dt_round19_e4_coverage.json
+    frozen_gap_resolution: Output/audits/dt_round19_frozen_gap_resolution.tsv
+    training_eligibility: Output/audits/dt_round19_training_eligibility_matrix.tsv
+    split_feasibility: Output/audits/dt_round19_split_feasibility.json
+    training_readiness: Output/audits/dt_round19_world_action_training_readiness.json
+    validation: Output/audits/dt_round19_validation.json
+    full_suite_execution: Output/audits/dt_round19_full_suite_execution.json
+    gate: Output/audits/dt_round19_gate.json
+    handoff: Output/audits/dt_round20_handoff.json
+  invariants:
+    strict_public_only_flag: true
+    controlled_source_resolution_count: 0
+    final_held_out_access_count: 0
+    training_authorized: false
+    training_started: false
+    evidence_fabric_sealed: false
+    frozen_gap_count: 20
+    dt_core_status: not_evaluated

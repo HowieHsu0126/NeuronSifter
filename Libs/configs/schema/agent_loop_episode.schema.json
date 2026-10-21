@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/agent_loop_episode.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "episode_uid", "initial_belief_state_ref", "final_belief_state_ref", "event_uids", "scenario_uid", "terminal_state", "controller_uid", "budget_decision_refs", "conflict_refs", "frozen_gap_impacts", "replay_identity", "status", "provenance"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-agent-loop-episode-v1"}, "episode_uid": {"$ref": "#/$defs/text"}, "initial_belief_state_ref": {"$ref": "#/$defs/text"}, "final_belief_state_ref": {"$ref": "#/$defs/nullable_text"}, "event_uids": {"$ref": "#/$defs/nonempty_texts"}, "scenario_uid": {"$ref": "#/$defs/text"}, "terminal_state": {"enum": ["belief_updated", "uncertainty_only_updated", "conflict_registered", "hypothesis_refuted", "hypothesis_retained", "new_information_required", "budget_exhausted", "unsupported_domain", "blocked_by_gate", "no_safe_action"]}, "controller_uid": {"const": "neuronsifter_orchestration_controller"}, "budget_decision_refs": {"$ref": "#/$defs/nonempty_texts"}, "conflict_refs": {"$ref": "#/$defs/texts"}, "frozen_gap_impacts": {"type": "object", "additionalProperties": {"enum": ["no_effect", "hypothesis_generated", "information_action_proposed", "evidence_query_authorized", "requires_empirical_observation", "requires_new_e4", "requires_support_domain", "stress_only"]}}, "replay_identity": {"type": "object", "minProperties": 1}, "status": {"enum": ["completed", "blocked", "terminated"]}, "provenance": {"type": "object", "minProperties": 1}
+  },
+  "$defs": {"text": {"type": "string", "minLength": 1}, "nullable_text": {"anyOf": [{"$ref": "#/$defs/text"}, {"type": "null"}]}, "texts": {"type": "array", "items": {"$ref": "#/$defs/text"}, "uniqueItems": true}, "nonempty_texts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/text"}, "uniqueItems": true}}
+}

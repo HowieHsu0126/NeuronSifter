@@ -1,0 +1,174 @@
+round15_trajectory_domain:
+  version: neuronsifter-round15-trajectory-domain-v1
+  status: qualification_and_restricted_e4_only
+  evidence_fabric_sealed: false
+  dt_core_status: not_evaluated
+  parent_artifacts:
+    round15_handoff: Output/audits/dt_round15_handoff.json
+    round14_gate: Output/audits/dt_round14_gate.json
+    round14_validation: Output/audits/dt_round14_validation.json
+    round14_release_manifest: Output/evidence_fabric/v0/evidence_fabric_release_manifest.json
+    round14_gap_ledger: Output/audits/dt_round14_frozen_gap_resolution_ledger.tsv
+    round13_action_graph: Output/audits/dt_round13_action_observation_graph.json
+    round11g_input_bundle: Output/audits/dt_round11g1_execution_input_bundle.json
+  output_paths:
+    capability_matrix: Output/audits/dt_round15_trajectory_capability_matrix.tsv
+    producer_qualification_tsv: Output/audits/dt_round15_producer_qualification.tsv
+    producer_qualification_json: Output/audits/dt_round15_producer_qualification.json
+    pilot_root: Output/trajectories/round15_pilot
+    pilot_manifest: Output/trajectories/round15_pilot/trajectory_manifest.json
+    pilot_validation: Output/audits/dt_round15_pilot_validation.json
+    production_plan: Output/audits/dt_round15_production_plan.json
+    formal_root: Output/trajectories/round15_formal
+    numerical_qc_catalog: Output/audits/dt_round15_numerical_qc_catalog.parquet
+    failure_ledger: Output/audits/dt_round15_failure_ledger.tsv
+    e4_catalog: Output/evidence_fabric/v0/e4_trajectory_catalog.parquet
+    e4_pairing_catalog: Output/evidence_fabric/v0/e4_trajectory_pairing_catalog.parquet
+    admission_ledger: Output/audits/dt_round15_e4_admission_ledger.tsv
+    frozen_gap_map: Output/audits/dt_round15_frozen_gap_trajectory_map.tsv
+    independence_groups: Output/audits/dt_round15_e4_independence_groups.tsv
+    leakage_readiness: Output/audits/dt_round15_e4_leakage_readiness.json
+    coverage: Output/audits/dt_round15_trajectory_coverage.json
+    effective_units: Output/audits/dt_round15_effective_trajectory_units.json
+    validation: Output/audits/dt_round15_validation.json
+    gate: Output/audits/dt_round15_gate.json
+    handoff: Output/audits/dt_round16_handoff.json
+  producer:
+    producer_uid: neuronsifter_ad_meso_no_action_replay
+    version: neuronsifter-ad-meso-no-action-replay-v1
+    producer_type: network_dynamics_model
+    source: Libs/utils/model/dynamics_fields.py
+    license_or_access_status: repository_internal_governed
+    equation_or_model_identity: simulate_regimen_trajectory_fixed_step_recurrence
+    input_schema: neuronsifter-trajectory-producer-input-v1
+    output_schema: neuronsifter-clean-action-complete-trajectory-v1
+    supported_action_classes:
+    - no_action_control
+    supported_state_variables:
+    - free_drug
+    - target_bound_drug
+    - misfolded_protein_load
+    - aggregate_burden
+    - neuroinflammation
+    - clearance_flux
+    - circuit_instability
+    - amyloid_beta_soluble
+    - amyloid_plaque
+    - phosphorylated_tau
+    - inflammatory_mediator
+    - calcium_concentration
+    - membrane_voltage
+    - spike_rate
+    - vascular_perivascular_transport
+    support_domain_ref: domain_round15_synthetic_ad_meso_qualification
+    parameter_policy:
+      status: versioned_provisional_configuration
+      source_config: Libs/configs/model/dynamics_solver.yaml
+      unknown_parameters_allowed: false
+      biological_validation_eligible: false
+      qualification_only: true
+    seed_policy:
+      stochastic: false
+      required_seed: 3407
+      rng: not_applicable_deterministic_recurrence
+      rng_version: not_applicable
+    numerical_solver_policy:
+      family: explicit_fixed_grid_recurrence
+      native_grid_preserved: true
+      canonical_export_grid: identity_to_native_grid
+      interpolation_method: none_identity_grid
+    known_limitations:
+    - provisional configuration parameters are not literature-complete
+    - qualification-only synthetic initial state is not empirical evidence
+    - no pharmacological compiler binding is qualified in Round-15
+    - no biological validation or action-effect claim is authorized
+  supported_domain:
+    support_domain_uid: domain_round15_synthetic_ad_meso_qualification
+    organism: synthetic_human_derived
+    disease_or_context: ad_control_qualification_only
+    regions:
+    - systemic_circulation
+    - bbb_interface
+    - hippocampus_ca1
+    - entorhinal_cortex
+    - middle_temporal_gyrus
+    - meningeal_lymphatic_outflow
+    compartments:
+    - plasma
+    - bbb_interface
+    - csf
+    - pvs
+    - isf
+    - meningeal_drainage
+    action_classes:
+    - no_action_control
+    temporal_horizon:
+      start: 0.0
+      end: 672.0
+      unit: hour
+      step_count: 28
+    fidelity: qualification_relative_field
+    generalization_status: hypothesis_only
+    allowed_use: qualification_numerical_dynamics_only
+  no_action_adapter:
+    world_action_uid: world_action_no_action_control
+    internal_solver_reference_route: intravenous
+    internal_solver_reference_schedule: daily
+    dose_multiplier: 0.0
+    aggregate_target_evidence_score: 0.0
+    aggregate_affinity_score: 0.0
+    target_symbol_set: ''
+    semantic_policy: reference_route_and_schedule_are_solver_coordinates_not_action_parameters
+  initial_state:
+    state_uid: round15_synthetic_ad_meso_initial_state
+    origin: explicit_synthetic_qualification_state
+    condition_profile: ad_positive
+    state_time: 0.0
+    state_time_unit: hour
+    empirical_state: false
+    qualification_only: true
+    eligible_for_biological_validation: false
+    imputation_policy: none_all_channels_explicit
+    region_prior_policy: explicit_zero_qualification_priors
+  capability_policy:
+    supported_action_classes:
+    - no_action_control
+    blocked_action_compiler_classes:
+    - pharmacological
+    - combination
+    unsupported_action_classes:
+    - genetic
+    - electrical_stimulation
+    - optical_stimulation
+    - environmental
+    - state_initialization
+  numerical_qc:
+    policy_version: neuronsifter-ad-meso-no-action-numerical-qc-v1
+    maximum_nan_inf_count: 0
+    maximum_negative_value_count: 0
+    maximum_rejected_steps: 0
+    maximum_interpolation_error: 0.0
+    repeatability_absolute_tolerance: 0.0
+    repeatability_relative_tolerance: 0.0
+  constraint_qc:
+    policy_version: neuronsifter-ad-meso-no-action-constraint-qc-v1
+    required_constraints:
+    - non_negativity
+    - bounded_occupancy
+    occupancy_lower_bound: 0.0
+    occupancy_upper_bound: 0.88
+    non_action_drug_tolerance: 0.0
+  production:
+    action_classes:
+    - no_action_control
+    trajectory_family_count: 1
+    initial_state_family_count: 1
+    replicate_strategy: single_deterministic_replay
+    seed_policy: fixed_identity_seed_even_for_deterministic_replay
+    parameter_variation: none_qualification_only
+    fidelity_levels:
+    - qualification_relative_field
+    expected_run_count: 1
+    failure_budget: 0
+    retry_policy: preserve_every_attempt_and_require_typed_supersession
+    admission_threshold: all_required_contracts_and_qc_passed

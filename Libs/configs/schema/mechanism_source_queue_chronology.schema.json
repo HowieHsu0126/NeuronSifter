@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/mechanism_source_queue_chronology.schema.json",
+  "title": "NeuronSifter mechanism-source queue chronology audit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "chronology_uid",
+    "preregistration",
+    "queue",
+    "schema",
+    "preregistered_at",
+    "first_request_at",
+    "last_request_at",
+    "requests",
+    "proofs",
+    "access_counters",
+    "chronology_sha256",
+    "blockers"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-mechanism-source-queue-chronology-v1"},
+    "status": {"const": "MECHANISM_SOURCE_QUEUE_CHRONOLOGY_VALID"},
+    "chronology_uid": {"const": "mechanism_source_queue_chronology"},
+    "preregistration": {"$ref": "#/$defs/artifactBinding"},
+    "queue": {"$ref": "#/$defs/artifactBinding"},
+    "schema": {"$ref": "#/$defs/fileBinding"},
+    "preregistered_at": {"type": "string", "format": "date-time"},
+    "first_request_at": {"type": ["string", "null"], "format": "date-time"},
+    "last_request_at": {"type": ["string", "null"], "format": "date-time"},
+    "requests": {
+      "type": "array",
+      "maxItems": 48,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["request_uid", "query_uid", "request_kind", "method", "url", "host", "started_at", "completed_at", "http_status", "content_type", "response_bytes", "response_sha256", "status"],
+        "properties": {
+          "request_uid": {"type": "string", "pattern": "^metadata-request-[0-9a-f]{20}$"},
+          "query_uid": {"type": "string", "minLength": 1},
+          "request_kind": {"enum": ["pubmed_search", "pubmed_summary"]},
+          "method": {"const": "GET"},
+          "url": {"type": "string", "pattern": "^https://eutils\\.ncbi\\.nlm\\.nih\\.gov/"},
+          "host": {"const": "eutils.ncbi.nlm.nih.gov"},
+          "started_at": {"type": "string", "format": "date-time"},
+          "completed_at": {"type": "string", "format": "date-time"},
+          "http_status": {"type": ["integer", "null"]},
+          "content_type": {"type": ["string", "null"]},
+          "response_bytes": {"type": "integer", "minimum": 0, "maximum": 2097152},
+          "response_sha256": {"anyOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+          "status": {"enum": ["success", "request_failed"]}
+        }
+      }
+    },
+    "proofs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["preregistration_preceded_requests", "only_preregistered_publication_metadata_queried", "serial_request_order", "request_budget_respected", "response_budget_respected", "queue_order_allowlisted_only", "slot_caps_respected", "excluded_slots_retained", "no_post_content_mutation", "no_refill", "raw_responses_persisted"],
+      "properties": {
+        "preregistration_preceded_requests": {"const": true},
+        "only_preregistered_publication_metadata_queried": {"const": true},
+        "serial_request_order": {"const": true},
+        "request_budget_respected": {"const": true},
+        "response_budget_respected": {"const": true},
+        "queue_order_allowlisted_only": {"const": true},
+        "slot_caps_respected": {"const": true},
+        "excluded_slots_retained": {"const": true},
+        "no_post_content_mutation": {"const": true},
+        "no_refill": {"const": true},
+        "raw_responses_persisted": {"const": false}
+      }
+    },
+    "access_counters": {"$ref": "#/$defs/zeroCounters"},
+    "chronology_sha256": {"$ref": "#/$defs/sha256"},
+    "blockers": {"type": "array", "maxItems": 0}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fileBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "artifactBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "file_sha256", "semantic_sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "file_sha256": {"$ref": "#/$defs/sha256"},
+        "semantic_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "zeroCounters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["six_context_outcome_access", "protected_holdout_access", "source_content_access"],
+      "properties": {
+        "six_context_outcome_access": {"const": 0},
+        "protected_holdout_access": {"const": 0},
+        "source_content_access": {"const": 0}
+      }
+    }
+  }
+}

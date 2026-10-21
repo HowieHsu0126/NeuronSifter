@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/pre_cutoff_evidence_bundle.schema.json",
+  "title": "NeuronSifter Round-18 agent-visible pre-cutoff evidence bundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "bundle_uid",
+    "bundle_role",
+    "episodes",
+    "sources",
+    "mount_path",
+    "read_permissions",
+    "process_identities",
+    "access_attempts",
+    "outcome_fields_masked",
+    "author_title_doi_masked",
+    "held_out_path_present",
+    "retrieval_limited",
+    "content_hash",
+    "retrospective_replay",
+    "prospective_real_world_validation",
+    "causal_effect_claim",
+    "clinical_recommendation",
+    "autonomous_discovery_claim",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-pre-cutoff-evidence-bundle-v1"},
+    "bundle_uid": {"$ref": "#/$defs/text"},
+    "bundle_role": {"const": "agent_visible_pre_cutoff_bundle"},
+    "episodes": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "sources": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/masked_source"}},
+    "mount_path": {"type": "string", "pattern": "^/"},
+    "read_permissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["agent", "evaluator"],
+      "properties": {
+        "agent": {"const": true},
+        "evaluator": {"type": "boolean"}
+      }
+    },
+    "process_identities": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/process_identity"}},
+    "access_attempts": {"type": "array", "items": {"$ref": "#/$defs/access_attempt"}},
+    "outcome_fields_masked": {"const": true},
+    "author_title_doi_masked": {"const": true},
+    "held_out_path_present": {"const": false},
+    "retrieval_limited": {"const": true},
+    "content_hash": {"$ref": "#/$defs/hash"},
+    "retrospective_replay": {"const": true},
+    "prospective_real_world_validation": {"const": false},
+    "causal_effect_claim": {"const": false},
+    "clinical_recommendation": {"const": false},
+    "autonomous_discovery_claim": {"const": false},
+    "status": {"enum": ["materialized_read_only", "blocked", "invalidated"]}
+  },
+  "$defs": {
+    "text": {"type": "string", "minLength": 1},
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "timestamp": {"type": "string", "minLength": 10},
+    "masked_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["opaque_source_uid", "selected_public_timestamp", "evidence_class", "agent_visible_summary", "content_hash"],
+      "properties": {
+        "opaque_source_uid": {"$ref": "#/$defs/text"},
+        "selected_public_timestamp": {"$ref": "#/$defs/timestamp"},
+        "evidence_class": {"$ref": "#/$defs/text"},
+        "agent_visible_summary": {"type": "object"},
+        "content_hash": {"$ref": "#/$defs/hash"}
+      }
+    },
+    "process_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["process_uid", "role"],
+      "properties": {
+        "process_uid": {"$ref": "#/$defs/text"},
+        "role": {"enum": ["agent", "twin", "controller", "evaluator"]},
+        "os_uid": {"type": "integer", "minimum": 0},
+        "os_gid": {"type": "integer", "minimum": 0}
+      }
+    },
+    "access_attempt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["attempt_uid", "process_identity", "step", "access_granted", "preserved"],
+      "properties": {
+        "attempt_uid": {"$ref": "#/$defs/text"},
+        "process_identity": {"$ref": "#/$defs/text"},
+        "step": {"enum": ["T0", "T1", "T2", "T3", "T4", "T5", "T6", "T7"]},
+        "access_granted": {"type": "boolean"},
+        "preserved": {"const": true}
+      }
+    }
+  }
+}

@@ -1,0 +1,119 @@
+round17_scitil_runtime:
+  version: neuronsifter-round17-scitil-runtime-v1
+  evidence_fabric_sealed: false
+  dt_core_status: not_evaluated
+  frozen_gap_count: 20
+  canonical_controller_uid: neuronsifter_orchestration_controller
+  validator_uid: round17_scitil_twin_gated_agent_validator
+  parent_artifacts:
+    round17_handoff: Output/audits/dt_round17_handoff.json
+    round16_gate: Output/audits/dt_round16_gate.json
+    round16_validation: Output/audits/dt_round16_validation.json
+    round16_execution_identity: Output/audits/dt_round16_execution_identity.json
+    round16_full_suite_execution: Output/audits/dt_round16_full_suite_execution.json
+    round16_test_inventory: Output/audits/dt_round16_test_inventory_diff.json
+    round16_graph: Output/what_if/round16_pilot/round16_what_if_graph.json
+    round13_graph: Output/audits/dt_round13_action_observation_graph.json
+    round14_gap_ledger: Output/audits/dt_round14_frozen_gap_resolution_ledger.tsv
+    round16_release_candidate: Output/evidence_fabric/v0/releases/evidence_fabric_round16_release_17ac2ce5e66c7621c3f7c2f2/round16_what_if_release_candidate.json
+  agent_roles:
+    ScientistAgent:
+      agent_uid: round17_scientist_agent
+      capabilities:
+        - propose_hypothesis
+        - propose_mechanistic_explanation
+        - propose_world_action
+        - propose_what_if
+        - propose_outcomes
+    FalsifierAgent:
+      agent_uid: round17_falsifier_agent
+      capabilities:
+        - propose_disconfirming_prediction
+        - propose_alternative_mechanism
+        - propose_adversarial_control
+        - challenge_domain
+        - propose_constraint_check
+    ExperimentAgent:
+      agent_uid: round17_experiment_agent
+      capabilities:
+        - propose_information_action
+        - propose_observation_request
+        - propose_tool_or_assay
+        - propose_fidelity
+        - propose_budget_option
+    EvidenceAgent:
+      agent_uid: round17_evidence_agent
+      capabilities:
+        - retrieve_governed_evidence
+        - assemble_typed_evidence_refs
+        - identify_conflict
+        - identify_gap
+        - summarize_accepted_artifact
+  adapter_allowlist:
+    pilot_public_measurement_adapter:
+      adapter_type: governed_scientific_tool
+      source_ref: Output/audits/dt_round13_action_observation_graph.json
+      access_policy: read_only_existing_artifact
+      network_access: none
+    round16_restricted_replay_adapter:
+      adapter_type: rollout_replay
+      source_ref: Output/what_if/round16_pilot/round16_what_if_graph.json
+      access_policy: read_only_existing_artifact
+      network_access: none
+    round13_governed_evidence_adapter:
+      adapter_type: governed_evidence_lookup
+      source_ref: Output/audits/dt_round13_action_observation_graph.json
+      access_policy: read_only_existing_artifact
+      network_access: none
+  twin_debt:
+    thresholds_version: neuronsifter-round17-twin-debt-thresholds-v1
+    low_max: 0.25
+    moderate_max: 0.60
+    high_min: 0.60
+    unknown_policy: information_action_or_stop
+  scientific_budget:
+    version: neuronsifter-round17-scientific-budget-v1
+    dimensions:
+      compute_seconds: 120
+      tool_calls: 2
+      wall_time_seconds: 300
+      financial_cost_units: 0
+      evidence_retrievals: 2
+      simulation_fidelity_units: 1
+      loop_iterations: 12
+  risk_budget:
+    version: neuronsifter-round17-risk-budget-v1
+    allowed_risk_classes:
+      - contract_only
+      - restricted_computational
+      - stress_only
+      - external_tool_read_only
+    maximum_risk_class: external_tool_read_only
+    production_execution_allowed: false
+  pilot:
+    scenarios:
+      - scenario_a_valid_restricted_hypothesis_loop
+      - scenario_b_information_action_loop
+      - scenario_c_direct_state_update_attack
+      - scenario_d_unsupported_world_action
+      - scenario_e_conflict_preservation
+      - scenario_f_budget_exhaustion
+      - scenario_g_unsafe_claim_request
+    qualification_only: true
+    deterministic_replay: true
+    autonomous_execution: false
+    publication_claim_eligible: false
+  output_paths:
+    agent_identity_catalog: Output/scitil/round17_pilot/agent_identity_catalog.tsv
+    hypothesis_ledger: Output/scitil/round17_pilot/hypothesis_ledger.tsv
+    agent_proposal_catalog: Output/scitil/round17_pilot/agent_proposal_catalog.tsv
+    gate_decision_catalog: Output/scitil/round17_pilot/gate_decision_catalog.tsv
+    agent_loop_event_catalog: Output/scitil/round17_pilot/agent_loop_event_catalog.tsv
+    agent_loop_episode_catalog: Output/scitil/round17_pilot/agent_loop_episode_catalog.tsv
+    twin_debt_catalog: Output/scitil/round17_pilot/twin_debt_catalog.tsv
+    budget_decision_catalog: Output/scitil/round17_pilot/budget_decision_catalog.tsv
+    explanation_catalog: Output/scitil/round17_pilot/explanation_catalog.tsv
+    graph: Output/scitil/round17_pilot/round17_scitil_graph.json
+    pilot_validation: Output/audits/dt_round17_pilot_validation.json
+    frozen_gap_map: Output/audits/dt_round17_frozen_gap_agent_map.tsv
+    release_root: Output/evidence_fabric/v0/releases

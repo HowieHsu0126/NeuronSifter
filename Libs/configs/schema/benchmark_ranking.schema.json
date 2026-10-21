@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/benchmark_ranking.schema.json",
+  "title": "NeuronSifter Round-18 benchmark intervention ranking",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "ranking_uid",
+    "episode_uid",
+    "system_uid",
+    "candidate_set_uid",
+    "frozen_candidate_set_hash",
+    "candidate_set_frozen_before_replay",
+    "evaluation_target_ref",
+    "ranked_candidates",
+    "uncertainty",
+    "support_domain_status",
+    "evidence_bundle_hash",
+    "decision_artifact_hash",
+    "retrospective_replay",
+    "prospective_real_world_validation",
+    "causal_effect_claim",
+    "clinical_recommendation",
+    "autonomous_discovery_claim",
+    "content_hash",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-benchmark-ranking-v1"},
+    "ranking_uid": {"$ref": "#/$defs/text"},
+    "episode_uid": {"$ref": "#/$defs/text"},
+    "system_uid": {"$ref": "#/$defs/text"},
+    "candidate_set_uid": {"$ref": "#/$defs/text"},
+    "frozen_candidate_set_hash": {"$ref": "#/$defs/hash"},
+    "candidate_set_frozen_before_replay": {"const": true},
+    "evaluation_target_ref": {"$ref": "#/$defs/text"},
+    "ranked_candidates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/ranked_candidate"}
+    },
+    "uncertainty": {"$ref": "#/$defs/uncertainty"},
+    "support_domain_status": {"enum": ["in_domain", "extrapolative", "unsupported", "unknown"]},
+    "evidence_bundle_hash": {"$ref": "#/$defs/hash"},
+    "decision_artifact_hash": {"$ref": "#/$defs/hash"},
+    "retrospective_replay": {"const": true},
+    "prospective_real_world_validation": {"const": false},
+    "causal_effect_claim": {"const": false},
+    "clinical_recommendation": {"const": false},
+    "autonomous_discovery_claim": {"const": false},
+    "content_hash": {"$ref": "#/$defs/hash"},
+    "status": {"enum": ["ranked", "abstained", "blocked", "invalidated"]}
+  },
+  "$defs": {
+    "text": {"type": "string", "minLength": 1},
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "ranked_candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_uid", "rank", "score", "uncertainty"],
+      "properties": {
+        "candidate_uid": {"$ref": "#/$defs/text"},
+        "rank": {"type": "integer", "minimum": 1},
+        "score": {"type": ["number", "null"]},
+        "uncertainty": {"$ref": "#/$defs/uncertainty_component"}
+      }
+    },
+    "uncertainty": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "value", "unknown_components"],
+      "properties": {
+        "status": {"enum": ["quantified", "unknown", "partial"]},
+        "value": {"type": ["number", "null"], "minimum": 0},
+        "unknown_components": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/text"}}
+      },
+      "allOf": [
+        {"if": {"properties": {"status": {"const": "unknown"}}}, "then": {"properties": {"value": {"type": "null"}, "unknown_components": {"minItems": 1}}}},
+        {"if": {"properties": {"status": {"const": "quantified"}}}, "then": {"properties": {"value": {"type": "number", "minimum": 0}, "unknown_components": {"maxItems": 0}}}}
+      ]
+    },
+    "uncertainty_component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "value"],
+      "properties": {
+        "status": {"enum": ["quantified", "unknown", "not_applicable"]},
+        "value": {"type": ["number", "null"], "minimum": 0}
+      },
+      "allOf": [
+        {"if": {"properties": {"status": {"const": "unknown"}}}, "then": {"properties": {"value": {"type": "null"}}}},
+        {"if": {"properties": {"status": {"const": "quantified"}}}, "then": {"properties": {"value": {"type": "number", "minimum": 0}}}}
+      ]
+    }
+  }
+}

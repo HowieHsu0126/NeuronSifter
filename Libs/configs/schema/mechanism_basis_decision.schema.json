@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/mechanism_basis_decision.schema.json",
+  "title": "NeuronSifter mechanism-basis terminal decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "decision_uid", "contract", "schema", "authorization", "evidence_ledger", "source_claim_graph", "assessment", "queue_exhausted", "all_72_slots_graded", "missing_required_requirement_uids", "contradictory_required_requirement_uids", "scientific_interpretation", "access_counters", "downstream_authorization", "decision_sha256", "blockers"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-mechanism-basis-decision-v1"},
+    "status": {"enum": ["MECHANISM_BASIS_QUALIFIED", "MECHANISM_BASIS_INSUFFICIENT"]},
+    "decision_uid": {"const": "mechanism_basis_decision"},
+    "contract": {"$ref": "#/$defs/fileBinding"},
+    "schema": {"$ref": "#/$defs/fileBinding"},
+    "authorization": {"$ref": "#/$defs/artifactBinding"},
+    "evidence_ledger": {"$ref": "#/$defs/artifactBinding"},
+    "source_claim_graph": {"$ref": "#/$defs/artifactBinding"},
+    "assessment": {"$ref": "#/$defs/artifactBinding"},
+    "queue_exhausted": {"const": true},
+    "all_72_slots_graded": {"const": true},
+    "missing_required_requirement_uids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "contradictory_required_requirement_uids": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "scientific_interpretation": {"type": "string", "minLength": 1},
+    "access_counters": {"$ref": "#/$defs/accessCounters"},
+    "downstream_authorization": {"$ref": "#/$defs/downstreamClosure"},
+    "decision_sha256": {"$ref": "#/$defs/sha256"},
+    "blockers": {"type": "array", "maxItems": 0}
+  },
+  "allOf": [
+    {"if": {"properties": {"status": {"const": "MECHANISM_BASIS_QUALIFIED"}}}, "then": {"properties": {"missing_required_requirement_uids": {"maxItems": 0}, "contradictory_required_requirement_uids": {"maxItems": 0}}}},
+    {"if": {"properties": {"status": {"const": "MECHANISM_BASIS_INSUFFICIENT"}}}, "then": {"anyOf": [{"properties": {"missing_required_requirement_uids": {"minItems": 1}}}, {"properties": {"contradictory_required_requirement_uids": {"minItems": 1}}}]}}
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fileBinding": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"], "properties": {"path": {"type": "string"}, "sha256": {"$ref": "#/$defs/sha256"}}},
+    "artifactBinding": {"type": "object", "additionalProperties": false, "required": ["path", "file_sha256", "semantic_sha256"], "properties": {"path": {"type": "string"}, "file_sha256": {"$ref": "#/$defs/sha256"}, "semantic_sha256": {"$ref": "#/$defs/sha256"}}},
+    "accessCounters": {"type": "object", "additionalProperties": false, "required": ["source_content_access", "successful_source_content_opens", "unqueued_source_attempts", "forbidden_value_reads", "six_context_outcome_access", "protected_holdout_access"], "properties": {"source_content_access": {"type": "integer", "minimum": 0, "maximum": 15}, "successful_source_content_opens": {"type": "integer", "minimum": 0, "maximum": 15}, "unqueued_source_attempts": {"const": 0}, "forbidden_value_reads": {"const": 0}, "six_context_outcome_access": {"const": 0}, "protected_holdout_access": {"const": 0}}},
+    "downstreamClosure": {"type": "object", "additionalProperties": false, "required": ["numerical_prior_population_authorized", "world_action_compiler_authorized", "runtime_implementation_authorized", "agent_trace_authorized", "inference_authorized", "training_authorized", "gpu_authorized", "evaluation_authorized", "push_authorized"], "properties": {"numerical_prior_population_authorized": {"const": false}, "world_action_compiler_authorized": {"const": false}, "runtime_implementation_authorized": {"const": false}, "agent_trace_authorized": {"const": false}, "inference_authorized": {"const": false}, "training_authorized": {"const": false}, "gpu_authorized": {"const": false}, "evaluation_authorized": {"const": false}, "push_authorized": {"const": false}}}
+  }
+}

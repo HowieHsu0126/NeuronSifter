@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://neuronsifter.org/schemas/rollout_constraint_report.schema.json",
+  "title": "NeuronSifter RolloutConstraintReport", "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "constraint_report_uid", "rollout_uid", "constraint_policy", "required_constraints", "passed_constraints", "failed_constraints", "unknown_constraints", "violation_times", "violation_magnitudes", "handling_state", "formal_contrast_eligible"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-rollout-constraint-report-v1"}, "constraint_report_uid": {"$ref": "#/$defs/text"}, "rollout_uid": {"$ref": "#/$defs/text"},
+    "constraint_policy": {"$ref": "#/$defs/text"}, "required_constraints": {"$ref": "#/$defs/texts"}, "passed_constraints": {"type": "array", "items": {"type": "string"}},
+    "failed_constraints": {"type": "array", "items": {"type": "string"}}, "unknown_constraints": {"type": "array", "items": {"type": "string"}},
+    "violation_times": {"type": "object", "additionalProperties": {"type": "array", "items": {"type": "number"}}},
+    "violation_magnitudes": {"type": "object", "additionalProperties": {"type": "array", "items": {"type": "number"}}},
+    "handling_state": {"enum": ["valid", "valid_with_tolerance", "restricted", "quarantined", "invalid"]}, "formal_contrast_eligible": {"type": "boolean"}
+  },
+  "$defs": {"text": {"type": "string", "minLength": 1}, "texts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/text"}}}
+}

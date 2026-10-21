@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://neuronsifter.org/schemas/rollout_control_pair.schema.json",
+  "title": "NeuronSifter RolloutControlPair", "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "pair_uid", "action_rollout_uid", "control_rollout_uid", "control_type", "baseline_state_family_match", "engine_version_match", "parameter_family_match", "fidelity_match", "time_grid_match", "seed_policy_compatible", "state_namespace_match", "support_domain_match", "pairing_decision", "intervention_effect_eligible", "blockers", "status"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-rollout-control-pair-v1"}, "pair_uid": {"$ref": "#/$defs/text"}, "action_rollout_uid": {"$ref": "#/$defs/text"},
+    "control_rollout_uid": {"$ref": "#/$defs/text"}, "control_type": {"enum": ["no_action_control", "vehicle_control", "sham_control", "baseline_hold", "matched_alternative_action"]},
+    "baseline_state_family_match": {"type": "boolean"}, "engine_version_match": {"type": "boolean"}, "parameter_family_match": {"type": "boolean"},
+    "fidelity_match": {"type": "boolean"}, "time_grid_match": {"type": "boolean"}, "seed_policy_compatible": {"type": "boolean"},
+    "state_namespace_match": {"type": "boolean"}, "support_domain_match": {"type": "boolean"},
+    "pairing_decision": {"enum": ["exact_deterministic_pair", "matched_stochastic_pair", "group_level_pair", "unpaired_descriptive_rollout"]},
+    "intervention_effect_eligible": {"type": "boolean"}, "blockers": {"type": "array", "items": {"type": "object"}}, "status": {"enum": ["validated", "blocked", "descriptive_only"]}
+  },
+  "$defs": {"text": {"type": "string", "minLength": 1}}
+}

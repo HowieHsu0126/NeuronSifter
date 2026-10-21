@@ -1,0 +1,418 @@
+schema_version: neuronsifter-mechanistic-belief-prior-reliability-contract-v1
+contract_uid: mechanistic_belief_prior_reliability
+status: frozen_before_mechanism_basis_intake
+outputs:
+  prior_reliability_authority:
+    path: Output/audits/mechanistic_belief_prior_reliability_authority.json
+    schema_path: Libs/configs/schema/mechanistic_belief_prior_reliability_authority.schema.json
+    schema_version: neuronsifter-mechanistic-belief-prior-reliability-authority-v1
+  terminal_decision_table:
+    path: Output/audits/mechanistic_belief_terminal_decision_table.json
+    schema_path: Libs/configs/schema/mechanistic_belief_terminal_decision_table.schema.json
+    schema_version: neuronsifter-mechanistic-belief-terminal-decision-table-v1
+round24_inputs:
+  - path: Libs/configs/validation/mechanistic_belief_construct_firewall.yaml
+    file_sha256: f450ed2e1be9f09fdc1b8e7bc5066b2c68a5307c4af7b4778d5686f36cd3e374
+    required_status: frozen_before_mechanism_source_content
+    semantic_identity_field: contract_uid
+    semantic_identity: mechanistic_belief_construct_firewall
+  - path: Libs/configs/schema/mechanistic_belief_cutoff_receipt.schema.json
+    file_sha256: 0c6e30c56c72b53b1d13db622faf7e458d8fa4e211edeb56c370c9d2b8388555
+    required_status: schema_valid
+    semantic_identity_field: $id
+    semantic_identity: https://neuronsifter.local/schema/mechanistic_belief_cutoff_receipt.schema.json
+  - path: Libs/configs/schema/mechanistic_belief_construct_authority.schema.json
+    file_sha256: 93edc9324dca165820a6d40475f95ba65e332242f63b07f345ad8b0856be6c70
+    required_status: schema_valid
+    semantic_identity_field: $id
+    semantic_identity: https://neuronsifter.local/schema/mechanistic_belief_construct_authority.schema.json
+  - path: Output/audits/mechanistic_belief_cutoff_receipt.json
+    file_sha256: a2c9cd351a8f8199a87864d4a7f97f5a3444e859a55efd717343654a5c1570cc
+    required_status: MECHANISTIC_BELIEF_CUTOFF_RECEIPT_VALID
+    semantic_identity_field: receipt_sha256
+    semantic_identity: 076c29ad32d88d6ce08ddcdc25545f90189754ae0ef1ed5acda242493f7d84d5
+  - path: Output/audits/mechanistic_belief_construct_authority.json
+    file_sha256: a1ea36299c2f2097a7606a45a1643edd731aa693643113b3ee03bea7e0b120e0
+    required_status: MECHANISTIC_BELIEF_CONSTRUCT_FIREWALL_FROZEN
+    semantic_identity_field: authority_sha256
+    semantic_identity: 372247967aeaa49cd61c10b80bf2097c9824b4a7f9245eda87353f2f35eabd7b
+method_identity:
+  method_uid: mechanistic_belief_twin_v1
+  method_family: prospective_mechanistic_belief_twin
+  task_specific_fitting: false
+  prior_predictive: true
+  candidate_search_allowed: false
+  preferred_method_allowed: false
+prior_roles:
+  ordered_roles:
+    - role_uid: canonical_mechanism_prior
+      role_class: canonical
+      required: true
+      population_source: future_admitted_mechanism_basis_only
+      selection_allowed: false
+      reporting_rule: report_as_canonical_without_target_task_selection
+    - role_uid: conservative_support_sensitivity
+      role_class: sensitivity
+      required: false
+      population_source: future_intersection_of_admitted_support_bounds_only
+      selection_allowed: false
+      reporting_rule: report_with_all_populated_sensitivity_roles_without_selection_or_averaging
+    - role_uid: broad_parameter_sensitivity
+      role_class: sensitivity
+      required: false
+      population_source: future_union_of_admitted_support_bounds_within_physical_domains_only
+      selection_allowed: false
+      reporting_rule: report_with_all_populated_sensitivity_roles_without_selection_or_averaging
+  maximum_sensitivity_roles: 2
+  numerical_priors_populated: false
+  preferred_sensitivity_role: null
+parameter_domain_distribution_families:
+  - parameter_domain: signed_real
+    distribution_family: normal
+  - parameter_domain: positive_real
+    distribution_family: lognormal
+  - parameter_domain: nonnegative_real
+    distribution_family: zero_inflated_gamma
+  - parameter_domain: unit_interval
+    distribution_family: beta
+  - parameter_domain: bounded_interval
+    distribution_family: scaled_beta
+  - parameter_domain: simplex
+    distribution_family: dirichlet
+  - parameter_domain: finite_categorical
+    distribution_family: categorical
+latent_state_factors:
+  - factor_uid: sample_treatment_action
+    factor_class: known_exogenous_conditioning
+    scientific_meaning: declared_sample_level_treatment_or_intervention_action
+    forbidden_interpretation: latent_response_or_clinical_recommendation
+  - factor_uid: exposure_occupancy
+    factor_class: uncertain_latent_state
+    scientific_meaning: target_site_exposure_occupancy_and_declared_pkpd_state
+    forbidden_interpretation: clinical_response_probability
+  - factor_uid: cns_microenvironment
+    factor_class: uncertain_latent_state
+    scientific_meaning: explicit_compartment_species_grid_and_supported_mechanism_state
+    forbidden_interpretation: scalar_disease_score
+  - factor_uid: electrophysiology
+    factor_class: uncertain_latent_state
+    scientific_meaning: supported_voltage_calcium_spike_and_circuit_state
+    forbidden_interpretation: clinical_cognition_or_endpoint_prediction
+  - factor_uid: structural_morphology
+    factor_class: uncertain_latent_state
+    scientific_meaning: supported_tissue_cellular_structure_and_morphology_state
+    forbidden_interpretation: patient_level_progression
+observable_families:
+  - observable_family_uid: exposure_occupancy_observable
+    linked_latent_factor: exposure_occupancy
+    scientific_meaning: direct_measurement_or_declared_projection_of_exposure_or_occupancy
+  - observable_family_uid: microenvironment_species_flux_observable
+    linked_latent_factor: cns_microenvironment
+    scientific_meaning: direct_measurement_or_declared_projection_of_species_or_flux
+  - observable_family_uid: electrophysiology_observable
+    linked_latent_factor: electrophysiology
+    scientific_meaning: direct_measurement_or_declared_projection_of_voltage_calcium_spike_or_circuit_state
+  - observable_family_uid: structural_morphology_observable
+    linked_latent_factor: structural_morphology
+    scientific_meaning: direct_measurement_or_declared_projection_of_structure_or_morphology
+observable_requirements:
+  required_fields:
+    - units
+    - source_role
+    - missingness
+    - projection_identity
+    - linked_latent_factor
+  prohibited_semantics:
+    - target_task_outcome
+    - clinical_endpoint_bridge
+    - author_conclusion
+    - intervention_ranking_truth
+    - six_context_truth
+prior_predictive_semantics:
+  conditional_object: distribution_over_latent_state_and_observable_trajectories_given_future_valid_action_program
+  target_task_posterior: false
+  target_task_label_fit: false
+  clinical_effect_probability: false
+comparison_forms:
+  ordered_forms:
+    - form_uid: static
+      method_uid: mechanistic_belief_twin_v1
+      semantic_role: initial_prior_without_action_conditioned_temporal_propagation
+      distributional_spread: retained_without_invented_response_trajectory
+      abstention_behavior: preserve_structural_support_state
+      diagnostic_only: true
+    - form_uid: point_estimate
+      method_uid: mechanistic_belief_twin_v1
+      semantic_role: prespecified_distributional_summary_of_same_mechanistic_mapping
+      distributional_spread: suppressed_for_diagnostic_comparison
+      abstention_behavior: preserve_structural_support_state
+      diagnostic_only: true
+    - form_uid: forced_decision
+      method_uid: mechanistic_belief_twin_v1
+      semantic_role: same_pairwise_distribution_with_code_pinned_tie_rule
+      distributional_spread: retained_in_receipt
+      abstention_behavior: suppress_decision_abstention_but_retain_full_form_abstention_receipt
+      diagnostic_only: true
+    - form_uid: full_belief_twin
+      method_uid: mechanistic_belief_twin_v1
+      semantic_role: prior_predictive_distribution_with_support_uncertainty_pairwise_outputs_and_abstention
+      distributional_spread: retained
+      abstention_behavior: structural_no_fit_contract
+      diagnostic_only: false
+  shared_identity_required: true
+  preferred_form: null
+  winner_selection_allowed: false
+uncertainty_components:
+  - component_uid: mechanism_uncertainty
+    scientific_meaning: uncertainty_over_admitted_mechanism_structure_or_activation_assumptions
+  - component_uid: parameter_uncertainty
+    scientific_meaning: uncertainty_within_frozen_parameter_domain_and_distribution_family
+  - component_uid: support_uncertainty
+    scientific_meaning: categorical_provenance_status_for_incomplete_or_contradictory_evidence_coverage
+  - component_uid: context_model_form_uncertainty
+    scientific_meaning: mismatch_between_declared_context_and_modeled_mechanism_or_observation_assumptions_including_sensitivity_disagreement
+support_contract:
+  precedence:
+    - UNSUPPORTED
+    - OOD
+    - PARTIAL_SUPPORT
+    - SUPPORTED
+  states:
+    - support_state: UNSUPPORTED
+      scientific_meaning: required_action_mechanism_parameter_observable_or_provenance_semantics_absent_or_contradictory
+      execution_disposition: prohibited
+      distribution_reporting: unavailable
+      mandatory_abstention: true
+      abstention_reason_code: REQUIRED_SEMANTICS_UNSUPPORTED
+      binary_decision_authorized: false
+    - support_state: OOD
+      scientific_meaning: semantics_representable_but_required_dimension_outside_future_frozen_support_domain
+      execution_disposition: diagnostic_only
+      distribution_reporting: diagnostic_only
+      mandatory_abstention: true
+      abstention_reason_code: OUTSIDE_FROZEN_SUPPORT_DOMAIN
+      binary_decision_authorized: false
+    - support_state: PARTIAL_SUPPORT
+      scientific_meaning: no_contradiction_or_ood_breach_but_required_support_dimension_incomplete
+      execution_disposition: distribution_with_explicit_missingness
+      distribution_reporting: continuous_only
+      mandatory_abstention: false
+      abstention_reason_code: null
+      binary_decision_authorized: false
+    - support_state: SUPPORTED
+      scientific_meaning: all_required_dimensions_satisfy_future_frozen_support_contract
+      execution_disposition: distribution_reporting_permitted
+      distribution_reporting: continuous_only
+      mandatory_abstention: false
+      abstention_reason_code: null
+      binary_decision_authorized: false
+abstention_contract:
+  default_mode: continuous_only
+  binary_rule_frozen: false
+  target_task_threshold_allowed: false
+  learned_threshold_allowed: false
+  validation_quantile_allowed: false
+  performance_cutoff_allowed: false
+  unsupported_reason_code: REQUIRED_SEMANTICS_UNSUPPORTED
+  ood_reason_code: OUTSIDE_FROZEN_SUPPORT_DOMAIN
+  forced_decision_tie_rule: stable_world_action_uid_lexicographic_order
+  forced_decision_diagnostic_only: true
+pairwise_distributions:
+  effect_direction_categories:
+    - mechanistic_goal_aligned
+    - indeterminate_or_tied
+    - mechanistic_goal_opposed
+  objective_orientation: future_prespecified_mechanistic_objective_only
+  rank_distribution: joint_prior_predictive_rank_positions_with_ties_and_support_preserved
+  unsupported_pair_disposition: unavailable
+  ood_pair_disposition: diagnostic_only_with_mandatory_abstention
+  sensitivity_identity_preserved: true
+  cross_sensitivity_averaging_allowed: false
+  point_score_sort_allowed: false
+  clinical_direction_interpretation_allowed: false
+  forced_decision_preserves_original_distribution: true
+claim_closures:
+  learned_confidence_claim: false
+  tri_claim: false
+  clinical_reliability_claim: false
+  efficacy_claim: false
+  treatment_recommendation_claim: false
+  performance_claim: false
+access_counters:
+  six_context_outcome_access: 0
+  protected_holdout_access: 0
+  source_content_access: 0
+downstream_authorization:
+  source_queue_creation_authorized: false
+  source_content_intake_authorized: false
+  prior_distribution_population_authorized: false
+  world_action_compiler_authorized: false
+  runtime_implementation_authorized: false
+  inference_authorized: false
+  training_authorized: false
+  gpu_authorized: false
+  formal_evaluation_authorized: false
+  six_context_evaluation_authorized: false
+artifacts_created:
+  source_queue: false
+  source_content: false
+  numerical_prior_distribution: false
+  world_action_compiler: false
+  belief_runtime: false
+  scientific_inference: false
+  training_run: false
+  evaluation_result: false
+terminal_decisions:
+  - terminal: PROSPECTIVE_MECHANISTIC_BELIEF_TWIN_READY_FOR_EVALUATION
+    trigger_stage: metadata_only_six_context_preflight
+    required_evidence:
+      - construct_and_firewall_pass
+      - mechanism_basis_pass
+      - compiler_generalization_pass
+      - prior_predictive_identifiability_pass
+      - no_fit_reliability_pass
+      - non_evaluation_qualification_pass
+      - metadata_only_action_coverage_pass
+      - zero_outcome_and_protected_access
+    closed_milestone_classes:
+      - formal_six_context_evaluation
+      - agentic_extensions
+    closed_direction_classes:
+      - execute_six_context_evaluation
+      - tool_calling
+      - agent_in_twin
+      - memory_adaptation
+      - coevolution
+    prohibited_recovery_actions:
+      - automatic_formal_evaluation
+      - outcome_inspection
+      - protected_holdout_access
+    interpretation: method_package_ready_for_separately_authorized_falsification_only
+    terminal_issued_in_this_round: false
+  - terminal: MECHANISM_BASIS_INSUFFICIENT
+    trigger_stage: mechanism_basis_qualification
+    required_evidence:
+      - bounded_queue_exhausted
+      - admitted_evidence_coverage_incomplete_or_contradictory
+      - no_invented_mechanism_or_parameter_semantics
+    closed_milestone_classes:
+      - mechanism-basis-qualification
+      - mechanism-action-program-generalization
+      - mechanistic-belief-runtime
+      - mechanistic-belief-reliability
+      - mechanistic-belief-method-qualification
+      - mechanistic-belief-evaluation-readiness
+    closed_direction_classes:
+      - queue_expansion
+      - compiler_implementation
+      - runtime_implementation
+      - reliability_implementation
+      - qualification
+      - metadata_preflight
+      - evaluation_packaging
+    prohibited_recovery_actions:
+      - queue_widening
+      - source_replacement_after_review
+      - numerical_prior_invention
+      - task_specific_fitting
+      - outcome_inspection
+      - authority_mutation
+    interpretation: scientific_basis_stop_not_model_performance_result
+    terminal_issued_in_this_round: false
+  - terminal: MECHANISM_COMPILER_NOT_GENERALIZABLE
+    trigger_stage: mechanism_action_program_compilation
+    required_evidence:
+      - required_modality_semantics_not_compilable
+      - context_specific_invention_or_missing_physical_fields_or_modality_collapse
+    closed_milestone_classes:
+      - mechanism-action-program-generalization
+      - mechanistic-belief-runtime
+      - mechanistic-belief-reliability
+      - mechanistic-belief-method-qualification
+      - mechanistic-belief-evaluation-readiness
+    closed_direction_classes:
+      - runtime_implementation
+      - reliability_implementation
+      - qualification
+      - metadata_preflight
+      - evaluation_packaging
+    prohibited_recovery_actions:
+      - context_specific_shortcuts
+      - invented_action_fields
+      - modality_collapse
+      - task_specific_fitting
+      - outcome_inspection
+      - authority_mutation
+    interpretation: compiler_scope_stop_not_intervention_response_result
+    terminal_issued_in_this_round: false
+  - terminal: PRIOR_PREDICTIVE_TWIN_NOT_SCIENTIFICALLY_IDENTIFIABLE
+    trigger_stage: prior_predictive_runtime_identifiability
+    required_evidence:
+      - state_observable_prior_transition_or_action_dependence_not_auditable
+      - target_task_fitting_or_invention_would_be_required
+    closed_milestone_classes:
+      - mechanistic-belief-runtime
+      - mechanistic-belief-reliability
+      - mechanistic-belief-method-qualification
+      - mechanistic-belief-evaluation-readiness
+    closed_direction_classes:
+      - reliability_implementation
+      - qualification
+      - metadata_preflight
+      - evaluation_packaging
+    prohibited_recovery_actions:
+      - neural_head_training
+      - empirical_bayes_target_fit
+      - fabricated_transition_or_observation_link
+      - outcome_inspection
+      - authority_mutation
+    interpretation: identifiability_stop_not_target_task_result
+    terminal_issued_in_this_round: false
+  - terminal: NO_FIT_UNCERTAINTY_NOT_DEFENSIBLE
+    trigger_stage: structural_reliability_qualification
+    required_evidence:
+      - support_ood_uncertainty_or_abstention_requires_fitting_or_fabrication
+      - continuous_only_fallback_not_sufficient_for_declared_method_claim
+    closed_milestone_classes:
+      - mechanistic-belief-reliability
+      - mechanistic-belief-method-qualification
+      - mechanistic-belief-evaluation-readiness
+    closed_direction_classes:
+      - qualification
+      - metadata_preflight
+      - evaluation_packaging
+    prohibited_recovery_actions:
+      - target_task_threshold_fit
+      - performance_cutoff_tuning
+      - uncertainty_to_confidence_relabeling
+      - outcome_inspection
+      - authority_mutation
+    interpretation: reliability_semantics_stop_not_predictive_accuracy_result
+    terminal_issued_in_this_round: false
+  - terminal: ACTION_DOMAIN_COVERAGE_INSUFFICIENT
+    trigger_stage: metadata_only_six_context_preflight
+    required_evidence:
+      - formal_method_identity_qualified
+      - metadata_only_action_coverage_rule_failed
+      - zero_outcome_and_protected_access
+    closed_milestone_classes:
+      - mechanistic-belief-evaluation-readiness
+      - formal_six_context_evaluation
+    closed_direction_classes:
+      - positive_readiness
+      - execute_six_context_evaluation
+    prohibited_recovery_actions:
+      - context_specific_rule_addition
+      - method_mutation
+      - threshold_relaxation
+      - outcome_inspection
+      - protected_holdout_access
+    interpretation: metadata_coverage_stop_not_intervention_response_result
+    terminal_issued_in_this_round: false
+current_terminal: null
+terminal_issued_in_this_round: false
+limitations:
+  - semantics_only_no_mechanism_source_content_or_numerical_prior_population
+  - no_compiler_runtime_inference_training_gpu_or_evaluation
+  - mechanism_support_is_not_clinical_effect_or_treatment_recommendation
+blockers: []

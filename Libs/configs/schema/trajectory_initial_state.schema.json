@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/trajectory_initial_state.schema.json",
+  "title": "NeuronSifter TrajectoryInitialState",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "state_uid", "state_time", "time_unit", "region_axis", "compartment_axis", "species_or_feature_axis", "units", "missingness", "uncertainty", "biological_or_model_context", "support_domain_ref", "source_lineage", "state_values_ref", "state_hash", "origin", "imputation_policy", "empirical_state", "qualification_only", "eligible_for_biological_validation", "status"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-trajectory-initial-state-v1"},
+    "state_uid": {"type": "string", "minLength": 1},
+    "state_time": {"type": "number"},
+    "time_unit": {"type": "string", "minLength": 1},
+    "region_axis": {"$ref": "#/$defs/nonemptyStrings"},
+    "compartment_axis": {"$ref": "#/$defs/nonemptyStrings"},
+    "species_or_feature_axis": {"$ref": "#/$defs/nonemptyStrings"},
+    "units": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "string", "minLength": 1}},
+    "missingness": {"type": "object", "minProperties": 1},
+    "uncertainty": {"type": "object", "minProperties": 1},
+    "biological_or_model_context": {"type": "object", "minProperties": 1},
+    "support_domain_ref": {"type": "string", "minLength": 1},
+    "source_lineage": {"type": "object", "minProperties": 1},
+    "state_values_ref": {"type": "string", "minLength": 1},
+    "state_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "origin": {"enum": ["governed_e1_observation_derived_state", "validated_mechanistic_steady_state", "validated_simulator_initialization", "explicit_synthetic_qualification_state"]},
+    "imputation_policy": {"const": "none_all_channels_explicit"},
+    "empirical_state": {"type": "boolean"},
+    "qualification_only": {"type": "boolean"},
+    "eligible_for_biological_validation": {"type": "boolean"},
+    "status": {"enum": ["validated", "blocked"]}
+  },
+  "$defs": {"nonemptyStrings": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}}
+}

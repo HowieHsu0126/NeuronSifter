@@ -1,0 +1,142 @@
+schema_version: neuronsifter-round11f-controller-authority-v1
+authority_uid: GateWriterAuthority
+canonical_controller:
+  component_uid: neuronsifter_orchestration_controller
+  entrypoint: Libs/scripts/builders/build_dt_round11f_controller_contracts.py
+  responsibilities:
+    - config_resolution
+    - stage_gate_orchestration
+    - artifact_dependency_checks
+    - validator_invocation
+    - terminal_state_aggregation
+    - canonical_gate_decision_writing
+    - assimilation_decision_authorization
+  prohibited_responsibilities:
+    - data_parsing
+    - model_training
+    - scientific_tool_implementation
+    - metric_calculation
+    - literature_extraction
+    - llm_hypothesis_generation
+formal_gate:
+  schema_version: neuronsifter-gate-writer-authority-v1
+  writer_uid: neuronsifter_orchestration_controller
+  approved_validators:
+    - validator_uid: round11f_controller_union_lineage_validator
+      stage_uids:
+        - round_11f_controller_lineage
+    - validator_uid: round11g_targeted_repair_full_suite_validator
+      stage_uids:
+        - round_11g_targeted_repair_and_full_suite_closure
+    - validator_uid: round12_typed_evidence_relationship_validator
+      stage_uids:
+        - round_12_typed_evidence_relationships
+    - validator_uid: round13_action_observation_contract_validator
+      stage_uids:
+        - round_13_action_observation_contracts
+    - validator_uid: round14_evidence_fabric_admission_validator
+      stage_uids:
+        - round_14_evidence_fabric_v0
+    - validator_uid: round15_clean_action_complete_trajectory_validator
+      stage_uids:
+        - round_15_clean_action_complete_trajectory_domain
+    - validator_uid: round16_governed_what_if_engine_validator
+      stage_uids:
+        - round_16_governed_what_if_engine
+    - validator_uid: round17_scitil_twin_gated_agent_validator
+      stage_uids:
+        - round_17_scitil_twin_gated_agent_loop
+    - validator_uid: round18_literature_held_out_replay_validator
+      stage_uids:
+        - round_18_literature_held_out_sequential_replay
+    - validator_uid: round19_public_e2_e4_training_readiness_validator
+      stage_uids:
+        - round_19_public_e2_e4_training_readiness
+  disallowed_writer_kinds:
+    - builder_direct
+    - test_direct
+    - markdown_direct
+    - llm_agent
+    - baseline_pipeline
+    - latest_pointer
+assimilation_authority:
+  schema_version: neuronsifter-round13-assimilation-authority-v1
+  controller_uid: neuronsifter_orchestration_controller
+  approved_validators:
+    - round13_action_observation_contract_validator
+    - round17_scitil_twin_gated_agent_validator
+  disallowed_writer_kinds:
+    - builder_direct
+    - tool_adapter
+    - llm_agent
+    - evidence_producer
+    - report_generator
+    - baseline_pipeline
+scitil_runtime_authority:
+  schema_version: neuronsifter-round17-scitil-runtime-authority-v1
+  controller_uid: neuronsifter_orchestration_controller
+  approved_validator_uid: round17_scitil_twin_gated_agent_validator
+  gate_types:
+    - H-Gate
+    - W-Gate
+    - I-Gate
+    - O-Gate
+  agent_roles:
+    - ScientistAgent
+    - FalsifierAgent
+    - ExperimentAgent
+    - EvidenceAgent
+  disallowed_gate_writers:
+    - llm_agent
+    - scientist_agent
+    - falsifier_agent
+    - experiment_agent
+    - evidence_agent
+    - tool_adapter
+    - rollout_engine
+  agent_tool_execution_allowed: false
+  agent_state_update_allowed: false
+  arbitrary_shell_execution_allowed: false
+artifact_policy:
+  require_input_artifact_hashes: true
+  require_config_hash: true
+  require_git_commit: true
+  require_lineage_parent: true
+  latest_pointer_is_evidence: false
+  markdown_is_status_source: false
+evidence_union:
+  mode: artifact_level_only
+  conflict_policy: fail_closed
+  rejected_conflict_states:
+    - semantic_conflict
+    - unknown
+  preserve_fields:
+    - evidence_type
+    - qc_grade
+    - train_eval_role
+    - claim_eligibility
+    - provenance_status
+    - independence_group
+roadmap_lineage:
+  sequence:
+    - Round-11
+    - Round-11C
+    - Round-11D
+    - Round-11E
+    - Round-11F
+    - Round-11G
+  round_12_required_parent:
+    stage_uid: round_11g_targeted_repair_and_full_suite_closure
+    closure: accepted
+read_only_inputs:
+  - TODO.md
+  - orchestrator/state.json
+  - Libs/configs/config_stack.yaml
+  - Libs/configs/validation/iclr_design_contract_union.yaml
+  - Output/audits/dt_round11d_full_suite_execution.json
+  - Output/audits/dt_round11d_full_suite_results.xml
+  - Output/audits/dt_round11d_full_suite_failure_triage.json
+  - Output/audits/dt_round11_closure_decision.json
+  - Output/audits/dt_round11e_targeted_gate.json
+  - Output/audits/dt_round11e_repair_wave_record.json
+  - Output/audits/dt_round11e_testcase_failure_ledger.tsv

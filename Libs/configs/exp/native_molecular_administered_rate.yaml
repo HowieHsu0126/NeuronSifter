@@ -1,0 +1,19 @@
+# Explicit controlled-world cost/actuation derivative; original source arrays stay frozen.
+config_includes:
+- manuscript_native_protocol.yaml
+native_molecular_administration:
+  enabled: true
+  schema_version: native_molecular_constant_reference_rate.v1
+  law_uid: controlled_molecular_administered_rate_reference4h_v1
+  reference_time_hours: 4.0
+  reference_time_unit: hour
+  rate_unit: mg/kg/hour
+  total_unit: mg/kg
+  route: intrathecal
+  schedule: single_absolute_source_program_no_periodic_redose
+  numerical_mapping: rate_equals_public_drive_over_reference_time_gain_equals_original_gain_times_reference_time
+  numerical_source_law: original_discrete_source
+  query_convention: predose_t0_then_post_consumed_interval
+  switch_convention: preserve_consumed_prefix_replace_future_absolute_intervals
+  support: maximum_forward_total_of_actual_registered_action_set
+  scientific_status: controlled_definition_unqualified_not_empirical_pk

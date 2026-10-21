@@ -1,0 +1,50 @@
+task_block:
+  task_id: operator_baselines
+  task_name: operator_baselines
+  task_family: neural_operator_baseline
+  description: Paper-grade AD-only operator_baselines task block.
+  shell_entrypoint: Libs/scripts/experiments/run_operator_baselines.sh
+  shell_path: Libs/scripts/experiments/run_operator_baselines.sh
+  python_entrypoint: Libs/exp/baselines/run_operator_baselines.py
+  python_path: Libs/exp/baselines/run_operator_baselines.py
+  config_requirements:
+  - Libs/configs/config_stack.yaml
+  - Libs/configs/exp/paper_grade_full_suite.yaml
+  expected_inputs:
+  - operator_baseline_profiles
+  - formal_result_catalogs
+  expected_outputs:
+  - metrics.json
+  - run_metadata.json
+  - artifact_hashes.json
+  - status.json
+  - artifact_manifest.json
+  metrics:
+  - concentration_nrmse
+  - flux_nrmse
+  - regimen_ndcg_at_10
+  seeds:
+  - 40
+  - 41
+  - 42
+  - 43
+  - 44
+  resource_profile: gpu_train
+  postrun_checks:
+  - Libs/scripts/validators/validate_paper_grade_full_suite.py --mode postrun
+  claim_guardrails:
+  - preserve_ad_only_scope
+  - preserve_G2_pass_with_warnings
+  - preserve_G5_not_passed
+  - no_general_drug_screening_claim
+  - no_direct_clinical_endpoint_prediction_claim
+  - no_private_clinical_data_training_claim
+  - no_secondary_disease_readiness_claim
+  status: partial
+  runnable_profiles:
+  - transolver_microenvironment_operator
+  - factor_coupled_neural_operator
+  reference_only_profiles:
+  - fno_reference
+  - deeponet_reference
+  - graph_neural_operator_reference

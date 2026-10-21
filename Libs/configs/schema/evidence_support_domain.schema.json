@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/evidence_support_domain.schema.json",
+  "title": "NeuronSifter EvidenceSupportDomain",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "support_domain_uid", "organism_scope", "disease_scope", "region_scope", "compartment_scope", "cell_type_scope", "modality_scope", "assay_scope", "action_scope", "dose_scope", "route_scope", "time_scope", "model_family_scope", "tool_family_scope", "source_scope", "generalization_status", "provenance_ref", "status"],
+  "$defs": {"scope": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}},
+  "properties": {
+    "schema_version": {"const": "neuronsifter-evidence-support-domain-v1"},
+    "support_domain_uid": {"type": "string", "minLength": 1},
+    "organism_scope": {"$ref": "#/$defs/scope"}, "disease_scope": {"$ref": "#/$defs/scope"},
+    "region_scope": {"$ref": "#/$defs/scope"}, "compartment_scope": {"$ref": "#/$defs/scope"},
+    "cell_type_scope": {"$ref": "#/$defs/scope"}, "modality_scope": {"$ref": "#/$defs/scope"},
+    "assay_scope": {"$ref": "#/$defs/scope"}, "action_scope": {"$ref": "#/$defs/scope"},
+    "dose_scope": {"$ref": "#/$defs/scope"}, "route_scope": {"$ref": "#/$defs/scope"},
+    "time_scope": {"$ref": "#/$defs/scope"}, "model_family_scope": {"$ref": "#/$defs/scope"},
+    "tool_family_scope": {"$ref": "#/$defs/scope"}, "source_scope": {"$ref": "#/$defs/scope"},
+    "generalization_status": {"enum": ["in_domain", "extrapolative", "unsupported", "stress_only"]},
+    "provenance_ref": {"type": "string", "minLength": 1},
+    "status": {"enum": ["active", "blocked", "stress_only", "pilot_only"]}
+  }
+}

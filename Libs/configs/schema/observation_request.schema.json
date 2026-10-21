@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/observation_request.schema.json",
+  "title": "NeuronSifter ObservationRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "request_uid", "research_question_ref", "requested_variable_namespace", "requested_feature_ids", "region", "compartment", "cell_type", "biological_unit_scope", "timepoint_or_time_window", "assay_or_measurement_type", "required_units", "minimum_quality", "minimum_fidelity", "uncertainty_requirement", "budget", "tool_availability_constraints", "support_domain_ref", "provenance_ref", "status"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-observation-request-v1"},
+    "request_uid": {"type": "string", "minLength": 1},
+    "research_question_ref": {"type": "string", "minLength": 1},
+    "requested_variable_namespace": {"type": "string", "minLength": 1},
+    "requested_feature_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1, "uniqueItems": true},
+    "region": {"type": "string", "minLength": 1},
+    "compartment": {"type": "string", "minLength": 1},
+    "cell_type": {"type": "string", "minLength": 1},
+    "biological_unit_scope": {"type": "string", "minLength": 1},
+    "timepoint_or_time_window": {"type": "object", "minProperties": 1},
+    "assay_or_measurement_type": {"type": "string", "minLength": 1},
+    "required_units": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1, "uniqueItems": true},
+    "minimum_quality": {"enum": ["A", "B", "C", "D", "S"]},
+    "minimum_fidelity": {"type": "string", "minLength": 1},
+    "uncertainty_requirement": {"type": "object", "minProperties": 1},
+    "budget": {"type": "object", "minProperties": 1},
+    "tool_availability_constraints": {"type": "object"},
+    "support_domain_ref": {"type": "string", "minLength": 1},
+    "provenance_ref": {"type": "string", "minLength": 1},
+    "status": {"enum": ["contract_valid", "pilot_only", "unsupported"]}
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/round19_scientific_contract.schema.json",
+  "title": "Round19ScientificContract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_uid", "schema_version", "created_before_discovery", "frozen_at", "minimum_strong_e2_endpoint_blocks", "minimum_weighted_e2_endpoint_blocks", "minimum_independent_studies", "minimum_action_classes", "minimum_support_domains", "minimum_intervention_e4_families", "minimum_matched_control_pairs", "minimum_independent_validation_units", "publication_holdout_required", "source_holdout_required", "action_holdout_required", "support_domain_holdout_required", "final_held_out_frozen", "strict_public_only_flag", "controlled_source_resolution_count", "training_authorized", "evidence_fabric_sealed", "dt_core_status"],
+  "properties": {
+    "contract_uid": {"type": "string", "minLength": 1},
+    "schema_version": {"const": "neuronsifter-round19-scientific-contract-v1"},
+    "created_before_discovery": {"const": true},
+    "frozen_at": {"type": "string", "format": "date-time"},
+    "minimum_strong_e2_endpoint_blocks": {"type": "integer", "minimum": 1},
+    "minimum_weighted_e2_endpoint_blocks": {"type": "integer", "minimum": 1},
+    "minimum_independent_studies": {"type": "integer", "minimum": 1},
+    "minimum_action_classes": {"type": "integer", "minimum": 1},
+    "minimum_support_domains": {"type": "integer", "minimum": 1},
+    "minimum_intervention_e4_families": {"type": "integer", "minimum": 1},
+    "minimum_matched_control_pairs": {"type": "integer", "minimum": 1},
+    "minimum_independent_validation_units": {"type": "integer", "minimum": 1},
+    "publication_holdout_required": {"const": true},
+    "source_holdout_required": {"const": true},
+    "action_holdout_required": {"const": true},
+    "support_domain_holdout_required": {"const": true},
+    "final_held_out_frozen": {"const": true},
+    "strict_public_only_flag": {"const": true},
+    "controlled_source_resolution_count": {"const": 0},
+    "training_authorized": {"const": false},
+    "evidence_fabric_sealed": {"const": false},
+    "dt_core_status": {"const": "not_evaluated"}
+  }
+}

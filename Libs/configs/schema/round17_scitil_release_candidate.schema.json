@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/round17_scitil_release_candidate.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "release_uid", "parent_release_uid", "created_at", "code_commit", "config_hash", "schema_registry_hash", "input_bundle_hash", "environment_hash", "artifact_hashes", "belief_state_count", "proposal_count", "gate_decision_count", "episode_count", "empirical_observation_count", "frozen_gap_count", "resolved_by_agent_reasoning", "autonomous_discovery_claim", "status", "sealed", "dt_core_status", "release_content_hash"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-round17-scitil-release-candidate-v1"}, "release_uid": {"$ref": "#/$defs/text"}, "parent_release_uid": {"$ref": "#/$defs/text"}, "created_at": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T"}, "code_commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"}, "config_hash": {"$ref": "#/$defs/hash"}, "schema_registry_hash": {"$ref": "#/$defs/hash"}, "input_bundle_hash": {"$ref": "#/$defs/hash"}, "environment_hash": {"$ref": "#/$defs/hash"}, "artifact_hashes": {"$ref": "#/$defs/hashes"}, "belief_state_count": {"type": "integer", "minimum": 1}, "proposal_count": {"type": "integer", "minimum": 1}, "gate_decision_count": {"type": "integer", "minimum": 1}, "episode_count": {"type": "integer", "const": 7}, "empirical_observation_count": {"type": "integer", "const": 0}, "frozen_gap_count": {"type": "integer", "const": 20}, "resolved_by_agent_reasoning": {"type": "integer", "const": 0}, "autonomous_discovery_claim": {"const": false}, "status": {"const": "materialized_unsealed"}, "sealed": {"const": false}, "dt_core_status": {"const": "not_evaluated"}, "release_content_hash": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {"text": {"type": "string", "minLength": 1}, "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}, "hashes": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "#/$defs/hash"}}}
+}

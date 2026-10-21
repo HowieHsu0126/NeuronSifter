@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/agent_explanation.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "explanation_uid", "episode_uid", "belief_state_ref", "gate_decision_refs", "rollout_or_tool_artifact_refs", "uncertainty_report_ref", "reliability_report_ref", "support_domain_report_ref", "conflicts", "claim_eligibility_ref", "summary", "limitations", "model_based_counterfactual", "empirical_observation", "causal_effect_claim", "clinical_recommendation", "provenance"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-agent-explanation-v1"}, "explanation_uid": {"$ref": "#/$defs/text"}, "episode_uid": {"$ref": "#/$defs/text"}, "belief_state_ref": {"$ref": "#/$defs/text"}, "gate_decision_refs": {"$ref": "#/$defs/nonempty_texts"}, "rollout_or_tool_artifact_refs": {"$ref": "#/$defs/nonempty_texts"}, "uncertainty_report_ref": {"$ref": "#/$defs/text"}, "reliability_report_ref": {"$ref": "#/$defs/text"}, "support_domain_report_ref": {"$ref": "#/$defs/text"}, "conflicts": {"$ref": "#/$defs/texts"}, "claim_eligibility_ref": {"$ref": "#/$defs/text"}, "summary": {"$ref": "#/$defs/text"}, "limitations": {"$ref": "#/$defs/nonempty_texts"}, "model_based_counterfactual": {"type": "boolean"}, "empirical_observation": {"type": "boolean"}, "causal_effect_claim": {"const": false}, "clinical_recommendation": {"const": false}, "provenance": {"type": "object", "minProperties": 1}
+  },
+  "$defs": {"text": {"type": "string", "minLength": 1}, "texts": {"type": "array", "items": {"$ref": "#/$defs/text"}, "uniqueItems": true}, "nonempty_texts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/text"}, "uniqueItems": true}}
+}

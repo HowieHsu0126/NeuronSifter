@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/sequential_reveal_event.schema.json",
+  "title": "NeuronSifter Round-18 immutable sequential reveal event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "event_uid",
+    "episode_uid",
+    "step",
+    "sequence_index",
+    "timestamp",
+    "input_hashes",
+    "output_hashes",
+    "held_out_revealed",
+    "held_out_accessed",
+    "immutable",
+    "preserved",
+    "prior_event_hash",
+    "event_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-sequential-reveal-event-v1"},
+    "event_uid": {"$ref": "#/$defs/text"},
+    "episode_uid": {"$ref": "#/$defs/text"},
+    "step": {"enum": ["T0", "T1", "T2", "T3", "T4", "T5", "T6", "T7"]},
+    "sequence_index": {"type": "integer", "minimum": 0, "maximum": 7},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "input_hashes": {"$ref": "#/$defs/hashes"},
+    "output_hashes": {"$ref": "#/$defs/hashes"},
+    "held_out_revealed": {"type": "boolean"},
+    "held_out_accessed": {"type": "boolean"},
+    "immutable": {"const": true},
+    "preserved": {"const": true},
+    "prior_event_hash": {"anyOf": [{"$ref": "#/$defs/hash"}, {"type": "null"}]},
+    "event_hash": {"$ref": "#/$defs/hash"},
+    "decision_hash": {"$ref": "#/$defs/hash"},
+    "pre_cutoff_decision_hash": {"$ref": "#/$defs/hash"},
+    "outcome_ref": {"type": ["string", "null"]},
+    "process_identity": {"type": ["string", "null"]},
+    "status": {"enum": ["completed", "blocked", "failed", "invalidated"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"step": {"enum": ["T0", "T1", "T2", "T3", "T4"]}}},
+      "then": {
+        "properties": {
+          "held_out_revealed": {"const": false},
+          "held_out_accessed": {"const": false}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"step": {"enum": ["T5", "T6", "T7"]}}},
+      "then": {
+        "required": ["pre_cutoff_decision_hash"],
+        "properties": {
+          "held_out_revealed": {"const": true},
+          "held_out_accessed": {"const": true}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"step": {"const": "T4"}}},
+      "then": {
+        "properties": {
+          "output_hashes": {
+            "anyOf": [
+              {"required": ["prediction"]},
+              {"required": ["ranking"]},
+              {"required": ["abstention"]}
+            ]
+          }
+        }
+      }
+    },
+    {"if": {"properties": {"step": {"const": "T0"}}}, "then": {"properties": {"sequence_index": {"const": 0}, "prior_event_hash": {"type": "null"}}}},
+    {"if": {"properties": {"step": {"const": "T1"}}}, "then": {"properties": {"sequence_index": {"const": 1}, "prior_event_hash": {"$ref": "#/$defs/hash"}}}},
+    {"if": {"properties": {"step": {"const": "T2"}}}, "then": {"properties": {"sequence_index": {"const": 2}, "prior_event_hash": {"$ref": "#/$defs/hash"}}}},
+    {"if": {"properties": {"step": {"const": "T3"}}}, "then": {"properties": {"sequence_index": {"const": 3}, "prior_event_hash": {"$ref": "#/$defs/hash"}}}},
+    {"if": {"properties": {"step": {"const": "T4"}}}, "then": {"properties": {"sequence_index": {"const": 4}, "prior_event_hash": {"$ref": "#/$defs/hash"}}}},
+    {"if": {"properties": {"step": {"const": "T5"}}}, "then": {"properties": {"sequence_index": {"const": 5}, "prior_event_hash": {"$ref": "#/$defs/hash"}}}},
+    {"if": {"properties": {"step": {"const": "T6"}}}, "then": {"properties": {"sequence_index": {"const": 6}, "prior_event_hash": {"$ref": "#/$defs/hash"}}}},
+    {"if": {"properties": {"step": {"const": "T7"}}}, "then": {"properties": {"sequence_index": {"const": 7}, "prior_event_hash": {"$ref": "#/$defs/hash"}}}}
+  ],
+  "$defs": {
+    "text": {"type": "string", "minLength": 1},
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "hashes": {"type": "object", "additionalProperties": {"$ref": "#/$defs/hash"}}
+  }
+}

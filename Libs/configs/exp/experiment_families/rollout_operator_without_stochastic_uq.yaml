@@ -1,0 +1,16 @@
+experiment_family:
+  family_id: rollout_operator_without_stochastic_uq
+  description: AD-only paper-grade experiment family declaration for rollout_operator_without_stochastic_uq.
+  disease_program: ad_control
+  kind: project_architecture_ablation
+  profile_name: rollout_operator_deterministic_neuronsifter
+  adapter_name: ''
+  runnable: false
+  reference_only: true
+  reason_if_not_runnable: Deterministic rollout is tracked as an ablation, but removing
+    stochastic UQ cannot support TRI main-table claims.
+  matched_seed_policy: fixed_suite_seeds
+  claim_guardrails:
+  - ad_only
+  - no_g5_upgrade
+  - no_clinical_endpoint_prediction

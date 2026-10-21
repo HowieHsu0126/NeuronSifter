@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/agent_identity.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "agent_uid", "agent_role", "capabilities", "prohibited_capabilities", "gate_writer", "tool_executor", "state_update_authority", "canonical_controller", "provenance"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-agent-identity-v1"},
+    "agent_uid": {"$ref": "#/$defs/text"},
+    "agent_role": {"enum": ["ScientistAgent", "FalsifierAgent", "ExperimentAgent", "EvidenceAgent"]},
+    "capabilities": {"$ref": "#/$defs/texts"},
+    "prohibited_capabilities": {"$ref": "#/$defs/texts"},
+    "gate_writer": {"const": false},
+    "tool_executor": {"const": false},
+    "state_update_authority": {"const": false},
+    "canonical_controller": {"const": false},
+    "provenance": {"type": "object", "minProperties": 1}
+  },
+  "$defs": {
+    "text": {"type": "string", "minLength": 1},
+    "texts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/text"}, "uniqueItems": true}
+  }
+}

@@ -1,0 +1,9 @@
+family_name: measurement_semantics_audit
+paper_track: research_hardening
+cluster_profile: publication
+execution:
+  audit_commands:
+  - '{python_executable} -u Libs/scripts/builders/build_measurement_semantics_registry.py --config {config_path}'
+  - '{python_executable} -u Libs/scripts/validators/validate_measurement_semantics_registry.py --config {config_path}'
+  - '{python_executable} -u Libs/scripts/builders/build_model_input_registry.py --config {config_path}'
+  - '{python_executable} -u Libs/scripts/validators/validate_model_input_registry.py --config {config_path}'

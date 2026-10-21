@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/literature_cutoff.schema.json",
+  "title": "NeuronSifter Round-18 literature cutoff",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "cutoff_uid",
+    "policy_version",
+    "available_timestamps",
+    "selected_timestamp",
+    "selected_timestamp_type",
+    "temporal_ordering_status",
+    "strong_admission"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-literature-cutoff-v1"},
+    "cutoff_uid": {"$ref": "#/$defs/text"},
+    "policy_version": {"const": "neuronsifter-public-availability-timestamp-policy-v1"},
+    "artifact_uid": {"$ref": "#/$defs/text"},
+    "available_timestamps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/public_timestamp"}
+    },
+    "selected_timestamp": {"$ref": "#/$defs/timestamp"},
+    "selected_timestamp_type": {"$ref": "#/$defs/admissible_basis"},
+    "selection_rule": {"const": "earliest_reliable_public_availability_timestamp"},
+    "temporal_ordering_status": {"enum": ["ordered", "ambiguous", "blocked"]},
+    "strong_admission": {"type": "boolean"},
+    "content_hash": {"$ref": "#/$defs/hash"},
+    "status": {"enum": ["admissible", "weak_directional_only", "blocked"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"temporal_ordering_status": {"const": "ordered"}}},
+      "then": {"properties": {"strong_admission": {"const": true}}},
+      "else": {"properties": {"strong_admission": {"const": false}}}
+    }
+  ],
+  "$defs": {
+    "text": {"type": "string", "minLength": 1},
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "timestamp": {
+      "anyOf": [
+        {"type": "string", "format": "date"},
+        {"type": "string", "format": "date-time"}
+      ]
+    },
+    "admissible_basis": {
+      "enum": [
+        "publisher_publication_date",
+        "preprint_public_date",
+        "repository_release_date",
+        "accession_public_release_date",
+        "supplement_release_date",
+        "model_code_public_release_date"
+      ]
+    },
+    "public_timestamp": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["timestamp_type", "timestamp", "publicly_available", "admissible"],
+      "properties": {
+        "timestamp_type": {"$ref": "#/$defs/admissible_basis"},
+        "timestamp": {"$ref": "#/$defs/timestamp"},
+        "source_ref": {"$ref": "#/$defs/text"},
+        "publicly_available": {"const": true},
+        "admissible": {"type": "boolean"},
+        "version": {"type": ["string", "null"]}
+      }
+    }
+  }
+}

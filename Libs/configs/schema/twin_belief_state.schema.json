@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/twin_belief_state.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "belief_state_uid", "parent_belief_state_uid", "state_posterior_ref", "parameter_posterior_ref", "model_family_posterior_ref", "evidence_snapshot_ref", "active_hypothesis_refs", "constraint_state_ref", "support_domain_ref", "twin_debt_ref", "content_hash", "controller_uid", "creation_decision_ref", "provenance"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-twin-belief-state-v1"},
+    "belief_state_uid": {"$ref": "#/$defs/text"},
+    "parent_belief_state_uid": {"anyOf": [{"$ref": "#/$defs/text"}, {"type": "null"}]},
+    "state_posterior_ref": {"$ref": "#/$defs/text"},
+    "parameter_posterior_ref": {"$ref": "#/$defs/text"},
+    "model_family_posterior_ref": {"$ref": "#/$defs/text"},
+    "evidence_snapshot_ref": {"$ref": "#/$defs/text"},
+    "active_hypothesis_refs": {"$ref": "#/$defs/texts"},
+    "constraint_state_ref": {"$ref": "#/$defs/text"},
+    "support_domain_ref": {"$ref": "#/$defs/text"},
+    "twin_debt_ref": {"$ref": "#/$defs/text"},
+    "content_hash": {"$ref": "#/$defs/hash"},
+    "controller_uid": {"const": "neuronsifter_orchestration_controller"},
+    "creation_decision_ref": {"$ref": "#/$defs/text"},
+    "provenance": {"type": "object", "minProperties": 1}
+  },
+  "$defs": {
+    "text": {"type": "string", "minLength": 1},
+    "texts": {"type": "array", "items": {"$ref": "#/$defs/text"}, "uniqueItems": true},
+    "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

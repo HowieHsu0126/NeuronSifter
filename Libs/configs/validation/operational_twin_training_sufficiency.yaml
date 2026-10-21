@@ -1,0 +1,94 @@
+operational_twin_training_sufficiency:
+  schema_version: neuronsifter-operational-twin-training-sufficiency-policy-v1
+  evidence_class: controlled_world_non_empirical
+  audit_only: true
+  independent_review_required: true
+  continuation_authorized: false
+  rationale: >-
+    Diagnose optimization at the existing once-per-epoch resolution, not utility.
+    The last fifth of a frozen budget supplies 40-80 observations for these runs.
+    The median pairwise slope resists individual noisy epochs. Normalize by the
+    larger of the full-curve interdecile range, one percent of absolute late
+    objective level, and an absolute numerical floor; negative NLL is permitted.
+    A late-window change within two percent of that scale is a plateau. A five
+    percent jointly improving train and matched dev objective is separated from
+    plateau by an indeterminate band. Large detrended oscillation plus worsening
+    training supports nonconvergence, not merely a poor downstream metric.
+    These audit tolerances are frozen before per-seed curve/checkpoint inspection;
+    they are not selected from ranking, action, direction, or trajectory utility.
+  curves:
+    late_fraction: 0.2
+    minimum_late_epochs: 20
+    normalization_level_fraction: 0.01
+    absolute_scale_floor: 1.0e-8
+    plateau_max_normalized_change: 0.02
+    clear_improvement_min_normalized_change: 0.05
+    nonconvergent_min_residual_iqr: 0.25
+    nonconvergent_min_normalized_worsening: 0.05
+    slope_estimator: median_pairwise
+    objective_field: training_nll
+    non_uq_objective: masked_mse
+    uq_objective: masked_gaussian_nll
+    dev_mse_weighting: valid_element_pooled_mse
+    dev_nll_weighting: valid_element_weighted_family_nll
+  classification:
+    precedence:
+      - NUMERICALLY_INVALID
+      - INDETERMINATE_WITHIN_FROZEN_BUDGET
+      - NONCONVERGENT
+      - CLEARLY_UNDERTRAINED
+      - SUFFICIENTLY_TRAINED
+    plateau_requires_train_and_matched_dev_objective: true
+    undertraining_requires_train_and_matched_dev_improvement: true
+    full_budget_alone_sufficient: false
+    selection_identity_required: true
+    missing_mandatory_evidence: INDETERMINATE_WITHIN_FROZEN_BUDGET
+    no_fit_requires_complete_explicit_contract: true
+    method_aggregation: all_three_frozen_seeds
+  checkpoint_replay:
+    require_exact_frozen_selection: true
+    compare_all_model_and_optimizer_tensors: true
+    relative_tolerance: 1.0e-5
+    absolute_tolerance: 1.0e-6
+    dataset_role: development
+    refit_calibration: false
+  audit_cpu_execution:
+    profile_id: single_thread_cpu_exact_replay
+    rationale: >-
+      Use one intra-op and one inter-op thread to remove parallel reduction
+      scheduling from this bounded CPU audit. Normalize native-library thread
+      variables in a fresh interpreter before numerical imports; retain explicit
+      deterministic IEEE backend settings and actual software/build/CPU identity.
+      This profile is selected for reproducibility, not to match or reduce any
+      archived residual. Original audit settings were unrecorded; four allocated
+      CPUs do not prove its effective thread count. Prior original and independent
+      one-thread discrepancies remain Git-bound historical evidence. No scientific
+      replay tolerance, criterion, candidate, checkpoint or training policy changes.
+    torch_intra_op_threads: 1
+    torch_inter_op_threads: 1
+    deterministic_algorithms: true
+    deterministic_warn_only: false
+    mkldnn_enabled: true
+    mkldnn_deterministic: true
+    fp32_precision: ieee
+    environment:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      NUMEXPR_NUM_THREADS: '1'
+      VECLIB_MAXIMUM_THREADS: '1'
+      BLIS_NUM_THREADS: '1'
+      OMP_DYNAMIC: 'FALSE'
+      MKL_DYNAMIC: 'FALSE'
+      PYTHONHASHSEED: '0'
+      MKL_CBWR: null
+      ATEN_CPU_CAPABILITY: null
+      ONEDNN_MAX_CPU_ISA: null
+      DNNL_MAX_CPU_ISA: null
+  outputs:
+    audit: Output/audits/operational_twin_sufficient_training_audit.json
+    per_seed: Output/results/operational_twin/training_sufficiency/per_seed_training_diagnostics.json
+    methods: Output/results/operational_twin/training_sufficiency/method_level_training_decision.json
+    mixed_metrics: Output/results/operational_twin/training_sufficiency/mixed_metric_root_cause_analysis.json
+    decision: Output/audits/operational_twin_sufficient_training_decision.json
+    report: Output/reports/operational_twin_training_sufficiency.md

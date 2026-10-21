@@ -1,0 +1,201 @@
+schema_version: neuronsifter-mechanism-basis-qualification-contract-v1
+contract_uid: mechanism_basis_qualification
+status: frozen_before_mechanism_source_content
+method_uid: mechanistic_belief_twin_v1
+
+upstream_authorities:
+  - path: Output/audits/mechanistic_belief_cutoff_receipt.json
+    file_sha256: a2c9cd351a8f8199a87864d4a7f97f5a3444e859a55efd717343654a5c1570cc
+    semantic_field: receipt_sha256
+    semantic_sha256: 076c29ad32d88d6ce08ddcdc25545f90189754ae0ef1ed5acda242493f7d84d5
+  - path: Output/audits/mechanistic_belief_construct_authority.json
+    file_sha256: a1ea36299c2f2097a7606a45a1643edd731aa693643113b3ee03bea7e0b120e0
+    semantic_field: authority_sha256
+    semantic_sha256: 372247967aeaa49cd61c10b80bf2097c9824b4a7f9245eda87353f2f35eabd7b
+  - path: Output/audits/mechanistic_belief_prior_reliability_authority.json
+    file_sha256: 258049e0acc0bae52723bb540454dcba4ca383709373935bff2294fba63c3f7e
+    semantic_field: authority_sha256
+    semantic_sha256: de79f89b9b1f26605eb8e0fe97703bc1679f7dd4c3310146e9ed90fff63fcc84
+  - path: Output/audits/mechanistic_belief_terminal_decision_table.json
+    file_sha256: d347da41cb7bed51bf67c93d9c80e9588fd1dddb8d32c51fecafd8fa7d23341f
+    semantic_field: decision_table_sha256
+    semantic_sha256: 5ac4d99aa2bcac833f747f2191e7ad04c795bf55d6aea41ee85685269d132db1
+  - path: Input/manifests/mechanistic_belief/mechanism_source_preregistration.json
+    file_sha256: 1d2a0c96c23d72d6bc98402c6ec090ba20e475dc499687abf678fa9f66dd5bd1
+    semantic_field: preregistration_sha256
+    semantic_sha256: d500441457ea3007787e6d9aa215634a6be9ea4596383d7e0ad5ec42a77240bb
+  - path: Input/manifests/mechanistic_belief/mechanism_source_queue.json
+    file_sha256: e1d40a9b878af81e197bd32bbfaf5a972b9c31f361b80b1773b6a0b2a33c5c71
+    semantic_field: queue_sha256
+    semantic_sha256: d88c0a0e147105ce40fcd4140bfb4eb358537906d19259543c2b494b20160453
+  - path: Output/audits/mechanism_source_queue_chronology.json
+    file_sha256: eae3720e2a018abe6e4cbd5aa993c964046f3d1abadadfa24e275eaf9668d56c
+    semantic_field: chronology_sha256
+    semantic_sha256: 33ac94ae3ffe06203c6574c51ebe8af96bfd82263ee043a75c82080bdb30ab82
+  - path: Output/audits/mechanism_source_content_authorization.json
+    file_sha256: 82052a30204e05bfbda07d10062c3faaa33c67006fe19c80abebc1b79030bbb3
+    semantic_field: authorization_sha256
+    semantic_sha256: f9390c9bb32c20738feb673774b4374237c48b014e59231ca4783069960ea6e3
+
+frozen_queue:
+  slot_count: 72
+  eligible_slot_count: 15
+  cutoff_ineligible_slot_count: 33
+  source_date_ambiguous_slot_count: 24
+  eligible_family_uid: publication_metadata
+  no_refill: true
+  no_replacement: true
+  preserve_order: true
+
+retrieval_policy:
+  client_preference: biopython_entrez_when_contract_preserving
+  selected_transport: bounded_exact_ncbi_http
+  selected_transport_reason: biopython_entrez_does_not_expose_the_required_redirect_and_bounded_read_controls
+  contact_email_source_order:
+    - NEURONSIFTER_ENTREZ_EMAIL
+    - git_config_user_email
+  tool: NeuronSifter
+  request_kind: pubmed_exact_fetch
+  url_template: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id={pmid}&rettype=pubmed&retmode=xml&tool=NeuronSifter&email={encoded_email}
+  allowed_hosts:
+    - eutils.ncbi.nlm.nih.gov
+    - www.ncbi.nlm.nih.gov
+    - pmc.ncbi.nlm.nih.gov
+  allowed_paths:
+    - /entrez/eutils/efetch.fcgi
+    - /entrez/eutils/elink.fcgi
+  allowed_content_types:
+    - application/xml
+    - text/xml
+  maximum_requests_per_slot: 3
+  maximum_total_requests: 45
+  concurrency: 1
+  timeout_seconds: 30
+  retries: 0
+  minimum_request_interval_ms: 400
+  maximum_response_bytes: 16777216
+  maximum_total_response_bytes: 134217728
+  maximum_redirects: 3
+  raw_response_persistence_allowed: false
+  response_value_logging_allowed: false
+
+content_policy:
+  parser_version: mechanism-content-projector-v1
+  allowed_abstract_labels:
+    - BACKGROUND
+    - INTRODUCTION
+    - OBJECTIVE
+    - AIM
+    - METHODS
+    - LIMITATIONS
+  denied_abstract_labels:
+    - RESULTS
+    - RESULT
+    - CONCLUSIONS
+    - CONCLUSION
+    - FINDINGS
+    - INTERPRETATION
+    - DISCUSSION
+  allowed_content_classes:
+    - mechanism_definition
+    - equation
+    - variable_or_dependency_definition
+    - parameter_value_or_range
+    - unit_definition
+    - explicit_assumption
+    - explicit_limitation
+    - measurement_definition
+    - state_observable_link
+    - support_boundary
+  denied_content_classes:
+    - efficacy
+    - benefit
+    - response
+    - outcome
+    - clinical_endpoint
+    - effect_size
+    - p_value
+    - confidence_interval
+    - ranking
+    - recommendation
+    - table
+    - figure
+    - caption
+    - supplement
+    - bibliography
+    - citation_context
+    - six_context_result_substitute
+    - protected_holdout
+  unstructured_abstract_disposition: forbidden_mixed_content
+
+grading_policy:
+  ordered_grades:
+    - DIRECT_MECHANISM
+    - PARAMETER_ANCHOR
+    - BOUNDARY_CONSTRAINT
+    - CONTEXT_ONLY
+    - INADMISSIBLE
+  support_grades:
+    - DIRECT_MECHANISM
+    - PARAMETER_ANCHOR
+    - BOUNDARY_CONSTRAINT
+  claim_types:
+    - equation
+    - causal_dependency
+    - structural_dependency
+    - parameter_range
+    - unit_definition
+    - assumption
+    - limitation
+    - measurement_definition
+    - latent_to_observable_link
+    - prior_role_support
+    - support_boundary
+  contradiction_resolution_dimensions:
+    - scope
+    - units
+    - population_or_model_system
+    - measurement_definition
+    - assumption
+
+decision_policy:
+  qualified_terminal: MECHANISM_BASIS_QUALIFIED
+  insufficient_terminal: MECHANISM_BASIS_INSUFFICIENT
+  require_all_required_coverage: true
+  require_no_unresolved_essential_contradiction: true
+  numerical_prior_population_allowed: false
+
+access_counters:
+  source_content_access: 0
+  unqueued_source_attempts: 0
+  forbidden_value_reads: 0
+  six_context_outcome_access: 0
+  protected_holdout_access: 0
+
+downstream_authorization:
+  numerical_prior_population_authorized: false
+  world_action_compiler_authorized: false
+  runtime_implementation_authorized: false
+  agent_trace_authorized: false
+  inference_authorized: false
+  training_authorized: false
+  gpu_authorized: false
+  evaluation_authorized: false
+  push_authorized: false
+
+artifacts:
+  content_access_manifest:
+    path: Input/manifests/mechanistic_belief/mechanism_content_access_manifest.json
+    schema_path: Libs/configs/schema/mechanism_content_access_manifest.schema.json
+  evidence_ledger:
+    path: Input/processed/mechanistic_belief/mechanism_evidence_ledger.json
+    schema_path: Libs/configs/schema/mechanism_evidence_ledger.schema.json
+  source_claim_graph:
+    path: Input/processed/mechanistic_belief/mechanism_source_claim_graph.json
+    schema_path: Libs/configs/schema/mechanism_source_claim_graph.schema.json
+  assessment:
+    path: Output/audits/mechanism_basis_assessment.json
+    schema_path: Libs/configs/schema/mechanism_basis_assessment.schema.json
+  decision:
+    path: Output/audits/mechanism_basis_decision.json
+    schema_path: Libs/configs/schema/mechanism_basis_decision.schema.json

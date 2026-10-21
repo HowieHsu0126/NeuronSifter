@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/evidence_fabric_admission_record.schema.json",
+  "title": "Evidence Fabric Admission Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "candidate_uid", "layer", "item_type", "source_uid",
+    "official_source_or_internal_producer", "source_version", "publication_or_accession",
+    "license_or_access_status", "retrieval_or_generation_date", "raw_hash", "processed_hash",
+    "parser_version", "canonicalization_version", "producer_uid", "producer_command",
+    "train_eval_role", "holdout_group", "support_domain_ref", "qc_grade",
+    "relationship_refs", "conflict_refs", "pairing_decision", "legacy_role",
+    "empirical_truth", "eligibility", "identity", "payload", "state_history",
+    "terminal_state", "blockers", "content_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-evidence-fabric-admission-record-v1"},
+    "candidate_uid": {"type": "string", "minLength": 1},
+    "layer": {"enum": ["E0", "E1", "E2", "E3", "E4", "E5", "E6", "E7"]},
+    "item_type": {"type": "string", "minLength": 1},
+    "source_uid": {"type": "string"},
+    "official_source_or_internal_producer": {"type": "string"},
+    "source_version": {"type": "string"},
+    "publication_or_accession": {"type": "string"},
+    "license_or_access_status": {"enum": ["verified_public", "verified_internal", "not_applicable_governed", "unresolved"]},
+    "retrieval_or_generation_date": {"type": "string"},
+    "raw_hash": {"type": "string"},
+    "processed_hash": {"type": "string"},
+    "parser_version": {"type": "string"},
+    "canonicalization_version": {"type": "string"},
+    "producer_uid": {"type": "string"},
+    "producer_command": {"type": "string"},
+    "train_eval_role": {"type": "string"},
+    "holdout_group": {"type": "string"},
+    "support_domain_ref": {"type": "string"},
+    "qc_grade": {"enum": ["A", "B", "C", "D", "S", "not_applicable"]},
+    "relationship_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "conflict_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "pairing_decision": {"type": "string", "minLength": 1},
+    "legacy_role": {"type": ["string", "null"]},
+    "empirical_truth": {"type": "boolean"},
+    "eligibility": {"type": "object"},
+    "identity": {"type": "object"},
+    "payload": {"type": "object"},
+    "state_history": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "terminal_state": {
+      "enum": [
+        "admitted_strong", "admitted_weighted", "admitted_weak", "admitted_stress",
+        "admitted_legacy_restricted", "quarantined", "rejected_license",
+        "rejected_provenance", "rejected_schema", "rejected_identity",
+        "rejected_relationship", "rejected_support_domain", "rejected_hash"
+      ]
+    },
+    "blockers": {"type": "array", "items": {"type": "object"}},
+    "content_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "terminal_state": {
+            "enum": [
+              "admitted_strong", "admitted_weighted", "admitted_weak",
+              "admitted_stress", "admitted_legacy_restricted"
+            ]
+          }
+        },
+        "required": ["terminal_state"]
+      },
+      "then": {
+        "properties": {
+          "source_uid": {"minLength": 1},
+          "official_source_or_internal_producer": {"minLength": 1},
+          "source_version": {"minLength": 1},
+          "raw_hash": {"pattern": "^[a-f0-9]{64}$"},
+          "processed_hash": {"pattern": "^[a-f0-9]{64}$"},
+          "parser_version": {"minLength": 1},
+          "canonicalization_version": {"minLength": 1},
+          "producer_uid": {"minLength": 1},
+          "producer_command": {"minLength": 1},
+          "train_eval_role": {"minLength": 1},
+          "holdout_group": {"minLength": 1},
+          "support_domain_ref": {"minLength": 1}
+        }
+      }
+    }
+  ]
+}

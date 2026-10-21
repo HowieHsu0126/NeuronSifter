@@ -1,0 +1,410 @@
+neuronsifter_scale_registry:
+  registry_version: neuronsifter_scale_aware_foundation_readiness_v1
+  default_training_checkpoint_scale: neuronsifter_large
+  smoke_checkpoint_scale: neuronsifter_debug
+  default_fsdp_smoke_checkpoint_scale: neuronsifter_xl
+  default_fsdp_smoke_inference_profile: xl_audit
+  default_inference_profile: large_main_screening
+  foundation_candidate_claim_policy:
+    current_status: gated_future_capability
+    allowed_current_wording:
+    - foundation-readiness path
+    - scale-aware foundation trajectory
+    forbidden_pre_gate_wording:
+    - trained foundation model
+    - million-scale foundation model
+    - completed foundation model
+    unlock_gate: g5_effective_sample_gate
+    required_gate_terms:
+    - effective_sample_count
+    - zero_split_leakage
+    - scaling_law
+    - cross_holdout_transfer
+    - downstream_gain
+  shared_contract:
+    operator_kind: neuronsifter_world_action
+    main_rollout_sampler_kind: quantized_mddm_rollout_operator
+    action_conditioning_policy: structured_action_to_target_occupancy_program
+    forbidden_conditioning:
+    - drug_id_only
+    - target_id_only
+    shared_outputs:
+    - canonical_trajectory
+    - uncertainty_quantiles
+    - tri_components
+    - mechanism_expert_diagnostics
+    - scale_route
+  quantized_mddm_main_rollout:
+    enabled: true
+    rollout_kind: quantized_mddm_rollout_operator
+    mainline_scale_binding: neuronsifter_large
+    residual_reference_policy: initial_state
+    training_objective: absorbing_masked_categorical_nonempty_importance
+    training_time_distribution: uniform_open_unit_interval
+    external_reference_policy:
+      reference_policy: project_native_no_direct_import
+      mdlm_reference_path: Libs/external/mddm/mdlm
+      mdm_prime_reference_path: Libs/external/mddm/mdm-prime
+      excluded_references:
+      - MDM-Prime-v2
+    token_axes:
+    - time
+    - region
+    - compartment
+    - species
+    residual_tokenization:
+      quantization_policy: straight_through_uniform_scalar_residual_codebook
+      codebook_size: 64
+      residual_min_value: -0.25
+      residual_max_value: 0.25
+      token_hidden_dim: 64
+      token_mlp_multiplier: 2
+      mask_token_value: 0.0
+    partial_mask_schedule:
+      schedule_kind: absorbing_linear_reverse
+      training_sample_count: 2
+      inference_sample_count: 16
+      sample_chunk_size: 4
+      denoising_token_chunk_size: 1048576
+      training_denoising_step_count: 4
+      inference_denoising_step_count: 12
+      inference_initial_mask_probability: 1.0
+      final_mask_probability: 0.0
+      sampler_seed: 3407
+    inverse_reconstruction_policy:
+      reconstruction_policy: inverse_haar_add_initial
+      preserve_initial_state: true
+      ranking_stability_scale: 8.0
+      quantile_levels:
+      - 0.05
+      - 0.5
+      - 0.95
+      return_sample_trajectories: false
+    loss_weights:
+      token_substitution_cross_entropy: 1.0
+      inverse_residual_reconstruction: 0.5
+      partial_mask_consistency: 0.0
+      ranking_stability_consistency: 0.0
+  checkpoint_scales:
+    neuronsifter_debug:
+      scale_label: NeuronSifter-Debug
+      role: ci_and_smoke_only
+      operator_hidden_dim: 64
+      operator_depth: 2
+      attention_head_count: 4
+      mechanism_state_token_count: 32
+      token_resolution:
+        graph_mode_count: 12
+        wavelet_level_count: 2
+      nominal_active_parameter_count: 555799
+      nominal_trainable_parameter_count: 555799
+      parameter_budget:
+        active_parameter_lower_bound: 100000
+        active_parameter_upper_bound: 2000000
+        training_scale: debug_smoke
+      default_inference_profile: debug_smoke
+      fsdp_resource_profile: debug_single_process
+      training_memory_policy:
+        effective_batch_size: 1
+        micro_batch_size: 1
+        gradient_accumulation_steps: 1
+        mixed_precision:
+          enabled: false
+          device_type: cuda
+          dtype: bfloat16
+      enabled_for_publication_claim: false
+    neuronsifter_student:
+      scale_label: NeuronSifter-Student
+      role: high_throughput_prescreen
+      operator_hidden_dim: 384
+      operator_depth: 6
+      attention_head_count: 12
+      mechanism_state_token_count: 64
+      token_resolution:
+        graph_mode_count: 24
+        wavelet_level_count: 3
+      nominal_active_parameter_count: 55488327
+      nominal_trainable_parameter_count: 73000000
+      parameter_budget:
+        active_parameter_lower_bound: 40000000
+        active_parameter_upper_bound: 90000000
+        training_scale: student_prescreen
+      default_inference_profile: student_prescreen
+      fsdp_resource_profile: student_single_gpu
+      distillation_teacher_scale: neuronsifter_large
+      training_memory_policy:
+        effective_batch_size: 128
+        micro_batch_size: 4
+        gradient_accumulation_steps: 32
+        mixed_precision:
+          enabled: true
+          device_type: cuda
+          dtype: bfloat16
+      enabled_for_publication_claim: false
+    neuronsifter_large:
+      scale_label: NeuronSifter-Large
+      role: main_screening_model
+      operator_hidden_dim: 696
+      operator_depth: 8
+      attention_head_count: 12
+      mechanism_state_token_count: 96
+      token_resolution:
+        graph_mode_count: 36
+        wavelet_level_count: 3
+      nominal_active_parameter_count: 241412647
+      nominal_trainable_parameter_count: 489188758
+      parameter_budget:
+        active_parameter_lower_bound: 100000000
+        active_parameter_upper_bound: 500000000
+        training_scale: single_gpu_trainable
+      default_inference_profile: large_main_screening
+      fsdp_resource_profile: large_single_gpu
+      distillation_teacher_scale: neuronsifter_xl
+      training_memory_policy:
+        effective_batch_size: 64
+        micro_batch_size: 1
+        gradient_accumulation_steps: 64
+        mixed_precision:
+          enabled: true
+          device_type: cuda
+          dtype: bfloat16
+      enabled_for_publication_claim: true
+    neuronsifter_xl:
+      scale_label: NeuronSifter-XL
+      role: high_fidelity_audit_teacher
+      operator_hidden_dim: 768
+      operator_depth: 10
+      attention_head_count: 12
+      mechanism_state_token_count: 128
+      token_resolution:
+        graph_mode_count: 48
+        wavelet_level_count: 4
+      nominal_active_parameter_count: 366647639
+      nominal_trainable_parameter_count: 744000000
+      parameter_budget:
+        active_parameter_lower_bound: 300000000
+        active_parameter_upper_bound: 900000000
+        training_scale: fsdp_audit_teacher
+      default_inference_profile: xl_audit
+      fsdp_resource_profile: xl_four_gpu_smoke
+      distillation_student_scale: neuronsifter_large
+      training_memory_policy:
+        effective_batch_size: 64
+        micro_batch_size: 1
+        gradient_accumulation_steps: 64
+        mixed_precision:
+          enabled: true
+          device_type: cuda
+          dtype: bfloat16
+      enabled_for_publication_claim: false
+    neuronsifter_foundation:
+      scale_label: NeuronSifter-Foundation
+      role: gated_future_foundation_readiness_candidate
+      operator_hidden_dim: 1024
+      operator_depth: 16
+      attention_head_count: 16
+      mechanism_state_token_count: 192
+      token_resolution:
+        graph_mode_count: 64
+        wavelet_level_count: 4
+      nominal_active_parameter_count: 1039166799
+      nominal_trainable_parameter_count: 2000000000
+      parameter_budget:
+        active_parameter_lower_bound: 1000000000
+        active_parameter_upper_bound: 3000000000
+        training_scale: gated_future_candidate
+      default_inference_profile: foundation_candidate_gate
+      fsdp_resource_profile: foundation_candidate_contract
+      enabled_for_publication_claim: false
+      gate_required_before_training: g5_effective_sample_gate
+  inference_profiles:
+    debug_smoke:
+      checkpoint_scale: neuronsifter_debug
+      sampler_budget:
+        sample_count: 2
+        denoising_step_count: 2
+        sample_chunk_size: 1
+        training_sample_count: 1
+        training_denoising_step_count: 1
+      memory_policy: debug_single_process
+      target_candidates_per_second: 1.0
+      route_priority: smoke_validation
+    student_prescreen:
+      checkpoint_scale: neuronsifter_student
+      sampler_budget:
+        sample_count: 4
+        denoising_step_count: 4
+        sample_chunk_size: 4
+        training_sample_count: 1
+        training_denoising_step_count: 2
+      memory_policy: student_single_gpu
+      target_candidates_per_second: 10.0
+      route_priority: high_throughput_prescreen
+    large_main_screening:
+      checkpoint_scale: neuronsifter_large
+      sampler_budget:
+        sample_count: 16
+        denoising_step_count: 16
+        sample_chunk_size: 8
+        training_sample_count: 2
+        training_denoising_step_count: 4
+      memory_policy: large_single_gpu
+      target_candidates_per_second: 2.0
+      route_priority: main_screening_rerank
+    xl_audit:
+      checkpoint_scale: neuronsifter_xl
+      sampler_budget:
+        sample_count: 64
+        denoising_step_count: 50
+        sample_chunk_size: 8
+        training_sample_count: 2
+        training_denoising_step_count: 4
+      memory_policy: xl_four_gpu_smoke
+      target_candidates_per_second: 0.25
+      route_priority: high_fidelity_audit
+    foundation_candidate_gate:
+      checkpoint_scale: neuronsifter_foundation
+      sampler_budget:
+        sample_count: 96
+        denoising_step_count: 64
+        sample_chunk_size: 8
+        training_sample_count: 2
+        training_denoising_step_count: 4
+      memory_policy: foundation_candidate_contract
+      target_candidates_per_second: 0.1
+      route_priority: gated_future_contract
+  routing_policy:
+    default_candidate_pool_threshold_for_student: 64
+    boundary_tri_margin: 0.08
+    high_score_low_tri_action: active_learning
+    publication_case_profile: xl_audit
+    ood_escalation_profile: xl_audit
+    low_stability_escalation_profile: large_main_screening
+    disagreement_source_when_single_checkpoint: not_measured_single_checkpoint_runtime
+    disagreement_default_value: 0.0
+  teacher_mixture_sweep:
+    enabled: true
+    sweep_scales:
+    - neuronsifter_debug
+    - neuronsifter_student
+    accepted_main_training_qc_uses:
+    - main_pretraining
+    calibration_qc_uses:
+    - weak_teacher_calibration
+    stress_only_qc_uses:
+    - stress_test_only
+    default_family_weights:
+      mesoscopic_solver_teacher: 0.50
+      full_microenvironment_teacher: 1.00
+      osp_pbpk_teacher: 1.00
+      neuron_rxd_teacher: 1.00
+      chembl_parameterized_teacher: 0.25
+    grid:
+    - mixture_uid: balanced_mechanistic
+      mesoscopic_solver_teacher: 0.50
+      full_microenvironment_teacher: 1.00
+      osp_pbpk_teacher: 1.00
+      neuron_rxd_teacher: 1.00
+      chembl_parameterized_teacher: 0.25
+    - mixture_uid: full_microenvironment_emphasis
+      mesoscopic_solver_teacher: 0.25
+      full_microenvironment_teacher: 1.50
+      osp_pbpk_teacher: 1.00
+      neuron_rxd_teacher: 1.00
+      chembl_parameterized_teacher: 0.25
+    - mixture_uid: pk_ephys_emphasis
+      mesoscopic_solver_teacher: 0.25
+      full_microenvironment_teacher: 1.00
+      osp_pbpk_teacher: 1.25
+      neuron_rxd_teacher: 1.25
+      chembl_parameterized_teacher: 0.25
+    sweep_gate:
+      required_metrics:
+      - validation_nll
+      - rollout_crps
+      - tri_selective_risk
+      - rank_agreement
+      selected_mixture_artifact: Output/paper_reports/teacher_mixture_recommendation.json
+      large_xl_consumption_policy: consume_only_gate_passed_mixture
+  jepa_auxiliary_objectives:
+    masked_species_group_prediction:
+      enabled: true
+      weight: 0.25
+      groups:
+        exposure:
+        - free_drug
+        - target_bound_drug
+        - vascular_perivascular_transport
+        pathology:
+        - misfolded_protein_load
+        - aggregate_burden
+        - amyloid_beta_soluble
+        - amyloid_plaque
+        - phosphorylated_tau
+        inflammation:
+        - neuroinflammation
+        - inflammatory_mediator
+        electrophysiology:
+        - circuit_instability
+        - calcium_concentration
+        - membrane_voltage
+        - spike_rate
+    masked_compartment_prediction:
+      enabled: true
+      weight: 0.20
+      compartment_ids:
+      - bbb_interface
+      - csf
+      - isf
+    counterfactual_latent_delta_prediction:
+      enabled: true
+      weight: 0.15
+  distillation_losses:
+    enabled: true
+    terms:
+      trajectory_distribution:
+        weight: 1.0
+      rank_order:
+        weight: 0.25
+      uncertainty_calibration:
+        weight: 0.20
+      tri_consistency:
+        weight: 0.20
+      expert_diagnostics:
+        weight: 0.10
+  fsdp_resource_profiles:
+    debug_single_process:
+      distributed_strategy: single_process
+      checkpoint_policy: full_state_dict
+    student_single_gpu:
+      distributed_strategy: single_process
+      checkpoint_policy: full_state_dict
+    large_single_gpu:
+      distributed_strategy: single_process
+      checkpoint_policy: full_state_dict
+    xl_four_gpu_smoke:
+      distributed_strategy: native_pytorch_fsdp
+      partition: gpu1
+      nodelist: gpu03
+      gpu_count: 4
+      cpus_per_task: 8
+      mem: 160G
+      sharding_strategy: full_shard
+      mixed_precision_dtype: bfloat16
+      checkpoint_policy: rank_local_shard_state_dict
+      max_epochs: 1
+      batches_per_epoch: 1
+      job_suffix: neuronsifter_xl_fsdp_smoke
+    foundation_candidate_contract:
+      distributed_strategy: gated_future_native_pytorch_fsdp
+      checkpoint_policy: rank_local_shard_state_dict_after_gate
+      gate_required_before_submission: g5_effective_sample_gate
+  scale_artifacts:
+    report_dir: Output/paper_reports
+    scale_registry_audit: scale_registry_audit.json
+    scale_consistency_summary: scale_consistency_summary.json
+    distillation_summary: distillation_summary.json
+    teacher_mixture_summary: teacher_mixture_summary.json
+    fsdp_smoke_summary: fsdp_smoke_summary.json
+    gpu_stochastic_smoke_summary: gpu_stochastic_smoke_summary.json
+    foundation_readiness_gate: foundation_readiness_gate.json

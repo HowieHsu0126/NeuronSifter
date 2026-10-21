@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/trajectory_family_manifest.schema.json",
+  "title": "NeuronSifter TrajectoryFamilyManifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "trajectory_family_uid", "producer_uid", "producer_version", "support_domain_ref", "initial_state_family_uid", "action_family_uid", "trajectory_uids", "control_strategy", "replicate_strategy", "seed_family_uid", "parameter_family_uid", "fidelity_family_uid", "effective_independent_unit_count", "artifact_hashes", "status"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-trajectory-family-manifest-v1"},
+    "trajectory_family_uid": {"type": "string", "minLength": 1},
+    "producer_uid": {"type": "string", "minLength": 1},
+    "producer_version": {"type": "string", "minLength": 1},
+    "support_domain_ref": {"type": "string", "minLength": 1},
+    "initial_state_family_uid": {"type": "string", "minLength": 1},
+    "action_family_uid": {"type": "string", "minLength": 1},
+    "trajectory_uids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "control_strategy": {"type": "string", "minLength": 1},
+    "replicate_strategy": {"type": "string", "minLength": 1},
+    "seed_family_uid": {"type": "string", "minLength": 1},
+    "parameter_family_uid": {"type": "string", "minLength": 1},
+    "fidelity_family_uid": {"type": "string", "minLength": 1},
+    "effective_independent_unit_count": {"type": "integer", "minimum": 1},
+    "artifact_hashes": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "string", "pattern": "^[a-f0-9]{64}$"}},
+    "status": {"enum": ["qualification_pilot", "formal_release_candidate"]}
+  }
+}

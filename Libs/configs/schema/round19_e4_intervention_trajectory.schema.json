@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/round19_e4_intervention_trajectory.schema.json",
+  "title": "Round19E4InterventionTrajectory",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["trajectory_uid", "producer_uid", "producer_version", "producer_hash", "initial_state_hash", "action_hash", "support_domain", "state_artifact_hash", "native_time_grid_hash", "canonical_time_grid_hash", "fidelity", "seed", "parameter_hash", "constraint_status", "numerical_status", "output_class", "empirical_observation", "admission_decision"],
+  "properties": {
+    "trajectory_uid": {"type": "string", "minLength": 1},
+    "producer_uid": {"type": "string", "minLength": 1},
+    "producer_version": {"type": "string", "minLength": 1},
+    "producer_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "initial_state_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "action_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "support_domain": {"type": "string", "minLength": 1},
+    "state_artifact_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "native_time_grid_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "canonical_time_grid_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "fidelity": {"type": "string", "minLength": 1},
+    "seed": {"type": "string", "minLength": 1},
+    "parameter_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "constraint_status": {"type": "string", "minLength": 1},
+    "numerical_status": {"type": "string", "minLength": 1},
+    "output_class": {"const": "model_trajectory"},
+    "empirical_observation": {"const": false},
+    "admission_decision": {"enum": ["admitted_e4_strong", "admitted_e4_restricted", "admitted_e4_calibration_only", "admitted_stress", "quarantined_numerical", "quarantined_constraint", "rejected_action_incomplete", "rejected_initial_state", "rejected_provenance", "rejected_support_domain"]}
+  }
+}

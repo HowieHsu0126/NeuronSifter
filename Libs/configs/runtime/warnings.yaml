@@ -1,0 +1,11 @@
+runtime_warning_policy:
+  enabled: true
+  action: error
+  category: Warning
+  external_package_filters:
+  - action: default
+    category: DeprecationWarning
+    message_regex: pkg_resources is deprecated as an API.*
+    module_regex: deepchem\.feat\.smiles_tokenizer|pkg_resources
+    source_key: moleculenet_deepchem
+    rationale: DeepChem 2.5 imports setuptools pkg_resources on Python 3.13; this external-package deprecation is tracked while project warnings remain strict.

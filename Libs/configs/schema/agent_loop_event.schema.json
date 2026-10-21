@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/agent_loop_event.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "event_uid", "episode_uid", "prior_state", "next_state", "agent_uid", "gate_uid", "controller_uid", "input_hashes", "output_hashes", "timestamp", "decision_reason"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-agent-loop-event-v1"}, "event_uid": {"$ref": "#/$defs/text"}, "episode_uid": {"$ref": "#/$defs/text"}, "prior_state": {"$ref": "#/$defs/state"}, "next_state": {"$ref": "#/$defs/state"}, "agent_uid": {"$ref": "#/$defs/nullable_text"}, "gate_uid": {"$ref": "#/$defs/nullable_text"}, "controller_uid": {"const": "neuronsifter_orchestration_controller"}, "input_hashes": {"$ref": "#/$defs/hashes"}, "output_hashes": {"$ref": "#/$defs/hashes"}, "timestamp": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T"}, "decision_reason": {"$ref": "#/$defs/text"}
+  },
+  "$defs": {"text": {"type": "string", "minLength": 1}, "nullable_text": {"anyOf": [{"$ref": "#/$defs/text"}, {"type": "null"}]}, "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}, "hashes": {"type": "object", "additionalProperties": {"$ref": "#/$defs/hash"}}, "state": {"enum": ["initialized", "hypothesis_proposed", "hypothesis_gated", "action_candidates_generated", "action_gated", "execution_authorized", "execution_completed", "observation_normalized", "assimilation_proposed", "assimilation_gated", "belief_updated", "explanation_generated", "terminated", "blocked"]}}
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/assimilation_proposal.schema.json",
+  "title": "NeuronSifter AssimilationProposal",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "proposal_uid", "observation_uids", "target_state_components", "prior_state_ref", "proposed_update_type", "likelihood_or_update_model_ref", "uncertainty_change", "support_domain", "conflicts", "constraint_effects", "expected_twin_debt_change", "provenance_ref", "train_eval_roles", "source_kinds", "state_write_authorized", "validation_status", "blockers"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-assimilation-proposal-v1"},
+    "proposal_uid": {"type": "string", "minLength": 1},
+    "observation_uids": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1, "uniqueItems": true},
+    "target_state_components": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1, "uniqueItems": true},
+    "prior_state_ref": {"type": "string", "minLength": 1},
+    "proposed_update_type": {"enum": ["state_posterior_update", "parameter_posterior_update", "model_family_weight_update", "uncertainty_only_update", "support_domain_update", "conflict_register_only", "no_update"]},
+    "likelihood_or_update_model_ref": {"type": "string", "minLength": 1},
+    "uncertainty_change": {"type": "object"},
+    "support_domain": {"type": "string", "minLength": 1},
+    "conflicts": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "constraint_effects": {"type": "object"},
+    "expected_twin_debt_change": {"type": "object"},
+    "provenance_ref": {"type": "string", "minLength": 1},
+    "train_eval_roles": {"type": "object", "additionalProperties": {"type": "string"}},
+    "source_kinds": {"type": "object", "additionalProperties": {"type": "string"}},
+    "state_write_authorized": {"const": false},
+    "validation_status": {"enum": ["passed", "rejected"]},
+    "blockers": {"type": "array", "items": {"type": "object"}}
+  }
+}

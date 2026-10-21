@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/public_source_boundary.schema.json",
+  "title": "NeuronSifter Round-18 strict public-source boundary audit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "source_resolution_run_uid",
+    "strict_public_only_flag",
+    "controlled_access_required",
+    "resolved_public_source_count",
+    "resolved_controlled_source_count",
+    "source_manifest_hashes",
+    "rejected_requests",
+    "negative_controls",
+    "controlled_data_identifiers_present",
+    "cached_credentials_present",
+    "controlled_derived_statistics_present",
+    "violations",
+    "content_hash",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-public-source-boundary-v1"},
+    "source_resolution_run_uid": {"$ref": "#/$defs/text"},
+    "strict_public_only_flag": {"const": true},
+    "controlled_access_required": {"const": false},
+    "resolved_public_source_count": {"type": "integer", "minimum": 0},
+    "resolved_controlled_source_count": {"type": "integer", "minimum": 0},
+    "source_manifest_hashes": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/hash"}},
+    "rejected_requests": {"type": "array", "items": {"$ref": "#/$defs/rejected_request"}},
+    "negative_controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["adni_route_rejected", "aibl_route_rejected", "credentialed_source_rejected", "institutional_session_dependency_rejected", "controlled_clinical_repository_rejected", "unknown_access_status_rejected"],
+      "properties": {
+        "adni_route_rejected": {"type": "boolean"},
+        "aibl_route_rejected": {"type": "boolean"},
+        "credentialed_source_rejected": {"type": "boolean"},
+        "institutional_session_dependency_rejected": {"type": "boolean"},
+        "controlled_clinical_repository_rejected": {"type": "boolean"},
+        "unknown_access_status_rejected": {"type": "boolean"}
+      }
+    },
+    "controlled_data_identifiers_present": {"type": "boolean"},
+    "cached_credentials_present": {"type": "boolean"},
+    "controlled_derived_statistics_present": {"type": "boolean"},
+    "violations": {"type": "array", "items": {"$ref": "#/$defs/text"}},
+    "content_hash": {"$ref": "#/$defs/hash"},
+    "status": {"enum": ["passed", "blocked_public_source_boundary"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "passed"}}},
+      "then": {
+        "properties": {
+          "resolved_controlled_source_count": {"const": 0},
+          "negative_controls": {
+            "properties": {
+              "adni_route_rejected": {"const": true},
+              "aibl_route_rejected": {"const": true},
+              "credentialed_source_rejected": {"const": true},
+              "institutional_session_dependency_rejected": {"const": true},
+              "controlled_clinical_repository_rejected": {"const": true},
+              "unknown_access_status_rejected": {"const": true}
+            }
+          },
+          "controlled_data_identifiers_present": {"const": false},
+          "cached_credentials_present": {"const": false},
+          "controlled_derived_statistics_present": {"const": false},
+          "violations": {"maxItems": 0}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"resolved_controlled_source_count": {"minimum": 1}}},
+      "then": {"properties": {"status": {"const": "blocked_public_source_boundary"}}}
+    },
+    {
+      "if": {"properties": {"violations": {"minItems": 1}}},
+      "then": {"properties": {"status": {"const": "blocked_public_source_boundary"}}}
+    }
+  ],
+  "$defs": {
+    "text": {"type": "string", "minLength": 1},
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "rejected_request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["request_uid", "route_class", "reason", "accessed"],
+      "properties": {
+        "request_uid": {"$ref": "#/$defs/text"},
+        "route_class": {"enum": ["ADNI", "AIBL", "credentialed_source", "institutional_session_dependency", "controlled_clinical_repository", "unknown_access_status"]},
+        "reason": {"$ref": "#/$defs/text"},
+        "accessed": {"const": false}
+      }
+    }
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/round20_cell_taxonomy_crosswalk.schema.json",
+  "title": "NeuronSifter Round-20 cell taxonomy crosswalk edge",
+  "description": "An auditable Allen or other public taxonomy to Cell Ontology mapping edge. Ambiguous and many-to-many mappings remain explicit and are never flattened.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "crosswalk_uid",
+    "source_taxonomy",
+    "target_ontology",
+    "mapping_relation",
+    "cardinality",
+    "mapping_confidence",
+    "mapping_score",
+    "mapping_method",
+    "mapping_group_uid",
+    "ambiguity",
+    "provenance_refs",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "neuronsifter-round20-cell-taxonomy-crosswalk-v1"
+    },
+    "crosswalk_uid": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_taxonomy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["namespace", "release_uid", "term_id", "term_label", "species"],
+      "properties": {
+        "namespace": {"type": "string", "minLength": 1},
+        "release_uid": {"type": "string", "minLength": 1},
+        "term_id": {"type": "string", "minLength": 1},
+        "term_label": {"type": "string", "minLength": 1},
+        "species": {"enum": ["human", "mouse", "rat", "other", "unspecified"]}
+      }
+    },
+    "target_ontology": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["namespace", "term_id", "term_label"],
+      "properties": {
+        "namespace": {"const": "Cell_Ontology"},
+        "term_id": {"type": ["string", "null"]},
+        "term_label": {"type": ["string", "null"]}
+      }
+    },
+    "mapping_relation": {
+      "enum": ["exact_match", "broad_match", "narrow_match", "related_match", "unmapped"]
+    },
+    "cardinality": {
+      "enum": ["one_to_one", "one_to_many", "many_to_one", "many_to_many", "unmapped"]
+    },
+    "mapping_confidence": {
+      "enum": ["high", "medium", "low", "unresolved"]
+    },
+    "mapping_score": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "maximum": 1
+    },
+    "mapping_method": {
+      "enum": ["official_crosswalk", "ontology_xref", "exact_label", "curated_semantic", "composite", "unresolved"]
+    },
+    "mapping_group_uid": {
+      "type": ["string", "null"]
+    },
+    "ambiguity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["explicit", "candidate_target_term_ids", "reason", "review_status"],
+      "properties": {
+        "explicit": {"type": "boolean"},
+        "candidate_target_term_ids": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "reason": {"type": "string", "minLength": 1},
+        "review_status": {"enum": ["not_needed", "pending", "resolved", "blocked"]}
+      }
+    },
+    "provenance_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "status": {
+      "enum": ["active", "blocked", "rejected", "superseded"]
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"mapping_relation": {"const": "unmapped"}}},
+      "then": {
+        "properties": {
+          "cardinality": {"const": "unmapped"},
+          "mapping_confidence": {"const": "unresolved"},
+          "mapping_score": {"const": null},
+          "mapping_method": {"const": "unresolved"},
+          "target_ontology": {
+            "properties": {"term_id": {"const": null}, "term_label": {"const": null}}
+          },
+          "ambiguity": {"properties": {"explicit": {"const": true}}},
+          "status": {"const": "blocked"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"cardinality": {"enum": ["one_to_many", "many_to_one", "many_to_many"]}}},
+      "then": {"properties": {"mapping_group_uid": {"type": "string", "minLength": 1}}}
+    },
+    {
+      "if": {"properties": {"mapping_confidence": {"enum": ["low", "unresolved"]}}},
+      "then": {"properties": {"ambiguity": {"properties": {"explicit": {"const": true}}}}}
+    }
+  ]
+}

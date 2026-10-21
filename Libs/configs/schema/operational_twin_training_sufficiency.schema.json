@@ -1,0 +1,2309 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/operational_twin_training_sufficiency.schema.json",
+  "title": "Open-only Operational Twin sufficiency evidence",
+  "oneOf": [
+    {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "artifact_type",
+        "evidence_class",
+        "policy_sha256",
+        "boundary",
+        "assignments",
+        "audit_execution_sha256"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "neuronsifter-operational-twin-training-sufficiency-v1"
+        },
+        "artifact_type": {
+          "const": "per_seed"
+        },
+        "evidence_class": {
+          "const": "controlled_world_non_empirical"
+        },
+        "policy_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "boundary": {
+          "type": "object",
+          "required": [
+            "sufficient_training",
+            "twin_qualification_pass",
+            "formal_qualification",
+            "sealed_test_access",
+            "protected_holdout_access",
+            "six_context_outcome_access",
+            "agent_trace_gate_open",
+            "agent_work_open",
+            "tool_gate_open",
+            "memory_gate_open",
+            "coevolution_gate_open"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "sufficient_training": {
+              "const": false
+            },
+            "twin_qualification_pass": {
+              "const": false
+            },
+            "formal_qualification": {
+              "const": false
+            },
+            "sealed_test_access": {
+              "const": 0
+            },
+            "protected_holdout_access": {
+              "const": 0
+            },
+            "six_context_outcome_access": {
+              "const": 0
+            },
+            "agent_trace_gate_open": {
+              "const": false
+            },
+            "agent_work_open": {
+              "const": false
+            },
+            "tool_gate_open": {
+              "const": false
+            },
+            "memory_gate_open": {
+              "const": false
+            },
+            "coevolution_gate_open": {
+              "const": false
+            }
+          }
+        },
+        "assignments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "assignment_uid",
+              "method_id",
+              "seed",
+              "classification",
+              "classification_reason",
+              "optimization_evidence_issues",
+              "budget",
+              "training_objective",
+              "matched_development_objective",
+              "training_objective_semantics",
+              "dev_objective_semantics",
+              "elapsed_seconds",
+              "numerical_curve_finite",
+              "overfit_signal",
+              "optional_unavailable",
+              "optimizer_schedule",
+              "action_sensitivity_first_last",
+              "uncalibrated_coverage_first_last",
+              "checkpoint_identity",
+              "identity_blockers",
+              "calibration_summary"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "assignment_uid": {
+                "type": "string"
+              },
+              "method_id": {
+                "type": "string"
+              },
+              "seed": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "classification": {
+                "enum": [
+                  "SUFFICIENTLY_TRAINED",
+                  "CLEARLY_UNDERTRAINED",
+                  "NONCONVERGENT",
+                  "NUMERICALLY_INVALID",
+                  "INDETERMINATE_WITHIN_FROZEN_BUDGET"
+                ]
+              },
+              "classification_reason": {
+                "type": "string"
+              },
+              "optimization_evidence_issues": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "budget": {
+                "type": "object"
+              },
+              "training_objective": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
+              "matched_development_objective": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
+              "training_objective_semantics": {
+                "type": "string"
+              },
+              "dev_objective_semantics": {
+                "type": "string"
+              },
+              "elapsed_seconds": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "numerical_curve_finite": {
+                "type": "boolean"
+              },
+              "overfit_signal": {
+                "type": "boolean"
+              },
+              "optional_unavailable": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "optimizer_schedule": {
+                "type": "string"
+              },
+              "action_sensitivity_first_last": {
+                "type": [
+                  "array",
+                  "null"
+                ]
+              },
+              "uncalibrated_coverage_first_last": {
+                "type": [
+                  "array",
+                  "null"
+                ]
+              },
+              "checkpoint_identity": {
+                "type": "object"
+              },
+              "identity_blockers": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "calibration_summary": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              }
+            }
+          },
+          "minItems": 15,
+          "maxItems": 15
+        },
+        "audit_execution_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "artifact_type",
+        "evidence_class",
+        "policy_sha256",
+        "boundary",
+        "methods",
+        "audit_execution_sha256"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "neuronsifter-operational-twin-training-sufficiency-v1"
+        },
+        "artifact_type": {
+          "const": "methods"
+        },
+        "evidence_class": {
+          "const": "controlled_world_non_empirical"
+        },
+        "policy_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "boundary": {
+          "type": "object",
+          "required": [
+            "sufficient_training",
+            "twin_qualification_pass",
+            "formal_qualification",
+            "sealed_test_access",
+            "protected_holdout_access",
+            "six_context_outcome_access",
+            "agent_trace_gate_open",
+            "agent_work_open",
+            "tool_gate_open",
+            "memory_gate_open",
+            "coevolution_gate_open"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "sufficient_training": {
+              "const": false
+            },
+            "twin_qualification_pass": {
+              "const": false
+            },
+            "formal_qualification": {
+              "const": false
+            },
+            "sealed_test_access": {
+              "const": 0
+            },
+            "protected_holdout_access": {
+              "const": 0
+            },
+            "six_context_outcome_access": {
+              "const": 0
+            },
+            "agent_trace_gate_open": {
+              "const": false
+            },
+            "agent_work_open": {
+              "const": false
+            },
+            "tool_gate_open": {
+              "const": false
+            },
+            "memory_gate_open": {
+              "const": false
+            },
+            "coevolution_gate_open": {
+              "const": false
+            }
+          }
+        },
+        "methods": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "method_id",
+              "seeds",
+              "classification",
+              "per_seed_classifications",
+              "identity_blocker_count",
+              "all_seeds_optimization_sufficient"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "method_id": {
+                "type": "string"
+              },
+              "seeds": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "classification": {
+                "enum": [
+                  "SUFFICIENTLY_TRAINED",
+                  "CLEARLY_UNDERTRAINED",
+                  "NONCONVERGENT",
+                  "NUMERICALLY_INVALID",
+                  "INDETERMINATE_WITHIN_FROZEN_BUDGET"
+                ]
+              },
+              "per_seed_classifications": {
+                "type": "object",
+                "additionalProperties": {
+                  "enum": [
+                    "SUFFICIENTLY_TRAINED",
+                    "CLEARLY_UNDERTRAINED",
+                    "NONCONVERGENT",
+                    "NUMERICALLY_INVALID",
+                    "INDETERMINATE_WITHIN_FROZEN_BUDGET"
+                  ]
+                }
+              },
+              "identity_blocker_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "all_seeds_optimization_sufficient": {
+                "type": "boolean"
+              }
+            }
+          },
+          "minItems": 5,
+          "maxItems": 5
+        },
+        "audit_execution_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "artifact_type",
+        "evidence_class",
+        "policy_sha256",
+        "boundary",
+        "terminal",
+        "assignment_count",
+        "classification_counts",
+        "identity_invalid_assignment_count",
+        "independent_review_status",
+        "scientific_twin_result",
+        "continuation_authorized",
+        "presealed_freeze_created",
+        "next_action",
+        "irreducible_boundary",
+        "audit_execution_sha256"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "neuronsifter-operational-twin-training-sufficiency-v1"
+        },
+        "artifact_type": {
+          "const": "decision"
+        },
+        "evidence_class": {
+          "const": "controlled_world_non_empirical"
+        },
+        "policy_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "boundary": {
+          "type": "object",
+          "required": [
+            "sufficient_training",
+            "twin_qualification_pass",
+            "formal_qualification",
+            "sealed_test_access",
+            "protected_holdout_access",
+            "six_context_outcome_access",
+            "agent_trace_gate_open",
+            "agent_work_open",
+            "tool_gate_open",
+            "memory_gate_open",
+            "coevolution_gate_open"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "sufficient_training": {
+              "const": false
+            },
+            "twin_qualification_pass": {
+              "const": false
+            },
+            "formal_qualification": {
+              "const": false
+            },
+            "sealed_test_access": {
+              "const": 0
+            },
+            "protected_holdout_access": {
+              "const": 0
+            },
+            "six_context_outcome_access": {
+              "const": 0
+            },
+            "agent_trace_gate_open": {
+              "const": false
+            },
+            "agent_work_open": {
+              "const": false
+            },
+            "tool_gate_open": {
+              "const": false
+            },
+            "memory_gate_open": {
+              "const": false
+            },
+            "coevolution_gate_open": {
+              "const": false
+            }
+          }
+        },
+        "terminal": {
+          "enum": [
+            "OPERATIONAL_TWIN_TRAINING_EVIDENCE_INVALID",
+            "OPERATIONAL_TWIN_NUMERICALLY_INVALID",
+            "OPERATIONAL_TWIN_NONCONVERGENT",
+            "OPERATIONAL_TWIN_TRAINING_INSUFFICIENT",
+            "OPERATIONAL_TWIN_TRAINING_SUFFICIENCY_INDETERMINATE",
+            "SUFFICIENCY_AWAITING_INDEPENDENT_REVIEW"
+          ]
+        },
+        "assignment_count": {
+          "const": 15
+        },
+        "classification_counts": {
+          "type": "object"
+        },
+        "identity_invalid_assignment_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "independent_review_status": {
+          "const": "PENDING_NOT_SELF_APPROVED"
+        },
+        "scientific_twin_result": {
+          "const": "NOT_RUN"
+        },
+        "continuation_authorized": {
+          "const": false
+        },
+        "presealed_freeze_created": {
+          "const": false
+        },
+        "next_action": {
+          "type": "string"
+        },
+        "irreducible_boundary": {
+          "type": "string"
+        },
+        "audit_execution_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "artifact_type",
+        "evidence_class",
+        "policy_sha256",
+        "boundary",
+        "independent_pair_metric_replay",
+        "independent_statistical_replay",
+        "statistics_policy",
+        "comparisons",
+        "method_family_seed_metrics",
+        "denominators",
+        "root_cause_assessment",
+        "audit_execution_sha256"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "neuronsifter-operational-twin-training-sufficiency-v1"
+        },
+        "artifact_type": {
+          "const": "mixed_metrics"
+        },
+        "evidence_class": {
+          "const": "controlled_world_non_empirical"
+        },
+        "policy_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "boundary": {
+          "type": "object",
+          "required": [
+            "sufficient_training",
+            "twin_qualification_pass",
+            "formal_qualification",
+            "sealed_test_access",
+            "protected_holdout_access",
+            "six_context_outcome_access",
+            "agent_trace_gate_open",
+            "agent_work_open",
+            "tool_gate_open",
+            "memory_gate_open",
+            "coevolution_gate_open"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "sufficient_training": {
+              "const": false
+            },
+            "twin_qualification_pass": {
+              "const": false
+            },
+            "formal_qualification": {
+              "const": false
+            },
+            "sealed_test_access": {
+              "const": 0
+            },
+            "protected_holdout_access": {
+              "const": 0
+            },
+            "six_context_outcome_access": {
+              "const": 0
+            },
+            "agent_trace_gate_open": {
+              "const": false
+            },
+            "agent_work_open": {
+              "const": false
+            },
+            "tool_gate_open": {
+              "const": false
+            },
+            "memory_gate_open": {
+              "const": false
+            },
+            "coevolution_gate_open": {
+              "const": false
+            }
+          }
+        },
+        "independent_pair_metric_replay": {
+          "const": "PASS"
+        },
+        "independent_statistical_replay": {
+          "const": "PASS"
+        },
+        "statistics_policy": {
+          "type": "object"
+        },
+        "comparisons": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "method_family_seed_metrics": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "denominators": {
+          "type": "object"
+        },
+        "root_cause_assessment": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "hypothesis",
+              "status",
+              "evidence"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "hypothesis": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string"
+              },
+              "evidence": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "audit_execution_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "artifact_type",
+        "evidence_class",
+        "policy_sha256",
+        "boundary",
+        "terminal",
+        "assignment_count",
+        "checkpoint_count",
+        "identity_invalid_assignment_count",
+        "classification_counts",
+        "ledger_status",
+        "historical_provenance_exception_count",
+        "retained_attempt_count",
+        "frozen_ledger_dependency_count",
+        "audit_only_config_stack_extension",
+        "cpu06_reconciliation",
+        "family_valid_target_element_counts",
+        "unopened_receipt",
+        "source_files",
+        "original_candidate_mutated",
+        "training_executed",
+        "calibration_refit",
+        "historical_full_suite",
+        "audit_execution_sha256",
+        "execution_profile",
+        "historical_replay_evidence"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "neuronsifter-operational-twin-training-sufficiency-v1"
+        },
+        "artifact_type": {
+          "const": "audit"
+        },
+        "evidence_class": {
+          "const": "controlled_world_non_empirical"
+        },
+        "policy_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "boundary": {
+          "type": "object",
+          "required": [
+            "sufficient_training",
+            "twin_qualification_pass",
+            "formal_qualification",
+            "sealed_test_access",
+            "protected_holdout_access",
+            "six_context_outcome_access",
+            "agent_trace_gate_open",
+            "agent_work_open",
+            "tool_gate_open",
+            "memory_gate_open",
+            "coevolution_gate_open"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "sufficient_training": {
+              "const": false
+            },
+            "twin_qualification_pass": {
+              "const": false
+            },
+            "formal_qualification": {
+              "const": false
+            },
+            "sealed_test_access": {
+              "const": 0
+            },
+            "protected_holdout_access": {
+              "const": 0
+            },
+            "six_context_outcome_access": {
+              "const": 0
+            },
+            "agent_trace_gate_open": {
+              "const": false
+            },
+            "agent_work_open": {
+              "const": false
+            },
+            "tool_gate_open": {
+              "const": false
+            },
+            "memory_gate_open": {
+              "const": false
+            },
+            "coevolution_gate_open": {
+              "const": false
+            }
+          }
+        },
+        "terminal": {
+          "type": "string"
+        },
+        "assignment_count": {
+          "const": 15
+        },
+        "checkpoint_count": {
+          "const": 12
+        },
+        "identity_invalid_assignment_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "classification_counts": {
+          "type": "object"
+        },
+        "ledger_status": {
+          "const": "VALIDATION_READY"
+        },
+        "historical_provenance_exception_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "retained_attempt_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "frozen_ledger_dependency_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "audit_only_config_stack_extension": {
+          "const": true
+        },
+        "cpu06_reconciliation": {
+          "type": "object"
+        },
+        "family_valid_target_element_counts": {
+          "type": "object"
+        },
+        "unopened_receipt": {
+          "type": "object"
+        },
+        "source_files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "path",
+              "sha256",
+              "size_bytes"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "sha256": {
+                "type": "string"
+              },
+              "size_bytes": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        },
+        "original_candidate_mutated": {
+          "const": false
+        },
+        "training_executed": {
+          "const": false
+        },
+        "calibration_refit": {
+          "const": false
+        },
+        "historical_full_suite": {
+          "type": "object"
+        },
+        "audit_execution_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "execution_profile": {
+          "$ref": "#/$defs/execution_profile"
+        },
+        "historical_replay_evidence": {
+          "$ref": "#/$defs/historical_replay_evidence"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "neuronsifter-operational-twin-training-sufficiency-v1"
+        },
+        "artifact_type": {
+          "const": "manuscript_native_training_evidence"
+        },
+        "protocol_scope": {
+          "const": "manuscript-native"
+        },
+        "protocol_uid": {
+          "type": "string"
+        },
+        "evidence_class": {
+          "const": "controlled_world_non_empirical"
+        },
+        "boundary": {
+          "type": "object",
+          "required": [
+            "sufficient_training",
+            "twin_qualification_pass",
+            "formal_qualification",
+            "sealed_test_access",
+            "protected_holdout_access",
+            "six_context_outcome_access",
+            "agent_trace_gate_open",
+            "agent_work_open",
+            "tool_gate_open",
+            "memory_gate_open",
+            "coevolution_gate_open"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "sufficient_training": {
+              "const": false
+            },
+            "twin_qualification_pass": {
+              "const": false
+            },
+            "formal_qualification": {
+              "const": false
+            },
+            "sealed_test_access": {
+              "const": 0
+            },
+            "protected_holdout_access": {
+              "const": 0
+            },
+            "six_context_outcome_access": {
+              "const": 0
+            },
+            "agent_trace_gate_open": {
+              "const": false
+            },
+            "agent_work_open": {
+              "const": false
+            },
+            "tool_gate_open": {
+              "const": false
+            },
+            "memory_gate_open": {
+              "const": false
+            },
+            "coevolution_gate_open": {
+              "const": false
+            }
+          }
+        },
+        "sufficient_training": {
+          "const": false
+        },
+        "ScientificTwin": {
+          "const": "NOT_RUN"
+        },
+        "independent_review": {
+          "const": "PENDING"
+        },
+        "terminal": {
+          "const": "NATIVE_TRAINING_EVIDENCE_REQUIRES_INDEPENDENT_REVIEW"
+        },
+        "configuration_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "selection_policy": {
+          "type": "object"
+        },
+        "training_locator": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "required_training_seeds": {
+          "enum": [
+            [
+              41,
+              42,
+              43
+            ],
+            [
+              40,
+              41,
+              42,
+              43,
+              44
+            ]
+          ]
+        },
+        "required_fraction": {
+          "const": 100
+        },
+        "complete_prior_tuples": {
+          "const": 32
+        },
+        "required_row_count": {
+          "type": "integer",
+          "minimum": 5
+        },
+        "rows": {
+          "type": "array",
+          "minItems": 5,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "profile_id": {
+                "type": "string"
+              },
+              "method": {
+                "type": "string"
+              },
+              "seed": {
+                "enum": [
+                  40,
+                  41,
+                  42,
+                  43,
+                  44
+                ]
+              },
+              "training_subset_percentage": {
+                "const": 100
+              },
+              "required": {
+                "const": true
+              },
+              "status": {
+                "enum": [
+                  "MISSING",
+                  "EXTERNAL_OR_LATER_GATE_BLOCKED",
+                  "NO_FIT_OR_DEPENDENT_CHECKPOINT",
+                  "INCOMPLETE_OR_INVALID",
+                  "EVIDENCE_REPLAYED_REVIEW_PENDING"
+                ]
+              },
+              "issues": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "expected_profile": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
+              "profile_evidence": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
+              "training_evidence": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
+              "checkpoint_evidence": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "selection": {
+                      "enum": [
+                        "best",
+                        "last"
+                      ]
+                    },
+                    "path": {
+                      "type": "string"
+                    },
+                    "bytes": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "sha256": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{64}$"
+                    },
+                    "epoch": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "executed_steps": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "selection",
+                    "path",
+                    "bytes",
+                    "sha256",
+                    "epoch",
+                    "executed_steps"
+                  ]
+                }
+              },
+              "selection_replay": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
+              "receipts": {
+                "type": "object"
+              },
+              "visitation_proof": {
+                "const": "UNAVAILABLE_NO_PER_GROUP_SEQUENCE"
+              },
+              "optimizer_transition_replay": {
+                "const": "UNAVAILABLE_NOT_RECORDED"
+              },
+              "numerical_prediction_replay": {
+                "const": "NOT_RUN_METADATA_ONLY"
+              },
+              "implementation_scope": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "later_gate_obligations": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
+              "implementation_blocker": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "checkpoint_owner_profile": {
+                "type": "string"
+              },
+              "capacity_evidence": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "profile_id",
+              "method",
+              "seed",
+              "training_subset_percentage",
+              "required",
+              "status",
+              "issues",
+              "expected_profile",
+              "profile_evidence",
+              "training_evidence",
+              "checkpoint_evidence",
+              "selection_replay",
+              "receipts",
+              "visitation_proof",
+              "optimizer_transition_replay",
+              "numerical_prediction_replay",
+              "implementation_scope",
+              "later_gate_obligations",
+              "implementation_blocker"
+            ]
+          }
+        },
+        "row_status_counts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "distinct_retained_checkpoint_payloads": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "admission_evidence": {
+          "type": "object"
+        },
+        "source_evidence": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "bytes": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            },
+            "required": [
+              "bytes",
+              "sha256"
+            ]
+          }
+        },
+        "excluded_fraction_evidence": {
+          "const": [
+            10,
+            25,
+            50
+          ]
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "schema_version",
+        "artifact_type",
+        "protocol_scope",
+        "protocol_uid",
+        "evidence_class",
+        "boundary",
+        "sufficient_training",
+        "ScientificTwin",
+        "independent_review",
+        "terminal",
+        "configuration_sha256",
+        "selection_policy",
+        "training_locator",
+        "required_training_seeds",
+        "required_fraction",
+        "complete_prior_tuples",
+        "required_row_count",
+        "rows",
+        "row_status_counts",
+        "distinct_retained_checkpoint_payloads",
+        "admission_evidence",
+        "source_evidence",
+        "excluded_fraction_evidence",
+        "limitations"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "neuronsifter-operational-twin-training-sufficiency-v1"
+        },
+        "artifact_type": {
+          "const": "native_predictor_training_evidence"
+        },
+        "protocol_scope": {
+          "const": "manuscript-native"
+        },
+        "protocol_uid": {
+          "type": "string"
+        },
+        "evidence_class": {
+          "const": "controlled_world_non_empirical"
+        },
+        "boundary": {
+          "type": "object",
+          "required": [
+            "sufficient_training",
+            "twin_qualification_pass",
+            "formal_qualification",
+            "sealed_test_access",
+            "protected_holdout_access",
+            "six_context_outcome_access",
+            "agent_trace_gate_open",
+            "agent_work_open",
+            "tool_gate_open",
+            "memory_gate_open",
+            "coevolution_gate_open"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "sufficient_training": {
+              "const": false
+            },
+            "twin_qualification_pass": {
+              "const": false
+            },
+            "formal_qualification": {
+              "const": false
+            },
+            "sealed_test_access": {
+              "const": 0
+            },
+            "protected_holdout_access": {
+              "const": 0
+            },
+            "six_context_outcome_access": {
+              "const": 0
+            },
+            "agent_trace_gate_open": {
+              "const": false
+            },
+            "agent_work_open": {
+              "const": false
+            },
+            "tool_gate_open": {
+              "const": false
+            },
+            "memory_gate_open": {
+              "const": false
+            },
+            "coevolution_gate_open": {
+              "const": false
+            }
+          }
+        },
+        "sufficient_training": {
+          "const": false
+        },
+        "ScientificTwin": {
+          "const": "NOT_RUN"
+        },
+        "independent_review": {
+          "const": "PENDING"
+        },
+        "terminal": {
+          "const": "NATIVE_TRAINING_EVIDENCE_REQUIRES_INDEPENDENT_REVIEW"
+        },
+        "configuration_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "selection_policy": {
+          "type": "object"
+        },
+        "training_locator": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "required_training_seeds": {
+          "const": [
+            41,
+            42,
+            43
+          ]
+        },
+        "required_fraction": {
+          "const": 100
+        },
+        "complete_prior_tuples": {
+          "const": 32
+        },
+        "required_row_count": {
+          "const": 6
+        },
+        "rows": {
+          "type": "array",
+          "minItems": 6,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "profile_id": {
+                "type": "string"
+              },
+              "method": {
+                "enum": [
+                  "native_wam",
+                  "mechanistic_residual"
+                ]
+              },
+              "seed": {
+                "enum": [
+                  41,
+                  42,
+                  43
+                ]
+              },
+              "training_subset_percentage": {
+                "const": 100
+              },
+              "required": {
+                "const": true
+              },
+              "status": {
+                "enum": [
+                  "MISSING",
+                  "EXTERNAL_OR_LATER_GATE_BLOCKED",
+                  "NO_FIT_OR_DEPENDENT_CHECKPOINT",
+                  "INCOMPLETE_OR_INVALID",
+                  "EVIDENCE_REPLAYED_REVIEW_PENDING"
+                ]
+              },
+              "issues": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "expected_profile": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
+              "profile_evidence": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
+              "training_evidence": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
+              "checkpoint_evidence": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "selection": {
+                      "enum": [
+                        "best",
+                        "last"
+                      ]
+                    },
+                    "path": {
+                      "type": "string"
+                    },
+                    "bytes": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "sha256": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{64}$"
+                    },
+                    "epoch": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "executed_steps": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "selection",
+                    "path",
+                    "bytes",
+                    "sha256",
+                    "epoch",
+                    "executed_steps"
+                  ]
+                }
+              },
+              "selection_replay": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
+              "receipts": {
+                "type": "object"
+              },
+              "visitation_proof": {
+                "const": "UNAVAILABLE_NO_PER_GROUP_SEQUENCE"
+              },
+              "optimizer_transition_replay": {
+                "const": "UNAVAILABLE_NOT_RECORDED"
+              },
+              "numerical_prediction_replay": {
+                "const": "NOT_RUN_METADATA_ONLY"
+              },
+              "implementation_scope": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "later_gate_obligations": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
+              "implementation_blocker": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "checkpoint_owner_profile": {
+                "type": "string"
+              },
+              "capacity_evidence": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "profile_id",
+              "method",
+              "seed",
+              "training_subset_percentage",
+              "required",
+              "status",
+              "issues",
+              "expected_profile",
+              "profile_evidence",
+              "training_evidence",
+              "checkpoint_evidence",
+              "selection_replay",
+              "receipts",
+              "visitation_proof",
+              "optimizer_transition_replay",
+              "numerical_prediction_replay",
+              "implementation_scope",
+              "later_gate_obligations",
+              "implementation_blocker"
+            ]
+          },
+          "maxItems": 6
+        },
+        "row_status_counts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "distinct_retained_checkpoint_payloads": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "admission_evidence": {
+          "type": "object"
+        },
+        "source_evidence": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "bytes": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            },
+            "required": [
+              "bytes",
+              "sha256"
+            ]
+          }
+        },
+        "excluded_fraction_evidence": {
+          "const": [
+            10,
+            25,
+            50
+          ]
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "training_component": {
+          "const": "residual_mpc_predictor"
+        },
+        "component_definition": {
+          "type": "object"
+        },
+        "component_issues": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "source_admission": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "prerequisite_status": {
+          "enum": [
+            "INCOMPLETE",
+            "SATISFIED_REVIEW_REQUIRED"
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "artifact_type",
+        "protocol_scope",
+        "protocol_uid",
+        "evidence_class",
+        "boundary",
+        "sufficient_training",
+        "ScientificTwin",
+        "independent_review",
+        "terminal",
+        "configuration_sha256",
+        "selection_policy",
+        "training_locator",
+        "required_training_seeds",
+        "required_fraction",
+        "complete_prior_tuples",
+        "required_row_count",
+        "rows",
+        "row_status_counts",
+        "distinct_retained_checkpoint_payloads",
+        "admission_evidence",
+        "source_evidence",
+        "excluded_fraction_evidence",
+        "limitations",
+        "training_component",
+        "component_definition",
+        "component_issues",
+        "source_admission",
+        "prerequisite_status"
+      ]
+    }
+  ],
+  "$defs": {
+    "execution_profile": {
+      "type": "object",
+      "required": [
+        "profile_id",
+        "torch_intra_op_threads",
+        "torch_inter_op_threads",
+        "deterministic_algorithms",
+        "deterministic_warn_only",
+        "mkldnn_enabled",
+        "mkldnn_deterministic",
+        "fp32_precision",
+        "device",
+        "default_dtype",
+        "cpu_autocast_enabled",
+        "mkldnn_fp32_precision",
+        "environment",
+        "host",
+        "machine",
+        "python_version",
+        "numpy_version",
+        "numpy_build_config",
+        "torch_version",
+        "torch_git_version",
+        "cpu_capability",
+        "torch_build_config",
+        "torch_parallel_info"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": {
+          "const": "single_thread_cpu_exact_replay"
+        },
+        "torch_intra_op_threads": {
+          "const": 1
+        },
+        "torch_inter_op_threads": {
+          "const": 1
+        },
+        "deterministic_algorithms": {
+          "const": true
+        },
+        "deterministic_warn_only": {
+          "const": false
+        },
+        "mkldnn_enabled": {
+          "const": true
+        },
+        "mkldnn_deterministic": {
+          "const": true
+        },
+        "fp32_precision": {
+          "const": "ieee"
+        },
+        "device": {
+          "const": "cpu"
+        },
+        "default_dtype": {
+          "const": "torch.float32"
+        },
+        "cpu_autocast_enabled": {
+          "const": false
+        },
+        "mkldnn_fp32_precision": {
+          "const": "ieee"
+        },
+        "environment": {
+          "type": "object",
+          "required": [
+            "OMP_NUM_THREADS",
+            "MKL_NUM_THREADS",
+            "OPENBLAS_NUM_THREADS",
+            "NUMEXPR_NUM_THREADS",
+            "VECLIB_MAXIMUM_THREADS",
+            "BLIS_NUM_THREADS",
+            "OMP_DYNAMIC",
+            "MKL_DYNAMIC",
+            "PYTHONHASHSEED",
+            "MKL_CBWR",
+            "ATEN_CPU_CAPABILITY",
+            "ONEDNN_MAX_CPU_ISA",
+            "DNNL_MAX_CPU_ISA"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "OMP_NUM_THREADS": {
+              "const": "1"
+            },
+            "MKL_NUM_THREADS": {
+              "const": "1"
+            },
+            "OPENBLAS_NUM_THREADS": {
+              "const": "1"
+            },
+            "NUMEXPR_NUM_THREADS": {
+              "const": "1"
+            },
+            "VECLIB_MAXIMUM_THREADS": {
+              "const": "1"
+            },
+            "BLIS_NUM_THREADS": {
+              "const": "1"
+            },
+            "OMP_DYNAMIC": {
+              "const": "FALSE"
+            },
+            "MKL_DYNAMIC": {
+              "const": "FALSE"
+            },
+            "PYTHONHASHSEED": {
+              "const": "0"
+            },
+            "MKL_CBWR": {
+              "const": null
+            },
+            "ATEN_CPU_CAPABILITY": {
+              "const": null
+            },
+            "ONEDNN_MAX_CPU_ISA": {
+              "const": null
+            },
+            "DNNL_MAX_CPU_ISA": {
+              "const": null
+            }
+          }
+        },
+        "host": {
+          "type": "string",
+          "minLength": 1
+        },
+        "machine": {
+          "type": "string",
+          "minLength": 1
+        },
+        "python_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "numpy_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "numpy_build_config": {
+          "type": "string",
+          "minLength": 1
+        },
+        "torch_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "torch_git_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cpu_capability": {
+          "type": "string",
+          "minLength": 1
+        },
+        "torch_build_config": {
+          "type": "string",
+          "minLength": 1
+        },
+        "torch_parallel_info": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "git_source": {
+      "type": "object",
+      "required": [
+        "commit",
+        "path",
+        "sha256"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "historical_replay_evidence": {
+      "type": "object",
+      "required": [
+        "optimization_criterion_freeze",
+        "pre_profile_audit",
+        "independent_ambient_thread_review",
+        "interpretation"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "optimization_criterion_freeze": {
+          "$ref": "#/$defs/git_source"
+        },
+        "pre_profile_audit": {
+          "type": "object",
+          "required": [
+            "source",
+            "runtime_profile_status",
+            "archived_metric_mismatches"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "source": {
+              "$ref": "#/$defs/git_source"
+            },
+            "runtime_profile_status": {
+              "const": "UNRECORDED_NOT_INFERRED_FROM_CPU_ALLOCATION"
+            },
+            "archived_metric_mismatches": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "assignment_uid",
+                  "method_id",
+                  "seed",
+                  "world_uid",
+                  "metric",
+                  "replayed",
+                  "recorded"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "assignment_uid": {
+                    "type": "string"
+                  },
+                  "method_id": {
+                    "type": "string"
+                  },
+                  "seed": {
+                    "type": "integer"
+                  },
+                  "world_uid": {
+                    "type": "string"
+                  },
+                  "metric": {
+                    "type": "string"
+                  },
+                  "replayed": {
+                    "type": "number"
+                  },
+                  "recorded": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "independent_ambient_thread_review": {
+          "type": "object",
+          "required": [
+            "source",
+            "document"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "source": {
+              "$ref": "#/$defs/git_source"
+            },
+            "document": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "interpretation": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "native_predictor_training_verdict": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "native_predictor_training_verdict.v1"
+        },
+        "training_component": {
+          "const": "residual_mpc_predictor"
+        },
+        "owner_method": {
+          "const": "residual_mpc"
+        },
+        "review_scope": {
+          "const": "residual_mpc_predictor_training"
+        },
+        "decision": {
+          "enum": [
+            "APPROVED",
+            "REJECTED",
+            "PENDING"
+          ]
+        },
+        "reviewer": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "identity": {
+              "type": "string",
+              "minLength": 1
+            },
+            "role": {
+              "const": "independent_scientific_reviewer"
+            }
+          },
+          "required": [
+            "identity",
+            "role"
+          ]
+        },
+        "audit": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "path",
+            "sha256"
+          ]
+        },
+        "findings": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "native_objective_learning_curves": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "status": {
+                  "enum": [
+                    "supported",
+                    "unsupported",
+                    "unresolved"
+                  ]
+                },
+                "rationale": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "evidence": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "path": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "sha256": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{64}$"
+                      }
+                    },
+                    "required": [
+                      "path",
+                      "sha256"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "status",
+                "rationale",
+                "evidence"
+              ]
+            },
+            "selected_state_stability_across_seeds": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "status": {
+                  "enum": [
+                    "supported",
+                    "unsupported",
+                    "unresolved"
+                  ]
+                },
+                "rationale": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "evidence": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "path": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "sha256": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{64}$"
+                      }
+                    },
+                    "required": [
+                      "path",
+                      "sha256"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "status",
+                "rationale",
+                "evidence"
+              ]
+            },
+            "full_domain_and_group_coverage": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "status": {
+                  "enum": [
+                    "supported",
+                    "unsupported",
+                    "unresolved"
+                  ]
+                },
+                "rationale": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "evidence": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "path": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "sha256": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{64}$"
+                      }
+                    },
+                    "required": [
+                      "path",
+                      "sha256"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "status",
+                "rationale",
+                "evidence"
+              ]
+            },
+            "architecture_and_uncertainty_objectives": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "status": {
+                  "enum": [
+                    "supported",
+                    "unsupported",
+                    "unresolved"
+                  ]
+                },
+                "rationale": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "evidence": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "path": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "sha256": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{64}$"
+                      }
+                    },
+                    "required": [
+                      "path",
+                      "sha256"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "status",
+                "rationale",
+                "evidence"
+              ]
+            },
+            "failures_and_limitations": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "status": {
+                  "enum": [
+                    "supported",
+                    "unsupported",
+                    "unresolved"
+                  ]
+                },
+                "rationale": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "evidence": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "path": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "sha256": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{64}$"
+                      }
+                    },
+                    "required": [
+                      "path",
+                      "sha256"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "status",
+                "rationale",
+                "evidence"
+              ]
+            },
+            "measured_resource_and_budget_evidence": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "status": {
+                  "enum": [
+                    "supported",
+                    "unsupported",
+                    "unresolved"
+                  ]
+                },
+                "rationale": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "evidence": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "path": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "sha256": {
+                        "type": "string",
+                        "pattern": "^[0-9a-f]{64}$"
+                      }
+                    },
+                    "required": [
+                      "path",
+                      "sha256"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "status",
+                "rationale",
+                "evidence"
+              ]
+            }
+          },
+          "required": [
+            "native_objective_learning_curves",
+            "selected_state_stability_across_seeds",
+            "full_domain_and_group_coverage",
+            "architecture_and_uncertainty_objectives",
+            "failures_and_limitations",
+            "measured_resource_and_budget_evidence"
+          ]
+        },
+        "boundary": {
+          "type": "object",
+          "required": [
+            "sufficient_training",
+            "twin_qualification_pass",
+            "formal_qualification",
+            "sealed_test_access",
+            "protected_holdout_access",
+            "six_context_outcome_access",
+            "agent_trace_gate_open",
+            "agent_work_open",
+            "tool_gate_open",
+            "memory_gate_open",
+            "coevolution_gate_open"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "sufficient_training": {
+              "const": false
+            },
+            "twin_qualification_pass": {
+              "const": false
+            },
+            "formal_qualification": {
+              "const": false
+            },
+            "sealed_test_access": {
+              "const": 0
+            },
+            "protected_holdout_access": {
+              "const": 0
+            },
+            "six_context_outcome_access": {
+              "const": 0
+            },
+            "agent_trace_gate_open": {
+              "const": false
+            },
+            "agent_work_open": {
+              "const": false
+            },
+            "tool_gate_open": {
+              "const": false
+            },
+            "memory_gate_open": {
+              "const": false
+            },
+            "coevolution_gate_open": {
+              "const": false
+            }
+          }
+        }
+      },
+      "required": [
+        "schema_version",
+        "training_component",
+        "owner_method",
+        "review_scope",
+        "decision",
+        "reviewer",
+        "audit",
+        "findings",
+        "boundary"
+      ]
+    },
+    "native_predictor_review_registry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "native_predictor_training_review_authority.v1"
+        },
+        "verdicts": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "residual_mpc_predictor": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "commit": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{40}$"
+                }
+              },
+              "required": [
+                "path",
+                "sha256",
+                "commit"
+              ]
+            }
+          }
+        }
+      },
+      "required": [
+        "schema_version",
+        "verdicts"
+      ]
+    }
+  }
+}

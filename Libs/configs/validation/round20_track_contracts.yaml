@@ -1,0 +1,309 @@
+round20_track_contracts:
+  version: neuronsifter-round20-track-contracts-v1
+  status: contract_frozen_before_track_execution
+  base_main_commit: ee45298421c9dbabab952f790b4662e8c7d67f87
+  created_before_track_execution: true
+  upstream_gate:
+    gate_uid: round20_shared_schema_gate
+    path: Output/audits/dt_round20_shared_schema_freeze.json
+    sha256: db625c735de5a448e3f203e92f9694508e7f634c5f07fe9641324a48b527b17e
+    required_status: passed
+    required_mainline_promotion_status: passed_isolated_ff_only
+  upstream_artifacts:
+    - path: Output/audits/dt_round20_full_landing_program_contract.json
+      sha256: 5f13a6724ad5962a49313b25a2df3ad419897719259bd9819299ad9515cfc76c
+    - path: Output/audits/dt_round20_shared_schema_freeze.json
+      sha256: db625c735de5a448e3f203e92f9694508e7f634c5f07fe9641324a48b527b17e
+    - path: Output/audits/dt_round20_full_suite_execution.json
+      sha256: 3f2005675b575f0fbba0b0178606b68e740e014c2943c430f2cc4818df8a799f
+    - path: Output/audits/dt_round20_test_inventory_diff.json
+      sha256: 16ebcf693bdc056eb02b27281c08feb5e2785271f28d81b7146882648b1ba4af
+    - path: Output/audits/dt_round20_main_promotion.json
+      sha256: 692407edd54c4b011227299e2a75b9124319d8f82fa97ca5703fd922e1b78684
+  invariants:
+    strict_public_only_flag: true
+    controlled_source_resolution_count: 0
+    final_held_out_access_count: 0
+    training_authorized: false
+    training_started: false
+    evidence_fabric_sealed: false
+    frozen_gap_count: 20
+    dt_core_status: not_evaluated
+    remote_push_authorized: false
+  shared_fact_sources:
+    owner: round20-shared-governance
+    mutation_policy: owner_reviewed_change_only
+    independent_track_mutation_allowed: false
+    sources:
+      - entity_ontology
+      - region_ontology
+      - cell_taxonomy
+      - structured_action
+      - evidence_roles
+      - biological_unit
+      - source_release_registry
+      - split_policy
+      - artifact_registry
+      - test_identity_registry
+  test_membership:
+    inherited_identity_count: 610
+    expected_focused_additions: 4
+    expected_identity_count_after_implementation: 614
+    mandatory_skips_allowed: false
+  tracks:
+    track_a_allen_full_landing:
+      owner: round20-track-a
+      status: contract_frozen_execution_not_started
+      scope: Allen public 12-family rights, release, payload, parser, canonicalization, QC, evidence-role, split, and deterministic-consumer landing
+      historical_inputs:
+        - path: Output/audits/round20/historical_inputs/round19a_allen_state_foundation.yaml
+          sha256: acabf3752594e1fb706f7caf627933d3aed12976dbd2a0c1de12772ce7dc5042
+          kind: historical_contract
+        - path: Output/audits/round20/historical_inputs/dt_round19a_allen_gate.json
+          sha256: 574f8c0b5b200d6c721052353ee18f1c7ff3f11366837ba9503e3c5e48a1cf39
+          kind: historical_failed_gate
+        - path: Output/audits/round20/historical_inputs/dt_round19a_allen_validation.json
+          sha256: 7ce842f04ba19c963d992b9d5cc3a37887818180f355026d13dc10494629980d
+          kind: historical_validation
+        - path: Output/audits/round20/historical_inputs/dt_round19b_allen_handoff.json
+          sha256: 19bb58d20cc27a896a760c367596b89abfcccdf2f8e95ed6781ad67eee777002
+          kind: historical_handoff
+        - path: Output/audits/round20/historical_inputs/allen_existing_usage_inventory.json
+          sha256: 733bfc9c345a135dd36173010125f41af5702ee56e0025e0018f0e01d16b8d47
+          kind: historical_usage_inventory
+        - path: Output/audits/round20/historical_inputs/allen_source_cards.json
+          sha256: bacd4fb0470408a69088729c43fd4027ac7588142db0a99336922edc04828fd8
+          kind: historical_source_cards
+        - path: Output/audits/round20/historical_inputs/dt_round19a_allen_full_suite.junit.xml
+          sha256: 4e7c013cafa2b9ac3e6082d1eea1fb21256c7e428cf2ec95b5c1cfeabef96f8d
+          kind: historical_failed_test_execution
+      historical_migration:
+        status: not_started
+        required_fields: [historical_hash, historical_schema, new_schema, semantic_diff, migration_decision, new_hash]
+        allowed_decisions: [reused_exact, migrated_compatible, historical_only, rejected_stale]
+        wholesale_copy_allowed: false
+        preserve_historical_failures: true
+      source_registry:
+        owner: round20-shared-governance
+        path: Libs/configs/data/data_registry.yaml
+        sha256: d4bde1fb5e0d0797ceac840ba140b388f6e413d872470be5116e1716dfe8b557
+        independent_allen_registry_allowed: false
+      families:
+        - family_uid: allen_abc_mouse
+          display_name: ABC mouse
+          adapter_kind: abc_mouse
+          modalities: [single_cell_transcriptomics, spatial_transcriptomics, taxonomy]
+        - family_uid: allen_abc_human
+          display_name: ABC human
+          adapter_kind: abc_human
+          modalities: [single_cell_transcriptomics, spatial_transcriptomics, taxonomy]
+        - family_uid: allen_abc_human_ad
+          display_name: ABC human AD
+          adapter_kind: abc_human_ad
+          modalities: [single_cell_transcriptomics, spatial_transcriptomics, taxonomy]
+        - family_uid: allen_cell_types_transcriptomics
+          display_name: Cell Types transcriptomics
+          adapter_kind: cell_types_transcriptomics
+          modalities: [single_cell_transcriptomics, patch_seq_transcriptomics]
+        - family_uid: allen_cell_types_morphology
+          display_name: Cell Types morphology
+          adapter_kind: cell_types_morphology
+          modalities: [swc_morphology, reconstruction]
+        - family_uid: allen_cell_types_ephys
+          display_name: Cell Types electrophysiology
+          adapter_kind: cell_types_electrophysiology
+          modalities: [nwb_electrophysiology, patch_clamp]
+        - family_uid: allen_human_brain_microarray
+          display_name: Human Brain microarray
+          adapter_kind: human_brain_microarray
+          modalities: [microarray, regional_expression]
+        - family_uid: allen_human_brain_mri
+          display_name: Human Brain MRI
+          adapter_kind: human_brain_mri
+          modalities: [mri, anatomy_metadata]
+        - family_uid: allen_mouse_connectivity
+          display_name: Mouse Connectivity
+          adapter_kind: mouse_connectivity
+          modalities: [connectivity_structure_tables, connectivity_voxel_grids]
+        - family_uid: allen_developing_mouse
+          display_name: Developing Mouse
+          adapter_kind: developing_mouse
+          modalities: [developmental_expression, anatomy]
+        - family_uid: allen_brain_observatory
+          display_name: Brain Observatory
+          adapter_kind: brain_observatory
+          modalities: [observational_activity, stimulus_metadata]
+        - family_uid: allen_reference_atlas_ccf
+          display_name: Reference Atlas and CCF
+          adapter_kind: reference_atlas_ccf
+          modalities: [reference_atlas_volumes, ontology, coordinate_frames]
+      evidence_roles:
+        allowed: [E0_anatomy_ontology_prior, E1_static_state_observation, E1_multimodal_state_observation, native_observational_dynamics, connectivity_graph_prior, initial_state_prior, developmental_OOD_source, source_donor_specimen_holdout, missing_modality_task_source]
+        prohibited: [E2_intervention, E4_intervention_causal_effect, causal_effect_claim, treatment_response]
+      rights_matrix:
+        status: not_started
+        required_fields: [family_uid, dataset_and_release, official_host, payload_host, governing_terms, dataset_specific_license, third_party_license, citation_policy, internal_download_allowed, internal_transformation_allowed, internal_training_allowed, aggregate_reporting_allowed, raw_redistribution_allowed, processed_redistribution_allowed, derived_feature_release_allowed, checkpoint_release_allowed, commercial_use_status, required_attribution, decision, blocker]
+        allowed_decisions: [approved_internal_noncommercial, approved_with_release_restrictions, approved_internal_and_derived_release, blocked_third_party_terms, blocked_missing_release_identity, blocked_terms_ambiguity]
+        current_terms_snapshot_required: true
+        content_hash_required: true
+      release_inventory:
+        status: not_started
+        required_fields: [release_uid, release_date_or_version, official_landing_page, api_or_download_endpoint, object_inventory, format, expected_size, official_checksum, expected_biological_object_counts, pagination_or_request_identity, etag_or_last_modified]
+        mutable_latest_query_allowed: false
+      adapter_contract:
+        required_methods: [discover, estimate, retrieve, resume, verify, register, emit_source_card]
+        content_addressed_raw_storage_required: true
+        raw_payloads_in_git_allowed: false
+      parser_contract:
+        parser_families: [single_cell_transcriptomics, spatial_transcriptomics, microarray, mri_anatomy_metadata, nwb_electrophysiology, swc_morphology, connectivity_structure_tables, connectivity_voxel_grids, developmental_expression, reference_atlas_volumes_and_ontologies, brain_observatory_activity_and_stimulus_metadata]
+        validation_levels: [unit_fixture, sampled_real, full_real]
+        empty_output_allowed: false
+        parser_hash_required: true
+        source_release_binding_required: true
+      biological_units: [donor, specimen, tissue_block, sample, cell, session, sweep, morphology_reconstruction, projection_experiment, atlas_structure, voxel_object]
+      strict_split_axes: [donor, specimen, study_publication, source_family, atlas, species, disease_context, modality, region, cell_taxonomy, developmental_age]
+      deterministic_consumers: [region_hierarchy_builder, ccf_graph_builder, cell_taxonomy_graph_builder, transcriptomics_morphology_ephys_linker, human_mouse_alignment_builder, donor_specimen_source_split_builder, missing_modality_task_builder, development_ood_task_builder]
+      execution_environment:
+        historical_failures: 17
+        historical_errors: 19
+        historical_dev_shm_blocker_preserved: true
+        inherited_test_identity_count: 610
+        node_local_scratch_required: true
+        full_dev_shm_dependency_allowed: false
+        dependency_manifest_required: true
+        temporary_bytes_and_inodes_must_be_frozen: true
+      resource_budget:
+        management_node: bounded_control_only
+        allowed_cpu_nodes: [cpu03, cpu04]
+        large_io_node: cpu03
+        large_io_partition: gpu
+        gpu_validation_node: gpu03
+        gpu_partition: gpu1
+        node_local_scratch_required: true
+      test_membership: [contract_unit, rights_negative, release_mutability_negative, adapter_unit, parser_fixture, sampled_real, full_real, strict_split, deterministic_consumer, exact_clean_full_suite]
+      pass_conditions: [families_rights_resolved_12, families_release_frozen_12, families_payload_nonempty_12, families_integrity_verified_12, families_parsed_12, families_canonicalized_12, families_qc_audited_12, families_admitted_12, families_with_real_consumers_12, split_overlap_zero, controlled_sources_zero, e2_promotions_zero, e4_promotions_zero]
+      block_conditions: [historical_input_hash_drift, unresolved_terms, mutable_release_identity, checksum_mismatch, empty_parser_output, flattened_biological_unit, split_leakage, missing_real_consumer, controlled_source, observational_to_intervention_promotion]
+      artifact_names: [Output/audits/dt_round20_allen_historical_migration.json, Output/audits/dt_round20_allen_execution_environment.json, Output/audits/dt_round20_allen_rights_matrix.json, Input/manifests/allen/allen_release_inventory.tsv, Input/manifests/allen/allen_retrieval_manifest.json, Output/audits/allen_storage_and_transfer_budget.json, Output/audits/dt_round20_allen_full_landing_gate.json]
+      authorization:
+        historical_migration_audit: true
+        current_rights_resolution: true
+        release_discovery_without_payload_retrieval: true
+        payload_download: false
+        training: false
+      handoff: resolve_historical_migration_execution_environment_rights_and_exact_releases_before_payload_retrieval
+    track_b_public_e2_e4_recovery:
+      owner: round20-track-b
+      status: contract_frozen_execution_not_started
+      scope: Public numeric E2 recovery, evidence-aligned E4 domain selection, producer qualification, matched-control pilots, and prospective readiness freeze
+      reused_authorities:
+        - path: Libs/configs/data/round19_public_e2_e4.yaml
+          sha256: 44dc93441ff848f55d336ca594689fb3c9c8bb6b706b74e6d57e34f151b0362e
+        - path: Libs/utils/data/round19_contracts.py
+          sha256: ca93be5ca2d0e34f315c7854e809b883ff1cff724bc9c2592ebee44bac6902c6
+      current_readiness: blocked_insufficient_e4
+      priority_sources: [public_perturbation_accessions, supplementary_numeric_tables, public_perturb_seq, lincs_clue_where_terms_permit, drugcomb, pubchem_bioassay, public_electrophysiology_intervention_studies, public_dose_time_pharmacology_studies]
+      numeric_e2_required_fields: [action, comparator, dose, dose_unit, route, schedule, timepoint, context, endpoint, endpoint_unit, sample_size, uncertainty, publication_or_accession, raw_or_supplementary_source_hash]
+      label_classes: [data_derived_label, author_claim_label, cross_study_consensus]
+      author_directional_claim_satisfies_numeric_minimum: false
+      e4_domain_score_dimensions: [numeric_e2_availability, complete_action_semantics, qualified_producer, initial_state_availability, matched_control_feasibility, parameter_provenance, support_domain, numerical_stability, allen_derived_state_compatibility]
+      producer_required_fields: [exact_version_or_hash, equations_or_model_identity, parameter_provenance, state_variables, action_semantics, dose_route_schedule_support, control_generation, seed_and_fidelity, constraints, license, validation_suite]
+      missing_action_semantics_recovery_routes: [repair_adapter, upgrade_producer_version, replace_producer, narrow_action_domain, select_another_e4_domain]
+      pilot_requirements: [matched_control, shared_initial_state, shared_producer_and_version, compatible_parameters, same_fidelity_and_time_grid, seed_policy, negative_action_fixtures, constraint_tests]
+      allowed_readiness_states: [training_ready_restricted, training_ready_formal, blocked_insufficient_e2, blocked_insufficient_e4, blocked_control_pairs, blocked_validation_units, blocked_split_feasibility, blocked_support_domain]
+      evidence_boundary:
+        simulation_is_model_derived: true
+        model_prediction_closes_gap: false
+        author_narrative_is_numeric_e2: false
+      resource_budget:
+        discovery_metadata_on_management_node: bounded_only
+        bulk_retrieval_and_parsing_on_compute: true
+        allowed_cpu_nodes: [cpu03, cpu04]
+        node_local_scratch_required: true
+      test_membership: [contract_unit, controlled_source_negative, unknown_license_negative, narrative_numeric_negative, action_completeness_negative, producer_provenance_negative, matched_control_negative, split_leakage_negative, readiness_state]
+      pass_conditions: [numeric_e2_independence_resolved, evidence_aligned_e4_domain_selected, producer_qualified, intervention_control_pilots_passed, prospective_readiness_state_frozen]
+      block_conditions: [controlled_source, unknown_license, numeric_e2_incomplete, action_semantics_incomplete, producer_unqualified, matched_control_missing, validation_units_insufficient, split_leakage, support_domain_failure]
+      artifact_names: [Output/audits/dt_round20_e2_expansion_contract.json, Output/audits/dt_round20_e4_domain_selection.json, Output/audits/dt_round20_e4_producer_qualification.json, Output/audits/dt_round20_e4_control_pair_audit.json, Output/audits/dt_round20_public_e2_e4_training_readiness.json]
+      authorization:
+        public_source_discovery: true
+        bounded_metadata_retrieval: true
+        producer_qualification: true
+        intervention_control_pilot_execution: false
+        training: false
+      handoff: resolve_numeric_e2_and_select_a_qualified_e4_domain_before_any_pilot_or_training_authorization
+    track_c_runtime_deployment:
+      owner: round20-track-c
+      status: contract_frozen_execution_not_started
+      scope: Single-owner registries, immutable runtime environment, test hierarchy, observability, governed services, and HPC execution closure
+      input_authorities:
+        - path: Libs/configs/data/data_registry.yaml
+          sha256: d4bde1fb5e0d0797ceac840ba140b388f6e413d872470be5116e1716dfe8b557
+        - path: Libs/utils/data/source_receipts.py
+          sha256: b5e726bfc0169b5556e85541128d9d4d08e84c2aaeded5024f5962a53d45fb44
+        - path: Libs/utils/data/action_observation_contracts.py
+          sha256: 629196349c5b8853712e153742e5d3fa47a4e1d810f00c950cc9398effbe42a2
+        - path: Docs/design/iclr/config/artifact_contracts.yaml
+          sha256: 14a267528e22a3aa6fa4f4b4129df2fd9c7fcc5fb8c5b3c25dba8de5fe040c73
+        - path: Docs/design/iclr/schemas/run_manifest.schema.json
+          sha256: 3363201ec42e44289cac60a248e827c96f6f357b1e381a401f618ca09468f54c
+        - path: Docs/design/iclr/schemas/split_manifest.schema.json
+          sha256: c76de8750fc32acedf3b87e5d30c8feb3a2a4339f3b91e8b83ebf8b72545eb61
+        - path: Docs/design/iclr/schemas/checkpoint_manifest.schema.json
+          sha256: 4c71b3f72bd4e3e196fcb6136b7141af698b1b18fd4840ac936e70bb81cf46b8
+        - path: Docs/design/iclr/schemas/tool_request.schema.json
+          sha256: 440db06f7dc635485eeebbda3f083bc5207a7db208e32b299c03c88abfe79edc
+        - path: Docs/design/iclr/schemas/tool_result.schema.json
+          sha256: 531afbc9a35807bd0e9c0e1fe6b79603681c2b86b3003ac64e612793df925a85
+        - path: Libs/scripts/reports/build_paper_results.py
+          sha256: 34067ed637096822206c48f71d6aecce64ab955a25691a3a60d4d2e862a5ff48
+        - path: Libs/scripts/services/serve_screening_api.py
+          sha256: 0cc5ba3350191e4580ed59d1b74b3e0a53baf25c791d8c14e10dd962a6a45b91
+        - path: Libs/configs/runtime/cluster.yaml
+          sha256: 96b26c5f120cbd4db622338874e7d6ecf12a2cfc3833bfc6902e0d6ce81037f4
+      registry_ownership:
+        source_registry: {owner: round20-shared-governance, authority_paths: [Libs/configs/data/data_registry.yaml, Libs/utils/data/source_receipts.py], status: existing_authority}
+        license_registry: {owner: round20-shared-governance, authority_paths: [Libs/configs/data/data_registry.yaml], status: single_owner_adapter_required}
+        entity_unit_crosswalk: {owner: round20-shared-governance, authority_paths: [Libs/configs/schema/round20_cell_taxonomy_crosswalk.schema.json, Libs/configs/schema/round20_biological_unit.schema.json], status: existing_authority}
+        artifact_cas: {owner: round20-shared-governance, authority_paths: [Docs/design/iclr/config/artifact_contracts.yaml, Docs/design/iclr/schemas/run_manifest.schema.json], status: implementation_required}
+        split_registry: {owner: round20-shared-governance, authority_paths: [Docs/design/iclr/schemas/split_manifest.schema.json, Libs/utils/data/round19_contracts.py], status: adapter_required}
+        run_registry: {owner: round20-shared-governance, authority_paths: [Docs/design/iclr/schemas/run_manifest.schema.json], status: implementation_required}
+        checkpoint_registry: {owner: round20-shared-governance, authority_paths: [Docs/design/iclr/schemas/checkpoint_manifest.schema.json], status: implementation_required}
+        tool_registry: {owner: round20-shared-governance, authority_paths: [Docs/design/iclr/schemas/tool_request.schema.json, Docs/design/iclr/schemas/tool_result.schema.json], status: implementation_required}
+        report_builder: {owner: round20-shared-governance, authority_paths: [Libs/scripts/reports/build_paper_results.py], status: existing_authority}
+      duplicate_track_specific_registries_allowed: false
+      execution_environment_required_fields: [python_environment, pytorch_cuda, cpu_profile, gpu_profiles, external_binaries, containers, tmpdir_and_scratch, storage_budgets, thread_and_process_limits, nfs_io_policy]
+      test_hierarchy: [unit, integration, sampled_real, full_real, end_to_end, hpc_smoke, exact_clean_full_suite, clean_room_reproduction]
+      fixture_or_sampled_only_acceptance_allowed: false
+      job_observability_required_fields: [run_uid, code_hash, config_hash, data_hash, split_hash, host_or_node, environment, resource_request, resource_use, stdout, stderr, structured_events, terminal_scheduler_evidence, failure_classification, retry_lineage]
+      service_contract:
+        implementation_path: Libs/scripts/services/serve_screening_api.py
+        required_endpoints: [/infer_world_state, /rollout_counterfactuals, /plan_interventions, /explain_decision, /ingest_feedback, /plan_tool_acquisition_batch, /dispatch_tool_tasks, /ingest_tool_result, /active_learning_round_report]
+        existing_exact_endpoints: [/infer_world_state, /rollout_counterfactuals, /plan_interventions, /explain_decision, /ingest_feedback, /active_learning_round_report]
+        implementation_gaps: [/plan_tool_acquisition_batch, /dispatch_tool_tasks, /ingest_tool_result]
+        response_required_fields: [provenance, model_identity, checkpoint_identity, uncertainty, tri, decision_reason, tool_route]
+        arbitrary_shell_execution_allowed: false
+        real_tool_dispatch_authorized: false
+      resource_budget:
+        management_node: control_plane_only
+        allowed_cpu_nodes: [cpu03, cpu04]
+        gpu_node: gpu03
+        gpu_partition: gpu1
+        large_io_node: cpu03
+        large_io_partition: gpu
+        node_local_scratch_required: true
+      test_membership: [registry_contract_unit, registry_duplicate_negative, environment_schema, service_schema, arbitrary_shell_negative, hpc_smoke, exact_clean_full_suite, clean_room_reproduction]
+      pass_conditions: [single_registry_implementations, runtime_environment_frozen, test_hierarchy_passed, observability_complete, nine_service_endpoints_validated, arbitrary_shell_disabled, hpc_runtime_reconciled]
+      block_conditions: [duplicate_registry, mutable_environment, management_node_heavy_execution, mandatory_test_missing, mandatory_test_skipped, missing_provenance, missing_uncertainty, missing_tri, arbitrary_shell_route, unreconciled_scheduler_terminal_state]
+      artifact_names: [Output/audits/dt_round20_registry_ownership.json, Output/audits/dt_round20_runtime_environment.json, Output/audits/dt_round20_test_hierarchy.json, Output/audits/dt_round20_job_observability.json, Output/audits/dt_round20_service_contract.json, Output/audits/dt_round20_runtime_service_gate.json]
+      authorization:
+        registry_inventory_and_implementation: true
+        runtime_environment_freeze: true
+        service_implementation: true
+        real_tool_dispatch: false
+        deployment: false
+      handoff: implement_shared_registries_and_three_missing_governed_tool_endpoints_before_runtime_gate_execution
+  output_paths:
+    freeze: Output/audits/dt_round20_track_contract_freeze.json
+    track_a: Output/audits/dt_round20_track_a_contract.json
+    track_b: Output/audits/dt_round20_track_b_contract.json
+    track_c: Output/audits/dt_round20_track_c_contract.json
+  next_action: validate_and_commit_track_contracts_before_any_track_execution

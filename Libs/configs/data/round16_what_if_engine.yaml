@@ -1,0 +1,98 @@
+round16_what_if_engine:
+  version: neuronsifter-round16-what-if-engine-v1
+  evidence_fabric_sealed: false
+  dt_core_status: not_evaluated
+  canonical_controller_uid: neuronsifter_orchestration_controller
+  validator_uid: round16_governed_what_if_engine_validator
+  parent_artifacts:
+    round16_handoff: Output/audits/dt_round16_handoff.json
+    round15_gate: Output/audits/dt_round15_gate.json
+    round15_validation: Output/audits/dt_round15_validation.json
+    round15_execution_identity: Output/audits/dt_round15_execution_identity.json
+    round15_full_suite_execution: Output/audits/dt_round15_full_suite_execution.json
+    round15_e4_admission_ledger: Output/audits/dt_round15_e4_admission_ledger.tsv
+    round15_trajectory_coverage: Output/audits/dt_round15_trajectory_coverage.json
+    round15_effective_trajectory_units: Output/audits/dt_round15_effective_trajectory_units.json
+    round15_frozen_gap_map: Output/audits/dt_round15_frozen_gap_trajectory_map.tsv
+    round15_release_candidate: Output/evidence_fabric/v0/releases/evidence_fabric_round15_release_dde10b4a58e64f344ebb5ae2/round15_e4_release_candidate.json
+    round15_trajectory: Output/trajectories/round15_formal/clean_trajectory_2d72655f34350ed4fa350fe8/trajectory.json
+    round15_initial_state: Output/trajectories/round15_formal/clean_trajectory_2d72655f34350ed4fa350fe8/initial_state.json
+    round15_action_binding: Output/trajectories/round15_formal/clean_trajectory_2d72655f34350ed4fa350fe8/action_binding.json
+    round15_numerical_qc: Output/trajectories/round15_formal/clean_trajectory_2d72655f34350ed4fa350fe8/numerical_qc.json
+    round15_constraint_qc: Output/trajectories/round15_formal/clean_trajectory_2d72655f34350ed4fa350fe8/constraint_qc.json
+    round15_uncertainty: Output/trajectories/round15_formal/clean_trajectory_2d72655f34350ed4fa350fe8/uncertainty.json
+    round15_state_values: Output/trajectories/round15_formal/clean_trajectory_2d72655f34350ed4fa350fe8/state_values.npy
+  restricted_engine:
+    engine_uid: neuronsifter_round15_restricted_replay
+    engine_type: validated_replay_engine
+    version: neuronsifter-round15-restricted-replay-v1
+    source: Libs/scripts/builders/build_dt_round16_what_if_engine.py
+    supported_baseline_classes:
+      - qualification_synthetic
+    supported_action_classes:
+      - no_action_control
+    supported_state_variables:
+      - free_drug
+      - target_bound_drug
+      - misfolded_protein_load
+      - aggregate_burden
+      - neuroinflammation
+      - clearance_flux
+      - circuit_instability
+      - amyloid_beta_soluble
+      - amyloid_plaque
+      - phosphorylated_tau
+      - inflammatory_mediator
+      - calcium_concentration
+      - membrane_voltage
+      - spike_rate
+      - vascular_perivascular_transport
+    supported_horizons:
+      - start: 0.0
+        end: 672.0
+        unit: hour
+    supported_fidelities:
+      - round15_qualification_relative_field_v1
+    support_domain_ref: domain_round15_synthetic_ad_meso_qualification
+    qualification_status: qualified_for_contract_testing
+    trained: false
+    known_limitations:
+      - deterministic replay only
+      - qualification synthetic baseline
+      - no biological validation
+      - no cross-action prediction
+      - no intervention-effect claim
+      - provisional configuration parameters
+  pilot:
+    request_uid: round16_restricted_no_action_replay
+    research_question_uid: round16_contract_runtime_validation
+    state_namespace: ad_mesoscale_microenvironment_v1
+    requested_time_horizon:
+      start: 0.0
+      end: 672.0
+      unit: hour
+    ensemble_policy:
+      mode: deterministic_singleton
+      member_count: 1
+    fidelity_policy:
+      requested_fidelity: round15_qualification_relative_field_v1
+      substitution_allowed: false
+    budget:
+      class: contract_validation_small
+      max_runtime_seconds: 60
+      max_memory_gib: 4
+      gpu_count: 0
+    claim_scope: restricted_contract_and_runtime_validation_only
+  output_paths:
+    request_catalog: Output/what_if/round16_pilot/what_if_request_catalog.tsv
+    attempt_catalog: Output/what_if/round16_pilot/rollout_attempt_catalog.tsv
+    rollout_catalog: Output/what_if/round16_pilot/rollout_catalog.tsv
+    control_pair_catalog: Output/what_if/round16_pilot/control_pair_catalog.tsv
+    contrast_catalog: Output/what_if/round16_pilot/contrast_catalog.tsv
+    uncertainty_catalog: Output/what_if/round16_pilot/uncertainty_catalog.tsv
+    reliability_catalog: Output/what_if/round16_pilot/reliability_catalog.tsv
+    eligibility_catalog: Output/what_if/round16_pilot/eligibility_catalog.tsv
+    graph: Output/what_if/round16_pilot/round16_what_if_graph.json
+    pilot_validation: Output/audits/dt_round16_pilot_validation.json
+    frozen_gap_map: Output/audits/dt_round16_frozen_gap_what_if_map.tsv
+    release_root: Output/evidence_fabric/v0/releases

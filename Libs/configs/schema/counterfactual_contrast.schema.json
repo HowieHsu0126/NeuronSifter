@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://neuronsifter.org/schemas/counterfactual_contrast.schema.json",
+  "title": "NeuronSifter CounterfactualContrast", "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "contrast_uid", "action_rollout_uids", "control_rollout_uids", "pairing_decision", "outcome_namespace", "contrast_estimator", "time_local_contrasts", "terminal_contrast", "integrated_contrast", "uncertainty", "support_domain_ref", "extrapolation_flags", "conflicts", "eligibility", "causal_effect_claim", "intervention_effect_claim"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-counterfactual-contrast-v1"}, "contrast_uid": {"$ref": "#/$defs/text"},
+    "action_rollout_uids": {"$ref": "#/$defs/texts"}, "control_rollout_uids": {"$ref": "#/$defs/texts"},
+    "pairing_decision": {"enum": ["exact_deterministic_pair", "matched_stochastic_pair", "group_level_pair", "unpaired_descriptive_rollout"]},
+    "outcome_namespace": {"$ref": "#/$defs/text"}, "contrast_estimator": {"enum": ["paired_difference", "normalized_paired_difference", "ensemble_mean_difference", "distributional_distance", "time_to_event_difference", "area_under_trajectory_difference"]},
+    "time_local_contrasts": {"type": "array", "minItems": 1, "items": {"type": "number"}}, "terminal_contrast": {"type": "number"}, "integrated_contrast": {"type": "number"},
+    "uncertainty": {"type": "object", "minProperties": 1}, "support_domain_ref": {"$ref": "#/$defs/text"}, "extrapolation_flags": {"type": "array", "items": {"type": "string"}},
+    "conflicts": {"type": "array", "items": {"type": "string"}}, "eligibility": {"$ref": "#/$defs/text"}, "causal_effect_claim": {"const": false}, "intervention_effect_claim": {"type": "boolean"}
+  },
+  "$defs": {"text": {"type": "string", "minLength": 1}, "texts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/text"}}}
+}

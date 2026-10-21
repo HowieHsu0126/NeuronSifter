@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/round18_benchmark_release.schema.json",
+  "title": "NeuronSifter Round-18 unsealed benchmark release candidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "release_uid",
+    "release_version",
+    "created_at",
+    "code_commit",
+    "config_hash",
+    "schema_registry_hash",
+    "artifacts",
+    "evaluator_only_held_out_bundle",
+    "final_held_out_partition_frozen",
+    "rules_frozen_before_final_held_out_access",
+    "large_benchmark_data_committed_to_git",
+    "production_model_trained",
+    "frozen_gap_count_before_round18",
+    "frozen_gap_count_after_round18",
+    "evidence_fabric_sealed",
+    "dt_core_status",
+    "retrospective_replay",
+    "prospective_real_world_validation",
+    "causal_effect_claim",
+    "clinical_recommendation",
+    "autonomous_discovery_claim",
+    "release_content_hash",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-round18-benchmark-release-v1"},
+    "release_uid": {"$ref": "#/$defs/text"},
+    "release_version": {"const": "v0"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "code_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "config_hash": {"$ref": "#/$defs/hash"},
+    "schema_registry_hash": {"$ref": "#/$defs/hash"},
+    "artifacts": {"$ref": "#/$defs/artifacts"},
+    "evaluator_only_held_out_bundle": {"$ref": "#/$defs/held_out_bundle"},
+    "final_held_out_partition_frozen": {"const": true},
+    "rules_frozen_before_final_held_out_access": {"const": true},
+    "large_benchmark_data_committed_to_git": {"const": false},
+    "production_model_trained": {"const": false},
+    "frozen_gap_count_before_round18": {"const": 20},
+    "frozen_gap_count_after_round18": {"const": 20},
+    "evidence_fabric_sealed": {"const": false},
+    "dt_core_status": {"const": "not_evaluated"},
+    "retrospective_replay": {"const": true},
+    "prospective_real_world_validation": {"const": false},
+    "causal_effect_claim": {"const": false},
+    "clinical_recommendation": {"const": false},
+    "autonomous_discovery_claim": {"const": false},
+    "release_content_hash": {"$ref": "#/$defs/hash"},
+    "status": {"const": "unsealed_release_candidate"}
+  },
+  "$defs": {
+    "text": {"type": "string", "minLength": 1},
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/text"},
+        "sha256": {"$ref": "#/$defs/hash"}
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["episode_catalog", "pre_cutoff_evidence_manifest", "held_out_outcome_manifest", "label_catalog", "independence_group_catalog", "split_manifest", "metric_specification", "system_run_manifest", "result_catalog"],
+      "properties": {
+        "benchmark_release_manifest": {"$ref": "#/$defs/artifact"},
+        "episode_catalog": {"$ref": "#/$defs/artifact"},
+        "pre_cutoff_evidence_manifest": {"$ref": "#/$defs/artifact"},
+        "held_out_outcome_manifest": {"$ref": "#/$defs/artifact"},
+        "label_catalog": {"$ref": "#/$defs/artifact"},
+        "independence_group_catalog": {"$ref": "#/$defs/artifact"},
+        "split_manifest": {"$ref": "#/$defs/artifact"},
+        "metric_specification": {"$ref": "#/$defs/artifact"},
+        "system_run_manifest": {"$ref": "#/$defs/artifact"},
+        "result_catalog": {"$ref": "#/$defs/artifact"}
+      }
+    },
+    "held_out_bundle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bundle_uid", "bundle_hash", "mount_path", "agent_runtime_readable", "permission_mode"],
+      "properties": {
+        "bundle_uid": {"$ref": "#/$defs/text"},
+        "bundle_hash": {"$ref": "#/$defs/hash"},
+        "mount_path": {"type": "string", "pattern": "^/"},
+        "agent_runtime_readable": {"const": false},
+        "permission_mode": {"enum": ["evaluator_read_only", "evaluator_only"]}
+      }
+    }
+  }
+}

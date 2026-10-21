@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/literature_replay_run.schema.json",
+  "title": "NeuronSifter Round-18 literature replay run",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_uid",
+    "episode_uid",
+    "system_uid",
+    "partition",
+    "replay_track",
+    "code_commit",
+    "config_hash",
+    "schema_registry_hash",
+    "environment_hash",
+    "pre_cutoff_bundle",
+    "held_out_bundle",
+    "process_identities",
+    "reveal_event_hashes",
+    "result_refs",
+    "governance_violation_counts",
+    "rules_frozen_before_final_held_out_access",
+    "agent_direct_tool_execution",
+    "runtime_mode",
+    "twin_kernel_invoked",
+    "runtime_trace_hash",
+    "gate_writer_uid",
+    "production_model_training",
+    "frozen_gap_count_before",
+    "frozen_gap_count_after",
+    "evidence_fabric_sealed",
+    "dt_core_status",
+    "retrospective_replay",
+    "prospective_real_world_validation",
+    "causal_effect_claim",
+    "clinical_recommendation",
+    "autonomous_discovery_claim",
+    "content_hash",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-literature-replay-run-v1"},
+    "run_uid": {"$ref": "#/$defs/text"},
+    "episode_uid": {"$ref": "#/$defs/text"},
+    "system_uid": {"$ref": "#/$defs/system"},
+    "partition": {"enum": ["development", "qualification", "final_held_out", "stress"]},
+    "replay_track": {"enum": ["retrieval_isolated_replay", "post_model_cutoff_replay", "memory_risk_stress_track"]},
+    "code_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "config_hash": {"$ref": "#/$defs/hash"},
+    "schema_registry_hash": {"$ref": "#/$defs/hash"},
+    "environment_hash": {"$ref": "#/$defs/hash"},
+    "pre_cutoff_bundle": {"$ref": "#/$defs/bundle_binding"},
+    "held_out_bundle": {"$ref": "#/$defs/held_out_binding"},
+    "process_identities": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"$ref": "#/$defs/process_identity"}},
+    "reveal_event_hashes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/hash"}},
+    "result_refs": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/text"}},
+    "governance_violation_counts": {"$ref": "#/$defs/governance_counts"},
+    "rules_frozen_before_final_held_out_access": {"type": "boolean"},
+    "agent_direct_tool_execution": {"type": "boolean"},
+    "runtime_mode": {"enum": ["offline_baseline", "contract_ablation", "offline_agent_proposal", "round17_twin_kernel"]},
+    "twin_kernel_invoked": {"type": "boolean"},
+    "runtime_trace_hash": {"oneOf": [{"$ref": "#/$defs/hash"}, {"type": "null"}]},
+    "gate_writer_uid": {"oneOf": [{"$ref": "#/$defs/text"}, {"type": "null"}]},
+    "production_model_training": {"type": "boolean"},
+    "frozen_gap_count_before": {"const": 20},
+    "frozen_gap_count_after": {"type": "integer", "minimum": 0},
+    "evidence_fabric_sealed": {"type": "boolean"},
+    "dt_core_status": {"enum": ["not_evaluated", "evaluated", "declared"]},
+    "retrospective_replay": {"const": true},
+    "prospective_real_world_validation": {"const": false},
+    "causal_effect_claim": {"const": false},
+    "clinical_recommendation": {"const": false},
+    "autonomous_discovery_claim": {"const": false},
+    "content_hash": {"$ref": "#/$defs/hash"},
+    "status": {"enum": ["completed", "blocked", "invalidated"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"system_uid": {"const": "full_governed_scitil"}}},
+      "then": {
+        "properties": {
+          "runtime_mode": {"const": "round17_twin_kernel"},
+          "twin_kernel_invoked": {"const": true},
+          "runtime_trace_hash": {"$ref": "#/$defs/hash"},
+          "gate_writer_uid": {"const": "neuronsifter_orchestration_controller"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"status": {"const": "completed"}}},
+      "then": {
+        "properties": {
+          "rules_frozen_before_final_held_out_access": {"const": true},
+          "agent_direct_tool_execution": {"const": false},
+          "production_model_training": {"const": false},
+          "frozen_gap_count_after": {"const": 20},
+          "evidence_fabric_sealed": {"const": false},
+          "dt_core_status": {"const": "not_evaluated"},
+          "governance_violation_counts": {
+            "properties": {
+              "gate_violation_count": {"const": 0},
+              "held_out_access_attempt_count": {"const": 0},
+              "evidence_upgrade_violation_count": {"const": 0},
+              "conflict_loss_count": {"const": 0},
+              "empirical_gap_fabrication_count": {"const": 0},
+              "causal_language_violation_count": {"const": 0},
+              "clinical_language_violation_count": {"const": 0}
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "anyOf": [
+          {"properties": {"rules_frozen_before_final_held_out_access": {"const": false}}},
+          {"properties": {"agent_direct_tool_execution": {"const": true}}},
+          {"properties": {"production_model_training": {"const": true}}},
+          {"properties": {"evidence_fabric_sealed": {"const": true}}},
+          {"properties": {"dt_core_status": {"enum": ["evaluated", "declared"]}}},
+          {"properties": {"frozen_gap_count_after": {"not": {"const": 20}}}},
+          {"properties": {"held_out_bundle": {"properties": {"readable_by_agent_before_t5": {"const": true}}}}},
+          {"properties": {"held_out_bundle": {"properties": {"pre_t5_access_attempt_count": {"minimum": 1}}}}},
+          {
+            "properties": {
+              "governance_violation_counts": {
+                "anyOf": [
+                  {"properties": {"gate_violation_count": {"minimum": 1}}},
+                  {"properties": {"held_out_access_attempt_count": {"minimum": 1}}},
+                  {"properties": {"evidence_upgrade_violation_count": {"minimum": 1}}},
+                  {"properties": {"conflict_loss_count": {"minimum": 1}}},
+                  {"properties": {"empirical_gap_fabrication_count": {"minimum": 1}}},
+                  {"properties": {"causal_language_violation_count": {"minimum": 1}}},
+                  {"properties": {"clinical_language_violation_count": {"minimum": 1}}}
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "then": {"properties": {"status": {"const": "invalidated"}}}
+    }
+  ],
+  "$defs": {
+    "text": {"type": "string", "minLength": 1},
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "system": {
+      "enum": [
+        "static_evidence_fabric_baseline",
+        "rule_based_evidence_scoring",
+        "twin_only_without_agents",
+        "agent_only_offline_proposal_ablation",
+        "scitil_without_falsifier",
+        "scitil_without_twin_debt",
+        "scitil_without_information_actions",
+        "full_governed_scitil"
+      ]
+    },
+    "bundle_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bundle_uid", "bundle_hash", "mount_path", "readable_by_agent"],
+      "properties": {
+        "bundle_uid": {"$ref": "#/$defs/text"},
+        "bundle_hash": {"$ref": "#/$defs/hash"},
+        "mount_path": {"type": "string", "pattern": "^/"},
+        "readable_by_agent": {"const": true}
+      }
+    },
+    "held_out_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bundle_uid", "bundle_hash", "mount_path", "readable_by_agent_before_t5", "pre_t5_access_attempt_count"],
+      "properties": {
+        "bundle_uid": {"$ref": "#/$defs/text"},
+        "bundle_hash": {"$ref": "#/$defs/hash"},
+        "mount_path": {"type": "string", "pattern": "^/"},
+        "readable_by_agent_before_t5": {"type": "boolean"},
+        "pre_t5_access_attempt_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "process_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["process_uid", "role", "uid", "gid"],
+      "properties": {
+        "process_uid": {"$ref": "#/$defs/text"},
+        "role": {"enum": ["agent_runtime", "twin_runtime", "controller", "evaluator"]},
+        "uid": {"type": "integer", "minimum": 0},
+        "gid": {"type": "integer", "minimum": 0}
+      }
+    },
+    "governance_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gate_violation_count", "held_out_access_attempt_count", "evidence_upgrade_violation_count", "conflict_loss_count", "empirical_gap_fabrication_count", "causal_language_violation_count", "clinical_language_violation_count"],
+      "properties": {
+        "gate_violation_count": {"type": "integer", "minimum": 0},
+        "held_out_access_attempt_count": {"type": "integer", "minimum": 0},
+        "evidence_upgrade_violation_count": {"type": "integer", "minimum": 0},
+        "conflict_loss_count": {"type": "integer", "minimum": 0},
+        "empirical_gap_fabrication_count": {"type": "integer", "minimum": 0},
+        "causal_language_violation_count": {"type": "integer", "minimum": 0},
+        "clinical_language_violation_count": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

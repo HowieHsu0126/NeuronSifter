@@ -1,0 +1,279 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/no_task_fit_reusable_asset_lineage.schema.json",
+  "title": "NeuronSifter no-task-fit reusable asset lineage",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "lineage_uid",
+    "status",
+    "contract",
+    "parent_authority",
+    "asset_count",
+    "present_asset_count",
+    "absent_asset_count",
+    "assets",
+    "access_boundary",
+    "authorization_closure",
+    "source_path_scope",
+    "limitations",
+    "blockers"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-no-task-fit-reusable-asset-lineage-v1"},
+    "lineage_uid": {"const": "no_task_fit_reusable_asset_lineage"},
+    "status": {"const": "NO_TASK_FIT_REUSABLE_ASSET_LINEAGE_BOUND"},
+    "contract": {"$ref": "#/$defs/contentBinding"},
+    "parent_authority": {"$ref": "#/$defs/parentBinding"},
+    "asset_count": {"const": 24},
+    "present_asset_count": {"type": "integer", "minimum": 0, "maximum": 24},
+    "absent_asset_count": {"type": "integer", "minimum": 0, "maximum": 24},
+    "assets": {
+      "type": "array",
+      "minItems": 24,
+      "maxItems": 24,
+      "items": {"$ref": "#/$defs/assetRecord"}
+    },
+    "access_boundary": {"$ref": "#/$defs/accessBoundary"},
+    "authorization_closure": {"$ref": "#/$defs/authorizationClosure"},
+    "source_path_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "declared_path_count",
+        "opened_present_paths",
+        "verified_absent_paths",
+        "non_allowlisted_paths_opened"
+      ],
+      "properties": {
+        "declared_path_count": {"const": 24},
+        "opened_present_paths": {
+          "type": "array",
+          "minItems": 22,
+          "maxItems": 22,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/repositoryPath"}
+        },
+        "verified_absent_paths": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/repositoryPath"}
+        },
+        "non_allowlisted_paths_opened": {"type": "array", "maxItems": 0}
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 2,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "blockers": {"type": "array", "maxItems": 0}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "gitBlob": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "repositoryPath": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*[?*\\[\\]])[^\\u0000]+$"
+    },
+    "contentBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"const": "Libs/configs/validation/no_task_fit_route_arbitration.yaml"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "parentBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "schema_version", "status", "validation_status"],
+      "properties": {
+        "path": {"const": "Output/audits/no_task_fit_parent_authority.json"},
+        "sha256": {"const": "56eea3c26d292d2c2e5575cf89021bdeea4055bd6c66dfadcbcb3c1a3e86f554"},
+        "schema_version": {"const": "neuronsifter-no-task-fit-parent-authority-v1"},
+        "status": {"const": "NO_TASK_FIT_PARENT_AUTHORITIES_BOUND"},
+        "validation_status": {"const": "passed"}
+      }
+    },
+    "assetClassification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "executable_code",
+        "configuration",
+        "schema",
+        "historical_authority",
+        "explicitly_absent_required_identity"
+      ],
+      "properties": {
+        "executable_code": {"type": "boolean"},
+        "configuration": {"type": "boolean"},
+        "schema": {"type": "boolean"},
+        "historical_authority": {"type": "boolean"},
+        "explicitly_absent_required_identity": {"type": "boolean"}
+      }
+    },
+    "assetRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_uid",
+        "path",
+        "route_roles",
+        "asset_kind",
+        "provenance_role",
+        "license_access_evidence_status",
+        "expected_presence",
+        "observed_presence",
+        "content_sha256",
+        "bytes",
+        "git_blob_sha1",
+        "git_tracking_state",
+        "classification",
+        "required_text_markers",
+        "markers_verified",
+        "identity_matches_contract",
+        "limitations"
+      ],
+      "properties": {
+        "asset_uid": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "path": {"$ref": "#/$defs/repositoryPath"},
+        "route_roles": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"enum": ["shared", "route_a", "route_b", "route_c", "route_d"]}
+        },
+        "asset_kind": {
+          "enum": [
+            "authority_manifest",
+            "historical_authority",
+            "model_module",
+            "schema",
+            "model_configuration",
+            "runtime_configuration",
+            "execution_script",
+            "registry_builder",
+            "registry_validator",
+            "checkpoint_requirement",
+            "prior_module"
+          ]
+        },
+        "provenance_role": {"type": "string", "minLength": 1},
+        "license_access_evidence_status": {
+          "enum": [
+            "not_applicable_governance",
+            "repository_internal_only",
+            "mixed_internal_and_external_terms_not_fully_bound",
+            "external_terms_referenced_not_bound",
+            "external_terms_not_declared_in_allowlisted_asset",
+            "external_terms_labels_not_bound",
+            "absent_required_identity",
+            "public_source_reference_without_bound_terms",
+            "source_terms_not_bound_in_allowlisted_asset"
+          ]
+        },
+        "expected_presence": {"enum": ["present", "absent"]},
+        "observed_presence": {"enum": ["present", "absent"]},
+        "content_sha256": {"oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+        "bytes": {"oneOf": [{"type": "integer", "minimum": 1}, {"type": "null"}]},
+        "git_blob_sha1": {"oneOf": [{"$ref": "#/$defs/gitBlob"}, {"type": "null"}]},
+        "git_tracking_state": {"enum": ["tracked_clean", "absent"]},
+        "classification": {"$ref": "#/$defs/assetClassification"},
+        "required_text_markers": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "markers_verified": {"const": true},
+        "identity_matches_contract": {"const": true},
+        "limitations": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"observed_presence": {"const": "present"}}},
+          "then": {
+            "properties": {
+              "content_sha256": {"$ref": "#/$defs/sha256"},
+              "bytes": {"type": "integer", "minimum": 1},
+              "git_blob_sha1": {"$ref": "#/$defs/gitBlob"},
+              "git_tracking_state": {"const": "tracked_clean"}
+            }
+          },
+          "else": {
+            "properties": {
+              "content_sha256": {"type": "null"},
+              "bytes": {"type": "null"},
+              "git_blob_sha1": {"type": "null"},
+              "git_tracking_state": {"const": "absent"},
+              "required_text_markers": {"maxItems": 0}
+            }
+          }
+        }
+      ]
+    },
+    "accessBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "six_context_outcome_access",
+        "protected_holdout_access",
+        "new_intake_performed",
+        "task_specific_fitting_performed",
+        "simulator_execution_performed",
+        "candidate_inference_performed",
+        "six_context_files_opened",
+        "protected_files_opened"
+      ],
+      "properties": {
+        "six_context_outcome_access": {"const": 0},
+        "protected_holdout_access": {"const": 0},
+        "new_intake_performed": {"const": false},
+        "task_specific_fitting_performed": {"const": false},
+        "simulator_execution_performed": {"const": false},
+        "candidate_inference_performed": {"const": false},
+        "six_context_files_opened": {"const": false},
+        "protected_files_opened": {"const": false}
+      }
+    },
+    "authorizationClosure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "new_public_data_intake_authorized",
+        "training_authorized",
+        "gpu_authorized",
+        "world_action_compiler_authorized",
+        "uncertainty_implementation_authorized",
+        "formal_evaluation_authorized",
+        "six_context_evaluation_authorized",
+        "tool_calling_authorized",
+        "memory_adaptation_authorized",
+        "agent_in_twin_authorized",
+        "coevolution_authorized"
+      ],
+      "properties": {
+        "new_public_data_intake_authorized": {"const": false},
+        "training_authorized": {"const": false},
+        "gpu_authorized": {"const": false},
+        "world_action_compiler_authorized": {"const": false},
+        "uncertainty_implementation_authorized": {"const": false},
+        "formal_evaluation_authorized": {"const": false},
+        "six_context_evaluation_authorized": {"const": false},
+        "tool_calling_authorized": {"const": false},
+        "memory_adaptation_authorized": {"const": false},
+        "agent_in_twin_authorized": {"const": false},
+        "coevolution_authorized": {"const": false}
+      }
+    }
+  }
+}

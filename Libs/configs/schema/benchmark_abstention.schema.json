@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/benchmark_abstention.schema.json",
+  "title": "NeuronSifter Round-18 benchmark abstention decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "abstention_uid",
+    "episode_uid",
+    "system_uid",
+    "abstention_required",
+    "abstained",
+    "reason",
+    "support_domain_status",
+    "evidence_sufficiency",
+    "uncertainty",
+    "unknown_components_preserved",
+    "conflicts_preserved",
+    "forced_answer_refused",
+    "unsupported_answer_emitted",
+    "retrospective_replay",
+    "prospective_real_world_validation",
+    "causal_effect_claim",
+    "clinical_recommendation",
+    "autonomous_discovery_claim",
+    "content_hash",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-benchmark-abstention-v1"},
+    "abstention_uid": {"$ref": "#/$defs/text"},
+    "episode_uid": {"$ref": "#/$defs/text"},
+    "system_uid": {"$ref": "#/$defs/text"},
+    "abstention_required": {"type": "boolean"},
+    "abstained": {"type": "boolean"},
+    "reason": {
+      "enum": [
+        "insufficient_information",
+        "unsupported_domain",
+        "conflicting_evidence",
+        "missing_action_identity",
+        "unknown_comparator",
+        "unknown_timepoint",
+        "unit_conflict",
+        "memory_contamination_risk",
+        "held_out_isolation_failure",
+        "not_required"
+      ]
+    },
+    "support_domain_status": {"enum": ["in_domain", "extrapolative", "unsupported", "unknown"]},
+    "evidence_sufficiency": {"enum": ["sufficient", "insufficient", "conflicting", "unknown"]},
+    "uncertainty": {"$ref": "#/$defs/uncertainty"},
+    "unknown_components_preserved": {"const": true},
+    "conflicts_preserved": {"const": true},
+    "forced_answer_refused": {"const": true},
+    "unsupported_answer_emitted": {"const": false},
+    "retrospective_replay": {"const": true},
+    "prospective_real_world_validation": {"const": false},
+    "causal_effect_claim": {"const": false},
+    "clinical_recommendation": {"const": false},
+    "autonomous_discovery_claim": {"const": false},
+    "content_hash": {"$ref": "#/$defs/hash"},
+    "status": {"enum": ["abstained_correctly", "answered_with_support", "blocked", "invalidated"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"abstention_required": {"const": true}}},
+      "then": {
+        "properties": {
+          "abstained": {"const": true},
+          "reason": {"not": {"const": "not_required"}},
+          "status": {"const": "abstained_correctly"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"abstention_required": {"const": false}}},
+      "then": {"properties": {"reason": {"const": "not_required"}}}
+    }
+  ],
+  "$defs": {
+    "text": {"type": "string", "minLength": 1},
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "uncertainty": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "value", "unknown_components"],
+      "properties": {
+        "status": {"enum": ["quantified", "unknown", "partial"]},
+        "value": {"type": ["number", "null"], "minimum": 0},
+        "unknown_components": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/text"}}
+      },
+      "allOf": [
+        {"if": {"properties": {"status": {"const": "unknown"}}}, "then": {"properties": {"value": {"type": "null"}, "unknown_components": {"minItems": 1}}}},
+        {"if": {"properties": {"status": {"const": "quantified"}}}, "then": {"properties": {"value": {"type": "number", "minimum": 0}, "unknown_components": {"maxItems": 0}}}}
+      ]
+    }
+  }
+}

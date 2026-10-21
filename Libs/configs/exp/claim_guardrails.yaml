@@ -1,0 +1,24 @@
+paper_grade_claim_guardrails:
+  allowed_scope:
+  - AD-first public cohort evidence
+  - CNS microenvironment rollout
+  - intervention prioritization
+  - retrospective literature-direction recovery
+  - TRI reliability gate
+  forbidden_claims:
+  - G5 passed
+  - 1M materialized trajectory readiness passed
+  - general-purpose drug screening
+  - direct clinical endpoint prediction
+  - private clinical data training
+  - PD readiness proven
+  - FTD readiness proven
+  - ALS readiness proven
+
+paper_grade_full_suite:
+  claim_guardrails:
+    config_path: Libs/configs/exp/claim_guardrails.yaml
+    enforce_in_public_reports: true
+    preserve_statuses:
+      g2_status: G2_pass_with_warnings
+      g5_status: G5_not_passed

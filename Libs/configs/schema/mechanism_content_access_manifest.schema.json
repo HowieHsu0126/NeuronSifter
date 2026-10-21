@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/mechanism_content_access_manifest.schema.json",
+  "title": "NeuronSifter bounded mechanism-content access manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "authorization_uid", "contract", "schema", "upstream_authorities", "queue", "chronology", "eligible_slots", "requirement_registry", "retrieval_policy", "allowed_content_classes", "denied_content_classes", "network_requests_performed", "content_access_authorized", "access_counters", "downstream_authorization", "authorization_sha256", "blockers"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-mechanism-content-access-manifest-v1"},
+    "status": {"const": "MECHANISM_CONTENT_ACCESS_AUTHORIZED"},
+    "authorization_uid": {"const": "mechanism_content_access_manifest"},
+    "contract": {"$ref": "#/$defs/fileBinding"},
+    "schema": {"$ref": "#/$defs/fileBinding"},
+    "upstream_authorities": {"type": "array", "minItems": 8, "maxItems": 8, "items": {"$ref": "#/$defs/artifactBinding"}},
+    "queue": {"$ref": "#/$defs/artifactBinding"},
+    "chronology": {"$ref": "#/$defs/artifactBinding"},
+    "eligible_slots": {"type": "array", "minItems": 15, "maxItems": 15, "items": {"$ref": "#/$defs/eligibleSlot"}},
+    "requirement_registry": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/requirement"}},
+    "retrieval_policy": {"type": "object"},
+    "allowed_content_classes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "denied_content_classes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "network_requests_performed": {"const": 0},
+    "content_access_authorized": {"const": true},
+    "access_counters": {"$ref": "#/$defs/zeroCounters"},
+    "downstream_authorization": {"$ref": "#/$defs/downstreamClosure"},
+    "authorization_sha256": {"$ref": "#/$defs/sha256"},
+    "blockers": {"type": "array", "maxItems": 0}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fileBinding": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"], "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/sha256"}}},
+    "artifactBinding": {"type": "object", "additionalProperties": false, "required": ["path", "file_sha256", "semantic_sha256"], "properties": {"path": {"type": "string", "minLength": 1}, "file_sha256": {"$ref": "#/$defs/sha256"}, "semantic_sha256": {"$ref": "#/$defs/sha256"}}},
+    "requestPlan": {"type": "object", "additionalProperties": false, "required": ["request_uid", "request_kind", "method", "url", "host"], "properties": {"request_uid": {"type": "string", "pattern": "^mechanism-content-request-[0-9a-f]{20}$"}, "request_kind": {"const": "pubmed_exact_fetch"}, "method": {"const": "GET"}, "url": {"type": "string", "pattern": "^https://eutils\\.ncbi\\.nlm\\.nih\\.gov/entrez/eutils/efetch\\.fcgi\\?"}, "host": {"const": "eutils.ncbi.nlm.nih.gov"}}},
+    "eligibleSlot": {"type": "object", "additionalProperties": false, "required": ["queue_order", "slot_uid", "canonical_intervention_uid", "validation_uid", "family_uid", "canonical_source_identity", "pmid", "doi", "official_date", "queue_disposition", "request_plan", "public_access_status", "license_status"], "properties": {"queue_order": {"type": "integer", "minimum": 1, "maximum": 72}, "slot_uid": {"type": "string", "pattern": "^mechanism-source-slot-[0-9a-f]{20}$"}, "canonical_intervention_uid": {"type": "string", "minLength": 1}, "validation_uid": {"type": "string", "pattern": "^[0-9a-f]{12}$"}, "family_uid": {"type": "string", "minLength": 1}, "canonical_source_identity": {"type": "string", "minLength": 1}, "pmid": {"type": "string", "pattern": "^[0-9]+$"}, "doi": {"type": ["string", "null"]}, "official_date": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T00:00:00Z$"}, "queue_disposition": {"const": "eligible"}, "request_plan": {"type": "array", "minItems": 1, "maxItems": 3, "items": {"$ref": "#/$defs/requestPlan"}}, "public_access_status": {"type": "string"}, "license_status": {"type": "string"}}},
+    "requirement": {"type": "object", "additionalProperties": false, "required": ["requirement_uid", "category", "subject_uid", "required", "description", "allowed_claim_types", "authority_path", "authority_locator", "authority_semantic_sha256"], "properties": {"requirement_uid": {"type": "string", "pattern": "^mechanism-requirement-[0-9a-f]{20}$"}, "category": {"enum": ["mechanism", "latent_state", "state_observable_link", "parameter_domain", "prior_role", "support_boundary"]}, "subject_uid": {"type": "string", "minLength": 1}, "required": {"type": "boolean"}, "description": {"type": "string", "minLength": 1}, "allowed_claim_types": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}, "authority_path": {"type": "string", "minLength": 1}, "authority_locator": {"type": "string", "minLength": 1}, "authority_semantic_sha256": {"$ref": "#/$defs/sha256"}}},
+    "zeroCounters": {"type": "object", "additionalProperties": false, "required": ["source_content_access", "unqueued_source_attempts", "forbidden_value_reads", "six_context_outcome_access", "protected_holdout_access"], "properties": {"source_content_access": {"const": 0}, "unqueued_source_attempts": {"const": 0}, "forbidden_value_reads": {"const": 0}, "six_context_outcome_access": {"const": 0}, "protected_holdout_access": {"const": 0}}},
+    "downstreamClosure": {"type": "object", "additionalProperties": false, "required": ["numerical_prior_population_authorized", "world_action_compiler_authorized", "runtime_implementation_authorized", "agent_trace_authorized", "inference_authorized", "training_authorized", "gpu_authorized", "evaluation_authorized", "push_authorized"], "properties": {"numerical_prior_population_authorized": {"const": false}, "world_action_compiler_authorized": {"const": false}, "runtime_implementation_authorized": {"const": false}, "agent_trace_authorized": {"const": false}, "inference_authorized": {"const": false}, "training_authorized": {"const": false}, "gpu_authorized": {"const": false}, "evaluation_authorized": {"const": false}, "push_authorized": {"const": false}}}
+  }
+}

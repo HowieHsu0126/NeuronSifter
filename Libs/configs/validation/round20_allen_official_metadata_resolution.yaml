@@ -1,0 +1,301 @@
+round20_allen_official_metadata_resolution:
+  version: neuronsifter-round20-allen-official-metadata-resolution-v1
+  status: frozen_before_official_metadata_probe
+  parent_repair_commit: 4dfb0ee59a632d110d922bc1cd509fad7e36c3f1
+  parent_full_suite_job_id: "508644"
+  scope: Resolve Allen 12-family rights and immutable release identities from bounded official public metadata snapshots only
+  source_policy:
+    access_class: public_uncontrolled
+    official_hosts_only: true
+    allowed_host_suffixes: [alleninstitute.org, brain-map.org]
+    general_terms_satisfy_dataset_specific_rights: false
+    historical_release_hint_promotable: false
+    mutable_latest_query_allowed: false
+    release_identity_requires_official_immutable_evidence: true
+    terms_and_release_snapshots_hash_required: true
+    checked_at_execution_time_required: true
+    redirect_to_non_official_host_allowed: false
+  configuration:
+    maximum_requests: 48
+    max_concurrent_requests: 1
+    request_timeout_seconds: 20
+    retry_count: 0
+    maximum_snapshot_bytes_per_response: 1048576
+    maximum_total_snapshot_bytes: 25165824
+    accepted_metadata_content_types: [text/html, application/json, application/xml, text/xml, text/csv, text/tab-separated-values]
+  output_artifacts:
+    rights_matrix: Output/audits/dt_round20_allen_rights_matrix_v2.json
+    release_inventory: Input/manifests/allen/allen_release_inventory_v2.tsv
+    retrieval_manifest: Input/manifests/allen/allen_retrieval_manifest_v2.json
+    resolution_audit: Output/audits/dt_round20_allen_rights_release_resolution_v2.json
+    snapshot_dir: Output/audits/round20/official_metadata_resolution/snapshots
+  source_snapshots:
+    - source_uid: allen_terms_of_use
+      role: governing_terms
+      url: https://alleninstitute.org/legal/terms-of-use
+      required: true
+    - source_uid: allen_citation_policy
+      role: citation_policy
+      url: https://alleninstitute.org/legal/citation-policy
+      required: true
+    - source_uid: allen_atlases_and_data
+      role: official_data_portal
+      url: https://brain-map.org/atlases
+      required: true
+    - source_uid: allen_abc_atlas
+      role: abc_atlas_landing
+      url: https://brain-map.org/bkp/explore/abc-atlas
+      required: true
+    - source_uid: allen_sea_ad
+      role: sea_ad_landing
+      url: https://brain-map.org/consortia/sea-ad
+      required: true
+    - source_uid: allen_cell_types
+      role: cell_types_landing
+      url: https://celltypes.brain-map.org/
+      required: true
+    - source_uid: allen_human_brain
+      role: human_brain_atlas_landing
+      url: https://human.brain-map.org/
+      required: true
+    - source_uid: allen_mouse_connectivity
+      role: mouse_connectivity_landing
+      url: https://connectivity.brain-map.org/
+      required: true
+    - source_uid: allen_developing_mouse
+      role: developing_mouse_landing
+      url: https://developingmouse.brain-map.org/
+      required: true
+    - source_uid: allen_brain_observatory
+      role: brain_observatory_landing
+      url: https://observatory.brain-map.org/visualcoding
+      required: true
+  family_metadata:
+    - family_uid: allen_abc_mouse
+      dataset_name: Allen Brain Cell Atlas mouse
+      official_snapshot_uid: allen_abc_atlas
+      release_uid: UNRESOLVED_OFFICIAL_IMMUTABLE_RELEASE
+      release_date_or_version: NOT_FROZEN
+      api_or_download_endpoint: BLOCKED_UNTIL_OFFICIAL_IMMUTABLE_RELEASE_AND_ALLOWED_PAYLOAD_HOST_ARE_RESOLVED
+      object_inventory: NOT_FROZEN
+      format: multimodal_single_cell_spatial_transcriptomics
+      expected_size: NOT_FROZEN
+      official_checksum: NOT_AVAILABLE
+      expected_biological_object_counts: NOT_FROZEN
+      pagination_or_request_identity: NOT_FROZEN
+      payload_host: third_party_public_cloud_or_manifest_referenced_by_official_page
+      dataset_specific_license: UNRESOLVED_DATASET_SPECIFIC_LICENSE
+      third_party_license: UNRESOLVED_THIRD_PARTY_PAYLOAD_TERMS
+      citation_policy: allen_citation_policy
+      release_identity_evidence: insufficient_in_bounded_official_snapshot
+    - family_uid: allen_abc_human
+      dataset_name: Allen Brain Cell Atlas human
+      official_snapshot_uid: allen_abc_atlas
+      release_uid: UNRESOLVED_OFFICIAL_IMMUTABLE_RELEASE
+      release_date_or_version: NOT_FROZEN
+      api_or_download_endpoint: BLOCKED_UNTIL_OFFICIAL_IMMUTABLE_RELEASE_AND_ALLOWED_PAYLOAD_HOST_ARE_RESOLVED
+      object_inventory: NOT_FROZEN
+      format: multimodal_human_single_cell_transcriptomics
+      expected_size: NOT_FROZEN
+      official_checksum: NOT_AVAILABLE
+      expected_biological_object_counts: NOT_FROZEN
+      pagination_or_request_identity: NOT_FROZEN
+      payload_host: third_party_public_cloud_or_manifest_referenced_by_official_page
+      dataset_specific_license: UNRESOLVED_DATASET_SPECIFIC_LICENSE
+      third_party_license: UNRESOLVED_THIRD_PARTY_PAYLOAD_TERMS
+      citation_policy: allen_citation_policy
+      release_identity_evidence: insufficient_in_bounded_official_snapshot
+    - family_uid: allen_abc_human_ad
+      dataset_name: Seattle Alzheimer Disease Brain Cell Atlas
+      official_snapshot_uid: allen_sea_ad
+      release_uid: UNRESOLVED_OFFICIAL_IMMUTABLE_RELEASE
+      release_date_or_version: NOT_FROZEN
+      api_or_download_endpoint: BLOCKED_UNTIL_OFFICIAL_IMMUTABLE_RELEASE_AND_ALLOWED_PAYLOAD_HOST_ARE_RESOLVED
+      object_inventory: NOT_FROZEN
+      format: human_ad_single_cell_spatial_multimodal
+      expected_size: NOT_FROZEN
+      official_checksum: NOT_AVAILABLE
+      expected_biological_object_counts: NOT_FROZEN
+      pagination_or_request_identity: NOT_FROZEN
+      payload_host: third_party_public_cloud_or_manifest_referenced_by_official_page
+      dataset_specific_license: UNRESOLVED_DATASET_SPECIFIC_LICENSE
+      third_party_license: UNRESOLVED_THIRD_PARTY_PAYLOAD_TERMS
+      citation_policy: allen_citation_policy
+      release_identity_evidence: insufficient_in_bounded_official_snapshot
+    - family_uid: allen_cell_types_transcriptomics
+      dataset_name: Allen Cell Types Database transcriptomics
+      official_snapshot_uid: allen_cell_types
+      release_uid: UNRESOLVED_OFFICIAL_IMMUTABLE_RELEASE
+      release_date_or_version: NOT_FROZEN
+      api_or_download_endpoint: https://celltypes.brain-map.org/
+      object_inventory: NOT_FROZEN
+      format: transcriptomics_metadata_and_expression
+      expected_size: NOT_FROZEN
+      official_checksum: NOT_AVAILABLE
+      expected_biological_object_counts: NOT_FROZEN
+      pagination_or_request_identity: NOT_FROZEN
+      payload_host: official_brain_map_or_alleninstitute_endpoint_unfrozen
+      dataset_specific_license: UNRESOLVED_DATASET_SPECIFIC_LICENSE
+      third_party_license: none_declared_in_bounded_snapshot
+      citation_policy: allen_citation_policy
+      release_identity_evidence: insufficient_in_bounded_official_snapshot
+    - family_uid: allen_cell_types_morphology
+      dataset_name: Allen Cell Types Database morphology
+      official_snapshot_uid: allen_cell_types
+      release_uid: UNRESOLVED_OFFICIAL_IMMUTABLE_RELEASE
+      release_date_or_version: NOT_FROZEN
+      api_or_download_endpoint: https://celltypes.brain-map.org/
+      object_inventory: NOT_FROZEN
+      format: swc_morphology_metadata
+      expected_size: NOT_FROZEN
+      official_checksum: NOT_AVAILABLE
+      expected_biological_object_counts: NOT_FROZEN
+      pagination_or_request_identity: NOT_FROZEN
+      payload_host: official_brain_map_or_alleninstitute_endpoint_unfrozen
+      dataset_specific_license: UNRESOLVED_DATASET_SPECIFIC_LICENSE
+      third_party_license: none_declared_in_bounded_snapshot
+      citation_policy: allen_citation_policy
+      release_identity_evidence: insufficient_in_bounded_official_snapshot
+    - family_uid: allen_cell_types_ephys
+      dataset_name: Allen Cell Types Database electrophysiology
+      official_snapshot_uid: allen_cell_types
+      release_uid: UNRESOLVED_OFFICIAL_IMMUTABLE_RELEASE
+      release_date_or_version: NOT_FROZEN
+      api_or_download_endpoint: https://celltypes.brain-map.org/
+      object_inventory: NOT_FROZEN
+      format: nwb_electrophysiology_metadata
+      expected_size: NOT_FROZEN
+      official_checksum: NOT_AVAILABLE
+      expected_biological_object_counts: NOT_FROZEN
+      pagination_or_request_identity: NOT_FROZEN
+      payload_host: official_brain_map_or_alleninstitute_endpoint_unfrozen
+      dataset_specific_license: UNRESOLVED_DATASET_SPECIFIC_LICENSE
+      third_party_license: none_declared_in_bounded_snapshot
+      citation_policy: allen_citation_policy
+      release_identity_evidence: insufficient_in_bounded_official_snapshot
+    - family_uid: allen_human_brain_microarray
+      dataset_name: Allen Human Brain Atlas microarray
+      official_snapshot_uid: allen_human_brain
+      release_uid: UNRESOLVED_OFFICIAL_IMMUTABLE_RELEASE
+      release_date_or_version: NOT_FROZEN
+      api_or_download_endpoint: https://human.brain-map.org/
+      object_inventory: NOT_FROZEN
+      format: microarray_expression_metadata
+      expected_size: NOT_FROZEN
+      official_checksum: NOT_AVAILABLE
+      expected_biological_object_counts: NOT_FROZEN
+      pagination_or_request_identity: NOT_FROZEN
+      payload_host: official_brain_map_or_alleninstitute_endpoint_unfrozen
+      dataset_specific_license: UNRESOLVED_DATASET_SPECIFIC_LICENSE
+      third_party_license: none_declared_in_bounded_snapshot
+      citation_policy: allen_citation_policy
+      release_identity_evidence: insufficient_in_bounded_official_snapshot
+    - family_uid: allen_human_brain_mri
+      dataset_name: Allen Human Brain Atlas MRI and anatomy metadata
+      official_snapshot_uid: allen_human_brain
+      release_uid: UNRESOLVED_OFFICIAL_IMMUTABLE_RELEASE
+      release_date_or_version: NOT_FROZEN
+      api_or_download_endpoint: https://human.brain-map.org/
+      object_inventory: NOT_FROZEN
+      format: mri_anatomy_metadata
+      expected_size: NOT_FROZEN
+      official_checksum: NOT_AVAILABLE
+      expected_biological_object_counts: NOT_FROZEN
+      pagination_or_request_identity: NOT_FROZEN
+      payload_host: official_brain_map_or_alleninstitute_endpoint_unfrozen
+      dataset_specific_license: UNRESOLVED_DATASET_SPECIFIC_LICENSE
+      third_party_license: none_declared_in_bounded_snapshot
+      citation_policy: allen_citation_policy
+      release_identity_evidence: insufficient_in_bounded_official_snapshot
+    - family_uid: allen_mouse_connectivity
+      dataset_name: Allen Mouse Brain Connectivity Atlas
+      official_snapshot_uid: allen_mouse_connectivity
+      release_uid: UNRESOLVED_OFFICIAL_IMMUTABLE_RELEASE
+      release_date_or_version: NOT_FROZEN
+      api_or_download_endpoint: https://connectivity.brain-map.org/
+      object_inventory: NOT_FROZEN
+      format: connectivity_structure_tables_and_projection_volumes
+      expected_size: NOT_FROZEN
+      official_checksum: NOT_AVAILABLE
+      expected_biological_object_counts: NOT_FROZEN
+      pagination_or_request_identity: NOT_FROZEN
+      payload_host: official_brain_map_or_alleninstitute_endpoint_unfrozen
+      dataset_specific_license: UNRESOLVED_DATASET_SPECIFIC_LICENSE
+      third_party_license: none_declared_in_bounded_snapshot
+      citation_policy: allen_citation_policy
+      release_identity_evidence: insufficient_in_bounded_official_snapshot
+    - family_uid: allen_developing_mouse
+      dataset_name: Allen Developing Mouse Brain Atlas
+      official_snapshot_uid: allen_developing_mouse
+      release_uid: UNRESOLVED_OFFICIAL_IMMUTABLE_RELEASE
+      release_date_or_version: NOT_FROZEN
+      api_or_download_endpoint: https://developingmouse.brain-map.org/
+      object_inventory: NOT_FROZEN
+      format: developmental_expression_metadata
+      expected_size: NOT_FROZEN
+      official_checksum: NOT_AVAILABLE
+      expected_biological_object_counts: NOT_FROZEN
+      pagination_or_request_identity: NOT_FROZEN
+      payload_host: official_brain_map_or_alleninstitute_endpoint_unfrozen
+      dataset_specific_license: UNRESOLVED_DATASET_SPECIFIC_LICENSE
+      third_party_license: none_declared_in_bounded_snapshot
+      citation_policy: allen_citation_policy
+      release_identity_evidence: insufficient_in_bounded_official_snapshot
+    - family_uid: allen_brain_observatory
+      dataset_name: Allen Brain Observatory visual coding
+      official_snapshot_uid: allen_brain_observatory
+      release_uid: UNRESOLVED_OFFICIAL_IMMUTABLE_RELEASE
+      release_date_or_version: NOT_FROZEN
+      api_or_download_endpoint: https://observatory.brain-map.org/visualcoding
+      object_inventory: NOT_FROZEN
+      format: brain_observatory_activity_and_stimulus_metadata
+      expected_size: NOT_FROZEN
+      official_checksum: NOT_AVAILABLE
+      expected_biological_object_counts: NOT_FROZEN
+      pagination_or_request_identity: NOT_FROZEN
+      payload_host: official_brain_map_or_alleninstitute_endpoint_unfrozen
+      dataset_specific_license: UNRESOLVED_DATASET_SPECIFIC_LICENSE
+      third_party_license: none_declared_in_bounded_snapshot
+      citation_policy: allen_citation_policy
+      release_identity_evidence: insufficient_in_bounded_official_snapshot
+    - family_uid: allen_reference_atlas_ccf
+      dataset_name: Allen Reference Atlas and Common Coordinate Framework
+      official_snapshot_uid: allen_atlases_and_data
+      release_uid: UNRESOLVED_OFFICIAL_IMMUTABLE_RELEASE
+      release_date_or_version: NOT_FROZEN
+      api_or_download_endpoint: https://brain-map.org/atlases
+      object_inventory: NOT_FROZEN
+      format: reference_atlas_volumes_and_ontologies
+      expected_size: NOT_FROZEN
+      official_checksum: NOT_AVAILABLE
+      expected_biological_object_counts: NOT_FROZEN
+      pagination_or_request_identity: NOT_FROZEN
+      payload_host: official_brain_map_or_alleninstitute_endpoint_unfrozen
+      dataset_specific_license: UNRESOLVED_DATASET_SPECIFIC_LICENSE
+      third_party_license: none_declared_in_bounded_snapshot
+      citation_policy: allen_citation_policy
+      release_identity_evidence: insufficient_in_bounded_official_snapshot
+  pass_conditions:
+    - twelve_family_rows_emitted
+    - official_snapshot_attempts_recorded
+    - terms_snapshot_hashes_recorded
+    - release_identity_blockers_explicit
+    - payload_download_false
+    - training_false
+    - remote_push_false
+  block_conditions:
+    - official_snapshot_unavailable
+    - non_official_metadata_url
+    - unresolved_dataset_specific_terms
+    - unresolved_third_party_payload_terms
+    - missing_immutable_release_identity
+    - mutable_latest_query
+    - payload_retrieval_attempted
+  authorization:
+    bounded_official_metadata_probe: true
+    payload_download: false
+    training: false
+    evidence_fabric_sealing: false
+    dt_core_evaluation: false
+    remote_push: false
+  handoff: repair_family_specific_license_release_or_payload_host_blockers_before_raw_materialization

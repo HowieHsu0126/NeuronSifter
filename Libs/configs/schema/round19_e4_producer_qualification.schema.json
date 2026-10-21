@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/round19_e4_producer_qualification.schema.json",
+  "title": "Round19E4ProducerQualification",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["producer_uid", "producer_version", "producer_hash", "equation_model_identity", "parameter_provenance", "supported_state_variables", "supported_action_semantics", "initial_state_contract", "control_generation_capability", "seed_policy", "fidelity_policy", "numerical_qc", "constraint_policy", "license_or_redistribution", "decision", "support_domain"],
+  "properties": {
+    "producer_uid": {"type": "string", "minLength": 1},
+    "producer_version": {"type": "string", "minLength": 1},
+    "producer_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "equation_model_identity": {"type": "string", "minLength": 1},
+    "parameter_provenance": {"type": "string", "minLength": 1},
+    "supported_state_variables": {"type": "array", "items": {"type": "string"}},
+    "supported_action_semantics": {"type": "array", "items": {"type": "string"}},
+    "initial_state_contract": {"type": "string", "minLength": 1},
+    "control_generation_capability": {"type": "string", "minLength": 1},
+    "seed_policy": {"type": "string", "minLength": 1},
+    "fidelity_policy": {"type": "string", "minLength": 1},
+    "numerical_qc": {"type": "string", "minLength": 1},
+    "constraint_policy": {"type": "string", "minLength": 1},
+    "license_or_redistribution": {"type": "string", "minLength": 1},
+    "decision": {"enum": ["qualified_for_intervention_e4", "qualified_with_restrictions", "blocked_action_semantics", "blocked_parameter_provenance", "blocked_initial_state", "blocked_support_domain", "blocked_calibration", "blocked_numerical_stability", "blocked_license"]},
+    "support_domain": {"type": "string", "minLength": 1}
+  }
+}

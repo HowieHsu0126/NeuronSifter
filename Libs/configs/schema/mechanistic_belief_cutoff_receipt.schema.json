@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/mechanistic_belief_cutoff_receipt.schema.json",
+  "title": "NeuronSifter mechanistic belief cutoff receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "receipt_uid",
+    "contract",
+    "schema",
+    "derivation",
+    "records",
+    "access_policy",
+    "access_counters",
+    "retrieval_summary",
+    "blockers",
+    "receipt_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-mechanistic-belief-cutoff-receipt-v1"},
+    "status": {"const": "MECHANISTIC_BELIEF_CUTOFF_RECEIPT_VALID"},
+    "receipt_uid": {"const": "mechanistic_belief_cutoff_receipt"},
+    "contract": {"$ref": "#/$defs/fileIdentity"},
+    "schema": {"$ref": "#/$defs/fileIdentity"},
+    "derivation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rule", "earliest_official_date", "strictly_before_cutoff"],
+      "properties": {
+        "rule": {"const": "one_second_before_earliest_official_publication_date_utc"},
+        "earliest_official_date": {"const": "2021-03-03"},
+        "strictly_before_cutoff": {"const": "2021-03-02T23:59:59Z"}
+      }
+    },
+    "records": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "prefixItems": [
+        {"allOf": [{"$ref": "#/$defs/record"}, {"$ref": "#/$defs/pubmed42334452"}]},
+        {"allOf": [{"$ref": "#/$defs/record"}, {"$ref": "#/$defs/pubmed42028031"}]},
+        {"allOf": [{"$ref": "#/$defs/record"}, {"$ref": "#/$defs/elife69795"}]},
+        {"allOf": [{"$ref": "#/$defs/record"}, {"$ref": "#/$defs/nature011663"}]},
+        {"allOf": [{"$ref": "#/$defs/record"}, {"$ref": "#/$defs/pubmed40140393"}]},
+        {"allOf": [{"$ref": "#/$defs/record"}, {"$ref": "#/$defs/pubmed33658519"}]}
+      ],
+      "items": false
+    },
+    "access_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metadata_projection_fields", "forbidden_persisted_fields", "gate_access_kind", "metadata_retrieval_authorizes_source_content"],
+      "properties": {
+        "metadata_projection_fields": {"type": "array", "minItems": 13, "maxItems": 13, "uniqueItems": true, "items": {"type": "string"}},
+        "forbidden_persisted_fields": {"type": "array", "minItems": 17, "maxItems": 17, "uniqueItems": true, "items": {"type": "string"}},
+        "gate_access_kind": {"const": "mechanism_source_content"},
+        "metadata_retrieval_authorizes_source_content": {"const": false}
+      }
+    },
+    "access_counters": {"$ref": "#/$defs/accessCounters"},
+    "retrieval_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metadata_source", "exact_request_count", "serial", "raw_response_persisted", "total_raw_response_bytes"],
+      "properties": {
+        "metadata_source": {"const": "official"},
+        "exact_request_count": {"const": 6},
+        "serial": {"const": true},
+        "raw_response_persisted": {"const": false},
+        "total_raw_response_bytes": {"type": "integer", "minimum": 1, "maximum": 12582912}
+      }
+    },
+    "blockers": {"type": "array", "maxItems": 0},
+    "receipt_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fileIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "accessCounters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["six_context_outcome_access", "protected_holdout_access", "source_content_access"],
+      "properties": {
+        "six_context_outcome_access": {"const": 0},
+        "protected_holdout_access": {"const": 0},
+        "source_content_access": {"const": 0}
+      }
+    },
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["publication_identity", "identifier_type", "identifier_value", "official_date", "official_metadata_authority", "requested_url", "final_url", "retrieved_at", "http_status", "raw_response_sha256", "raw_response_bytes", "projected_metadata_sha256", "validation_status"],
+      "properties": {
+        "publication_identity": {"type": "string"},
+        "identifier_type": {"enum": ["pubmed", "doi"]},
+        "identifier_value": {"type": "string"},
+        "official_date": {"type": "string", "format": "date"},
+        "official_metadata_authority": {"type": "string"},
+        "requested_url": {"type": "string", "format": "uri", "pattern": "^https://"},
+        "final_url": {"type": "string", "format": "uri", "pattern": "^https://"},
+        "retrieved_at": {"type": "string", "format": "date-time"},
+        "http_status": {"const": 200},
+        "raw_response_sha256": {"$ref": "#/$defs/sha256"},
+        "raw_response_bytes": {"type": "integer", "minimum": 1, "maximum": 2097152},
+        "projected_metadata_sha256": {"$ref": "#/$defs/sha256"},
+        "validation_status": {"const": "validated_exact_official_metadata"}
+      }
+    },
+    "pubmed42334452": {"properties": {"publication_identity": {"const": "pubmed:42334452"}, "identifier_type": {"const": "pubmed"}, "identifier_value": {"const": "42334452"}, "official_date": {"const": "2026-06-23"}, "official_metadata_authority": {"const": "NCBI PubMed"}}, "required": ["publication_identity", "identifier_type", "identifier_value", "official_date", "official_metadata_authority"]},
+    "pubmed42028031": {"properties": {"publication_identity": {"const": "pubmed:42028031"}, "identifier_type": {"const": "pubmed"}, "identifier_value": {"const": "42028031"}, "official_date": {"const": "2026-03-30"}, "official_metadata_authority": {"const": "NCBI PubMed"}}, "required": ["publication_identity", "identifier_type", "identifier_value", "official_date", "official_metadata_authority"]},
+    "elife69795": {"properties": {"publication_identity": {"const": "doi:10.7554/eLife.69795"}, "identifier_type": {"const": "doi"}, "identifier_value": {"const": "10.7554/eLife.69795"}, "official_date": {"const": "2021-09-22"}, "official_metadata_authority": {"const": "eLife official publisher/DOI metadata"}}, "required": ["publication_identity", "identifier_type", "identifier_value", "official_date", "official_metadata_authority"]},
+    "nature011663": {"properties": {"publication_identity": {"const": "doi:10.1038/s43587-026-01166-3"}, "identifier_type": {"const": "doi"}, "identifier_value": {"const": "10.1038/s43587-026-01166-3"}, "official_date": {"const": "2026-07-03"}, "official_metadata_authority": {"const": "Nature Aging official publisher/DOI metadata"}}, "required": ["publication_identity", "identifier_type", "identifier_value", "official_date", "official_metadata_authority"]},
+    "pubmed40140393": {"properties": {"publication_identity": {"const": "pubmed:40140393"}, "identifier_type": {"const": "pubmed"}, "identifier_value": {"const": "40140393"}, "official_date": {"const": "2025-03-26"}, "official_metadata_authority": {"const": "NCBI PubMed"}}, "required": ["publication_identity", "identifier_type", "identifier_value", "official_date", "official_metadata_authority"]},
+    "pubmed33658519": {"properties": {"publication_identity": {"const": "pubmed:33658519"}, "identifier_type": {"const": "pubmed"}, "identifier_value": {"const": "33658519"}, "official_date": {"const": "2021-03-03"}, "official_metadata_authority": {"const": "NCBI PubMed"}}, "required": ["publication_identity", "identifier_type", "identifier_value", "official_date", "official_metadata_authority"]}
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://neuronsifter.org/schemas/round16_what_if_release_candidate.schema.json",
+  "title": "NeuronSifter Round16 What-If Release Candidate", "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "release_uid", "parent_release_uid", "created_at", "code_commit", "config_hash", "schema_registry_hash", "input_bundle_hash", "environment_hash", "model_output_classes", "rollout_count", "contrast_count", "uncertainty_report_count", "reliability_report_count", "empirical_observation_count", "empirical_gap_resolution_count", "artifact_hashes", "status", "sealed", "dt_core_status", "release_content_hash"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-round16-what-if-release-candidate-v1"}, "release_uid": {"$ref": "#/$defs/text"}, "parent_release_uid": {"$ref": "#/$defs/text"},
+    "created_at": {"$ref": "#/$defs/text"}, "code_commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"}, "config_hash": {"$ref": "#/$defs/hash"},
+    "schema_registry_hash": {"$ref": "#/$defs/hash"}, "input_bundle_hash": {"$ref": "#/$defs/hash"}, "environment_hash": {"$ref": "#/$defs/hash"},
+    "model_output_classes": {"$ref": "#/$defs/texts"}, "rollout_count": {"type": "integer", "minimum": 0}, "contrast_count": {"type": "integer", "minimum": 0},
+    "uncertainty_report_count": {"type": "integer", "minimum": 0}, "reliability_report_count": {"type": "integer", "minimum": 0},
+    "empirical_observation_count": {"const": 0}, "empirical_gap_resolution_count": {"const": 0},
+    "artifact_hashes": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "#/$defs/hash"}},
+    "status": {"const": "materialized_unsealed"}, "sealed": {"const": false}, "dt_core_status": {"const": "not_evaluated"}, "release_content_hash": {"$ref": "#/$defs/hash"}
+  },
+  "$defs": {"text": {"type": "string", "minLength": 1}, "texts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/text"}}, "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

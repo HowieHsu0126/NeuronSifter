@@ -1,0 +1,483 @@
+round18_literature_replay:
+  version: neuronsifter-round18-literature-replay-v1
+  config_source_path: Libs/configs/data/round18_literature_replay.yaml
+  authoritative_start_commit: de3b691587da49896fd108cd3999127a2b5deb08
+  authoritative_start:
+    exact_main_commit: de3b691587da49896fd108cd3999127a2b5deb08
+    entry_status: ready_for_literature_held_out_sequential_replay
+    round17i_gate: scitil_runtime_mainline_integrated
+    evidence_fabric_materialized: true
+    evidence_fabric_sealed: false
+    frozen_gap_count: 20
+    dt_core_status: not_evaluated
+  parent_artifacts:
+    round18_entry_gate: Output/audits/dt_round18_entry_gate.json
+    round18_handoff: Output/audits/dt_round18_handoff.json
+    round17i_gate: Output/audits/dt_round17i_gate.json
+    round17_gate: Output/audits/dt_round17_gate.json
+    round16_gate: Output/audits/dt_round16_gate.json
+    round14_evidence_fabric_coverage: Output/audits/dt_round14_evidence_fabric_coverage.json
+    round15_trajectory_coverage: Output/audits/dt_round15_trajectory_coverage.json
+    round14_frozen_gap_ledger: Output/audits/dt_round14_frozen_gap_resolution_ledger.tsv
+  claim_scope:
+    retrospective_replay: true
+    prospective_real_world_validation: false
+    causal_effect_claim: false
+    clinical_recommendation: false
+    autonomous_discovery_claim: false
+  scope:
+    benchmark_claim: retrospective_literature_grounded_computational_replay
+    retrospective_replay: true
+    prospective_real_world_validation: false
+    causal_effect_claim: false
+    clinical_recommendation: false
+    autonomous_discovery_claim: false
+    wet_lab_discovery_evaluation: false
+    patient_specific_prediction: false
+  tracks:
+    endpoint_direction_prediction:
+      code: A
+      labels:
+        - increase
+        - decrease
+        - no_clear_effect
+        - mixed_or_context_dependent
+        - insufficient_information
+    intervention_ranking:
+      code: B
+      frozen_candidate_set_required: true
+      endpoint_defined_before_replay: true
+    mechanism_discrimination:
+      code: C
+      labels:
+        - supported
+        - refuted
+        - unresolved
+    information_action_selection:
+      code: D
+      objective: reduce_uncertainty_within_governed_budget
+    sequential_hypothesis_replay:
+      code: E
+      immutable_reveal_protocol_required: true
+    abstention_boundary_compliance:
+      code: F
+      forced_answers_forbidden: true
+      unknowns_and_conflicts_preserved: true
+  policies:
+    public_source:
+      strict_public_only_flag: true
+      controlled_access_required: false
+      resolved_controlled_source_count: 0
+      required_resolved_controlled_source_count: 0
+      allowed_source_classes:
+        - open_access_article
+        - public_abstract
+        - public_supplement
+        - public_accession_data
+        - public_model_repository
+        - public_code_repository
+        - public_benchmark_database
+        - public_institutional_repository
+      required_metadata:
+        - public_availability_timestamp
+        - source_identity
+        - source_version
+        - license_or_permitted_use
+        - content_hash
+        - retrieval_date
+        - publication_or_accession_identity
+        - parser_version
+      rejected_routes:
+        - ADNI
+        - AIBL
+        - credentialed_source
+        - institutional_session_dependency
+        - controlled_clinical_repository
+        - unknown_access_status
+      negative_routes:
+        - ADNI_route
+        - AIBL_route
+        - credentialed_source
+        - institutional_session_dependency
+        - controlled_clinical_repository
+        - unknown_access_status
+    temporal_cutoff:
+      version: neuronsifter-public-availability-timestamp-policy-v1
+      policy_version: neuronsifter-public-availability-timestamp-policy-v1
+      selection_rule: earliest_reliable_public_availability_timestamp
+      admissible_timestamp_bases:
+        - publisher_publication_date
+        - preprint_public_date
+        - repository_release_date
+        - accession_public_release_date
+        - supplement_release_date
+        - model_code_public_release_date
+      forbidden_timestamp_bases:
+        - local_file_modification_time
+        - repository_clone_time
+        - current_citation_database_indexing_time
+        - unversioned_retrospectively_corrected_metadata
+      ambiguous_ordering_strong_admission_allowed: false
+      pre_cutoff_evidence_at_or_before_cutoff: true
+      held_out_outcome_strictly_after_cutoff: true
+    bundle_isolation:
+      agent_visible_bundle_role: agent_visible_pre_cutoff_bundle
+      evaluator_only_bundle_role: evaluator_only_held_out_bundle
+      agent_pre_reveal_held_out_readable: false
+      evaluator_bundle_read_only: true
+      record_bundle_hashes: true
+      record_mount_paths: true
+      record_read_permissions: true
+      record_process_identities: true
+      record_access_attempts: true
+      pre_reveal_access_attempt_invalidates_episode: true
+    memory_contamination:
+      contamination_free_claim_allowed: false
+      retrieval_isolation_alone_contamination_free: false
+      mitigations:
+        - opaque_episode_ids
+        - author_title_doi_masking
+        - entity_aliases
+        - distinctive_quote_removal
+        - retrieval_limited_evidence_packs
+        - outcome_field_masking
+        - post_model_cutoff_subsets
+      replay_tracks:
+        - retrieval_isolated_replay
+        - post_model_cutoff_replay
+        - memory_risk_stress_track
+    memory_risk:
+      schema_version: neuronsifter-memory-leakage-risk-v1
+      tracks:
+        - retrieval_isolated_replay
+        - post_model_cutoff_replay
+        - memory_risk_stress_track
+      mitigations:
+        - opaque_episode_ids
+        - author_title_doi_masking
+        - entity_aliases
+        - distinctive_quote_removal
+        - retrieval_limited_evidence_packs
+        - outcome_field_masking
+        - post_model_cutoff_subsets
+      pretrained_memory_contamination_possible: true
+      contamination_free_claim: false
+      retrieval_isolation_contamination_free: false
+      reported_separately: true
+      residual_risk: non_eliminable_historical_publication_memory
+    partition:
+      names:
+        - development
+        - qualification
+        - final_held_out
+        - stress
+      final_held_out_untouched_until_rules_frozen: true
+      family_cross_partition_leakage_allowed: false
+    independence:
+      required_groups:
+        - publication_family
+        - preprint_to_journal_family
+        - accession_family
+        - study_cohort
+        - biological_unit_family
+        - compound_scaffold
+        - target_program
+        - regimen
+        - disease_context
+        - mechanism_family
+        - simulator_model_family
+        - tool_family
+    outcome_target:
+      allowed_target_types:
+        - directional_endpoint
+        - numeric_endpoint
+        - candidate_ranking
+        - mechanism_status
+        - information_action_value
+        - hypothesis_status
+      required_fields:
+        - target_uid
+        - target_type
+        - measurement
+        - unit
+        - direction_semantics
+        - timepoint_or_horizon
+        - comparator
+        - uncertainty
+        - source
+        - label_extraction_method
+        - adjudication_status
+      rejection_reasons:
+        - unclear_comparator
+        - unknown_timepoint
+        - unit_conflict
+        - narrative_only_numeric_reconstruction
+        - unresolved_action_identity
+        - incompatible_biological_context
+      label_classes:
+        - data_derived_label
+        - author_claim_label
+        - cross_study_consensus_label
+    sequential_reveal:
+      immutable: true
+      steps:
+        T0: pre_cutoff_evidence_fabric_snapshot
+        T1: hypothesis_and_falsification_proposal
+        T2: world_or_information_action_selection
+        T3: optional_governed_rollout_or_public_evidence_query
+        T4: prediction_ranking_or_abstention
+        T5: evaluator_reveals_held_out_outcome
+        T6: scoring
+        T7: retrospective_assimilation_audit
+      pre_cutoff_decision_mutable_after_reveal: false
+      failed_attempts_overwritable: false
+    execution:
+      agent_only_direct_tool_execution: false
+      agent_only_direct_state_update: false
+      agent_only_gate_authority: false
+      production_model_training_allowed: false
+      exact_clean_execution_required: true
+      source_read_only: true
+      isolated_writable_runtime_output: true
+      python_pycache_outside_source: true
+    frozen_gap:
+      count_before_round18: 20
+      count_after_round18: 20
+      evidence_fabric_sealed: false
+      dt_core_status: not_evaluated
+      allowed_impacts:
+        - benchmark_evidence_only
+        - hypothesis_prioritized
+        - information_action_prioritized
+        - gap_relevance_confirmed
+        - requires_empirical_observation
+        - requires_new_e4
+        - requires_support_domain
+        - no_effect
+      forbidden_impacts:
+        - resolved_by_correct_prediction
+        - resolved_by_agent_reasoning
+        - resolved_by_literature_narrative
+        - resolved_by_model_rollout
+    uncertainty:
+      unknown_value: null
+      unknown_replaced_by_zero_allowed: false
+      required_components:
+        - evidence_uncertainty
+        - model_uncertainty
+        - retrieval_uncertainty
+        - mechanism_disagreement
+        - support_domain_extrapolation
+        - unknown_components
+      family_level_calibration_required: true
+  systems:
+    - static_evidence_fabric_baseline
+    - rule_based_evidence_scoring
+    - twin_only_without_agents
+    - agent_only_offline_proposal_ablation
+    - scitil_without_falsifier
+    - scitil_without_twin_debt
+    - scitil_without_information_actions
+    - full_governed_scitil
+  system_contracts:
+    static_evidence_fabric_baseline:
+      runtime_mode: offline_baseline
+      confidence_scale: 0.75
+      skeptical_conflict_policy: false
+      ranking_policy: opaque_uid
+      information_action_policy: none
+      falsifier_enabled: false
+      model_uncertainty_known: false
+    rule_based_evidence_scoring:
+      runtime_mode: offline_baseline
+      confidence_scale: 1.0
+      skeptical_conflict_policy: false
+      ranking_policy: pre_cutoff_score
+      information_action_policy: expected_information_gain
+      falsifier_enabled: false
+      model_uncertainty_known: false
+    twin_only_without_agents:
+      runtime_mode: contract_ablation
+      confidence_scale: 0.9
+      skeptical_conflict_policy: true
+      ranking_policy: pre_cutoff_score
+      information_action_policy: none
+      falsifier_enabled: false
+      model_uncertainty_known: true
+    agent_only_offline_proposal_ablation:
+      runtime_mode: offline_agent_proposal
+      confidence_scale: 0.85
+      skeptical_conflict_policy: true
+      ranking_policy: opaque_uid
+      information_action_policy: expected_information_gain
+      falsifier_enabled: true
+      model_uncertainty_known: false
+      direct_tool_execution: false
+      direct_state_update: false
+      gate_authority: false
+    scitil_without_falsifier:
+      runtime_mode: contract_ablation
+      confidence_scale: 1.0
+      skeptical_conflict_policy: false
+      ranking_policy: pre_cutoff_score
+      information_action_policy: expected_information_gain
+      falsifier_enabled: false
+      model_uncertainty_known: true
+    scitil_without_twin_debt:
+      runtime_mode: contract_ablation
+      confidence_scale: 1.1
+      skeptical_conflict_policy: false
+      ranking_policy: pre_cutoff_score
+      information_action_policy: expected_information_gain
+      falsifier_enabled: true
+      model_uncertainty_known: true
+    scitil_without_information_actions:
+      runtime_mode: contract_ablation
+      confidence_scale: 1.0
+      skeptical_conflict_policy: true
+      ranking_policy: pre_cutoff_score
+      information_action_policy: none
+      falsifier_enabled: true
+      model_uncertainty_known: true
+    full_governed_scitil:
+      runtime_mode: round17_twin_kernel
+      confidence_scale: 1.0
+      skeptical_conflict_policy: true
+      ranking_policy: pre_cutoff_score
+      information_action_policy: expected_information_gain
+      falsifier_enabled: true
+      model_uncertainty_known: true
+  metrics:
+    prediction:
+      - publication_macro_direction_accuracy
+      - balanced_accuracy
+      - macro_f1
+      - brier_score
+      - log_loss
+      - calibration_intercept
+      - calibration_slope
+    ranking:
+      - ndcg_at_k
+      - mrr
+      - top_k_recall
+      - pairwise_ranking_accuracy
+    sequential_decision:
+      - cost_to_identification
+      - steps_to_falsification
+      - budget_adjusted_utility
+      - information_gain_per_action
+      - candidate_space_reduction
+    reliability_abstention:
+      - coverage
+      - selective_risk
+      - aurc
+      - false_confidence_rate
+      - unsupported_answer_rate
+      - abstention_accuracy
+    governance:
+      gate_violation_count: 0
+      held_out_access_attempt_count: 0
+      evidence_upgrade_violation_count: 0
+      conflict_loss_count: 0
+      empirical_gap_fabrication_count: 0
+      causal_language_violation_count: 0
+      clinical_language_violation_count: 0
+    falsifier:
+      required_challenges:
+        - alternative_mechanism
+        - negative_control
+        - disconfirming_prediction
+        - domain_challenge
+        - reliability_challenge
+      names:
+        - falsifier_invocation_rate
+        - valid_challenge_rate
+        - hypothesis_reversal_rate
+        - unsupported_positive_reduction
+        - additional_information_cost
+    reporting_dimensions:
+      - track
+      - episode_family
+      - source_quality
+      - label_class
+      - support_domain
+      - time_horizon
+      - conflict_status
+      - abstention_status
+      - system_or_ablation
+    single_headline_aggregate_allowed: false
+  pilot:
+    qualification_only: true
+    minimum_requirements:
+      endpoint_direction_episode_count: 2
+      intervention_ranking_episode_count: 1
+      mechanism_discrimination_episode_count: 1
+      information_action_episode_count: 1
+      sequential_hypothesis_episode_count: 1
+      abstention_required_episode_count: 1
+      conflict_episode_count: 1
+      intentional_leakage_attack_count: 1
+      successful_episode_required: true
+      blocked_episode_required: true
+    source_metadata: public_traceable_metadata_only
+  outputs:
+    pilot_root: Output/littwinbench/round18_pilot
+    pilot_episode_manifest: Output/littwinbench/round18_pilot/episode_manifest.json
+    pilot_prediction_catalog: Output/littwinbench/round18_pilot/prediction_catalog.tsv
+    pilot_ranking_catalog: Output/littwinbench/round18_pilot/ranking_catalog.tsv
+    pilot_decision_catalog: Output/littwinbench/round18_pilot/decision_catalog.tsv
+    pilot_abstention_catalog: Output/littwinbench/round18_pilot/abstention_catalog.tsv
+    pilot_leakage_control_catalog: Output/littwinbench/round18_pilot/leakage_control_catalog.tsv
+    pilot_validation: Output/audits/dt_round18_pilot_validation.json
+    agent_visible_bundle_root: Output/littwinbench/round18_pilot/agent_visible_pre_cutoff_bundle
+    evaluator_only_bundle_root: Output/littwinbench/round18_pilot/evaluator_only_held_out_bundle
+    episode_manifest: Output/littwinbench/round18_pilot/episode_manifest.json
+    prediction_catalog: Output/littwinbench/round18_pilot/prediction_catalog.tsv
+    ranking_catalog: Output/littwinbench/round18_pilot/ranking_catalog.tsv
+    decision_catalog: Output/littwinbench/round18_pilot/decision_catalog.tsv
+    abstention_catalog: Output/littwinbench/round18_pilot/abstention_catalog.tsv
+    leakage_control_catalog: Output/littwinbench/round18_pilot/leakage_control_catalog.tsv
+    public_source_boundary_audit: Output/audits/dt_round18_public_source_boundary.json
+    memory_leakage_risk_audit: Output/audits/dt_round18_memory_leakage_risk.json
+    release_root: Output/littwinbench/v0
+    benchmark_release_manifest: Output/littwinbench/v0/benchmark_release_manifest.json
+    episode_catalog: Output/littwinbench/v0/episode_catalog.parquet
+    pre_cutoff_evidence_manifest: Output/littwinbench/v0/pre_cutoff_evidence_manifest.parquet
+    held_out_outcome_manifest: Output/littwinbench/v0/held_out_outcome_manifest.parquet
+    label_catalog: Output/littwinbench/v0/label_catalog.parquet
+    independence_group_catalog: Output/littwinbench/v0/independence_group_catalog.parquet
+    split_manifest: Output/littwinbench/v0/split_manifest.json
+    metric_specification: Output/littwinbench/v0/metric_specification.json
+    system_run_manifest: Output/littwinbench/v0/system_run_manifest.parquet
+    result_catalog: Output/littwinbench/v0/result_catalog.parquet
+    commit_manifest: Output/audits/dt_round18_commit_manifest.json
+    execution_identity: Output/audits/dt_round18_execution_identity.json
+    public_source_boundary: Output/audits/dt_round18_public_source_boundary.json
+    temporal_split_audit: Output/audits/dt_round18_temporal_split_audit.json
+    leakage_audit: Output/audits/dt_round18_leakage_audit.json
+    memory_leakage_risk: Output/audits/dt_round18_memory_leakage_risk.json
+    prefull_validation: Output/audits/dt_round18_prefull_validation.json
+    full_suite_execution: Output/audits/dt_round18_full_suite_execution.json
+    test_inventory_diff: Output/audits/dt_round18_test_inventory_diff.json
+    validation: Output/audits/dt_round18_validation.json
+    gate: Output/audits/dt_round18_gate.json
+    round19_handoff: Output/audits/dt_round19_handoff.json
+  gate:
+    accepted_state: literature_held_out_sequential_replay_resolved
+    allowed_states:
+      - literature_held_out_sequential_replay_resolved
+      - blocked_public_source_boundary
+      - blocked_temporal_leakage
+      - blocked_held_out_isolation
+      - blocked_label_provenance
+      - blocked_independence_grouping
+      - blocked_memory_risk_disclosure
+      - blocked_replay_integrity
+      - blocked_metric_validation
+      - blocked_abstention_semantics
+      - blocked_claim_boundary
+      - blocked_gap_fabrication
+      - blocked_execution_verification
+    acceptance_preserves_evidence_fabric_unsealed: true
+    acceptance_preserves_frozen_gap_count: 20
+    acceptance_preserves_dt_core_status: not_evaluated

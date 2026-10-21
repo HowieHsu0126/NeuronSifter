@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/evidence_relation.schema.json",
+  "title": "NeuronSifter typed EvidenceRelation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "relation_uid", "relation_type", "source_node_uid", "target_node_uid", "directionality", "biological_unit_relation", "temporal_relation", "action_relation", "context_relation", "support_domain_ref", "eligibility_ref", "provenance_ref", "confidence", "status"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-evidence-relation-v1"},
+    "relation_uid": {"type": "string", "minLength": 1},
+    "relation_type": {"enum": ["same_unit_longitudinal_observation", "same_unit_action_endpoint", "cross_sectional_state_observation", "simulator_generated_trajectory", "published_mechanistic_model_output", "static_perturbation_endpoint", "tool_derived_evidence", "hypothetical_action_scenario", "semantic_alignment_only", "publication_reports_observation", "accession_contains_observation", "study_contains_biological_unit", "action_applied_to_biological_unit", "observation_measured_at_time", "supports_claim", "refutes_claim", "conflicts_with", "derived_from", "supersedes", "duplicates", "artifact_production_lineage", "version_successor"]},
+    "source_node_uid": {"type": "string", "minLength": 1},
+    "target_node_uid": {"type": "string", "minLength": 1},
+    "directionality": {"enum": ["directed", "bidirectional"]},
+    "biological_unit_relation": {"enum": ["same_unit", "related_unit", "different_unit", "not_applicable", "unknown"]},
+    "temporal_relation": {"enum": ["same_timepoint", "before_after", "ordered_series", "cross_sectional", "static_endpoint", "simulated_time", "timeless", "not_applicable", "unknown"]},
+    "action_relation": {"enum": ["same_action", "action_to_endpoint", "different_action", "no_action", "hypothetical_action", "not_applicable", "unknown"]},
+    "context_relation": {"enum": ["exact", "compatible", "different_but_allowed", "extrapolative", "unsupported", "stress_only", "unknown"]},
+    "support_domain_ref": {"type": "string", "minLength": 1},
+    "eligibility_ref": {"type": "string", "minLength": 1},
+    "provenance_ref": {"type": "string", "minLength": 1},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "status": {"enum": ["active", "blocked", "rejected", "superseded", "stress_only", "pilot_only"]}
+  }
+}

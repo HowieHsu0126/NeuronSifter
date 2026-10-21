@@ -1,0 +1,1115 @@
+config_includes:
+- controlled_native_source.yaml
+native_observable_bridge:
+  enabled: true
+  source_uid: controlled_neural_observable_source_v1
+  snapshot_ref: controlled_neural_observable_source_v1_definition
+  output_root: Output/results/controlled_native_source/controlled_neural_observable_source_v1
+  quantity_profile:
+    schema_version: native_observable_quantity_profile.v1
+    profile_uid: controlled_neural_observables_26_v1
+    region_id:
+    - systemic_circulation
+    - middle_temporal_gyrus
+    - entorhinal_cortex
+    - hippocampus_ca1
+    - hippocampus_ca3
+    - prefrontal_cortex
+    compartment_id:
+    - plasma
+    - bbb_interface
+    - csf
+    - pvs
+    - isf
+    - meningeal_drainage
+    quantities:
+    - quantity_id: free_drug
+      unit: mol/L
+      signed: false
+      kind: cns_core
+    - quantity_id: target_bound_drug
+      unit: mol/L
+      signed: false
+      kind: cns_core
+    - quantity_id: misfolded_protein_load
+      unit: controlled_relative
+      signed: false
+      kind: cns_core
+    - quantity_id: aggregate_burden
+      unit: controlled_relative
+      signed: false
+      kind: cns_core
+    - quantity_id: neuroinflammation
+      unit: controlled_relative
+      signed: false
+      kind: cns_core
+    - quantity_id: clearance_flux
+      unit: controlled_amount/hour
+      signed: false
+      kind: cns_core
+    - quantity_id: circuit_instability
+      unit: controlled_relative
+      signed: false
+      kind: cns_core
+    - quantity_id: amyloid_beta_soluble
+      unit: controlled_relative
+      signed: false
+      kind: cns_core
+    - quantity_id: amyloid_plaque
+      unit: controlled_relative
+      signed: false
+      kind: cns_core
+    - quantity_id: phosphorylated_tau
+      unit: controlled_relative
+      signed: false
+      kind: cns_core
+    - quantity_id: inflammatory_mediator
+      unit: controlled_relative
+      signed: false
+      kind: cns_core
+    - quantity_id: calcium_concentration
+      unit: controlled_relative
+      signed: false
+      kind: cns_core
+    - quantity_id: membrane_voltage
+      unit: controlled_relative
+      signed: false
+      kind: cns_core
+    - quantity_id: spike_rate
+      unit: controlled_relative
+      signed: false
+      kind: cns_core
+    - quantity_id: vascular_perivascular_transport
+      unit: controlled_amount/hour
+      signed: false
+      kind: cns_core
+    - quantity_id: electrical_membrane_voltage
+      unit: mV
+      signed: true
+      kind: physical_auxiliary
+      family_uid: electrophysiology_conductance_world
+      observable_name: membrane_voltage
+      incidence:
+        physical_site_uid: hippocampus_ca1:neuronal_membrane
+        physical_compartment: neuronal_membrane
+        anchor_region_id: hippocampus_ca1
+        anchor_compartment_id: isf
+        attachment_semantics: tensor_location_not_chemical_compartment
+    - quantity_id: electrical_calcium_concentration
+      unit: umol/L
+      signed: false
+      kind: physical_auxiliary
+      family_uid: electrophysiology_conductance_world
+      observable_name: calcium_concentration
+      incidence:
+        physical_site_uid: hippocampus_ca1:neuronal_membrane
+        physical_compartment: neuronal_membrane
+        anchor_region_id: hippocampus_ca1
+        anchor_compartment_id: isf
+        attachment_semantics: tensor_location_not_chemical_compartment
+    - quantity_id: electrical_spike_rate
+      unit: Hz
+      signed: false
+      kind: physical_auxiliary
+      family_uid: electrophysiology_conductance_world
+      observable_name: spike_rate
+      incidence:
+        physical_site_uid: hippocampus_ca1:neuronal_membrane
+        physical_compartment: neuronal_membrane
+        anchor_region_id: hippocampus_ca1
+        anchor_compartment_id: isf
+        attachment_semantics: tensor_location_not_chemical_compartment
+    - quantity_id: synaptic_intracellular_calcium
+      unit: umol/L
+      signed: false
+      kind: physical_auxiliary
+      family_uid: calcium_synaptic_world
+      observable_name: intracellular_calcium
+      incidence:
+        physical_site_uid: hippocampus_ca3_ca1:glutamatergic_synapse
+        physical_compartment: glutamatergic_synapse
+        anchor_region_id: hippocampus_ca3
+        anchor_compartment_id: isf
+        attachment_semantics: tensor_location_not_chemical_compartment
+    - quantity_id: synaptic_release_probability
+      unit: probability
+      signed: false
+      kind: physical_auxiliary
+      family_uid: calcium_synaptic_world
+      observable_name: release_probability
+      incidence:
+        physical_site_uid: hippocampus_ca3_ca1:glutamatergic_synapse
+        physical_compartment: glutamatergic_synapse
+        anchor_region_id: hippocampus_ca3
+        anchor_compartment_id: isf
+        attachment_semantics: tensor_location_not_chemical_compartment
+      maximum: 1.0
+    - quantity_id: synaptic_releasable_vesicle_fraction
+      unit: fraction
+      signed: false
+      kind: physical_auxiliary
+      family_uid: calcium_synaptic_world
+      observable_name: releasable_vesicle_fraction
+      incidence:
+        physical_site_uid: hippocampus_ca3_ca1:glutamatergic_synapse
+        physical_compartment: glutamatergic_synapse
+        anchor_region_id: hippocampus_ca3
+        anchor_compartment_id: isf
+        attachment_semantics: tensor_location_not_chemical_compartment
+      maximum: 1.0
+    - quantity_id: synaptic_postsynaptic_current
+      unit: pA
+      signed: true
+      kind: physical_auxiliary
+      family_uid: calcium_synaptic_world
+      observable_name: postsynaptic_current
+      incidence:
+        physical_site_uid: hippocampus_ca3_ca1:glutamatergic_synapse
+        physical_compartment: glutamatergic_synapse
+        anchor_region_id: hippocampus_ca1
+        anchor_compartment_id: isf
+        attachment_semantics: tensor_location_not_chemical_compartment
+    - quantity_id: molecular_free_agent_exposure
+      unit: nmol/L
+      signed: false
+      kind: physical_auxiliary
+      family_uid: molecular_pharmacological_causal_world
+      observable_name: free_agent_exposure
+      incidence:
+        physical_site_uid: hippocampus_ca1:interstitial_fluid
+        physical_compartment: interstitial_fluid
+        anchor_region_id: hippocampus_ca1
+        anchor_compartment_id: isf
+        attachment_semantics: tensor_location_not_chemical_compartment
+    - quantity_id: molecular_target_occupancy
+      unit: fraction
+      signed: false
+      kind: physical_auxiliary
+      family_uid: molecular_pharmacological_causal_world
+      observable_name: target_occupancy
+      incidence:
+        physical_site_uid: hippocampus_ca1:interstitial_fluid
+        physical_compartment: interstitial_fluid
+        anchor_region_id: hippocampus_ca1
+        anchor_compartment_id: isf
+        attachment_semantics: tensor_location_not_chemical_compartment
+      maximum: 1.0
+    - quantity_id: molecular_downstream_signal
+      unit: normalized_signal
+      signed: false
+      kind: physical_auxiliary
+      family_uid: molecular_pharmacological_causal_world
+      observable_name: downstream_signal
+      incidence:
+        physical_site_uid: hippocampus_ca1:interstitial_fluid
+        physical_compartment: interstitial_fluid
+        anchor_region_id: hippocampus_ca1
+        anchor_compartment_id: isf
+        attachment_semantics: tensor_location_not_chemical_compartment
+      maximum: 1.0
+    - quantity_id: molecular_biologic_response
+      unit: normalized_response
+      signed: false
+      kind: physical_auxiliary
+      family_uid: molecular_pharmacological_causal_world
+      observable_name: biologic_response
+      incidence:
+        physical_site_uid: hippocampus_ca1:interstitial_fluid
+        physical_compartment: interstitial_fluid
+        anchor_region_id: hippocampus_ca1
+        anchor_compartment_id: isf
+        attachment_semantics: tensor_location_not_chemical_compartment
+      maximum: 1.0
+    families:
+      electrophysiology_conductance_world:
+        time_values:
+        - 0.0
+        - 2.0
+        - 4.0
+        - 6.0
+        - 8.0
+        - 10.0
+        - 12.0
+        time_unit: ms
+        observable_names:
+        - membrane_voltage
+        - calcium_concentration
+        - spike_rate
+      calcium_synaptic_world:
+        time_values:
+        - 0.0
+        - 1.0
+        - 2.0
+        - 3.0
+        - 4.0
+        - 5.0
+        - 6.0
+        - 7.0
+        time_unit: ms
+        observable_names:
+        - intracellular_calcium
+        - release_probability
+        - releasable_vesicle_fraction
+        - postsynaptic_current
+      molecular_pharmacological_causal_world:
+        time_values:
+        - 0.0
+        - 1.0
+        - 2.0
+        - 3.0
+        - 4.0
+        - 5.0
+        - 6.0
+        time_unit: hour
+        observable_names:
+        - free_agent_exposure
+        - target_occupancy
+        - downstream_signal
+        - biologic_response
+  seed: 8603407
+  group_roles:
+  - train
+  - train
+  - train
+  - development
+  - calibration
+  - calibration
+  calibration_reservations:
+    4: fit
+    5: check
+  prior_weights:
+  - 0.1
+  - 0.2
+  - 0.3
+  - 0.4
+  coefficient_levels:
+  - 0.8
+  - 1.2
+  atoms:
+  - - 0
+    - 0
+    - 0
+    - 0
+    - 0
+  - - 0
+    - 1
+    - 1
+    - 0
+    - 1
+  - - 1
+    - 0
+    - 1
+    - 1
+    - 0
+  - - 1
+    - 1
+    - 0
+    - 1
+    - 1
+  observation_cutoff_index: 0
+  budget:
+    groups: 18
+    cases: 36
+    physical: 36
+    physical_precision: 36
+    cns_integrations: 108
+    programs: 144
+    chemical_precision: 48
+    operations: 390
+    seconds: 1800
+    cpus: 1
+    memory_gib: 4
+  native_consumer_check:
+    seed: 8609101
+    cpus: 2
+    memory_gib: 32
+    seconds: 3600
+    groups_per_family: 1
+    actions_per_group: 2
+    draws: 2
+    reverse_steps: 4
+    loss_backward_per_family: 1
+    optimizer_steps: 0
+    checkpoint_writes: 0
+    joint_objectives:
+      observation_likelihood_weight: 0.7
+      categorical_kl_weight: 0.2
+      scope: nontraining_consumer_check_only
+      provenance: Libs/tests/test_joint_world_posterior.py::joint_case
+      scientific_objective_qualification: false
+  numerics:
+    cns_max_step_interval_fractions:
+    - 0.25
+    - 0.125
+    - 0.0625
+    reference_method: DOP853
+    reference_rtol: 1.0e-10
+    reference_atol_scale: 1.0e-12
+    normalized_tolerance: 0.001
+    balance_tolerance: 1.0e-09
+    decimal_precision: 50
+  forcing_references:
+    electrical_uA: 1.0
+    optical_mW: 1.0
+  coupling:
+    direction: physical_to_cns_only
+    interpolation: left_hold
+    gain: 0.05
+    calcium_reference_umol_per_l: 0.1
+    spike_reference_hz: 20.0
+    current_reference_pa: 10.0
+  physical_families:
+    electrophysiology_conductance_world:
+      parameters:
+        resting_membrane_voltage:
+          value: -68.0
+          unit: mV
+        initial_membrane_voltage:
+          value: -67.0
+          unit: mV
+        initial_calcium_concentration:
+          value: 0.12
+          unit: umol/L
+        membrane_leak_rate:
+          value: 0.05
+          unit: per_ms
+          seed_jitter: 0.004
+        stimulation_gain:
+          value: 0.4
+          unit: mV_per_uA_ms
+          seed_jitter: 0.02
+        calcium_decay_rate:
+          value: 0.08
+          unit: per_ms
+          seed_jitter: 0.005
+        spike_threshold:
+          value: -61.0
+          unit: mV
+          seed_jitter: 0.25
+        spike_rate_gain:
+          value: 18.0
+          unit: Hz_per_mV
+        spike_calcium_gain:
+          value: 0.0008
+          unit: umol_L_per_Hz_ms
+      action:
+        canonical:
+          schema_version: neuronsifter-world-action-v1
+          action_uid: electrophysiology_stimulation_action
+          intervention_type: electrical_stimulation
+          target_set:
+          - hippocampus_ca1_pyramidal_neurons
+          agent_set:
+          - controlled_current_stimulator
+          dose: null
+          dose_unit: null
+          schedule:
+            kind: program
+            program_ref: delayed_square_pulse
+          route: null
+          duration:
+            value: 6.0
+            unit: ms
+          stimulation_or_environment:
+            modality: electrical_stimulation
+            waveform: square_pulse
+          state_scope:
+            region:
+            - hippocampus_ca1
+            compartment:
+            - neuronal_membrane
+          support_domain_ref: electrophysiology_conductance_support
+          source_evidence_refs:
+          - controlled_world_generator_specification
+          action_provenance_ref: controlled_world_config
+          conflicts: []
+          status: controlled_world_only
+        extension:
+          modality: electrical_stimulation
+          dose_or_intensity:
+            value: 4.0
+            unit: uA
+          duration:
+            value: 6.0
+            unit: ms
+          combination: []
+          biological_context:
+            organism: synthetic_neural_system
+            region: hippocampus_ca1
+            compartment: neuronal_membrane
+            cell_type: pyramidal_neuron
+          action_semantics:
+            target_set:
+            - hippocampus_ca1_pyramidal_neurons
+            agent_set:
+            - controlled_current_stimulator
+            schedule:
+              kind: program
+              program_ref: delayed_square_pulse
+            route: null
+            support_domain_ref: electrophysiology_conductance_support
+            provenance_ref: controlled_world_config
+        response_delay_steps: 2
+    calcium_synaptic_world:
+      parameters:
+        baseline_intracellular_calcium:
+          value: 0.06
+          unit: umol/L
+        initial_intracellular_calcium:
+          value: 0.08
+          unit: umol/L
+        initial_release_probability:
+          value: 0.05
+          unit: probability
+        initial_releasable_vesicle_fraction:
+          value: 0.9
+          unit: fraction
+        initial_postsynaptic_current:
+          value: 0.0
+          unit: pA
+        calcium_clearance_rate:
+          value: 0.12
+          unit: per_ms
+          seed_jitter: 0.008
+        presynaptic_calcium_gain:
+          value: 0.025
+          unit: umol_L_per_mW_ms
+          seed_jitter: 0.002
+        release_coupling:
+          value: 4.5
+          unit: per_umol_L
+          seed_jitter: 0.15
+        vesicle_release_rate:
+          value: 0.08
+          unit: per_ms
+        vesicle_recovery_rate:
+          value: 0.045
+          unit: per_ms
+          seed_jitter: 0.004
+        postsynaptic_current_gain:
+          value: 120.0
+          unit: pA_per_fraction
+        postsynaptic_decay_rate:
+          value: 0.16
+          unit: per_ms
+          seed_jitter: 0.01
+      action:
+        canonical:
+          schema_version: neuronsifter-world-action-v1
+          action_uid: presynaptic_optical_pulse_action
+          intervention_type: optical_stimulation
+          target_set:
+          - hippocampus_ca3_presynaptic_terminal
+          agent_set:
+          - controlled_optical_stimulator
+          dose: null
+          dose_unit: null
+          schedule:
+            kind: program
+            program_ref: delayed_presynaptic_pulse_train
+          route: null
+          duration:
+            value: 3.0
+            unit: ms
+          stimulation_or_environment:
+            modality: optical_stimulation
+            waveform: pulse_train
+          state_scope:
+            region:
+            - hippocampus_ca3_ca1_synapse
+            compartment:
+            - glutamatergic_synapse
+          support_domain_ref: calcium_synaptic_support
+          source_evidence_refs:
+          - controlled_world_generator_specification
+          action_provenance_ref: controlled_world_config
+          conflicts: []
+          status: controlled_world_only
+        extension:
+          modality: optical_stimulation
+          dose_or_intensity:
+            value: 2.5
+            unit: mW
+          duration:
+            value: 3.0
+            unit: ms
+          combination: []
+          biological_context:
+            organism: synthetic_neural_system
+            region: hippocampus_ca3_ca1_synapse
+            compartment: glutamatergic_synapse
+            cell_type: excitatory_synaptic_pair
+          action_semantics:
+            target_set:
+            - hippocampus_ca3_presynaptic_terminal
+            agent_set:
+            - controlled_optical_stimulator
+            schedule:
+              kind: program
+              program_ref: delayed_presynaptic_pulse_train
+            route: null
+            support_domain_ref: calcium_synaptic_support
+            provenance_ref: controlled_world_config
+        response_delay_steps: 2
+    molecular_pharmacological_causal_world:
+      parameters:
+        initial_free_agent_exposure:
+          value: 0.0
+          unit: nmol/L
+        initial_target_occupancy:
+          value: 0.0
+          unit: fraction
+        initial_downstream_signal:
+          value: 0.05
+          unit: normalized_signal
+        initial_biologic_response:
+          value: 0.02
+          unit: normalized_response
+        dose_to_exposure_gain:
+          value: 18.0
+          unit: nmol_L_per_mg_kg_hour
+          seed_jitter: 0.8
+        exposure_clearance_rate:
+          value: 0.3
+          unit: per_hour
+          seed_jitter: 0.02
+        binding_affinity:
+          value: 24.0
+          unit: nmol/L
+          seed_jitter: 1.5
+        occupancy_relaxation_rate:
+          value: 0.55
+          unit: per_hour
+        signal_activation_rate:
+          value: 0.7
+          unit: per_hour
+          seed_jitter: 0.04
+        signal_decay_rate:
+          value: 0.22
+          unit: per_hour
+        biologic_response_rate:
+          value: 0.45
+          unit: per_hour
+          seed_jitter: 0.03
+        biologic_clearance_rate:
+          value: 0.18
+          unit: per_hour
+        feedback_rate:
+          value: 0.06
+          unit: per_hour
+          seed_jitter: 0.005
+      action:
+        canonical:
+          schema_version: neuronsifter-world-action-v1
+          action_uid: target_occupancy_pharmacological_action
+          intervention_type: pharmacological
+          target_set:
+          - synthetic_receptor_alpha
+          agent_set:
+          - controlled_ligand_alpha
+          dose: 2.0
+          dose_unit: mg/kg
+          schedule:
+            kind: interval
+            interval: 4.0
+            unit: hour
+          route: intrathecal
+          duration:
+            value: 4.0
+            unit: hour
+          stimulation_or_environment:
+            modality: pharmacological
+            exposure_model: one_compartment_target_occupancy
+          state_scope:
+            region:
+            - hippocampus_ca1
+            compartment:
+            - interstitial_fluid
+          support_domain_ref: molecular_pharmacological_causal_support
+          source_evidence_refs:
+          - controlled_world_generator_specification
+          action_provenance_ref: controlled_world_config
+          conflicts: []
+          status: controlled_world_only
+        extension:
+          modality: pharmacological
+          dose_or_intensity:
+            value: 2.0
+            unit: mg/kg
+          duration:
+            value: 4.0
+            unit: hour
+          combination: []
+          biological_context:
+            organism: synthetic_neural_system
+            region: hippocampus_ca1
+            compartment: interstitial_fluid
+            cell_type: microglial_neuronal_microenvironment
+          action_semantics:
+            target_set:
+            - synthetic_receptor_alpha
+            agent_set:
+            - controlled_ligand_alpha
+            schedule:
+              kind: interval
+              interval: 4.0
+              unit: hour
+            route: intrathecal
+            support_domain_ref: molecular_pharmacological_causal_support
+            provenance_ref: controlled_world_config
+        response_delay_steps: 1
+  action_multipliers:
+  - 0.8
+  - 1.2
+  rng_stream_offsets:
+    background: 11
+    physical_parameters: 23
+    latent_selection: 37
+    observations: 53
+  parameter_prior_rule: declared_jitter_times_independent_uniform_times_correlated_factor_sign
+  condition: ad_positive
+  auxiliary_reference_scales:
+    electrical_membrane_voltage: 100.0
+    electrical_calcium_concentration: 1.0
+    electrical_spike_rate: 100.0
+    synaptic_intracellular_calcium: 1.0
+    synaptic_release_probability: 1.0
+    synaptic_releasable_vesicle_fraction: 1.0
+    synaptic_postsynaptic_current: 100.0
+    molecular_free_agent_exposure: 100.0
+    molecular_target_occupancy: 1.0
+    molecular_downstream_signal: 1.0
+    molecular_biologic_response: 1.0
+  estimated_chemical_policy:
+    exposure_feedback: omitted
+    occupancy: equilibrium_E_of_estimated_C
+    free_concentration_unit: nmol/L
+  parameter_factor_binding:
+    electrophysiology_conductance_world:
+      resting_membrane_voltage:
+      - z_ephys
+      - 0
+      initial_membrane_voltage:
+      - z_ephys
+      - 1
+      initial_calcium_concentration:
+      - z_ephys
+      - 2
+      membrane_leak_rate:
+      - z_ephys
+      - 3
+      stimulation_gain:
+      - z_ephys
+      - 0
+      calcium_decay_rate:
+      - z_env
+      - 5
+      spike_threshold:
+      - z_ephys
+      - 2
+      spike_rate_gain:
+      - z_ephys
+      - 3
+      spike_calcium_gain:
+      - z_ephys
+      - 0
+    calcium_synaptic_world:
+      baseline_intracellular_calcium:
+      - z_ephys
+      - 0
+      initial_intracellular_calcium:
+      - z_ephys
+      - 1
+      initial_release_probability:
+      - z_ephys
+      - 2
+      initial_releasable_vesicle_fraction:
+      - z_ephys
+      - 3
+      initial_postsynaptic_current:
+      - z_ephys
+      - 0
+      calcium_clearance_rate:
+      - z_env
+      - 5
+      presynaptic_calcium_gain:
+      - z_ephys
+      - 2
+      release_coupling:
+      - z_ephys
+      - 3
+      vesicle_release_rate:
+      - z_ephys
+      - 0
+      vesicle_recovery_rate:
+      - z_ephys
+      - 1
+      postsynaptic_current_gain:
+      - z_ephys
+      - 2
+      postsynaptic_decay_rate:
+      - z_env
+      - 2
+    molecular_pharmacological_causal_world:
+      initial_free_agent_exposure:
+      - z_pk
+      - 0
+      initial_target_occupancy:
+      - z_tx
+      - 1
+      initial_downstream_signal:
+      - z_tx
+      - 2
+      initial_biologic_response:
+      - z_tx
+      - 3
+      dose_to_exposure_gain:
+      - z_pk
+      - 0
+      exposure_clearance_rate:
+      - z_pk
+      - 1
+      binding_affinity:
+      - z_pk
+      - 0
+      occupancy_relaxation_rate:
+      - z_tx
+      - 7
+      signal_activation_rate:
+      - z_tx
+      - 8
+      signal_decay_rate:
+      - z_tx
+      - 9
+      biologic_response_rate:
+      - z_tx
+      - 10
+      biologic_clearance_rate:
+      - z_tx
+      - 11
+      feedback_rate:
+      - z_tx
+      - 12
+  freeze_paths:
+  - Libs/configs/exp/native_observable_bridge.yaml
+  - Libs/configs/exp/controlled_native_source.yaml
+  - Libs/configs/schema/schemas.yaml
+  - Libs/utils/model/native_observable_source.py
+  - Libs/utils/model/controlled_cns_source.py
+  - Libs/utils/data/controlled_world_runtime.py
+  - Libs/utils/data/native_stimulation.py
+  - Libs/utils/data/physical_occupancy.py
+  - Libs/utils/data/native_observable_profile.py
+  - Libs/utils/data/native_diffusion_data.py
+  - Libs/utils/data/native_field_normalization.py
+  - Libs/utils/model/microenvironment_teacher.py
+  - Libs/scripts/builders/build_controlled_native_source.py
+  - Libs/scripts/builders/build_native_diffusion_training_data.py
+  - Libs/models/modules/quantized_mddm_rollout_operator.py
+  - Libs/models/modules/world_state.py
+  - Libs/models/modules/field_rollout.py
+  - Libs/exp/training/pretrain_microenvironment_world_model.py
+  - Libs/exp/training/train_screening_system.py
+  - Libs/tests/test_native_observable_source.py
+  - Libs/tests/test_native_observable_bridge.py
+  - Libs/models/networks/screening_system.py
+  - Libs/utils/model/joint_rollout.py
+  - Libs/scripts/services/serve_screening_api.py
+  - Libs/exp/evaluation/evaluate_screening_system.py
+  - Libs/utils/evaluation/native_rollout_metrics.py
+  - Libs/utils/evaluation/native_causal_prefix.py
+  - Libs/exp/evaluation/evaluate_operational_twin_development.py
+  producer_freeze_paths:
+  - Libs/configs/exp/native_observable_bridge.yaml
+  - Libs/configs/exp/controlled_native_source.yaml
+  - Libs/utils/model/native_observable_source.py
+  - Libs/utils/model/controlled_cns_source.py
+  - Libs/utils/data/controlled_world_runtime.py
+  - Libs/utils/data/native_stimulation.py
+  - Libs/utils/data/physical_occupancy.py
+native_diffusion_data:
+  field_normalization:
+    fit_rule: qc_weighted_supported_cells_with_complete_particle_haar_support
+  registry_path: Output/results/controlled_native_source/controlled_neural_observable_source_v1/model_registry.json
+  species_units:
+    free_drug: mol/L
+    target_bound_drug: mol/L
+    misfolded_protein_load: controlled_relative
+    aggregate_burden: controlled_relative
+    neuroinflammation: controlled_relative
+    clearance_flux: controlled_amount/hour
+    circuit_instability: controlled_relative
+    amyloid_beta_soluble: controlled_relative
+    amyloid_plaque: controlled_relative
+    phosphorylated_tau: controlled_relative
+    inflammatory_mediator: controlled_relative
+    calcium_concentration: controlled_relative
+    membrane_voltage: controlled_relative
+    spike_rate: controlled_relative
+    vascular_perivascular_transport: controlled_amount/hour
+    electrical_membrane_voltage: mV
+    electrical_calcium_concentration: umol/L
+    electrical_spike_rate: Hz
+    synaptic_intracellular_calcium: umol/L
+    synaptic_release_probability: probability
+    synaptic_releasable_vesicle_fraction: fraction
+    synaptic_postsynaptic_current: pA
+    molecular_free_agent_exposure: nmol/L
+    molecular_target_occupancy: fraction
+    molecular_downstream_signal: normalized_signal
+    molecular_biologic_response: normalized_response
+  posterior_context_width: 696
+dynamics_ready_registry:
+  species:
+  - species_id: free_drug
+    species_label: Free Drug
+    species_role: exposure
+    unit: mol/L
+    observable_flag: 'yes'
+    note: controlled molar causal PK
+  - species_id: target_bound_drug
+    species_label: Target-Bound Drug
+    species_role: occupancy
+    unit: mol/L
+    observable_flag: 'yes'
+    note: source Bmax times occupancy
+  - species_id: misfolded_protein_load
+    species_label: Misfolded Protein Load
+    species_role: pathology
+    unit: controlled_relative
+    observable_flag: 'yes'
+    note: controlled source-burden reaction/transport state
+  - species_id: aggregate_burden
+    species_label: Aggregate Burden
+    species_role: pathology
+    unit: controlled_relative
+    observable_flag: 'yes'
+    note: controlled source-burden reaction/transport state
+  - species_id: neuroinflammation
+    species_label: Neuroinflammation
+    species_role: inflammation
+    unit: controlled_relative
+    observable_flag: 'yes'
+    note: controlled source-burden reaction/transport state
+  - species_id: clearance_flux
+    species_label: Clearance Flux
+    species_role: transport
+    unit: controlled_amount/hour
+    observable_flag: 'yes'
+    note: sum of same reaction-removal ledger weighted by site volume
+  - species_id: circuit_instability
+    species_label: Circuit Instability
+    species_role: local_response
+    unit: controlled_relative
+    observable_flag: 'yes'
+    note: controlled relative population response; not measured membrane voltage/spikes/calcium
+  - species_id: amyloid_beta_soluble
+    species_label: Soluble Amyloid Beta
+    species_role: protein_pathology
+    unit: controlled_relative
+    observable_flag: 'yes'
+    note: controlled source-burden reaction/transport state
+  - species_id: amyloid_plaque
+    species_label: Amyloid Plaque
+    species_role: protein_pathology
+    unit: controlled_relative
+    observable_flag: 'yes'
+    note: controlled source-burden reaction/transport state
+  - species_id: phosphorylated_tau
+    species_label: Phosphorylated Tau
+    species_role: protein_pathology
+    unit: controlled_relative
+    observable_flag: 'yes'
+    note: controlled source-burden reaction/transport state
+  - species_id: inflammatory_mediator
+    species_label: Inflammatory Mediator
+    species_role: inflammation
+    unit: controlled_relative
+    observable_flag: 'yes'
+    note: controlled source-burden reaction/transport state
+  - species_id: calcium_concentration
+    species_label: Calcium Concentration
+    species_role: rxd_electrophysiology
+    unit: controlled_relative
+    observable_flag: 'yes'
+    note: controlled relative population response; not measured membrane voltage/spikes/calcium
+  - species_id: membrane_voltage
+    species_label: Membrane Voltage
+    species_role: rxd_electrophysiology
+    unit: controlled_relative
+    observable_flag: 'yes'
+    note: controlled relative population response; not measured membrane voltage/spikes/calcium
+  - species_id: spike_rate
+    species_label: Spike Rate
+    species_role: rxd_electrophysiology
+    unit: controlled_relative
+    observable_flag: 'yes'
+    note: controlled relative population response; not measured membrane voltage/spikes/calcium
+  - species_id: vascular_perivascular_transport
+    species_label: Vascular Perivascular Transport
+    species_role: transport
+    unit: controlled_amount/hour
+    observable_flag: 'yes'
+    note: half absolute incident flux from the same symmetric transport ledger
+  - species_id: electrical_membrane_voltage
+    species_label: membrane_voltage
+    species_group: physical_observable
+    species_role: supported_auxiliary
+    unit: mV
+    diffusivity_scale: 0.0
+    decay_scale: 0.0
+    note: Typed physical incidence; not a transported CNS chemical
+  - species_id: electrical_calcium_concentration
+    species_label: calcium_concentration
+    species_group: physical_observable
+    species_role: supported_auxiliary
+    unit: umol/L
+    diffusivity_scale: 0.0
+    decay_scale: 0.0
+    note: Typed physical incidence; not a transported CNS chemical
+  - species_id: electrical_spike_rate
+    species_label: spike_rate
+    species_group: physical_observable
+    species_role: supported_auxiliary
+    unit: Hz
+    diffusivity_scale: 0.0
+    decay_scale: 0.0
+    note: Typed physical incidence; not a transported CNS chemical
+  - species_id: synaptic_intracellular_calcium
+    species_label: intracellular_calcium
+    species_group: physical_observable
+    species_role: supported_auxiliary
+    unit: umol/L
+    diffusivity_scale: 0.0
+    decay_scale: 0.0
+    note: Typed physical incidence; not a transported CNS chemical
+  - species_id: synaptic_release_probability
+    species_label: release_probability
+    species_group: physical_observable
+    species_role: supported_auxiliary
+    unit: probability
+    diffusivity_scale: 0.0
+    decay_scale: 0.0
+    note: Typed physical incidence; not a transported CNS chemical
+  - species_id: synaptic_releasable_vesicle_fraction
+    species_label: releasable_vesicle_fraction
+    species_group: physical_observable
+    species_role: supported_auxiliary
+    unit: fraction
+    diffusivity_scale: 0.0
+    decay_scale: 0.0
+    note: Typed physical incidence; not a transported CNS chemical
+  - species_id: synaptic_postsynaptic_current
+    species_label: postsynaptic_current
+    species_group: physical_observable
+    species_role: supported_auxiliary
+    unit: pA
+    diffusivity_scale: 0.0
+    decay_scale: 0.0
+    note: Typed physical incidence; not a transported CNS chemical
+  - species_id: molecular_free_agent_exposure
+    species_label: free_agent_exposure
+    species_group: physical_observable
+    species_role: supported_auxiliary
+    unit: nmol/L
+    diffusivity_scale: 0.0
+    decay_scale: 0.0
+    note: Typed physical incidence; not a transported CNS chemical
+  - species_id: molecular_target_occupancy
+    species_label: target_occupancy
+    species_group: physical_observable
+    species_role: supported_auxiliary
+    unit: fraction
+    diffusivity_scale: 0.0
+    decay_scale: 0.0
+    note: Typed physical incidence; not a transported CNS chemical
+  - species_id: molecular_downstream_signal
+    species_label: downstream_signal
+    species_group: physical_observable
+    species_role: supported_auxiliary
+    unit: normalized_signal
+    diffusivity_scale: 0.0
+    decay_scale: 0.0
+    note: Typed physical incidence; not a transported CNS chemical
+  - species_id: molecular_biologic_response
+    species_label: biologic_response
+    species_group: physical_observable
+    species_role: supported_auxiliary
+    unit: normalized_response
+    diffusivity_scale: 0.0
+    decay_scale: 0.0
+    note: Typed physical incidence; not a transported CNS chemical
+screening_pipeline:
+  screening_benchmark:
+    model_architecture:
+      rollout_operator:
+        transition_backbone:
+          kind: neuronsifter_world_action
+          operator_hidden_dim: 696
+          operator_depth: 8
+          attention_head_count: 12
+          mechanism_state_token_count: 96
+          graph_spectral_tokenizer:
+            graph_mode_count: 36
+          temporal_wavelet_tokenizer:
+            wavelet_level_count: 3
+      world_state_posterior:
+        observation_feature_width: 6
+      sample_evidence:
+        baseline_field_policy:
+          direct_scale_by_species_id:
+            electrical_membrane_voltage: 0.0
+            electrical_calcium_concentration: 0.0
+            electrical_spike_rate: 0.0
+            synaptic_intracellular_calcium: 0.0
+            synaptic_release_probability: 0.0
+            synaptic_releasable_vesicle_fraction: 0.0
+            synaptic_postsynaptic_current: 0.0
+            molecular_free_agent_exposure: 0.0
+            molecular_target_occupancy: 0.0
+            molecular_downstream_signal: 0.0
+            molecular_biologic_response: 0.0
+          offset_by_species_id:
+            electrical_membrane_voltage: 0.0
+            electrical_calcium_concentration: 0.0
+            electrical_spike_rate: 0.0
+            synaptic_intracellular_calcium: 0.0
+            synaptic_release_probability: 0.0
+            synaptic_releasable_vesicle_fraction: 0.0
+            synaptic_postsynaptic_current: 0.0
+            molecular_free_agent_exposure: 0.0
+            molecular_target_occupancy: 0.0
+            molecular_downstream_signal: 0.0
+            molecular_biologic_response: 0.0
+          pathology_gain_by_species_id:
+            electrical_membrane_voltage: 0.0
+            electrical_calcium_concentration: 0.0
+            electrical_spike_rate: 0.0
+            synaptic_intracellular_calcium: 0.0
+            synaptic_release_probability: 0.0
+            synaptic_releasable_vesicle_fraction: 0.0
+            synaptic_postsynaptic_current: 0.0
+            molecular_free_agent_exposure: 0.0
+            molecular_target_occupancy: 0.0
+            molecular_downstream_signal: 0.0
+            molecular_biologic_response: 0.0
+          raw_field_gain_by_species_id:
+            electrical_membrane_voltage: 0.0
+            electrical_calcium_concentration: 0.0
+            electrical_spike_rate: 0.0
+            synaptic_intracellular_calcium: 0.0
+            synaptic_release_probability: 0.0
+            synaptic_releasable_vesicle_fraction: 0.0
+            synaptic_postsynaptic_current: 0.0
+            molecular_free_agent_exposure: 0.0
+            molecular_target_occupancy: 0.0
+            molecular_downstream_signal: 0.0
+            molecular_biologic_response: 0.0
+neuronsifter_scale_registry:
+  quantized_mddm_main_rollout:
+    partial_mask_schedule:
+      training_sample_count: 2
+      inference_sample_count: 2
+      training_denoising_step_count: 4
+      inference_denoising_step_count: 4
+      sampler_seed: 8609101

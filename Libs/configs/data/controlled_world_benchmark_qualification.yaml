@@ -1,0 +1,151 @@
+controlled_world_benchmark_qualification:
+  schema_version: neuronsifter-controlled-world-benchmark-config-v1
+  evidence_class: controlled_world_non_empirical
+  authority_role: benchmark_harness
+  real_world_formal_agent_evaluation: false
+  allowed_family_uids:
+  - electrophysiology_conductance_world
+  - calcium_synaptic_world
+  - molecular_pharmacological_causal_world
+  access_policy:
+    six_context_outcome_access: 0
+    protected_holdout_access: 0
+    test_outcome_access: 0
+    protected_result_access: 0
+  source_firewall:
+    strict_public_only_flag: true
+    controlled_access_required: false
+    prohibited_source_routes:
+    - operational_twin
+    - downstream_agent
+    - agent_trace
+    - tool_memory
+    - coevolution_execution
+    - therapeutic_evidence
+    - clinical_endpoint
+    - supervised_development_data
+    - checkpoint_rescue
+    - simulator_asset_splicing
+    - mechanism_search
+    - prior_intake_reopen
+    - six_context_outcome
+    - protected_holdout
+    fail_on_prohibited_reference: true
+  split_policy:
+    roles: [training, development, calibration, test]
+    worlds_per_family:
+      training: 12
+      development: 24
+      calibration: 12
+    seed_bases:
+      training: 110000
+      development: 210000
+      calibration: 310000
+      twin_qualification: 410000
+      agent_decision: 510000
+      component_mechanism: 610000
+      coevolution_robustness: 710000
+    test_partitions:
+    - twin_qualification
+    - agent_decision
+    - component_mechanism
+    - coevolution_robustness
+    minimum_test_worlds_per_family_per_partition: 8
+    maximum_test_worlds_per_family_per_partition: 64
+  latent_lineage_policy:
+    independent_unit: world
+    require_world_uid_separation_by_role: true
+    require_seed_identity_separation_by_role: true
+    require_latent_generator_lineage_separation_by_role: true
+    require_partition_non_overlap: true
+    prohibited_overlap_fields:
+    - world_uid
+    - seed_identity
+    - latent_generator_lineage_uid
+    - mutable_protocol_state_uid
+  action_grid:
+    intensity_support_fractions: [0.10, 0.30, 0.50, 0.70, 0.90]
+    duration_support_fraction: 0.75
+    no_information_action_index: 0
+  ood_policy:
+    classes:
+    - parametric_ood
+    - intervention_ood
+    - combination_ood
+    - observation_shift_ood
+    - structural_ood
+    worlds_per_family_per_class: 2
+    intervention_excess_fraction: 0.25
+    observation_noise_multiplier: 4.0
+    retain_unsupported_and_forced_execution_failures: true
+  headroom_policy:
+    protocol: oracle_optimal_information_upper_bound
+    development_only: true
+    independent_unit: world
+    bootstrap_replicates: 4000
+    bootstrap_seed: 880301
+    confidence_level: 0.95
+    minimum_mean_regret_improvement: 0.0001
+    minimum_action_sensitivity: 0.0001
+    minimum_uncertainty_sensitivity: 0.000001
+    minimum_improving_family_count: 2
+    public_record_excludes_hidden_oracle_fields: true
+  statistical_policy:
+    unit: independent_world
+    bootstrap_method: family_stratified_paired_bootstrap
+    confidence_interval: percentile_95
+    improvement_measure: regret_without_information_minus_regret_after_optimal_information
+    family_spanning_improvement_required: true
+    multiplicity:
+      correction_family: fixed_gate_family
+      no_posthoc_metric_substitution: true
+      all_secondary_checks_reported: true
+    failure_and_undefined_handling:
+      retain_every_case: true
+      failed_world_is_not_dropped: true
+      undefined_world_is_not_imputed: true
+  sample_size_policy:
+    two_sided_alpha: 0.05
+    power: 0.80
+    minimum_detectable_regret_improvement: 0.10
+    minimum_worlds_per_family: 8
+    maximum_worlds_per_family: 64
+  freeze_policy:
+    schema_version: neuronsifter-controlled-world-freeze-receipt-v1
+    protocol_version: controlled-world-benchmark-protocol-v1
+    first_use_policy: first_and_only_use
+    result_access_before_freeze: 0
+    test_outcome_access: 0
+    freeze_before_any_test_result_access: true
+    content_addressed_components:
+    - training_manifest
+    - development_manifest
+    - calibration_manifest
+    - test_manifest
+    - ood_manifest
+    - generator_identity
+    - schema_identity
+    - statistic_plan
+    - seed_policy
+    - terminal_policy
+  terminal_policy:
+    allowed_terminals:
+    - CONTROLLED_NEURAL_WORLD_BENCHMARK_QUALIFIED
+    - CONTROLLED_NEURAL_WORLD_BENCHMARK_NOT_QUALIFIED
+    require_all_families: true
+    require_all_ood_classes: true
+    require_zero_development_failures: true
+    require_zero_undefined_cases: true
+    require_sample_size_feasible: true
+    negative_terminal_on_any_blocker: true
+  output_paths:
+    training_manifest: Input/processed/controlled_neural_world/benchmark/training_manifest.json
+    development_manifest: Input/processed/controlled_neural_world/benchmark/development_manifest.json
+    calibration_manifest: Input/processed/controlled_neural_world/benchmark/calibration_manifest.json
+    test_manifest: Input/processed/controlled_neural_world/benchmark/test_manifest.json
+    ood_manifest: Input/processed/controlled_neural_world/benchmark/ood_manifest.json
+    development_headroom: Input/processed/controlled_neural_world/benchmark/development_headroom.json
+    freeze_receipt: Input/processed/controlled_neural_world/benchmark/benchmark_freeze_receipt.json
+    access_receipt_directory: Input/processed/controlled_neural_world/benchmark/access_receipts
+    qualification_audit: Output/audits/controlled_neural_world_benchmark_qualification.json
+    decision_report: Output/reports/controlled_neural_world_benchmark_qualification.md

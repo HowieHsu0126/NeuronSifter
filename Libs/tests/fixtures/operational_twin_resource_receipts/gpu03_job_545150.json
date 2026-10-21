@@ -1,0 +1,50 @@
+{
+  "environment": {
+    "cuda_available": true,
+    "cuda_device_count": 1,
+    "cuda_visible_devices": "4",
+    "hostname": "gpu03",
+    "python_version": "retained-fixture",
+    "torch_version": "retained-fixture"
+  },
+  "resource_command": [
+    "scontrol",
+    "--oneliner",
+    "show",
+    "job",
+    "545150"
+  ],
+  "resource_stdout": "JobId=545150 JobName=NrnSift_r44_gpu_gate_probe UserId=hwxu(2013) GroupId=nobody(1003) MCS_label=N/A Priority=4294838837 Nice=0 Account=hwxu QOS=normal JobState=RUNNING Reason=None Dependency=(null) Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0 RunTime=00:00:01 TimeLimit=00:03:00 TimeMin=N/A SubmitTime=2026-09-10T00:07:34 EligibleTime=2026-09-10T00:07:34 AccrueTime=2026-09-10T00:07:34 StartTime=2026-09-10T00:15:05 EndTime=2026-09-10T00:18:05 Deadline=N/A SuspendTime=None SecsPreSuspend=0 LastSchedEval=2026-09-10T00:15:05 Scheduler=Main Partition=gpu1 AllocNode:Sid=mgmt2:2094412 ReqNodeList=gpu03 ExcNodeList=(null) NodeList=gpu03 BatchHost=gpu03 NumNodes=1 NumCPUs=6 NumTasks=1 CPUs/Task=6 ReqB:S:C:T=0:0:*:* TRES=cpu=6,node=1,billing=6 Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=* MinCPUsNode=6 MinMemoryNode=32G MinTmpDiskNode=0 Features=(null) DelayBoot=00:00:00 OverSubscribe=OK Contiguous=0 Licenses=(null) Network=(null) Command=(null) WorkDir=/share/home/hwxu/Researches/NeuronSifter/orchestrator/worktrees/round-44-execute-operational-twin-candidate-lineage StdErr=/share/home/hwxu/Researches/NeuronSifter/orchestrator/worktrees/round-44-execute-operational-twin-candidate-lineage/orchestrator/rounds/round-44-execute-operational-twin-candidate-lineage/validation_logs/NrnSift_r44_gpu_gate_probe_545150.out StdIn=/dev/null StdOut=/share/home/hwxu/Researches/NeuronSifter/orchestrator/worktrees/round-44-execute-operational-twin-candidate-lineage/orchestrator/rounds/round-44-execute-operational-twin-candidate-lineage/validation_logs/NrnSift_r44_gpu_gate_probe_545150.out Power= TresPerNode=gres:gpu:1 \n",
+  "resource_requirements": {
+    "cpus_per_task": 6,
+    "exclusive": false,
+    "gres": "gpu:1",
+    "memory": "32G",
+    "nodelist": "gpu03",
+    "partition": "gpu1"
+  },
+  "sinfo_command": [
+    "sinfo",
+    "--noheader",
+    "--nodes=gpu03",
+    "--format=%N|%P|%T|%G"
+  ],
+  "sinfo_stdout": "gpu03|gpu1|mixed|gpu:L40S:8\n",
+  "slurm": {
+    "hostname": "gpu03",
+    "slurm_array_job_id": null,
+    "slurm_array_task_id": null,
+    "slurm_cpus_per_task": "6",
+    "slurm_gpus_on_node": "1",
+    "slurm_job_gpus": "4",
+    "slurm_job_gres": null,
+    "slurm_job_id": "545150",
+    "slurm_job_name": "NrnSift_r44_gpu_gate_probe",
+    "slurm_job_nodelist": "gpu03",
+    "slurm_job_partition": "gpu1",
+    "slurm_mem_per_cpu": null,
+    "slurm_mem_per_node": "32768",
+    "slurm_step_gpus": null
+  },
+  "source_job_id": "545150"
+}

@@ -1,0 +1,51 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: controlled_world_benchmark_manifest.schema.yaml
+title: Controlled World Benchmark Manifest
+type: object
+required: [schema_version, manifest_uid, role, evidence_class, independent_unit, family_uids, world_count, family_counts, sealed_partitions, access_counters, worlds, content_identity]
+properties:
+  schema_version: {const: neuronsifter-controlled-world-benchmark-manifest-v1}
+  manifest_uid: {type: string, minLength: 1}
+  role: {enum: [training, development, calibration, test]}
+  evidence_class: {const: controlled_world_non_empirical}
+  independent_unit: {const: world}
+  family_uids: {type: array, items: {type: string}, minItems: 3, maxItems: 3}
+  world_count: {type: integer, minimum: 1}
+  family_counts: {type: object}
+  sealed_partitions: {type: array, items: {type: string}}
+  access_counters: {$ref: '#/$defs/access'}
+  worlds: {type: array, items: {$ref: '#/$defs/world'}, minItems: 1}
+  content_identity: {type: string, pattern: '^[0-9a-f]{64}$'}
+additionalProperties: false
+$defs:
+  access:
+    type: object
+    required: [six_context_outcome_access, protected_holdout_access, test_outcome_access]
+    properties:
+      six_context_outcome_access: {const: 0}
+      protected_holdout_access: {const: 0}
+      test_outcome_access: {const: 0}
+    additionalProperties: false
+  world:
+    type: object
+    required: [world_uid, family_uid, role, partition, latent_generator_lineage_uid, generator_implementation_uid, generator_implementation_version, generator_code_identity, config_content_identity, seed, seed_identity, action_sequence_identity, information_sequence_identity, replay_identity, support_status, access_counters, observable_output_identity, mutable_protocol_state_uid]
+    properties:
+      world_uid: {type: string, minLength: 1}
+      family_uid: {type: string, minLength: 1}
+      role: {enum: [training, development, calibration, test]}
+      partition: {type: [string, 'null']}
+      latent_generator_lineage_uid: {type: string, minLength: 1}
+      generator_implementation_uid: {type: string}
+      generator_implementation_version: {type: string}
+      generator_code_identity: {type: string, pattern: '^[0-9a-f]{64}$'}
+      config_content_identity: {type: string, pattern: '^[0-9a-f]{64}$'}
+      seed: {type: integer}
+      seed_identity: {type: string, pattern: '^[0-9a-f]{64}$'}
+      action_sequence_identity: {type: string, pattern: '^[0-9a-f]{64}$'}
+      information_sequence_identity: {type: string, pattern: '^[0-9a-f]{64}$'}
+      replay_identity: {type: string}
+      support_status: {type: object}
+      access_counters: {$ref: '#/$defs/access'}
+      observable_output_identity: {type: string, pattern: '^[0-9a-f]{64}$'}
+      mutable_protocol_state_uid: {type: string}
+    additionalProperties: false

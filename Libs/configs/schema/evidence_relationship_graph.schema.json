@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/evidence_relationship_graph.schema.json",
+  "title": "NeuronSifter typed evidence relationship graph",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "graph_uid", "contract_scope", "source_bundle", "nodes", "relations", "support_domains", "eligibilities", "conflicts", "pairing_decisions", "provenances", "evidence_unions", "evidence_fabric_sealed", "dt_core"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-evidence-relationship-graph-v1"},
+    "graph_uid": {"type": "string", "minLength": 1},
+    "contract_scope": {"const": "round12_contract_validation_pilot_only"},
+    "source_bundle": {
+      "type": "object", "additionalProperties": false,
+      "required": ["canonical_uri", "sha256", "code_commit", "validation_status"],
+      "properties": {
+        "canonical_uri": {"const": "repo://Output/audits/dt_round11g1_execution_input_bundle.json"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "code_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "validation_status": {"const": "passed"}
+      }
+    },
+    "nodes": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "relations": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "support_domains": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "eligibilities": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "conflicts": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "pairing_decisions": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "provenances": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "evidence_unions": {"type": "array", "items": {"type": "object"}},
+    "evidence_fabric_sealed": {"const": false},
+    "dt_core": {"const": "not_evaluated"}
+  }
+}

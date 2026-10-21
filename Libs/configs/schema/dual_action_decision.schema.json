@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/dual_action_decision.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "decision_uid", "belief_state_ref", "candidate_world_actions", "candidate_information_actions", "expected_utility", "expected_information_gain", "expected_twin_debt_change", "cost", "risk", "support_domain_ref", "selected_action_type", "selected_action_ref", "selection_reason", "controller_uid"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-dual-action-decision-v1"},
+    "decision_uid": {"$ref": "#/$defs/text"}, "belief_state_ref": {"$ref": "#/$defs/text"},
+    "candidate_world_actions": {"$ref": "#/$defs/texts"}, "candidate_information_actions": {"$ref": "#/$defs/texts"},
+    "expected_utility": {"type": "object", "minProperties": 1}, "expected_information_gain": {"type": "object", "minProperties": 1}, "expected_twin_debt_change": {"type": "object", "minProperties": 1}, "cost": {"type": "object", "minProperties": 1}, "risk": {"type": "object", "minProperties": 1},
+    "support_domain_ref": {"$ref": "#/$defs/text"}, "selected_action_type": {"enum": ["world_action", "information_action", "stop"]}, "selected_action_ref": {"anyOf": [{"$ref": "#/$defs/text"}, {"type": "null"}]}, "selection_reason": {"$ref": "#/$defs/nonempty_texts"}, "controller_uid": {"const": "neuronsifter_orchestration_controller"}
+  },
+  "$defs": {"text": {"type": "string", "minLength": 1}, "texts": {"type": "array", "items": {"$ref": "#/$defs/text"}, "uniqueItems": true}, "nonempty_texts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/text"}, "uniqueItems": true}}
+}

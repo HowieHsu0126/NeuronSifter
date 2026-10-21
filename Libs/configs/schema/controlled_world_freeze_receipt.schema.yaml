@@ -1,0 +1,27 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: controlled_world_freeze_receipt.schema.yaml
+title: Controlled World Freeze Receipt
+type: object
+required: [schema_version, freeze_uid, protocol_version, first_use_policy, evidence_class, content_addressed_components, sealed_test_partitions, test_manifest_uid, result_access_before_freeze, access_counters, claim_boundary]
+properties:
+  schema_version: {const: neuronsifter-controlled-world-freeze-receipt-v1}
+  freeze_uid: {type: string}
+  protocol_version: {type: string}
+  first_use_policy: {const: first_and_only_use}
+  evidence_class: {const: controlled_world_non_empirical}
+  content_addressed_components: {type: object}
+  sealed_test_partitions: {type: array, minItems: 4, maxItems: 4, items: {type: string}}
+  test_manifest_uid: {type: string}
+  result_access_before_freeze: {const: 0}
+  access_counters: {$ref: '#/$defs/access'}
+  claim_boundary: {type: object}
+additionalProperties: false
+$defs:
+  access:
+    type: object
+    required: [six_context_outcome_access, protected_holdout_access, test_outcome_access]
+    properties:
+      six_context_outcome_access: {const: 0}
+      protected_holdout_access: {const: 0}
+      test_outcome_access: {const: 0}
+    additionalProperties: false

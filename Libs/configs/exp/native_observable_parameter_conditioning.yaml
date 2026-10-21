@@ -1,0 +1,22 @@
+config_includes:
+- native_observable_bridge.yaml
+
+# Derived consumption of the retained source; source/program operations stay spent.
+native_diffusion_data:
+  registry_path: Output/results/controlled_native_source/controlled_neural_observable_source_v1/physical_parameter_conditioning/model_registry.json
+
+screening_pipeline:
+  screening_benchmark:
+    model_architecture:
+      world_state_posterior:
+        physical_parameter_conditioning: source_declared_named_candidates
+
+# Explicit exception to the consumed original one-initialization limit.
+# This diagnostic keeps source settings and scientific objective coefficients frozen.
+physical_parameter_consumer_check:
+  scope: one_corrective_complete_prior_initialization
+  authorization: Parent authorized one corrective full-native initialization under the active user Goal.
+  permitted_model_initializations_total: 2
+  prior_diagnostic_elapsed_seconds: 515
+  routing_software_elapsed_seconds: 70
+  seconds: 900

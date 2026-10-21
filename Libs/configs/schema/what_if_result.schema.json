@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://neuronsifter.org/schemas/what_if_result.schema.json",
+  "title": "NeuronSifter WhatIfResult", "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "result_uid", "request_uid", "rollout_uids", "control_pair_uid", "contrast_uid", "uncertainty_uid", "reliability_uid", "eligibility_decision_uid", "result_type", "claim_scope", "limitations", "model_based_counterfactual", "causal_effect_claim", "clinical_recommendation", "empirical_observation", "user_facing_summary", "provenance"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-what-if-result-v1"}, "result_uid": {"$ref": "#/$defs/text"}, "request_uid": {"$ref": "#/$defs/text"},
+    "rollout_uids": {"$ref": "#/$defs/texts"}, "control_pair_uid": {"$ref": "#/$defs/text"}, "contrast_uid": {"$ref": "#/$defs/text"},
+    "uncertainty_uid": {"$ref": "#/$defs/text"}, "reliability_uid": {"$ref": "#/$defs/text"}, "eligibility_decision_uid": {"$ref": "#/$defs/text"},
+    "result_type": {"$ref": "#/$defs/text"}, "claim_scope": {"$ref": "#/$defs/text"}, "limitations": {"$ref": "#/$defs/texts"},
+    "model_based_counterfactual": {"const": true}, "causal_effect_claim": {"const": false}, "clinical_recommendation": {"const": false},
+    "empirical_observation": {"const": false}, "user_facing_summary": {"$ref": "#/$defs/text"}, "provenance": {"type": "object", "minProperties": 1}
+  },
+  "$defs": {"text": {"type": "string", "minLength": 1}, "texts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/text"}}}
+}

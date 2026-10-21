@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/evidence_node.schema.json",
+  "title": "NeuronSifter typed EvidenceNode",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "node_uid", "node_type", "evidence_class", "qc_grade", "identity_axes", "provenance_ref", "train_eval_role", "status"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-evidence-node-v1"},
+    "node_uid": {"type": "string", "minLength": 1},
+    "node_type": {"enum": ["publication", "accession", "study", "cohort", "biological_unit", "sample", "observation", "state_snapshot", "structured_action", "perturbation_endpoint", "trajectory", "mechanistic_model", "simulator_output", "tool_request", "tool_result", "hypothetical_scenario", "claim", "hypothesis"]},
+    "evidence_class": {"type": "string", "minLength": 1},
+    "qc_grade": {"enum": ["A", "B", "C", "D", "S", "ungraded", "not_applicable"]},
+    "identity_axes": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "publication_uid": {"type": ["string", "null"]}, "accession_uid": {"type": ["string", "null"]},
+        "study_uid": {"type": ["string", "null"]}, "cohort_uid": {"type": ["string", "null"]},
+        "biological_unit_uid": {"type": ["string", "null"]}, "sample_uid": {"type": ["string", "null"]},
+        "organism": {"type": ["string", "null"]}, "disease_state": {"type": ["string", "null"]},
+        "tissue": {"type": ["string", "null"]}, "brain_region": {"type": ["string", "null"]},
+        "compartment": {"type": ["string", "null"]}, "cell_type": {"type": ["string", "null"]},
+        "modality": {"type": ["string", "null"]}, "assay": {"type": ["string", "null"]},
+        "action_uid": {"type": ["string", "null"]}, "target_program_uid": {"type": ["string", "null"]},
+        "dose": {"type": ["string", "number", "null"]}, "route": {"type": ["string", "null"]},
+        "schedule": {"type": ["string", "null"]}, "timepoint": {"type": ["string", "number", "null"]},
+        "trajectory_family_uid": {"type": ["string", "null"]}, "simulator_family_uid": {"type": ["string", "null"]},
+        "tool_family_uid": {"type": ["string", "null"]}
+      }
+    },
+    "provenance_ref": {"type": "string", "minLength": 1},
+    "train_eval_role": {"type": "string", "minLength": 1},
+    "status": {"enum": ["active", "blocked", "rejected", "superseded", "stress_only", "pilot_only"]}
+  }
+}

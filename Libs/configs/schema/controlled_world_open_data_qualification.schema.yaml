@@ -1,0 +1,195 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: controlled_world_open_data_qualification.schema.yaml
+title: Controlled World Open Data Qualification
+type: object
+required:
+- schema_version
+- status
+- terminal_decision
+- authoritative_date
+- evidence_class
+- authority_role
+- training_authorized
+- sufficient_training
+- twin_qualification_pass
+- formal_qualification
+- input_identities
+- input_content_identities
+- construction_authority_identity
+- construction_receipt_uid
+- construction_receipt_content_identity
+- precedence
+- schema_validation
+- family_action_pairing_summary
+- role_lineage_isolation
+- deterministic_replay_provenance
+- retained_failure_inventory
+- forbidden_access_counters
+- sealed_material_access
+- closed_downstream_gates
+properties:
+  schema_version: {const: neuronsifter-controlled-world-open-data-qualification-v1}
+  status: {enum: [PASS, BLOCKED]}
+  terminal_decision:
+    type: string
+    pattern: '^OPEN_TWIN_DEVELOPMENT_DATA_(QUALIFIED|NOT_QUALIFIED_[A-Z_]+)$'
+  authoritative_date: {type: string, minLength: 10}
+  evidence_class: {const: controlled_world_non_empirical}
+  authority_role: {const: independent_open_data_qualification}
+  training_authorized: {type: boolean}
+  sufficient_training: {const: false}
+  twin_qualification_pass: {const: false}
+  formal_qualification: {const: false}
+  input_identities: {type: object}
+  input_content_identities: {type: object}
+  construction_authority_identity: {type: object}
+  construction_receipt_uid: {type: ['string', 'null']}
+  construction_receipt_content_identity: {type: ['string', 'null']}
+  precedence:
+    type: object
+    required:
+    - supersedes_receipt_training_authorized_only_for_pretraining_authorization
+    - receipt_open_data_qualification
+    - receipt_training_authorized
+    properties:
+      supersedes_receipt_training_authorized_only_for_pretraining_authorization: {type: boolean}
+      receipt_open_data_qualification: {type: ['string', 'null']}
+      receipt_training_authorized: {type: ['boolean', 'null']}
+    additionalProperties: false
+  schema_validation: {type: object}
+  family_action_pairing_summary: {type: object}
+  role_lineage_isolation:
+    type: object
+    required:
+    - checked_fields
+    - action_result_identity_field
+    - status
+    - overlaps
+    properties:
+      checked_fields:
+        type: array
+        prefixItems:
+        - const: world_uid
+        - const: latent_world_uid
+        - const: latent_generator_lineage_uid
+        - const: seed_identity
+        - const: replay_identity
+        - const: observable_output_identity
+        - const: protocol_state_identity
+        minItems: 7
+        maxItems: 7
+      action_result_identity_field: {const: protocol_state_identity}
+      status: {enum: [PASS, BLOCKED]}
+      overlaps:
+        type: array
+        items:
+          type: object
+          required: [field, left_role, right_role, overlap_count]
+          properties:
+            field:
+              enum:
+              - world_uid
+              - latent_world_uid
+              - latent_generator_lineage_uid
+              - seed_identity
+              - replay_identity
+              - observable_output_identity
+              - protocol_state_identity
+            left_role: {enum: [training, development, calibration]}
+            right_role: {enum: [training, development, calibration]}
+            overlap_count: {type: integer, minimum: 1}
+          additionalProperties: false
+    additionalProperties: false
+  deterministic_replay_provenance: {type: object}
+  retained_failure_inventory:
+    type: object
+    required: [policy, blocker_count, blockers]
+    properties:
+      policy: {const: retain_every_failure}
+      blocker_count: {type: integer, minimum: 0}
+      blockers: {type: array, items: {type: object}}
+    additionalProperties: false
+  forbidden_access_counters: {type: object}
+  sealed_material_access:
+    type: object
+    required:
+    - complete_test_manifest
+    - twin_qualification_partition
+    - unopened_access_receipt_content
+    - protected_holdout
+    - six_context_outcomes
+    properties:
+      complete_test_manifest: {const: 0}
+      twin_qualification_partition: {const: 0}
+      unopened_access_receipt_content: {const: 0}
+      protected_holdout: {const: 0}
+      six_context_outcomes: {const: 0}
+    additionalProperties: false
+  closed_downstream_gates:
+    type: object
+    required:
+    - training_authorized
+    - sufficient_training
+    - twin_qualification_pass
+    - formal_qualification
+    - agent_work_open
+    - test_manifest_open
+    - tool_gate_open
+    - mcp_gate_open
+    - agent_trace_gate_open
+    - memory_gate_open
+    - coevolution_gate_open
+    properties:
+      training_authorized: {type: boolean}
+      sufficient_training: {const: false}
+      twin_qualification_pass: {const: false}
+      formal_qualification: {const: false}
+      agent_work_open: {const: false}
+      test_manifest_open: {const: false}
+      tool_gate_open: {const: false}
+      mcp_gate_open: {const: false}
+      agent_trace_gate_open: {const: false}
+      memory_gate_open: {const: false}
+      coevolution_gate_open: {const: false}
+    additionalProperties: false
+additionalProperties: false
+allOf:
+- if:
+    anyOf:
+    - properties: {status: {const: PASS}}
+      required: [status]
+    - properties: {terminal_decision: {const: OPEN_TWIN_DEVELOPMENT_DATA_QUALIFIED}}
+      required: [terminal_decision]
+    - properties: {training_authorized: {const: true}}
+      required: [training_authorized]
+  then:
+    properties:
+      status: {const: PASS}
+      terminal_decision: {const: OPEN_TWIN_DEVELOPMENT_DATA_QUALIFIED}
+      training_authorized: {const: true}
+      role_lineage_isolation:
+        type: object
+        required:
+        - checked_fields
+        - action_result_identity_field
+        - status
+        - overlaps
+        properties:
+          checked_fields:
+            type: array
+            prefixItems:
+            - const: world_uid
+            - const: latent_world_uid
+            - const: latent_generator_lineage_uid
+            - const: seed_identity
+            - const: replay_identity
+            - const: observable_output_identity
+            - const: protocol_state_identity
+            minItems: 7
+            maxItems: 7
+          action_result_identity_field: {const: protocol_state_identity}
+          status: {const: PASS}
+          overlaps:
+            type: array
+            maxItems: 0
+        additionalProperties: false

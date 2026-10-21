@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/mechanistic_belief_terminal_decision_table.schema.json",
+  "title": "Mechanistic Belief Terminal Decision Table",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "decision_table_uid",
+    "decision_table_sha256",
+    "method_uid",
+    "contract",
+    "schema",
+    "round24_inputs",
+    "prior_reliability_semantics_sha256",
+    "terminal_semantics_sha256",
+    "decisions",
+    "current_terminal",
+    "terminal_issued_in_this_round",
+    "access_counters",
+    "downstream_authorization",
+    "blockers"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-mechanistic-belief-terminal-decision-table-v1"},
+    "status": {"const": "MECHANISTIC_BELIEF_TERMINAL_DECISION_TABLE_FROZEN"},
+    "decision_table_uid": {"const": "mechanistic_belief_terminal_decision_table"},
+    "decision_table_sha256": {"$ref": "#/$defs/sha256"},
+    "method_uid": {"const": "mechanistic_belief_twin_v1"},
+    "contract": {"$ref": "#/$defs/fileBinding"},
+    "schema": {"$ref": "#/$defs/fileBinding"},
+    "round24_inputs": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {"$ref": "#/$defs/round24Binding"}
+    },
+    "prior_reliability_semantics_sha256": {"$ref": "#/$defs/sha256"},
+    "terminal_semantics_sha256": {"$ref": "#/$defs/sha256"},
+    "decisions": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "prefixItems": [
+        {"allOf": [{"$ref": "#/$defs/decision"}, {"properties": {"terminal": {"const": "PROSPECTIVE_MECHANISTIC_BELIEF_TWIN_READY_FOR_EVALUATION"}, "trigger_stage": {"const": "metadata_only_six_context_preflight"}}}]},
+        {"allOf": [{"$ref": "#/$defs/decision"}, {"properties": {"terminal": {"const": "MECHANISM_BASIS_INSUFFICIENT"}, "trigger_stage": {"const": "mechanism_basis_qualification"}}}]},
+        {"allOf": [{"$ref": "#/$defs/decision"}, {"properties": {"terminal": {"const": "MECHANISM_COMPILER_NOT_GENERALIZABLE"}, "trigger_stage": {"const": "mechanism_action_program_compilation"}}}]},
+        {"allOf": [{"$ref": "#/$defs/decision"}, {"properties": {"terminal": {"const": "PRIOR_PREDICTIVE_TWIN_NOT_SCIENTIFICALLY_IDENTIFIABLE"}, "trigger_stage": {"const": "prior_predictive_runtime_identifiability"}}}]},
+        {"allOf": [{"$ref": "#/$defs/decision"}, {"properties": {"terminal": {"const": "NO_FIT_UNCERTAINTY_NOT_DEFENSIBLE"}, "trigger_stage": {"const": "structural_reliability_qualification"}}}]},
+        {"allOf": [{"$ref": "#/$defs/decision"}, {"properties": {"terminal": {"const": "ACTION_DOMAIN_COVERAGE_INSUFFICIENT"}, "trigger_stage": {"const": "metadata_only_six_context_preflight"}}}]}
+      ],
+      "items": false
+    },
+    "current_terminal": {"type": "null"},
+    "terminal_issued_in_this_round": {"const": false},
+    "access_counters": {"$ref": "#/$defs/accessCounters"},
+    "downstream_authorization": {"$ref": "#/$defs/downstreamAuthorization"},
+    "blockers": {"type": "array", "maxItems": 0}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fileBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "round24Binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "file_sha256", "required_status", "semantic_identity_field", "semantic_identity"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "file_sha256": {"$ref": "#/$defs/sha256"},
+        "required_status": {"type": "string", "minLength": 1},
+        "semantic_identity_field": {"type": "string", "minLength": 1},
+        "semantic_identity": {"type": "string", "minLength": 1}
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["terminal", "trigger_stage", "required_evidence", "closed_milestone_classes", "closed_direction_classes", "prohibited_recovery_actions", "interpretation", "terminal_issued_in_this_round"],
+      "properties": {
+        "terminal": {
+          "enum": [
+            "PROSPECTIVE_MECHANISTIC_BELIEF_TWIN_READY_FOR_EVALUATION",
+            "MECHANISM_BASIS_INSUFFICIENT",
+            "MECHANISM_COMPILER_NOT_GENERALIZABLE",
+            "PRIOR_PREDICTIVE_TWIN_NOT_SCIENTIFICALLY_IDENTIFIABLE",
+            "NO_FIT_UNCERTAINTY_NOT_DEFENSIBLE",
+            "ACTION_DOMAIN_COVERAGE_INSUFFICIENT"
+          ]
+        },
+        "trigger_stage": {
+          "enum": [
+            "metadata_only_six_context_preflight",
+            "mechanism_basis_qualification",
+            "mechanism_action_program_compilation",
+            "prior_predictive_runtime_identifiability",
+            "structural_reliability_qualification"
+          ]
+        },
+        "required_evidence": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "closed_milestone_classes": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "closed_direction_classes": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "prohibited_recovery_actions": {"type": "array", "minItems": 3, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "interpretation": {"type": "string", "minLength": 1},
+        "terminal_issued_in_this_round": {"const": false}
+      }
+    },
+    "accessCounters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["six_context_outcome_access", "protected_holdout_access", "source_content_access"],
+      "properties": {
+        "six_context_outcome_access": {"const": 0},
+        "protected_holdout_access": {"const": 0},
+        "source_content_access": {"const": 0}
+      }
+    },
+    "downstreamAuthorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_queue_creation_authorized", "source_content_intake_authorized", "prior_distribution_population_authorized", "world_action_compiler_authorized", "runtime_implementation_authorized", "inference_authorized", "training_authorized", "gpu_authorized", "formal_evaluation_authorized", "six_context_evaluation_authorized"],
+      "properties": {
+        "source_queue_creation_authorized": {"const": false},
+        "source_content_intake_authorized": {"const": false},
+        "prior_distribution_population_authorized": {"const": false},
+        "world_action_compiler_authorized": {"const": false},
+        "runtime_implementation_authorized": {"const": false},
+        "inference_authorized": {"const": false},
+        "training_authorized": {"const": false},
+        "gpu_authorized": {"const": false},
+        "formal_evaluation_authorized": {"const": false},
+        "six_context_evaluation_authorized": {"const": false}
+      }
+    }
+  }
+}

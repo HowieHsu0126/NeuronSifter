@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "https://neuronsifter.org/schemas/what_if_eligibility_decision.schema.json",
+  "title": "NeuronSifter WhatIfEligibilityDecision", "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "decision_uid", "result_uid", "controller_uid", "validator_uid", "roles", "engine_status", "horizon_decision", "pairing_decision", "support_domain_decision", "constraint_state", "uncertainty_status", "reliability_status", "exact_execution_identity", "reason_codes", "status"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-what-if-eligibility-decision-v1"}, "decision_uid": {"$ref": "#/$defs/text"}, "result_uid": {"$ref": "#/$defs/text"},
+    "controller_uid": {"$ref": "#/$defs/text"}, "validator_uid": {"$ref": "#/$defs/text"},
+    "roles": {"type": "object", "additionalProperties": {"type": "boolean"}, "minProperties": 9, "maxProperties": 9},
+    "engine_status": {"$ref": "#/$defs/text"}, "horizon_decision": {"$ref": "#/$defs/text"}, "pairing_decision": {"$ref": "#/$defs/text"},
+    "support_domain_decision": {"$ref": "#/$defs/text"}, "constraint_state": {"$ref": "#/$defs/text"}, "uncertainty_status": {"$ref": "#/$defs/text"},
+    "reliability_status": {"$ref": "#/$defs/text"}, "exact_execution_identity": {"type": "boolean"}, "reason_codes": {"type": "array", "items": {"type": "string"}},
+    "status": {"enum": ["decided", "blocked"]}
+  },
+  "$defs": {"text": {"type": "string", "minLength": 1}}
+}

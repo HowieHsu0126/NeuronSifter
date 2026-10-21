@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "neuronsifter-controlled-world-replay-manifest.schema.json",
+  "title": "NeuronSifter controlled world replay manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "replay_uid",
+    "world_uid",
+    "world_family_uid",
+    "latent_generator_lineage_uid",
+    "generator_implementation_uid",
+    "generator_implementation_version",
+    "generator_code_identity",
+    "config_content_identity",
+    "config_file_identity",
+    "seed",
+    "seed_identity",
+    "action_sequence_identity",
+    "information_sequence_identity",
+    "observable_output_identity",
+    "input_lineage",
+    "output_lineage",
+    "access_counters",
+    "deterministic_reproduction"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-controlled-world-replay-manifest-v1"},
+    "replay_uid": {"type": "string", "minLength": 1},
+    "world_uid": {"type": "string", "minLength": 1},
+    "world_family_uid": {
+      "enum": [
+        "electrophysiology_conductance_world",
+        "calcium_synaptic_world",
+        "molecular_pharmacological_causal_world"
+      ]
+    },
+    "latent_generator_lineage_uid": {"type": "string", "minLength": 1},
+    "generator_implementation_uid": {"type": "string", "minLength": 1},
+    "generator_implementation_version": {"type": "string", "minLength": 1},
+    "generator_code_identity": {"$ref": "#/$defs/sha256"},
+    "config_content_identity": {"$ref": "#/$defs/sha256"},
+    "config_file_identity": {"$ref": "#/$defs/sha256"},
+    "seed": {"type": "integer", "minimum": 0},
+    "seed_identity": {"$ref": "#/$defs/sha256"},
+    "action_sequence_identity": {"$ref": "#/$defs/sha256"},
+    "information_sequence_identity": {"$ref": "#/$defs/sha256"},
+    "observable_output_identity": {"$ref": "#/$defs/sha256"},
+    "input_lineage": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["role", "artifact_ref", "content_identity"],
+        "properties": {
+          "role": {"type": "string", "minLength": 1},
+          "artifact_ref": {"type": "string", "minLength": 1},
+          "content_identity": {"$ref": "#/$defs/sha256"}
+        }
+      }
+    },
+    "output_lineage": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["role", "artifact_ref", "content_identity"],
+        "properties": {
+          "role": {"const": "runtime_observable"},
+          "artifact_ref": {"type": "string", "minLength": 1},
+          "content_identity": {"$ref": "#/$defs/sha256"}
+        }
+      }
+    },
+    "access_counters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["six_context_outcome_access", "protected_holdout_access"],
+      "properties": {
+        "six_context_outcome_access": {"const": 0},
+        "protected_holdout_access": {"const": 0}
+      }
+    },
+    "deterministic_reproduction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "byte_equivalent_canonical_json", "replay_count", "status"],
+      "properties": {
+        "required": {"const": true},
+        "byte_equivalent_canonical_json": {"const": true},
+        "replay_count": {"const": 1},
+        "status": {"const": "replay_identity_frozen"}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/mechanism_source_queue.schema.json",
+  "title": "NeuronSifter frozen mechanism-source queue",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "queue_uid",
+    "preregistration",
+    "contract",
+    "schema",
+    "cutoff",
+    "slots",
+    "counts",
+    "network_summary",
+    "access_counters",
+    "no_refill_after_exclusion",
+    "content_access_authorized",
+    "queue_sha256",
+    "blockers"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-mechanism-source-queue-v1"},
+    "status": {"const": "MECHANISM_SOURCE_QUEUE_FROZEN"},
+    "queue_uid": {"const": "mechanism_source_queue"},
+    "preregistration": {"$ref": "#/$defs/artifactBinding"},
+    "contract": {"$ref": "#/$defs/fileBinding"},
+    "schema": {"$ref": "#/$defs/fileBinding"},
+    "cutoff": {"const": "2021-03-02T23:59:59Z"},
+    "slots": {
+      "type": "array",
+      "maxItems": 160,
+      "items": {"$ref": "#/$defs/slot"}
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slot_count", "intervention_count", "family_count", "dispositions"],
+      "properties": {
+        "slot_count": {"type": "integer", "minimum": 0, "maximum": 160},
+        "intervention_count": {"const": 6},
+        "family_count": {"const": 6},
+        "dispositions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["eligible", "duplicate", "unavailable", "source_date_ambiguous", "access_license_ambiguous", "cutoff_ineligible_release", "forbidden_metadata", "request_failed"],
+          "properties": {
+            "eligible": {"type": "integer", "minimum": 0},
+            "duplicate": {"type": "integer", "minimum": 0},
+            "unavailable": {"type": "integer", "minimum": 0},
+            "source_date_ambiguous": {"type": "integer", "minimum": 0},
+            "access_license_ambiguous": {"type": "integer", "minimum": 0},
+            "cutoff_ineligible_release": {"type": "integer", "minimum": 0},
+            "forbidden_metadata": {"type": "integer", "minimum": 0},
+            "request_failed": {"type": "integer", "minimum": 0}
+          }
+        }
+      }
+    },
+    "network_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["request_count", "successful_request_count", "failed_request_count", "overflow_record_count", "total_response_bytes", "raw_responses_persisted", "queried_families"],
+      "properties": {
+        "request_count": {"type": "integer", "minimum": 0, "maximum": 48},
+        "successful_request_count": {"type": "integer", "minimum": 0, "maximum": 48},
+        "failed_request_count": {"type": "integer", "minimum": 0, "maximum": 48},
+        "overflow_record_count": {"type": "integer", "minimum": 0},
+        "total_response_bytes": {"type": "integer", "minimum": 0, "maximum": 33554432},
+        "raw_responses_persisted": {"const": false},
+        "queried_families": {"type": "array", "maxItems": 1, "items": {"const": "publication_metadata"}}
+      }
+    },
+    "access_counters": {"$ref": "#/$defs/zeroCounters"},
+    "no_refill_after_exclusion": {"const": true},
+    "content_access_authorized": {"const": false},
+    "queue_sha256": {"$ref": "#/$defs/sha256"},
+    "blockers": {"type": "array", "maxItems": 0}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fileBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "artifactBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "file_sha256", "semantic_sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "file_sha256": {"$ref": "#/$defs/sha256"},
+        "semantic_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "zeroCounters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["six_context_outcome_access", "protected_holdout_access", "source_content_access"],
+      "properties": {
+        "six_context_outcome_access": {"const": 0},
+        "protected_holdout_access": {"const": 0},
+        "source_content_access": {"const": 0}
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identifier_type", "identifier_value", "pmid", "doi", "public_access_status", "license_status", "metadata_sha256", "response_sha256", "response_bytes"],
+      "properties": {
+        "identifier_type": {"enum": ["pmid", "doi", "unavailable"]},
+        "identifier_value": {"type": ["string", "null"]},
+        "pmid": {"type": ["string", "null"], "pattern": "^[0-9]+$"},
+        "doi": {"type": ["string", "null"]},
+        "public_access_status": {"enum": ["public_metadata", "not_checked"]},
+        "license_status": {"enum": ["public_metadata_terms", "content_license_not_checked", "not_checked"]},
+        "metadata_sha256": {"anyOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+        "response_sha256": {"anyOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+        "response_bytes": {"type": ["integer", "null"], "minimum": 0, "maximum": 2097152}
+      }
+    },
+    "slot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slot_uid", "queue_order", "canonical_intervention_uid", "validation_uid", "family_uid", "family_priority", "family_slot_ordinal", "mechanism_relevance_tags", "canonical_source_identity", "source_type", "official_date", "disposition", "duplicate_of", "query_uids", "request_uids", "metadata"],
+      "properties": {
+        "slot_uid": {"type": "string", "pattern": "^mechanism-source-slot-[0-9a-f]{20}$"},
+        "queue_order": {"type": "integer", "minimum": 1, "maximum": 160},
+        "canonical_intervention_uid": {"type": "string", "minLength": 1},
+        "validation_uid": {"type": "string", "pattern": "^[0-9a-f]{12}$"},
+        "family_uid": {"enum": ["publication_metadata", "open_targets_target_metadata", "chembl_compound_target_metadata", "bindingdb_record_metadata", "drugcentral_drug_moa_metadata", "dgidb_drug_gene_metadata"]},
+        "family_priority": {"type": "integer", "minimum": 1, "maximum": 6},
+        "family_slot_ordinal": {"type": "integer", "minimum": 1, "maximum": 4},
+        "mechanism_relevance_tags": {"type": "array", "minItems": 1, "maxItems": 6, "uniqueItems": true, "items": {"enum": ["exposure_occupancy", "cns_transport", "protein_pathology", "neuroinflammation", "electrophysiology", "structural_morphology"]}},
+        "canonical_source_identity": {"type": "string", "minLength": 1},
+        "source_type": {"type": "string", "minLength": 1},
+        "official_date": {"type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}T00:00:00Z$"},
+        "disposition": {"enum": ["eligible", "duplicate", "unavailable", "source_date_ambiguous", "access_license_ambiguous", "cutoff_ineligible_release", "forbidden_metadata", "request_failed"]},
+        "duplicate_of": {"type": ["string", "null"]},
+        "query_uids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "request_uids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "metadata": {"$ref": "#/$defs/metadata"}
+      }
+    }
+  }
+}

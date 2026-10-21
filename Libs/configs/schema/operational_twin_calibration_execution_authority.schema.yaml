@@ -1,0 +1,77 @@
+{
+  "operational_twin_calibration_execution_authority_schema": {
+    "schema_version": "neuronsifter-operational-twin-calibration-execution-authority-schema-v1",
+    "required_schema_version": "neuronsifter-operational-twin-calibration-execution-authority-v1",
+    "candidate_required_schema_version": "neuronsifter-operational-twin-candidate-lineage-calibration-execution-authority-v2",
+    "required_status": "PASS",
+    "required_authority_role": "development_calibration_execution",
+    "required_allowed_method_ids": [
+      "full_uncertainty_aware_action_conditioned"
+    ],
+    "required_boolean_fields": {
+      "calibration_fitting_authorized": true,
+      "calibration_world_only": true,
+      "sufficient_training": false,
+      "twin_qualification_pass": false,
+      "formal_qualification": false
+    },
+    "required_checkpoint_selection_role": "development_only",
+    "required_source_bindings": [
+      "selection-record.json",
+      "round-plan-record.json",
+      "plan.md",
+      "operational_twin_training_protocol.yaml",
+      "operational_twin_training_protocol_preflight.json",
+      "assignment_manifest.json"
+    ],
+    "candidate_required_fields": [
+      "schema_version",
+      "authority_uid",
+      "authority_role",
+      "status",
+      "created_at",
+      "source_round_id",
+      "source_commit",
+      "candidate_lineage_uid",
+      "protocol_uid",
+      "preflight_uid",
+      "candidate_manifest_hash",
+      "assignment_manifest_hash",
+      "command_catalog_hash",
+      "source_identity_hash",
+      "approved_protocol_review_identity",
+      "frozen_protocol_construction_flag",
+      "calibration_fitting_authorized",
+      "calibration_world_only",
+      "checkpoint_selection_role",
+      "best_development_checkpoint_restore_required",
+      "calibration_state_initialization_allowed",
+      "training_state_modification_allowed",
+      "allowed_method_ids",
+      "source_files",
+      "access_flags",
+      "claim_flags",
+      "sealed_material_access",
+      "test_outcome_access",
+      "sufficient_training",
+      "twin_qualification_pass",
+      "formal_qualification",
+      "successor_execution_binding",
+      "execution_selection"
+    ],
+    "candidate_required_boolean_fields": {
+      "calibration_fitting_authorized": true,
+      "calibration_world_only": true,
+      "best_development_checkpoint_restore_required": true,
+      "calibration_state_initialization_allowed": false,
+      "training_state_modification_allowed": false,
+      "sufficient_training": false,
+      "twin_qualification_pass": false,
+      "formal_qualification": false
+    },
+    "candidate_source_binding_fields": [
+      "path",
+      "sha256"
+    ]
+  }
+}

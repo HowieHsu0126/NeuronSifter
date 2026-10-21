@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/tool_capability_match.schema.json",
+  "title": "NeuronSifter ToolCapabilityMatch",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "match_uid", "tool_request_uid", "tool_uid", "tool_version", "observable_supported", "organism_context_supported", "state_action_type_supported", "input_schema_compatible", "output_schema_compatible", "fidelity_available", "budget_sufficient", "license_access_resolved", "state", "restrictions", "support_domain_ref", "provenance_ref", "conflicts"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-tool-capability-match-v1"},
+    "match_uid": {"type": "string", "minLength": 1},
+    "tool_request_uid": {"type": "string", "minLength": 1},
+    "tool_uid": {"type": "string", "minLength": 1},
+    "tool_version": {"type": "string", "minLength": 1},
+    "observable_supported": {"type": "boolean"},
+    "organism_context_supported": {"type": "boolean"},
+    "state_action_type_supported": {"type": "boolean"},
+    "input_schema_compatible": {"type": "boolean"},
+    "output_schema_compatible": {"type": "boolean"},
+    "fidelity_available": {"type": "boolean"},
+    "budget_sufficient": {"type": "boolean"},
+    "license_access_resolved": {"type": "boolean"},
+    "state": {"enum": ["supported", "supported_with_restrictions", "temporarily_unavailable", "unsupported_schema", "unsupported_domain", "unresolved_license", "budget_exceeded"]},
+    "restrictions": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "support_domain_ref": {"type": "string", "minLength": 1},
+    "provenance_ref": {"type": "string", "minLength": 1},
+    "conflicts": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+  }
+}

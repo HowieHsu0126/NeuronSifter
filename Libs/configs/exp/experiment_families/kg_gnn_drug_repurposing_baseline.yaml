@@ -1,0 +1,16 @@
+experiment_family:
+  family_id: kg_gnn_drug_repurposing_baseline
+  description: AD-only paper-grade experiment family declaration for kg_gnn_drug_repurposing_baseline.
+  disease_program: ad_control
+  kind: kg_gnn_reference
+  profile_name: ''
+  adapter_name: ''
+  runnable: false
+  reference_only: true
+  reason_if_not_runnable: KG-GNN drug-repurposing references are audit rows only until
+    a matched structured-action AD adapter exists.
+  matched_seed_policy: fixed_suite_seeds
+  claim_guardrails:
+  - ad_only
+  - no_g5_upgrade
+  - no_clinical_endpoint_prediction

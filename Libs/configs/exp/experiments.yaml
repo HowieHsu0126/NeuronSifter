@@ -1,0 +1,1024 @@
+paper_experiments:
+  publication_disease_programs:
+  - ad_control
+  - pd_control
+  ad_case_study:
+    evidence_scope: Alzheimer disease only
+    curated_target_evidence:
+    - target_symbol: APP
+      evidence_label: amyloid precursor processing is central to AD pathology
+      source_url: https://www.ncbi.nlm.nih.gov/gene/351
+    - target_symbol: BACE1
+      evidence_label: beta-secretase inhibition is a canonical AD therapeutic axis
+      source_url: https://www.ncbi.nlm.nih.gov/gene/23621
+    - target_symbol: MAPK14
+      evidence_label: p38 MAP kinase signaling is repeatedly implicated in neuroinflammation
+        and AD stress response
+      source_url: https://www.ncbi.nlm.nih.gov/gene/1432
+    - target_symbol: GSK3A
+      evidence_label: glycogen synthase kinase signaling is linked to tau phosphorylation
+        and AD biology
+      source_url: https://www.ncbi.nlm.nih.gov/gene/2931
+    - target_symbol: PTGS2
+      evidence_label: inflammatory prostaglandin signaling has recurrent AD drug-repurposing
+        support
+      source_url: https://www.ncbi.nlm.nih.gov/gene/5743
+  shared_latent_formal:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 4
+      mem: 24G
+    runtime:
+      device: cpu
+      training_scope: all
+      seed_values:
+      - 3407
+      - 42
+      - 26
+      benchmark_name_scope: benchmark_registry
+      benchmark_name_template: ad_control_shared_latent_seed_{seed}
+      result_catalog_template: benchmark_ready/seeded_results/ad_control_shared_latent_seed_{seed}.tsv
+    config_overrides: {}
+  ad_screening_system_formal_ad_control:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 4
+      mem: 24G
+    runtime:
+      device: cpu
+      training_scope: all
+      seed_values:
+      - 3407
+      - 42
+      - 26
+      benchmark_name_scope: screening_pipeline
+      benchmark_name_template: ad_screening_system_ad_control_seed_{seed}
+      artifact_root: Output/results/ad_screening_system_formal
+    config_overrides:
+      benchmark_registry:
+        active_disease_program: ad_control
+      screening_pipeline:
+        action_ready_registry:
+          forced_include_compounds: []
+          forced_include_targets: []
+        screening_benchmark:
+          active_disease_program: ad_control
+  ad_screening_without_atlas_prior:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster_prebuild:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 4
+      mem: 48G
+    cluster_training:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: gpu:1
+    runtime:
+      device: cuda
+      training_scope: all
+      seed_values:
+      - 3407
+      - 42
+      - 26
+      benchmark_name_scope: screening_pipeline
+      benchmark_name_template: ad_screening_system_public_ad_aging_without_atlas_seed_{seed}
+      artifact_root: Output/results/dynamics_ablations
+    config_overrides:
+      benchmark_registry:
+        active_disease_program: ad_control
+      screening_pipeline:
+        screening_benchmark:
+          active_disease_program: ad_control
+          component_switches:
+            atlas_prior_consistency: false
+            clue_signature_reversal: true
+            drug_target_evidence_ranking: true
+            pkpd_prior_consistency: true
+            structural_prior: true
+            local_response_heads: true
+            tri_gate: true
+  ad_screening_without_clue_reversal:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 4
+      mem: 24G
+    runtime:
+      device: cpu
+      training_scope: all
+      seed_values:
+      - 3407
+      - 42
+      - 26
+      benchmark_name_scope: screening_pipeline
+      benchmark_name_template: ad_screening_system_public_ad_aging_without_clue_seed_{seed}
+      artifact_root: Output/results/ad_screening_ablations
+    config_overrides:
+      screening_pipeline:
+        screening_benchmark:
+          component_switches:
+            atlas_prior_consistency: true
+            clue_signature_reversal: false
+            drug_target_evidence_ranking: true
+            pkpd_prior_consistency: true
+            tri_gate: true
+  ad_screening_without_target_ranking:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 4
+      mem: 24G
+    runtime:
+      device: cpu
+      training_scope: all
+      seed_values:
+      - 3407
+      - 42
+      - 26
+      benchmark_name_scope: screening_pipeline
+      benchmark_name_template: ad_screening_system_public_ad_aging_without_target_ranking_seed_{seed}
+      artifact_root: Output/results/ad_screening_ablations
+    config_overrides:
+      screening_pipeline:
+        screening_benchmark:
+          component_switches:
+            atlas_prior_consistency: true
+            clue_signature_reversal: true
+            drug_target_evidence_ranking: false
+            pkpd_prior_consistency: true
+            tri_gate: true
+  ad_screening_without_pkpd_prior:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster_prebuild:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 4
+      mem: 48G
+    cluster_training:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: gpu:1
+    runtime:
+      device: cuda
+      training_scope: all
+      seed_values:
+      - 3407
+      - 42
+      - 26
+      benchmark_name_scope: screening_pipeline
+      benchmark_name_template: ad_screening_system_public_ad_aging_without_pkpd_seed_{seed}
+      artifact_root: Output/results/dynamics_ablations
+    config_overrides:
+      benchmark_registry:
+        active_disease_program: ad_control
+      screening_pipeline:
+        screening_benchmark:
+          active_disease_program: ad_control
+          component_switches:
+            atlas_prior_consistency: true
+            clue_signature_reversal: true
+            drug_target_evidence_ranking: true
+            pkpd_prior_consistency: false
+            structural_prior: true
+            local_response_heads: true
+            tri_gate: true
+  ad_screening_without_tri_gate:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster_prebuild:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 4
+      mem: 48G
+    cluster_training:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: gpu:1
+    runtime:
+      device: cuda
+      training_scope: all
+      seed_values:
+      - 3407
+      - 42
+      - 26
+      benchmark_name_scope: screening_pipeline
+      benchmark_name_template: ad_screening_system_public_ad_aging_without_tri_seed_{seed}
+      artifact_root: Output/results/dynamics_ablations
+    config_overrides:
+      benchmark_registry:
+        active_disease_program: ad_control
+      screening_pipeline:
+        screening_benchmark:
+          active_disease_program: ad_control
+          component_switches:
+            atlas_prior_consistency: true
+            clue_signature_reversal: true
+            drug_target_evidence_ranking: true
+            pkpd_prior_consistency: true
+            structural_prior: true
+            local_response_heads: true
+            tri_gate: false
+  dynamics_mainline_ad:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster_prebuild:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 8
+      mem: 48G
+    cluster_training:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: gpu:1
+    runtime:
+      device: cuda
+      training_scope: all
+      seed_values:
+      - 3407
+      - 42
+      - 26
+      benchmark_name_scope: screening_pipeline
+      benchmark_name_template: dynamics_twin_ad_mainline_seed_{seed}
+      artifact_root: Output/results/dynamics_formal
+    config_overrides:
+      benchmark_registry:
+        active_disease_program: ad_control
+      screening_pipeline:
+        screening_benchmark:
+          active_disease_program: ad_control
+          component_switches:
+            atlas_prior_consistency: true
+            clue_signature_reversal: true
+            drug_target_evidence_ranking: true
+            pkpd_prior_consistency: true
+            structural_prior: true
+            local_response_heads: true
+            tri_gate: true
+  rollout_operator_parallel_experts:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster_prebuild:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 8
+      mem: 48G
+    cluster_training:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: gpu:1
+    runtime:
+      device: cuda
+      training_scope: all
+      seed_values:
+      - 3407
+      - 42
+      - 26
+      benchmark_name_scope: screening_pipeline
+      benchmark_name_template: dynamics_twin_ad_parallel_experts_seed_{seed}
+      artifact_root: Output/results/dynamics_ablations
+    config_overrides:
+      benchmark_registry:
+        active_disease_program: ad_control
+      screening_pipeline:
+        screening_benchmark:
+          active_disease_program: ad_control
+          component_switches:
+            atlas_prior_consistency: true
+            clue_signature_reversal: true
+            drug_target_evidence_ranking: true
+            pkpd_prior_consistency: true
+            structural_prior: true
+            local_response_heads: true
+            tri_gate: true
+          model_architecture:
+            rollout_operator:
+              transition_backbone:
+                operator_splitting:
+                  composition_mode: parallel
+  rollout_operator_reversed_experts:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster_prebuild:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 8
+      mem: 48G
+    cluster_training:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: gpu:1
+    runtime:
+      device: cuda
+      training_scope: all
+      seed_values:
+      - 3407
+      - 42
+      - 26
+      benchmark_name_scope: screening_pipeline
+      benchmark_name_template: dynamics_twin_ad_reversed_experts_seed_{seed}
+      artifact_root: Output/results/dynamics_ablations
+    config_overrides:
+      benchmark_registry:
+        active_disease_program: ad_control
+      screening_pipeline:
+        screening_benchmark:
+          active_disease_program: ad_control
+          component_switches:
+            atlas_prior_consistency: true
+            clue_signature_reversal: true
+            drug_target_evidence_ranking: true
+            pkpd_prior_consistency: true
+            structural_prior: true
+            local_response_heads: true
+            tri_gate: true
+          model_architecture:
+            rollout_operator:
+              transition_backbone:
+                operator_splitting:
+                  composition_mode: serial
+                  composition_order:
+                  - solver_residual_expert
+                  - solver_observation_expert
+                  - morphology_expert
+                  - metabolomics_expert
+                  - transcriptomics_expert
+                  - electrophysiology_rxd_expert
+                  - inflammation_expert
+                  - protein_pathology_expert
+                  - bbb_cns_transport_expert
+                  - pharmacology_expert
+                mechanism_moe:
+                  expert_names:
+                  - pharmacology_expert
+                  - bbb_cns_transport_expert
+                  - protein_pathology_expert
+                  - inflammation_expert
+                  - electrophysiology_rxd_expert
+                  - transcriptomics_expert
+                  - metabolomics_expert
+                  - morphology_expert
+                  - solver_observation_expert
+                  - solver_residual_expert
+    expert_order_control: true
+  rollout_operator_interleaved_experts:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster_prebuild:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 8
+      mem: 48G
+    cluster_training:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: gpu:1
+    runtime:
+      device: cuda
+      training_scope: all
+      seed_values:
+      - 3407
+      - 42
+      - 26
+      benchmark_name_scope: screening_pipeline
+      benchmark_name_template: dynamics_twin_ad_interleaved_experts_seed_{seed}
+      artifact_root: Output/results/dynamics_ablations
+    config_overrides:
+      benchmark_registry:
+        active_disease_program: ad_control
+      screening_pipeline:
+        screening_benchmark:
+          active_disease_program: ad_control
+          component_switches:
+            atlas_prior_consistency: true
+            clue_signature_reversal: true
+            drug_target_evidence_ranking: true
+            pkpd_prior_consistency: true
+            structural_prior: true
+            local_response_heads: true
+            tri_gate: true
+          model_architecture:
+            rollout_operator:
+              transition_backbone:
+                operator_splitting:
+                  composition_mode: serial
+                  composition_order:
+                  - protein_pathology_expert
+                  - inflammation_expert
+                  - pharmacology_expert
+                  - electrophysiology_rxd_expert
+                  - bbb_cns_transport_expert
+                  - transcriptomics_expert
+                  - metabolomics_expert
+                  - morphology_expert
+                  - solver_observation_expert
+                  - solver_residual_expert
+                mechanism_moe:
+                  expert_names:
+                  - pharmacology_expert
+                  - bbb_cns_transport_expert
+                  - protein_pathology_expert
+                  - inflammation_expert
+                  - electrophysiology_rxd_expert
+                  - transcriptomics_expert
+                  - metabolomics_expert
+                  - morphology_expert
+                  - solver_observation_expert
+                  - solver_residual_expert
+    expert_order_control: true
+  dynamics_without_structural_prior:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster_prebuild:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 4
+      mem: 48G
+    cluster_training:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: gpu:1
+    runtime:
+      device: cuda
+      training_scope: all
+      seed_values:
+      - 3407
+      - 42
+      - 26
+      benchmark_name_scope: screening_pipeline
+      benchmark_name_template: dynamics_twin_ad_without_structural_prior_seed_{seed}
+      artifact_root: Output/results/dynamics_ablations
+    config_overrides:
+      benchmark_registry:
+        active_disease_program: ad_control
+      screening_pipeline:
+        screening_benchmark:
+          active_disease_program: ad_control
+          component_switches:
+            atlas_prior_consistency: true
+            clue_signature_reversal: true
+            drug_target_evidence_ranking: true
+            pkpd_prior_consistency: true
+            structural_prior: false
+            local_response_heads: true
+            tri_gate: true
+  dynamics_without_pkpd_prior:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster_prebuild:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 4
+      mem: 48G
+    cluster_training:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: gpu:1
+    runtime:
+      device: cuda
+      training_scope: all
+      seed_values:
+      - 3407
+      - 42
+      - 26
+      benchmark_name_scope: screening_pipeline
+      benchmark_name_template: dynamics_twin_ad_without_pkpd_seed_{seed}
+      artifact_root: Output/results/dynamics_ablations
+    config_overrides:
+      benchmark_registry:
+        active_disease_program: ad_control
+      screening_pipeline:
+        screening_benchmark:
+          active_disease_program: ad_control
+          component_switches:
+            atlas_prior_consistency: true
+            clue_signature_reversal: true
+            drug_target_evidence_ranking: true
+            pkpd_prior_consistency: false
+            structural_prior: true
+            local_response_heads: true
+            tri_gate: true
+  dynamics_without_tri_gate:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster_prebuild:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 4
+      mem: 48G
+    cluster_training:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: gpu:1
+    runtime:
+      device: cuda
+      training_scope: all
+      seed_values:
+      - 3407
+      - 42
+      - 26
+      benchmark_name_scope: screening_pipeline
+      benchmark_name_template: dynamics_twin_ad_without_tri_seed_{seed}
+      artifact_root: Output/results/dynamics_ablations
+    config_overrides:
+      benchmark_registry:
+        active_disease_program: ad_control
+      screening_pipeline:
+        screening_benchmark:
+          active_disease_program: ad_control
+          component_switches:
+            atlas_prior_consistency: true
+            clue_signature_reversal: true
+            drug_target_evidence_ranking: true
+            pkpd_prior_consistency: true
+            structural_prior: true
+            local_response_heads: true
+            tri_gate: false
+  dynamics_without_local_response_heads:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster_prebuild:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 4
+      mem: 48G
+    cluster_training:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: gpu:1
+    runtime:
+      device: cuda
+      training_scope: all
+      seed_values:
+      - 3407
+      - 42
+      - 26
+      benchmark_name_scope: screening_pipeline
+      benchmark_name_template: dynamics_twin_ad_without_heads_seed_{seed}
+      artifact_root: Output/results/dynamics_ablations
+    config_overrides:
+      benchmark_registry:
+        active_disease_program: ad_control
+      screening_pipeline:
+        screening_benchmark:
+          active_disease_program: ad_control
+          component_switches:
+            atlas_prior_consistency: true
+            clue_signature_reversal: true
+            drug_target_evidence_ranking: true
+            pkpd_prior_consistency: true
+            structural_prior: true
+            local_response_heads: false
+            tri_gate: true
+  neuronsifter_scratch_ad:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster_prebuild:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 8
+      mem: 48G
+    cluster_training:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: gpu:1
+    runtime:
+      device: cuda
+      training_scope: all
+      seed_values:
+      - 3407
+      - 42
+      - 26
+      benchmark_name_scope: screening_pipeline
+      benchmark_name_template: dynamics_twin_ad_neuronsifter_scratch_seed_{seed}
+      artifact_root: Output/results/dynamics_ablations
+    execution:
+      train_commands:
+      - '{python_executable} -u Libs/exp/training/train_screening_system.py --config {config_path} --training-scope {training_scope} --device {device}'
+      - '{python_executable} -u Libs/exp/evaluation/evaluate_screening_system.py --config {config_path}'
+      - '{python_executable} -u Libs/exp/evaluation/evaluate_active_learning_replay.py --config {config_path}'
+      - '{python_executable} -u Libs/exp/export/export_screening_bundle.py --config {config_path}'
+    config_overrides:
+      benchmark_registry:
+        active_disease_program: ad_control
+      screening_pipeline:
+        screening_benchmark:
+          active_disease_program: ad_control
+          training:
+            pretraining_provenance:
+              active_policy: no_pretrained_checkpoint
+              pretrained_checkpoint_required: false
+              provenance_label: scratch_screening_fit
+          component_switches:
+            atlas_prior_consistency: true
+            clue_signature_reversal: true
+            drug_target_evidence_ranking: true
+            pkpd_prior_consistency: true
+            structural_prior: true
+            local_response_heads: true
+            tri_gate: true
+  rollout_operator_without_mechanism_experts:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster_prebuild:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 4
+      mem: 48G
+    cluster_training:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: gpu:1
+    runtime:
+      device: cuda
+      training_scope: all
+      seed_values:
+      - 3407
+      - 42
+      - 26
+      benchmark_name_scope: screening_pipeline
+      benchmark_name_template: dynamics_twin_ad_without_mechanism_experts_seed_{seed}
+      artifact_root: Output/results/dynamics_ablations
+    config_overrides:
+      benchmark_registry:
+        active_disease_program: ad_control
+      screening_pipeline:
+        screening_benchmark:
+          active_disease_program: ad_control
+          model_architecture:
+            rollout_operator:
+              transition_backbone:
+                template_source: factor_coupled_reference
+          component_switches:
+            atlas_prior_consistency: true
+            clue_signature_reversal: true
+            drug_target_evidence_ranking: true
+            pkpd_prior_consistency: true
+            structural_prior: true
+            local_response_heads: true
+            tri_gate: true
+  dynamics_mainline_pd:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster_prebuild:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 4
+      mem: 48G
+    cluster_training:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: gpu:1
+    runtime:
+      device: cuda
+      training_scope: all
+      seed_values:
+      - 3407
+      - 42
+      - 26
+      benchmark_name_scope: screening_pipeline
+      benchmark_name_template: dynamics_twin_pd_mainline_seed_{seed}
+      artifact_root: Output/results/dynamics_partial
+    config_overrides:
+      benchmark_registry:
+        active_disease_program: pd_control
+      screening_pipeline:
+        screening_benchmark:
+          active_disease_program: pd_control
+          component_switches:
+            atlas_prior_consistency: true
+            clue_signature_reversal: true
+            drug_target_evidence_ranking: true
+            pkpd_prior_consistency: true
+            structural_prior: true
+            local_response_heads: true
+            tri_gate: true
+  action_conditioning_drug_identity:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster_prebuild:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 4
+      mem: 48G
+    cluster_training:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: gpu:1
+    runtime:
+      device: cuda
+      training_scope: all
+      seed_values:
+      - 3407
+      - 42
+      - 26
+      benchmark_name_scope: screening_pipeline
+      benchmark_name_template: dynamics_twin_ad_action_drug_identity_seed_{seed}
+      artifact_root: Output/results/dynamics_ablations
+    config_overrides:
+      benchmark_registry:
+        active_disease_program: ad_control
+      screening_pipeline:
+        screening_benchmark:
+          active_disease_program: ad_control
+          model_architecture:
+            rollout_operator:
+              action_representation:
+                active_policy: drug_id
+  action_conditioning_target_identity:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster_prebuild:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 4
+      mem: 48G
+    cluster_training:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: gpu:1
+    runtime:
+      device: cuda
+      training_scope: all
+      seed_values:
+      - 3407
+      - 42
+      - 26
+      benchmark_name_scope: screening_pipeline
+      benchmark_name_template: dynamics_twin_ad_action_target_identity_seed_{seed}
+      artifact_root: Output/results/dynamics_ablations
+    config_overrides:
+      benchmark_registry:
+        active_disease_program: ad_control
+      screening_pipeline:
+        screening_benchmark:
+          active_disease_program: ad_control
+          model_architecture:
+            rollout_operator:
+              action_representation:
+                active_policy: target_id
+  action_conditioning_scalar_exposure:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster_prebuild:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 8
+      mem: 48G
+    cluster_training:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: gpu:1
+    runtime:
+      device: cuda
+      training_scope: all
+      seed_values:
+      - 3407
+      - 42
+      - 26
+      benchmark_name_scope: screening_pipeline
+      benchmark_name_template: dynamics_twin_ad_action_scalar_exposure_seed_{seed}
+      artifact_root: Output/results/dynamics_ablations
+    config_overrides:
+      benchmark_registry:
+        active_disease_program: ad_control
+      screening_pipeline:
+        screening_benchmark:
+          active_disease_program: ad_control
+          model_architecture:
+            rollout_operator:
+              action_representation:
+                active_policy: scalar_exposure
+  occupancy_shallow_reference:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster_prebuild:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 4
+      mem: 48G
+    cluster_training:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: gpu:1
+    runtime:
+      device: cuda
+      training_scope: all
+      seed_values:
+      - 3407
+      - 42
+      - 26
+      benchmark_name_scope: screening_pipeline
+      benchmark_name_template: dynamics_twin_ad_occupancy_shallow_reference_seed_{seed}
+      artifact_root: Output/results/dynamics_ablations
+    config_overrides:
+      benchmark_registry:
+        active_disease_program: ad_control
+      screening_pipeline:
+        screening_benchmark:
+          active_disease_program: ad_control
+          model_architecture:
+            rollout_operator:
+              transition_backbone:
+                template_source: factor_coupled_reference
+  rollout_operator_deterministic_neuronsifter:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster_prebuild:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 4
+      mem: 48G
+    cluster_training:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: gpu:1
+    runtime:
+      device: cuda
+      training_scope: all
+      seed_values:
+      - 3407
+      - 42
+      - 26
+      benchmark_name_scope: screening_pipeline
+      benchmark_name_template: dynamics_twin_ad_deterministic_neuronsifter_seed_{seed}
+      artifact_root: Output/results/dynamics_ablations
+    config_overrides:
+      benchmark_registry:
+        active_disease_program: ad_control
+      screening_pipeline:
+        screening_benchmark:
+          active_disease_program: ad_control
+          model_architecture:
+            rollout_operator:
+              transition_backbone:
+                diffusion_sampler:
+                  sample_count: 1
+                  denoising_step_count: 1
+                  sample_chunk_size: 1
+                  training_sample_count: 1
+                  training_denoising_step_count: 1
+                  diffusion_noise_scale: 0.0
+                  terminal_noise_scale: 0.0
+                  return_sample_trajectories: false
+                quantized_mddm_rollout:
+                  enabled: false
+  rollout_operator_linear_dynamics:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster_prebuild:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 4
+      mem: 48G
+    cluster_training:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: gpu:1
+    runtime:
+      device: cuda
+      training_scope: all
+      seed_values:
+      - 40
+      - 41
+      - 42
+      - 43
+      - 44
+      benchmark_name_scope: screening_pipeline
+      benchmark_name_template: dynamics_twin_ad_linear_dynamics_seed_{seed}
+      artifact_root: Output/results/dynamics_ablations
+    config_overrides:
+      benchmark_registry:
+        active_disease_program: ad_control
+      screening_pipeline:
+        screening_benchmark:
+          active_disease_program: ad_control
+          training:
+            seed_policy: manuscript_native_five
+          model_architecture:
+            rollout_operator:
+              transition_backbone:
+                template_source: linear_dynamics_template
+      paper_grade_full_suite:
+        native_rollout_evaluation:
+          predictor_kind: linear_dynamics_direct_mean
+  rollout_operator_transolver:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster_prebuild:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 4
+      mem: 48G
+    cluster_training:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: gpu:1
+    runtime:
+      device: cuda
+      training_scope: all
+      seed_values:
+      - 3407
+      - 42
+      - 26
+      benchmark_name_scope: screening_pipeline
+      benchmark_name_template: dynamics_twin_ad_rollout_operator_transolver_seed_{seed}
+      artifact_root: Output/results/dynamics_ablations
+    config_overrides:
+      benchmark_registry:
+        active_disease_program: ad_control
+      screening_pipeline:
+        screening_benchmark:
+          active_disease_program: ad_control
+          model_architecture:
+            rollout_operator:
+              transition_backbone:
+                template_source: transolver_ablation_template
+  rollout_operator_factor_coupled:
+    base_config_path: Libs/configs/config_stack.yaml
+    cluster_prebuild:
+      partition: gpu
+      nodelist: cpu03
+      cpus_per_task: 4
+      mem: 48G
+    cluster_training:
+      partition: gpu1
+      nodelist: gpu03
+      cpus_per_task: 8
+      mem: 48G
+      gres: gpu:1
+    runtime:
+      device: cuda
+      training_scope: all
+      seed_values:
+      - 3407
+      - 42
+      - 26
+      benchmark_name_scope: screening_pipeline
+      benchmark_name_template: dynamics_twin_ad_rollout_operator_factor_coupled_seed_{seed}
+      artifact_root: Output/results/dynamics_ablations
+    config_overrides:
+      benchmark_registry:
+        active_disease_program: ad_control
+      screening_pipeline:
+        screening_benchmark:
+          active_disease_program: ad_control
+          model_architecture:
+            rollout_operator:
+              transition_backbone:
+                template_source: factor_coupled_reference
+case_study_registry:
+  ad_amyloid_route:
+    disease_program: ad_control
+    case_study_name: ad_amyloid_route
+    reporting_mode: strict_discovery
+    forbid_anchor_forced_include: true
+    anchor_compounds:
+    - LECANEMAB
+    - DONANEMAB
+    - TRAMIPROSATE
+    - VERUBECESTAT
+    - ADUCANUMAB
+    - SOLANEZUMAB
+    anchor_targets:
+    - APP
+    - BACE1
+    - MAPT
+    anchor_references:
+    - https://pubmed.ncbi.nlm.nih.gov/36449413/
+    - https://pubmed.ncbi.nlm.nih.gov/37459141/
+    - https://link.springer.com/article/10.14283/jpad.2024.147
+    - https://pubmed.ncbi.nlm.nih.gov/34155411/
+    top_k: 25
+    expected_ranking_checks:
+    - target_or_compound_anchor_in_top_k
+    - tri_accepted_anchor_present

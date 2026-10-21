@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schemas/evidence_fabric_release_manifest.schema.json",
+  "title": "Evidence Fabric V0 Release Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "release_uid", "release_version", "parent_release", "created_at",
+    "code_commit", "config_hash", "schema_registry_hash", "input_bundle_hash",
+    "environment_hash", "source_manifest_hash", "node_catalog_hash",
+    "relation_catalog_hash", "action_catalog_hash", "observation_catalog_hash",
+    "conflict_catalog_hash", "gap_ledger_hash", "admission_summary", "status", "sealed"
+  ],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-evidence-fabric-release-manifest-v1"},
+    "release_uid": {"type": "string", "minLength": 1},
+    "release_version": {"const": "evidence_fabric_v0"},
+    "parent_release": {"type": ["string", "null"]},
+    "created_at": {"type": "string", "minLength": 1},
+    "code_commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+    "config_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "schema_registry_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "input_bundle_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "environment_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "source_manifest_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "node_catalog_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "relation_catalog_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "action_catalog_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "observation_catalog_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "conflict_catalog_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "gap_ledger_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "admission_summary": {"type": "object"},
+    "status": {"const": "materialized_unsealed"},
+    "sealed": {"const": false}
+  }
+}

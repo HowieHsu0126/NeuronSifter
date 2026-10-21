@@ -1,0 +1,25 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: controlled_world_ood_manifest.schema.yaml
+title: Controlled World OOD Manifest
+type: object
+required: [schema_version, manifest_uid, evidence_class, ood_classes, family_uids, record_count, records, access_counters, content_identity]
+properties:
+  schema_version: {const: neuronsifter-controlled-world-ood-manifest-v1}
+  manifest_uid: {type: string}
+  evidence_class: {const: controlled_world_non_empirical}
+  ood_classes: {type: array, minItems: 5, maxItems: 5, items: {type: string}}
+  family_uids: {type: array, minItems: 3, maxItems: 3, items: {type: string}}
+  record_count: {type: integer, minimum: 1}
+  records: {type: array, minItems: 1, items: {type: object}}
+  access_counters: {$ref: '#/$defs/access'}
+  content_identity: {type: string, pattern: '^[0-9a-f]{64}$'}
+additionalProperties: false
+$defs:
+  access:
+    type: object
+    required: [six_context_outcome_access, protected_holdout_access, test_outcome_access]
+    properties:
+      six_context_outcome_access: {const: 0}
+      protected_holdout_access: {const: 0}
+      test_outcome_access: {const: 0}
+    additionalProperties: false

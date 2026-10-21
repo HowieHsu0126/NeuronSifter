@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/information_action_gate_decision.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "gate_uid", "gate_type", "proposal_uid", "controller_uid", "validator_uid", "input_hashes", "decision", "reason_codes", "approved_scope", "budget_effect", "twin_debt_effect", "support_domain_effect", "provenance"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-information-action-gate-decision-v1"},
+    "gate_uid": {"$ref": "#/$defs/text"}, "gate_type": {"const": "I-Gate"}, "proposal_uid": {"$ref": "#/$defs/text"},
+    "controller_uid": {"const": "neuronsifter_orchestration_controller"}, "validator_uid": {"const": "round17_scitil_twin_gated_agent_validator"},
+    "input_hashes": {"$ref": "#/$defs/hashes"},
+    "decision": {"enum": ["authorized_tool_request", "authorized_evidence_query", "authorized_restricted_information_action", "revision_required", "unsupported_tool", "unsupported_observable", "blocked_license", "blocked_budget", "blocked_support_domain", "blocked_provenance"]},
+    "reason_codes": {"$ref": "#/$defs/texts"}, "approved_scope": {"type": "object", "minProperties": 1}, "budget_effect": {"type": "object", "minProperties": 1}, "twin_debt_effect": {"type": "object", "minProperties": 1}, "support_domain_effect": {"type": "object", "minProperties": 1}, "provenance": {"type": "object", "minProperties": 1}
+  },
+  "$defs": {"text": {"type": "string", "minLength": 1}, "texts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/text"}}, "hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}, "hashes": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "#/$defs/hash"}}}
+}

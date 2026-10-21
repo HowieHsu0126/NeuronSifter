@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "neuronsifter-round20-allen-rights-release-resolution-v2",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "artifact_uid",
+    "status",
+    "gate",
+    "generated_at",
+    "family_count",
+    "families_evaluated",
+    "families_with_approved_internal_download",
+    "families_blocked",
+    "official_snapshot_count",
+    "official_snapshot_success_count",
+    "terms_snapshot_hashes",
+    "blocker_count",
+    "blockers",
+    "authorization",
+    "next_action"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "neuronsifter-round20-allen-rights-release-resolution-v2"
+    },
+    "artifact_uid": {
+      "const": "dt_round20_allen_rights_release_resolution_v2"
+    },
+    "status": {
+      "enum": [
+        "passed",
+        "blocked_official_rights_release_resolution"
+      ]
+    },
+    "gate": {
+      "enum": [
+        "allen_12_family_rights_resolved",
+        "blocked_allen_12_family_rights_release_resolution_v2"
+      ]
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "family_count": {
+      "const": 12
+    },
+    "families_evaluated": {
+      "const": 12
+    },
+    "families_with_approved_internal_download": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 12
+    },
+    "families_blocked": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 12
+    },
+    "official_snapshot_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "official_snapshot_success_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "terms_snapshot_hashes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      }
+    },
+    "blocker_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1
+          },
+          "family_uid": {
+            "type": "string"
+          },
+          "source_uid": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "authorization": {
+      "type": "object",
+      "required": [
+        "payload_download",
+        "training",
+        "evidence_fabric_sealing",
+        "dt_core_evaluation",
+        "remote_push"
+      ],
+      "properties": {
+        "payload_download": {
+          "const": false
+        },
+        "training": {
+          "const": false
+        },
+        "evidence_fabric_sealing": {
+          "const": false
+        },
+        "dt_core_evaluation": {
+          "const": false
+        },
+        "remote_push": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "next_action": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": true
+}

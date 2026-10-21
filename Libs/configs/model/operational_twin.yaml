@@ -1,0 +1,53 @@
+operational_twin:
+  schema_version: neuronsifter-operational-twin-devcal-v1
+  evidence_class: controlled_world_non_empirical
+  manifests:
+    training: Input/processed/controlled_neural_world/open_action_identification/training_manifest.json
+    development: Input/processed/controlled_neural_world/open_action_identification/development_manifest.json
+    calibration: Input/processed/controlled_neural_world/open_action_identification/calibration_manifest.json
+  references:
+    open_action_package_receipt: Input/processed/controlled_neural_world/open_action_identification/package_receipt.json
+    future_open_data_qualification: Output/audits/controlled_world_open_data_qualification.json
+    required_open_data_qualification_terminal: OPEN_TWIN_DEVELOPMENT_DATA_QUALIFIED
+  access_policy:
+    six_context_outcome_access: 0
+    protected_holdout_access: 0
+    test_outcome_access: 0
+    tool_access: 0
+    mcp_access: 0
+    agent_trace_access: 0
+    agent_access: 0
+    memory_access: 0
+    coevolution_access: 0
+  model:
+    hidden_dim: 48
+    posterior_dim: 12
+    depth: 2
+    head_count: 4
+    mechanism_token_count: 4
+    dropout_rate: 0.0
+    minimum_scale: 0.0001
+  training:
+    seed: 310031
+    deterministic_kernels: true
+    epochs: 12
+    batch_size: 12
+    learning_rate: 0.001
+    weight_decay: 0.0001
+    gradient_clip_norm: 1.0
+  replay:
+    absolute_tolerance: 1.0e-5
+    relative_tolerance: 1.0e-5
+  output_root: Output/results/operational_twin/development_calibration
+  claim_boundary:
+    training_authorized: false
+    sufficient_training: false
+    twin_qualification_pass: false
+    agent_work_open: false
+    test_manifest_open: false
+    formal_qualification: false
+    tool_gate_open: false
+    mcp_gate_open: false
+    agent_trace_gate_open: false
+    memory_gate_open: false
+    coevolution_gate_open: false

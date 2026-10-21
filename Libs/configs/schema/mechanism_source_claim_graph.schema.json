@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.local/schema/mechanism_source_claim_graph.schema.json",
+  "title": "NeuronSifter mechanism source-to-claim graph",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "status", "graph_uid", "contract", "schema", "evidence_ledger", "claims", "support_edges", "contradictions", "counts", "graph_sha256", "blockers"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-mechanism-source-claim-graph-v1"},
+    "status": {"const": "MECHANISM_SOURCE_CLAIM_GRAPH_FINALIZED"},
+    "graph_uid": {"const": "mechanism_source_claim_graph"},
+    "contract": {"$ref": "#/$defs/fileBinding"},
+    "schema": {"$ref": "#/$defs/fileBinding"},
+    "evidence_ledger": {"$ref": "#/$defs/artifactBinding"},
+    "claims": {"type": "array", "items": {"$ref": "#/$defs/claim"}},
+    "support_edges": {"type": "array", "items": {"$ref": "#/$defs/edge"}},
+    "contradictions": {"type": "array", "items": {"$ref": "#/$defs/contradiction"}},
+    "counts": {"type": "object", "additionalProperties": false, "required": ["claim_count", "support_edge_count", "contradiction_count", "unresolved_essential_contradiction_count"], "properties": {"claim_count": {"type": "integer", "minimum": 0}, "support_edge_count": {"type": "integer", "minimum": 0}, "contradiction_count": {"type": "integer", "minimum": 0}, "unresolved_essential_contradiction_count": {"type": "integer", "minimum": 0}}},
+    "graph_sha256": {"$ref": "#/$defs/sha256"},
+    "blockers": {"type": "array", "maxItems": 0}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fileBinding": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"], "properties": {"path": {"type": "string"}, "sha256": {"$ref": "#/$defs/sha256"}}},
+    "artifactBinding": {"type": "object", "additionalProperties": false, "required": ["path", "file_sha256", "semantic_sha256"], "properties": {"path": {"type": "string"}, "file_sha256": {"$ref": "#/$defs/sha256"}, "semantic_sha256": {"$ref": "#/$defs/sha256"}}},
+    "claim": {"type": "object", "additionalProperties": false, "required": ["claim_uid", "claim_type", "paraphrase", "slot_uid", "content_locator", "content_sha256", "requirement_uids", "units", "range_context", "assumptions", "limitations", "support_boundary", "claim_sha256"], "properties": {"claim_uid": {"type": "string", "pattern": "^mechanism-claim-[0-9a-f]{20}$"}, "claim_type": {"enum": ["equation", "causal_dependency", "structural_dependency", "parameter_range", "unit_definition", "assumption", "limitation", "measurement_definition", "latent_to_observable_link", "prior_role_support", "support_boundary"]}, "paraphrase": {"type": "string", "minLength": 1, "maxLength": 600}, "slot_uid": {"type": "string"}, "content_locator": {"type": "string"}, "content_sha256": {"$ref": "#/$defs/sha256"}, "requirement_uids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}, "units": {"type": "array", "items": {"type": "string"}}, "range_context": {"type": ["string", "null"]}, "assumptions": {"type": "array", "items": {"type": "string"}}, "limitations": {"type": "array", "items": {"type": "string"}}, "support_boundary": {"type": ["string", "null"]}, "claim_sha256": {"$ref": "#/$defs/sha256"}}},
+    "edge": {"type": "object", "additionalProperties": false, "required": ["edge_uid", "slot_uid", "claim_uid", "grade", "content_locator", "content_sha256"], "properties": {"edge_uid": {"type": "string", "pattern": "^mechanism-support-edge-[0-9a-f]{20}$"}, "slot_uid": {"type": "string"}, "claim_uid": {"type": "string"}, "grade": {"enum": ["DIRECT_MECHANISM", "PARAMETER_ANCHOR", "BOUNDARY_CONSTRAINT"]}, "content_locator": {"type": "string"}, "content_sha256": {"$ref": "#/$defs/sha256"}}},
+    "contradiction": {"type": "object", "additionalProperties": false, "required": ["contradiction_uid", "claim_uids", "essential", "status", "resolution_dimension", "rationale"], "properties": {"contradiction_uid": {"type": "string"}, "claim_uids": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string"}}, "essential": {"type": "boolean"}, "status": {"enum": ["unresolved", "resolved"]}, "resolution_dimension": {"enum": ["scope", "units", "population_or_model_system", "measurement_definition", "assumption", "not_resolved"]}, "rationale": {"type": "string", "minLength": 1}}}
+  }
+}

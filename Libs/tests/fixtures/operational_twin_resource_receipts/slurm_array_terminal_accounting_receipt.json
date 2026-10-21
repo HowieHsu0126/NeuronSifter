@@ -1,0 +1,43 @@
+{
+  "argv": [
+    "sacct",
+    "-j",
+    "547789",
+    "--format=JobID,JobIDRaw,JobName,Partition,State,ExitCode,NodeList,AllocTRES,Elapsed",
+    "-n",
+    "-P"
+  ],
+  "captured_at": "2026-09-12T16:39:00+00:00",
+  "command_indices": [
+    0,
+    1
+  ],
+  "expected_terminal_rows": [
+    {
+      "alloc_tres": "billing=2,cpu=2,node=1",
+      "elapsed": "00:00:00",
+      "exit_code": "0:0",
+      "job_id": "547789_0",
+      "job_id_raw": "547790",
+      "job_name": "NrnSift_exec_iface_probe",
+      "node_list": "cpu04",
+      "partition": "cpu",
+      "state": "COMPLETED"
+    },
+    {
+      "alloc_tres": "billing=2,cpu=2,node=1",
+      "elapsed": "00:00:00",
+      "exit_code": "0:0",
+      "job_id": "547789_1",
+      "job_id_raw": "547789",
+      "job_name": "NrnSift_exec_iface_probe",
+      "node_list": "cpu04",
+      "partition": "cpu",
+      "state": "COMPLETED"
+    }
+  ],
+  "schema_version": "neuronsifter-operational-twin-scheduler-fixture-v1",
+  "source_job_id": "547789",
+  "stdout": "547789_0|547790|NrnSift_exec_iface_probe|cpu|COMPLETED|0:0|cpu04|billing=2,cpu=2,node=1|00:00:00\n547789_0.batch|547790.batch|batch||COMPLETED|0:0|cpu04|cpu=2,mem=0,node=1|00:00:00\n547789_0.extern|547790.extern|extern||COMPLETED|0:0|cpu04|billing=2,cpu=2,node=1|00:00:00\n547789_1|547789|NrnSift_exec_iface_probe|cpu|COMPLETED|0:0|cpu04|billing=2,cpu=2,node=1|00:00:00\n547789_1.batch|547789.batch|batch||COMPLETED|0:0|cpu04|cpu=2,mem=0,node=1|00:00:00\n547789_1.extern|547789.extern|extern||COMPLETED|0:0|cpu04|billing=2,cpu=2,node=1|00:00:00\n",
+  "stdout_sha256": "1f0fda3d1ecb141cce1d55cd647a8d3c4b2b165d66c9fa3803facc70c24f4881"
+}

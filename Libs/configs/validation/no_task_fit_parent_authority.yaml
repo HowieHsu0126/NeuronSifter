@@ -1,0 +1,344 @@
+schema_version: neuronsifter-no-task-fit-parent-authority-contract-v1
+contract_uid: no_task_fit_parent_authority_binding
+artifact_count: 9
+
+source_checkout:
+  role: live_root_read_only_negative_authority_source
+  expected_branch: round17i-dirty-root-preservation
+  expected_head: b78a7e924971ac1a07905e9f18b6405b084bb7e6
+  expected_artifact_tracking_state: untracked
+
+manifest:
+  path: Output/audits/no_task_fit_parent_authority.json
+  schema_path: Libs/configs/schema/no_task_fit_parent_authority.schema.json
+  schema_version: neuronsifter-no-task-fit-parent-authority-v1
+  status: NO_TASK_FIT_PARENT_AUTHORITIES_BOUND
+
+terminal_decisions:
+  formal_zero_shot_checkpoint: NO_FORMAL_ZERO_SHOT_CHECKPOINT
+  prospective_training_domain: NO_INDEPENDENT_PROSPECTIVE_TRAINING_DOMAIN
+  public_development_data: PUBLIC_PROSPECTIVE_DEVELOPMENT_DATA_INSUFFICIENT
+
+aggregate_access:
+  development_outcome_access: 0
+  evaluation_outcome_access: 0
+  six_context_outcome_access: 0
+  protected_holdout_access: 0
+  protected_test_access: 0
+  numeric_outcome_retrieval_observed: false
+  six_context_files_opened: false
+  protected_files_opened: false
+
+authorization_closure:
+  automatic_second_intake_allowed: false
+  new_public_data_intake_authorized: false
+  training_authorized: false
+  gpu_authorized: false
+  world_action_compiler_authorized: false
+  tri_authorized: false
+  tool_calling_authorized: false
+  memory_adaptation_authorized: false
+  agent_in_twin_authorized: false
+  coevolution_authorized: false
+  formal_evaluation_authorized: false
+  six_context_evaluation_authorized: false
+
+limitations:
+  - Historical embedded transitive artifact bindings were not revalidated in this round.
+  - This manifest binds negative parent authorities and produces no scientific or performance conclusion.
+  - Live-root Git state is recorded only as a provenance observation and is not a clean or reconstructible lineage claim.
+
+next_action: arbitrate_no_task_fit_candidate_routes
+
+artifacts:
+  - authority_uid: historical_frozen_zero_shot_method_authority
+    category: method_checkpoint_negative
+    source_path: Output/audits/frozen_zero_shot_method_authority.json
+    destination_path: Output/audits/frozen_zero_shot_method_authority.json
+    sha256: 6e59323ad2773bb81417affc64780a2e07185811e71f0d4c0cac57e6cfbf1d21
+    bytes: 13687
+    schema_version: neuronsifter-zero-shot-method-authority-v1
+    status: NO_FORMAL_ZERO_SHOT_CHECKPOINT
+    required_facts:
+      - pointer: /historical_freeze/new_prospective_method_version_created
+        expected: false
+      - pointer: /composite_method_authority/formal_zero_shot_method_available
+        expected: false
+      - pointer: /hard_stop/triggered
+        expected: true
+      - pointer: /candidate_authority_matrix/0/training/protected_test_access
+        expected: 0
+      - pointer: /candidate_authority_matrix/1/training/protected_test_access
+        expected: 0
+      - pointer: /formal_authority/protocol_executable
+        expected: false
+      - pointer: /formal_authority/execution_authorized
+        expected: false
+      - pointer: /formal_authority/world_action_authorized
+        expected: false
+      - pointer: /formal_authority/gpu_authorized
+        expected: false
+      - pointer: /formal_authority/tri_authorized
+        expected: false
+      - pointer: /formal_authority/agent_in_twin_authorized
+        expected: false
+      - pointer: /formal_authority/coevolution_authorized
+        expected: false
+      - pointer: /formal_authority/six_context_outcome_access
+        expected: 0
+      - pointer: /formal_authority/protected_holdout_access
+        expected: 0
+
+  - authority_uid: historical_frozen_zero_shot_method_manifest
+    category: method_checkpoint_negative
+    source_path: Output/audits/frozen_zero_shot_method_manifest.json
+    destination_path: Output/audits/frozen_zero_shot_method_manifest.json
+    sha256: e95b001189ff3944a338d2b100b2aa7ca11143e5a3537615255d344ccf9a8bab
+    bytes: 7071
+    schema_version: neuronsifter-frozen-zero-shot-method-manifest-v1
+    status: incomplete_not_executable
+    required_facts:
+      - pointer: /checkpoint_components/0/protected_test_access
+        expected: 0
+      - pointer: /checkpoint_components/1/protected_test_access
+        expected: 0
+      - pointer: /evaluation_independence/evaluation_context_training_count
+        expected: 0
+      - pointer: /evaluation_independence/evaluation_context_calibration_count
+        expected: 0
+      - pointer: /evaluation_independence/evaluation_outcome_access_during_review
+        expected: 0
+      - pointer: /evaluation_independence/full_training_and_model_selection_lineage_bound
+        expected: false
+      - pointer: /evaluation_independence/formal_independence_proven
+        expected: false
+      - pointer: /input_compatibility/deterministic_no_fit_adapter_validated
+        expected: false
+      - pointer: /input_compatibility/compatibility_proven
+        expected: false
+      - pointer: /input_compatibility/inference_entrypoint_verified
+        expected: false
+      - pointer: /uncertainty_identity/six_context_uncertainty_mapping_bound
+        expected: false
+      - pointer: /uncertainty_identity/six_context_support_ood_mapping_bound
+        expected: false
+      - pointer: /uncertainty_identity/model_tri_score_available_for_information_actions
+        expected: false
+      - pointer: /abstention_identity/evaluation_context_threshold_fit_allowed
+        expected: false
+      - pointer: /memory_identity/formal_execution_allowed
+        expected: false
+      - pointer: /protected_holdout_access
+        expected: 0
+
+  - authority_uid: historical_zero_shot_protocol_executability
+    category: method_checkpoint_negative
+    source_path: Output/audits/zero_shot_protocol_executability_decision.json
+    destination_path: Output/audits/zero_shot_protocol_executability_decision.json
+    sha256: 7e8e88cbcfe0d46746ff7db3f51623b23066289c3bbba6c2f9978d9550c7de43
+    bytes: 3047
+    schema_version: neuronsifter-zero-shot-protocol-executability-decision-v1
+    status: ZERO_SHOT_PROTOCOL_REMAINS_NON_EXECUTABLE
+    required_facts:
+      - pointer: /terminal_blocker
+        expected: NO_FORMAL_ZERO_SHOT_CHECKPOINT
+      - pointer: /execution_authority/protocol_executable
+        expected: false
+      - pointer: /execution_authority/execution_authorized
+        expected: false
+      - pointer: /execution_authority/world_action_authorized
+        expected: false
+      - pointer: /execution_authority/gpu_authorized
+        expected: false
+      - pointer: /execution_authority/tri_authorized
+        expected: false
+      - pointer: /execution_authority/agent_in_twin_authorized
+        expected: false
+      - pointer: /execution_authority/coevolution_authorized
+        expected: false
+      - pointer: /execution_authority/six_context_outcome_access
+        expected: 0
+      - pointer: /execution_authority/protected_holdout_access
+        expected: 0
+
+  - authority_uid: prospective_development_data_authority
+    category: development_domain_negative
+    source_path: Output/audits/prospective_development_data_authority.json
+    destination_path: Output/audits/prospective_development_data_authority.json
+    sha256: eb3afeedd4e2dc277bd8538a8ac29b087fa05332d1f4fec75d4c75aa960bd2d8
+    bytes: 13825
+    schema_version: neuronsifter-prospective-development-data-authority-v1
+    status: NO_INDEPENDENT_PROSPECTIVE_TRAINING_DOMAIN
+    required_facts:
+      - pointer: /four_role_partition_possible
+        expected: false
+      - pointer: /training_authorized
+        expected: false
+      - pointer: /new_data_intake_authorized
+        expected: false
+      - pointer: /six_context_outcome_access
+        expected: 0
+      - pointer: /protected_holdout_access
+        expected: 0
+
+  - authority_uid: prospective_twin_reconstruction_decision
+    category: development_domain_negative
+    source_path: Output/audits/prospective_twin_reconstruction_decision.json
+    destination_path: Output/audits/prospective_twin_reconstruction_decision.json
+    sha256: 49e80439be78593c690e7c4f57bd0532305c6eca305656c302c29372d4dbd3e6
+    bytes: 3025
+    schema_version: neuronsifter-prospective-twin-reconstruction-decision-v1
+    status: NO_INDEPENDENT_PROSPECTIVE_TRAINING_DOMAIN
+    required_facts:
+      - pointer: /terminal_blocker
+        expected: NO_INDEPENDENT_PROSPECTIVE_TRAINING_DOMAIN
+      - pointer: /execution_authority/protocol_executable
+        expected: false
+      - pointer: /execution_authority/training_authorized
+        expected: false
+      - pointer: /execution_authority/gpu_authorized
+        expected: false
+      - pointer: /execution_authority/world_action_compiler_authorized
+        expected: false
+      - pointer: /execution_authority/six_context_evaluation_authorized
+        expected: false
+      - pointer: /execution_authority/tool_calling_authorized
+        expected: false
+      - pointer: /execution_authority/agent_in_twin_authorized
+        expected: false
+      - pointer: /execution_authority/coevolution_authorized
+        expected: false
+      - pointer: /execution_authority/new_public_data_intake_authorized
+        expected: false
+      - pointer: /execution_authority/six_context_outcome_access
+        expected: 0
+      - pointer: /execution_authority/protected_holdout_access
+        expected: 0
+
+  - authority_uid: bounded_prospective_development_data_intake
+    category: development_data_negative
+    source_path: Output/audits/prospective_development_data_intake.json
+    destination_path: Output/audits/prospective_development_data_intake.json
+    sha256: 9e8ed983302ca9fdf253cce98cf33b50dd95ae64f5ae84fa24c817b359d9f904
+    bytes: 2894
+    schema_version: neuronsifter-prospective-development-data-intake-v1
+    status: development_source_queue_exhausted
+    required_facts:
+      - pointer: /metadata_eligible_count
+        expected: 0
+      - pointer: /queue_lineage_count
+        expected: 0
+      - pointer: /capability_funnel/source_payloads_recovered
+        expected: 0
+      - pointer: /capability_funnel/empirical_action_response_units
+        expected: 0
+      - pointer: /capability_funnel/formal_roles_assigned
+        expected: 0
+      - pointer: /queue_frozen_before_new_development_outcome_access
+        expected: true
+      - pointer: /development_numeric_outcomes_retrieved_before_queue_freeze
+        expected: false
+      - pointer: /six_context_outcome_access
+        expected: 0
+      - pointer: /protected_holdout_access
+        expected: 0
+      - pointer: /training_authorized
+        expected: false
+      - pointer: /gpu_authorized
+        expected: false
+      - pointer: /next_action
+        expected: stop_bounded_intake_exhausted
+
+  - authority_uid: prospective_development_foundation_decision
+    category: development_data_negative
+    source_path: Output/audits/prospective_development_foundation_decision.json
+    destination_path: Output/audits/prospective_development_foundation_decision.json
+    sha256: 914b701bcfae95baf4dad9dc7208f273e9ea35739d997850ae2eaea2a1618850
+    bytes: 7785
+    schema_version: neuronsifter-prospective-development-foundation-decision-v1
+    status: PUBLIC_PROSPECTIVE_DEVELOPMENT_DATA_INSUFFICIENT
+    required_facts:
+      - pointer: /work_package_status/source_payload_recovery
+        expected: NOT_RUN_QUEUE_EMPTY
+      - pointer: /work_package_status/empirical_action_response_materialization
+        expected: NOT_RUN_QUEUE_EMPTY
+      - pointer: /work_package_status/method_preregistration
+        expected: NOT_ISSUED
+      - pointer: /execution_authority/automatic_second_intake_allowed
+        expected: false
+      - pointer: /execution_authority/new_public_data_intake_authorized
+        expected: false
+      - pointer: /execution_authority/method_preregistration_allowed
+        expected: false
+      - pointer: /execution_authority/world_action_compiler_authorized
+        expected: false
+      - pointer: /execution_authority/training_authorized
+        expected: false
+      - pointer: /execution_authority/gpu_authorized
+        expected: false
+      - pointer: /execution_authority/six_context_evaluation_authorized
+        expected: false
+      - pointer: /execution_authority/agent_in_twin_authorized
+        expected: false
+      - pointer: /execution_authority/coevolution_authorized
+        expected: false
+      - pointer: /execution_authority/development_outcome_access
+        expected: 0
+      - pointer: /execution_authority/six_context_outcome_access
+        expected: 0
+      - pointer: /execution_authority/protected_holdout_access
+        expected: 0
+      - pointer: /next_action
+        expected: STOP_AND_REQUIRE_NEW_ROUTE_LEVEL_AUTHORIZATION
+
+  - authority_uid: prospective_protocol_scientific_review
+    category: protocol_negative
+    source_path: Output/audits/prospective_protocol_scientific_review.json
+    destination_path: Output/audits/prospective_protocol_scientific_review.json
+    sha256: ee647ede716e376e26d3e619431d45bb536178d5a0dc26dc8e794d1b1f46596a
+    bytes: 5751
+    schema_version: neuronsifter-prospective-protocol-scientific-review-v1
+    status: PROTOCOL_NOT_FORMALLY_EXECUTABLE
+    required_facts:
+      - pointer: /acceptance_resolution/zero_shot_method_identity_frozen
+        expected: false
+      - pointer: /acceptance_resolution/six_context_evaluation_contract_frozen
+        expected: false
+      - pointer: /acceptance_resolution/tool_information_headroom_supported
+        expected: false
+      - pointer: /execution_authority/execution_authorized
+        expected: false
+      - pointer: /execution_authority/world_action_authorized
+        expected: false
+      - pointer: /execution_authority/gpu_authorized
+        expected: false
+      - pointer: /execution_authority/tri_authorized
+        expected: false
+      - pointer: /execution_authority/agent_in_twin_authorized
+        expected: false
+      - pointer: /execution_authority/coevolution_authorized
+        expected: false
+      - pointer: /execution_authority/public_evidence_search_authorized
+        expected: false
+      - pointer: /execution_authority/protected_holdout_access
+        expected: 0
+      - pointer: /no_result_generation_declaration
+        expected: true
+
+  - authority_uid: six_context_semantic_exclusion_audit
+    category: protocol_exclusion_negative
+    source_path: Output/audits/six_context_semantic_exclusion_audit.json
+    destination_path: Output/audits/six_context_semantic_exclusion_audit.json
+    sha256: 62128285feab3a1fdc19a0c068f01432c53a09ece7459abb0ce189f887fd7b1a
+    bytes: 3485
+    schema_version: neuronsifter-six-context-semantic-exclusion-audit-v1
+    status: failed_incomplete_semantic_independence
+    required_facts:
+      - pointer: /evaluation_identity/numeric_outcome_fields_present
+        expected: false
+      - pointer: /evaluation_identity/execution_status
+        expected: NOT_RUN
+      - pointer: /six_context_outcome_access
+        expected: 0
+      - pointer: /protected_holdout_access
+        expected: 0

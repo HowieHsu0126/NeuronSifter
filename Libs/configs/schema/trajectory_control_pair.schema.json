@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://neuronsifter.org/schemas/trajectory_control_pair.schema.json",
+  "title": "NeuronSifter TrajectoryControlPair",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "pair_uid", "action_trajectory_uid", "control_trajectory_uid", "initial_state_family_match", "producer_version_match", "parameter_family_match", "seed_policy_compatible", "export_time_grid_match", "pairing_decision", "action_effect_claim_eligible", "blockers", "status"],
+  "properties": {
+    "schema_version": {"const": "neuronsifter-trajectory-control-pair-v1"},
+    "pair_uid": {"type": "string", "minLength": 1},
+    "action_trajectory_uid": {"type": ["string", "null"]},
+    "control_trajectory_uid": {"type": ["string", "null"]},
+    "initial_state_family_match": {"type": "boolean"},
+    "producer_version_match": {"type": "boolean"},
+    "parameter_family_match": {"type": "boolean"},
+    "seed_policy_compatible": {"type": "boolean"},
+    "export_time_grid_match": {"type": "boolean"},
+    "pairing_decision": {"enum": ["exact_deterministic_control_pair", "matched_stochastic_control_pair", "group_level_control_pair", "unpaired_trajectory"]},
+    "action_effect_claim_eligible": {"type": "boolean"},
+    "blockers": {"type": "array", "items": {"type": "object"}},
+    "status": {"enum": ["validated", "blocked", "not_applicable"]}
+  }
+}

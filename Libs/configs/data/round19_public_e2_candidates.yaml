@@ -1,0 +1,114 @@
+config_includes:
+  - ../runtime/warnings.yaml
+
+round19_public_e2_candidates:
+  version: neuronsifter-round19-public-e2-candidates-v1
+  discovered_after_contract_freeze: true
+  source_resolution_policy:
+    strict_public_only_flag: true
+    controlled_access_required: false
+    controlled_source_resolution_count: 0
+    final_held_out_access_count: 0
+  candidates:
+    - source_uid: europe_pmc_pmc12570821
+      source_accession: PMC12570821
+      source_class: open_access_article
+      source_version: europe_pmc_public_fulltext_2025-10-28
+      license_or_permitted_use: CC-BY-4.0
+      fulltext_xml_sha256: ab1aac2eef26ca7bfb5b0cc3aeb59bd247d960ea4931b0aa5be8e796911b4dd7
+      retrieval_date: "2026-07-31"
+      publication_or_accession_identity: "PMC12570821; DOI 10.1186/s12974-025-03594-1"
+      parser_version: neuronsifter-round19-europe-pmc-fulltext-v1
+      public_availability_timestamp: "2025-10-28T00:00:00Z"
+      organism: Mus musculus
+      disease_or_state_context: photothrombotic_motor_cortex_stroke
+      region: peri_infarct_motor_cortex
+      compartment_or_cell_type: microglia_and_neurons
+      action_identity: 3_bromopyruvate_post_stroke
+      target_or_agent: "3-bromopyruvate; HK2-selective inhibitor"
+      dose: 5.0
+      dose_unit: mg/kg
+      route: intraperitoneal
+      schedule: "first dose 3 hours after stroke; twice daily for subsequent 3 days"
+      duration: 4 days
+      timepoint: 21 days after stroke
+      endpoint_identity: functional_motor_outcomes_and_infarct_size_direction
+      endpoint_value: decrease
+      endpoint_unit: directional_author_claim
+      comparator: vehicle_10_percent_dmso_in_saline
+      sample_size: 7
+      uncertainty: "reported p<0.05 for functional tests; infarct-size p=0.05; no machine-readable effect size extracted"
+      extraction_method: public_fulltext_author_claim_directional_only
+      label_class: author_claim_label
+      partition: qualification
+      admission_class: admitted_e2_directional
+      support_domain: mouse_post_stroke_hk2_inhibition
+      action_class: pharmacological
+      independence_groups:
+        publication_family: pmc12570821_journal_family
+        preprint_to_journal_family: pmc12570821_journal_family
+        accession_family: pmc12570821
+        study: pmc12570821_functional_recovery_study
+        biological_unit: mouse_photothrombotic_stroke_functional_cohort
+        compound: 3_bromopyruvate
+        target_program: hk2_inhibition
+        action_class: pharmacological
+        dose_regimen: 3bp_5_mg_per_kg_ip_four_day
+        endpoint: functional_motor_and_infarct_direction
+        timepoint: day_21
+        source_collection: europe_pmc_open_access
+  e4_domain_candidates:
+    - domain_uid: mouse_post_stroke_hk2_inhibition
+      e2_alignment: 5
+      producer_maturity: 0
+      action_completeness: 5
+      initial_state_availability: 0
+      matched_control_feasibility: 1
+      parameter_provenance: 0
+      support_domain_clarity: 5
+      numerical_stability: 0
+      physical_biological_constraints: 1
+      public_calibration_evidence: 1
+      round18_failure_relevance: 4
+      frozen_gap_relevance: 3
+      selected: true
+      selection_reason: strongest public E2 alignment and Round-18 relevance; intervention producer qualification remains blocked
+    - domain_uid: synthetic_ad_no_action_qualification
+      e2_alignment: 0
+      producer_maturity: 3
+      action_completeness: 0
+      initial_state_availability: 2
+      matched_control_feasibility: 0
+      parameter_provenance: 1
+      support_domain_clarity: 2
+      numerical_stability: 4
+      physical_biological_constraints: 3
+      public_calibration_evidence: 0
+      round18_failure_relevance: 1
+      frozen_gap_relevance: 1
+      selected: false
+      selection_reason: existing qualification-only no-action producer cannot execute an intervention
+  producer_candidates:
+    - producer_uid: neuronsifter_ad_meso_no_action_replay
+      producer_version: neuronsifter-ad-meso-no-action-replay-v1
+      producer_source: Libs/utils/model/dynamics_fields.py
+      equation_model_identity: simulate_regimen_trajectory_fixed_step_recurrence
+      parameter_provenance: versioned_provisional_configuration_qualification_only
+      supported_state_variables:
+        - free_drug
+        - target_bound_drug
+        - neuroinflammation
+        - inflammatory_mediator
+        - circuit_instability
+      supported_action_semantics:
+        - no_action_control
+      initial_state_contract: explicit_synthetic_qualification_state_non_empirical
+      control_generation_capability: no_action_replay_only
+      seed_policy: deterministic_identity_seed_3407
+      fidelity_policy: qualification_relative_field
+      numerical_qc: round15_exact_deterministic_replay_passed
+      constraint_policy: round15_non_negativity_and_bounded_occupancy
+      license_or_redistribution: repository_internal_governed
+      support_domain: domain_round15_synthetic_ad_meso_qualification
+      decision: blocked_action_semantics
+      decision_reason: no pharmacological action compiler and no mouse post-stroke initial-state or parameter family
